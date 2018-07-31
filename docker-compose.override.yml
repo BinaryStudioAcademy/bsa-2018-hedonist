@@ -1,0 +1,22 @@
+version: "3.1"
+services:
+
+    mysql:
+      ports:
+        - "3306:3306"
+
+    beanstalkd:
+      ports:
+        - "11300:11300"
+
+    redis:
+      ports:
+        - "6379:6379"
+
+    webserver:
+      ports:
+        - "${APP_PORT}:80"
+
+    elasticsearch:
+      ports:
+        - "9200:9200"

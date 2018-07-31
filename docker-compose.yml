@@ -1,0 +1,53 @@
+version: "3.1"
+services:
+
+    mysql:
+      image: mysql:5.7.22
+      container_name: bsa-app-mysql
+      working_dir: /application
+      volumes:
+        - .:/application
+        - .mysqldata:/var/lib/mysql
+        - ./docker/mysql:/etc/mysql/conf.d
+      environment:
+        - MYSQL_ROOT_PASSWORD=root
+        - MYSQL_DATABASE=hedonist
+        - MYSQL_USER=test-user
+        - MYSQL_PASSWORD=secret
+
+    webserver:
+      image: nginx:alpine
+      container_name: bsa-app-webserver
+      working_dir: /application
+      volumes:
+        - .:/application
+        - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+
+    php-fpm:
+      build: docker/php-fpm
+      container_name: bsa-app-php
+      working_dir: /application
+      volumes:
+        - .:/application
+        - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.2/fpm/conf.d/99-overrides.ini
+
+    beanstalkd:
+      image: schickling/beanstalkd
+      container_name: bsa-app-beanstalkd
+
+    redis:
+      image: redis:alpine
+      container_name: bsa-app-redis
+
+    frontend:
+      build: docker/node
+      container_name: bsa-app-frontend
+      working_dir: /application
+      volumes:
+        - .:/application
+
+    elasticsearch:
+      image: docker.elastic.co/elasticsearch/elasticsearch:6.3.1
+      container_name: bsa-app-elasticsearch
+      volumes:
+        - .elasticdata:/usr/share/elasticsearch/data
