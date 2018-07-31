@@ -35,4 +35,8 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'loggly' => [
+        'key' => env('LOGGLY_KEY'),
+        'tag' => 'BsaHedonist_' . strtolower(env('APP_ENV')),
+    ],
 ];
