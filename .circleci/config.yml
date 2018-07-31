@@ -1,0 +1,138 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.2-node-browsers
+      - image: circleci/mysql:5.7
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD=true
+          MYSQL_ROOT_HOST="%"
+          MYSQL_USER=root
+          MYSQL_DATABASE=circle_test
+
+    working_directory: ~/app
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install System Dependencies
+          command: |
+            sudo apt-get update \
+            && sudo apt-get install -y --no-install-recommends mysql-client zlib1g-dev libsqlite3-dev libpng-dev \
+            autoconf automake make g++ libtool nasm libpng-dev
+
+      - run: sudo docker-php-ext-install pdo pdo_mysql pdo_sqlite
+
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 120s
+
+      - run: composer self-update
+
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.json" }}
+            - composer-v1-
+
+      - run: composer install -n --prefer-dist
+
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.json" }}
+          paths:
+            - vendor
+
+      - run:
+          name: Run migrations
+          command: php artisan migrate --force
+          environment:
+            DB_CONNECTION: mysql
+            DB_HOST: 127.0.0.1
+            DB_PORT: 3306
+            DB_DATABASE: circle_test
+            DB_USERNAME: root
+            DB_PASSWORD:
+
+      - run:
+          name: Run seeds
+          command: php artisan db:seed --force
+          environment:
+            DB_CONNECTION: mysql
+            DB_HOST: 127.0.0.1
+            DB_PORT: 3306
+            DB_DATABASE: circle_test
+            DB_USERNAME: root
+            DB_PASSWORD:
+
+      - run:
+          name: Run tests
+          command: ./vendor/bin/phpunit -c phpunit.circle.xml
+
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install yarn dependencies
+          command: yarn install --non-interactive --frozen-lockfile
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run:
+          name: Build frontend app
+          command: yarn run prod
+
+  deploy_staging:
+    docker:
+      - image: circleci/buildpack-deps:jessie-browsers
+
+    working_directory: ~/app
+
+    steps:
+      - checkout
+      - run:
+          name: Deploy to staging
+          command: |
+            chmod +x scripts/deploy_staging.sh \
+            && scripts/deploy_staging.sh
+
+  deploy_production:
+    docker:
+      - image: circleci/buildpack-deps:jessie-browsers
+
+    working_directory: ~/app
+
+    steps:
+      - checkout
+      - run:
+          name: Deploy to production
+          command: |
+            chmod +x scripts/deploy_production.sh \
+            && scripts/deploy_production.sh
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy_staging:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - development
+
+      - deploy_production:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
