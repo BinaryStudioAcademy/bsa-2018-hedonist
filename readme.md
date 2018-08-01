@@ -20,6 +20,7 @@ docker-compose run --rm php-fpm composer install
 docker-compose run --rm php-fpm php artisan key:generate
 docker-compose run --rm php-fpm php artisan migrate
 docker-compose run --rm php-fpm php artisan db:seed
+docker-compose up -d
 ```
 
 ### Frontend part (SPA)
