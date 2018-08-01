@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/BinaryStudioAcademy/bsa-2018-hedonist.svg?style=svg)](https://circleci.com/gh/BinaryStudioAcademy/bsa-2018-hedonist)
+
 ## BSA PHP 2018 Hedonist project
 
 ## Getting started
