@@ -16,11 +16,10 @@ Set your .env vars and then type:
 ```
 git clone <this_repo>
 cp .env.example .env
-docker-compose run --rm php-fpm composer install
-docker-compose run --rm php-fpm php artisan key:generate
-docker-compose run --rm php-fpm php artisan migrate
-docker-compose run --rm php-fpm php artisan db:seed
 docker-compose up -d
+docker exec -it bsa-app-php composer install
+docker exec -it bsa-app-php php artisan key:generate
+docker exec -it bsa-app-php php artisan migrate
 ```
 
 ### Frontend part (SPA)
