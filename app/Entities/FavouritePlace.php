@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Entity;
+namespace Hedonist\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ class FavouritePlace extends Model
      */
     public function user()
     {
-        return $this->belongsTo('Hedonist\Entity\User');
+        return $this->belongsTo('Hedonist\Entities\User');
     }
 
     /**
@@ -22,7 +22,7 @@ class FavouritePlace extends Model
      */
     public function place()
     {
-        return $this->belongsTo('Hedonist\Entity\Place');
+        return $this->belongsTo('Hedonist\Entities\Place');
     }
 
     /**
