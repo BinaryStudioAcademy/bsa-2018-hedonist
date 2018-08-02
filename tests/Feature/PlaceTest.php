@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ExampleTest extends TestCase
+class PlaceTest extends TestCase
 {
     public function testGetCollectionEndpoint()
     {
