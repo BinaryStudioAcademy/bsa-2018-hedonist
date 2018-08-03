@@ -8,7 +8,6 @@ use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Hedonist\Entities\Place\PlaceCategory;
 
-
 class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRepositoryInterface
 {
     public function save(PlaceCategory $placeCategory): PlaceCategory 
@@ -20,7 +19,7 @@ class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRep
     
     public function getById(int $id): PlaceCategory
     {
-        return PlaceCategory::findOrFail($id);
+        return PlaceCategory::find($id);
     }
     
     public function findAll(): Collection 
@@ -28,12 +27,12 @@ class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRep
         return PlaceCategory::all();
     }
     
-    public function findByCriteria(CriteriaInterface $criteria) 
+    public function findByCriteria(CriteriaInterface $criteria): Collection 
     {
-        
+        return $this->getByCriteria($criteria);
     }
     
-    public function delete($id) 
+    public function delete(int $id) 
     {
         PlaceCategory::destroy($id);
     }
@@ -47,5 +46,4 @@ class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRep
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
 }

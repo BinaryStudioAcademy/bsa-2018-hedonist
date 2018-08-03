@@ -13,6 +13,13 @@ class PlaceCategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(PlaceCategory::class, 6)->create();
+        PlaceCategory::query()->insert([
+            'cafe',
+            'restaurant',
+            'lunch',
+            'bar',
+            'coffee',
+            'pizzeria'
+        ]);
     }
 }
