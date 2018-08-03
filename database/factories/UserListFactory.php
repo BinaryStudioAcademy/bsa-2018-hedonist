@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use Hedonist\Entities\PlaceList\PlaceList;
+use Hedonist\Entities\UserList\UserList;
 use Hedonist\User;
 
 /*
@@ -15,12 +15,12 @@ use Hedonist\User;
 |
 */
 
-$factory->define(PlaceList::class, function (Faker $faker) {
+$factory->define(UserList::class, function (Faker $faker) {
     return [
         'user_id' => function () {
             return factory(User::class)->create()->id;
         },
-        'name' => $faker->name,
+        'name' => $faker->cityPrefix,
         'img_url' => $faker->imageUrl()
     ];
 });

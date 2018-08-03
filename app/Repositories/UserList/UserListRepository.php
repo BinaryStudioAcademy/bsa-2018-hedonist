@@ -4,9 +4,9 @@ namespace Hedonist\Repositories\PlaceList;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use Hedonist\Repositories\Entities\PlaceList\PlaceListRepositoryInterface;
+use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 use Prettus\Repository\Contracts\CriteriaInterface;
-use Hedonist\Entities\PlaceList\PlaceList;
+use Hedonist\Entities\PlaceList\UserList;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
@@ -14,30 +14,30 @@ use Illuminate\Database\Eloquent\Collection;
  *
  * @package namespace App\Repositories\PlaceList;
  */
-class PlaceListRepository extends BaseRepository implements PlaceListRepositoryInterface
+class UserListRepository extends BaseRepository implements UserListRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function save(PlaceList $placeList): PlaceList 
+    public function save(UserList $userList): UserList 
     {
-        $placeList->save();
+        $userList->save();
         
-        return $placeList;
+        return $userList;
     }
     /**
      * {@inheritdoc}
      */
-    public function getById(int $id): PlaceList
+    public function getById(int $id): UserList
     {
-        return PlaceList::findOrFail($id);
+        return UserList::findOrFail($id);
     }
     /**
      * {@inheritdoc}
      */
     public function findAll(): Collection 
     {
-        return PlaceList::all();
+        return UserList::all();
     }
     /**
      * {@inheritdoc}
@@ -51,7 +51,7 @@ class PlaceListRepository extends BaseRepository implements PlaceListRepositoryI
      */
     public function delete($id) 
     {
-        PlaceList::destroy($id);
+        UserList::destroy($id);
     }
 
     /**
@@ -61,7 +61,7 @@ class PlaceListRepository extends BaseRepository implements PlaceListRepositoryI
      */
     public function model()
     {
-        return PlaceList::class;
+        return UserList::class;
     }
 
     /**

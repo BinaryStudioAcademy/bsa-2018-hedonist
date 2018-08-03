@@ -1,34 +1,32 @@
 <?php
 
-namespace Hedonist\Repositories\Entities\PlaceList;
+namespace Hedonist\Repositories\UserList;
 
-use Prettus\Repository\Contracts\RepositoryInterface;
-use Prettus\Repository\Contracts\RepositoryCriteriaInterface;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
-use Hedonist\Entities\PlaceList\PlaceList;
+use Hedonist\Entities\PlaceList\UserList;
 
 /**
  * Interface PlaceListRepository.
  *
  * @package namespace App\Repositories\PlaceList;
  */
-interface PlaceListRepositoryInterface
+interface UserListRepositoryInterface
 {
     /**
-     * @param \Hedonist\Entities\PlaceList\PlaceList $placeList
+     * @param \Hedonist\Entities\PlaceList\UserList $userList
      *
-     * @return \Hedonist\Entities\PlaceList\PlaceList
+     * @return \Hedonist\Entities\PlaceList\UserList
     */
-    public function save(PlaceList $placeList): PlaceList;
+    public function save(UserList $userList): UserList;
     /**
      * Get place list by id
      *
      @param int $id
      *
-     * @return \Hedonist\Entities\PlaceList\PlaceList
+     * @return \Hedonist\Entities\PlaceList\UserList
      */
-    public function getById(int $id) : PlaceList;
+    public function getById(int $id) : UserList;
     /**
      * Get all placelists
      * 

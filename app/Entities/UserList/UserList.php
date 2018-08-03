@@ -1,17 +1,17 @@
 <?php
 
-namespace Hedonist\Entities\PlaceList;
+namespace Hedonist\Entities\UserList;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PlaceList extends Model
+class UserList extends Model
 {
    /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'lists';
+    protected $table = 'user_lists';
     /**
      * The attributes that are mass assignable.
      *

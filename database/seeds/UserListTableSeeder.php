@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Hedonist\Entities\PlaceList\PlaceList;
+use Hedonist\Entities\UserList\UserList;
 
-class PlaceListTableSeeder extends Seeder
+class UserListTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,6 @@ class PlaceListTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(PlaceList::class,3)->create();
+        factory(UserList::class,3)->create();
     }
 }
