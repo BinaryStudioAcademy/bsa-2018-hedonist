@@ -15,7 +15,7 @@ class CreateLikesTable extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('likeable_id');
+            $table->unsignedInteger('likeable_id');
             $table->string('likeable_type',45);
             $table->unsignedInteger('user_id');
             $table->timestamps();
