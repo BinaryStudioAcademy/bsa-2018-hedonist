@@ -20,7 +20,7 @@ $factory->define(UserList::class, function (Faker $faker) {
         'user_id' => function () {
             return factory(User::class)->create()->id;
         },
-        'name' => $faker->cityPrefix,
+        'name' => $faker->sentence(3),
         'img_url' => $faker->imageUrl()
     ];
 });

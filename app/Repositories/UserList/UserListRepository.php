@@ -9,7 +9,6 @@ use Prettus\Repository\Contracts\CriteriaInterface;
 use Hedonist\Entities\PlaceList\UserList;
 use Illuminate\Database\Eloquent\Collection;
 
- 
 class UserListRepository extends BaseRepository implements UserListRepositoryInterface
 {
      
