@@ -19,7 +19,8 @@ class PlaceListRepository extends BaseRepository implements PlaceListRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function save(PlaceList $placeList): PlaceList {
+    public function save(PlaceList $placeList): PlaceList 
+    {
         $placeList->save();
         
         return $placeList;
@@ -27,25 +28,29 @@ class PlaceListRepository extends BaseRepository implements PlaceListRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function getById(int $id): PlaceList {
+    public function getById(int $id): PlaceList
+    {
         return PlaceList::findOrFail($id);
     }
     /**
      * {@inheritdoc}
      */
-    public function findAll(): Collection {
+    public function findAll(): Collection 
+    {
         return PlaceList::all();
     }
     /**
      * {@inheritdoc}
      */
-    public function findByCriteria(CriteriaInterface $criteria) {
+    public function findByCriteria(CriteriaInterface $criteria) 
+    {
         
     }
     /**
      * {@inheritdoc}
      */
-    public function delete($id) {
+    public function delete($id) 
+    {
         PlaceList::destroy($id);
     }
 
