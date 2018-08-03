@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Api;
+namespace Tests\Feature\Api;
 
 use Tests\TestCase;
 
 /**
  * Class ApiTestCase
- * @package Tests\Unit\Api
+ * @package Tests\Feature\Api
  */
 abstract class ApiTestCase extends TestCase
 {
