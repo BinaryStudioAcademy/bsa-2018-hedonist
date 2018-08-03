@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 class UserListRepository extends BaseRepository implements UserListRepositoryInterface
 {
      
-    public function save(UserList $userList): ?UserList 
+    public function save(UserList $userList): UserList 
     {
         $userList->save();
         
@@ -29,7 +29,7 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         return UserList::all();
     }
      
-    public function findByCriteria(CriteriaInterface $criteria) 
+    public function findByCriteria(CriteriaInterface $criteria): Collection 
     {
         return $this->getByCriteria($criteria);
     }
@@ -42,11 +42,6 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
     public function model()
     {
         return UserList::class;
-    }
-    
-    public function boot()
-    {
-        $this->pushCriteria(app(RequestCriteria::class));
     }
     
 }
