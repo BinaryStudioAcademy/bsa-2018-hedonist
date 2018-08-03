@@ -17,6 +17,6 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:api')->get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::post('/places/{id}/like', 'Api\LikePlaceController@like');
-    Route::post('/places/{id}/dislike', 'Api\LikePlaceController@dislike');
+    Route::post('/places/{id}/like', 'Api\LikePlaceController@likePlace');
+    Route::post('/places/{id}/dislike', 'Api\LikePlaceController@dislikePlace');
 });

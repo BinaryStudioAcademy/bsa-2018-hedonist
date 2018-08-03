@@ -3,14 +3,14 @@
 namespace Hedonist\Http\Controllers\Api;
 
 
-class LikePlaceController extends ApiController
+class LikeController extends ApiController
 {
-    public function like()
+    public function likePlace()
     {
         return successResponse('ok', 200);
     }
 
-    public function dislike()
+    public function dislikePlace()
     {
         return successResponse('ok', 200);
     }
