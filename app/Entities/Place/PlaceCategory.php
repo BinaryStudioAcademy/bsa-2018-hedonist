@@ -10,6 +10,8 @@ class PlaceCategory extends Model implements Transformable
 {
     use TransformableTrait;
 
+    public $timestamps = false;
+
     protected $table = 'place_categories';
 
     protected $fillable = ['name'];
