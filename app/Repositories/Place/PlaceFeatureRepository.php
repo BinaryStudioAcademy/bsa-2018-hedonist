@@ -37,7 +37,7 @@ class PlaceFeatureRepository extends BaseRepository implements PlaceFeatureRepos
         return $this->getByCriteria($criteria);
     }
     
-    public function delete(int $id): void
+    public function deleteById(int $id): void
     {
         PlaceFeature::destroy($id);
     }
