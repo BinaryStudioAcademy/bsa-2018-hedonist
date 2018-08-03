@@ -15,5 +15,5 @@ interface UserRepositoryInterface
 
     public function save(User $user): User;
 
-    public function getByEmail(string $email): User;
+    public function getByEmail(string $email): ?User;
 }

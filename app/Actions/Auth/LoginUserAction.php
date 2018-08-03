@@ -4,8 +4,12 @@ namespace Hedonist\Actions;
 
 
 use Hedonist\Actions\Auth\LoginUserActionInterface;
+use Hedonist\Actions\Auth\Requests\LoginRequestInterface;
+use Hedonist\Actions\Auth\Responses\LoginResponse;
+use Hedonist\Actions\Auth\Responses\LoginResponseInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
-use Tymon\JWTAuth\JWTAuth;
+use Illuminate\Auth\AuthenticationException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginUserAction implements LoginUserActionInterface
 {
@@ -15,12 +19,15 @@ class LoginUserAction implements LoginUserActionInterface
         $this->repository = $repository;
     }
 
-    public function execute(LoginUserRequestInterface $request)
+    public function execute(LoginRequestInterface $request):LoginResponseInterface
     {
         $credentials = [
             'email' => $request->getEmail(),
             'password' => $request->getPassword(),
         ];
-        return JWTAuth::attempt($credentials);
+        if(! $token = JWTAuth::attempt($credentials)){
+            throw new AuthenticationException();
+        }
+        return new LoginResponse($token);
     }
 }

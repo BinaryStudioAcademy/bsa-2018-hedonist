@@ -1,41 +1,48 @@
 <?php
 
-namespace Hedonist\Http\Controllers;
+namespace Hedonist\Http\Controllers\JwtAuth;
 
-use Hedonist\Actions\Auth\LoginUserAction;
-use Hedonist\Actions\Auth\RegisterUserAction;
-use Hedonist\Http\Requests\Auth\LoginRequest;
-use Hedonist\Http\Requests\Auth\RegisterRequestInterface;
-use Hedonist\Requests\Auth\LoginUserRequestInterface;
-use Hedonist\Requests\Auth\RegisterUserRequest;
-use Illuminate\Http\Request;
+use Hedonist\Actions\Auth\LoginUserActionInterface;
+use Hedonist\Actions\Auth\Presenters\AuthPresenter;
+use Hedonist\Actions\Auth\RegisterUserActionInterface;
+use Hedonist\Actions\Auth\Requests\LoginRequest;
+use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
+use Hedonist\Http\Controllers\Controller;
+use Hedonist\Requests\Auth\RegisterRequest;
+use Illuminate\Auth\AuthenticationException;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
-    public function login(LoginRequestInterface $request,LoginUserAction $action){
-    }
-
-    public function register(RegisterRequestInterface $request,RegisterUserAction $action){
-    }
-
-    public function logout(Request $request){
-
-    }
-
-    public function recoverPassword(RecoverPasswordRequest $request){
-    }
-
-    public function getUser(){
-    }
-
-    protected function respondWithToken($token)
+    public function login(\Hedonist\Http\Requests\Auth\LoginRequest $httpRequest,
+                          LoginUserActionInterface $action)
     {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
-        ],200);
+        try{
+            $loginRequest = new LoginRequest($httpRequest->email, $httpRequest->password);
+            $response = $action->execute($loginRequest);
+            return response()->json(AuthPresenter::presentLoginResponse($response),200);
+        }catch(AuthenticationException $exception){
+            return response()->json(AuthPresenter::presentError($exception),401);
+        }catch(JWTException $exception){
+            return response()->json(AuthPresenter::presentError($exception),400);
+        }
     }
+
+    public function register(\Hedonist\Http\Requests\Auth\RegisterRequest $httpRequset,
+                             RegisterUserActionInterface $action)
+    {
+        try{
+            $registerRequest = new RegisterRequest($httpRequset->email,$httpRequset->password,$httpRequset->name);
+            $response = $action->execute($registerRequest);
+            return response()->json(AuthPresenter::presentRegisterResponse($response),200);
+        }catch(EmailAlreadyExistsException $exception){
+            return response()->json(AuthPresenter::presentError($exception),400);
+        }catch(JWTException $exception){
+            return response()->json(AuthPresenter::presentError($exception),400);
+        }catch(\Exception $exception){
+            return response()->json(AuthPresenter::presentError($exception),500);
+        }
+    }
+
+
 }

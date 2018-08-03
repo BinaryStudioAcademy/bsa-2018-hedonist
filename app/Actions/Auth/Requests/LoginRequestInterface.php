@@ -3,7 +3,7 @@
 namespace Hedonist\Actions\Auth\Requests;
 
 
-interface LoginUserRequestInterface
+interface LoginRequestInterface
 {
     public function __construct(string $email, string $password);
 

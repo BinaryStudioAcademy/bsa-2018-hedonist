@@ -33,15 +33,23 @@ class UserRepository implements UserRepositoryInterface
             if($this->getByEmail($user->email) !== null) {
                 throw new EmailAlreadyExistsException();
             }
-            return $this->prettusRepository->create($user->toArray());
+            return $this->prettusRepository->create([
+                'name' => $user->name,
+                'email'=> $user->email,
+                'password'=> $user->password
+            ]);
         } else {
-            return $this->prettusRepository->update($user->toArray(),$user->id);
+            return $this->prettusRepository->update([
+                'name' => $user->name,
+                'email'=> $user->email,
+                'password'=> $user->password
+            ],$user->id);
         }
     }
 
 
-    public function getByEmail(string $email): User
+    public function getByEmail(string $email): ?User
     {
-       return $this->prettusRepository->findWhere(["email"=>$email]);
+       return $this->prettusRepository->findWhere(["email"=>$email])->first();
     }
 }

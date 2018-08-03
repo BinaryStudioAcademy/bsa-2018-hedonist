@@ -3,12 +3,13 @@
 namespace Hedonist\Actions\Auth;
 
 
-use Hedonist\Actions\Auth\Requests\RegisterUserRequestInterface;
+use Hedonist\Actions\Auth\Requests\RegisterRequestInterface;
+use Hedonist\Actions\Auth\Responses\RegisterResponse;
+use Hedonist\Actions\Auth\Responses\RegisterResponseInterface;
 use Hedonist\Entities\User;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RegisterUserAction implements RegisterUserActionInterface
 {
@@ -19,15 +20,14 @@ class RegisterUserAction implements RegisterUserActionInterface
         $this->repository = $repository;
     }
 
-    public function execute(RegisterUserRequestInterface $request)
+    public function execute(RegisterRequestInterface $request):RegisterResponseInterface
     {
-        if($this->repository->getByEmail($request->getEmail()) !== null){
-            throw new \LogicException("User with this email already exists!");
-        }
         $user = new User();
         $user->email = $request->getEmail();
         $user->password = Hash::make($request->getPassword());
+        $user->name = $request->getName();
         $this->repository->save($user);
         event(new Registered($user));
+        return new RegisterResponse(false);
     }
 }

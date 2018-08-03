@@ -1,16 +1,17 @@
 <?php
 
-namespace Hedonist\Requests\Auth;
+namespace Hedonist\Actions\Auth\Requests;
 
 
-class RegisterUserRequest implements RegisterUserRequestInterface
+class LoginRequest implements LoginRequestInterface
 {
     private $email;
     private $password;
 
     public function __construct(string $email, string $password)
     {
-        parent::__construct($email, $password);
+        $this->email = $email;
+        $this->password = $password;
     }
 
     public function getEmail(): string

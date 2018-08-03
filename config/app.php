@@ -159,7 +159,8 @@ return [
         // Hedonist\Providers\BroadcastServiceProvider::class,
         Hedonist\Providers\EventServiceProvider::class,
         Hedonist\Providers\RouteServiceProvider::class,
-        Hedonist\Providers\LogglyServiceProvider::class
+        Hedonist\Providers\LogglyServiceProvider::class,
+        Hedonist\Providers\JwtAuthProvider::class,
     ],
 
     /*
