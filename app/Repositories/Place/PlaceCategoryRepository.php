@@ -41,9 +41,4 @@ class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRep
     {
         return PlaceCategory::class;
     }
-    
-    public function boot()
-    {
-        $this->pushCriteria(app(RequestCriteria::class));
-    }
 }

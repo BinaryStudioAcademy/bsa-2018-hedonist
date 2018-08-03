@@ -18,5 +18,5 @@ interface PlaceCategoryRepositoryInterface extends RepositoryInterface
      
     public function findByCriteria(CriteriaInterface $criteria): Collection;
     
-    public function delete($id);
+    public function delete(int $id);
 }
