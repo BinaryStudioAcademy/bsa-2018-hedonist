@@ -4,11 +4,9 @@ namespace Hedonist\Repositories\Place;
 
 use Hedonist\Entities\Place\PlaceFeature;
 use Illuminate\Database\Eloquent\Collection;
-use Prettus\Repository\Contracts\RepositoryInterface;
-use Prettus\Repository\Contracts\RepositoryCriteriaInterface;
 use Prettus\Repository\Contracts\CriteriaInterface;
 
-interface PlaceFeatureRepositoryInterface extends RepositoryInterface
+interface PlaceFeatureRepositoryInterface
 {
     public function save(PlaceFeature $placeFeature): PlaceFeature;
  
