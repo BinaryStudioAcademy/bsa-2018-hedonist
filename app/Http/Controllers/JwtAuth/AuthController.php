@@ -21,9 +21,11 @@ class AuthController extends Controller
         LoginUserAction $action)
     {
         try{
+
             $loginRequest = new LoginRequest($httpRequest->email, $httpRequest->password);
             $response = $action->execute($loginRequest);
             return response()->json(AuthPresenter::presentLoginResponse($response),200);
+
         }catch(AuthenticationException $exception){
             return response()->json(AuthPresenter::presentError($exception),401);
         }catch(JWTException $exception){
