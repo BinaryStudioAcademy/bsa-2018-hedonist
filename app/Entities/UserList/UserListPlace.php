@@ -31,6 +31,6 @@ class UserListPlace extends Model
      */
     public function place()
     {
-        return $this->UserList(Place::class);
+        return $this->belongsTo(Place::class);
     }
 }
