@@ -3,15 +3,16 @@
 namespace Hedonist\Actions\Auth;
 
 
-use Hedonist\Actions\Auth\Requests\RegisterRequestInterface;
+use Hedonist\Actions\ActionInterface;
 use Hedonist\Actions\Auth\Responses\RegisterResponse;
-use Hedonist\Actions\Auth\Responses\RegisterResponseInterface;
+use Hedonist\Actions\RequestInterface;
+use Hedonist\Actions\ResponseInterface;
 use Hedonist\Entities\User;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
 
-class RegisterUserAction implements RegisterUserActionInterface
+class RegisterUserAction implements ActionInterface
 {
     private $repository;
 
@@ -20,7 +21,7 @@ class RegisterUserAction implements RegisterUserActionInterface
         $this->repository = $repository;
     }
 
-    public function execute(RegisterRequestInterface $request):RegisterResponseInterface
+    public function execute(RequestInterface $request):ResponseInterface
     {
         $user = new User();
         $user->email = $request->getEmail();

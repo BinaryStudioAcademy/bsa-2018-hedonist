@@ -3,8 +3,10 @@
 namespace Hedonist\Actions\Auth\Presenters;
 
 
-use Hedonist\Actions\Auth\Responses\LoginResponseInterface;
-use Hedonist\Actions\Auth\Responses\RegisterResponseInterface;
+
+use Hedonist\Actions\Auth\Responses\LoginResponse;
+use Hedonist\Actions\Auth\Responses\RegisterResponse;
+use Hedonist\Actions\ResponseInterface;
 
 class AuthPresenter
 {
@@ -13,7 +15,7 @@ class AuthPresenter
         return ["message"=>$exception->getMessage()];
     }
 
-    public static function presentLoginResponse(LoginResponseInterface $response)
+    public static function presentLoginResponse(ResponseInterface $response)
     {
         return [
             'access_token' => $response->getToken(),
@@ -22,7 +24,7 @@ class AuthPresenter
         ];
     }
 
-    public static function presentRegisterResponse(RegisterResponseInterface $response)
+    public static function presentRegisterResponse(ResponseInterface $response)
     {
         return ['success'=>$response->getSuccess()];
     }

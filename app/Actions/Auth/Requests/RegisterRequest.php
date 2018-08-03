@@ -3,9 +3,9 @@
 namespace Hedonist\Requests\Auth;
 
 
-use Hedonist\Actions\Auth\Requests\RegisterRequestInterface;
+use Hedonist\Actions\RequestInterface;
 
-class RegisterRequest implements RegisterRequestInterface
+class RegisterRequest implements RequestInterface
 {
     private $email;
     private $password;

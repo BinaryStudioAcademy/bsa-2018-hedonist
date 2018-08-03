@@ -2,10 +2,10 @@
 
 namespace Hedonist\Http\Controllers\JwtAuth;
 
-use Hedonist\Actions\Auth\LoginUserActionInterface;
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
-use Hedonist\Actions\Auth\RegisterUserActionInterface;
+use Hedonist\Actions\Auth\RegisterUserAction;
 use Hedonist\Actions\Auth\Requests\LoginRequest;
+use Hedonist\Actions\LoginUserAction;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
 use Hedonist\Http\Controllers\Controller;
 use Hedonist\Requests\Auth\RegisterRequest;
@@ -15,7 +15,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class AuthController extends Controller
 {
     public function login(\Hedonist\Http\Requests\Auth\LoginRequest $httpRequest,
-                          LoginUserActionInterface $action)
+        LoginUserAction $action)
     {
         try{
             $loginRequest = new LoginRequest($httpRequest->email, $httpRequest->password);
@@ -29,7 +29,7 @@ class AuthController extends Controller
     }
 
     public function register(\Hedonist\Http\Requests\Auth\RegisterRequest $httpRequset,
-                             RegisterUserActionInterface $action)
+                             RegisterUserAction $action)
     {
         try{
             $registerRequest = new RegisterRequest($httpRequset->email,$httpRequset->password,$httpRequset->name);

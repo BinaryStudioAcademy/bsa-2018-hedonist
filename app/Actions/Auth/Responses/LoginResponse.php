@@ -3,7 +3,9 @@
 namespace Hedonist\Actions\Auth\Responses;
 
 
-class LoginResponse implements LoginResponseInterface
+use Hedonist\Actions\ResponseInterface;
+
+class LoginResponse implements ResponseInterface
 {
     private $token;
 
