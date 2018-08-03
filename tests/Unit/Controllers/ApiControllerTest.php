@@ -40,7 +40,34 @@ class ApiControllerTest extends TestCase
         $object = new \stdClass();
         $object->message = 'Test message';
         $object->parameter = 'Test parameter';
-        $this->assertEquals($result->getData(), $object);
+        $data = $result->getData();
+        $this->assertEquals($data->data, $object);
+        $this->assertEquals($data->data->message, 'Test message');
+        $this->assertEquals($data->data->parameter, 'Test parameter');
+        $this->assertEquals($result->getStatusCode(), $statusCode);
+    }
+
+    public function testSuccessDataHasArrayResult()
+    {
+        $data = [
+            ['message' => 'Test message', 'parameter' => 'Test parameter'],
+            ['message' => 'Test message1', 'parameter' => 'Test parameter1']
+        ];
+        $statusCode = 200;
+
+        $method = $this->getMethod('successResponse');
+        /** @var JsonResponse $result */
+        $result = $method->invokeArgs($this->apiControllerMock, [ $data, $statusCode ]);
+
+        $this->assertInstanceOf(JsonResponse::class, $result);
+
+        $data = $result->getData();
+        $dataToArray = $data->data;
+        $this->assertEquals(2, count($dataToArray));
+        $this->assertEquals('Test message', $dataToArray[0]->message);
+        $this->assertEquals('Test message1', $dataToArray[1]->message);
+        $this->assertEquals('Test parameter', $dataToArray[0]->parameter);
+        $this->assertEquals('Test parameter1', $dataToArray[1]->parameter);
         $this->assertEquals($result->getStatusCode(), $statusCode);
     }
 
@@ -66,7 +93,8 @@ class ApiControllerTest extends TestCase
         $result = $method->invokeArgs($this->apiControllerMock, [ [], $statusCode ]);
 
         $this->assertInstanceOf(JsonResponse::class, $result);
-        $this->assertEquals($result->getData(), []);
+        $data = $result->getData();
+        $this->assertEquals($data->data, []);
         $this->assertEquals($result->getStatusCode(), $statusCode);
     }
 
@@ -81,7 +109,6 @@ class ApiControllerTest extends TestCase
 
         $this->assertInstanceOf(JsonResponse::class, $result);
         $errorData = $result->getData();
-
         $this->assertEquals($errorData->error->httpStatus, $statusCode);
         $this->assertEquals($errorData->error->message, $data);
         $this->assertEquals($result->getStatusCode(), $statusCode);
