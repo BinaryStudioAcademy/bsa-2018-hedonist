@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Response;
+namespace Hedonist\Actions;
 
 
 interface ResponseInterface

@@ -2,8 +2,8 @@
 
 namespace Hedonist\Actions;
 
-use Hedonist\Requests\RequestInterface;
-use Hedonist\Response\ResponseInterface;
+use Hedonist\Actions\RequestInterface;
+use Hedonist\Actions\ResponseInterface;
 
 interface ActionInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Requests;
+namespace Hedonist\Actions;
 
 
 interface RequestInterface
