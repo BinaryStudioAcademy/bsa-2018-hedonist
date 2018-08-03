@@ -7,7 +7,12 @@ use Hedonist\Entities\Review\Review;
 
 class ReviewPhoto extends Model
 {
-    const CREATED_AT = 'posted_at';
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = false;
    /**
      * The table associated with the model.
      *
