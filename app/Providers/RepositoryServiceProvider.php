@@ -2,9 +2,13 @@
 
 namespace Hedonist\Providers;
 
-use Hedonist\Repositories\Place\PlaceFeatureRepositoryInterface;
-use Hedonist\Repositories\Place\PlaceFeatureRepository;
 use Illuminate\Support\ServiceProvider;
+use Hedonist\Repositories\Place\{
+    PlaceCategoryRepositoryInterface,
+    PlaceCategoryRepository,
+    PlaceFeatureRepositoryInterface,
+    PlaceFeatureRepository,
+};
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -25,6 +29,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(PlaceCategoryRepositoryInterface::class, PlaceCategoryRepository::class);
         $this->app->bind(PlaceFeatureRepositoryInterface::class, PlaceFeatureRepository::class);
     }
 }
