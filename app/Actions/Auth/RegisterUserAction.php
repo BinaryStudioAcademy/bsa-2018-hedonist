@@ -8,6 +8,7 @@ use Hedonist\Actions\Auth\Responses\RegisterResponse;
 use Hedonist\Actions\RequestInterface;
 use Hedonist\Actions\ResponseInterface;
 use Hedonist\Entities\User;
+use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +25,9 @@ class RegisterUserAction implements ActionInterface
     public function execute(RequestInterface $request):ResponseInterface
     {
         $user = new User();
+        if($this->repository->getByEmail($request->getEmail()) !== null){
+            throw new EmailAlreadyExistsException();
+        }
         $user->email = $request->getEmail();
         $user->password = Hash::make($request->getPassword());
         $user->name = $request->getName();

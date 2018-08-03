@@ -21,6 +21,10 @@ Route::prefix('v1')->group(function () {
         Route::post('/login','AuthController@login');
 
         Route::group(['middleware'=>'jwt.auth'],function(){
+
+            Route::post('/refresh','AuthController@refresh');
+
+            Route::get('/me','AuthController@me');
         });
     });
 });

@@ -5,11 +5,14 @@ namespace Hedonist\Http\Controllers\JwtAuth;
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\Auth\RegisterUserAction;
 use Hedonist\Actions\Auth\Requests\LoginRequest;
+use Hedonist\Actions\Auth\Responses\RefreshResponse;
 use Hedonist\Actions\LoginUserAction;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
 use Hedonist\Http\Controllers\Controller;
 use Hedonist\Requests\Auth\RegisterRequest;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
@@ -44,5 +47,16 @@ class AuthController extends Controller
         }
     }
 
+    public function me(Request $request)
+    {
+        return response()->json(AuthPresenter::presentUser(Auth::user()),200);
+    }
+
+    public function refresh()
+    {
+        return response()->json(AuthPresenter::presentRefreshResponse(
+            new RefreshResponse(Auth::refresh())
+        ));
+    }
 
 }

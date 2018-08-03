@@ -6,50 +6,47 @@ namespace Hedonist\Repositories\User;
 use Hedonist\Entities\User;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
 use Illuminate\Support\Collection;
+use Prettus\Repository\Contracts\CriteriaInterface;
+use Prettus\Repository\Eloquent\BaseRepository;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
-    private $prettusRepository;
-
-    public function __construct(BaseUserRepository $repository)
-    {
-        $this->prettusRepository = $repository;
-    }
 
     public function getById(int $id): User
     {
-        return $this->prettusRepository->find($id);
+        return User::find($id);
     }
 
     public function findAll(): Collection
     {
-        return $this->prettusRepository->all();
+        return User::all();
     }
 
 
     public function save(User $user): User
     {
-        if($user->id === null){
-            if($this->getByEmail($user->email) !== null) {
-                throw new EmailAlreadyExistsException();
-            }
-            return $this->prettusRepository->create([
-                'name' => $user->name,
-                'email'=> $user->email,
-                'password'=> $user->password
-            ]);
-        } else {
-            return $this->prettusRepository->update([
-                'name' => $user->name,
-                'email'=> $user->email,
-                'password'=> $user->password
-            ],$user->id);
-        }
+        $user->save();
+
+        return $user;
     }
 
+    public function findByCriteria(CriteriaInterface $criteria): Collection
+    {
+        return $this->getByCriteria($criteria);
+    }
 
     public function getByEmail(string $email): ?User
     {
-       return $this->prettusRepository->findWhere(["email"=>$email])->first();
+       return User::where(["email"=>$email])->first();
+    }
+
+    public function delete($id): void
+    {
+        User::destroy($id);
+    }
+
+    public function model()
+    {
+        return User::class;
     }
 }

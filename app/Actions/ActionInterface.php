@@ -8,5 +8,4 @@ use Hedonist\Actions\ResponseInterface;
 interface ActionInterface
 {
     public function execute(RequestInterface $request): ResponseInterface;
-
 }

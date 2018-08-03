@@ -4,9 +4,8 @@ namespace Hedonist\Actions\Auth\Presenters;
 
 
 
-use Hedonist\Actions\Auth\Responses\LoginResponse;
-use Hedonist\Actions\Auth\Responses\RegisterResponse;
 use Hedonist\Actions\ResponseInterface;
+use Hedonist\Entities\User;
 
 class AuthPresenter
 {
@@ -27,5 +26,19 @@ class AuthPresenter
     public static function presentRegisterResponse(ResponseInterface $response)
     {
         return ['success'=>$response->getSuccess()];
+    }
+
+    public static function presentUser(User $user)
+    {
+        return $user->toArray();
+    }
+
+    public static function presentRefreshResponse(ResponseInterface $response)
+    {
+        return [
+            'access_token' => $response->getToken(),
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ];
     }
 }
