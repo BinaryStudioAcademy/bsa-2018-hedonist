@@ -2,37 +2,53 @@
 
 namespace Hedonist\Http\Controllers\Api;
 
-use Hedonist\Request\UserList\UserListRequest;
-use Hedonist\Services\UserList\UserListServiceInterface;
+use Hedonist\Actions\UserList\DeleteUserListAction;
+use Hedonist\Actions\UserList\DeleteUserListRequest;
+use Hedonist\Actions\UserList\SaveUserListRequest;
+use Hedonist\Actions\UserList\SaveUserListAction;
+use Hedonist\Actions\UserList\GetCollectionUserListAction;
+use Hedonist\Actions\UserList\GetUserListAction;
+use Hedonist\Actions\UserList\GetUserListRequest;
 use Illuminate\Http\Request;
 use Hedonist\Http\Controllers\Controller;
 
 class UserListController extends Controller
 {
-    public $userListService;
+    public $userListAction;
+    public $collectionUserListAction;
+    public $getUserListAction;
+    public $deleteUserListAction;
 
-    public function __construct(UserListServiceInterface $userListService)
+    public function __construct(SaveUserListAction $userListAction,
+                                GetCollectionUserListAction $collectionUserListAction,
+                                GetUserListAction $getUserListAction,
+                                DeleteUserListAction $deleteUserListAction)
     {
-        $this->userListService = $userListService;
+        $this->userListAction = $userListAction;
+        $this->collectionUserListAction = $collectionUserListAction;
+        $this->getUserListAction = $getUserListAction;
+        $this->deleteUserListAction = $deleteUserListAction;
     }
 
     public function index()
     {
-        $data = $this->userListService->getCollection();
+        $data = $this->collectionUserListAction->execute();
         return response()->json($data, 200);
     }
 
     public function store(Request $request)
     {
-        $userListRequest = new UserListRequest(
-            $request->get('user_id'),
-            $request->get('name'),
-            $request->get('img_url')
-        );
         try {
-            $userList = $this->userListService->save($userListRequest);
-            return response()->json($userList, 201);
-        } catch( \Exception $exception) {
+            $responseUserList = $this->userListAction->execute(
+                new SaveUserListRequest(
+                    null,
+                    $request->get('user_id'),
+                    $request->get('name'),
+                    $request->get('img_url')
+                )
+            );
+            return response()->json($responseUserList->getModel(), 201);
+        } catch (\Exception $exception) {
             $error = [
                 'error' => [
                     'message' => $exception->getMessage(),
@@ -46,15 +62,11 @@ class UserListController extends Controller
     public function show(int $id)
     {
         try {
-            $userList = $this->userListService->getUserList($id);
-            $data = [
-                'id' => $userList->id,
-                'name' => $userList->name,
-                'user_id' => $userList->user_id,
-                'img_url' => $userList->imgUrl,
-            ];
-            return response()->json($data, 200);
-        } catch( \Exception $exception) {
+            $responseUserList = $this->getUserListAction->execute(
+                new GetUserListRequest($id)
+            );
+            return response()->json($responseUserList->getData(), 200);
+        } catch (\Exception $exception) {
             $error = [
                 'error' => [
                     'message' => $exception->getMessage(),
@@ -67,15 +79,17 @@ class UserListController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $userListRequest = new UserListRequest(
-            $request->get('user_id'),
-            $request->get('name'),
-            $request->get('img_url')
-        );
         try {
-            $userList = $this->userListService->save($userListRequest, $id);
-            return response()->json($userList, 201);
-        } catch( \Exception $exception) {
+            $responseUserList = $this->userListAction->execute(
+                new SaveUserListRequest(
+                    $id,
+                    $request->get('user_id'),
+                    $request->get('name'),
+                    $request->get('img_url')
+                )
+            );
+            return response()->json($responseUserList->getModel(), 201);
+        } catch (\Exception $exception) {
             $error = [
                 'error' => [
                     'message' => $exception->getMessage(),
@@ -86,12 +100,12 @@ class UserListController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
         try {
-            $this->userListService->getUserList($id)->delete();
-            return response()->json(['success'], 201);
-        } catch( \Exception $exception) {
+            $responseDeleteUser = $this->deleteUserListAction->execute(new DeleteUserListRequest($id));
+            return response()->json($responseDeleteUser->result(), 200);
+        } catch (\Exception $exception) {
             $error = [
                 'error' => [
                     'message' => $exception->getMessage(),
