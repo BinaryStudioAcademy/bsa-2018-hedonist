@@ -2,6 +2,8 @@
 
 namespace Hedonist\Providers;
 
+use Hedonist\Services\UserList\UserListService;
+use Hedonist\Services\UserList\UserListServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(UserListServiceInterface::class, UserListService::class);
     }
 }
