@@ -15,5 +15,5 @@ interface PlaceCategoryRepositoryInterface
      
     public function findByCriteria(CriteriaInterface $criteria): Collection;
     
-    public function delete(int $id);
+    public function deleteById(int $id);
 }

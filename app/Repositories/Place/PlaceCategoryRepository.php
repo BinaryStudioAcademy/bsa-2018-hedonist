@@ -32,7 +32,7 @@ class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRep
         return $this->getByCriteria($criteria);
     }
     
-    public function delete(int $id) 
+    public function deleteById(int $id) 
     {
         PlaceCategory::destroy($id);
     }
