@@ -2,13 +2,10 @@
 
 namespace Hedonist\Repositories\Place;
 
-use Prettus\Repository\Contracts\RepositoryInterface;
-use Prettus\Repository\Contracts\RepositoryCriteriaInterface;
-use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Hedonist\Entities\Place\PlaceCategory;
 
-interface PlaceCategoryRepositoryInterface extends RepositoryInterface
+interface PlaceCategoryRepositoryInterface
 {
     public function save(PlaceCategory $placeCategory): PlaceCategory;
  
