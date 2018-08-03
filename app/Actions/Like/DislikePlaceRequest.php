@@ -6,5 +6,15 @@ use Hedonist\Actions\RequestInterface;
 
 class DislikePlaceRequest implements RequestInterface
 {
+    private $placeId;
 
+    public function __construct(int $placeId)
+    {
+        $this->placeId = $placeId;
+    }
+
+    public function getPlaceId(): int
+    {
+        return $this->placeId;
+    }
 }
