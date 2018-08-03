@@ -2,6 +2,8 @@
 
 namespace Hedonist\Repositories\Place;
 
+use Prettus\Repository\Criteria\RequestCriteria;
+use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Hedonist\Entities\Place\PlaceCategory;
 
