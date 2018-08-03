@@ -14,7 +14,7 @@ class SaveUserListAction implements ActionInterface
         if (!$id) {
             $userList = new UserList;
         } else {
-            $userList = find;
+            $userList = UserList::find($id);
         }
 
         $userList->user_id = $userListRequest->getUserId();

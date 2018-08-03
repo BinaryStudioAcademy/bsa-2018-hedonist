@@ -64,7 +64,7 @@ class UserListApi extends TestCase
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(400);
         $response->assertJson(['error' => [
-            'message' => 'User list not found',
+            'message' => 'User list not found.',
             'status_code' => 400,
         ]]);
     }
@@ -90,7 +90,7 @@ class UserListApi extends TestCase
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(400);
         $response->assertJson(['error' => [
-            'message' => 'User list not found',
+            'message' => 'User list not found.',
             'status_code' => 400,
         ]]);
     }
