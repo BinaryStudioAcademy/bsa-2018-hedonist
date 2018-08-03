@@ -17,7 +17,7 @@ class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRep
         return $placeCategory;
     }
     
-    public function getById(int $id): PlaceCategory
+    public function getById(int $id): ?PlaceCategory
     {
         return PlaceCategory::find($id);
     }

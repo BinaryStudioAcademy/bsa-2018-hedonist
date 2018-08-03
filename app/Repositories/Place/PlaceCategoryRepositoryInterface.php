@@ -12,7 +12,7 @@ interface PlaceCategoryRepositoryInterface extends RepositoryInterface
 {
     public function save(PlaceCategory $placeCategory): PlaceCategory;
  
-    public function getById(int $id) : PlaceCategory;
+    public function getById(int $id) : ?PlaceCategory;
     
     public function findAll(): Collection;
      

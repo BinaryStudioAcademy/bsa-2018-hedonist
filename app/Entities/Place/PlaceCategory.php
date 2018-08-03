@@ -15,14 +15,4 @@ class PlaceCategory extends Model implements Transformable
     protected $table = 'place_categories';
 
     protected $fillable = ['name'];
-
-    /*
-    public function places() {
-        return $this->hasMany(Place::class);
-      }
-    
-    public function place_category_tags() {
-        return $this->hasMany(PlaceCategoryTag::class);
-    }
-    */
 }
