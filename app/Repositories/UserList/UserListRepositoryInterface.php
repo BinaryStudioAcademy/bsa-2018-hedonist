@@ -17,5 +17,5 @@ interface UserListRepositoryInterface
    
     public function findByCriteria(CriteriaInterface $criteria);
  
-    public function delete($id);
+    public function deleteById(int $id);
 }

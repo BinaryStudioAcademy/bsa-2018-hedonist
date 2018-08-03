@@ -35,9 +35,9 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         
     }
     
-    public function delete($id) 
+    public function deleteById(int $id) 
     {
-        UserList::destroy($id);
+        $this->delete($id);
     }
     
     public function model()
