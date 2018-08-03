@@ -20,8 +20,6 @@ interface UserRepositoryInterface extends RepositoryInterface
 
     public function findByCriteria(CriteriaInterface $criteria):Collection;
 
-    public function addPasswordResetLink(string $email):string;
-
     //fatal error if delete(int $id)
     public function delete($id): void;
 }

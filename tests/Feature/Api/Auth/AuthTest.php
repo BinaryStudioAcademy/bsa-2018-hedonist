@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\api\Auth;
+namespace Tests\Feature\Api\Auth;
 
 
 use Hedonist\Entities\User;
