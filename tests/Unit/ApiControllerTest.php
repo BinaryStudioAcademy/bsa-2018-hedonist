@@ -18,13 +18,22 @@ class ApiControllerTest extends TestCase
         $this->apiControllerMock = $this->getMockForAbstractClass(ApiController::class);
     }
 
+    protected function getMethod($name)
+    {
+        $class = new \ReflectionClass(ApiController::class);
+        $method = $class->getMethod($name);
+        $method->setAccessible(true);
+        return $method;
+    }
+
     public function testSuccessResult()
     {
         $data = ['message' => 'Test message', 'parameter' => 'Test parameter'];
         $statusCode = 200;
 
+        $method = $this->getMethod('successResponse');
         /** @var JsonResponse $result */
-        $result = $this->apiControllerMock->successResponse($data, $statusCode);
+        $result = $method->invokeArgs($this->apiControllerMock, [ $data, $statusCode ]);
 
         $this->assertInstanceOf(JsonResponse::class, $result);
 
@@ -38,19 +47,23 @@ class ApiControllerTest extends TestCase
     public function testSuccessParamNotAnArray()
     {
         $this->expectException(\TypeError::class);
-        $this->apiControllerMock->successResponse('Test', 200);
+        $method = $this->getMethod('successResponse');
+        $method->invokeArgs($this->apiControllerMock, [ 'Test', 200]);
     }
 
     public function testSuccessParamStatusCodeNotAnInteger()
     {
         $this->expectException(\TypeError::class);
-        $this->apiControllerMock->successResponse(['Test'], 'String');
+        $method = $this->getMethod('successResponse');
+        $method->invokeArgs($this->apiControllerMock, [ ['Test'], 'String']);
     }
 
     public function testSuccessArrayIsEmpty()
     {
         $statusCode = 200;
-        $result = $this->apiControllerMock->successResponse([], $statusCode);
+        $method = $this->getMethod('successResponse');
+        /** @var JsonResponse $result */
+        $result = $method->invokeArgs($this->apiControllerMock, [ [], $statusCode ]);
 
         $this->assertInstanceOf(JsonResponse::class, $result);
         $this->assertEquals($result->getData(), []);
@@ -62,8 +75,9 @@ class ApiControllerTest extends TestCase
         $data = ['message' => 'Error message', 'parameter' => 'Error parameter'];
         $statusCode = 404;
 
+        $method = $this->getMethod('errorResponse');
         /** @var JsonResponse $result */
-        $result = $this->apiControllerMock->successResponse($data, $statusCode);
+        $result = $method->invokeArgs($this->apiControllerMock, [ $data, $statusCode ]);
 
         $this->assertInstanceOf(JsonResponse::class, $result);
 
