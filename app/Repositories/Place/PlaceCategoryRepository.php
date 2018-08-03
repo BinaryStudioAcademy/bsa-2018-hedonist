@@ -6,7 +6,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
-use App\Entities\Place\PlaceCategory;
+use Hedonist\Entities\Place\PlaceCategory;
 
 
 class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRepositoryInterface
