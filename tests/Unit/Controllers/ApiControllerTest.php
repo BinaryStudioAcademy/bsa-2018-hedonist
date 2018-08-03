@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Controllers;
 
 use Tests\TestCase;
 use Illuminate\Http\JsonResponse;
@@ -72,7 +72,7 @@ class ApiControllerTest extends TestCase
 
     public function testErrorResult()
     {
-        $data = ['message' => 'Error message', 'parameter' => 'Error parameter'];
+        $data = 'Error message';
         $statusCode = 404;
 
         $method = $this->getMethod('errorResponse');
@@ -80,11 +80,10 @@ class ApiControllerTest extends TestCase
         $result = $method->invokeArgs($this->apiControllerMock, [ $data, $statusCode ]);
 
         $this->assertInstanceOf(JsonResponse::class, $result);
+        $errorData = $result->getData();
 
-        $object = new \stdClass();
-        $object->message = 'Error message';
-        $object->parameter = 'Error parameter';
-        $this->assertEquals($result->getData(), $object);
+        $this->assertEquals($errorData->error->httpStatus, $statusCode);
+        $this->assertEquals($errorData->error->message, $data);
         $this->assertEquals($result->getStatusCode(), $statusCode);
     }
 }
