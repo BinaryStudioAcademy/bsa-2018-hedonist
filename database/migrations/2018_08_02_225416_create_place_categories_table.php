@@ -9,26 +9,26 @@ use Illuminate\Database\Migrations\Migration;
  */
 class CreatePlaceCategoriesTable extends Migration
 {
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('place_categories', function(Blueprint $table) {
-			$table->increments('id');
-			$table->string('name', 45);
-		});
-	}
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('place_categories', function(Blueprint $table) {
+            $table->increments('id');
+            $table->string('name', 45);
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::dropIfExists('place_categories');
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('place_categories');
+    }
 }
