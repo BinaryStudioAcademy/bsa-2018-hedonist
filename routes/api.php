@@ -18,5 +18,5 @@ Route::prefix('v1')->group(function () {
         return $request->user();
     });
     Route::post('/places/{id}/like', 'Api\LikePlaceController@likePlace');
-    Route::post('/places/{id}/dislike', 'Api\LikePlaceController@dislikePlace');
+    Route::post('/places/{id}/dislike', 'Api\DisikePlaceController@dislikePlace');
 });

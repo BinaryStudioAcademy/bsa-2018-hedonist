@@ -6,20 +6,14 @@ use Hedonist\Actions\Like\{
     LikePlaceAction,
     LikePlaceRequest
 };
-use Hedonist\Actions\Dislike\{
-    DislikePlaceAction,
-    DislikePlaceRequest
-};
 
 class LikeController extends ApiController
 {
     private $likePlaceAction;
-    private $dislikePlaceAction;
 
-    public function __construct(LikePlaceAction $likePlaceAction, DislikePlaceAction $dislikePlaceAction)
+    public function __construct(LikePlaceAction $likePlaceAction)
     {
         $this->likePlaceAction = $likePlaceAction;
-        $this->dislikePlaceAction = $dislikePlaceAction;
     }
 
     public function likePlace(int $id)
@@ -27,18 +21,6 @@ class LikeController extends ApiController
         try {
             $response = $this->likePlaceAction->execute(
                 new LikePlaceRequest($id)
-            );
-        } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), 400);
-        }
-        return $this->successResponse('ok', 200);
-    }
-
-    public function dislikePlace(int $id)
-    {
-        try {
-            $response = $this->dislikePlaceAction->execute(
-                new DislikePlaceRequest($id)
             );
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
