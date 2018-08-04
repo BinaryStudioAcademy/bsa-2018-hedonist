@@ -2,6 +2,7 @@
 
 namespace Hedonist\Entities\UserList;
 
+use Hedonist\User;
 use Illuminate\Database\Eloquent\Model;
 
 class UserList extends Model

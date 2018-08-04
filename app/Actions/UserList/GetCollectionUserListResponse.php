@@ -2,11 +2,13 @@
 
 namespace Hedonist\Actions\UserList;
 
+use Hedonist\Entities\UserList\UserList;
+
 class GetCollectionUserListResponse
 {
     private $collectionUserList;
 
-    public function __construct($collectionUserList)
+    public function __construct(UserList $collectionUserList)
     {
         $this->collectionUserList = $collectionUserList;
     }
@@ -18,6 +20,6 @@ class GetCollectionUserListResponse
 
     public function getData()
     {
-        return $this->collectionUserList->all();
+        return $this->collectionUserList->toArray();
     }
 }

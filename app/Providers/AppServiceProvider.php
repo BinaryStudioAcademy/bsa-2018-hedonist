@@ -2,7 +2,6 @@
 
 namespace Hedonist\Providers;
 
-use Hedonist\Actions\UserList\GetCollectionUserListAction;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

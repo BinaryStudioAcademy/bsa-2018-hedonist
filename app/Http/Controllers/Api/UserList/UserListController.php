@@ -9,10 +9,10 @@ use Hedonist\Actions\UserList\SaveUserListAction;
 use Hedonist\Actions\UserList\GetCollectionUserListAction;
 use Hedonist\Actions\UserList\GetUserListAction;
 use Hedonist\Actions\UserList\GetUserListRequest;
+use Hedonist\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
-use Hedonist\Http\Controllers\Controller;
 
-class UserListController extends Controller
+class UserListController extends ApiController
 {
     public $userListAction;
     public $collectionUserListAction;
@@ -32,8 +32,8 @@ class UserListController extends Controller
 
     public function index()
     {
-        $data = $this->collectionUserListAction->execute();
-        return response()->json($data, 200);
+        $responseUserLists = $this->collectionUserListAction->execute();
+        return $this->successResponse($responseUserLists->getData(), 200);
     }
 
     public function store(Request $request)
@@ -47,15 +47,9 @@ class UserListController extends Controller
                     $request->get('img_url')
                 )
             );
-            return response()->json($responseUserList->getModel(), 201);
+            return $this->successResponse($responseUserList->getData(), 201);
         } catch (\Exception $exception) {
-            $error = [
-                'error' => [
-                    'message' => $exception->getMessage(),
-                    'status_code' => 400,
-                ]
-            ];
-            return response()->json($error, 400);
+            return $this->errorResponse($exception->getMessage(), 400);
         }
     }
 
@@ -65,15 +59,9 @@ class UserListController extends Controller
             $responseUserList = $this->getUserListAction->execute(
                 new GetUserListRequest($id)
             );
-            return response()->json($responseUserList->getData(), 200);
+            return $this->successResponse($responseUserList->getData(), 200);
         } catch (\Exception $exception) {
-            $error = [
-                'error' => [
-                    'message' => $exception->getMessage(),
-                    'status_code' => 400,
-                ]
-            ];
-            return response()->json($error, 400);
+            return $this->errorResponse($exception->getMessage(), 404);
         }
     }
 
@@ -88,31 +76,18 @@ class UserListController extends Controller
                     $request->get('img_url')
                 )
             );
-            return response()->json($responseUserList->getModel(), 201);
+            return $this->successResponse($responseUserList->getData(), 201);
         } catch (\Exception $exception) {
-            $error = [
-                'error' => [
-                    'message' => $exception->getMessage(),
-                    'status_code' => 400,
-                ]
-            ];
-            return response()->json($error, 400);
+            return $this->errorResponse($exception->getMessage(), 404);
         }
     }
 
     public function destroy(int $id)
     {
         try {
-            $responseDeleteUser = $this->deleteUserListAction->execute(new DeleteUserListRequest($id));
-            return response()->json($responseDeleteUser->result(), 200);
+            $this->deleteUserListAction->execute(new DeleteUserListRequest($id));
         } catch (\Exception $exception) {
-            $error = [
-                'error' => [
-                    'message' => $exception->getMessage(),
-                    'status_code' => 400,
-                ]
-            ];
-            return response()->json($error, 400);
+            return $this->errorResponse($exception->getMessage(), 400);
         }
     }
 }

@@ -2,11 +2,21 @@
 
 namespace Hedonist\Actions\UserList;
 
+use Hedonist\Repositories\UserList\UserListRepository;
+
 class GetCollectionUserListAction
 {
-    public function execute(GetCollectionUserListRequest $request): GetCollectionUserListResponse
+    private $userListRepository;
+
+    public function __construct(UserListRepository $userListRepository)
     {
-        $responseCollection = new GetCollectionUserListResponse([]);
+        $this->userListRepository = $userListRepository;
+    }
+
+    public function execute(): GetCollectionUserListResponse
+    {
+        $userLists = $this->userListRepository->findAll();
+        $responseCollection = new GetCollectionUserListResponse($userLists);
         return $responseCollection;
     }
 }

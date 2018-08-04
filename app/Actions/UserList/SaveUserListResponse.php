@@ -2,11 +2,13 @@
 
 namespace Hedonist\Actions\UserList;
 
+use Hedonist\Entities\UserList\UserList;
+
 class SaveUserListResponse
 {
     private $userList;
 
-    public function __construct($userList)
+    public function __construct(UserList $userList)
     {
         $this->userList = $userList;
     }
@@ -14,5 +16,10 @@ class SaveUserListResponse
     public function getModel()
     {
         return $this->userList;
+    }
+
+    public function getData()
+    {
+        return $this->userList->toArray();
     }
 }

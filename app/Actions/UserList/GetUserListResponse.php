@@ -2,11 +2,13 @@
 
 namespace Hedonist\Actions\UserList;
 
+use Hedonist\Entities\UserList\UserList;
+
 class GetUserListResponse
 {
     private $userList;
 
-    public function __construct($userList)
+    public function __construct(UserList $userList)
     {
         $this->userList = $userList;
     }
@@ -17,7 +19,7 @@ class GetUserListResponse
             'id' => $this->userList->id,
             'name' => $this->userList->name,
             'user_id' => $this->userList->user_id,
-            'img_url' => $this->userList->imgUrl,
+            'img_url' => $this->userList->img_url,
         ];
     }
 }
