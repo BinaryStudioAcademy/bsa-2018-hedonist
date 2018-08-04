@@ -2,10 +2,10 @@
 
 namespace Hedonist\Http\Controllers;
 
-use Hedonist\Actions\Review\DeleteReviewRequest;
 use Illuminate\Http\Request;
 use Hedonist\Actions\Review\GetReviewAction;
 use Hedonist\Actions\Review\GetReviewRequest;
+use Hedonist\Actions\Review\DeleteReviewRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Actions\Review\GetReviewCollectionAction;
 
@@ -70,4 +70,3 @@ class ReviewController extends ApiController
         }
     }
 }
-

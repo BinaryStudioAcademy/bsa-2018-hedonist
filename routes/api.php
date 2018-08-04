@@ -19,6 +19,15 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::prefix('review')->group(function () {
+
         Route::get('/', 'ReviewController@getReviewCollection');
+
+        Route::post('/', 'ReviewController@createReview');
+
+        Route::get('{id}', 'ReviewController@getReview');
+
+        Route::post('{id}', 'ReviewController@editReview');
+
+        Route::delete('/', 'ReviewController@deleteReview');
     });
 });
