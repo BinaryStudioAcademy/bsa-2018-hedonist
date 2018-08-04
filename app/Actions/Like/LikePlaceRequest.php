@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\Like;
 
-use Hedonist\Actions\RequestInterface;
-
-class LikePlaceRequest implements RequestInterface
+class LikePlaceRequest
 {
     private $placeId;
 

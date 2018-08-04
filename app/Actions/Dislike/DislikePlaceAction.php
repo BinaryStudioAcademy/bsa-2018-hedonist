@@ -5,7 +5,7 @@ namespace Hedonist\Actions\Like;
 use Hedonist\Actions\{ActionInterface, RequestInterface, ResponseInterface};
 use Hedonist\Repositories\Like\LikeRepository;
 
-class DislikePlaceAction implements ActionInterface
+class DislikePlaceAction
 {
     private $likeRepository;
 

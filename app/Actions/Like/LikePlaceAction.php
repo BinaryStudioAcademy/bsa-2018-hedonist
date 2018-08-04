@@ -2,10 +2,9 @@
 
 namespace Hedonist\Actions\Like;
 
-use Hedonist\Actions\{ActionInterface, RequestInterface, ResponseInterface};
 use Hedonist\Repositories\Like\LikeRepository;
 
-class LikePlaceAction implements ActionInterface
+class LikePlaceAction
 {
     private $likeRepository;
 
@@ -14,7 +13,7 @@ class LikePlaceAction implements ActionInterface
         $this->likeRepository = $likeRepository;
     }
 
-    public function execute(RequestInterface $request): ResponseInterface
+    public function execute(LikePlaceRequest $request): LikePlaceResponse
     {
         // TODO: Implement execute() method.
     }
