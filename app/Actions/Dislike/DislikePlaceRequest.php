@@ -2,8 +2,6 @@
 
 namespace Hedonist\Actions\Like;
 
-use Hedonist\Actions\RequestInterface;
-
 class DislikePlaceRequest
 {
     private $placeId;
