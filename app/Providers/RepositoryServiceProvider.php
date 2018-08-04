@@ -9,7 +9,7 @@ use Hedonist\Repositories\Place\{
     PlaceFeatureRepositoryInterface,
     PlaceFeatureRepository
 };
-use Hedonist\Repositories\{
+use Hedonist\Repositories\Like\{
     LikeRepositoryInterface,
     LikeRepository
 };

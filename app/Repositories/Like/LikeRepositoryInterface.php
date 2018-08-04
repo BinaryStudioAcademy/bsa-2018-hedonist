@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Repositories;
+namespace Hedonist\Repositories\Like;
 
 use Hedonist\Entities\Like;
 use Prettus\Repository\Criteria\RequestCriteria;
