@@ -3,6 +3,7 @@
 namespace Hedonist\Repositories\Dislike;
 
 use Hedonist\Entities\Dislike\Dislike;
+use Hedonist\Entities\Place\Place;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Contracts\CriteriaInterface;
@@ -41,7 +42,7 @@ class DislikeRepository extends BaseRepository implements DislikeRepositoryInter
     {
         return Dislike::where([
             ['dislikeable_id', $placeId],
-            ['dislikeable_type', 'places'],
+            ['dislikeable_type', Place::class],
             ['user_id', $userId]
         ])->first();
     }
