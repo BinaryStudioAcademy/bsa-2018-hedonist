@@ -20,7 +20,9 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/login','AuthController@login');
 
-        Route::post('/reset','AuthController@reset');
+        Route::post('/reset','AuthController@resetPassword');
+
+        Route::post('/recover','AuthCOntroller@recoverPassword');
 
         Route::group(['middleware'=>'jwt.auth'],function(){
 

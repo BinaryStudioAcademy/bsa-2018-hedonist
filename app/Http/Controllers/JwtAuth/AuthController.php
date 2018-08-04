@@ -35,7 +35,6 @@ class AuthController extends Controller
             $response = $action->execute($loginRequest);
 
             return response()->json(AuthPresenter::presentAuthenticateResponse($response), 200);
-
         } catch (AuthenticationException $exception) {
             return response()->json(AuthPresenter::presentError($exception), 400);
         } catch (JWTException $exception) {
@@ -95,6 +94,7 @@ class AuthController extends Controller
         try {
             $recoverRequest = new RecoverPasswordRequest($httpRequest->email);
             $action->execute($recoverRequest);
+
             return response()->json([],200);
         } catch (PasswordResetEmailSentException $exception){
             return response()->json(AuthPresenter::presentError($exception), 400);

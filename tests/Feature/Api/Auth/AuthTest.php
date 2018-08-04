@@ -4,7 +4,9 @@ namespace Tests\Feature\Api\Auth;
 
 
 use Hedonist\Entities\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
@@ -13,6 +15,8 @@ class AuthTest extends TestCase
 
     public function test_successful_register()
     {
+        Event::fake();
+
         $user = factory(User::class)->make();
         $response = $this->json('POST', '/api/v1/auth/signup',[
             'email' => $user->email,
@@ -21,7 +25,7 @@ class AuthTest extends TestCase
         ]);
         $response->assertStatus(200);
         $this->assertDatabaseHas('users',['email'=> $user->email]);
-
+        Event::assertDispatched(Registered::class,1);
     }
 
     public function test_email_in_use()
@@ -57,7 +61,7 @@ class AuthTest extends TestCase
             'email' => $user->email,
             'password' => 'secret'
         ]);
-        $response->assertStatus(401);
+        $response->assertStatus(400);
     }
 
     public function test_wrong_password_login()
@@ -67,7 +71,7 @@ class AuthTest extends TestCase
             'email' => $user->email,
             'password' => 'aaaaaaaaa'
         ]);
-        $response->assertStatus(401);
+        $response->assertStatus(400);
     }
 
     public function test_refresh_token_unauthenticated()

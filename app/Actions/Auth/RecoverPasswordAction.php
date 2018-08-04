@@ -11,7 +11,7 @@ class RecoverPasswordAction
 {
     public function execute(RecoverPasswordRequest $request)
     {
-        $success = Password::broker()->sendResetLink($request->getEmail());
+        $success = Password::broker()->sendResetLink(['email' => $request->getEmail()]);
 
         if ($success !== Password::RESET_LINK_SENT) {
             throw new PasswordResetEmailSentException();

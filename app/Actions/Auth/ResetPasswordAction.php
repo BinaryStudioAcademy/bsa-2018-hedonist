@@ -13,15 +13,22 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ResetPasswordAction
 {
+    private $token;
+    private $repository;
+
+    public function __construct(UserRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function execute(ResetPasswordRequest $request): ResetPasswordResponse
     {
-        $token = '';
-        $success = Password::broker()->reset($this->credentials($request), function ($user, $password) use ($token) {
-            $token = $this->resetPassword($user, $password);
+        $success = Password::broker()->reset($this->credentials($request), function ($user, $password) {
+            $this->resetPassword($user, $password);
         });
 
         if ($success === Password::PASSWORD_RESET) {
-            return new ResetPasswordResponse($token);
+            return new ResetPasswordResponse($this->token);
         } else {
             throw new PasswordResetFailedException();
         }
@@ -37,12 +44,10 @@ class ResetPasswordAction
         ];
     }
 
-    private function resetPassword(User $user, string $password): string
+    private function resetPassword(User $user, string $password): void
     {
         $user->password = Hash::make($password);
         $user = $this->repository->save($user);
-        $token = JWTAuth::login($user);
-
-        return $token;
+        $this->token = JWTAuth::login($user);
     }
 }
