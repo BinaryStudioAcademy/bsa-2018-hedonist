@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Repositories\PlaceList;
+namespace Hedonist\Repositories\UserList;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
