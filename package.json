@@ -5,18 +5,17 @@
     "author": "Pavlo Nemchenko <pavlo.nemchenko@binary-studio.com>",
     "scripts": {
         "dev": "webpack-dev-server --inline --progress --config frontend/build/webpack.dev.conf.js",
-        "prod": "webpack --inline --progress --config frontend/build/webpack.prod.conf.js",
         "start": "yarn run dev",
-        "build": "node frontend/build/build.js"
+        "prod": "node frontend/build/build.js"
     },
     "dependencies": {
-      "vue": "^2.5.2",
-      "vue-router": "^3.0.1",
-      "vuex": "3.0.1",
-      "lodash": "^4.17.4"
+        "css-loader": "^1.0.0",
+        "lodash": "^4.17.4",
+        "vue": "^2.5.2",
+        "vue-router": "^3.0.1",
+        "vuex": "3.0.1"
     },
     "devDependencies": {
-        "cross-env": "^5.1",
         "autoprefixer": "^7.1.2",
         "babel-core": "^6.22.1",
         "babel-helper-vue-jsx-merge-props": "^2.0.3",
@@ -28,7 +27,7 @@
         "babel-preset-stage-2": "^6.22.0",
         "chalk": "^2.0.1",
         "copy-webpack-plugin": "^4.0.1",
-        "css-loader": "^0.28.0",
+        "cross-env": "^5.1",
         "extract-text-webpack-plugin": "^3.0.0",
         "file-loader": "^1.1.4",
         "friendly-errors-webpack-plugin": "^1.6.1",
@@ -54,12 +53,12 @@
         "webpack-merge": "^4.1.0"
     },
     "engines": {
-      "node": ">= 6.0.0",
-      "npm": ">= 3.0.0"
+        "node": ">= 6.0.0",
+        "npm": ">= 3.0.0"
     },
     "browserslist": [
-      "> 1%",
-      "last 2 versions",
-      "not ie <= 8"
+        "> 1%",
+        "last 2 versions",
+        "not ie <= 8"
     ]
 }
