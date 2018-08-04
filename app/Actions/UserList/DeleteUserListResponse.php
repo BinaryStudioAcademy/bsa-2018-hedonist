@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Actions\ResponseInterface;
-
-class DeleteUserListResponse implements ResponseInterface
+class DeleteUserListResponse
 {
     private $result;
 

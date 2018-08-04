@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api;
+namespace Hedonist\Http\Controllers\Api\UserList;
 
 use Hedonist\Actions\UserList\DeleteUserListAction;
 use Hedonist\Actions\UserList\DeleteUserListRequest;

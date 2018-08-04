@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Actions\ResponseInterface;
-
-class GetCollectionUserListResponse implements ResponseInterface
+class GetCollectionUserListResponse
 {
     private $collectionUserList;
 

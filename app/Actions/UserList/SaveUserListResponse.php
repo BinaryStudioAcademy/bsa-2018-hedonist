@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Actions\ResponseInterface;
-
-class SaveUserListResponse implements ResponseInterface
+class SaveUserListResponse
 {
     private $userList;
 

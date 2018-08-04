@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Actions\RequestInterface;
-
-class DeleteUserListRequest implements RequestInterface
+class DeleteUserListRequest
 {
     private $id;
 

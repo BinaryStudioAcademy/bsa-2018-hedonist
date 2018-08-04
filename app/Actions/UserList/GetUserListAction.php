@@ -3,13 +3,10 @@
 namespace Hedonist\Actions\UserList;
 
 use App\Exceptions\UserListExceptions\UserListExistsException;
-use Hedonist\Actions\ActionInterface;
-use Hedonist\Actions\RequestInterface;
-use Hedonist\Actions\ResponseInterface;
 
-class GetUserListAction implements ActionInterface
+class GetUserListAction
 {
-    public function execute(RequestInterface $userListRequest): ResponseInterface
+    public function execute(GetUserListRequest $userListRequest): GetUserListResponse
     {
         $id = $userListRequest->getId();
         $userList = UserList::find($id);

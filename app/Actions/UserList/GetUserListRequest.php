@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Actions\RequestInterface;
-
-class GetUserListRequest implements RequestInterface
+class GetUserListRequest
 {
     private $id;
 

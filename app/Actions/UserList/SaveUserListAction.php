@@ -2,13 +2,9 @@
 
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Actions\ActionInterface;
-use Hedonist\Actions\RequestInterface;
-use Hedonist\Actions\ResponseInterface;
-
-class SaveUserListAction implements ActionInterface
+class SaveUserListAction
 {
-    public function execute(RequestInterface $userListRequest): ResponseInterface
+    public function execute(SaveUserListRequest $userListRequest): SaveUserListResponse
     {
         $id = $userListRequest->getId();
         if (!$id) {

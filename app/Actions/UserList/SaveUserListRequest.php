@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Actions\RequestInterface;
-
-class SaveUserListRequest implements RequestInterface
+class SaveUserListRequest
 {
     private $id;
     private $imgUrl;

@@ -18,5 +18,5 @@ Route::prefix('v1')->group(function () {
         return $request->user();
     });
     // routes here
-    Route::resource('user-list', 'UserListController');
+    Route::resource('user-list', 'UserList/UserListController');
 });
