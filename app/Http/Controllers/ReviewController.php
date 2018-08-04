@@ -2,6 +2,7 @@
 
 namespace Hedonist\Http\Controllers;
 
+use Hedonist\Actions\Review\DeleteReviewRequest;
 use Illuminate\Http\Request;
 use Hedonist\Actions\Review\GetReviewAction;
 use Hedonist\Actions\Review\GetReviewRequest;
@@ -11,14 +12,17 @@ use Hedonist\Actions\Review\GetReviewCollectionAction;
 class ReviewController extends ApiController
 {
     private $getReviewAction;
+    private $deleteReviewAction;
     private $getReviewCollectionAction;
 
     public function __construct(
         GetReviewAction $getReviewAction,
+        DeleteReviewRequest $deleteReviewAction,
         GetReviewCollectionAction $getReviewCollectionAction
     )
     {
         $this->getReviewAction = $getReviewAction;
+        $this->deleteReviewAction = $deleteReviewAction;
         $this->getReviewCollectionAction = $getReviewCollectionAction;
     }
 
@@ -54,9 +58,16 @@ class ReviewController extends ApiController
         //
     }
 
-    public function destroy($id)
+    public function deleteReview($id)
     {
-        //
+        try {
+            $this->deleteReviewAction->execute(
+                new DeleteReviewRequest($id)
+            );
+            $this->successResponse([]);
+        } catch (\Exception $e) {
+            $this->errorResponse($e->getMessage(), 400);
+        }
     }
 }
 
