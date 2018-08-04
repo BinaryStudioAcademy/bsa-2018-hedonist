@@ -4,14 +4,13 @@ namespace Hedonist\Actions\Place\SpecialFeature;
 
 class CollectionSpecialFeatureResponse
 {
-    /** @var ReadSpecialFeatureResponse[] */
     protected $collection;
 
     /**
      * CollectionSpecialFeatureResponse constructor.
-     * @param ReadSpecialFeatureResponse[] $collection
+     * @param $collection
      */
-    public function __construct(array $collection)
+    public function __construct($collection)
     {
         $this->collection = $collection;
     }

@@ -10,16 +10,31 @@ class DeleteSpecialFeatureAction
     /** @var PlaceFeatureRepositoryInterface $repository */
     protected $repository;
 
+    /**
+     * DeleteSpecialFeatureAction constructor.
+     * @param PlaceFeatureRepositoryInterface $repository
+     */
+    public function __construct(PlaceFeatureRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function execute(DeleteSpecialFeatureRequest $request): DeleteSpecialFeatureResponse
     {
         /** @var DeleteSpecialFeatureRequest $request */
         $id = $request->getPlaceSpecialFeatureId();
 
-        $this->repository->deleteById($id);
+        $item = $this->repository->getById($id);
+        if ($item) {
+            $this->repository->deleteById($id);
+        } else {
+            throw new \Exception("Item #$id not found");
+        }
 
         /** @var DeleteSpecialFeatureResponse $response */
         $response = new DeleteSpecialFeatureResponse(
-            $id
+            $id,
+            'deleted'
         );
 
         return $response;

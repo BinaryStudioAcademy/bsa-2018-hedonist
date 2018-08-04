@@ -10,6 +10,16 @@ class ReadSpecialFeatureAction
     /** @var PlaceFeatureRepositoryInterface $repository */
     protected $repository;
 
+    /**
+     * ReadSpecialFeatureAction constructor.
+     * @param PlaceFeatureRepositoryInterface $repository
+     */
+    public function __construct(PlaceFeatureRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+
     public function execute(ReadSpecialFeatureRequest $request): ReadSpecialFeatureResponse
     {
         /** @var ReadSpecialFeatureRequest $request */

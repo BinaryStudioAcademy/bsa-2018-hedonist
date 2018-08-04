@@ -10,24 +10,38 @@ class CollectionSpecialFeatureAction
     /** @var PlaceFeatureRepositoryInterface $repository */
     protected $repository;
 
+    /**
+     * CollectionSpecialFeatureAction constructor.
+     * @param PlaceFeatureRepositoryInterface $repository
+     */
+    public function __construct(PlaceFeatureRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function execute(CollectionSpecialFeatureRequest $request): CollectionSpecialFeatureResponse
     {
-        /** @var ReadSpecialFeatureRequest $request */
-        $id = $request->getPlaceSpecialFeatureId();
-
         /** @var PlaceFeature $placeFeature */
         $placeFeatures = $this->repository->findAll();
 
+//        print_r($placeFeatures->toArray());
+//        die;
+
         /** @var CollectionSpecialFeatureResponse $response */
-        $response = [];
+        $responseArray = [];
 
         foreach ($placeFeatures as $placeFeature){
             /** @var ReadSpecialFeatureResponse $response */
-            $response[] = new ReadSpecialFeatureResponse(
+            $responseArray[] = new ReadSpecialFeatureResponse(
                 $placeFeature->id,
                 $placeFeature->name
             );
         }
+
+//        print_r($responseArray);
+//        die;
+
+        $response = new CollectionSpecialFeatureResponse($responseArray);
 
         return $response;
     }
