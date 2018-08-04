@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Auth;
 
-
 use Hedonist\Actions\Auth\Responses\RegisterResponse;
 use Hedonist\Entities\User;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
@@ -34,7 +33,7 @@ class RegisterUserAction
         return new RegisterResponse(false);
     }
 
-    private function validateCanCreateUser(RegisterRequest $request):void
+    private function validateCanCreateUser(RegisterRequest $request): void
     {
         if ($this->repository->getByEmail($request->getEmail()) !== null) {
             throw new EmailAlreadyExistsException();

@@ -7,6 +7,7 @@ use Hedonist\Actions\Auth\Responses\ResetPasswordResponse;
 use Hedonist\Entities\User;
 use Hedonist\Exceptions\Auth\PasswordResetFailedException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
@@ -47,6 +48,6 @@ class ResetPasswordAction
     {
         $user->password = Hash::make($password);
         $user = $this->repository->save($user);
-        $this->token = auth()->login($user);
+        $this->token = Auth::login($user);
     }
 }

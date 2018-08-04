@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Auth\Requests;
 
-
 class RecoverPasswordRequest
 {
     private $email;

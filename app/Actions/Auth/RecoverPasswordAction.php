@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Auth;
 
-
 use Hedonist\Actions\Auth\Requests\RecoverPasswordRequest;
 use Hedonist\Exceptions\Auth\PasswordResetEmailSentException;
 use Illuminate\Support\Facades\Password;

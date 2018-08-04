@@ -2,20 +2,17 @@
 
 namespace Hedonist\Requests\Auth;
 
-
-use Hedonist\Actions\RequestInterface;
-
 class RegisterRequest
 {
     private $email;
     private $password;
     private $name;
 
-    public function __construct(string $email, string $password,string $name)
+    public function __construct(string $email, string $password, string $name)
     {
-       $this->email = $email;
-       $this->password = $password;
-       $this->name = $name;
+        $this->email = $email;
+        $this->password = $password;
+        $this->name = $name;
     }
 
     public function getEmail(): string

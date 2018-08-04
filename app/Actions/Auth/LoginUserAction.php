@@ -6,6 +6,7 @@ use Hedonist\Actions\Auth\Requests\LoginRequest;
 use Hedonist\Actions\Auth\Responses\LoginResponse;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Support\Facades\Auth;
 
 class LoginUserAction
 {
@@ -23,7 +24,7 @@ class LoginUserAction
             'password' => $request->getPassword(),
         ];
 
-        $token = auth()->attempt($credentials);//returns false if attempt falis
+        $token = Auth::attempt($credentials);
         if (!$token) {
             throw new AuthenticationException();
         }

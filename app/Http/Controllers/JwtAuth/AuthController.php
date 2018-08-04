@@ -57,7 +57,7 @@ class AuthController extends Controller
         }
     }
 
-    public function me(Request $request)
+    public function me()
     {
         return response()->json(AuthPresenter::presentUser(Auth::user()), 200);
     }
@@ -67,6 +67,17 @@ class AuthController extends Controller
         return response()->json(AuthPresenter::presentAuthenticateResponse(
             new RefreshResponse(Auth::refresh())
         ));
+    }
+
+    public function logout()
+    {
+        try {
+            Auth::logout();
+
+            return response()->json([], 200);
+        } catch (\Exception $exception) {
+            return response()->json(AuthPresenter::presentError($exception), 400);
+        }
     }
 
     public function resetPassword(ResetPasswordHttpRequest $httpRequest, ResetPasswordAction $action)

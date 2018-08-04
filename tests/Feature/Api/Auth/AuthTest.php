@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Api\Auth;
 
-
 use Hedonist\Entities\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
