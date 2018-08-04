@@ -16,7 +16,7 @@ class ReviewController extends ApiController
         $this->getReviewCollectionAction = $getReviewCollectionAction;
     }
 
-    public function index()
+    public function getReviewCollection()
     {
         try {
             $getReviewCollectionResponse = $this->getReviewCollectionAction->execute();
@@ -26,17 +26,12 @@ class ReviewController extends ApiController
         }
     }
 
-    public function create()
+    public function getReview()
     {
         //
     }
 
     public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id)
     {
         //
     }
