@@ -161,6 +161,7 @@ return [
         Hedonist\Providers\RouteServiceProvider::class,
         Hedonist\Providers\LogglyServiceProvider::class,
         Hedonist\Providers\RepositoryServiceProvider::class,
+
     ],
 
     /*
