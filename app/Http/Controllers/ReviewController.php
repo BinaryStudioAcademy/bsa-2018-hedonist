@@ -3,6 +3,7 @@
 namespace Hedonist\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Actions\Review\GetReviewCollectionAction;
 
 class ReviewController extends ApiController
@@ -32,11 +33,6 @@ class ReviewController extends ApiController
     }
 
     public function store(Request $request)
-    {
-        //
-    }
-
-    public function edit($id)
     {
         //
     }
