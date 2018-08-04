@@ -2,12 +2,8 @@
 
 namespace Hedonist\Repositories\User;
 
-
-use Carbon\Carbon;
 use Hedonist\Entities\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
 
@@ -41,10 +37,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function getByEmail(string $email): ?User
     {
-       return User::where(["email"=>$email])->first();
+        return User::where(["email" => $email])->first();
     }
 
-    public function delete($id): void
+    public function deleteById(int $id): void
     {
         User::destroy($id);
     }
@@ -53,6 +49,4 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return User::class;
     }
-
-
 }

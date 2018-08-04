@@ -20,6 +20,5 @@ interface UserRepositoryInterface extends RepositoryInterface
 
     public function findByCriteria(CriteriaInterface $criteria):Collection;
 
-    //fatal error if delete(int $id)
-    public function delete($id): void;
+    public function deleteById(int $id): void;
 }
