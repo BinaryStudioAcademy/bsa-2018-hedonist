@@ -34,7 +34,7 @@ class DislikeRepository extends BaseRepository implements DislikeRepositoryInter
 
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {
-            return $this->getByCriteria($criteria);
+        return $this->getByCriteria($criteria);
     }
 
     public function deleteById(int $id): void
