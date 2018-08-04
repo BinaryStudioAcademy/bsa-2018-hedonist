@@ -22,16 +22,6 @@ class LikeRepository extends BaseRepository implements LikeRepositoryInterface
         return $like;
     }
 
-    public function getById(int $id): ?Like
-    {
-        return Like::find($id);
-    }
-
-    public function findAll(): Collection
-    {
-        return Like::all();
-    }
-
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);

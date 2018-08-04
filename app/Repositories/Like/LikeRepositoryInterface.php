@@ -11,10 +11,6 @@ interface LikeRepositoryInterface
 {
     public function save(Like $like): Like;
 
-    public function getById(int $id) : ?Like;
-
-    public function findAll(): Collection;
-
     public function findByCriteria(CriteriaInterface $criteria): Collection;
 
     public function findByUserAndPlace(int $userId, int $placeId): ?Like;
