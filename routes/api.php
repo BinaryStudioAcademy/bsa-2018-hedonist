@@ -18,7 +18,7 @@ Route::prefix('v1')->group(function () {
         return $request->user();
     });
     // routes here
-    Route::apiResource('/places/special-features', 'Places\SpecialFeaturesController',[
+    Route::apiResource('/places/special-features', 'Api\Places\SpecialFeaturesController',[
         'except' => ['edit', 'create', 'update']
     ]);
 });

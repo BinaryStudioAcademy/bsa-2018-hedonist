@@ -13,7 +13,7 @@ class CreateSpecialFeatureHttpRequest extends JsonRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**

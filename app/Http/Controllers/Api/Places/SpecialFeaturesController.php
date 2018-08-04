@@ -2,9 +2,9 @@
 
 namespace Hedonist\Http\Controllers\Api\Places;
 
-use Hedonist\Http\Controllers\ApiController;
-use Illuminate\Http\Request;
-use Hedonist\Http\Controllers\Controller;
+use Hedonist\Http\Controllers\Api\ApiController;
+use Hedonist\Http\Requests\Place\SpecialFeature\CreateSpecialFeatureHttpRequest;
+
 use Hedonist\Actions\Place\SpecialFeature\{
     CreateSpecialFeatureAction,
     DeleteSpecialFeatureAction,
@@ -73,8 +73,17 @@ class SpecialFeaturesController extends ApiController
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
+        $responseArray = [];
+        foreach($response->getCollection() as $item){
+            $id = $item->getId();
+            $responseArray[$id] = [
+                'id' => $id,
+                'name' => $item->getName()
+            ];
+        }
+
         // base api controller
-        return $this->successResponse($response->getCollection(), 201);
+        return $this->successResponse($responseArray, 201);
     }
 
 
@@ -84,7 +93,7 @@ class SpecialFeaturesController extends ApiController
      * @param  \Illuminate\Http\Request  $httpRequest
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $httpRequest)
+    public function store(CreateSpecialFeatureHttpRequest $httpRequest)
     {
         try {
             /** @var CreateSpecialFeatureResponse $response */
@@ -156,6 +165,7 @@ class SpecialFeaturesController extends ApiController
         // base api controller
         return $this->successResponse([
             'id' => $response->getId(),
+            'response' => $response->getResult()
         ], 201);
     }
 
