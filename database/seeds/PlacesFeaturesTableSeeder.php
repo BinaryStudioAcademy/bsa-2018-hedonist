@@ -12,19 +12,7 @@ class PlacesFeaturesTableSeeder extends Seeder
      */
     public function run()
     {
-        PlaceFeature::query()->insert([
-            'wi-fi',
-            'music',
-            'credit cards',
-            'hookah',
-            'outdoor seating',
-            'wheelchair accessible',
-            'reservations',
-            'parking',
-            'restroom',
-            'take-out',
-            'delivery',
-            'live music'
-        ]);
+        DB::table('places_features')->delete();
+        factory(\Hedonist\Entities\Place\PlaceFeature::class, 12)->create();
     }
 }
