@@ -1,7 +1,8 @@
 <?php
 
-namespace Hedonist\Http\Controllers;
+namespace Hedonist\Http\Controllers\Api;
 
+use Hedonist\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 
 abstract class ApiController extends Controller
