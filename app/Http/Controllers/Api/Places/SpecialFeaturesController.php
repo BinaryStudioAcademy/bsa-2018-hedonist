@@ -27,13 +27,13 @@ use Hedonist\Actions\Place\SpecialFeature\{
 class SpecialFeaturesController extends ApiController
 {
     /** @var CreateSpecialFeatureAction **/
-    protected $createSpecialFeatureAction;
+    private $createSpecialFeatureAction;
     /** @var DeleteSpecialFeatureAction **/
-    protected $deleteSpecialFeatureAction;
+    private $deleteSpecialFeatureAction;
     /** @var ReadSpecialFeatureAction **/
-    protected $readSpecialFeatureAction;
+    private $readSpecialFeatureAction;
     /** @var CollectionSpecialFeatureAction **/
-    protected $collectionSpecialFeatureAction;
+    private $collectionSpecialFeatureAction;
 
     /**
      * SpecialFeaturesController constructor.
@@ -88,7 +88,7 @@ class SpecialFeaturesController extends ApiController
     {
         try {
             /** @var CreateSpecialFeatureResponse $response */
-            $response = $this->readSpecialFeatureAction->execute(
+            $response = $this->createSpecialFeatureAction->execute(
                 new CreateSpecialFeatureRequest(
                     $httpRequest->name
                 )
@@ -143,7 +143,7 @@ class SpecialFeaturesController extends ApiController
     {
         try {
             /** @var DeleteSpecialFeatureResponse $response */
-            $response = $this->readSpecialFeatureAction->execute(
+            $response = $this->deleteSpecialFeatureAction->execute(
                 new DeleteSpecialFeatureRequest(
                     $id
                 )
