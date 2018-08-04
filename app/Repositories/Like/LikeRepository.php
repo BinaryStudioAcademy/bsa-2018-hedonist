@@ -3,6 +3,7 @@
 namespace Hedonist\Repositories\Like;
 
 use Hedonist\Entities\Like\Like;
+use Hedonist\Entities\Place\Place;
 use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -40,7 +41,7 @@ class LikeRepository extends BaseRepository implements LikeRepositoryInterface
     {
         return Like::where([
             ['likeable_id', $placeId],
-            ['likeable_type', 'places'],
+            ['likeable_type', Place::class],
             ['user_id', $userId]
         ])->first();
     }
