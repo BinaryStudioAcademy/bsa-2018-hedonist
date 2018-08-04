@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\JwtAuth;
+namespace Hedonist\Http\Controllers\Api\JwtAuth;
 
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\Auth\RecoverPasswordAction;

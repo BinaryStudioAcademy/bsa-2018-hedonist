@@ -14,11 +14,13 @@ use Illuminate\Http\Request;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::group(['prefix'=>'/auth','namespace'=>'JwtAuth'],function(){
+    Route::group(['prefix'=>'/auth','namespace'=>'Api\JwtAuth'],function(){
 
         Route::post('/signup','AuthController@register');
 
         Route::post('/login','AuthController@login');
+
+        Route::post('/logout','AuthController@logout');
 
         Route::post('/reset','AuthController@resetPassword');
 
