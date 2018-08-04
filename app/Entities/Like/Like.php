@@ -1,11 +1,11 @@
 <?php
 
-namespace Hedonist\Entities;
+namespace Hedonist\Entities\Like;
 
 use Hedonist\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Likes extends Model
+class Like extends Model
 {
     protected $table = "likes";
 
