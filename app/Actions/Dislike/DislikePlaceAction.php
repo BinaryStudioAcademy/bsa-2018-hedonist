@@ -1,19 +1,19 @@
 <?php
 
-namespace Hedonist\Actions\Like;
+namespace Hedonist\Actions\Dislike;
 
-use Hedonist\Repositories\Like\LikeRepository;
+use Hedonist\Repositories\Dislike\DislikeRepository;
 
 class DislikePlaceAction
 {
-    private $likeRepository;
+    private $dislikeRepository;
 
-    public function __construct(LikeRepository $likeRepository)
+    public function __construct(DislikeRepository $dislikeRepository)
     {
-        $this->likeRepository = $likeRepository;
+        $this->dislikeRepository = $dislikeRepository;
     }
 
-    public function execute(RequestInterface $request): ResponseInterface
+    public function execute(DislikePlaceRequest $request): DislikePlaceResponse
     {
         // TODO: Implement execute() method.
     }

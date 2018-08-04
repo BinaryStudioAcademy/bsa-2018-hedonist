@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Like;
+namespace Hedonist\Actions\Dislike;
 
 class DislikePlaceResponse
 {
