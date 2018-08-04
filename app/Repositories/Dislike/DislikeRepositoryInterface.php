@@ -11,10 +11,6 @@ interface DislikeRepositoryInterface
 {
     public function save(Dislike $dislike): Dislike;
 
-    public function getById(int $id) : ?Dislike;
-
-    public function findAll(): Collection;
-
     public function findByCriteria(CriteriaInterface $criteria): Collection;
 
     public function findByUserAndPlace(int $userId, int $placeId): ?Dislike;

@@ -23,16 +23,6 @@ class DislikeRepository extends BaseRepository implements DislikeRepositoryInter
         return $dislike;
     }
 
-    public function getById(int $id): ?Dislike
-    {
-        return Dislike::find($id);
-    }
-
-    public function findAll(): Collection
-    {
-        return Dislike::all();
-    }
-
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
