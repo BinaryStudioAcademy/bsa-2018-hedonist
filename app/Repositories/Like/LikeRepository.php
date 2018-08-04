@@ -2,7 +2,7 @@
 
 namespace Hedonist\Repositories\Like;
 
-use Hedonist\Entities\Like;
+use Hedonist\Entities\Like\Like;
 use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
