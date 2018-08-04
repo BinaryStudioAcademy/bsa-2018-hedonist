@@ -14,7 +14,15 @@ use Hedonist\Entities\Place\PlaceFeature;
 |
 */
 $factory->define(PlaceFeature::class, function (Faker $faker) {
+ 
+    $array = ['cafe',
+            'restaurant',
+            'lunch',
+            'bar',
+            'coffee',
+            'pizzeria'];
+
     return [
-        'name' => $faker->unique()->word
+        'name' => $faker->unique()->randomElement($array)
     ];
 });
