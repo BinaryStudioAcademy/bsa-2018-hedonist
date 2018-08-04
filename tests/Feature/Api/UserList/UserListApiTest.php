@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\Api\UserList;
+namespace Tests\Feature;
 
 use Hedonist\Entities\UserList\UserList;
 use Hedonist\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Api\ApiTestCase;
 
-class UserListApi extends ApiTestCase
+class UserListApiTest extends ApiTestCase
 {
     use RefreshDatabase;
 
@@ -21,7 +21,7 @@ class UserListApi extends ApiTestCase
         ];
         $response = $this->json('POST','/api/v1/user-list', $data);
 
-        $response->assertStatus(201);
+        $response->assertStatus(204);
         $response->assertHeader('Content-Type', 'application/json');
 
         $this->assertDatabaseHas('user_lists', $data);
