@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature;
 
-use Hedonist\Actions\ResponseInterface;
-
-class CreateSpecialFeatureResponse implements ResponseInterface
+class CreateSpecialFeatureResponse
 {
     protected $id;
     protected $name;

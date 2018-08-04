@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature;
 
-use Hedonist\Actions\RequestInterface;
-
-class CreateSpecialFeatureRequest implements RequestInterface
+class CreateSpecialFeatureRequest
 {
     protected $placesSpecialFeatureName;
 

@@ -2,18 +2,15 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature;
 
-use Hedonist\Actions\ActionInterface;
-use Hedonist\Actions\RequestInterface;
-use Hedonist\Actions\ResponseInterface;
 use Hedonist\Repositories\Place\PlaceFeatureRepositoryInterface;
 use Hedonist\Entities\Place\PlaceFeature;
 
-class CollectionSpecialFeatureAction implements ActionInterface
+class CollectionSpecialFeatureAction
 {
     /** @var PlaceFeatureRepositoryInterface $repository */
     protected $repository;
 
-    public function execute(RequestInterface $request): ResponseInterface
+    public function execute(CollectionSpecialFeatureRequest $request): CollectionSpecialFeatureResponse
     {
         /** @var ReadSpecialFeatureRequest $request */
         $id = $request->getPlaceSpecialFeatureId();

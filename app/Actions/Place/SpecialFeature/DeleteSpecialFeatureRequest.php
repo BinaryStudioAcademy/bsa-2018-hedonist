@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature;
 
-use Hedonist\Actions\RequestInterface;
-
-class DeleteSpecialFeatureRequest implements RequestInterface
+class DeleteSpecialFeatureRequest
 {
     protected $placeSpecialFeatureId;
 

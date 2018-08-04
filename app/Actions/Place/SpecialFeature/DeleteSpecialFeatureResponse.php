@@ -2,9 +2,7 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature;
 
-use Hedonist\Actions\ResponseInterface;
-
-class DeleteSpecialFeatureResponse implements ResponseInterface
+class DeleteSpecialFeatureResponse
 {
     protected $id;
 
