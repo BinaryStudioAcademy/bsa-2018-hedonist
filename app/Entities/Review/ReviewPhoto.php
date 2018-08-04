@@ -7,7 +7,6 @@ use Hedonist\Entities\Review\Review;
 
 class ReviewPhoto extends Model
 {
-     
     public $timestamps = false;
     
     protected $table = 'review_photos';
