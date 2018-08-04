@@ -3,17 +3,16 @@
 namespace Hedonist\Actions\Auth;
 
 
-use Hedonist\Actions\ActionInterface;
 use Hedonist\Actions\Auth\Responses\RegisterResponse;
-use Hedonist\Actions\RequestInterface;
-use Hedonist\Actions\ResponseInterface;
 use Hedonist\Entities\User;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
+use Hedonist\Requests\Auth\RegisterRequest;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 
-class RegisterUserAction implements ActionInterface
+class RegisterUserAction
 {
     private $repository;
 
@@ -22,17 +21,23 @@ class RegisterUserAction implements ActionInterface
         $this->repository = $repository;
     }
 
-    public function execute(RequestInterface $request):ResponseInterface
+    public function execute(RegisterRequest $request): RegisterResponse
     {
+        $this->validateCanCreateUser($request);
         $user = new User();
-        if($this->repository->getByEmail($request->getEmail()) !== null){
-            throw new EmailAlreadyExistsException();
-        }
         $user->email = $request->getEmail();
         $user->password = Hash::make($request->getPassword());
         $user->name = $request->getName();
         $this->repository->save($user);
-        event(new Registered($user));
+        Event::dispatch(new Registered($user));
+
         return new RegisterResponse(false);
+    }
+
+    private function validateCanCreateUser(RegisterRequest $request):void
+    {
+        if ($this->repository->getByEmail($request->getEmail()) !== null) {
+            throw new EmailAlreadyExistsException();
+        }
     }
 }

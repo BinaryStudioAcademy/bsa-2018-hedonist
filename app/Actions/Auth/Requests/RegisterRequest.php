@@ -5,7 +5,7 @@ namespace Hedonist\Requests\Auth;
 
 use Hedonist\Actions\RequestInterface;
 
-class RegisterRequest implements RequestInterface
+class RegisterRequest
 {
     private $email;
     private $password;

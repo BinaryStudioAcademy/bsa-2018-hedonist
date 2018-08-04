@@ -2,13 +2,15 @@
 
 namespace Hedonist\Events\Auth;
 
+use Hedonist\Entities\User;
+
 class PasswordResetedEvent
 {
-    private $email;
+    private $user;
     private $token;
-    public function __construct(string $email,string $token)
+    public function __construct(User $user,string $token)
     {
-        $this->email = $email;
+        $this->user = $user;
         $this->token = $token;
     }
 }

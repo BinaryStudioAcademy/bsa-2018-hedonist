@@ -2,13 +2,17 @@
 
 namespace Hedonist\Entities;
 
+use Hedonist\Events\Auth\PasswordResetedEvent;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Event;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, CanResetPasswordContract
 {
-    use Notifiable;
+    use Notifiable,CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -36,5 +40,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        Event::dispatch(new PasswordResetedEvent($this,$token));
     }
 }

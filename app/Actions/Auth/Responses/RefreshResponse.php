@@ -2,10 +2,7 @@
 
 namespace Hedonist\Actions\Auth\Responses;
 
-
-use Hedonist\Actions\ResponseInterface;
-
-class RefreshResponse implements ResponseInterface
+class RefreshResponse implements AuthenticateResponseInterface
 {
     private $token;
 

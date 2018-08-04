@@ -9,9 +9,6 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
-
-    const RESET_LINK_EXPIRE_HOURS = 24;
-
     public function getById(int $id): User
     {
         return User::find($id);

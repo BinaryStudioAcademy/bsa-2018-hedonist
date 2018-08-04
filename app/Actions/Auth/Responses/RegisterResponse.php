@@ -2,10 +2,7 @@
 
 namespace Hedonist\Actions\Auth\Responses;
 
-
-use Hedonist\Actions\ResponseInterface;
-
-class RegisterResponse implements ResponseInterface
+class RegisterResponse
 {
     private $success;
 
