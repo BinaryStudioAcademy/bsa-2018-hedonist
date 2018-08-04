@@ -3,6 +3,7 @@
 namespace Hedonist\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use Hedonist\Actions\Review\GetReviewCollectionAction;
 
 class ReviewController extends ApiController
