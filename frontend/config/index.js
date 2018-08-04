@@ -8,13 +8,13 @@ module.exports = {
   dev: {
 
     // Paths
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: '../public/dist',
     assetsPublicPath: '/',
     proxyTable: {},
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 3000, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -38,11 +38,11 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../../resources/views/welcome.blade.php'),
+    index: "",
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../../public/'),
-    assetsSubDirectory: 'static',
+    assetsSubDirectory: 'dist',
     assetsPublicPath: '/',
 
     /**
