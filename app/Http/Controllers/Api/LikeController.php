@@ -2,7 +2,14 @@
 
 namespace Hedonist\Http\Controllers\Api;
 
-use Hedonist\Actions\Like\{DislikePlaceAction, DislikePlaceRequest, LikePlaceAction, LikePlaceRequest};
+use Hedonist\Actions\Like\{
+    LikePlaceAction,
+    LikePlaceRequest
+};
+use Hedonist\Actions\Dislike\{
+    DislikePlaceAction,
+    DislikePlaceRequest
+};
 
 class LikeController extends ApiController
 {
