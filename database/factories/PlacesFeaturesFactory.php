@@ -15,12 +15,20 @@ use Hedonist\Entities\Place\PlaceFeature;
 */
 $factory->define(PlaceFeature::class, function (Faker $faker) {
  
-    $array = ['cafe',
-            'restaurant',
-            'lunch',
-            'bar',
-            'coffee',
-            'pizzeria'];
+    $array = [
+            'wi-fi',
+            'music',
+            'credit cards',
+            'hookah',
+            'outdoor seating',
+            'wheelchair accessible',
+            'reservations',
+            'parking',
+            'restroom',
+            'take-out',
+            'delivery',
+            'live music'
+    ];
 
     return [
         'name' => $faker->unique()->randomElement($array)
