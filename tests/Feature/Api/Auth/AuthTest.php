@@ -18,20 +18,20 @@ class AuthTest extends TestCase
         Event::fake();
 
         $user = factory(User::class)->make();
-        $response = $this->json('POST', '/api/v1/auth/signup',[
+        $response = $this->json('POST', '/api/v1/auth/signup', [
             'email' => $user->email,
             'password' => 'secret',
             'name' => $user->name
         ]);
         $response->assertStatus(200);
-        $this->assertDatabaseHas('users',['email'=> $user->email]);
-        Event::assertDispatched(Registered::class,1);
+        $this->assertDatabaseHas('users', ['email' => $user->email]);
+        Event::assertDispatched(Registered::class, 1);
     }
 
     public function test_email_in_use()
     {
         $user = factory(User::class)->create();
-        $response = $this->json('POST', '/api/v1/auth/signup',[
+        $response = $this->json('POST', '/api/v1/auth/signup', [
             'email' => $user->email,
             'password' => 'secret',
             'name' => $user->name
@@ -42,7 +42,7 @@ class AuthTest extends TestCase
     public function test_successful_login()
     {
         $user = factory(User::class)->create();
-        $response = $this->json('POST', '/api/v1/auth/login',[
+        $response = $this->json('POST', '/api/v1/auth/login', [
             'email' => $user->email,
             'password' => 'secret'
         ]);
@@ -57,7 +57,7 @@ class AuthTest extends TestCase
     public function test_fail_login()
     {
         $user = factory(User::class)->make();
-        $response = $this->json('POST', '/api/v1/auth/login',[
+        $response = $this->json('POST', '/api/v1/auth/login', [
             'email' => $user->email,
             'password' => 'secret'
         ]);
@@ -67,7 +67,7 @@ class AuthTest extends TestCase
     public function test_wrong_password_login()
     {
         $user = factory(User::class)->make();
-        $response = $this->json('POST', '/api/v1/auth/login',[
+        $response = $this->json('POST', '/api/v1/auth/login', [
             'email' => $user->email,
             'password' => 'aaaaaaaaa'
         ]);
@@ -86,7 +86,7 @@ class AuthTest extends TestCase
         $response = $this->json('POST',
             'api/v1/auth/refresh',
             [],
-            ['Authorization' => 'Bearer '.$credentials['access_token']]);
+            ['Authorization' => 'Bearer ' . $credentials['access_token']]);
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'access_token',
@@ -102,14 +102,14 @@ class AuthTest extends TestCase
         $response = $this->json('GET',
             'api/v1/auth/me',
             [],
-            ['Authorization' => 'Bearer '.$credentials['access_token']]);
+            ['Authorization' => 'Bearer ' . $credentials['access_token']]);
         $response->assertStatus(200);
         $response->assertJson($user->toArray());
     }
 
-    private function login(User $user):array
+    private function login(User $user): array
     {
-        $response = $this->json('POST', '/api/v1/auth/login',[
+        $response = $this->json('POST', '/api/v1/auth/login', [
             'email' => $user->email,
             'password' => 'secret'
         ]);

@@ -9,7 +9,6 @@ use Hedonist\Exceptions\Auth\PasswordResetFailedException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ResetPasswordAction
 {
@@ -48,6 +47,6 @@ class ResetPasswordAction
     {
         $user->password = Hash::make($password);
         $user = $this->repository->save($user);
-        $this->token = JWTAuth::login($user);
+        $this->token = auth()->login($user);
     }
 }

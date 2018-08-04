@@ -8,12 +8,11 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject, CanResetPasswordContract
 {
-    use Notifiable,CanResetPassword;
+    use Notifiable, CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +44,6 @@ class User extends Authenticatable implements JWTSubject, CanResetPasswordContra
 
     public function sendPasswordResetNotification($token)
     {
-        Event::dispatch(new PasswordResetedEvent($this,$token));
+        Event::dispatch(new PasswordResetedEvent($this, $token));
     }
 }
