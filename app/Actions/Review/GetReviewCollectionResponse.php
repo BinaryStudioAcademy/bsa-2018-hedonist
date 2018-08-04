@@ -13,7 +13,7 @@ class GetReviewCollectionResponse
         $this->reviewCollection = $reviews;
     }
 
-    public function getCollection(): array
+    public function getReviewCollection(): array
     {
         return $this->reviewCollection->toArray();
     }
