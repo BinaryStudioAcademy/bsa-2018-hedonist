@@ -18,8 +18,9 @@ class LikeController extends ApiController
     public function likePlace(int $id)
     {
         try {
-            $request = new LikePlaceRequest($id);
-            $response = $this->likePlaceAction->execute($request);
+            $response = $this->likePlaceAction->execute(
+                new LikePlaceRequest($id)
+            );
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
@@ -29,8 +30,9 @@ class LikeController extends ApiController
     public function dislikePlace(int $id)
     {
         try {
-            $request = new DislikePlaceRequest($id);
-            $response = $this->dislikePlaceAction->execute($request);
+            $response = $this->dislikePlaceAction->execute(
+                new DislikePlaceRequest($id)
+            );
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
