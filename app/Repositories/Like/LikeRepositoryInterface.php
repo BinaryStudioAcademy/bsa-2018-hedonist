@@ -17,5 +17,7 @@ interface LikeRepositoryInterface
 
     public function findByCriteria(CriteriaInterface $criteria): Collection;
 
+    public function findByUserAndPlace(int $userId, int $placeId): ?Like;
+
     public function deleteById(int $id): void;
 }

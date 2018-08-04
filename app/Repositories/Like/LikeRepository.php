@@ -36,6 +36,15 @@ class LikeRepository extends BaseRepository implements LikeRepositoryInterface
         return $this->getByCriteria($criteria);
     }
 
+    public function findByUserAndPlace(int $userId, int $placeId): ?Like
+    {
+        return Like::where([
+            ['likeable_id', $placeId],
+            ['likeable_type', 'places'],
+            ['user_id', $userId]
+        ])->first();
+    }
+
     public function deleteById(int $id): void
     {
         Like::destroy($id);
