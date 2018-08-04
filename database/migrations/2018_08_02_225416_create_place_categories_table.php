@@ -19,6 +19,7 @@ class CreatePlaceCategoriesTable extends Migration
         Schema::create('place_categories', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->softDeletes();
         });
     }
 
