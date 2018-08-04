@@ -37,6 +37,15 @@ class DislikeRepository extends BaseRepository implements DislikeRepositoryInter
         return $this->getByCriteria($criteria);
     }
 
+    public function findByUserAndPlace(int $userId, int $placeId): ?Dislike
+    {
+        return Dislike::where([
+            ['dislikeable_id', $placeId],
+            ['dislikeable_type', 'places'],
+            ['user_id', $userId]
+        ])->first();
+    }
+
     public function deleteById(int $id): void
     {
         Dislike::destroy($id);

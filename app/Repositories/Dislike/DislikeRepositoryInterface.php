@@ -17,5 +17,7 @@ interface DislikeRepositoryInterface
 
     public function findByCriteria(CriteriaInterface $criteria): Collection;
 
+    public function findByUserAndPlace(int $userId, int $placeId): ?Dislike;
+
     public function deleteById(int $id): void;
 }
