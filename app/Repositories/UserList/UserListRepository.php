@@ -3,15 +3,13 @@
 namespace Hedonist\Repositories\PlaceList;
 
 use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 use Prettus\Repository\Contracts\CriteriaInterface;
-use Hedonist\Entities\PlaceList\UserList;
+use Hedonist\Entities\UserList\UserList;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserListRepository extends BaseRepository implements UserListRepositoryInterface
 {
-     
     public function save(UserList $userList): UserList 
     {
         $userList->save();
@@ -43,5 +41,4 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
     {
         return UserList::class;
     }
-    
 }
