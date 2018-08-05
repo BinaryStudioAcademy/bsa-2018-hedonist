@@ -31,6 +31,14 @@ Route::prefix('v1')->group(function () {
             Route::post('/refresh','AuthController@refresh');
 
             Route::get('/me','AuthController@me');
+
+            // routes here
+            Route::post('/v1/places/rates', 'Api\Places\RatesController@setRate')
+                ->name('place.rates.setRate');
+            Route::get('/v1/places/rates/place/{id}', 'Api\Places\RatesController@getPlaceRateAvg')
+                ->name('place.rates.getPlaceRateAvg');
+            Route::get('/v1/places/rates/{id}', 'Api\Places\RatesController@getRate')
+                ->name('place.rates.getRate');
         });
     });
 });
