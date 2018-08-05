@@ -5,14 +5,14 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Hedonist</title>
-        @if (env("NODE_ENV") === "production")
+        @if (config("app.env") === "production" || config("app.env") === "staging")
             <link href="/dist/css/app.css" rel="stylesheet">
         @endif
     </head>
     <body>
         <div id="app"></div>
 
-        @if (env("NODE_ENV") === "production")
+        @if (config("app.env") === "production" || config("app.env") === "staging")
             <script type="text/javascript" src="/dist/js/manifest.js"></script>
             <script type="text/javascript" src="/dist/js/vendor.js"></script>
             <script type="text/javascript" src="/dist/js/app.js"></script>
