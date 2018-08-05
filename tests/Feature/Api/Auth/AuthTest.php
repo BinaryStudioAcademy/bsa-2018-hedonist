@@ -119,8 +119,27 @@ class AuthTest extends TestCase
         $response->assertJson(['data' => $user->toArray()]);
     }
 
-    private
-    function login(User $user): array
+    function test_logout()
+    {
+        $user = factory(User::class)->create();
+        $credentials = $this->login($user);
+        $response = $this->json('GET',
+            'api/v1/auth/logut',
+            [],
+            ['Authorization' => 'Bearer ' . $credentials['access_token']]);
+
+        $response->assertStatus(200);
+
+        $credentials = $this->login($user);
+        $response = $this->json('GET',
+            'api/v1/auth/me',
+            [],
+            ['Authorization' => 'Bearer ' . $credentials['access_token']]);
+
+        $response->assertStatus(401);
+    }
+
+    private function login(User $user): array
     {
         $response = $this->json('POST', '/api/v1/auth/login', [
             'email' => $user->email,
