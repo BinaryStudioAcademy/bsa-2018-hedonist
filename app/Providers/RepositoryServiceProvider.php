@@ -7,7 +7,7 @@ use Hedonist\Repositories\Place\{
     PlaceCategoryRepositoryInterface,
     PlaceCategoryRepository,
     PlaceFeatureRepositoryInterface,
-    PlaceFeatureRepository,
+    PlaceFeatureRepository
 };
 
 class RepositoryServiceProvider extends ServiceProvider

@@ -4,10 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * Class CreatePlaceCategoriesTable.
- */
-class CreatePlaceCategoriesTable extends Migration
+class CreateReviewPhotosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,10 +13,13 @@ class CreatePlaceCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('place_categories', function(Blueprint $table) {
+        Schema::create('review_photos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->softDeletes();
+            $table->string('img_url');
+            $table->text('description');
+            $table->unsignedInteger('review_id');
+            $table->foreign('review_id')->references('id')->on('reviews');
+            
         });
     }
 
@@ -30,6 +30,6 @@ class CreatePlaceCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('place_categories');
+        Schema::dropIfExists('review_photos');
     }
 }
