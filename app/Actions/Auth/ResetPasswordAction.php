@@ -7,6 +7,7 @@ use Hedonist\Actions\Auth\Responses\ResetPasswordResponse;
 use Hedonist\Entities\User;
 use Hedonist\Exceptions\Auth\PasswordResetFailedException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
+use Illuminate\Contracts\Auth\PasswordBroker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -15,15 +16,17 @@ class ResetPasswordAction
 {
     private $token;
     private $repository;
+    private $broker;
 
-    public function __construct(UserRepositoryInterface $repository)
+    public function __construct(UserRepositoryInterface $repository, PasswordBroker $broker)
     {
         $this->repository = $repository;
+        $this->broker = $broker;
     }
 
     public function execute(ResetPasswordRequest $request): ResetPasswordResponse
     {
-        $success = Password::broker()->reset($this->credentials($request), function ($user, $password) {
+        $success = $this->broker->reset($this->credentials($request), function ($user, $password) {
             $this->resetPassword($user, $password);
         });
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api\JwtAuth;
+namespace Hedonist\Http\Controllers\Api;
 
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\Auth\RecoverPasswordAction;
@@ -25,7 +25,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
-class AuthController extends Controller
+class AuthController extends ApiController
 {
     public function login(LoginHttpRequest $httpRequest, LoginUserAction $action)
     {
@@ -33,11 +33,11 @@ class AuthController extends Controller
             $loginRequest = new LoginRequest($httpRequest->email, $httpRequest->password);
             $response = $action->execute($loginRequest);
 
-            return response()->json(AuthPresenter::presentAuthenticateResponse($response), 200);
+            return $this->successResponse(AuthPresenter::presentAuthenticateResponse($response));
         } catch (AuthenticationException $exception) {
-            return response()->json(AuthPresenter::presentError($exception), 400);
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         } catch (JWTException $exception) {
-            return response()->json(AuthPresenter::presentError($exception), 400);
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
     }
 
@@ -47,26 +47,28 @@ class AuthController extends Controller
             $registerRequest = new RegisterRequest($httpRequset->email, $httpRequset->password, $httpRequset->name);
             $response = $action->execute($registerRequest);
 
-            return response()->json(AuthPresenter::presentRegisterResponse($response), 200);
+            return $this->successResponse(AuthPresenter::presentRegisterResponse($response));
         } catch (EmailAlreadyExistsException $exception) {
-            return response()->json(AuthPresenter::presentError($exception), 400);
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         } catch (JWTException $exception) {
-            return response()->json(AuthPresenter::presentError($exception), 400);
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         } catch (\Exception $exception) {
-            return response()->json(AuthPresenter::presentError($exception), 500);
+            return $this->errorResponse(AuthPresenter::presentError($exception), 500);
         }
     }
 
     public function me()
     {
-        return response()->json(AuthPresenter::presentUser(Auth::user()), 200);
+        return $this->successResponse(AuthPresenter::presentUser(Auth::user()));
     }
 
     public function refresh()
     {
-        return response()->json(AuthPresenter::presentAuthenticateResponse(
-            new RefreshResponse(Auth::refresh())
-        ));
+        return $this->successResponse(
+            AuthPresenter::presentAuthenticateResponse(
+                new RefreshResponse(Auth::refresh())
+            )
+        );
     }
 
     public function logout()
@@ -74,9 +76,9 @@ class AuthController extends Controller
         try {
             Auth::logout();
 
-            return response()->json([], 200);
+            return $this->successResponse([]);
         } catch (\Exception $exception) {
-            return response()->json(AuthPresenter::presentError($exception), 400);
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
     }
 
@@ -89,13 +91,13 @@ class AuthController extends Controller
                 $httpRequest->password_confirmation,
                 $httpRequest->token);
 
-            return response()->json(AuthPresenter::presentAuthenticateResponse(
-                $action->execute($resetRequest)),
-                200);
+            return $this->successResponse(
+                AuthPresenter::presentAuthenticateResponse($action->execute($resetRequest))
+            );
         } catch (JWTException $exception) {
-            return response()->json(AuthPresenter::presentError($exception), 400);
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         } catch (PasswordResetFailedException $exception) {
-            return response()->json(AuthPresenter::presentError($exception), 400);
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
     }
 
@@ -105,9 +107,9 @@ class AuthController extends Controller
             $recoverRequest = new RecoverPasswordRequest($httpRequest->email);
             $action->execute($recoverRequest);
 
-            return response()->json([], 200);
+            return $this->successResponse([]);
         } catch (PasswordResetEmailSentException $exception) {
-            return response()->json(AuthPresenter::presentError($exception), 400);
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
     }
 }

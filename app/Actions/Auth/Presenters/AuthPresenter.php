@@ -8,13 +8,13 @@ use Hedonist\Entities\User;
 
 class AuthPresenter
 {
-    public static function presentError(\Exception $exception)
+    public static function presentError(\Exception $exception): string
     {
-        return ["message" => $exception->getMessage()];
+        return $exception->getMessage();
     }
 
 
-    public static function presentAuthenticateResponse(AuthenticateResponseInterface $response)
+    public static function presentAuthenticateResponse(AuthenticateResponseInterface $response): array
     {
         return [
             'access_token' => $response->getToken(),
@@ -23,12 +23,12 @@ class AuthPresenter
         ];
     }
 
-    public static function presentRegisterResponse(RegisterResponse $response)
+    public static function presentRegisterResponse(RegisterResponse $response): array
     {
         return ['success' => $response->getSuccess()];
     }
 
-    public static function presentUser(User $user)
+    public static function presentUser(User $user): array
     {
         return $user->toArray();
     }
