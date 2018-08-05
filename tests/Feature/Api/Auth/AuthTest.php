@@ -50,9 +50,11 @@ class AuthTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            'access_token',
-            'token_type',
-            'expires_in'
+            'data' => [
+                'access_token',
+                'token_type',
+                'expires_in'
+            ]
         ]);
     }
 
@@ -95,13 +97,16 @@ class AuthTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            'access_token',
-            'token_type',
-            'expires_in'
+            'data' => [
+                'access_token',
+                'token_type',
+                'expires_in'
+            ]
         ]);
     }
 
-    public function test_get_authed_user()
+    public
+    function test_get_authed_user()
     {
         $user = factory(User::class)->create();
         $credentials = $this->login($user);
@@ -111,16 +116,17 @@ class AuthTest extends TestCase
             ['Authorization' => 'Bearer ' . $credentials['access_token']]);
 
         $response->assertStatus(200);
-        $response->assertJson($user->toArray());
+        $response->assertJson(['data' => $user->toArray()]);
     }
 
-    private function login(User $user): array
+    private
+    function login(User $user): array
     {
         $response = $this->json('POST', '/api/v1/auth/login', [
             'email' => $user->email,
             'password' => 'secret'
         ]);
 
-        return $response->json();
+        return $response->json('data');
     }
 }

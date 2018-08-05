@@ -47,9 +47,11 @@ class ResetPasswordTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            'access_token',
-            'token_type',
-            'expires_in'
+            'data' => [
+                'access_token',
+                'token_type',
+                'expires_in'
+            ]
         ]);
     }
 
