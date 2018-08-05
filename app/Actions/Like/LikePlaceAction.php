@@ -4,6 +4,7 @@ namespace Hedonist\Actions\Like;
 
 use Hedonist\Repositories\Like\LikeRepository;
 use Hedonist\Repositories\Dislike\DislikeRepository;
+use Hedonist\Repositories\Place\Place;
 use Illuminate\Support\Facades\Auth;
 
 class LikePlaceAction
@@ -27,7 +28,7 @@ class LikePlaceAction
         if (empty($like)) {
             $like = new Like([
                 'likeable_id' => $request->getPlaceId(),
-                'likeable_type' => 'places',
+                'likeable_type' => Place::class,
                 'user_id' => Auth::id()
             ]);
             $this->likeRepository->save($like);

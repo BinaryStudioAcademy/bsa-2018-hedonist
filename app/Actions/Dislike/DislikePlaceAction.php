@@ -4,6 +4,7 @@ namespace Hedonist\Actions\Dislike;
 
 use Hedonist\Repositories\Like\LikeRepository;
 use Hedonist\Repositories\Dislike\DislikeRepository;
+use Hedonist\Repositories\Place\Place;
 use Illuminate\Support\Facades\Auth;
 
 class DislikePlaceAction
@@ -27,7 +28,7 @@ class DislikePlaceAction
         if (empty($dislike)) {
             $dislike = new Dislike([
                 'dislikeable_id' => $request->getPlaceId(),
-                'dislikeable_type' => 'places',
+                'dislikeable_type' => Place::class,
                 'user_id' => Auth::id()
             ]);
             $this->dislikeRepository->save($dislike);
