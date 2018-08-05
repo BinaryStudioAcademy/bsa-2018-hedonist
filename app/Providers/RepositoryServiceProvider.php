@@ -3,12 +3,12 @@
 namespace Hedonist\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Hedonist\Repositories\Place\{
+use Hedonist\Repositories\Place\{FavouritePlaceRepository,
+    FavouritePlaceRepositoryInterface,
     PlaceCategoryRepositoryInterface,
     PlaceCategoryRepository,
     PlaceFeatureRepositoryInterface,
-    PlaceFeatureRepository
-};
+    PlaceFeatureRepository};
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -31,5 +31,6 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(PlaceCategoryRepositoryInterface::class, PlaceCategoryRepository::class);
         $this->app->bind(PlaceFeatureRepositoryInterface::class, PlaceFeatureRepository::class);
+        $this->app->bind(FavouritePlaceRepositoryInterface::class, FavouritePlaceRepository::class);
     }
 }
