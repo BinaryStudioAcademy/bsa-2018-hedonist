@@ -19,7 +19,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return User::all();
     }
 
-
     public function save(User $user): User
     {
         $user->save();
