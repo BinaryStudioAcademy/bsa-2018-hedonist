@@ -24,9 +24,6 @@ class CollectionSpecialFeatureAction
         /** @var PlaceFeature $placeFeature */
         $placeFeatures = $this->repository->findAll();
 
-//        print_r($placeFeatures->toArray());
-//        die;
-
         /** @var CollectionSpecialFeatureResponse $response */
         $responseArray = [];
 
@@ -37,9 +34,6 @@ class CollectionSpecialFeatureAction
                 $placeFeature->name
             );
         }
-
-//        print_r($responseArray);
-//        die;
 
         $response = new CollectionSpecialFeatureResponse($responseArray);
 
