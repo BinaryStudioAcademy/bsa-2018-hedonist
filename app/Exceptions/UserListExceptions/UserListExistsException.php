@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\UserListExceptions;
+namespace Hedonist\Exceptions\UserListExceptions;
 
 class UserListExistsException extends \LogicException
 {

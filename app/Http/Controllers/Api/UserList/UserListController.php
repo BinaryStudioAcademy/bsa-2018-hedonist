@@ -10,7 +10,7 @@ use Hedonist\Actions\UserList\GetCollectionUserListAction;
 use Hedonist\Actions\UserList\GetUserListAction;
 use Hedonist\Actions\UserList\GetUserListRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
-use Illuminate\Http\Request;
+use Hedonist\Http\Requests\UserList\UserListRequest;
 
 class UserListController extends ApiController
 {
@@ -36,7 +36,7 @@ class UserListController extends ApiController
         return $this->successResponse($responseUserLists->getData(), 200);
     }
 
-    public function store(Request $request)
+    public function store(UserListRequest $request)
     {
         try {
             $responseUserList = $this->userListAction->execute(
@@ -65,7 +65,7 @@ class UserListController extends ApiController
         }
     }
 
-    public function update(Request $request, int $id)
+    public function update(UserListRequest $request, int $id)
     {
         try {
             $responseUserList = $this->userListAction->execute(

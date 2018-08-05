@@ -2,13 +2,13 @@
 
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Entities\UserList\UserList;
+use Illuminate\Database\Eloquent\Collection;
 
 class GetCollectionUserListResponse
 {
     private $collectionUserList;
 
-    public function __construct(UserList $collectionUserList)
+    public function __construct(Collection $collectionUserList)
     {
         $this->collectionUserList = $collectionUserList;
     }

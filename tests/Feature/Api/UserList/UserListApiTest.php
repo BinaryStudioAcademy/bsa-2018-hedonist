@@ -17,85 +17,65 @@ class UserListApiTest extends ApiTestCase
         $data = [
             'user_id' => $user->id,
             'name' => 'Bar',
-            'img_url' => 'image',
+            'img_url' => 'http://test.image',
         ];
         $response = $this->json('POST','/api/v1/user-list', $data);
-
-        $response->assertStatus(204);
         $response->assertHeader('Content-Type', 'application/json');
 
         $this->assertDatabaseHas('user_lists', $data);
     }
 
-    // public function test_get_user_list()
-    // {
-    //     $userList = factory(UserList::class)->create();
-    //     $response = $this->json('GET',"/api/v1/user-list/$userList->id");
-    //     $response->assertHeader('Content-Type', 'application/json');
-    //     $response->assertStatus(200);
-    //     $data = json_decode($response->getContent(),true);
-    //     $this->assertEquals($userList->id, $data['id']);
-    //     $this->assertEquals($userList->user_id, $data['user_id']);
-    //     $this->assertEquals($userList->name, $data['name']);
-    //     $this->assertEquals($userList->img_url, $data['img_url']);
-    // }
-    //
-    // public function test_update_user_list()
-    // {
-    //     $userList = factory(UserList::class)->create();
-    //     $data = [
-    //         'user_id' => $userList->user_id,
-    //         'name' => 'Caffe',
-    //         'img_url' => 'image',
-    //     ];
-    //     $response = $this->json('PUT',"/api/v1/user-list/$userList->id", $data);
-    //     $result = json_decode($response->getContent(),true);
-    //     $this->assertEquals($result['name'], $data['name']);
-    // }
-    //
-    // public function test_delete_user_list()
-    // {
-    //     $userList = factory(UserList::class)->create();
-    //
-    //     $response = $this->json('DELETE',"/api/v1/user-list/$userList->id");
-    //     $response->assertHeader('Content-Type', 'application/json');
-    //     $response->assertStatus(200);
-    //
-    //     $data = json_decode($response->getContent(),true);
-    //     $this->assertEquals($data['result'], 'success');
-    //
-    //     $response = $this->json('GET',"/api/v1/user-list/$userList->id");
-    //     $response->assertHeader('Content-Type', 'application/json');
-    //     $response->assertStatus(400);
-    //     $response->assertJson(['error' => [
-    //         'message' => 'User list not found.',
-    //         'status_code' => 400,
-    //     ]]);
-    // }
-    //
-    // public function test_get_all_user_list()
-    // {
-    //     $userList = [];
-    //     for ($i = 0; $i <= 3; $i++) {
-    //         $userList[] = factory(UserList::class)->create();
-    //     }
-    //
-    //     $response = $this->json('GET',"/api/v1/user-list");
-    //     $response->assertHeader('Content-Type', 'application/json');
-    //     $response->assertStatus(200);
-    //
-    //     $data = json_decode($response->getContent(),true);
-    //     $this->assertEquals(count($data), count($userList));
-    // }
-    //
-    // public function test_get_user_list_not_found()
-    // {
-    //     $response = $this->json('GET',"/api/v1/user-list/1");
-    //     $response->assertHeader('Content-Type', 'application/json');
-    //     $response->assertStatus(400);
-    //     $response->assertJson(['error' => [
-    //         'message' => 'User list not found.',
-    //         'status_code' => 400,
-    //     ]]);
-    // }
+    public function test_get_user_list()
+    {
+        $userList = factory(UserList::class)->create();
+        $response = $this->json('GET',"/api/v1/user-list/$userList->id");
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+        $data = json_decode($response->getContent(),true);
+        $this->assertEquals($userList->id, $data['data']['id']);
+        $this->assertEquals($userList->user_id, $data['data']['user_id']);
+        $this->assertEquals($userList->name, $data['data']['name']);
+        $this->assertEquals($userList->img_url, $data['data']['img_url']);
+    }
+
+    public function test_update_user_list()
+    {
+        $userList = factory(UserList::class)->create();
+        $data = [
+            'user_id' => $userList->user_id,
+            'name' => 'Caffe',
+            'img_url' => 'http://test.image',
+        ];
+        $response = $this->json('PUT',"/api/v1/user-list/$userList->id", $data);
+        $result = json_decode($response->getContent(),true);
+        $this->assertEquals($result['data']['name'], $data['name']);
+    }
+
+    public function test_delete_user_list()
+    {
+        $userList = factory(UserList::class)->create();
+        $this->json('DELETE',"/api/v1/user-list/$userList->id");
+
+        $this->assertNotFoundJsonResponse("/api/v1/user-list/$userList->id", 'GET');
+    }
+
+    public function test_get_all_user_list()
+    {
+        $userList = [];
+        for ($i = 0; $i < 3; $i++) {
+            $userList[] = factory(UserList::class)->create();
+        }
+
+        $response = $this->json('GET',"/api/v1/user-list");
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+
+        $data = json_decode($response->getContent(),true);
+        $this->assertEquals(count($data['data']), count($userList));
+    }
+
+    public function test_get_user_list_not_found()
+    {
+        $this->assertNotFoundJsonResponse("/api/v1/user-list/1", 'GET');
+    }
 }
