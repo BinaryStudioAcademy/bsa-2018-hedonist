@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Entities;
+namespace Hedonist\Entities\Place;
 
 use Illuminate\Database\Eloquent\Model;
 
