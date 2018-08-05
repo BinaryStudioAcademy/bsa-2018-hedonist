@@ -15,8 +15,8 @@ class CreateFavouritePlacesTable extends Migration
     {
         Schema::create('favourite_places', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('place_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('place_id');
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('place_id')->references('id')->on('places');
