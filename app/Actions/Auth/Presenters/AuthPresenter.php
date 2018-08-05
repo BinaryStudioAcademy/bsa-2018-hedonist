@@ -23,11 +23,6 @@ class AuthPresenter
         ];
     }
 
-    public static function presentRegisterResponse(RegisterResponse $response): array
-    {
-        return ['success' => $response->getSuccess()];
-    }
-
     public static function presentUser(User $user): array
     {
         return $user->toArray();

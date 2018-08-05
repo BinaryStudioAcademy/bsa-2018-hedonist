@@ -45,9 +45,9 @@ class AuthController extends ApiController
     {
         try {
             $registerRequest = new RegisterRequest($httpRequset->email, $httpRequset->password, $httpRequset->name);
-            $response = $action->execute($registerRequest);
+            $action->execute($registerRequest);
 
-            return $this->successResponse(AuthPresenter::presentRegisterResponse($response));
+            return $this->successResponse([]);
         } catch (EmailAlreadyExistsException $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         } catch (JWTException $exception) {

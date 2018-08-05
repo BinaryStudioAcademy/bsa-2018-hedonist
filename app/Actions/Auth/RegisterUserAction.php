@@ -20,7 +20,7 @@ class RegisterUserAction
         $this->repository = $repository;
     }
 
-    public function execute(RegisterRequest $request): RegisterResponse
+    public function execute(RegisterRequest $request): void
     {
         $this->validateCanCreateUser($request);
         $user = new User();
@@ -29,8 +29,6 @@ class RegisterUserAction
         $user->name = $request->getName();
         $this->repository->save($user);
         Event::dispatch(new Registered($user));
-
-        return new RegisterResponse(false);
     }
 
     private function validateCanCreateUser(RegisterRequest $request): void

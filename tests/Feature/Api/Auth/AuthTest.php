@@ -22,6 +22,7 @@ class AuthTest extends TestCase
             'password' => 'secret',
             'name' => $user->name
         ]);
+
         $response->assertStatus(200);
         $this->assertDatabaseHas('users', ['email' => $user->email]);
         Event::assertDispatched(Registered::class, 1);
@@ -35,6 +36,7 @@ class AuthTest extends TestCase
             'password' => 'secret',
             'name' => $user->name
         ]);
+
         $response->assertStatus(400);
     }
 
@@ -45,6 +47,7 @@ class AuthTest extends TestCase
             'email' => $user->email,
             'password' => 'secret'
         ]);
+
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'access_token',
@@ -60,6 +63,7 @@ class AuthTest extends TestCase
             'email' => $user->email,
             'password' => 'secret'
         ]);
+
         $response->assertStatus(400);
     }
 
@@ -70,12 +74,14 @@ class AuthTest extends TestCase
             'email' => $user->email,
             'password' => 'aaaaaaaaa'
         ]);
+
         $response->assertStatus(400);
     }
 
     public function test_refresh_token_unauthenticated()
     {
         $response = $this->json('POST', '/api/v1/auth/refresh');
+
         $response->assertStatus(401);
     }
 
@@ -86,6 +92,7 @@ class AuthTest extends TestCase
             'api/v1/auth/refresh',
             [],
             ['Authorization' => 'Bearer ' . $credentials['access_token']]);
+
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'access_token',
@@ -102,6 +109,7 @@ class AuthTest extends TestCase
             'api/v1/auth/me',
             [],
             ['Authorization' => 'Bearer ' . $credentials['access_token']]);
+
         $response->assertStatus(200);
         $response->assertJson($user->toArray());
     }
@@ -112,6 +120,7 @@ class AuthTest extends TestCase
             'email' => $user->email,
             'password' => 'secret'
         ]);
+
         return $response->json();
     }
 }
