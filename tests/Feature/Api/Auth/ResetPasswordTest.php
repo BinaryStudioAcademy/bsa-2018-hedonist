@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api\Auth;
 
 
-use Hedonist\Entities\User;
+use Hedonist\Entities\User\User;
 use Hedonist\Events\Auth\PasswordResetedEvent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
