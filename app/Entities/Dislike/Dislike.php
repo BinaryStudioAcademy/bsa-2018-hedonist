@@ -2,7 +2,7 @@
 
 namespace Hedonist\Entities\Dislike;
 
-use Hedonist\User;
+use Hedonist\Entities\User\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Dislike extends Model
