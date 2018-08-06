@@ -6,6 +6,7 @@ use Hedonist\Actions\Like\{
     LikePlaceAction,
     LikePlaceRequest
 };
+use Hedonist\Exceptions\Place\PlaceNotFoundException;
 
 class LikeController extends ApiController
 {
@@ -22,9 +23,9 @@ class LikeController extends ApiController
             $response = $this->likePlaceAction->execute(
                 new LikePlaceRequest($id)
             );
-        } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), 400);
+        } catch (PlaceNotFoundException $exception) {
+            return $this->errorResponse('Place not found', 404);
         }
-        return $this->successResponse('ok', 200);
+        return $this->successResponse([], 200);
     }
 }

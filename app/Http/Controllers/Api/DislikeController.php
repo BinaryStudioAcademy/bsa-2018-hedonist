@@ -6,6 +6,7 @@ use Hedonist\Actions\Dislike\{
     DislikePlaceAction,
     DislikePlaceRequest
 };
+use Hedonist\Exceptions\Place\PlaceNotFoundException;
 
 class DislikeController extends ApiController
 {
@@ -22,9 +23,9 @@ class DislikeController extends ApiController
             $response = $this->dislikePlaceAction->execute(
                 new DislikePlaceRequest($id)
             );
-        } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), 400);
+        } catch (PlaceNotFoundException $exception) {
+            return $this->errorResponse('Place not found', 404);
         }
-        return $this->successResponse('ok', 200);
+        return $this->successResponse([], 200);
     }
 }

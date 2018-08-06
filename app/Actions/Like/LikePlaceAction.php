@@ -4,22 +4,32 @@ namespace Hedonist\Actions\Like;
 
 use Hedonist\Repositories\Like\LikeRepository;
 use Hedonist\Repositories\Dislike\DislikeRepository;
-use Hedonist\Repositories\Place\Place;
+use Hedonist\Repositories\Place\PlaceRepository;
 use Illuminate\Support\Facades\Auth;
 
 class LikePlaceAction
 {
     private $likeRepository;
     private $dislikeRepository;
+    private $placeRepository;
 
-    public function __construct(LikeRepository $likeRepository, DislikeRepository $dislikeRepository)
+    public function __construct(
+        LikeRepository $likeRepository,
+        DislikeRepository $dislikeRepository,
+        PlaceRepository $placeRepository
+    )
     {
         $this->likeRepository = $likeRepository;
         $this->dislikeRepository = $dislikeRepository;
+        $this->placeRepository = $placeRepository;
     }
 
     public function execute(LikePlaceRequest $request): LikePlaceResponse
     {
+        $place = $this->placeRepository->findById($request->getPlaceId());
+        if (empty($place)) {
+            throw new PlaceNotFoundException();
+        }
         $like = $this->likeRepository->findByUserAndPlace(Auth::id(), $request->getPlaceId());
         $dislike = $this->dislikeRepository->findByUserAndPlace(Auth::id(), $request->getPlaceId());
         if ($dislike) {
