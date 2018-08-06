@@ -3,43 +3,55 @@
 namespace Hedonist\Repositories\Place;
 
 use Hedonist\Entities\Place\PlaceRating;
+use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Contracts\CriteriaInterface;
-use Illuminate\Database\Eloquent\Collection;
-use Hedonist\Entities\Place\PlaceCategory;
 
 class PlaceRatingRepository extends BaseRepository implements PlaceRatingRepositoryInterface
-{
+{ 
     public function model()
     {
-        // TODO: Implement model() method.
+        return PlaceRating::class;
     }
-
+  
+    public function save(PlaceRating $placeRating): PlaceRating
+    {
+        $placeRating->save();
+        
+        return $placeRating;
+    }
+    
     public function findAll(): Collection
     {
-        // TODO: Implement findAll() method.
+        return PlaceRating::all();
     }
-
-    public function getById(int $id): PlaceRating
+    
+    public function getById(int $id): ?PlaceRating
     {
-        // TODO: Implement getById() method.
+        return PlaceRating::find($id);
+    }
+    
+    public function findByCriteria(CriteriaInterface $criteria)
+    {
+        return $this->getByCriteria($criteria);
+    }
+    
+    public function deleteById(int $id): void
+    {
+        PlaceRating::destroy($id);
     }
 
     public function getByPlaceUser(int $placeId, int $userId): PlaceRating
     {
-        // TODO: Implement getByPlaceUser() method.
+        return PlaceRating::where('user_id', $userId)
+            ->where('place_id', $placeId)
+            ->first();
     }
 
     public function getAverage(int $placeId): Float
     {
-        // TODO: Implement getAverage() method.
+        return PlaceRating::where('place_id', $placeId)
+            ->avg('rating');
     }
-
-    public function save(PlaceRating $placeRating): PlaceRating
-    {
-        // TODO: Implement save() method.
-    }
-
-
 }

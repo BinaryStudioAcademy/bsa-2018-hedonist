@@ -2,21 +2,24 @@
 
 namespace Hedonist\Repositories\Place;
 
-use Prettus\Repository\Criteria\RequestCriteria;
-use Prettus\Repository\Contracts\CriteriaInterface;
-use Illuminate\Database\Eloquent\Collection;
 use Hedonist\Entities\Place\PlaceRating;
+use Illuminate\Database\Eloquent\Collection;
+use Prettus\Repository\Contracts\CriteriaInterface;
 
 interface PlaceRatingRepositoryInterface
 {
+    public function save(PlaceRating $placeRating): PlaceRating;
+ 
     public function findAll(): Collection;
-
-    public function getById(int $id) : PlaceRating;
+    
+    public function getById(int $id): ?PlaceRating;
+     
+    public function findByCriteria(CriteriaInterface $criteria);
+    
+    public function deleteById(int $id): void;
 
     public function getByPlaceUser(int $placeId, int $userId) : PlaceRating;
 
     public function getAverage(int $placeId) : Float;
-
-    public function save(PlaceRating $placeRating) : PlaceRating;
 
 }
