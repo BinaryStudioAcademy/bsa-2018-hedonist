@@ -2,9 +2,6 @@
 
 namespace Hedonist\Actions\Auth\Requests;
 
-
-use Hedonist\Actions\RequestInterface;
-
 class LoginRequest
 {
     private $email;
