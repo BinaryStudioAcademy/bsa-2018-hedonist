@@ -44,25 +44,25 @@ class ReviewController extends ApiController
         $this->getReviewCollectionAction = $getReviewCollectionAction;
     }
 
-    public function getReview(int $id): void
+    public function getReview(int $id)
     {
         try {
             $getReviewResponse = $this->getReviewAction->execute(
                 new GetReviewRequest($id)
             );
-            $this->successResponse($getReviewResponse->getReview());
+            return $this->successResponse($getReviewResponse->getReview());
         } catch (\LogicException $e) {
-            $this->errorResponse($e->getMessage(), 404);
+            return $this->errorResponse($e->getMessage(), 404);
         }
     }
 
-    public function getReviewCollection(): void
+    public function getReviewCollection()
     {
         $getReviewCollectionResponse = $this->getReviewCollectionAction->execute();
-        $this->successResponse($getReviewCollectionResponse->getReviewCollection());
+        return $this->successResponse($getReviewCollectionResponse->getReviewCollection());
     }
 
-    public function createReview(ReviewCreateUpdateRequest $request): void
+    public function createReview(ReviewCreateUpdateRequest $request)
     {
         try {
             $createReviewResponse = $this->createReviewAction->execute(
@@ -72,13 +72,13 @@ class ReviewController extends ApiController
                     $request->input('description')
                 )
             );
-            $this->successResponse($createReviewResponse->getModel());
+            return $this->successResponse($createReviewResponse->getModel());
         } catch (\Exception $e) {
-            $this->errorResponse($e->getMessage(), 400);
+            return $this->errorResponse($e->getMessage(), 400);
         }
     }
 
-    public function updateReview(ReviewCreateUpdateRequest $request): void
+    public function updateReview(ReviewCreateUpdateRequest $request)
     {
         try {
             $updateReviewResponse = $this->updateReviewAction->execute(
@@ -88,9 +88,9 @@ class ReviewController extends ApiController
                     $request->input('description')
                 )
             );
-            $this->successResponse($updateReviewResponse->getModel());
+            return $this->successResponse($updateReviewResponse->getModel());
         } catch (\Exception $e) {
-            $this->errorResponse($e->getMessage(), 400);
+            return $this->errorResponse($e->getMessage(), 400);
         }
     }
 

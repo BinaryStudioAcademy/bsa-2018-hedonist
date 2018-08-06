@@ -10,11 +10,12 @@ class GetReviewCollectionAction
 
     public function __construct()
     {
-        $this->reviewRepository = app()->bind(ReviewRepositoryInterface::class);
+        $this->reviewRepository = app()->make(ReviewRepositoryInterface::class);
     }
 
     public function execute(): GetReviewCollectionResponse
     {
+        dd('od');
         $reviews = $this->reviewRepository->findAll();
         return new GetReviewCollectionResponse($reviews);
     }

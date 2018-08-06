@@ -11,7 +11,7 @@ class CreateReviewAction
 
     public function __construct()
     {
-        $this->reviewRepository = app()->bind(ReviewRepositoryInterface::class);
+        $this->reviewRepository = app()->make(ReviewRepositoryInterface::class);
     }
 
     public function execute(CreateReviewRequest $request): CreateReviewResponse
