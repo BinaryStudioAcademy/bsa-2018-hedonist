@@ -3,24 +3,24 @@
 namespace Hedonist\Actions\Place\Rate;
 
 
-class GetPlaceRateAvgResponse
+class GetPlaceRatingAvgResponse
 {
 
     /** @var int */
     protected $placeId;
 
     /** @var float */
-    protected $rateAvgValue;
+    protected $ratingAvgValue;
 
     /**
-     * GetRateResponse constructor.
+     * GetPlaceRatingResponse constructor.
      * @param int $placeId
-     * @param float $rateAvgValue
+     * @param float $ratingAvgValue
      */
-    public function __construct($placeId, $rateAvgValue)
+    public function __construct($placeId, $ratingAvgValue)
     {
         $this->placeId = $placeId;
-        $this->rateAvgValue = $rateAvgValue;
+        $this->ratingAvgValue = $ratingAvgValue;
     }
 
     /**
@@ -34,9 +34,9 @@ class GetPlaceRateAvgResponse
     /**
      * @return float
      */
-    public function getRateAvgValue(): float
+    public function getRatingAvgValue(): float
     {
-        return $this->rateAvgValue;
+        return $this->ratingAvgValue;
     }
 
 }

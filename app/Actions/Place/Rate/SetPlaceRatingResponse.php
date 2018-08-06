@@ -3,7 +3,7 @@
 namespace Hedonist\Actions\Place\Rate;
 
 
-class SetRateResponse
+class SetPlaceRatingResponse
 {
     /** @var int */
     protected $id;
@@ -15,21 +15,21 @@ class SetRateResponse
     protected $placeId;
 
     /** @var float */
-    protected $rateValue;
+    protected $ratingValue;
 
     /**
-     * SetRateResponse constructor.
+     * SetPlaceRatingResponse constructor.
      * @param int $id
      * @param int $userId
      * @param int $placeId
-     * @param float $rateValue
+     * @param float $ratingValue
      */
-    public function __construct($id, $userId, $placeId, $rateValue)
+    public function __construct($id, $userId, $placeId, $ratingValue)
     {
         $this->id = $id;
         $this->userId = $userId;
         $this->placeId = $placeId;
-        $this->rateValue = $rateValue;
+        $this->ratingValue = $ratingValue;
     }
 
     /**
@@ -59,9 +59,9 @@ class SetRateResponse
     /**
      * @return float
      */
-    public function getRateValue(): float
+    public function getRatingValue(): float
     {
-        return $this->rateValue;
+        return $this->ratingValue;
     }
 
 }

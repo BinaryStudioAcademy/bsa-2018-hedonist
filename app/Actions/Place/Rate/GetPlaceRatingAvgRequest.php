@@ -3,7 +3,7 @@
 namespace Hedonist\Actions\Place\Rate;
 
 
-class GetPlaceRateAvgRequest
+class GetPlaceRatingAvgRequest
 {
 
     /** @var int */
@@ -11,7 +11,7 @@ class GetPlaceRateAvgRequest
 
 
     /**
-     * SetRateResponse constructor.
+     * SetPlaceRatingResponse constructor.
      * @param int $placeId
      */
     public function __construct($placeId)

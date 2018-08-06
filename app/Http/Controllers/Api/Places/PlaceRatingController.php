@@ -3,7 +3,7 @@
 namespace Hedonist\Http\Controllers\Api\Places;
 
 use Hedonist\Http\Controllers\Api\ApiController;
-use Hedonist\User;
+use Hedonist\Entities\User\User;
 use Illuminate\Http\JsonResponse;
 
 use Hedonist\Http\Requests\Place\Rate\{
@@ -12,42 +12,42 @@ use Hedonist\Http\Requests\Place\Rate\{
 };
 
 use Hedonist\Actions\Place\Rate\{
-    GetRateAction,
-    SetRateAction,
-    GetPlaceRateAvgAction
+    GetPlaceRatingAction,
+    SetPlaceRatingAction,
+    GetPlaceRatingAvgAction
 };
 
 use Hedonist\Actions\Place\Rate\{
-    GetRateRequest,
-    SetRateRequest,
-    GetPlaceRateAvgRequest
+    GetPlaceRatingRequest,
+    SetPlaceRatingRequest,
+    GetPlaceRatingAvgRequest
 };
 use Hedonist\Actions\Place\Rate\{
-    GetRateResponse,
-    SetRateResponse,
-    GetPlaceRateAvgResponse
+    GetPlaceRatingResponse,
+    SetPlaceRatingResponse,
+    GetPlaceRatingAvgResponse
 };
 use Illuminate\Support\Facades\Auth;
 
-class RatesController extends ApiController
+class PlaceRatingController extends ApiController
 {
-    /** @var GetRateAction **/
+    /** @var GetPlaceRatingAction **/
     private $getRateAction;
-    /** @var SetRateAction **/
+    /** @var SetPlaceRatingAction **/
     private $setRateAction;
-    /** @var GetPlaceRateAvgAction **/
+    /** @var GetPlaceRatingAvgAction **/
     private $getPlaceRateAvgAction;
     /** @var int */
     private $userId;
 
     /**
-     * RatesController constructor.
-     * @param GetRateAction $getRateAction
-     * @param SetRateAction $setRateAction
-     * @param GetPlaceRateAvgAction $getPlaceRateAvgAction
+     * PlaceRatingController constructor.
+     * @param GetPlaceRatingAction $getRateAction
+     * @param SetPlaceRatingAction $setRateAction
+     * @param GetPlaceRatingAvgAction $getPlaceRateAvgAction
      * @param SetRateHttpRequest $httpRequest
      */
-    public function __construct(GetRateAction $getRateAction, SetRateAction $setRateAction, GetPlaceRateAvgAction $getPlaceRateAvgAction, SetRateHttpRequest $httpRequest)
+    public function __construct(GetPlaceRatingAction $getRateAction, SetPlaceRatingAction $setRateAction, GetPlaceRatingAvgAction $getPlaceRateAvgAction, SetRateHttpRequest $httpRequest)
     {
         $this->getRateAction = $getRateAction;
         $this->setRateAction = $setRateAction;
@@ -64,9 +64,9 @@ class RatesController extends ApiController
     public function setRate(SetRateHttpRequest $httpRequest) : JsonResponse
     {
         try {
-            /** @var SetRateResponse $response */
+            /** @var SetPlaceRatingResponse $response */
             $response = $this->setRateAction->execute(
-                new SetRateRequest(
+                new SetPlaceRatingRequest(
                     $httpRequest->id,
                     $this->userId,
                     $httpRequest->placeId,
@@ -83,7 +83,7 @@ class RatesController extends ApiController
             'id' => $response->getId(),
             'user_id' => $response->getUserId(),
             'place_id' => $response->getPlaceId(),
-            'rate' => $response->getRateValue()
+            'rate' => $response->getRatingValue()
         ], 201);
     }
 
@@ -92,9 +92,9 @@ class RatesController extends ApiController
         try {
             $userId = $httpRequest->userId ? $httpRequest->userId : $this->userId;
 
-            /** @var SetRateResponse $response */
-            $response = $this->setRateAction->execute(
-                new SetRateRequest(
+            /** @var GetPlaceRatingResponse $response */
+            $response = $this->getRateAction->execute(
+                new GetPlaceRatingRequest(
                     $id,
                     $userId,
                     $httpRequest->placeId,
@@ -111,16 +111,16 @@ class RatesController extends ApiController
             'id' => $response->getId(),
             'user_id' => $response->getUserId(),
             'place_id' => $response->getPlaceId(),
-            'rate' => $response->getRateValue()
+            'rate' => $response->getRatingValue()
         ], 201);
     }
 
     public function getPlaceRateAvg($placeId) : JsonResponse
     {
         try {
-            /** @var GetPlaceRateAvgResponse $response */
+            /** @var GetPlaceRatingAvgResponse $response */
             $response = $this->getPlaceRateAvgAction->execute(
-                new GetPlaceRateAvgRequest(
+                new GetPlaceRatingAvgRequest(
                     $placeId
                 )
             );
@@ -132,7 +132,7 @@ class RatesController extends ApiController
         // base api controller
         return $this->successResponse([
             'place_id' => $response->getPlaceId(),
-            'rate' => $response->getRateAvgValue()
+            'rate' => $response->getRatingAvgValue()
         ], 201);
     }
 
