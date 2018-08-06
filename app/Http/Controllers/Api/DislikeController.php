@@ -9,6 +9,7 @@ use Hedonist\Actions\Dislike\{
     DislikeReviewRequest
 };
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
+use Hedonist\Exceptions\Review\ReviewNotFoundException;
 
 class DislikeController extends ApiController
 {

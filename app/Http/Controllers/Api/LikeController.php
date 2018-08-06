@@ -9,6 +9,7 @@ use Hedonist\Actions\Like\{
     LikeReviewRequest
 };
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
+use Hedonist\Exceptions\Review\ReviewNotFoundException;
 
 class LikeController extends ApiController
 {
@@ -42,9 +43,9 @@ class LikeController extends ApiController
             $response = $this->likeReviewAction->execute(
                 new LikeReviewRequest($id)
             );
-        } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), 400);
+        } catch (ReviewNotFoundException $exception) {
+            return $this->errorResponse('Review not found', 404);
         }
-        return $this->successResponse('ok', 200);
+        return $this->successResponse([], 200);
     }
 }

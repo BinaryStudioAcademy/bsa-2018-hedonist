@@ -35,7 +35,6 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'jwt.auth'], function() {
-
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
         Route::post('/places/{id}/dislike', 'Api\DisikeController@dislikePlace')->name('place.dislike');
             
