@@ -8,7 +8,7 @@ class PlaceRating extends Model
 {
     public $timestamps = false;
 
-    protected $table = 'ratings';
+    protected $table = 'place_rating';
 
     protected $fillable = ['rating'];
 }
