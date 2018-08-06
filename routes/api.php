@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::group(['prefix'=>'/auth','namespace'=>'Api'],function(){
+    Route::group(['prefix' => '/auth', 'namespace' => 'Api'], function() {
 
         Route::post('/signup','AuthController@register');
 
@@ -26,25 +26,28 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/recover','AuthCOntroller@recoverPassword');
 
-        Route::group(['middleware'=>'jwt.auth'],function(){
+        Route::group(['middleware' => 'jwt.auth'], function() {
 
-            Route::post('/refresh','AuthController@refresh');
+            Route::post('/refresh', 'AuthController@refresh');
 
-            Route::get('/me','AuthController@me');
-
-            // routes here
-
-            Route::get('/places/features/', 'Places\PlaceFeaturesController@indexPlaceFeature')
-                ->name('place.features.indexFeature');
-
-            Route::post('/places/features', 'Places\PlaceFeaturesController@storePlaceFeature')
-                ->name('place.features.storeFeature');
-
-            Route::get('/places/features/{id}', 'Places\PlaceFeaturesController@showPlaceFeature')
-                ->name('place.features.showFeature');
-
-            Route::delete('/places/features/{id}', 'Places\PlaceFeaturesController@destroyPlaceFeature')
-                ->name('place.features.deleteFeature');
+            Route::get('/me', 'AuthController@me');
         });
+    });
+
+    Route::group(['middleware' => 'jwt.auth'], function() {
+
+        Route::get('/places/features/', 'Places\PlaceFeaturesController@indexPlaceFeature')
+            ->name('place.features.indexFeature');
+
+        Route::post('/places/features', 'Places\PlaceFeaturesController@storePlaceFeature')
+            ->name('place.features.storeFeature');
+
+        Route::get('/places/features/{id}', 'Places\PlaceFeaturesController@showPlaceFeature')
+            ->name('place.features.showFeature');
+
+        Route::delete('/places/features/{id}', 'Places\PlaceFeaturesController@destroyPlaceFeature')
+            ->name('place.features.deleteFeature');
+      
+        /* Routes here.. */
     });
 });
