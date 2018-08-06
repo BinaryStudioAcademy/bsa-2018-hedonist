@@ -36,6 +36,13 @@ Route::prefix('v1')->group(function () {
 
     Route::group(['middleware' => 'jwt.auth'], function() {
 
+        Route::post('/places/rates', 'Api\Places\PlaceRatingController@setRating')
+            ->name('place.rates.setRating');
+        Route::get('/places/rates/place/{id}', 'Api\Places\PlaceRatingController@getPlaceRatingAvg')
+            ->name('place.rates.getPlaceRatingAvg');
+        Route::get('/places/rates/{id}', 'Api\Places\PlaceRatingController@getRating')
+            ->name('place.rates.getRating');
+
         /* Routes here.. */
     });
 });
