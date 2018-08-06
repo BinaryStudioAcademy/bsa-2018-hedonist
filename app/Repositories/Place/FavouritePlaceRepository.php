@@ -28,6 +28,6 @@ class FavouritePlaceRepository extends BaseRepository implements FavouritePlaceR
 
     public function deleteById(int $id)
     {
-        $this->delete($id);
+        FavouritePlace::destroy($id);
     }
 }
