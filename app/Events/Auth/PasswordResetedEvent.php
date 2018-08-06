@@ -2,7 +2,7 @@
 
 namespace Hedonist\Events\Auth;
 
-use Hedonist\Entities\User;
+use Hedonist\Entities\User\User;
 
 class PasswordResetedEvent
 {

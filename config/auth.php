@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Hedonist\Entities\User::class,
+            'model' => Hedonist\Entities\User\User::class,
         ],
 
         // 'users' => [
