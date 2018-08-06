@@ -1,8 +1,8 @@
 <?php
 
-namespace Hedonist\Actions\Review\Like;
+namespace Hedonist\Actions\Review\Dislike;
 
-class LikeReviewRequest
+class DislikeReviewRequest
 {
     private $reviewId;
 
