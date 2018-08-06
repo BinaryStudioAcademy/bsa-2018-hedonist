@@ -3,6 +3,8 @@
 namespace Hedonist\Entities\Place;
 
 use Illuminate\Database\Eloquent\Model;
+use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\User\User;
 
 class FavouritePlace extends Model
 {
@@ -12,12 +14,12 @@ class FavouritePlace extends Model
 
     public function user()
     {
-        return $this->belongsTo('Hedonist\Entities\User');
+        return $this->belongsTo(User::class);
     }
 
     public function place()
     {
-        return $this->belongsTo('Hedonist\Entities\Place');
+        return $this->belongsTo(Place::class);
     }
 
     public function scopeUserId($query, int $userId)

@@ -8,7 +8,6 @@ use Hedonist\Entities\Place\FavouritePlace;
 
 class FavouritePlaceRepository extends BaseRepository implements FavouritePlaceRepositoryInterface
 {
-
     public function model()
     {
         return FavouritePlace::class;

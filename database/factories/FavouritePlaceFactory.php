@@ -15,7 +15,7 @@ use Hedonist\Entities\Place\PlaceCategory;
 */
 $factory->define(\Hedonist\Entities\Place\FavouritePlace::class, function (Faker $faker) use ($factory) {
     return [
-        'user_id' => $factory->create(\Hedonist\User::class)->id,
+        'user_id' => $factory->create(\Hedonist\Entities\User\User::class)->id,
         'place_id' => $factory->create(\Hedonist\Entities\Place\Place::class)->id
     ];
 });
