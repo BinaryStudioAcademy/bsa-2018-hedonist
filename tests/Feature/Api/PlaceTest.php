@@ -11,27 +11,27 @@ class PlaceTest extends ApiTestCase
 {
     use DatabaseTransactions;
 
-    private $placeId;
-    private $cityId;
-    private $creatorId;
-    private $categoryId;
+    private $place;
+    private $credentials;
     const ENDPOINT = '/api/v1/places';
 
     public function setUp()
     {
         parent::setUp();
 
-        $place = factory(Place::class)->create();
-        $this->placeId = $place->id;
-        $this->cityId = $place->city_id;
-        $this->creatorId = $place->creator_id;
-        $this->categoryId = $place->category_id;
+        $this->place = factory(Place::class)->create();
+        $this->credentials = auth()->login($this->place->creator);
     }
 
     public function testGetCollection()
     {
         $routeName = 'getPlaceCollection';
-        $response =  $this->json('GET', self::ENDPOINT);
+        $response =  $this->json(
+            'GET',
+            self::ENDPOINT,
+            [],
+            ['HTTP_Authorization' => 'Bearer ' . $this->credentials]
+        );
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
         $arrayContent = $response->getOriginalContent();
@@ -45,33 +45,44 @@ class PlaceTest extends ApiTestCase
         $this->assertEquals(self::ENDPOINT, route($routeName, [], $absolute = false));
     }
 
-    public function testGetItem()
+    public function testGetPlace()
     {
         $routeName = 'getPlace';
-        $response =  $this->json('GET', self::ENDPOINT . "/{$this->placeId}");
+        $response =  $this->json(
+            'GET',
+            self::ENDPOINT . "/{$this->place->id}",
+            [],
+            ['HTTP_Authorization' => 'Bearer ' . $this->credentials]
+        );
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
         $this->checkJsonStructure($response);
         $this->assertTrue(Route::has($routeName));
         $this->assertEquals(
-            self::ENDPOINT . "/{$this->placeId}",
-            route($routeName, ['id' => $this->placeId], false)
+            self::ENDPOINT . "/{$this->place->id}",
+            route($routeName, ['id' => $this->place->id], false)
         );
     }
 
-    public function testAddEndpoint()
+    public function testAddPlace()
     {
         $routeName = 'addPlace';
-        $response = $this->json('POST', route($routeName), [
-            'creator_id' => $this->categoryId,
-            'category_id' => $this->creatorId,
-            'city_id' => $this->cityId,
-            'longitude' => -20,
-            'latitude' => 32.3,
-            'zip' => 3322,
-            'address' => 'sdf',
-        ]);
+        $response = $this->json(
+            'POST', route($routeName),
+            [
+                'creator_id' => $this->place->creator->id,
+                'category_id' => $this->place->category->id,
+                'city_id' => $this->place->city->id,
+                'longitude' => -20,
+                'latitude' => 32.3,
+                'zip' => 3322,
+                'address' => 'sdf',
+            ],
+            [
+                'HTTP_Authorization' => 'Bearer ' . $this->credentials
+            ]
+        );
         $newPlace = $response->getOriginalContent();
 
         $this->assertDatabaseHas('places', [
@@ -83,20 +94,26 @@ class PlaceTest extends ApiTestCase
         $this->assertTrue(Route::has('addPlace'));
     }
 
-    public function testUpdateEndpoint()
+    public function testUpdatePlace()
     {
         $routeName = 'updatePlace';
-        $response = $this->json('PUT', route($routeName, ['id' => $this->placeId]), [
-            'creator_id' => $this->categoryId,
-            'category_id' => $this->creatorId,
-            'city_id' => $this->cityId,
-            'longitude' => -90,
-            'latitude' => 33.3,
-            'zip' => 1234,
-            'address' => 'sdf',
-        ]);
+        $response = $this->json(
+            'PUT',
+            route($routeName, ['id' => $this->place->id]),
+            [
+                'creator_id' => $this->place->creator->id,
+                'category_id' => $this->place->category->id,
+                'city_id' => $this->place->city->id,
+                'longitude' => -90,
+                'latitude' => 33.3,
+                'zip' => 1234,
+                'address' => 'sdf',
+            ],
+            [
+                'HTTP_Authorization' => 'Bearer ' . $this->credentials
+            ]
+        );
         $updatedPlace = $response->getOriginalContent();
-        dump($response);
 
         $this->assertEquals(33.3, $updatedPlace['data']['latitude']);
         $this->assertEquals(1234, $updatedPlace['data']['zip']);
@@ -106,12 +123,19 @@ class PlaceTest extends ApiTestCase
         $this->assertTrue(Route::has('updatePlace'));
     }
 
-    public function testRemoveEndpoint()
+    public function testRemovePlace()
     {
-        $response = $this->json('DELETE', self::ENDPOINT . "/{$this->placeId}");
+        $response = $this->json(
+            'DELETE',
+            self::ENDPOINT . "/{$this->place->id}",
+            [],
+            [
+                'HTTP_Authorization' => 'Bearer ' . $this->credentials
+            ]
+        );
 
         $this->assertDatabaseMissing('places', [
-            'id' => $this->placeId,
+            'id' => $this->place->id,
             'deleted_at' => null
         ]);
         $response->assertStatus(204);
@@ -121,28 +145,49 @@ class PlaceTest extends ApiTestCase
 
     public function testShowNotExistingPlace()
     {
-        $response =  $this->json('GET', self::ENDPOINT . '/99999999');
+        $response =  $this->json(
+            'GET',
+            self::ENDPOINT . '/99999999',
+            [],
+            [
+                'HTTP_Authorization' => 'Bearer ' . $this->credentials
+            ]
+        );
         $response->assertStatus(404);
     }
 
     public function testDestroyNotExistingId()
     {
-        $response =  $this->json('DELETE', self::ENDPOINT . '/99999999');
+        $response =  $this->json(
+            'DELETE',
+            self::ENDPOINT . '/99999999',
+            [],
+            [
+                'HTTP_Authorization' => 'Bearer ' . $this->credentials
+            ]
+        );
         $response->assertStatus(404);
     }
 
     public function testWrongDataUpdate()
     {
         $routeName = 'updatePlace';
-        $response = $this->json('PUT', route($routeName, ['id' => $this->placeId]), [
-            'creator_id' => -1,
-            'category_id' => -1,
-            'city_id' => -1,
-            'longitude' => -9999,
-            'latitude' => 99999999,
-            'zip' => 1234,
-            'address' => 'sdf',
-        ]);
+        $response = $this->json(
+            'PUT',
+            route($routeName, ['id' => $this->place->id]),
+            [
+                'creator_id' => -1,
+                'category_id' => -1,
+                'city_id' => -1,
+                'longitude' => -9999,
+                'latitude' => 99999999,
+                'zip' => 1234,
+                'address' => 'sdf',
+            ],
+            [
+                'HTTP_Authorization' => 'Bearer ' . $this->credentials
+            ]
+        );
 
 //        $response->assertStatus(400); // TODO needs to be 400 status
         $response->assertStatus(422);
