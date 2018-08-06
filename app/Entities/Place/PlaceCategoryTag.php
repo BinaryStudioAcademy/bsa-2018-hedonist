@@ -12,7 +12,10 @@ class PlaceCategoryTag extends Model
 
     protected $table = 'place_categories_tags';
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'category_id'
+    ];
 
     protected $dates = ['deleted_at'];
 
