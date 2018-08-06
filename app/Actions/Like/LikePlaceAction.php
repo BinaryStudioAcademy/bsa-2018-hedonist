@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Like;
 
+use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Repositories\Like\LikeRepository;
 use Hedonist\Repositories\Dislike\DislikeRepository;
 use Hedonist\Repositories\Place\PlaceRepository;
@@ -26,7 +27,7 @@ class LikePlaceAction
 
     public function execute(LikePlaceRequest $request): LikePlaceResponse
     {
-        $place = $this->placeRepository->findById($request->getPlaceId());
+        $place = $this->placeRepository->getById($request->getPlaceId());
         if (empty($place)) {
             throw new PlaceNotFoundException();
         }
