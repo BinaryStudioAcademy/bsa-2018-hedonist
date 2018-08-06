@@ -20,10 +20,10 @@ class CreatePlacesPlacesFeaturesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('place_id')
-                ->references('id')
-                ->on('places')
-                ->onDelete('cascade');
+//            $table->foreign('place_id')
+//                ->references('id')
+//                ->on('places')
+//                ->onDelete('cascade');
 
             $table->foreign('place_feature_id')
                 ->references('id')

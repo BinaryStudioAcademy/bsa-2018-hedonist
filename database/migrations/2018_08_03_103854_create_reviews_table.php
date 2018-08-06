@@ -20,7 +20,7 @@ class CreateReviewsTable extends Migration
             $table->unsignedInteger('place_id');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('place_id')->references('id')->on('places');
+//            $table->foreign('place_id')->references('id')->on('places');
         });
     }
 
