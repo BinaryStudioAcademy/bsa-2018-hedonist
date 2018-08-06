@@ -26,7 +26,7 @@ Route::prefix('v1')->group(function () {
 
         Route::get('{id}', 'ReviewController@getReview');
 
-        Route::post('{id}', 'ReviewController@editReview');
+        Route::post('{id}', 'ReviewController@updateReview');
 
         Route::delete('/', 'ReviewController@deleteReview');
     });
