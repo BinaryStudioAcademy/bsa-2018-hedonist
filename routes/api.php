@@ -25,16 +25,17 @@ Route::prefix('v1')->group(function () {
         Route::post('/reset','AuthController@resetPassword');
 
         Route::post('/recover','AuthCOntroller@recoverPassword');
-    });
 
-    Route::group(['prefix' => '', 'namespace' => 'Api'], function() {
         Route::group(['middleware' => 'jwt.auth'], function() {
 
-            Route::post('/auth/refresh','AuthController@refresh');
+            Route::post('/refresh', 'AuthController@refresh');
 
-            Route::get('/auth/me','AuthController@me');
-
-            /* Routes here.. */
+            Route::get('/me', 'AuthController@me');
         });
+    });
+
+    Route::group(['middleware' => 'jwt.auth'], function() {
+
+        /* Routes here.. */
     });
 });
