@@ -4,22 +4,29 @@ namespace Hedonist\Actions\Review;
 
 class UpdateReviewRequest
 {
-    private $body;
-    private $title;
+    private $userId;
+    private $placeId;
+    private $description;
 
-    public function __construct(string $title, string $body)
+    public function __construct(int $userId, int $placeId, string $description)
     {
-        $this->title = $title;
-        $this->body = $body;
+        $this->userId = $userId;
+        $this->placeId = $placeId;
+        $this->description = $description;
     }
 
-    public function getTitle(): string
+    public function getUserId(): int
     {
-        return $this->title;
+        return $this->userId;
     }
 
-    public function getBody(): string
+    public function getPlaceId(): int
     {
-        return $this->body;
+        return $this->placeId;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
     }
 }

@@ -2,26 +2,29 @@
 
 namespace Hedonist\Actions\Review;
 
-//use Hedonist\Repositories\Review\ReviewRepository;
+use Hedonist\Entities\Review\Review;
+use Hedonist\Repositories\Review\ReviewRepository;
 
 class UpdateReviewAction
 {
     private $reviewRepository;
 
-    /* ReviewRepository does NOT created at the moment */
     public function __construct(ReviewRepository $repository)
     {
         $this->reviewRepository = $repository;
     }
 
-    public function execute(EditReviewRequest $request): EditReviewResponse
+    public function execute(UpdateReviewRequest $request): UpdateReviewResponse
     {
         $review = $this->reviewRepository->save(
             new Review(
-                $request->getTitle(),
-                $request->getBody()
+                [
+                    'user_id'       => $request->getUserId(),
+                    'place_id'      => $request->getPlaceId(),
+                    'description'   => $request->getDescription()
+                ]
             )
         );
-        return new EditReviewResponse($review);
+        return new UpdateReviewResponse($review);
     }
 }
