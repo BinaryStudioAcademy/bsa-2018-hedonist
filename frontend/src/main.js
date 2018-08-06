@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VuexRouterSync from 'vuex-router-sync'
 
 Vue.config.productionTip = false
 
