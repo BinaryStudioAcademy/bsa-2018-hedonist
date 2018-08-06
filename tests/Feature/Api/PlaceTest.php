@@ -96,10 +96,10 @@ class PlaceTest extends ApiTestCase
             'address' => 'sdf',
         ]);
         $updatedPlace = $response->getOriginalContent();
-//        dump($updatedPlace);
-//
-//        $this->assertEquals(33.3, $updatedPlace['data']['latitude']);
-//        $this->assertEquals(1234, $updatedPlace['data']['zip']);
+        dump($response);
+
+        $this->assertEquals(33.3, $updatedPlace['data']['latitude']);
+        $this->assertEquals(1234, $updatedPlace['data']['zip']);
         $response->assertStatus(201);
         $response->assertHeader('Content-Type', 'application/json');
         $this->checkJsonStructure($response);
