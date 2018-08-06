@@ -32,6 +32,11 @@ class User extends Authenticatable implements JWTSubject, CanResetPasswordContra
         'password', 'remember_token',
     ];
 
+    public function tastes()
+    {
+        return $this->belongsToMany(UserTaste::class, 'users_user_tastes');
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
