@@ -3,7 +3,6 @@
 namespace Hedonist\Actions\Place;
 
 
-use Hedonist\Entities\Place\Place;
 use Illuminate\Database\Eloquent\Collection;
 
 class GetPlaceCollectionResponse

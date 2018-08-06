@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\Place;
 
 
+use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 
 class GetPlaceItemAction
@@ -17,7 +18,7 @@ class GetPlaceItemAction
     public function execute(GetPlaceItemRequest $getItemRequest): GetPlaceItemResponse
     {
         if (!$place = $this->placeRepository->getById($getItemRequest->getId())) {
-            throw new \Exception('TODO'); // TODO change exception
+            throw new PlaceDoesNotExistException;
         }
 
         return new GetPlaceItemResponse(

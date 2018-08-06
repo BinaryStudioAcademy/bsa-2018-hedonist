@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\Place;
 
 
+use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 
 class UpdatePlaceAction
@@ -17,8 +18,9 @@ class UpdatePlaceAction
     public function execute(UpdatePlaceRequest $placeRequest): UpdatePlaceResponse
     {
         if (!$place = $this->placeRepository->getById($placeRequest->getId())) {
-            throw new \Exception('TODO'); // TODO change exception
+            throw new PlaceDoesNotExistException;
         }
+        // TODO for checking sub entities exists (category, city) should be implemented repos
 
         $place->creator_id = $placeRequest->getCreatorId();
         $place->category_id = $placeRequest->getCategoryId();

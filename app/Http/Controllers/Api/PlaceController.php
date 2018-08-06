@@ -15,7 +15,11 @@ use Hedonist\Actions\Place\RemovePlaceRequest;
 use Hedonist\Actions\Place\UpdatePlaceAction;
 use Hedonist\Actions\Place\UpdatePlacePresenter;
 use Hedonist\Actions\Place\UpdatePlaceRequest;
+use Hedonist\Exceptions\PlaceExceptions\AbstractPlaceException;
+use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
+use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Response;
 
 class PlaceController extends ApiController
 {
@@ -43,8 +47,8 @@ class PlaceController extends ApiController
     {
         try {
             $placeResponse = $this->getPlaceItemAction->execute(new GetPlaceItemRequest($id));
-        } catch (\Exception $e) {
-            return null;
+        } catch (AbstractPlaceException $e) {
+            return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
         return $this->successResponse(GetPlaceItemPresenter::present($placeResponse));
@@ -54,25 +58,25 @@ class PlaceController extends ApiController
     {
         try {
             $placeResponse = $this->getPlaceCollectionAction->execute();
-        } catch (\Exception $e) {
-            return null;
+        } catch (AbstractPlaceException $e) {
+            return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
         return $this->successResponse(GetPlaceCollectionPresenter::present($placeResponse));
     }
 
-    public function removePlace(int $id): JsonResponse
+    public function removePlace(int $id)
     {
         try {
             $this->removePlaceAction->execute(new RemovePlaceRequest($id));
-        } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage(), 404);
+        } catch (AbstractPlaceException $e) {
+            return Response::make(null, 404);
         }
 
-        return $this->successResponse(['message' => 'Place removed'], 201);
+        return Response::make(null, 204); // TODO how to make response without content
     }
 
-    public function addPlace(\Hedonist\Http\Requests\Place\AddPlaceRequest $request): JsonResponse
+    public function addPlace(ValidateAddPlaceRequest $request): JsonResponse
     {
         try {
             $placeResponse = $this->addPlaceAction->execute(new AddPlaceRequest(
@@ -84,14 +88,14 @@ class PlaceController extends ApiController
                 $request->zip,
                 $request->address
             ));
-        } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage(), 404);
+        } catch (AbstractPlaceException $e) {
+            return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
-        return $this->successResponse(AddPlacePresenter::present($placeResponse));
+        return $this->successResponse(AddPlacePresenter::present($placeResponse), 201);
     }
 
-    public function updatePlace(\Hedonist\Http\Requests\Place\UpdatePlaceRequest $request): JsonResponse
+    public function updatePlace(ValidateUpdatePlaceRequest $request): JsonResponse
     {
         try {
             $placeResponse = $this->updatePlaceAction->execute(new UpdatePlaceRequest(
@@ -104,10 +108,10 @@ class PlaceController extends ApiController
                 $request->zip,
                 $request->address
             ));
-        } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage(), 404);
+        } catch (AbstractPlaceException $e) {
+            return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
-        return $this->successResponse(UpdatePlacePresenter::present($placeResponse));
+        return $this->successResponse(UpdatePlacePresenter::present($placeResponse), 201);
     }
 }

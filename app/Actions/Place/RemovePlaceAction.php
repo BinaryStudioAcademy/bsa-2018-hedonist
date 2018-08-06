@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\Place;
 
 
+use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 
 class RemovePlaceAction
@@ -17,7 +18,7 @@ class RemovePlaceAction
     public function execute(RemovePlaceRequest $placeRequest): void
     {
         if (!$place = $this->placeRepository->getById($placeRequest->getId())) {
-             throw new \Exception('123');
+             throw new PlaceDoesNotExistException;
         }
 
         $this->placeRepository->deleteById($placeRequest->getId());

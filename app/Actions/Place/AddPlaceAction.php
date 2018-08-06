@@ -17,6 +17,8 @@ class AddPlaceAction
 
     public function execute(AddPlaceRequest $placeRequest): AddPlaceResponse
     {
+        // TODO for checking sub entities exists (category, city) should be implemented repos
+
         $place = $this->placeRepository->save(new Place([
             'creator_id' => $placeRequest->getCreatorId(),
             'category_id' => $placeRequest->getCategoryId(),

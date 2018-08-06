@@ -5,7 +5,7 @@ namespace Hedonist\Http\Requests\Place;
 
 use Hedonist\Http\Requests\JsonRequest;
 
-class UpdatePlaceRequest extends JsonRequest
+class ValidateAddPlaceRequest extends JsonRequest
 {
     public function authorize()
     {
@@ -15,8 +15,8 @@ class UpdatePlaceRequest extends JsonRequest
     public function rules()
     {
         return [
-            'longitude'   => 'required|numeric|min:0',
-            'latitude'    => 'required|numeric|min:0',
+            'longitude'   => 'required|numeric|min:-180|max:180',
+            'latitude'    => 'required|numeric|min:-90|max:90',
             'zip'         => 'required|numeric|min:0',
             'address'     => 'required|max:255',
             'creator_id'  => 'required|numeric|min:1',

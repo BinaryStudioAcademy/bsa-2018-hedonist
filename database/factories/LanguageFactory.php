@@ -1,9 +1,9 @@
 <?php
 
 use Faker\Generator as Faker;
-use Hedonist\Entities\Place\City;
+use Hedonist\Entities\Localization\Language;
 
-$factory->define(City::class, function (Faker $faker) {
+$factory->define(Language::class, function (Faker $faker) {
     return [
         'code' => $faker->languageCode,
         'active' => $faker->boolean,
