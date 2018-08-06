@@ -5,14 +5,15 @@ namespace tests\Feature\Api\Place;
 use Hedonist\Entities\Place\PlaceFeature;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
+use Tests\JwtTestCase;
 use Tests\TestCase;
-use Hedonist\User;
+use Hedonist\Entities\User\User;
 
-
-class PlaceFeaturesControllerTest extends TestCase
+class PlaceFeaturesControllerTest extends JwtTestCase
 {
     use DatabaseTransactions;
 
+    protected $user;
     /** @var PlaceFeature */
     protected $placeFeature_1;
     /** @var PlaceFeature */
@@ -23,12 +24,8 @@ class PlaceFeaturesControllerTest extends TestCase
         parent::setUp();
 
         DB::table('places_features')->delete();
-//        uncomment next lines after authorization implementation
-//        $this->user = factory(User::class)->create([
-//            'isAdmin' => false,
-//        ]);
-//        $this->user2 = factory(User::class)->create();
 
+        $this->actingAsJwtToken();
 
         /** @var PlaceFeature placeFeature_1 */
         $this->placeFeature_1 = factory(\Hedonist\Entities\Place\PlaceFeature::class, 1)->create([
@@ -37,17 +34,14 @@ class PlaceFeaturesControllerTest extends TestCase
         $this->placeFeature_2 = factory(\Hedonist\Entities\Place\PlaceFeature::class, 1)->create([
             'name' => 'music'
         ])->first();
-
     }
 
     public function test_getting_item_by_id() : void
     {
-        // uncomment next line after authorization implementation
-        // $this->actingAs($this->user, 'api');
         $id = $this->placeFeature_1->id;
         $name = $this->placeFeature_1->name;
 
-        $response = $this->json('GET', "/api/v1/places/features/$id", [
+        $response = $this->json('GET', "/api/v1/auth/places/features/$id", [
         ]);
 
         $response->assertStatus(201);
@@ -56,7 +50,7 @@ class PlaceFeaturesControllerTest extends TestCase
             'name' => $name
         ]);
 
-        $response = $this->json('GET', '/api/v1/places/features/999', [
+        $response = $this->json('GET', '/api/v1/auth/places/features/999', [
         ]);
         $response->assertStatus(400);
         $response->assertJsonFragment([
@@ -68,14 +62,12 @@ class PlaceFeaturesControllerTest extends TestCase
 
     public function test_gettind_items_collection() : void
     {
-        // uncomment next line after authorization implementation
-        // $this->actingAs($this->user, 'api');
         $id_1 = $this->placeFeature_1->id;
         $name_1 = $this->placeFeature_1->name;
         $id_2 = $this->placeFeature_2->id;
         $name_2 = $this->placeFeature_2->name;
 
-        $response = $this->json('GET', '/api/v1/places/features/', [
+        $response = $this->json('GET', '/api/v1/auth/places/features/', [
         ]);
 
         $response->assertStatus(201);
@@ -95,9 +87,7 @@ class PlaceFeaturesControllerTest extends TestCase
 
     public function test_create_item() : void
     {
-        // uncomment next line after authorization implementation
-        // $this->actingAs($this->user, 'api');
-        $response = $this->json('POST', '/api/v1/places/features/', [
+        $response = $this->json('POST', '/api/v1/auth/places/features/', [
             'name' => 'hukabuka'
         ]);
 
@@ -115,7 +105,7 @@ class PlaceFeaturesControllerTest extends TestCase
             'name' => 'hukabuka'
         ]);
 
-        $response = $this->json('POST', '/api/v1/places/features/', [
+        $response = $this->json('POST', '/api/v1/auth/places/features/', [
             'name' => 'hukabuka'
         ]);
         $response->assertStatus(422);
@@ -126,7 +116,7 @@ class PlaceFeaturesControllerTest extends TestCase
             ]
         ]);
 
-        $response = $this->json('POST', '/api/v1/places/features/', [
+        $response = $this->json('POST', '/api/v1/auth/places/features/', [
             'name' => 'hukabuka-hukabuka-hukabuka-hukabuka-hukabuka-hukabuka-hukabuka'
         ]);
         $response->assertStatus(422);
@@ -143,8 +133,6 @@ class PlaceFeaturesControllerTest extends TestCase
 
     public function test_delete_item() : void
     {
-        // uncomment next line after authorization implementation
-        // $this->actingAs($this->user, 'api');
         $id = $this->placeFeature_1->id;
         $name = $this->placeFeature_1->name;
 
@@ -152,7 +140,7 @@ class PlaceFeaturesControllerTest extends TestCase
             'id' => $id,
             'name' => $name
         ]);
-        $response = $this->json('DELETE', "/api/v1/places/features/$id", [
+        $response = $this->json('DELETE', "/api/v1/auth/places/features/$id", [
         ]);
         $response->assertStatus(201);
         $response->assertJsonFragment([
@@ -167,7 +155,7 @@ class PlaceFeaturesControllerTest extends TestCase
             'deleted_at' => null
         ]);
 
-        $response = $this->json('DELETE', "/api/v1/places/features/$id", [
+        $response = $this->json('DELETE', "/api/v1/auth/places/features/$id", [
         ]);
         $response->assertStatus(400);
         $response->assertJsonFragment([
@@ -176,6 +164,5 @@ class PlaceFeaturesControllerTest extends TestCase
                 'message' => "Item #$id not found"
             ]
         ]);
-
     }
 }
