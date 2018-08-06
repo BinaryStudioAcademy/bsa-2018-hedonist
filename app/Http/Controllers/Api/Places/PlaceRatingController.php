@@ -3,12 +3,11 @@
 namespace Hedonist\Http\Controllers\Api\Places;
 
 use Hedonist\Http\Controllers\Api\ApiController;
-use Hedonist\Entities\User\User;
 use Illuminate\Http\JsonResponse;
 
 use Hedonist\Http\Requests\Place\Rate\{
-    SetRateHttpRequest,
-    GetRateHttpRequest
+    SetRatingHttpRequest,
+    GetRatingHttpRequest
 };
 
 use Hedonist\Actions\Place\Rate\{
@@ -22,50 +21,33 @@ use Hedonist\Actions\Place\Rate\{
     SetPlaceRatingRequest,
     GetPlaceRatingAvgRequest
 };
-use Hedonist\Actions\Place\Rate\{
-    GetPlaceRatingResponse,
-    SetPlaceRatingResponse,
-    GetPlaceRatingAvgResponse
-};
 use Illuminate\Support\Facades\Auth;
 
 class PlaceRatingController extends ApiController
 {
-    /** @var GetPlaceRatingAction **/
     private $getRateAction;
-    /** @var SetPlaceRatingAction **/
     private $setRateAction;
-    /** @var GetPlaceRatingAvgAction **/
     private $getPlaceRateAvgAction;
-    /** @var int */
     private $userId;
 
-    /**
-     * PlaceRatingController constructor.
-     * @param GetPlaceRatingAction $getRateAction
-     * @param SetPlaceRatingAction $setRateAction
-     * @param GetPlaceRatingAvgAction $getPlaceRateAvgAction
-     * @param SetRateHttpRequest $httpRequest
-     */
-    public function __construct(GetPlaceRatingAction $getRateAction, SetPlaceRatingAction $setRateAction, GetPlaceRatingAvgAction $getPlaceRateAvgAction, SetRateHttpRequest $httpRequest)
+    public function __construct(
+        GetPlaceRatingAction $getRateAction,
+        SetPlaceRatingAction $setRateAction,
+        GetPlaceRatingAvgAction $getPlaceRateAvgAction
+    )
     {
         $this->getRateAction = $getRateAction;
         $this->setRateAction = $setRateAction;
         $this->getPlaceRateAvgAction = $getPlaceRateAvgAction;
         if (Auth::check()) {
             $this->userId = Auth::id();
-        } else {
-            // TODO Remove user mock after authorization implementation
-            $this->userId = User::all()->first();
         }
     }
 
-
-    public function setRate(SetRateHttpRequest $httpRequest) : JsonResponse
+    public function setRate(SetRatingHttpRequest $httpRequest) : JsonResponse
     {
         try {
-            /** @var SetPlaceRatingResponse $response */
-            $response = $this->setRateAction->execute(
+            $setPlaceRatingResponse = $this->setRateAction->execute(
                 new SetPlaceRatingRequest(
                     $httpRequest->id,
                     $this->userId,
@@ -74,26 +56,23 @@ class PlaceRatingController extends ApiController
                 )
             );
         } catch (\Exception $ex) {
-            // base api controller
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
-        // base api controller
         return $this->successResponse([
-            'id' => $response->getId(),
-            'user_id' => $response->getUserId(),
-            'place_id' => $response->getPlaceId(),
-            'rate' => $response->getRatingValue()
+            'id' => $setPlaceRatingResponse->getId(),
+            'user_id' => $setPlaceRatingResponse->getUserId(),
+            'place_id' => $setPlaceRatingResponse->getPlaceId(),
+            'rate' => $setPlaceRatingResponse->getRatingValue()
         ], 201);
     }
 
-    public function getRate(GetRateHttpRequest $httpRequest, $id = null) : JsonResponse
+    public function getRate(GetRatingHttpRequest $httpRequest, $id = null) : JsonResponse
     {
         try {
             $userId = $httpRequest->userId ? $httpRequest->userId : $this->userId;
 
-            /** @var GetPlaceRatingResponse $response */
-            $response = $this->getRateAction->execute(
+            $getPlaceRatingResponse = $this->getRateAction->execute(
                 new GetPlaceRatingRequest(
                     $id,
                     $userId,
@@ -102,37 +81,32 @@ class PlaceRatingController extends ApiController
                 )
             );
         } catch (\Exception $ex) {
-            // base api controller
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
-        // base api controller
         return $this->successResponse([
-            'id' => $response->getId(),
-            'user_id' => $response->getUserId(),
-            'place_id' => $response->getPlaceId(),
-            'rate' => $response->getRatingValue()
+            'id' => $getPlaceRatingResponse->getId(),
+            'user_id' => $getPlaceRatingResponse->getUserId(),
+            'place_id' => $getPlaceRatingResponse->getPlaceId(),
+            'rate' => $getPlaceRatingResponse->getRatingValue()
         ], 201);
     }
 
     public function getPlaceRateAvg($placeId) : JsonResponse
     {
         try {
-            /** @var GetPlaceRatingAvgResponse $response */
-            $response = $this->getPlaceRateAvgAction->execute(
+            $getPlaceRatingAvgResponse = $this->getPlaceRateAvgAction->execute(
                 new GetPlaceRatingAvgRequest(
                     $placeId
                 )
             );
         } catch (\Exception $ex) {
-            // base api controller
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
-        // base api controller
         return $this->successResponse([
-            'place_id' => $response->getPlaceId(),
-            'rate' => $response->getRatingAvgValue()
+            'place_id' => $getPlaceRatingAvgResponse->getPlaceId(),
+            'rate' => $getPlaceRatingAvgResponse->getRatingAvgValue()
         ], 201);
     }
 
