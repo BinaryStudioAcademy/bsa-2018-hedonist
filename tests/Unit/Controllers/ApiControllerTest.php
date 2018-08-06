@@ -4,7 +4,7 @@ namespace Tests\Unit\Controllers;
 
 use Tests\TestCase;
 use Illuminate\Http\JsonResponse;
-use Hedonist\Http\Controllers\ApiController;
+use Hedonist\Http\Controllers\Api\ApiController;
 
 class ApiControllerTest extends TestCase
 {
