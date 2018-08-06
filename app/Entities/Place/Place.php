@@ -4,9 +4,12 @@ namespace Hedonist\Entities\Place;
 
 use Hedonist\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Place extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         "longitude",
         "latitude",
@@ -16,6 +19,8 @@ class Place extends Model
         "category_id",
         "city_id",
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function creator()
     {
