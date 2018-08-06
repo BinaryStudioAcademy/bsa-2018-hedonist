@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::group(['prefix'=>'/auth','namespace'=>'Api'],function(){
+    Route::group(['prefix' => '/auth', 'namespace' => 'Api'], function() {
 
         Route::post('/signup','AuthController@register');
 
@@ -26,24 +26,27 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/recover','AuthCOntroller@recoverPassword');
 
-        Route::group(['middleware'=>'jwt.auth'],function(){
+        Route::group(['middleware' => 'jwt.auth'], function() {
 
-            Route::post('/refresh','AuthController@refresh');
+            Route::post('/refresh', 'AuthController@refresh');
 
-            Route::get('/me','AuthController@me');
+            Route::get('/me', 'AuthController@me');
+        });
+    });
 
-            Route::prefix('review')->group(function () {
+    Route::group(['middleware' => 'jwt.auth'], function() {
 
-                Route::get('/', 'ReviewController@getReviewCollection');
+        Route::prefix('review')->group(function () {
 
-                Route::post('/', 'ReviewController@createReview');
+            Route::get('/', 'ReviewController@getReviewCollection');
 
-                Route::get('{id}', 'ReviewController@getReview');
+            Route::post('/', 'ReviewController@createReview');
 
-                Route::post('{id}', 'ReviewController@updateReview');
+            Route::get('/{id}', 'ReviewController@getReview');
 
-                Route::delete('/', 'ReviewController@deleteReview');
-            });
+            Route::put('/{id}', 'ReviewController@updateReview');
+
+            Route::delete('/{id}', 'ReviewController@deleteReview');
         });
     });
 });
