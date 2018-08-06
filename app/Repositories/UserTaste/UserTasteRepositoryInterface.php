@@ -2,7 +2,6 @@
 
 namespace Hedonist\Repositories\UserTaste;
 
-
 use Hedonist\Entities\User\UserTaste;
 use Illuminate\Support\Collection;
 
