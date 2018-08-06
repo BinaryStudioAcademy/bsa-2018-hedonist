@@ -15,10 +15,6 @@ class CreateUserListPlacesTable extends Migration
     {
         Schema::create('user_list_places', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('list_id');
-            $table->unsignedInteger('place_id');
-            $table->foreign('list_id')->references('id')->on('user_lists');
-            $table->foreign('place_id')->references('id')->on('places');
         });
     }
 
