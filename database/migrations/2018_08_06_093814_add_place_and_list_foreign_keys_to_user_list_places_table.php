@@ -14,9 +14,6 @@ class AddPlaceAndListForeignKeysToUserListPlacesTable extends Migration
     public function up()
     {
         Schema::table('user_list_places', function (Blueprint $table) {
-            $table->unsignedInteger('list_id');
-            $table->unsignedInteger('place_id');
-
             $table->foreign('list_id')->references('id')->on('user_lists');
             $table->foreign('place_id')->references('id')->on('places');
         });
@@ -32,9 +29,6 @@ class AddPlaceAndListForeignKeysToUserListPlacesTable extends Migration
         Schema::table('user_list_places', function (Blueprint $table) {
             $table->dropForeign(['place_id']);
             $table->dropForeign(['list_id']);
-
-            $table->dropColumn('place_id');
-            $table->dropColumn('list_id');
         });
     }
 }

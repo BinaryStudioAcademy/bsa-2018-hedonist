@@ -15,6 +15,8 @@ class CreateUserListPlacesTable extends Migration
     {
         Schema::create('user_list_places', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('list_id');
+            $table->unsignedInteger('place_id');
         });
     }
 
