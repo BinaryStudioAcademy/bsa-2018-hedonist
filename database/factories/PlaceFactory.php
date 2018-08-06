@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use Hedonist\User;
+use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\City;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\PlaceCategory;
