@@ -1,17 +1,17 @@
 <?php
 
-namespace Hedonist\Entities;
+namespace Hedonist\Entities\Dislike;
 
-use Hedonist\User;
+use Hedonist\Entities\User\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Likes extends Model
+class Dislike extends Model
 {
-    protected $table = "likes";
+    protected $table = "dislikes";
 
     protected $fillable = [
-        'likeable_id',
-        'likeable_type',
+        'dislikeable_id',
+        'dislikeable_type',
         'user_id'
     ];
 

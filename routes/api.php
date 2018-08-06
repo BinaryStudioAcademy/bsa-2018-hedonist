@@ -14,16 +14,37 @@ use Illuminate\Http\Request;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
+    Route::group(['prefix'=>'/auth','namespace'=>'Api'],function(){
+
+        Route::post('/signup','AuthController@register');
+
+        Route::post('/login','AuthController@login');
+
+        Route::post('/logout','AuthController@logout');
+
+        Route::post('/reset','AuthController@resetPassword');
+
+        Route::post('/recover','AuthCOntroller@recoverPassword');
+
+        Route::group(['middleware'=>'jwt.auth'],function(){
+
+            Route::post('/refresh','AuthController@refresh');
+
+            Route::get('/me','AuthController@me');
+          
+            Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
+                ->name('place.features.indexFeature');
+
+            Route::post('/places/features', 'Api\Places\PlaceFeaturesController@storePlaceFeature')
+                ->name('place.features.storeFeature');
+
+            Route::get('/places/features/{id}', 'Api\Places\PlaceFeaturesController@showPlaceFeature')
+                ->name('place.features.showFeature');
+
+            Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
+                ->name('place.features.deleteFeature');
+          
+            // routes here
+        });
     });
-    // routes here
-    Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
-        ->name('place.features.indexFeature');
-    Route::post('/places/features', 'Api\Places\PlaceFeaturesController@storePlaceFeature')
-        ->name('place.features.storeFeature');
-    Route::get('/places/features/{id}', 'Api\Places\PlaceFeaturesController@showPlaceFeature')
-        ->name('place.features.showFeature');
-    Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
-        ->name('place.features.deleteFeature');
 });

@@ -2,10 +2,12 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/clockwork/
 /vendor
 /.idea
 /.vscode
 /.vagrant
+/nbproject
 Homestead.json
 Homestead.yaml
 npm-debug.log
@@ -18,3 +20,4 @@ yarn-error.log
 /public/css
 /public/js
 /public/mix-manifest.json
+/public/dist
