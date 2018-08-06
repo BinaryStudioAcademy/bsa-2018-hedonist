@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::group(['prefix'=>'/auth','namespace'=>'Api'],function(){
+    Route::group(['prefix' => '/auth', 'namespace' => 'Api'], function() {
 
         Route::post('/signup','AuthController@register');
 
@@ -26,19 +26,24 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/recover','AuthCOntroller@recoverPassword');
 
-        Route::group(['middleware'=>'jwt.auth'],function(){
+        Route::group(['middleware' => 'jwt.auth'], function() {
 
-            Route::post('/refresh','AuthController@refresh');
+            Route::post('/refresh', 'AuthController@refresh');
 
-            Route::get('/me','AuthController@me');
-
-            // routes here
-            Route::post('/v1/places/rates', 'Api\Places\RatesController@setRate')
-                ->name('place.rates.setRate');
-            Route::get('/v1/places/rates/place/{id}', 'Api\Places\RatesController@getPlaceRateAvg')
-                ->name('place.rates.getPlaceRateAvg');
-            Route::get('/v1/places/rates/{id}', 'Api\Places\RatesController@getRate')
-                ->name('place.rates.getRate');
+            Route::get('/me', 'AuthController@me');
         });
+    });
+
+    Route::group(['middleware' => 'jwt.auth'], function() {
+
+        Route::post('/places/rates', 'Api\Places\PlaceRatingController@setRating')
+            ->name('place.rates.setRating');
+        Route::get('/places/rates/place/{id}', 'Api\Places\PlaceRatingController@getPlaceRatingAvg')
+            ->name('place.rates.getPlaceRatingAvg');
+        Route::get('/places/rates/{id}', 'Api\Places\PlaceRatingController@getRating')
+            ->name('place.rates.getRating');
+
+        /* Routes here.. */
+
     });
 });
