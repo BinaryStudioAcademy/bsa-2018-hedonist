@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::group(['prefix'=>'/auth','namespace'=>'Api'],function(){
+    Route::group(['prefix' => '/auth', 'namespace' => 'Api'], function() {
 
         Route::post('/signup','AuthController@register');
 
@@ -26,17 +26,20 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/recover','AuthCOntroller@recoverPassword');
 
-        Route::group(['middleware'=>'jwt.auth'],function(){
+        Route::group(['middleware' => 'jwt.auth'], function() {
 
-            Route::post('/refresh','AuthController@refresh');
+            Route::post('/refresh', 'AuthController@refresh');
 
-            Route::get('/me','AuthController@me');
-
-            Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
-            Route::post('/places/{id}/dislike', 'Api\DisikeController@dislikePlace')->name('place.dislike');
-            
-            Route::post('/reviews/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
-            Route::post('/reviews/{id}/dislike', 'Api\DisikeController@dislikeReview')->name('review.dislike');
+            Route::get('/me', 'AuthController@me');
         });
+    });
+
+    Route::group(['middleware' => 'jwt.auth'], function() {
+
+        Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
+        Route::post('/places/{id}/dislike', 'Api\DisikeController@dislikePlace')->name('place.dislike');
+            
+        Route::post('/reviews/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
+        Route::post('/reviews/{id}/dislike', 'Api\DisikeController@dislikeReview')->name('review.dislike');
     });
 });
