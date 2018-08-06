@@ -1,20 +1,15 @@
 <?php
 
-namespace Hedonist\Http\Requests\Place;
+namespace Hedonist\Actions\Place;
 
 
-use Hedonist\Http\Requests\JsonRequest;
+use Illuminate\Support\Facades\Validator;
 
-class ValidateAddPlaceRequest extends JsonRequest
+class UpdatePlaceValidator
 {
-    public function authorize()
+    public function validate(UpdatePlaceRequest $request): \Illuminate\Contracts\Validation\Validator
     {
-        return true;
-    }
-
-    public function rules()
-    {
-        return [
+        return Validator::make($request->all(), [
             'longitude'   => 'required|numeric|min:-180|max:180',
             'latitude'    => 'required|numeric|min:-90|max:90',
             'zip'         => 'required|numeric|min:0',
@@ -22,6 +17,6 @@ class ValidateAddPlaceRequest extends JsonRequest
             'creator_id'  => 'required|numeric|min:1',
             'category_id' => 'required|numeric|min:1',
             'city_id'     => 'required|numeric|min:1',
-        ];
+        ]);
     }
 }

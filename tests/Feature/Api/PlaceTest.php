@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use Hedonist\Entities\Place\Place;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -189,8 +190,14 @@ class PlaceTest extends ApiTestCase
             ]
         );
 
-//        $response->assertStatus(400); // TODO needs to be 400 status
-        $response->assertStatus(422);
+        $response->assertStatus(400);
+    }
+
+    public function testGetPlaceCollectionUnauthenticated()
+    {
+        $response = $this->call('GET', self::ENDPOINT);
+
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response->status());
     }
 
     public function checkJsonStructure($response)

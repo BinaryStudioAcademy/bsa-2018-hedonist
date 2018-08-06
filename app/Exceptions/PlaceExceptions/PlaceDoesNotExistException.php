@@ -3,9 +3,9 @@
 namespace Hedonist\Exceptions\PlaceExceptions;
 
 
-class PlaceDoesNotExistException extends AbstractPlaceException
+class PlaceDoesNotExistException extends \LogicException
 {
-    public function __construct($message = 'The place does not exists', $code = 404)
+    public function __construct(string $message = 'The place does not exists', $code = 404)
     {
         $this->message = $message;
         $this->code = $code;

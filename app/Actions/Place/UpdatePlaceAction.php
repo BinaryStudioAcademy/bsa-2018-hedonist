@@ -3,27 +3,58 @@
 namespace Hedonist\Actions\Place;
 
 
+use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
+use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
+use Hedonist\Exceptions\PlaceExceptions\PlaceUpdateInvalidException;
+use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
+use Hedonist\Repositories\User\UserRepositoryInterface;
 
 class UpdatePlaceAction
 {
-    private $placeRepository;
+    protected $placeRepository;
+    protected $userRepository;
+    protected $placeCategoryRepository;
+    protected $updatePlaceValidator;
 
-    public function __construct(PlaceRepositoryInterface $placeRepository)
-    {
+    public function __construct(
+        PlaceRepositoryInterface $placeRepository,
+        UserRepositoryInterface $userRepository,
+        UpdatePlaceValidator $updatePlaceValidator,
+        PlaceCategoryRepositoryInterface $placeCategoryRepository
+    ) {
         $this->placeRepository = $placeRepository;
+        $this->userRepository = $userRepository;
+        $this->placeCategoryRepository = $placeCategoryRepository;
+        $this->updatePlaceValidator = $updatePlaceValidator;
     }
 
     public function execute(UpdatePlaceRequest $placeRequest): UpdatePlaceResponse
     {
+        $validation = $this->updatePlaceValidator->validate($placeRequest);
+        if ($validation->fails()) {
+            throw new PlaceUpdateInvalidException($validation->getMessageBag()->setFormat());
+        }
+
         if (!$place = $this->placeRepository->getById($placeRequest->getId())) {
             throw new PlaceDoesNotExistException;
         }
-        // TODO for checking sub entities exists (category, city) should be implemented repos
 
-        $place->creator_id = $placeRequest->getCreatorId();
-        $place->category_id = $placeRequest->getCategoryId();
+        if (!$creator = $this->userRepository->getById($placeRequest->getCreatorId())) {
+            throw new PlaceCreatorDoesNotExistException;
+        }
+
+        if (!$category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId())) {
+            throw new PlaceCategoryDoesNotExistException;
+        }
+
+//        if (!$city = $this->userRepository->getById($placeRequest->getCreatorId())) {
+//             throw new PlaceCityDoesNotExistException; // TODO city repo required
+//        }
+
+        $place->creator_id = $creator->id;
+        $place->category_id = $category->id;
         $place->city_id = $placeRequest->getCityId();
         $place->longitude = $placeRequest->getLongitude();
         $place->latitude = $placeRequest->getLatitude();

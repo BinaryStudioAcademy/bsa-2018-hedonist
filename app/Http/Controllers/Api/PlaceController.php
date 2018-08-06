@@ -15,11 +15,14 @@ use Hedonist\Actions\Place\RemovePlaceRequest;
 use Hedonist\Actions\Place\UpdatePlaceAction;
 use Hedonist\Actions\Place\UpdatePlacePresenter;
 use Hedonist\Actions\Place\UpdatePlaceRequest;
-use Hedonist\Exceptions\PlaceExceptions\AbstractPlaceException;
-use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
-use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
+use Hedonist\Exceptions\PlaceExceptions\PlaceAddInvalidException;
+use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
+use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
+use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
+use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
+use Hedonist\Exceptions\PlaceExceptions\PlaceUpdateInvalidException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Response;
+use Illuminate\Http\Request;
 
 class PlaceController extends ApiController
 {
@@ -47,7 +50,7 @@ class PlaceController extends ApiController
     {
         try {
             $placeResponse = $this->getPlaceItemAction->execute(new GetPlaceItemRequest($id));
-        } catch (AbstractPlaceException $e) {
+        } catch (PlaceDoesNotExistException $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
@@ -56,27 +59,23 @@ class PlaceController extends ApiController
 
     public function getCollection(): JsonResponse
     {
-        try {
-            $placeResponse = $this->getPlaceCollectionAction->execute();
-        } catch (AbstractPlaceException $e) {
-            return $this->errorResponse($e->getMessage(), $e->getCode());
-        }
+        $placeResponse = $this->getPlaceCollectionAction->execute();
 
         return $this->successResponse(GetPlaceCollectionPresenter::present($placeResponse));
     }
 
-    public function removePlace(int $id)
+    public function removePlace(int $id): JsonResponse
     {
         try {
             $this->removePlaceAction->execute(new RemovePlaceRequest($id));
-        } catch (AbstractPlaceException $e) {
-            return Response::make(null, 404);
+        } catch (PlaceDoesNotExistException $e) {
+            return $this->emptyResponse(404);
         }
 
-        return Response::make(null, 204); // TODO how to make response without content
+        return $this->emptyResponse(204);
     }
 
-    public function addPlace(ValidateAddPlaceRequest $request): JsonResponse
+    public function addPlace(Request $request): JsonResponse
     {
         try {
             $placeResponse = $this->addPlaceAction->execute(new AddPlaceRequest(
@@ -88,14 +87,19 @@ class PlaceController extends ApiController
                 $request->zip,
                 $request->address
             ));
-        } catch (AbstractPlaceException $e) {
+        } catch ( PlaceDoesNotExistException
+                | PlaceCityDoesNotExistException
+                | PlaceCategoryDoesNotExistException
+                | PlaceAddInvalidException
+                | PlaceCreatorDoesNotExistException $e
+        ) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
         return $this->successResponse(AddPlacePresenter::present($placeResponse), 201);
     }
 
-    public function updatePlace(ValidateUpdatePlaceRequest $request): JsonResponse
+    public function updatePlace(Request $request): JsonResponse
     {
         try {
             $placeResponse = $this->updatePlaceAction->execute(new UpdatePlaceRequest(
@@ -108,7 +112,12 @@ class PlaceController extends ApiController
                 $request->zip,
                 $request->address
             ));
-        } catch (AbstractPlaceException $e) {
+        } catch ( PlaceDoesNotExistException
+                | PlaceCityDoesNotExistException
+                | PlaceCategoryDoesNotExistException
+                | PlaceUpdateInvalidException
+                | PlaceCreatorDoesNotExistException $e
+        ) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 

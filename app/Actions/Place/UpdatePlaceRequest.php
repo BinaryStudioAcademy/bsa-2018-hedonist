@@ -34,83 +34,57 @@ class UpdatePlaceRequest
         $this->address = $address;
     }
 
-    /**
-     * Gets Id.
-     *
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Gets CreatorId.
-     *
-     * @return int
-     */
     public function getCreatorId(): int
     {
         return $this->creatorId;
     }
 
-    /**
-     * Gets CategoryId.
-     *
-     * @return int
-     */
     public function getCategoryId(): int
     {
         return $this->categoryId;
     }
 
-    /**
-     * Gets CityId.
-     *
-     * @return int
-     */
     public function getCityId(): int
     {
         return $this->cityId;
     }
 
-    /**
-     * Gets Longitude.
-     *
-     * @return float
-     */
     public function getLongitude(): float
     {
         return $this->longitude;
     }
 
-    /**
-     * Gets Latitude.
-     *
-     * @return float
-     */
     public function getLatitude(): float
     {
         return $this->latitude;
     }
 
-    /**
-     * Gets Zip.
-     *
-     * @return int
-     */
     public function getZip(): int
     {
         return $this->zip;
     }
 
-    /**
-     * Gets Address.
-     *
-     * @return mixed
-     */
     public function getAddress()
     {
         return $this->address;
+    }
+
+    public function all()
+    {
+        return [
+            'id' => $this->getId(),
+            'creator_id' => $this->getCreatorId(),
+            'category_id' => $this->getCategoryId(),
+            'city_id' => $this->getCityId(),
+            'longitude' => $this->getLongitude(),
+            'latitude' => $this->getLatitude(),
+            'zip' => $this->getZip(),
+            'address' => $this->getAddress(),
+        ];
     }
 }
