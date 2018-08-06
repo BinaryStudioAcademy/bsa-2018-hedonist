@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\Review;
 
-class EditReviewRequest
+class UpdateReviewRequest
 {
     private $body;
     private $title;

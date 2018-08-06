@@ -4,7 +4,7 @@ namespace Hedonist\Actions\Review;
 
 //use Hedonist\Repositories\Review\ReviewRepository;
 
-class EditReviewAction
+class UpdateReviewAction
 {
     private $reviewRepository;
 

@@ -4,7 +4,7 @@ namespace Hedonist\Actions\Review;
 
 //use Hedonist\Entities\Review;
 
-class EditReviewResponse
+class UpdateReviewResponse
 {
     private $review;
 
