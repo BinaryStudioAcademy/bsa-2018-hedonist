@@ -15,8 +15,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
+    Route::group(['prefix'=>'/auth','namespace'=>'Api'],function(){
+
+        Route::post('/signup','AuthController@register');
+
+        Route::post('/login','AuthController@login');
+
+        Route::post('/logout','AuthController@logout');
+
+        Route::post('/reset','AuthController@resetPassword');
+
+        Route::post('/recover','AuthCOntroller@recoverPassword');
+
+        Route::group(['middleware'=>'jwt.auth'],function(){
+
+            Route::post('/refresh','AuthController@refresh');
+
+            Route::get('/me','AuthController@me');
+        });
     });
 
     Route::namespace('Api')->group(function() {
