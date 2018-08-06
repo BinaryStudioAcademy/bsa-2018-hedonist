@@ -2,10 +2,14 @@
 
 namespace Hedonist\Entities\Place;
 
+use Hedonist\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Place extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         "longitude",
         "latitude",
@@ -15,6 +19,8 @@ class Place extends Model
         "category_id",
         "city_id",
     ];
+
+    protected $dates = ['deleted_at'];
 
     public function creator()
     {
@@ -43,7 +49,7 @@ class Place extends Model
 
     public function reviewers()
     {
-        return $this->belongsToMany(User::class,'reviews');
+        return $this->belongsToMany(User::class, 'reviews');
     }
 
     public function ratings()
@@ -53,11 +59,11 @@ class Place extends Model
 
     public function lists()
     {
-        return $this->belongsToMany(PlaceList::class,'list_places');
+        return $this->belongsToMany(UserList::class, 'user_list_places');
     }
 
     public function features()
     {
-        return $this->belongsToMany(PlaceFeature::class,'place_place_features');
+        return $this->belongsToMany(PlaceFeature::class, 'places_places_features');
     }
 }

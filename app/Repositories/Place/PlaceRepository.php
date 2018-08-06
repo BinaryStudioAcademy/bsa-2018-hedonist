@@ -1,4 +1,5 @@
 <?php
+
 namespace Hedonist\Repositories\Place;
 
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -23,12 +24,12 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
 
     public function getById(int $id): ?Place
     {
-        return $this->find($id);
+        return Place::find($id);
     }
 
     public function findAll(): Collection
     {
-        return $this->all();
+        return Place::all();
     }
 
     public function findByCriteria(CriteriaInterface $criteria): Collection

@@ -8,7 +8,12 @@ use Hedonist\Repositories\Place\{FavouritePlaceRepository,
     PlaceCategoryRepositoryInterface,
     PlaceCategoryRepository,
     PlaceFeatureRepositoryInterface,
-    PlaceFeatureRepository};
+    PlaceFeatureRepository
+};
+use Hedonist\Repositories\Like\{
+    LikeRepositoryInterface,
+    LikeRepository
+};
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -32,5 +37,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PlaceCategoryRepositoryInterface::class, PlaceCategoryRepository::class);
         $this->app->bind(PlaceFeatureRepositoryInterface::class, PlaceFeatureRepository::class);
         $this->app->bind(FavouritePlaceRepositoryInterface::class, FavouritePlaceRepository::class);
+        $this->app->bind(LikeRepositoryInterface::class, LikeRepository::class);
     }
 }
