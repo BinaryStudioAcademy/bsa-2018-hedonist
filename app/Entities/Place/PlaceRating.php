@@ -3,6 +3,8 @@
 namespace Hedonist\Entities\Place;
 
 use Illuminate\Database\Eloquent\Model;
+use Hedonist\Entities\Place\Place;
+use Hedonist\User;
 
 class PlaceRating extends Model
 {

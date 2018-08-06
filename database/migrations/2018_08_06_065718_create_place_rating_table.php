@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 /**
  * Class CreatePlaceCategoriesTable.
  */
-class CreateRatingsTable extends Migration
+class CreatePlaceRatingTable extends Migration
 {
     /**
      * Run the migrations.
