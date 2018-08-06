@@ -31,19 +31,19 @@ Route::prefix('v1')->group(function () {
             Route::post('/refresh','AuthController@refresh');
 
             Route::get('/me','AuthController@me');
+
+            Route::prefix('review')->group(function () {
+
+                Route::get('/', 'ReviewController@getReviewCollection');
+
+                Route::post('/', 'ReviewController@createReview');
+
+                Route::get('{id}', 'ReviewController@getReview');
+
+                Route::post('{id}', 'ReviewController@updateReview');
+
+                Route::delete('/', 'ReviewController@deleteReview');
+            });
         });
-    });
-
-    Route::prefix('review')->group(function () {
-
-        Route::get('/', 'ReviewController@getReviewCollection');
-
-        Route::post('/', 'ReviewController@createReview');
-
-        Route::get('{id}', 'ReviewController@getReview');
-
-        Route::post('{id}', 'ReviewController@updateReview');
-
-        Route::delete('/', 'ReviewController@deleteReview');
     });
 });
