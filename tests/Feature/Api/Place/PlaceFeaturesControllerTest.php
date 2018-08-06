@@ -41,7 +41,7 @@ class PlaceFeaturesControllerTest extends JwtTestCase
         $id = $this->placeFeature_1->id;
         $name = $this->placeFeature_1->name;
 
-        $response = $this->json('GET', "/api/v1/auth/places/features/$id", [
+        $response = $this->json('GET', "/api/v1/places/features/$id", [
         ]);
 
         $response->assertStatus(201);
@@ -50,7 +50,7 @@ class PlaceFeaturesControllerTest extends JwtTestCase
             'name' => $name
         ]);
 
-        $response = $this->json('GET', '/api/v1/auth/places/features/999', [
+        $response = $this->json('GET', '/api/v1/places/features/999', [
         ]);
         $response->assertStatus(400);
         $response->assertJsonFragment([
@@ -67,7 +67,7 @@ class PlaceFeaturesControllerTest extends JwtTestCase
         $id_2 = $this->placeFeature_2->id;
         $name_2 = $this->placeFeature_2->name;
 
-        $response = $this->json('GET', '/api/v1/auth/places/features/', [
+        $response = $this->json('GET', '/api/v1/places/features/', [
         ]);
 
         $response->assertStatus(201);
@@ -87,7 +87,7 @@ class PlaceFeaturesControllerTest extends JwtTestCase
 
     public function test_create_item() : void
     {
-        $response = $this->json('POST', '/api/v1/auth/places/features/', [
+        $response = $this->json('POST', '/api/v1/places/features/', [
             'name' => 'hukabuka'
         ]);
 
@@ -105,7 +105,7 @@ class PlaceFeaturesControllerTest extends JwtTestCase
             'name' => 'hukabuka'
         ]);
 
-        $response = $this->json('POST', '/api/v1/auth/places/features/', [
+        $response = $this->json('POST', '/api/v1/places/features/', [
             'name' => 'hukabuka'
         ]);
         $response->assertStatus(422);
@@ -116,7 +116,7 @@ class PlaceFeaturesControllerTest extends JwtTestCase
             ]
         ]);
 
-        $response = $this->json('POST', '/api/v1/auth/places/features/', [
+        $response = $this->json('POST', '/api/v1/places/features/', [
             'name' => 'hukabuka-hukabuka-hukabuka-hukabuka-hukabuka-hukabuka-hukabuka'
         ]);
         $response->assertStatus(422);
@@ -140,7 +140,7 @@ class PlaceFeaturesControllerTest extends JwtTestCase
             'id' => $id,
             'name' => $name
         ]);
-        $response = $this->json('DELETE', "/api/v1/auth/places/features/$id", [
+        $response = $this->json('DELETE', "/api/v1/places/features/$id", [
         ]);
         $response->assertStatus(201);
         $response->assertJsonFragment([
@@ -155,7 +155,7 @@ class PlaceFeaturesControllerTest extends JwtTestCase
             'deleted_at' => null
         ]);
 
-        $response = $this->json('DELETE', "/api/v1/auth/places/features/$id", [
+        $response = $this->json('DELETE', "/api/v1/places/features/$id", [
         ]);
         $response->assertStatus(400);
         $response->assertJsonFragment([
