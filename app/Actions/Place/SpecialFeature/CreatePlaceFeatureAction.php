@@ -23,8 +23,8 @@ class CreatePlaceFeatureAction
         $placeFeature = $this->repository->save($placeFeature);
 
         return new CreatePlaceFeatureResponse(
-                        $placeFeature->id,
-                        $placeFeature->name
-                    );
+            $placeFeature->id,
+            $placeFeature->name
+        );
     }
 }
