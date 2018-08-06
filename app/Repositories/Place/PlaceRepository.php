@@ -1,4 +1,5 @@
 <?php
+
 namespace Hedonist\Repositories\Place;
 
 use Prettus\Repository\Eloquent\BaseRepository;
