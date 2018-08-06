@@ -2,13 +2,12 @@
 
 namespace Hedonist\Actions\Review;
 
-//use Hedonist\Entities\Review;
+use Hedonist\Entities\Review\Review;
 
 class GetReviewResponse
 {
     private $review;
 
-    /* Review model does NOT created at the moment */
     public function __construct(Review $review)
     {
         $this->review = $review;
@@ -16,6 +15,8 @@ class GetReviewResponse
 
     public function getReview(): array
     {
-        return [$this->review];
+        return [
+            $this->review
+        ];
     }
 }
