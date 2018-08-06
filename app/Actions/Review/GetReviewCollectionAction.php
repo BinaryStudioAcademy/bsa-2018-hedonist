@@ -2,13 +2,12 @@
 
 namespace Hedonist\Actions\Review;
 
-//use Hedonist\Repositories\Review\ReviewRepository;
+use Hedonist\Repositories\Review\ReviewRepository;
 
 class GetReviewCollectionAction
 {
     private $reviewRepository;
 
-    /* ReviewRepository does NOT created at the moment */
     public function __construct(ReviewRepository $repository)
     {
         $this->reviewRepository = $repository;
