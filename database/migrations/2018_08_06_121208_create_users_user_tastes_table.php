@@ -25,7 +25,6 @@ class CreateUsersUserTastesTable extends Migration
             $table->foreign('user_taste_id')
                 ->references('id')
                 ->on('user_tastes');
-
         });
     }
 
