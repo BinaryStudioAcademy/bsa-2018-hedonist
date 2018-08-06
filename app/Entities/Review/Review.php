@@ -3,6 +3,9 @@
 namespace Hedonist\Entities\Review;
 
 use Illuminate\Database\Eloquent\Model;
+use Hedonist\Entities\User\User;
+use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\Review\ReviewPhoto;
 
 class Review extends Model
 {
