@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 use Hedonist\Entities\Place\{PlaceRating,Place};
-use Hedonist\User;
+use Hedonist\Entities\User\User;
 
 /*
 |--------------------------------------------------------------------------

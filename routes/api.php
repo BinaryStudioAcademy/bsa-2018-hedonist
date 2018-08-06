@@ -32,8 +32,10 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/me','AuthController@me');
 
-            Route::post('places/reviews/{id}/like', 'Api\Review\LikeReviewController@likeReview');
-            Route::post('places/reviews/{id}/dislike', 'Api\Review\DisikeReviewController@dislikeReview');
+            Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
+            Route::post('/places/{id}/dislike', 'Api\DisikeController@dislikePlace')->name('place.dislike');
+            Route::post('/reviews/{id}/like', 'Api\Review\LikeReviewController@likeReview');
+            Route::post('/reviews/{id}/dislike', 'Api\Review\DisikeReviewController@dislikeReview');            
         });
-    }); 
+    });
 });
