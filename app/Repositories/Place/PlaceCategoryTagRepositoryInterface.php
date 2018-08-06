@@ -14,7 +14,7 @@ interface PlaceCategoryTagRepositoryInterface
     
     public function getById(int $id): ?PlaceCategoryTag;
      
-    public function findByCriteria(CriteriaInterface $criteria);
+    public function findByCriteria(CriteriaInterface $criteria): Collection;
     
     public function deleteById(int $id): void;
 }
