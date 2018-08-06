@@ -2,19 +2,13 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature;
 
-
 use Hedonist\Repositories\Place\PlaceFeatureRepositoryInterface;
 use Hedonist\Entities\Place\PlaceFeature;
-
 
 class CreatePlaceFeatureAction
 {
     protected $repository;
 
-    /**
-     * CreatePlaceFeatureAction constructor.
-     * @param PlaceFeatureRepositoryInterface $repository
-     */
     public function __construct(PlaceFeatureRepositoryInterface $repository)
     {
         $this->repository = $repository;
@@ -33,6 +27,4 @@ class CreatePlaceFeatureAction
                         $placeFeature->name
                     );
     }
-
-
 }

@@ -10,10 +10,6 @@ class DeletePlaceFeatureAction
 {
     protected $repository;
 
-    /**
-     * DeletePlaceFeatureAction constructor.
-     * @param PlaceFeatureRepositoryInterface $repository
-     */
     public function __construct(PlaceFeatureRepositoryInterface $repository)
     {
         $this->repository = $repository;
@@ -31,10 +27,8 @@ class DeletePlaceFeatureAction
         }
 
         return new DeletePlaceFeatureResponse(
-                        $id,
-                        'deleted'
-                    );
+            $id,
+            'deleted'
+        );
     }
-
-
 }

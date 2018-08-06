@@ -9,10 +9,6 @@ class GetCollectionPlaceFeatureAction
 {
     protected $repository;
 
-    /**
-     * GetCollectionPlaceFeatureAction constructor.
-     * @param PlaceFeatureRepositoryInterface $repository
-     */
     public function __construct(PlaceFeatureRepositoryInterface $repository)
     {
         $this->repository = $repository;
@@ -31,9 +27,8 @@ class GetCollectionPlaceFeatureAction
                 'name' => $placeFeature->name,
             ];
         }
-
-        return new GetCollectionPlaceFeatureResponse($responseArray);
+        return new GetCollectionPlaceFeatureResponse(
+            $responseArray
+        );
     }
-
-
 }
