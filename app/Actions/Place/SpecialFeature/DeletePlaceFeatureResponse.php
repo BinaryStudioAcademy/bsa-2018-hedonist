@@ -2,34 +2,34 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature;
 
-class DeleteSpecialFeatureResponse
+class DeletePlaceFeatureResponse
 {
     protected $id;
     protected $result;
 
     /**
-     * CreateSpecialFeatureResponse constructor.
-     * @param $id
-     * @param $name
+     * CreatePlaceFeatureResponse constructor.
+     * @param int $id
+     * @param string $result
      */
-    public function __construct($id, $result)
+    public function __construct(int $id, string $result)
     {
         $this->id = $id;
         $this->result = $result;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getResult()
+    public function getResult() : string
     {
         return $this->result;
     }

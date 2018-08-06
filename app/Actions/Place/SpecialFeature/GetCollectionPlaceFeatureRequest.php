@@ -2,6 +2,6 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature;
 
-class CollectionSpecialFeatureRequest
+class GetCollectionPlaceFeatureRequest
 {
 }

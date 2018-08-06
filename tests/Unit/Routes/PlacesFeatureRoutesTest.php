@@ -11,38 +11,39 @@ class PlacesFeatureRoutesTest extends TestCase
 
     public function testIndexEndpoint() : void
     {
-        $routeName = 'special-features.index';
+        $routeName = 'place.features.indexFeature';
         $this->assertTrue(Route::has($routeName));
-        $this->assertEquals('http://localhost/api/v1/places/special-features', route($routeName));
+        $this->assertEquals(
+            'http://localhost/api/v1/places/features',
+            route($routeName)
+        );
     }
 
-    public function testCreateEndpoint() : void
+    public function testStoreEndpoint() : void
     {
-        $this->assertTrue(Route::has('special-features.store'));
+        $this->assertTrue(Route::has('place.features.storeFeature'));
     }
 
-    public function testReadEndpoint() : void
+    public function testShowEndpoint() : void
     {
-        $routeName = 'special-features.show';
+        $routeName = 'place.features.showFeature';
         $itemIndex = 1;
         $this->assertTrue(Route::has($routeName));
         $this->assertEquals(
-            'http://localhost/api/v1/places/special-features/'. $itemIndex,
+            'http://localhost/api/v1/places/features/'. $itemIndex,
             route($routeName, ['special_feature' => $itemIndex])
         );
     }
 
     public function testNoUpdateEndpoint() : void
     {
-        $this->assertFalse(Route::has('special-features.edit'));
-        $this->assertFalse(Route::has('special-features.update'));
-
+        $this->assertFalse(Route::has('place.features.edit'));
+        $this->assertFalse(Route::has('place.features.update'));
     }
 
     public function testDeleteEndpoint() : void
     {
-        $this->assertTrue(Route::has('special-features.destroy'));
-
+        $this->assertTrue(Route::has('place.features.deleteFeature'));
     }
 
 

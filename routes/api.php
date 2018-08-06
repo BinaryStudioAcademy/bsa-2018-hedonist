@@ -18,7 +18,12 @@ Route::prefix('v1')->group(function () {
         return $request->user();
     });
     // routes here
-    Route::apiResource('/places/special-features', 'Api\Places\SpecialFeaturesController',[
-        'except' => ['edit', 'create', 'update']
-    ]);
+    Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
+        ->name('place.features.indexFeature');
+    Route::post('/places/features', 'Api\Places\PlaceFeaturesController@storePlaceFeature')
+        ->name('place.features.storeFeature');
+    Route::get('/places/features/{id}', 'Api\Places\PlaceFeaturesController@showPlaceFeature')
+        ->name('place.features.showFeature');
+    Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
+        ->name('place.features.deleteFeature');
 });

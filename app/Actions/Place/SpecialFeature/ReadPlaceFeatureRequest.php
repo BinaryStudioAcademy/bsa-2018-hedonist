@@ -2,12 +2,12 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature;
 
-class ReadSpecialFeatureRequest
+class ReadPlaceFeatureRequest
 {
     protected $placeSpecialFeatureId;
 
     /**
-     * DeleteSpecialFeatureRequest constructor.
+     * DeletePlaceFeatureRequest constructor.
      * @param $placeSpecialFeatureId
      */
     public function __construct($placeSpecialFeatureId)
@@ -16,9 +16,9 @@ class ReadSpecialFeatureRequest
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getPlaceSpecialFeatureId()
+    public function getPlaceFeatureId() : int
     {
         return $this->placeSpecialFeatureId;
     }

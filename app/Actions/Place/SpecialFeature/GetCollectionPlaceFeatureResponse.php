@@ -2,21 +2,21 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature;
 
-class CollectionSpecialFeatureResponse
+class GetCollectionPlaceFeatureResponse
 {
     protected $collection;
 
     /**
-     * CollectionSpecialFeatureResponse constructor.
-     * @param $collection
+     * GetCollectionPlaceFeatureResponse constructor.
+     * @param array $collection
      */
-    public function __construct($collection)
+    public function __construct(array $collection)
     {
         $this->collection = $collection;
     }
 
     /**
-     * @return ReadSpecialFeatureResponse[]
+     * @return array
      */
     public function getCollection(): array
     {

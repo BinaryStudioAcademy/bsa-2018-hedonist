@@ -4,11 +4,12 @@ namespace tests\Feature\Api\Place;
 
 use Hedonist\Entities\Place\PlaceFeature;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use Hedonist\User;
 
 
-class SpecialFeaturesControllerTest extends TestCase
+class PlaceFeaturesControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -20,11 +21,14 @@ class SpecialFeaturesControllerTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
+        DB::table('places_features')->delete();
 //        uncomment next lines after authorization implementation
 //        $this->user = factory(User::class)->create([
 //            'isAdmin' => false,
 //        ]);
 //        $this->user2 = factory(User::class)->create();
+
 
         /** @var PlaceFeature placeFeature_1 */
         $this->placeFeature_1 = factory(\Hedonist\Entities\Place\PlaceFeature::class, 1)->create([
@@ -43,7 +47,7 @@ class SpecialFeaturesControllerTest extends TestCase
         $id = $this->placeFeature_1->id;
         $name = $this->placeFeature_1->name;
 
-        $response = $this->json('GET', "/api/v1/places/special-features/$id", [
+        $response = $this->json('GET', "/api/v1/places/features/$id", [
         ]);
 
         $response->assertStatus(201);
@@ -52,7 +56,7 @@ class SpecialFeaturesControllerTest extends TestCase
             'name' => $name
         ]);
 
-        $response = $this->json('GET', '/api/v1/places/special-features/999', [
+        $response = $this->json('GET', '/api/v1/places/features/999', [
         ]);
         $response->assertStatus(400);
         $response->assertJsonFragment([
@@ -71,7 +75,7 @@ class SpecialFeaturesControllerTest extends TestCase
         $id_2 = $this->placeFeature_2->id;
         $name_2 = $this->placeFeature_2->name;
 
-        $response = $this->json('GET', '/api/v1/places/special-features/', [
+        $response = $this->json('GET', '/api/v1/places/features/', [
         ]);
 
         $response->assertStatus(201);
@@ -93,7 +97,7 @@ class SpecialFeaturesControllerTest extends TestCase
     {
         // uncomment next line after authorization implementation
         // $this->actingAs($this->user, 'api');
-        $response = $this->json('POST', '/api/v1/places/special-features/', [
+        $response = $this->json('POST', '/api/v1/places/features/', [
             'name' => 'hukabuka'
         ]);
 
@@ -111,7 +115,7 @@ class SpecialFeaturesControllerTest extends TestCase
             'name' => 'hukabuka'
         ]);
 
-        $response = $this->json('POST', '/api/v1/places/special-features/', [
+        $response = $this->json('POST', '/api/v1/places/features/', [
             'name' => 'hukabuka'
         ]);
         $response->assertStatus(422);
@@ -122,7 +126,7 @@ class SpecialFeaturesControllerTest extends TestCase
             ]
         ]);
 
-        $response = $this->json('POST', '/api/v1/places/special-features/', [
+        $response = $this->json('POST', '/api/v1/places/features/', [
             'name' => 'hukabuka-hukabuka-hukabuka-hukabuka-hukabuka-hukabuka-hukabuka'
         ]);
         $response->assertStatus(422);
@@ -148,12 +152,12 @@ class SpecialFeaturesControllerTest extends TestCase
             'id' => $id,
             'name' => $name
         ]);
-        $response = $this->json('DELETE', "/api/v1/places/special-features/$id", [
+        $response = $this->json('DELETE', "/api/v1/places/features/$id", [
         ]);
         $response->assertStatus(201);
         $response->assertJsonFragment([
             'data' => [
-                'id' => (string)$id,
+                'id' => $id,
                 'response' => 'deleted'
             ]
         ]);
@@ -163,7 +167,7 @@ class SpecialFeaturesControllerTest extends TestCase
             'deleted_at' => null
         ]);
 
-        $response = $this->json('DELETE', "/api/v1/places/special-features/$id", [
+        $response = $this->json('DELETE', "/api/v1/places/features/$id", [
         ]);
         $response->assertStatus(400);
         $response->assertJsonFragment([
