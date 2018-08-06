@@ -14,7 +14,7 @@ class PlacesFeatureRoutesTest extends TestCase
         $routeName = 'place.features.indexFeature';
         $this->assertTrue(Route::has($routeName));
         $this->assertEquals(
-            'http://localhost/api/v1/auth/places/features',
+            'http://localhost/api/v1/places/features',
             route($routeName)
         );
     }
@@ -30,7 +30,7 @@ class PlacesFeatureRoutesTest extends TestCase
         $itemIndex = 1;
         $this->assertTrue(Route::has($routeName));
         $this->assertEquals(
-            'http://localhost/api/v1/auth/places/features/'. $itemIndex,
+            'http://localhost/api/v1/places/features/'. $itemIndex,
             route($routeName, ['special_feature' => $itemIndex])
         );
     }
