@@ -2,7 +2,8 @@
 
 namespace Hedonist\Actions\Place\Rate;
 
-class SetRateRequest
+
+class GetPlaceRatingRequest
 {
     /** @var int */
     protected $id;
@@ -13,22 +14,18 @@ class SetRateRequest
     /** @var int */
     protected $placeId;
 
-    /** @var float */
-    protected $rateValue;
 
     /**
-     * SetRateRequest constructor.
+     * SetPlaceRatingResponse constructor.
      * @param int $id
      * @param int $userId
      * @param int $placeId
-     * @param float $rateValue
      */
-    public function __construct($id = null, $userId = null, $placeId = null, $rateValue)
+    public function __construct($id = null, $userId = null, $placeId = null)
     {
         $this->id = $id;
         $this->userId = $userId;
         $this->placeId = $placeId;
-        $this->rateValue = $rateValue;
     }
 
     /**
@@ -38,8 +35,6 @@ class SetRateRequest
     {
         return $this->id;
     }
-
-
 
     /**
      * @return int
@@ -56,15 +51,5 @@ class SetRateRequest
     {
         return $this->placeId;
     }
-
-    /**
-     * @return float
-     */
-    public function getRateValue(): float
-    {
-        return $this->rateValue;
-    }
-
-
 
 }
