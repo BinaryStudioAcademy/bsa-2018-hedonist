@@ -11,7 +11,7 @@ class RecoverPasswordRequest
         $this->email = $email;
     }
 
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }

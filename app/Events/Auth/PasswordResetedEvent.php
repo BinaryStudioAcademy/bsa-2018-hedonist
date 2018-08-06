@@ -20,7 +20,7 @@ class PasswordResetedEvent
         return $this->user;
     }
 
-    public function getToken()
+    public function getToken(): string
     {
         return $this->token;
     }
