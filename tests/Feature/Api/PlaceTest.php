@@ -96,6 +96,7 @@ class PlaceTest extends ApiTestCase
             'address' => 'sdf',
         ]);
         $updatedPlace = $response->getOriginalContent();
+        dump($updatedPlace);
 
         $this->assertEquals(33.3, $updatedPlace['data']['latitude']);
         $this->assertEquals(1234, $updatedPlace['data']['zip']);
