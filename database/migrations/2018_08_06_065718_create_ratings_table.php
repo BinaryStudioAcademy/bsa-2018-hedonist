@@ -23,7 +23,7 @@ class CreateRatingsTable extends Migration
             $table->unsignedInteger('rating');
             
             $table->foreign('user_id')->references('id')->on('users');
-            
+            $table->foreign('place_id')->references('id')->on('places');
         });
     }
 
