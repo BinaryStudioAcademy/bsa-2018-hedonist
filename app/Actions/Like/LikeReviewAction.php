@@ -4,7 +4,6 @@ namespace Hedonist\Actions\Like;
 
 use Hedonist\Repositories\Like\{LikeRepository,LikeReviewCriteria};
 use Hedonist\Repositories\Dislike\{DislikeRepository,DislikeReviewCriteria};
-use Hedonist\Repositories\Review\ReviewRepository;
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\Like\Like;
 use Illuminate\Support\Facades\Auth;
