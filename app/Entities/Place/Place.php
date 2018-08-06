@@ -2,6 +2,7 @@
 
 namespace Hedonist\Entities\Place;
 
+use Hedonist\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Place extends Model
