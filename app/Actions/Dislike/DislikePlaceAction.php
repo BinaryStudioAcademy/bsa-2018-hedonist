@@ -2,6 +2,8 @@
 
 namespace Hedonist\Actions\Dislike;
 
+use Hedonist\Entities\Dislike\Dislike;
+use Hedonist\Entities\Place\Place;
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Repositories\Like\LikeRepository;
 use Hedonist\Repositories\Dislike\DislikeRepository;
@@ -27,7 +29,7 @@ class DislikePlaceAction
 
     public function execute(DislikePlaceRequest $request): DislikePlaceResponse
     {
-        $place = $this->placeRepository->findById($request->getPlaceId());
+        $place = $this->placeRepository->getById($request->getPlaceId());
         if (empty($place)) {
             throw new PlaceNotFoundException();
         }

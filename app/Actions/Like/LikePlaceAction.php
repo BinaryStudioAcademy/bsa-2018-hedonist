@@ -2,6 +2,8 @@
 
 namespace Hedonist\Actions\Like;
 
+use Hedonist\Entities\Like\Like;
+use Hedonist\Entities\Place\Place;
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Repositories\Like\LikeRepository;
 use Hedonist\Repositories\Dislike\DislikeRepository;
