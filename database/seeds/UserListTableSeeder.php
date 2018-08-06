@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Hedonist\User;
+use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
 
 class UserListTableSeeder extends Seeder

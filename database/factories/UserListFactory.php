@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 use Hedonist\Entities\UserList\UserList;
-use Hedonist\User;
+use Hedonist\Entities\User\User;
 
 /*
 |--------------------------------------------------------------------------
