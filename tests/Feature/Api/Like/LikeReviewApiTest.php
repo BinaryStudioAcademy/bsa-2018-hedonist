@@ -5,29 +5,26 @@ namespace Tests\Feature\Api;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\Review\Review;
 use Illuminate\Support\Facades\Route;
+use Tests\JwtTestCase;
+use Tests\TestCase;
 
-class LikeReviewApiTest extends ApiTestCase
+class LikeReviewApiTest extends JwtTestCase
 {
-    private $user;
-    private $review;
-    private $credentials;
+    protected $user;
+    protected $review;
 
     public function setUp()
     {
         parent::setUp();
-        $this->user = factory(User::class)->create();
+
+        $this->actingAsJwtToken();
+
         $this->review = factory(Review::class)->create();
-        $this->credentials = auth()->login($this->user);
     }
 
     public function testLikeReviewNotFound()
     {
-        $response =  $this->json(
-            'POST',
-            "/api/v1/reviews/1000000/like",
-            [],
-            ['HTTP_Authorization' => 'Bearer ' . $this->credentials]
-        );
+        $response =  $this->json('POST', "/api/v1/reviews/1000000/like", []);
         $response->assertHeader('Content-Type', 'application/json')
             ->assertNotFound()
             ->assertJsonStructure([
@@ -37,12 +34,7 @@ class LikeReviewApiTest extends ApiTestCase
 
     public function testLikeReview()
     {
-        $response =  $this->json(
-            'POST',
-            "/api/v1/reviews/{$this->review->id}/like",
-            [],
-            ['HTTP_Authorization' => 'Bearer ' . $this->credentials]
-        );
+        $response =  $this->json('POST', "/api/v1/reviews/{$this->review->id}/like", []);
         $response->assertStatus(200);
     }
 }
