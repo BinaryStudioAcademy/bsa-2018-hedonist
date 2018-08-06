@@ -13,6 +13,10 @@ use Hedonist\Repositories\Dislike\{
     DislikeRepositoryInterface,
     DislikeRepository
 };
+use Hedonist\Repositories\Like\{
+    LikeRepositoryInterface,
+    LikeRepository
+};
 
 class RepositoryServiceProvider extends ServiceProvider
 {
@@ -36,5 +40,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PlaceCategoryRepositoryInterface::class, PlaceCategoryRepository::class);
         $this->app->bind(PlaceFeatureRepositoryInterface::class, PlaceFeatureRepository::class);
         $this->app->bind(DislikeRepositoryInterface::class, DislikeRepository::class);
+        $this->app->bind(LikeRepositoryInterface::class, LikeRepository::class);
     }
 }

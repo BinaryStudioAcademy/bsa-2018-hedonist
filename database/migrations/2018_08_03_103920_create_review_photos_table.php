@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserListPlacesTable extends Migration
+class CreateReviewPhotosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateUserListPlacesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_list_places', function (Blueprint $table) {
+        Schema::create('review_photos', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('list_id');
-            $table->unsignedInteger('place_id');
+            $table->string('img_url');
+            $table->text('description');
+            $table->unsignedInteger('review_id');
+            $table->foreign('review_id')->references('id')->on('reviews');
+            
         });
     }
 
@@ -27,6 +30,6 @@ class CreateUserListPlacesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_list_places');
+        Schema::dropIfExists('review_photos');
     }
 }

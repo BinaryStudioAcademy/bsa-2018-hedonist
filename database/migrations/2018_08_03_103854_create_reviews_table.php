@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserListPlacesTable extends Migration
+class CreateReviewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateUserListPlacesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_list_places', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('list_id');
+            $table->text('description');
+            $table->unsignedInteger('user_id');
             $table->unsignedInteger('place_id');
+            $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('place_id')->references('id')->on('places');
         });
     }
 
@@ -27,6 +31,6 @@ class CreateUserListPlacesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_list_places');
+        Schema::dropIfExists('reviews');
     }
 }
