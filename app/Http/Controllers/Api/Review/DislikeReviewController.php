@@ -2,7 +2,7 @@
 
 namespace Hedonist\Http\Controllers\Api\Review;
 
-use Hedonist\Actions\Review\Dislike\{DislikeReviewAction,DislikeReviewRequest};
+use Hedonist\Actions\Dislike\{DislikeReviewAction,DislikeReviewRequest};
 use Hedonist\Http\Controllers\Api\ApiController;
 
 class DislikeReviewController extends ApiController

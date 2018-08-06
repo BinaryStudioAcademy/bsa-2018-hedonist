@@ -2,7 +2,7 @@
 
 namespace Hedonist\Http\Controllers\Api\Review;
 
-use Hedonist\Actions\Review\Like\{LikeReviewAction,LikeReviewRequest};
+use Hedonist\Actions\Like\{LikeReviewAction,LikeReviewRequest};
 use Hedonist\Http\Controllers\Api\ApiController;
 
 class LikeReviewController extends ApiController

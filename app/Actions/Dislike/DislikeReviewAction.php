@@ -1,12 +1,12 @@
 <?php
 
-namespace Hedonist\Actions\Review\Like;
+namespace Hedonist\Actions\Dislike;
 
 use Hedonist\Repositories\Like\{LikeRepository,LikeReviewCriteria};
 use Hedonist\Repositories\Dislike\{DislikeRepository,DislikeReviewCriteria};
 use Hedonist\Repositories\Review\ReviewRepository;
 use Hedonist\Entities\Review\Review;
-use Hedonist\Entities\Like\Like;
+use Hedonist\Entities\Dislike\Dislike;
 use Illuminate\Support\Facades\Auth;
 
 class LikeReviewAction
@@ -20,7 +20,7 @@ class LikeReviewAction
         $this->dislikeRepository = $dislikeRepository;
     }
 
-    public function execute(LikeReviewRequest $request): LikeReviewResponse
+    public function execute(DislikeReviewRequest $request): DislikeReviewResponse
     {        
         $reviewId = $request->getReviewId();
         $userId = Auth::id();
@@ -28,17 +28,17 @@ class LikeReviewAction
         $like = $this->likeRepository->findByCriteria($likeCriteria);
         $dislikeCriteria = new DislikeReviewCriteria($reviewId, $userId);
         $dislike = $this->dislikeRepository->findByCriteria($dislikeCriteria);
-        if ($dislike) {
-            $this->dislikeRepository->deleteById($dislike->id);
+        if ($like) {
+            $this->likeRepository->deleteById($like->id);
         }
-        if (empty($like)) {
-            $like = new Like([
-                'likeable_id' => $reviewId,
-                'likeable_type' => Review::class,
+        if (empty($dislike)) {
+            $dislike = new Dislike([
+                'dislikeable_id' => $reviewId,
+                'dislikeable_type' => Review::class,
                 'user_id' => $userId
             ]);
-            $this->likeRepository->save($like);
+            $this->dislikeRepository->save($dislike);
         }
-        return new LikeReviewResponse();
+        return new DislikeReviewResponse();
     }
 }

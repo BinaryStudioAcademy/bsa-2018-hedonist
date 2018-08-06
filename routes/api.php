@@ -31,8 +31,9 @@ Route::prefix('v1')->group(function () {
             Route::post('/refresh','AuthController@refresh');
 
             Route::get('/me','AuthController@me');
+
+            Route::post('places/reviews/{id}/like', 'Api\Review\LikeReviewController@likeReview');
+            Route::post('places/reviews/{id}/dislike', 'Api\Review\DisikeReviewController@dislikeReview');
         });
     }); 
-    Route::post('places/reviews/{id}/like', 'Api\Review\LikeReviewController@likeReview');
-    Route::post('places/reviews/{id}/dislike', 'Api\Review\DisikeReviewController@dislikeReview');
 });

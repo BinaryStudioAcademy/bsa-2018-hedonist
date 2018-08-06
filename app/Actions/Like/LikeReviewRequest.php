@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Review\Like;
+namespace Hedonist\Actions\Like;
 
 class LikeReviewRequest
 {

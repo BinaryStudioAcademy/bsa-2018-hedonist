@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Review\Dislike;
+namespace Hedonist\Actions\Dislike;
 
 class DislikeReviewRequest
 {
