@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Auth;
 
-
 use Hedonist\Actions\Auth\Requests\LoginRequest;
 use Hedonist\Actions\Auth\Requests\RecoverPasswordRequest;
 use Hedonist\Actions\Auth\Requests\ResetPasswordRequest;

@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Auth;
 
-
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\Auth\Responses\AuthenticateResponseInterface;
 use Hedonist\Entities\User\User;
