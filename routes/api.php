@@ -19,5 +19,11 @@ Route::prefix('v1')->group(function () {
         return $request->user();
     });
 
-    Route::resource('places', 'PlaceController');
+    Route::namespace('Api')->group(function() {
+        Route::get('places', 'PlaceController@getCollection')->name('getPlaceCollection');
+        Route::get('places/{id}', 'PlaceController@getPlace')->name('getPlace');
+        Route::post('places', 'PlaceController@addPlace')->name('addPlace');
+        Route::put('places/{id}', 'PlaceController@updatePlace')->name('updatePlace');
+        Route::delete('places/{id}', 'PlaceController@removePlace')->name('removePlace');
+    });
 });
