@@ -9,7 +9,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
-    public function getById(int $id): User
+    public function getById(int $id): ?User
     {
         return User::find($id);
     }
