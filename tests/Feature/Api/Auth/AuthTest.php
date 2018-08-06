@@ -123,14 +123,13 @@ class AuthTest extends TestCase
     {
         $user = factory(User::class)->create();
         $credentials = $this->login($user);
-        $response = $this->json('GET',
-            'api/v1/auth/logut',
+        $response = $this->json('POST',
+            'api/v1/auth/logout',
             [],
             ['Authorization' => 'Bearer ' . $credentials['access_token']]);
 
         $response->assertStatus(200);
 
-        $credentials = $this->login($user);
         $response = $this->json('GET',
             'api/v1/auth/me',
             [],
