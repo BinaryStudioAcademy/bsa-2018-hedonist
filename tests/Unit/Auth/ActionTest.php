@@ -8,7 +8,7 @@ use Hedonist\Actions\Auth\Requests\LoginRequest;
 use Hedonist\Actions\Auth\Requests\ResetPasswordRequest;
 use Hedonist\Actions\Auth\ResetPasswordAction;
 use Hedonist\Actions\LoginUserAction;
-use Hedonist\Entities\User;
+use Hedonist\Entities\User\User;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
 use Hedonist\Exceptions\Auth\PasswordResetFailedException;
 use Hedonist\Repositories\User\UserRepositoryInterface;

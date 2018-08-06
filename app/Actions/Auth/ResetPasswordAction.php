@@ -4,7 +4,7 @@ namespace Hedonist\Actions\Auth;
 
 use Hedonist\Actions\Auth\Requests\ResetPasswordRequest;
 use Hedonist\Actions\Auth\Responses\ResetPasswordResponse;
-use Hedonist\Entities\User;
+use Hedonist\Entities\User\User;
 use Hedonist\Exceptions\Auth\PasswordResetFailedException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Contracts\Auth\PasswordBroker;

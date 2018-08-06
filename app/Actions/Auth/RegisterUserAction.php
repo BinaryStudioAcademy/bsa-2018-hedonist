@@ -3,7 +3,7 @@
 namespace Hedonist\Actions\Auth;
 
 use Hedonist\Actions\Auth\Responses\RegisterResponse;
-use Hedonist\Entities\User;
+use Hedonist\Entities\User\User;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Requests\Auth\RegisterRequest;

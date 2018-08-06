@@ -10,7 +10,7 @@ use Hedonist\Actions\Auth\Responses\LoginResponse;
 use Hedonist\Actions\Auth\Responses\RefreshResponse;
 use Hedonist\Actions\Auth\Responses\RegisterResponse;
 use Hedonist\Actions\Auth\Responses\ResetPasswordResponse;
-use Hedonist\Entities\User;
+use Hedonist\Entities\User\User;
 use Hedonist\Requests\Auth\RegisterRequest;
 use Tests\TestCase;
 

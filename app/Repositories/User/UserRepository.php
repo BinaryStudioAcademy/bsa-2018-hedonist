@@ -2,7 +2,7 @@
 
 namespace Hedonist\Repositories\User;
 
-use Hedonist\Entities\User;
+use Hedonist\Entities\User\User;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;

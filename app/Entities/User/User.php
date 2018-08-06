@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Entities;
+namespace Hedonist\Entities\User;
 
 use Hedonist\Events\Auth\PasswordResetedEvent;
 use Illuminate\Auth\Passwords\CanResetPassword;

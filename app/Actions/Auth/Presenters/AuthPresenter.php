@@ -3,8 +3,7 @@
 namespace Hedonist\Actions\Auth\Presenters;
 
 use Hedonist\Actions\Auth\Responses\AuthenticateResponseInterface;
-use Hedonist\Actions\Auth\Responses\RegisterResponse;
-use Hedonist\Entities\User;
+use Hedonist\Entities\User\User;
 
 class AuthPresenter
 {
