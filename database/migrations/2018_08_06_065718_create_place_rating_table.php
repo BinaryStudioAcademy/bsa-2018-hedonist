@@ -21,7 +21,6 @@ class CreatePlaceRatingTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('place_id');
             $table->unsignedInteger('rating');
-            
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('place_id')->references('id')->on('places');
         });
