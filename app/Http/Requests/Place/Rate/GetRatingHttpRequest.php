@@ -24,17 +24,16 @@ class GetRatingHttpRequest extends JsonRequest
     public function rules() : array
     {
 
-        if (request('id') != null) {
+        $slug_id = $this->route()->parameter('id');
+
+        if ($slug_id) {
             return [
-                'id' => 'required|integer',
-                'value' => 'required|numeric|min:0.0|max:10.0',
             ];
         }
 
         return [
             'user_id' => 'integer',
             'place_id' => 'required|integer',
-            'value' => 'required|numeric|min:0.0|max:10.0',
         ];
     }
 }
