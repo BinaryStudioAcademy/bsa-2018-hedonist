@@ -25,9 +25,9 @@ use Illuminate\Support\Facades\Auth;
 
 class PlaceRatingController extends ApiController
 {
-    private $getRateAction;
-    private $setRateAction;
-    private $getPlaceRateAvgAction;
+    private $getRatingAction;
+    private $setRatingAction;
+    private $getPlaceRatingAvgAction;
     private $userId;
 
     public function __construct(
@@ -36,18 +36,18 @@ class PlaceRatingController extends ApiController
         GetPlaceRatingAvgAction $getPlaceRateAvgAction
     )
     {
-        $this->getRateAction = $getRateAction;
-        $this->setRateAction = $setRateAction;
-        $this->getPlaceRateAvgAction = $getPlaceRateAvgAction;
+        $this->getRatingAction = $getRateAction;
+        $this->setRatingAction = $setRateAction;
+        $this->getPlaceRatingAvgAction = $getPlaceRateAvgAction;
         if (Auth::check()) {
             $this->userId = Auth::id();
         }
     }
 
-    public function setRate(SetRatingHttpRequest $httpRequest) : JsonResponse
+    public function setRating(SetRatingHttpRequest $httpRequest) : JsonResponse
     {
         try {
-            $setPlaceRatingResponse = $this->setRateAction->execute(
+            $setPlaceRatingResponse = $this->setRatingAction->execute(
                 new SetPlaceRatingRequest(
                     $httpRequest->id,
                     $this->userId,
@@ -63,14 +63,14 @@ class PlaceRatingController extends ApiController
             'id' => $setPlaceRatingResponse->getId(),
             'user_id' => $setPlaceRatingResponse->getUserId(),
             'place_id' => $setPlaceRatingResponse->getPlaceId(),
-            'rate' => $setPlaceRatingResponse->getRatingValue()
+            'rating' => $setPlaceRatingResponse->getRatingValue()
         ], 201);
     }
 
-    public function getRate(GetRatingHttpRequest $httpRequest, $id = null) : JsonResponse
+    public function getRating(GetRatingHttpRequest $httpRequest, $id = null) : JsonResponse
     {
         try {
-            $userId = $httpRequest->userId ? $httpRequest->userId : $this->userId;
+            $userId = $httpRequest->user_id ? $httpRequest->user_id : $this->userId;
 
             $getPlaceRatingResponse = $this->getRateAction->execute(
                 new GetPlaceRatingRequest(
@@ -88,14 +88,14 @@ class PlaceRatingController extends ApiController
             'id' => $getPlaceRatingResponse->getId(),
             'user_id' => $getPlaceRatingResponse->getUserId(),
             'place_id' => $getPlaceRatingResponse->getPlaceId(),
-            'rate' => $getPlaceRatingResponse->getRatingValue()
+            'rating' => $getPlaceRatingResponse->getRatingValue()
         ], 201);
     }
 
-    public function getPlaceRateAvg($placeId) : JsonResponse
+    public function getPlaceRatingAvg($placeId) : JsonResponse
     {
         try {
-            $getPlaceRatingAvgResponse = $this->getPlaceRateAvgAction->execute(
+            $getPlaceRatingAvgResponse = $this->getPlaceRatingAvgAction->execute(
                 new GetPlaceRatingAvgRequest(
                     $placeId
                 )
@@ -106,7 +106,7 @@ class PlaceRatingController extends ApiController
 
         return $this->successResponse([
             'place_id' => $getPlaceRatingAvgResponse->getPlaceId(),
-            'rate' => $getPlaceRatingAvgResponse->getRatingAvgValue()
+            'rating' => $getPlaceRatingAvgResponse->getRatingAvgValue()
         ], 201);
     }
 

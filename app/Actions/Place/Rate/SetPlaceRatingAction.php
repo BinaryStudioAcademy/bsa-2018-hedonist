@@ -33,16 +33,13 @@ class SetPlaceRatingAction
         $ratingValue = $request->getRatingValue();
 
         if ($id) {
-            // TODO find object by 'id'
             $this->placeRating = $this->repository->getById($id);
         } else {
-            // TODO find object by 'user_id' and 'place_id'
-            $this->placeRating = $this->repository->getByPlaceUser($userId, $placeId);
+            $this->placeRating = $this->repository->getByPlaceUser($placeId,$userId);
         }
 
         if(!$this->placeRating) {
-            /** @var SetPlaceRatingRequest $request */
-            $value = $request->getRatingValue();
+            $ratingValue = $request->getRatingValue();
             $placeRating = new PlaceRating([
                 'user_id' => $userId,
                 'place_id' => $placeId,
@@ -52,15 +49,15 @@ class SetPlaceRatingAction
 
         $placeRating = $this->repository->save($placeRating);
 
-        /** @var  SetPlaceRatingResponse $response */
-        $response = $this->response = new SetPlaceRatingResponse(
+        /** @var  SetPlaceRatingResponse $setPlaceRatingResponse */
+        $setPlaceRatingResponse = new SetPlaceRatingResponse(
             $placeRating->id,
             $placeRating->user_id,
             $placeRating->place_id,
             $placeRating->value
         );
 
-        return $response;
+        return $setPlaceRatingResponse;
 
     }
 
