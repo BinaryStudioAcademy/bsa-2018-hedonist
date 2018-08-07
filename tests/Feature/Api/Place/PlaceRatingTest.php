@@ -19,9 +19,9 @@ class PlaceRatingTest extends ApiTestCase
     protected $anotherUser;
     protected $place_1_rating_1;
     protected $place_1_rating_2;
+    protected $place_1_rating_3;
     protected $place_1;
     protected $place_2;
-
 
 
     public function setUp()
@@ -42,9 +42,14 @@ class PlaceRatingTest extends ApiTestCase
             'user_id' => $this->anotherUser->id,
             'place_id' => $this->place_1->id,
         ]);
+        $this->place_1_rating_3 = factory(PlaceRating::class)->create([
+            'place_id' => $this->place_1->id,
+        ]);
+
+        $this->place_2 = factory(Place::class)->create();
     }
 
-    public function test_getting_item_by_id() : void
+    public function test_get_rating_by_id(): void
     {
         $id = $this->place_1_rating_1->id;
         $rating = $this->place_1_rating_1->rating;
@@ -67,7 +72,7 @@ class PlaceRatingTest extends ApiTestCase
         ]);
     }
 
-    public function test_getting_item_by_place_id_only() : void
+    public function test_get_rating_by_place_id_only(): void
     {
         $id = $this->place_1_rating_1->id;
         $placeId = $this->place_1_rating_1->place_id;
@@ -95,7 +100,7 @@ class PlaceRatingTest extends ApiTestCase
         ]);
     }
 
-    public function test_getting_item_by_place_id_and_another_user_id() : void
+    public function test_get_rating_by_place_id_and_another_user_id(): void
     {
         $id = $this->place_1_rating_2->id;
         $anotherUserId = $this->place_1_rating_2->user_id;
@@ -125,4 +130,145 @@ class PlaceRatingTest extends ApiTestCase
             'message' => 'Item not found',
         ]);
     }
+
+    public function test_gett_average_rating_by_place_id(): void
+    {
+        $placeId = $this->place_1_rating_1->place_id;
+        $ratings = [
+            $this->place_1_rating_1->rating,
+            $this->place_1_rating_2->rating,
+            $this->place_1_rating_3->rating,
+        ];
+        $ratingAvg = round(array_sum($ratings) / \count($ratings), 1);
+
+        $response = $this->json('GET', "api/v1/places/rating/place/$placeId", [
+        ]);
+
+        $response->assertStatus(201);
+        $response->assertJsonFragment([
+            'place_id' => $placeId,
+            'rating' => $ratingAvg
+        ]);
+
+        $response = $this->json('GET', 'api/v1/places/rating/place/999', [
+        ]);
+
+        $response->assertStatus(400);
+        $response->assertJsonFragment([
+            'httpStatus' => 400,
+            'message' => 'Item not found',
+        ]);
+    }
+
+    public function test_set_rating_by_place_id(): void
+    {
+        $placeId = $this->place_2->id;
+        $rating = random_int(0, 10);
+
+        $this->assertDatabaseMissing('place_rating', [
+            'user_id' => $this->authenticatedUser->id,
+            'place_id' => $placeId
+        ]);
+
+        $response = $this->json('POST', 'api/v1/places/rating', [
+            'place_id' => $placeId,
+            'rating' => $rating
+        ]);
+        $ratingId = $response->getOriginalContent()['data']['id'];
+
+        $response->assertStatus(201);
+        $response->assertJsonFragment([
+            'user_id' => $this->authenticatedUser->id,
+            'place_id' => $placeId,
+            'rating' => $rating
+        ]);
+
+        $this->assertDatabaseHas('place_rating', [
+            'id' => $ratingId,
+            'user_id' => $this->authenticatedUser->id,
+            'place_id' => $placeId,
+            'rating' => $rating
+        ]);
+
+        $ratingNew = random_int(0, 10);
+
+        $response = $this->json('POST', 'api/v1/places/rating', [
+            'place_id' => $placeId,
+            'rating' => $ratingNew
+        ]);
+
+        $response->assertStatus(201);
+        $response->assertJsonFragment([
+            'id' => $ratingId,
+            'user_id' => $this->authenticatedUser->id,
+            'place_id' => $placeId,
+            'rating' => $ratingNew
+        ]);
+
+        $this->assertDatabaseHas('place_rating', [
+            'id' => $ratingId,
+            'user_id' => $this->authenticatedUser->id,
+            'place_id' => $placeId,
+            'rating' => $ratingNew
+        ]);
+    }
+
+    public function test_set_rating_validation(): void
+    {
+        $rating = random_int(0, 10);
+        $rating_less = random_int(-100, -1);
+        $rating_over = random_int(11, 100);
+
+        $response = $this->json('POST', 'api/v1/places/rating', [
+            'rating' => 'kk'
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonFragment([
+            'message' => 'The given data was invalid.',
+            'errors' => [
+                'place_id' => [
+                    0 => 'The place id field is required.'
+                ],
+                'rating' => [
+                    0 => 'The rating must be an integer.'
+                ]
+            ]
+        ]);
+
+        $response = $this->json('POST', 'api/v1/places/rating', [
+            'place_id' => 'k',
+            'rating' => $rating_less
+        ]);
+
+        $response->assertJsonFragment([
+            'message' => 'The given data was invalid.',
+            'errors' => [
+                'place_id' => [
+                    0 => 'The place id must be an integer.'
+                ],
+                'rating' => [
+                    0 => 'The rating must be at least 0.'
+                ]
+            ]
+        ]);
+
+        $response = $this->json('POST', 'api/v1/places/rating', [
+            'place_id' => -5,
+            'rating' => $rating_over
+        ]);
+
+        $response->assertJsonFragment([
+            'message' => 'The given data was invalid.',
+            'errors' => [
+                'place_id' => [
+                    0 => 'The place id must be at least 1.'
+                ],
+                'rating' => [
+                    0 => 'The rating may not be greater than 10.'
+                ]
+            ]
+        ]);
+    }
+
 }
