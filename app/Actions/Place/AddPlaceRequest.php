@@ -20,7 +20,7 @@ class AddPlaceRequest
         float $longitude,
         float $latitude,
         int $zip,
-        $address
+        string $address
     ) {
         $this->creatorId = $creatorId;
         $this->categoryId = $categoryId;
@@ -61,12 +61,12 @@ class AddPlaceRequest
         return $this->zip;
     }
 
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'creator_id'  => $this->getCreatorId(),

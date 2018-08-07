@@ -22,7 +22,7 @@ class UpdatePlaceRequest
         float $longitude,
         float $latitude,
         int $zip,
-        $address
+        string $address
     ) {
         $this->id = $id;
         $this->creatorId = $creatorId;
@@ -69,12 +69,12 @@ class UpdatePlaceRequest
         return $this->zip;
     }
 
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'id'          => $this->getId(),
