@@ -27,6 +27,9 @@ class LikeReviewApiTest extends ApiTestCase
 
         $response = $this->post('/api/v1/reviews/99999/like', [], ['Authorization' => 'Bearer ' . $token]);
 
+        $content = $response->getContent();
+        echo(substr($content,0,500));
+
         $response->assertHeader('Content-Type', 'application/json')
             ->assertNotFound()
             ->assertJsonStructure([

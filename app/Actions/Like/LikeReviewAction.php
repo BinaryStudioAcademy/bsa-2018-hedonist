@@ -29,7 +29,7 @@ class LikeReviewAction
     public function execute(LikeReviewRequest $request): LikeReviewResponse
     {        
         $reviewId = $request->getReviewId();
-        $review = $this->reviewRepository->findById($request->getReviewId());
+        $review = $this->reviewRepository->getById($request->getReviewId());
         if (empty($review)) {
             throw new ReviewNotFoundException();
         }
