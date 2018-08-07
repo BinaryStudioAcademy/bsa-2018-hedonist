@@ -35,9 +35,6 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'jwt.auth'], function() {
-            
-        Route::post('/reviews/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
-        Route::post('/reviews/{id}/dislike', 'Api\DisikeController@dislikeReview')->name('review.dislike');
 
         Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
             ->name('place.features.indexFeature');
@@ -51,6 +48,7 @@ Route::prefix('v1')->group(function () {
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
       
-        /* Routes here.. */
+        Route::post('/reviews/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
+        Route::post('/reviews/{id}/dislike', 'Api\DisikeController@dislikeReview')->name('review.dislike');
     });
 });
