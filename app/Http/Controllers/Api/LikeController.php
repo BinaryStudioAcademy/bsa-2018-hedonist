@@ -19,8 +19,7 @@ class LikeController extends ApiController
     public function __construct(
         LikePlaceAction $likePlaceAction,
         LikeReviewAction $likeReviewAction
-    )
-    {
+    ) {
         $this->likePlaceAction = $likePlaceAction;
         $this->likeReviewAction = $likeReviewAction;
     }
