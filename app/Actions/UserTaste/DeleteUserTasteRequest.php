@@ -10,6 +10,7 @@ class DeleteUserTasteRequest
     {
         $this->tasteId = $tasteId;
     }
+    
     public function getTasteId(): int
     {
         return $this->tasteId;

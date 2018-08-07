@@ -7,6 +7,7 @@ use Hedonist\Actions\UserTaste\AddUserTasteResponse;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Repositories\User\TasteRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Hedonist\Exceptions\UserTaste\TasteNotFoundException;
 
 class AddUserTasteAction
 {
@@ -18,6 +19,7 @@ class AddUserTasteAction
         $this->userRepository = $userRepository;
         $this->tasteRepository = $tasteRepository;
     }
+    
     public function execute(AddUserTasteRequest $request): AddUserTasteResponse
     {
         $taste = $this->tasteRepository->getById($request->getTasteId());
@@ -25,6 +27,6 @@ class AddUserTasteAction
             $this->userRepository->addTaste(Auth::user(),$taste);
             return new AddUserTasteResponse($taste);
         }
-        throw new \LogicException('Taste not found!');
+        throw new TasteNotFoundException('Taste not found!');
     }
 }

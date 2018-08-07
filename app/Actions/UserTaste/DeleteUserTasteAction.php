@@ -6,6 +6,7 @@ use Hedonist\Actions\UserTaste\DeleteUserTasteRequest;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Repositories\User\TasteRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Hedonist\Exceptions\UserTaste\TasteNotFoundException;
 
 class DeleteUserTasteAction
 {
@@ -17,12 +18,13 @@ class DeleteUserTasteAction
         $this->userRepository = $userRepository;
         $this->tasteRepository = $tasteRepository;
     }
+    
     public function execute(DeleteUserTasteRequest $request)
     {
          
         $taste = $this->tasteRepository->getById($request->getTasteId());
         if(!$taste) {
-            throw new \LogicException('Taste not found!');
+            throw new TasteNotFoundException('Taste not found!');
         }
         $this->userRepository->deleteTaste(Auth::user(),$taste);
         

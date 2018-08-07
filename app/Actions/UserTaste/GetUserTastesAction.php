@@ -14,6 +14,7 @@ class GetUserTastesAction
     {
         $this->tasteRepository = $repository;
     }
+    
     public function execute(): GetUserTastesResponse
     {
        

@@ -11,6 +11,7 @@ class AddUserTasteResponse
     {
         $this->taste = $taste;
     }
+    
     public function getTaste(): array
     {
         return $this->taste->toArray();
