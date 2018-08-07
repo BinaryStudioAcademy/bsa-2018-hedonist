@@ -3,11 +3,11 @@
 namespace Hedonist\Actions\Dislike;
 
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
-use Hedonist\Repositories\Like\{LikeRepository,LikeReviewCriteria};
-use Hedonist\Repositories\Dislike\{DislikeRepository,DislikeReviewCriteria};
+use Hedonist\Repositories\Like\{LikeRepositoryInterface,LikeReviewCriteria};
+use Hedonist\Repositories\Dislike\{DislikeRepositoryInterface,DislikeReviewCriteria};
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\Dislike\Dislike;
-use Hedonist\Repositories\Review\ReviewRepository;
+use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class DislikeReviewAction
@@ -17,9 +17,9 @@ class DislikeReviewAction
     private $reviewRepository;
 
     public function __construct(
-        LikeRepository $likeRepository,
-        DislikeRepository $dislikeRepository,
-        ReviewRepository $reviewRepository
+        LikeRepositoryInterface $likeRepository,
+        DislikeRepositoryInterface $dislikeRepository,
+        ReviewRepositoryInterface $reviewRepository
     ) {
         $this->likeRepository = $likeRepository;
         $this->dislikeRepository = $dislikeRepository;
