@@ -47,6 +47,10 @@ Route::prefix('v1')->group(function () {
 
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
+
+        Route::resource('review-photo', 'Api\Review\ReviewPhotoController')->except([
+            'create', 'edit',
+        ]);
       
         /* Routes here.. */
     });
