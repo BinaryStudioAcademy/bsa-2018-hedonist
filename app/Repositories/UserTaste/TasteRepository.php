@@ -2,13 +2,12 @@
 
 namespace Hedonist\Repositories\UserTaste;
 
-use Hedonist\Entities\User\User;
-use Hedonist\Entities\User\UserTaste;
+use Hedonist\Entities\User\Taste;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class UserTasteRepository extends BaseRepository implements UserTasteRepositoryInterface
+class TasteRepository extends BaseRepository implements TasteRepositoryInterface
 {
 
     /**
@@ -18,20 +17,20 @@ class UserTasteRepository extends BaseRepository implements UserTasteRepositoryI
      */
     public function model()
     {
-        return UserTaste::class;
+        return Taste::class;
     }
 
-    public function getById(int $id): ?UserTaste
+    public function getById(int $id): ?Taste
     {
-        return UserTaste::find($id);
+        return Taste::find($id);
     }
 
     public function findAll(): Collection
     {
-        return UserTaste::all();
+        return Taste::all();
     }
 
-    public function save(UserTaste $taste): UserTaste
+    public function save(Taste $taste): Taste
     {
         $taste->save();
 
@@ -40,6 +39,11 @@ class UserTasteRepository extends BaseRepository implements UserTasteRepositoryI
 
     public function deleteById(int $id): void
     {
-        UserTaste::destroy($id);
+        Taste::destroy($id);
+    }
+
+    public function findByCriteria(CriteriaInterface $criteria): Collection
+    {
+        return $this->getByCriteria($criteria);
     }
 }

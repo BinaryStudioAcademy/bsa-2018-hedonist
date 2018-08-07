@@ -4,7 +4,7 @@ namespace Hedonist\Entities\User;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserTaste extends Model
+class Taste extends Model
 {
     public $timestamps = false;
 
@@ -14,6 +14,6 @@ class UserTaste extends Model
 
     public function users()
     {
-        $this->belongsToMany(User::class, 'users_user_tastes');
+        $this->belongsToMany(User::class);
     }
 }

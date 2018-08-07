@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Hedonist\Entities\User\UserTaste;
+use Hedonist\Entities\User\Taste;
 
 class UserTasteSeeder extends Seeder
 {
@@ -12,19 +12,19 @@ class UserTasteSeeder extends Seeder
      */
     public function run()
     {
-        UserTaste::create('spicy food');
-        UserTaste::create('live music');
-        UserTaste::create('electronic music');
-        UserTaste::create('jazz');
-        UserTaste::create('vegetarian food');
-        UserTaste::create('italian food');
-        UserTaste::create('fast food');
-        UserTaste::create('asian food');
-        UserTaste::create('rolls');
-        UserTaste::create('coffee');
-        UserTaste::create('quite places');
-        UserTaste::create('anti cafe');
-        UserTaste::create('good service');
-        UserTaste::create('no queues');
+        Taste::create('spicy food');
+        Taste::create('live music');
+        Taste::create('electronic music');
+        Taste::create('jazz');
+        Taste::create('vegetarian food');
+        Taste::create('italian food');
+        Taste::create('fast food');
+        Taste::create('asian food');
+        Taste::create('rolls');
+        Taste::create('coffee');
+        Taste::create('quite places');
+        Taste::create('anti cafe');
+        Taste::create('good service');
+        Taste::create('no queues');
     }
 }
