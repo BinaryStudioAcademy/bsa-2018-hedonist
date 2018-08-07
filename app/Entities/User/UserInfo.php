@@ -20,10 +20,6 @@ class UserInfo extends Model
         'twitter_url',
     ];
 
-    public $incrementing = false;
-
-    protected $primaryKey = 'user_id';
-
     public function user()
     {
         return $this->belongsTo('user_id');
