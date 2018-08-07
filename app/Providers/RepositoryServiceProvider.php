@@ -15,7 +15,7 @@ use Hedonist\Repositories\Place\{
     PlaceFeatureRepositoryInterface,
     PlaceFeatureRepository,
     PlaceRatingRepositoryInterface,
-    PlaceRatingRepository
+    PlaceRatingRepository,
     PlaceRepository,
     PlaceRepositoryInterface
 };
