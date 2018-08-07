@@ -3,6 +3,7 @@
 namespace Hedonist\Repositories\User;
 
 use Hedonist\Entities\User\User;
+use Hedonist\Entities\User\Taste;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -44,5 +45,20 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function model()
     {
         return User::class;
+    }
+
+    public function addTaste(User $user, Taste $taste): void
+    {
+        $user->tastes()->attach($taste);
+    }
+
+    public function deleteTaste(User $user, Taste $taste): void
+    {
+        $user->tastes()->detach($taste);
+    }
+
+    public function setTastes(User $user, Collection $tastes): void
+    {
+        $user->tastes()->sync($tastes);
     }
 }
