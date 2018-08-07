@@ -17,22 +17,22 @@ class SaveUserListRequest
         $this->imgUrl = $imgUrl;
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getImgUrl()
+    public function getImgUrl(): string
     {
         return $this->imgUrl;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }

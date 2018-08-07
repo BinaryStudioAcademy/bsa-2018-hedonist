@@ -23,8 +23,8 @@ class UserListController extends ApiController
         SaveUserListAction $userListAction,
         GetCollectionUserListAction $collectionUserListAction,
         GetUserListAction $getUserListAction,
-        DeleteUserListAction $deleteUserListAction)
-    {
+        DeleteUserListAction $deleteUserListAction
+    ) {
         $this->userListAction = $userListAction;
         $this->collectionUserListAction = $collectionUserListAction;
         $this->getUserListAction = $getUserListAction;

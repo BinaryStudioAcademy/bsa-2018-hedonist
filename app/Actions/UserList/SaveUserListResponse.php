@@ -13,12 +13,12 @@ class SaveUserListResponse
         $this->userList = $userList;
     }
 
-    public function getModel()
+    public function getModel(): UserList
     {
         return $this->userList;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->userList->toArray();
     }

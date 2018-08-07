@@ -13,12 +13,12 @@ class GetCollectionUserListResponse
         $this->collectionUserList = $collectionUserList;
     }
 
-    public function getCollection()
+    public function getCollection(): Collection
     {
         return $this->collectionUserList;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->collectionUserList->toArray();
     }

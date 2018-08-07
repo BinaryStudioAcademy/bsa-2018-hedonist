@@ -13,7 +13,7 @@ class GetUserListResponse
         $this->userList = $userList;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'id' => $this->userList->id,
