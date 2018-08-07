@@ -38,6 +38,9 @@ Route::prefix('v1')->group(function () {
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
         Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
 
+        Route::post('/reviews/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
+        Route::post('/reviews/{id}/dislike', 'Api\DisikeController@dislikeReview')->name('review.dislike');
+
         Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
             ->name('place.features.indexFeature');
 
