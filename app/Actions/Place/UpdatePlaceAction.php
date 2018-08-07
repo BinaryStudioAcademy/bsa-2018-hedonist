@@ -84,7 +84,7 @@ class UpdatePlaceAction
         );
     }
 
-    public function validateRequest(UpdatePlaceRequest $request): Validator
+    private function validateRequest(UpdatePlaceRequest $request): Validator
     {
         return ValidatorFacade::make($request->toArray(), [
             'longitude'   => 'required|numeric|min:-180|max:180',
