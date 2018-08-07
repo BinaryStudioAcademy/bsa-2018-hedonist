@@ -2,11 +2,10 @@
 
 namespace Tests\Feature\Repository\UserTastesTest;
 
-
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\Taste;
+use Hedonist\Repositories\User\TasteRepository;
 use Hedonist\Repositories\User\UserRepository;
-use Hedonist\Repositories\UserTaste\TasteRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -47,7 +46,7 @@ class UserTastesTest extends TestCase
 
         $this->assertEquals($tastes->count(), $this->tasteRepo->findAll()->count());
         $this->userRepo->setTastes($this->user,$tastes);
-        $this->assertEquals($tastes->count(), $this->userRepo->getTastes($this->user)->count());
+        $this->assertEquals($tastes->count(), $this->tasteRepo->findByUser($this->user->id)->count());
     }
 
     public function test_add_taste()
@@ -56,7 +55,7 @@ class UserTastesTest extends TestCase
         $this->user->tastes()->save($taste);
         $tasteToAdd = factory(Taste::class)->create();
         $this->userRepo->addTaste($this->user,$tasteToAdd);
-        $this->assertEquals(2, $this->userRepo->getTastes($this->user)->count());
+        $this->assertEquals(2, $this->tasteRepo->findByUser($this->user->id)->count());
     }
 
     public function test_delete_taste()
@@ -64,6 +63,6 @@ class UserTastesTest extends TestCase
         $taste = factory(Taste::class,2)->make();
         $this->user->tastes()->saveMany($taste);
         $this->userRepo->deleteTaste($this->user,$taste[0]);
-        $this->assertEquals(1, $this->userRepo->getTastes($this->user)->count());
+        $this->assertEquals(1, $this->tasteRepo->findByUser($this->user->id)->count());
     }
 }

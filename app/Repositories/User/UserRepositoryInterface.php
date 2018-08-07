@@ -27,6 +27,4 @@ interface UserRepositoryInterface extends RepositoryInterface
     public function deleteTaste(User $user, Taste $taste): void;
 
     public function setTastes(User $user, Collection $tastes): void;
-
-    public function getTastes(User $user): Collection;
 }
