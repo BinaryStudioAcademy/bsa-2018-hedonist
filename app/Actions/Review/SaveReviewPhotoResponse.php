@@ -13,12 +13,12 @@ class SaveReviewPhotoResponse
         $this->reviewPhoto = $reviewPhoto;
     }
 
-    public function getModel()
+    public function getModel(): ReviewPhoto
     {
         return $this->reviewPhoto;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return $this->reviewPhoto->toArray();
     }

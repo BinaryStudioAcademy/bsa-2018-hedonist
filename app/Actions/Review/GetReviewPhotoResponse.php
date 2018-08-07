@@ -13,7 +13,7 @@ class GetReviewPhotoResponse
         $this->reviewPhoto = $reviewPhoto;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'id' => $this->reviewPhoto->id,

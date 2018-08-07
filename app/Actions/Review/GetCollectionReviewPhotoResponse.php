@@ -12,11 +12,11 @@ class GetCollectionReviewPhotoResponse
     {
         $this->collectionReviewPhoto = $collectionReviewPhoto;
     }
-    public function getCollection()
+    public function getCollection(): Collection
     {
         return $this->collectionReviewPhoto;
     }
-    public function toArray()
+    public function toArray(): array
     {
         return $this->collectionReviewPhoto->toArray();
     }

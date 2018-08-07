@@ -18,22 +18,25 @@ class ReviewPhotoController extends ApiController
     public $collectionReviewPhotoAction;
     public $getReviewPhotoAction;
     public $deleteReviewPhotoAction;
+
     public function __construct(
         SaveReviewPhotoAction $saveReviewPhotoAction,
         GetCollectionReviewPhotoAction $collectionReviewPhotoAction,
         GetReviewPhotoAction $getReviewPhotoAction,
-        DeleteReviewPhotoAction $deleteReviewPhotoAction)
-    {
+        DeleteReviewPhotoAction $deleteReviewPhotoAction
+    ) {
         $this->saveReviewPhotoAction = $saveReviewPhotoAction;
         $this->collectionReviewPhotoAction = $collectionReviewPhotoAction;
         $this->getReviewPhotoAction = $getReviewPhotoAction;
         $this->deleteReviewPhotoAction = $deleteReviewPhotoAction;
     }
+
     public function index()
     {
         $responseReviewPhoto = $this->collectionReviewPhotoAction->execute();
         return $this->successResponse($responseReviewPhoto->toArray(), 200);
     }
+
     public function store(ReviewPhotoRequest $request)
     {
         try {
@@ -49,6 +52,7 @@ class ReviewPhotoController extends ApiController
             return $this->errorResponse($exception->getMessage(), 400);
         }
     }
+
     public function show(int $id)
     {
         try {
@@ -60,6 +64,7 @@ class ReviewPhotoController extends ApiController
             return $this->errorResponse($exception->getMessage(), 404);
         }
     }
+
     public function update(ReviewPhotoRequest $request, int $id)
     {
         try {
@@ -76,6 +81,7 @@ class ReviewPhotoController extends ApiController
             return $this->errorResponse($exception->getMessage(), 404);
         }
     }
+
     public function destroy(int $id)
     {
         try {
