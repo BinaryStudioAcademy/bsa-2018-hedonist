@@ -13,26 +13,27 @@ use Illuminate\Contracts\Auth\Authenticatable as UserContract;
  */
 abstract class ApiTestCase extends TestCase
 {
-    protected $authenticatedUser;
-
-    public function actingAs(UserContract $user, $driver = null) : self
-    {
-        $this->authenticatedUser = $user;
-        return $this;
-    }
+    protected $jwtToken;
 
     public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null) : TestResponse
     {
-        if ($this->authenticatedUser) {
-            $server['HTTP_AUTHORIZATION'] = 'Bearer ' . auth()->login($this->authenticatedUser);
+        if ($this->jwtToken) {
+            $server['HTTP_AUTHORIZATION'] = 'Bearer ' . $this->jwtToken;
         }
         $server['HTTP_ACCEPT'] = 'application/json';
         return parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
     }
 
-    protected function actingAsJwtToken() : self
+    protected function authenticate(UserContract $user): void
     {
-        return $this->actingAs(factory(User::class)->create());
+        $this->jwtToken = auth()->login($user);
+    }
+
+    protected function actingWithToken(UserContract $user = null, $driver = 'api') : self
+    {
+        $user = $user ? $user : factory(User::class)->create();
+        $this->authenticate($user);
+        return $this->actingAs($user, $driver);
     }
 
     protected function assertSuccessJsonResponse(string $uri, string $apiType, array $jsonStructure)
