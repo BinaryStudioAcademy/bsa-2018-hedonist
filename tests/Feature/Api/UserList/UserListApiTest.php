@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Hedonist\Entities\UserList\UserList;
-use Hedonist\User;
+use Hedonist\Entities\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Api\ApiTestCase;
 
