@@ -78,7 +78,7 @@ class ReviewController extends ApiController
         }
     }
 
-    public function updateReview(ReviewCreateUpdateRequest $request)
+    public function updateReview(ReviewCreateUpdateRequest $request, $id)
     {
         try {
             $updateReviewResponse = $this->updateReviewAction->execute(
@@ -86,7 +86,8 @@ class ReviewController extends ApiController
                     $request->input('user_id'),
                     $request->input('place_id'),
                     $request->input('description')
-                )
+                ),
+                $id
             );
             return $this->successResponse($updateReviewResponse->getModel());
         } catch (\Exception $e) {
@@ -94,10 +95,11 @@ class ReviewController extends ApiController
         }
     }
 
-    public function deleteReview($id): void
+    public function deleteReview($id)
     {
         $this->deleteReviewAction->execute(
             new DeleteReviewRequest($id)
         );
+        return $this->successResponse([], 200);
     }
 }

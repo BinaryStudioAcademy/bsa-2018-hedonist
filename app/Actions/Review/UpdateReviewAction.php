@@ -14,17 +14,16 @@ class UpdateReviewAction
         $this->reviewRepository = app()->make(ReviewRepositoryInterface::class);
     }
 
-    public function execute(UpdateReviewRequest $request): UpdateReviewResponse
+    public function execute(UpdateReviewRequest $request, $id): UpdateReviewResponse
     {
-        $review = $this->reviewRepository->save(
-            new Review(
-                [
-                    'user_id'       => $request->getUserId(),
-                    'place_id'      => $request->getPlaceId(),
-                    'description'   => $request->getDescription()
-                ]
-            )
-        );
-        return new UpdateReviewResponse($review);
+        $review = $this->reviewRepository->getById($id);
+        if (!$review) {
+            $review = $this->reviewRepository->model();
+        }
+        $review->user_id = $request->getUserId();
+        $review->place_id = $request->getPlaceId();
+        $review->description = $request->getDescription();
+
+        return new UpdateReviewResponse($this->reviewRepository->save($review));
     }
 }

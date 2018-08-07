@@ -15,7 +15,6 @@ class GetReviewCollectionAction
 
     public function execute(): GetReviewCollectionResponse
     {
-        dd('od');
         $reviews = $this->reviewRepository->findAll();
         return new GetReviewCollectionResponse($reviews);
     }
