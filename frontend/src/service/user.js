@@ -24,12 +24,17 @@ export default {
             state.token = token;
         },
         USER_LOGOUT: (state, user) => {
-            return httpService({
+            httpService({
                 url: configuration.LogoutUri,
                 method: 'post',
                 data: {
                     user
                 }
+            }).then(function (res) {
+                state.token = '';
+                state.user = null;
+            }).catch(function (err) {
+                // TODO: Handle error
             });
         },
         SET_AUTHENTICATED_USER: (state, user) => {
@@ -39,53 +44,71 @@ export default {
 
     actions: {
         login: (context, username, password) => {
-            return httpService({
+            httpService({
                 url: configuration.LoginUri,
                 method: 'post',
                 data: {
                     username,
                     password
                 }
-            })
+            }).then(function (res) {
+                state.token = res.token;
+                state.user = res.user;
+            }).catch(function (err) {
+                // TODO: Handle error
+            });
         },
         logout: (context) => {
             context.commit('USER_LOGOUT', state.currentUser);
         },
         resetPassword: (context, email) => {
-            return httpService({
+            httpService({
                 url: configuration.ResetPassword,
                 method: 'post',
                 data: {
                     email
                 }
+            }).then(function (res) {
+            }).catch(function (err) {
+                // TODO: Handle error
             });
         },
         refreshToken: (context, email) => {
-            return httpService({
+            httpService({
                 url: configuration.RefreshToken,
                 method: 'post',
                 params: {
                     email
                 }
+            }).then(function (res) {
+                state.token = res.token;
+            }).catch(function (err) {
+                // TODO: Handle error
             });
         },
         sendForgotEmail: (context, state) => {
             let data = state.user;
-            return httpService({
+            httpService({
                 url: configuration.ForgotEmail,
                 method: 'post',
                 data: {
                     data
                 }
+            }).then(function (res) {
+            }).catch(function (err) {
+                // TODO: Handle error
             });
         },
         fetchAuthenticatedUser: (context, token) => {
-            return httpService({
+            httpService({
                 url: configuration.UserInfoUri,
                 method: 'get',
                 params: {
                     token
                 }
+            }).then(function (res) {
+            }).catch(function (err) {
+                // TODO: Handle error
             });
         }
     }

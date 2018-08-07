@@ -14,7 +14,7 @@ httpService.interceptors.request.use(config => {
             config.headers['X-Token'] = authCookie.getToken()
         }
         state.commit('setLoading', true);
-        return config;
+        return Promise.resolve(config);
     },
     error => {
         state.commit('setLoading', false);
@@ -25,7 +25,7 @@ httpService.interceptors.request.use(config => {
 httpService.interceptors.response.use(
     response => {
         state.commit('setLoading', false);
-        return response.data;
+        return Promise.resolve(response.data);
     },
     error => {
         state.commit('setLoading', false);
