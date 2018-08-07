@@ -21,7 +21,6 @@ use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceUpdateInvalidRequestException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
@@ -118,7 +117,7 @@ class PlaceController extends ApiController
         } catch ( PlaceDoesNotExistException
                 | PlaceCityDoesNotExistException
                 | PlaceCategoryDoesNotExistException
-                | PlaceUpdateInvalidRequestException
+                | PlaceLocationInvalidException
                 | PlaceCreatorDoesNotExistException $e
         ) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
