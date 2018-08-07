@@ -21,11 +21,13 @@ class TasteTest extends ApiTestCase
         $this->user = factory(User::class)->create();
         $this->token = \JWTAuth::fromUser($this->user);
     }
+    
     public function test_get_user_tastes_not_authorize()
     {
         $response = $this->json('GET','/api/v1/tastes');
         $response->assertStatus(401);
     }
+    
     public function test_get_tastes()
     {
         factory(Taste::class,3)->create();

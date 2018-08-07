@@ -21,11 +21,13 @@ class UserTasteTest extends ApiTestCase
         $this->user = factory(User::class)->create();
         $this->token = \JWTAuth::fromUser($this->user);
     }
+    
     public function test_get_user_tastes_not_authorize()
     {
         $response = $this->json('GET','/api/v1/user/tastes');
         $response->assertStatus(401);
     }
+    
     public function test_get_user_tastes()
     {
         $tastes = factory(Taste::class,3)->create()->each(function ($taste) {
@@ -50,6 +52,7 @@ class UserTasteTest extends ApiTestCase
         $response->assertHeader('Content-Type', 'application/json')
                     ->assertNotFound();
     }
+    
     public function test_user_delete_taste() {
         $taste = factory(Taste::class)->create();
         $this->user->tastes()->save($taste);
