@@ -48,6 +48,7 @@ Route::prefix('v1')->group(function () {
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
       
-        /* Routes here.. */
+        Route::post('/reviews/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
+        Route::post('/reviews/{id}/dislike', 'Api\DisikeController@dislikeReview')->name('review.dislike');
     });
 });
