@@ -31,7 +31,7 @@ class GetPlaceRatingRequest
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -39,7 +39,7 @@ class GetPlaceRatingRequest
     /**
      * @return int
      */
-    public function getUserId(): int
+    public function getUserId(): ?int
     {
         return $this->userId;
     }
@@ -47,7 +47,7 @@ class GetPlaceRatingRequest
     /**
      * @return int
      */
-    public function getPlaceId(): int
+    public function getPlaceId(): ?int
     {
         return $this->placeId;
     }

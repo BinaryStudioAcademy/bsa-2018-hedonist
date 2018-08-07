@@ -18,7 +18,7 @@ interface PlaceRatingRepositoryInterface
     
     public function deleteById(int $id): void;
 
-    public function getByPlaceUser(int $placeId, int $userId) : PlaceRating;
+    public function getByPlaceUser(int $placeId, int $userId) : ?PlaceRating;
 
     public function getAverage(int $placeId) : Float;
 

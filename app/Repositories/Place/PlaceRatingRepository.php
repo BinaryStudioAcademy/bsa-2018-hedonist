@@ -42,7 +42,7 @@ class PlaceRatingRepository extends BaseRepository implements PlaceRatingReposit
         PlaceRating::destroy($id);
     }
 
-    public function getByPlaceUser(int $placeId, int $userId): PlaceRating
+    public function getByPlaceUser(int $placeId, int $userId): ?PlaceRating
     {
         return PlaceRating::where('user_id', $userId)
             ->where('place_id', $placeId)
