@@ -9,16 +9,10 @@ use Hedonist\Entities\Place\PlaceRating;
 
 class SetPlaceRatingAction
 {
-    /** @var PlaceRatingRepositoryInterface $repository */
     protected $repository;
 
-    /** @var PlaceRating $placeRating */
     protected $placeRating;
 
-    /**
-     * SetPlaceRatingAction constructor.
-     * @param PlaceRatingRepositoryInterface $repository
-     */
     public function __construct(PlaceRatingRepositoryInterface $repository)
     {
         $this->repository = $repository;
@@ -50,7 +44,6 @@ class SetPlaceRatingAction
 
         $this->placeRating = $this->repository->save($this->placeRating);
 
-        /** @var  SetPlaceRatingResponse $setPlaceRatingResponse */
         $setPlaceRatingResponse = new SetPlaceRatingResponse(
             $this->placeRating->id,
             $this->placeRating->user_id,
@@ -59,8 +52,5 @@ class SetPlaceRatingAction
         );
 
         return $setPlaceRatingResponse;
-
     }
-
-
 }

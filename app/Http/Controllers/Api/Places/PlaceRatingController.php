@@ -109,5 +109,4 @@ class PlaceRatingController extends ApiController
             'rating' => $getPlaceRatingAvgResponse->getRatingAvgValue()
         ], 201);
     }
-
 }

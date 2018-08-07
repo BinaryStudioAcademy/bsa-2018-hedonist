@@ -10,16 +10,10 @@ use Hedonist\Entities\Place\PlaceRating;
 
 class GetPlaceRatingAction
 {
-    /** @var PlaceRatingRepositoryInterface $repository */
     protected $repository;
 
-    /** @var PlaceRating $placeRating */
     protected $placeRating;
 
-    /**
-     * SetPlaceRatingAction constructor.
-     * @param PlaceRatingRepositoryInterface $repository
-     */
     public function __construct(PlaceRatingRepositoryInterface $repository)
     {
         $this->repository = $repository;
@@ -39,7 +33,6 @@ class GetPlaceRatingAction
 
         throw_if(!$this->placeRating, new PlaceRatingNotFoundException('Item not found'));
 
-        /** @var  GetPlaceRatingResponse $response */
         $response = $this->response = new GetPlaceRatingResponse(
             $this->placeRating->id,
             $this->placeRating->user_id,
@@ -48,8 +41,5 @@ class GetPlaceRatingAction
         );
 
         return $response;
-
     }
-
-
 }

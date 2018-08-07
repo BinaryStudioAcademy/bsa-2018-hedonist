@@ -270,5 +270,4 @@ class PlaceRatingTest extends ApiTestCase
             ]
         ]);
     }
-
 }
