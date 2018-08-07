@@ -42,12 +42,13 @@ Route::prefix('v1')->group(function () {
         Route::get('/places/rating/place/{id}', 'Api\Places\PlaceRatingController@getPlaceRatingAvg')
             ->name('place.rating.getPlaceRatingAvg');
 
+        Route::get('/places/rating/byPlaceUser', 'Api\Places\PlaceRatingController@getRating')
+            ->name('place.rating.getPlaceRatingByPlaceUser');
+
         Route::get('/places/rating/{id}', 'Api\Places\PlaceRatingController@getRating')
             ->name('place.rating.getPlaceRating');
 
-        Route::get('/places/rating/byPlaceUser', 'Api\Places\PlaceRatingController@getRating')
-            ->name('place.rating.getPlaceRatingByPlaceUser');
-        
+
         /* Routes here.. */
     });
 });
