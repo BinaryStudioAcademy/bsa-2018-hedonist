@@ -14,12 +14,12 @@ class PlaceCategoryTableSeeder extends Seeder
     public function run()
     {
         PlaceCategory::query()->insert([
-            'cafe',
-            'restaurant',
-            'lunch',
-            'bar',
-            'coffee',
-            'pizzeria'
+            ['name' => 'cafe'],
+            ['name' => 'restaurant'],
+            ['name' => 'lunch'],
+            ['name' => 'bar'],
+            ['name' => 'coffee'],
+            ['name' => 'pizzeria'],
         ]);
     }
 }

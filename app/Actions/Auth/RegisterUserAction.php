@@ -26,7 +26,6 @@ class RegisterUserAction
         $user = new User();
         $user->email = $request->getEmail();
         $user->password = Hash::make($request->getPassword());
-        $user->name = $request->getName();
         $this->repository->save($user);
         Event::dispatch(new Registered($user));
     }
