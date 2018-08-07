@@ -35,7 +35,11 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'jwt.auth'], function() {
-
-        /* Routes here.. */
+        
+        Route::get('/user/tastes', 'Api\UserTaste\UserTasteController@getTastes');
+        Route::post('/user/tastes', 'Api\UserTaste\UserTasteController@addTaste');
+        Route::delete('/user/tastes/{id}', 'Api\UserTaste\UserTasteController@deleteTaste');
+        Route::get('/tastes', 'Api\UserTaste\TasteController@getTastes');
+        
     });
 });
