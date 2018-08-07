@@ -68,4 +68,10 @@ class Place extends Model
     {
         return $this->belongsToMany(PlaceFeature::class, 'places_places_features');
     }
+
+    public function setLocation(Location $location): void
+    {
+        $this->latitude = $location->getLatitude();
+        $this->longitude = $location->getLongitude();
+    }
 }
