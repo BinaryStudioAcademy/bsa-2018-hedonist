@@ -30,7 +30,7 @@ class PlaceRatingTest extends ApiTestCase
 
         DB::table('places_features')->delete();
         $this->authenticatedUser = factory(User::class)->create();
-        $this->actingAs($this->authenticatedUser);
+        $this->actingWithToken($this->authenticatedUser);
 
         $this->place_1 = factory(Place::class)->create();
         $this->place_1_rating_1 = factory(PlaceRating::class)->create([
