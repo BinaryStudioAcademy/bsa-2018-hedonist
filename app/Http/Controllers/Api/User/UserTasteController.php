@@ -21,11 +21,13 @@ class UserTasteController extends ApiController
         $this->addUserTasteAction = $addUserTasteAction;
         $this->deleteUserTasteAction = $deleteUserTasteAction;
     }
+    
     public function getTastes() 
     {
         $getUserTastesResponse = $this->getUserTastesAction->execute();
         return $this->successResponse($getUserTastesResponse->getTastes());
     }
+    
     public function addTaste(Request $request) 
     {
         try {
@@ -37,6 +39,7 @@ class UserTasteController extends ApiController
             return $this->errorResponse($e->getMessage(), 404);
         }
     }
+    
     public function deleteTaste(int $tasteId)
     {
         try {
