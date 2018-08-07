@@ -93,7 +93,6 @@ class PlaceController extends ApiController
         } catch ( PlaceDoesNotExistException
                 | PlaceCityDoesNotExistException
                 | PlaceCategoryDoesNotExistException
-                | PlaceAddInvalidException
                 | PlaceCreatorDoesNotExistException $e
         ) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
