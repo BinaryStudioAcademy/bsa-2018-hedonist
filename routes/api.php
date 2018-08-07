@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +42,19 @@ Route::prefix('v1')->group(function () {
             Route::put('places/{id}', 'PlaceController@updatePlace')->name('updatePlace');
             Route::delete('places/{id}', 'PlaceController@removePlace')->name('removePlace');
         });
+
+        Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
+            ->name('place.features.indexFeature');
+
+        Route::post('/places/features', 'Api\Places\PlaceFeaturesController@storePlaceFeature')
+            ->name('place.features.storeFeature');
+
+        Route::get('/places/features/{id}', 'Api\Places\PlaceFeaturesController@showPlaceFeature')
+            ->name('place.features.showFeature');
+
+        Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
+            ->name('place.features.deleteFeature');
+
         /* Routes here.. */
     });
 });
