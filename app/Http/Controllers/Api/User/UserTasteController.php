@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api\UserTaste;
+namespace Hedonist\Http\Controllers\Api\User;
 
 use Illuminate\Http\Request;
 use Hedonist\Http\Controllers\Api\ApiController;

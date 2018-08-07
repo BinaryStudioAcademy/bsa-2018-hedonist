@@ -38,12 +38,15 @@ Route::prefix('v1')->group(function () {
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
         Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
 
-        Route::get('/user/tastes', 'Api\UserTaste\UserTasteController@getTastes')
-            ->name('user.tastes.getTastes');
-        Route::post('/user/tastes', 'Api\UserTaste\UserTasteController@addTaste')
-            ->name('user.tastes.addTaste');
-        Route::delete('/user/tastes/{id}', 'Api\UserTaste\UserTasteController@deleteTaste')
-            ->name('user.tastes.deleteTaste');
+        Route::prefix('user')->group(function () {
+            Route::get('tastes', 'Api\User\UserTasteController@getTastes')
+                ->name('user.tastes.getTastes');
+            Route::post('tastes', 'Api\User\UserTasteController@addTaste')
+                ->name('user.tastes.addTaste');
+            Route::delete('tastes/{id}', 'Api\User\UserTasteController@deleteTaste')
+                ->name('user.tastes.deleteTaste');
+        });
+        
         Route::get('/tastes', 'Api\UserTaste\TasteController@getTastes')
             ->name('tastes.getTastes');
 
