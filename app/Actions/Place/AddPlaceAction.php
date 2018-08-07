@@ -8,6 +8,7 @@ use Hedonist\Exceptions\PlaceExceptions\PlaceAddInvalidException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
+use Hedonist\Repositories\City\CityRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
@@ -16,6 +17,7 @@ class AddPlaceAction
 {
     protected $placeRepository;
     protected $userRepository;
+    protected $cityRepository;
     protected $placeCategoryRepository;
     protected $addPlaceValidator;
 
@@ -23,10 +25,12 @@ class AddPlaceAction
         PlaceRepositoryInterface $placeRepository,
         UserRepositoryInterface $userRepository,
         PlaceCategoryRepositoryInterface $placeCategoryRepository,
+        CityRepositoryInterface $cityRepository,
         AddPlaceValidator $addPlaceValidator
     ) {
         $this->placeRepository = $placeRepository;
         $this->userRepository = $userRepository;
+        $this->cityRepository = $cityRepository;
         $this->placeCategoryRepository = $placeCategoryRepository;
         $this->addPlaceValidator = $addPlaceValidator;
     }
@@ -46,14 +50,14 @@ class AddPlaceAction
             throw new PlaceCategoryDoesNotExistException;
         }
 
-//        if (!$city = $this->userRepository->getById($placeRequest->getCreatorId())) {
-//             throw new PlaceCityDoesNotExistException; // TODO city repo required
-//        }
+        if (!$city = $this->cityRepository->getById($placeRequest->getCityId())) {
+             throw new PlaceCityDoesNotExistException;
+        }
 
         $place = $this->placeRepository->save(new Place([
             'creator_id' => $creator->id,
             'category_id' => $category->id,
-            'city_id' => $placeRequest->getCityId(),
+            'city_id' => $city->id,
             'longitude' => $placeRequest->getLongitude(),
             'latitude' => $placeRequest->getLatitude(),
             'zip' => $placeRequest->getZip(),
