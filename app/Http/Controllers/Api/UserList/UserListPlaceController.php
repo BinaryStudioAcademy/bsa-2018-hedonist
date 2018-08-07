@@ -20,7 +20,7 @@ class UserListPlaceController extends ApiController
     {
         try {
             $response = $this->likePlaceAction->execute(
-                new LikePlaceRequest($id)
+                new AttachPlaceRequest($id)
             );
         } catch (PlaceNotFoundException $exception) {
             return $this->errorResponse('Place not found', 404);
