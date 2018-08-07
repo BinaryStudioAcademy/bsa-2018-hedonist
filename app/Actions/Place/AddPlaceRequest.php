@@ -69,13 +69,13 @@ class AddPlaceRequest
     public function all()
     {
         return [
-            'creator_id' => $this->getCreatorId(),
+            'creator_id'  => $this->getCreatorId(),
             'category_id' => $this->getCategoryId(),
-            'city_id' => $this->getCityId(),
-            'longitude' => $this->getLongitude(),
-            'latitude' => $this->getLatitude(),
-            'zip' => $this->getZip(),
-            'address' => $this->getAddress(),
+            'city_id'     => $this->getCityId(),
+            'longitude'   => $this->getLongitude(),
+            'latitude'    => $this->getLatitude(),
+            'zip'         => $this->getZip(),
+            'address'     => $this->getAddress(),
         ];
     }
 }

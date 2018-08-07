@@ -77,14 +77,14 @@ class UpdatePlaceRequest
     public function all()
     {
         return [
-            'id' => $this->getId(),
-            'creator_id' => $this->getCreatorId(),
+            'id'          => $this->getId(),
+            'creator_id'  => $this->getCreatorId(),
             'category_id' => $this->getCategoryId(),
-            'city_id' => $this->getCityId(),
-            'longitude' => $this->getLongitude(),
-            'latitude' => $this->getLatitude(),
-            'zip' => $this->getZip(),
-            'address' => $this->getAddress(),
+            'city_id'     => $this->getCityId(),
+            'longitude'   => $this->getLongitude(),
+            'latitude'    => $this->getLatitude(),
+            'zip'         => $this->getZip(),
+            'address'     => $this->getAddress(),
         ];
     }
 }

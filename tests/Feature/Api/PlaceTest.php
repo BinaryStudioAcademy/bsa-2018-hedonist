@@ -33,8 +33,6 @@ class PlaceTest extends ApiTestCase
             [],
             ['HTTP_Authorization' => 'Bearer ' . $this->credentials]
         );
-        $response->assertStatus(200);
-        $response->assertHeader('Content-Type', 'application/json');
         $arrayContent = $response->getOriginalContent();
 
         $this->assertTrue(isset(
@@ -43,7 +41,8 @@ class PlaceTest extends ApiTestCase
             $arrayContent['data'][0]['creator'])
         );
         $this->assertTrue(Route::has($routeName));
-        $this->assertEquals(self::ENDPOINT, route($routeName, [], $absolute = false));
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/json');
     }
 
     public function testGetPlace()
@@ -56,14 +55,14 @@ class PlaceTest extends ApiTestCase
             ['HTTP_Authorization' => 'Bearer ' . $this->credentials]
         );
 
-        $response->assertStatus(200);
-        $response->assertHeader('Content-Type', 'application/json');
         $this->checkJsonStructure($response);
-        $this->assertTrue(Route::has($routeName));
         $this->assertEquals(
             self::ENDPOINT . "/{$this->place->id}",
             route($routeName, ['id' => $this->place->id], false)
         );
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/json');
+        $this->assertTrue(Route::has($routeName));
     }
 
     public function testAddPlace()
@@ -89,10 +88,10 @@ class PlaceTest extends ApiTestCase
         $this->assertDatabaseHas('places', [
             'id' => $newPlace['data']['id'],
         ]);
+        $this->checkJsonStructure($response);
         $response->assertStatus(201);
         $response->assertHeader('Content-Type', 'application/json');
-        $this->checkJsonStructure($response);
-        $this->assertTrue(Route::has('addPlace'));
+        $this->assertTrue(Route::has($routeName));
     }
 
     public function testUpdatePlace()
@@ -118,10 +117,10 @@ class PlaceTest extends ApiTestCase
 
         $this->assertEquals(33.3, $updatedPlace['data']['latitude']);
         $this->assertEquals(1234, $updatedPlace['data']['zip']);
+        $this->checkJsonStructure($response);
         $response->assertStatus(201);
         $response->assertHeader('Content-Type', 'application/json');
-        $this->checkJsonStructure($response);
-        $this->assertTrue(Route::has('updatePlace'));
+        $this->assertTrue(Route::has($routeName));
     }
 
     public function testRemovePlace()
