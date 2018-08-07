@@ -22,4 +22,9 @@ abstract class ApiController extends Controller
         ];
         return JsonResponse::create($errorData, $statusCode);
     }
+
+    protected function emptyResponse(int $statusCode): JsonResponse
+    {
+        return JsonResponse::create(null, $statusCode);
+    }
 }

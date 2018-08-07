@@ -16,6 +16,8 @@ use Hedonist\Repositories\Place\{
     PlaceFeatureRepository,
     PlaceRatingRepositoryInterface,
     PlaceRatingRepository
+    PlaceRepository,
+    PlaceRepositoryInterface
 };
 use Hedonist\Repositories\Dislike\{
     DislikeRepositoryInterface,
@@ -24,6 +26,14 @@ use Hedonist\Repositories\Dislike\{
 use Hedonist\Repositories\Like\{
     LikeRepositoryInterface,
     LikeRepository
+};
+use Hedonist\Repositories\User\{
+    TasteRepository,
+    TasteRepositoryInterface
+};
+use Hedonist\Repositories\City\{
+    CityRepositoryInterface,
+    CityRepository
 };
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -48,9 +58,12 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PlaceCategoryRepositoryInterface::class, PlaceCategoryRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PlaceFeatureRepositoryInterface::class, PlaceFeatureRepository::class);
+        $this->app->bind(PlaceRepositoryInterface::class, PlaceRepository::class);
         $this->app->bind(FavouritePlaceRepositoryInterface::class, FavouritePlaceRepository::class);
         $this->app->bind(DislikeRepositoryInterface::class, DislikeRepository::class);
         $this->app->bind(LikeRepositoryInterface::class, LikeRepository::class);
         $this->app->bind(PlaceRatingRepositoryInterface::class, PlaceRatingRepository::class);
+        $this->app->bind(TasteRepositoryInterface::class, TasteRepository::class);
+        $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
     }
 }
