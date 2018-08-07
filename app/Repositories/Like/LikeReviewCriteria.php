@@ -4,6 +4,7 @@ namespace Hedonist\Repositories\Like;
 
 use Hedonist\Repository\Like\LikeRepositoryInterface;
 use Prettus\Repository\Contracts\CriteriaInterface;
+use Prettus\Repository\Contracts\RepositoryInterface;
 use Hedonist\Entities\Review\Review;
 
 class LikeReviewCriteria implements CriteriaInterface 
@@ -17,7 +18,7 @@ class LikeReviewCriteria implements CriteriaInterface
         $this->user_id = $user_id;
     } 
 
-    public function apply($model, LikeRepositoryInterface $repository)
+    public function apply($model, RepositoryInterface $repository)
     {
         return $model->where('user_id', '=', $this->user_id)
             ->where('likeable_type', '=', Review::class)

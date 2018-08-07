@@ -35,9 +35,9 @@ class LikeReviewAction
         }
         $userId = Auth::id();
         $likeCriteria = new LikeReviewCriteria($reviewId, $userId);
-        $like = $this->likeRepository->findByCriteria($likeCriteria);
+        $like = $this->likeRepository->findByCriteria($likeCriteria)->first();
         $dislikeCriteria = new DislikeReviewCriteria($reviewId, $userId);
-        $dislike = $this->dislikeRepository->findByCriteria($dislikeCriteria);
+        $dislike = $this->dislikeRepository->findByCriteria($dislikeCriteria)->first();
         if ($dislike) {
             $this->dislikeRepository->deleteById($dislike->id);
         }
