@@ -20,8 +20,7 @@ class LikeReviewAction
         LikeRepository $likeRepository,
         DislikeRepository $dislikeRepository,
         ReviewRepository $reviewRepository
-    )
-    {
+    ) {
         $this->likeRepository = $likeRepository;
         $this->dislikeRepository = $dislikeRepository;
         $this->reviewRepository = $reviewRepository;
