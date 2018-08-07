@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Tests\JwtTestCase;
 use Tests\TestCase;
 
-class LikeReviewApiTest extends JwtTestCase
+class DisikeReviewApiTest extends JwtTestCase
 {
     use DatabaseTransactions;
     
@@ -26,13 +26,13 @@ class LikeReviewApiTest extends JwtTestCase
         $this->review = factory(Review::class)->create();
     }
 
-    public function testLikeReviewNotFound()
+    public function testDisikeReviewNotFound()
     {
         $response =  $this->json('POST', "/api/v1/reviews/999/dislike", []);
         $response->assertStatus(400);
     }
 
-    public function testLikeReview()
+    public function testDislikeReview()
     {
         $response =  $this->json('POST', "/api/v1/reviews/{$this->review->id}/dislike", []);
         $response->assertStatus(201);
