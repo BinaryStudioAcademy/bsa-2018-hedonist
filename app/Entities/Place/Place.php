@@ -69,16 +69,4 @@ class Place extends Model
         return $this->belongsToMany(PlaceFeature::class, 'places_places_features');
     }
 
-    public static function boot()
-    {
-        parent::boot();
-
-        self::deleting(function ($place) {
-            $place->lists->delete();
-            $place->features->delete();
-            $place->ratings->delete();
-            $place->reviews->delete();
-            $place->photos->delete();
-        });
-    }
 }
