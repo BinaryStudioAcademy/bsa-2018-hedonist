@@ -6,25 +6,26 @@ use Hedonist\Actions\UserList\Places\{
     AttachPlaceAction,
     AttachPlaceRequest
 };
+use Hedonist\Http\Requests\UserList\AttachPlaceHttpRequest;
 
 class UserListPlaceController extends ApiController
 {
     public $attachPlaceAction;
 
-    public function __construct( AttachPlaceAction $attachPlaceAction) 
+    public function __construct(AttachPlaceAction $attachPlaceAction) 
     {
         $this->attachPlaceAction = $attachPlaceAction;
     }
 
-    public function attachPlace($id)
+    public function attachPlace(int $id, AttachPlaceHttpRequest $httpRequest): JsonResponse
     {
         try {
-            $response = $this->likePlaceAction->execute(
-                new AttachPlaceRequest($id)
+            $response = $this->attachPlaceAction->execute(
+                new AttachPlaceRequest($id, $httpRequest->id)
             );
         } catch (PlaceNotFoundException $exception) {
-            return $this->errorResponse('Place not found', 404);
+            return $this->errorResponse('Place not found', 400);
         }
-        return $this->successResponse([], 200);                
+        return $this->successResponse([], 201);                
     }
 }
