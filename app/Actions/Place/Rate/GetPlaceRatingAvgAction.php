@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\Place\Rate;
 
 
+use Hedonist\Actions\Place\Rate\Exceptions\PlaceRatingNotFoundException;
 use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
 use Hedonist\Entities\Place\PlaceRating;
 
@@ -26,8 +27,9 @@ class GetPlaceRatingAvgAction
 
         $placeId = $request->getPlaceId();
 
-        // TODO find object 'place_id'
-        $ratingAvg = $this->placeRating = $this->repository->getAverage($placeId);
+        $ratingAvg = $this->repository->getAverage($placeId);
+        throw_if(!$ratingAvg, new PlaceRatingNotFoundException('Item not found'));
+        $ratingAvg = round($ratingAvg,1);
 
         /** @var  GetPlaceRatingAvgResponse $response */
         $response = $this->response = new GetPlaceRatingAvgResponse(
@@ -36,8 +38,5 @@ class GetPlaceRatingAvgAction
         );
 
         return $response;
-
     }
-
-
 }

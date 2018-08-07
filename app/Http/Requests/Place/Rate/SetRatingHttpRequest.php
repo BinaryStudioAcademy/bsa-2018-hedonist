@@ -23,10 +23,9 @@ class SetRatingHttpRequest extends JsonRequest
      */
     public function rules() : array
     {
-
         return [
-            'place_id' => 'required|integer',
-            'value' => 'required|numeric|min:0.0|max:10.0',
+            'place_id' => 'required|integer|min:1',
+            'rating' => 'required|integer|min:0|max:10',
         ];
     }
 }

@@ -39,22 +39,23 @@ class SetPlaceRatingAction
         }
 
         if(!$this->placeRating) {
-            $ratingValue = $request->getRatingValue();
-            $placeRating = new PlaceRating([
+            $this->placeRating = new PlaceRating([
                 'user_id' => $userId,
                 'place_id' => $placeId,
                 'rating' => $ratingValue
             ]);
+        } else {
+            $this->placeRating->rating = $ratingValue;
         }
 
-        $placeRating = $this->repository->save($placeRating);
+        $this->placeRating = $this->repository->save($this->placeRating);
 
         /** @var  SetPlaceRatingResponse $setPlaceRatingResponse */
         $setPlaceRatingResponse = new SetPlaceRatingResponse(
-            $placeRating->id,
-            $placeRating->user_id,
-            $placeRating->place_id,
-            $placeRating->value
+            $this->placeRating->id,
+            $this->placeRating->user_id,
+            $this->placeRating->place_id,
+            $this->placeRating->rating
         );
 
         return $setPlaceRatingResponse;

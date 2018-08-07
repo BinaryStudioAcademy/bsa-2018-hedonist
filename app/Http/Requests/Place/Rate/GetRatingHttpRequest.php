@@ -32,8 +32,8 @@ class GetRatingHttpRequest extends JsonRequest
         }
 
         return [
-            'user_id' => 'integer',
-            'place_id' => 'required|integer',
+            'user_id' => 'integer|min:1',
+            'place_id' => 'required|integer|min:0',
         ];
     }
 }

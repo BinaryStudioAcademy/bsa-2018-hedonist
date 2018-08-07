@@ -34,7 +34,7 @@ class SetPlaceRatingRequest
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -52,7 +52,7 @@ class SetPlaceRatingRequest
     /**
      * @return int
      */
-    public function getPlaceId(): int
+    public function getPlaceId(): ?int
     {
         return $this->placeId;
     }
