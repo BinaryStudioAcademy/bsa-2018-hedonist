@@ -13,7 +13,9 @@ use Hedonist\Repositories\Place\{
     PlaceCategoryRepositoryInterface,
     PlaceCategoryRepository,
     PlaceFeatureRepositoryInterface,
-    PlaceFeatureRepository
+    PlaceFeatureRepository,
+    PlaceRepository,
+    PlaceRepositoryInterface
 };
 use Hedonist\Repositories\Dislike\{
     DislikeRepositoryInterface,
@@ -54,6 +56,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PlaceCategoryRepositoryInterface::class, PlaceCategoryRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PlaceFeatureRepositoryInterface::class, PlaceFeatureRepository::class);
+        $this->app->bind(PlaceRepositoryInterface::class, PlaceRepository::class);
         $this->app->bind(FavouritePlaceRepositoryInterface::class, FavouritePlaceRepository::class);
         $this->app->bind(DislikeRepositoryInterface::class, DislikeRepository::class);
         $this->app->bind(LikeRepositoryInterface::class, LikeRepository::class);
