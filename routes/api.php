@@ -35,7 +35,21 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'jwt.auth'], function() {
+        Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
+        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
 
+        Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
+            ->name('place.features.indexFeature');
+
+        Route::post('/places/features', 'Api\Places\PlaceFeaturesController@storePlaceFeature')
+            ->name('place.features.storeFeature');
+
+        Route::get('/places/features/{id}', 'Api\Places\PlaceFeaturesController@showPlaceFeature')
+            ->name('place.features.showFeature');
+
+        Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
+            ->name('place.features.deleteFeature');
+      
         /* Routes here.. */
     });
 });

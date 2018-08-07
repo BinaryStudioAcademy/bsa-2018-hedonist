@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserListsTable extends Migration
+class CreatePlaceCategoriesTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateUserListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_lists', function (Blueprint $table) {
+        Schema::create('place_categories_tags', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->string('name');
-            $table->string('img_url');
+            $table->string('name')->unique();
+            $table->unsignedInteger('category_id');
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->softDeletes();
+
+            $table->foreign('category_id')->references('id')->on('place_categories');
         });
     }
 
@@ -30,6 +31,6 @@ class CreateUserListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_lists');
+        Schema::dropIfExists('place_categories_tags');
     }
 }
