@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserInfo extends Model
 {
+    protected $table = 'user_info';
+
     protected $fillable = [
         'user_id',
         'first_name',
@@ -18,7 +20,7 @@ class UserInfo extends Model
         'twitter_url',
     ];
 
-    protected $incrementing = false;
+    public $incrementing = false;
 
     protected $primaryKey = 'user_id';
 
