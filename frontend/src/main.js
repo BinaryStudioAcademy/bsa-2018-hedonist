@@ -3,10 +3,10 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import store from './vuex/store';
+import store from './store/index';
 import { sync } from 'vuex-router-sync';
 
-const unsync = sync(store, router);
+sync(store, router);
 
 Vue.config.productionTip = false;
 
