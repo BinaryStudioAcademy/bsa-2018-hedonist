@@ -23,7 +23,7 @@ class PlaceRatingRoutesTest extends TestCase
         $itemIndex = 1;
         $this->assertTrue(Route::has($routeName));
         $this->assertEquals(
-            'http://localhost/api/v1/places/place/'. $itemIndex,
+            'http://localhost/api/v1/places/rating/place/'. $itemIndex,
             route($routeName, ['id' => $itemIndex])
         );
     }
@@ -42,7 +42,7 @@ class PlaceRatingRoutesTest extends TestCase
 
     public function testGetSingleRateByPlace() : void
     {
-        $routeName = 'place.rates.getPlaceRatingByPlaceUser';
+        $routeName = 'place.rating.getPlaceRatingByPlaceUser';
         $this->assertTrue(Route::has($routeName));
         $this->assertEquals(
             'http://localhost/api/v1/places/rating/byPlaceUser',
