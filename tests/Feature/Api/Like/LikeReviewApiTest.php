@@ -1,15 +1,19 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace Tests\Feature\Api\Like;
 
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\Review\Review;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\DB;
 use Tests\JwtTestCase;
 use Tests\TestCase;
 
 class LikeReviewApiTest extends JwtTestCase
 {
+    use DatabaseTransactions;
+    
     protected $user;
     protected $review;
 
@@ -24,12 +28,8 @@ class LikeReviewApiTest extends JwtTestCase
 
     public function testLikeReviewNotFound()
     {
-        $response =  $this->json('POST', "/api/v1/reviews/1000000/like", []);
-        $response->assertHeader('Content-Type', 'application/json')
-            ->assertNotFound()
-            ->assertJsonStructure([
-                'error'
-            ]);
+        $response =  $this->json('POST', "/api/v1/reviews/999/like", []);
+        $response->assertStatus(404);
     }
 
     public function testLikeReview()
