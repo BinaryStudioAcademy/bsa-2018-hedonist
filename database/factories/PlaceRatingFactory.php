@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use Hedonist\Entities\UserList\UserList;
+use Hedonist\Entities\Place\{PlaceRating,Place};
 use Hedonist\Entities\User\User;
 
 /*
@@ -14,13 +14,14 @@ use Hedonist\Entities\User\User;
 | model instances for testing / seeding your application's database.
 |
 */
-
-$factory->define(UserList::class, function (Faker $faker) {
+$factory->define(PlaceRating::class, function (Faker $faker) {
     return [
         'user_id' => function () {
             return factory(User::class)->create()->id;
         },
-        'name' => $faker->sentence(3),
-        'img_url' => $faker->imageUrl()
+        'place_id' => function () {
+            return factory(Place::class)->create()->id;
+        },
+        'rating' => $faker->randomFloat(1,0,10)
     ];
 });

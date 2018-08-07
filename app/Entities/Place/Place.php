@@ -2,7 +2,9 @@
 
 namespace Hedonist\Entities\Place;
 
-use Hedonist\User;
+use Hedonist\Entities\Review\Review;
+use Hedonist\Entities\User\User;
+use Hedonist\Entities\UserList\UserList;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
