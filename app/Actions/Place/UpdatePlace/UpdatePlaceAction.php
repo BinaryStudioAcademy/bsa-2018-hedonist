@@ -6,13 +6,10 @@ use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceUpdateInvalidException;
 use Hedonist\Repositories\City\CityRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 class UpdatePlaceAction
 {
@@ -35,10 +32,10 @@ class UpdatePlaceAction
 
     public function execute(UpdatePlaceRequest $placeRequest): UpdatePlaceResponse
     {
-        $creator    = $this->userRepository->getById($placeRequest->getCreatorId());
-        $place      = $this->placeRepository->getById($placeRequest->getId());
-        $category   = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
-        $city       = $this->cityRepository->getById($placeRequest->getCityId());
+        $creator = $this->userRepository->getById($placeRequest->getCreatorId());
+        $place = $this->placeRepository->getById($placeRequest->getId());
+        $category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
+        $city = $this->cityRepository->getById($placeRequest->getCityId());
 
         if (!$place) {
             throw new PlaceDoesNotExistException;

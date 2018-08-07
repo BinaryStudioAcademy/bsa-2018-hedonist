@@ -3,7 +3,6 @@
 namespace Hedonist\Actions\Place\AddPlace;
 
 use Hedonist\Entities\Place\Place;
-use Hedonist\Exceptions\PlaceExceptions\PlaceAddInvalidException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
@@ -11,8 +10,6 @@ use Hedonist\Repositories\City\CityRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 class AddPlaceAction
 {
