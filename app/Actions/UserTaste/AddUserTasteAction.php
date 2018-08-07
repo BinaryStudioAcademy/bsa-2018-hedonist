@@ -5,7 +5,7 @@ namespace Hedonist\Actions\UserTaste;
 use Hedonist\Actions\UserTaste\AddUserTasteRequest;
 use Hedonist\Actions\UserTaste\AddUserTasteResponse;
 use Hedonist\Repositories\User\UserRepositoryInterface;
-use Hedonist\Repositories\UserTaste\TasteRepositoryInterface;
+use Hedonist\Repositories\User\TasteRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class AddUserTasteAction

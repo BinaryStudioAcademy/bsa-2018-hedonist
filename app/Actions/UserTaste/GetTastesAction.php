@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\UserTaste;
 
-use Hedonist\Repositories\UserTaste\TasteRepositoryInterface;
+use Hedonist\Repositories\User\TasteRepositoryInterface;
 use Hedonist\Actions\UserTaste\GetTastesResponse;
 
 class GetTastesAction

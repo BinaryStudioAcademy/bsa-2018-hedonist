@@ -4,7 +4,7 @@ namespace Hedonist\Actions\UserTaste;
 
 use Hedonist\Actions\UserTaste\DeleteUserTasteRequest;
 use Hedonist\Repositories\User\UserRepositoryInterface;
-use Hedonist\Repositories\UserTaste\TasteRepositoryInterface;
+use Hedonist\Repositories\User\TasteRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class DeleteUserTasteAction
