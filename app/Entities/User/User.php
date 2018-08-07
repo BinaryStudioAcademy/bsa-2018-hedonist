@@ -51,4 +51,13 @@ class User extends Authenticatable implements JWTSubject, CanResetPasswordContra
     {
         return $this->hasOne(UserInfo::class);
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function ($user) {
+            $user->info->delete();
+        });
+    }
 }
