@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class ResetPasswordTest extends TestCase
 {
-    use RefreshDatabase;
+//    use RefreshDatabase;
 
     private $token;
     private $user;
