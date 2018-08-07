@@ -18,6 +18,6 @@ class UserListPlaceController extends ApiController
 
     public function attachPlace()
     {
-        
+                
     }
 }
