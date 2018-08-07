@@ -61,9 +61,4 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         $user->tastes()->sync($tastes);
     }
-
-    public function getTastes(User $user): Collection
-    {
-        return $user->tastes;
-    }
 }

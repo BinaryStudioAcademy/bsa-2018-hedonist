@@ -35,6 +35,8 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'jwt.auth'], function() {
+        Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
+        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
 
         Route::get('/user/tastes', 'Api\UserTaste\UserTasteController@getTastes')
             ->name('user.tastes.getTastes');

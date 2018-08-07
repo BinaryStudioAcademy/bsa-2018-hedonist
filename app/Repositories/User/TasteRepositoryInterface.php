@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Repositories\UserTaste;
+namespace Hedonist\Repositories\User;
 
 use Hedonist\Entities\User\Taste;
 use Illuminate\Support\Collection;
@@ -11,6 +11,8 @@ interface TasteRepositoryInterface
     public function getById(int $id): ?Taste;
 
     public function findAll(): Collection;
+
+    public function findByUser(int $userId): Collection;
 
     public function save(Taste $taste): Taste;
 
