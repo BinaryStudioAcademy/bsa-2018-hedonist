@@ -5,9 +5,12 @@ namespace Tests\Feature\Api\UserTaste;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\Taste;
 use Tests\Feature\Api\ApiTestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTasteTest extends ApiTestCase
 {
+    use RefreshDatabase;
+    
     private $token;
     private $user;
    
@@ -56,12 +59,11 @@ class UserTasteTest extends ApiTestCase
             'taste_id' => $taste->id
         ]);
         $response = $this->json('DELETE', "/api/v1/user/tastes/$taste->id",[], ['Authorization' => 'Bearer ' . $this->token]);
-        $response->assertStatus(200);
+        $response->assertOk();
         $this->assertDatabaseMissing('taste_user', [
             'user_id' => $this->user->id,
             'taste_id' => $taste->id
-                ]
-        );
+        ]);
     }
 
 }

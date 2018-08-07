@@ -5,9 +5,12 @@ namespace Tests\Feature\Api\UserTaste;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\Taste;
 use Tests\Feature\Api\ApiTestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TasteTest extends ApiTestCase
 {
+    use RefreshDatabase;
+    
     private $token;
     private $user;
    
