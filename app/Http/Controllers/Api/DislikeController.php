@@ -43,9 +43,9 @@ class DislikeController extends ApiController
             $response = $this->dislikeReviewAction->execute(
                 new DislikeReviewRequest($id)
             );
-        } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), 400);
+        } catch (ReviewNotFoundException $exception) {
+            return $this->errorResponse('Review not found', 400);
         }
-        return $this->successResponse('ok', 200);
+        return $this->successResponse([], 201);
     }
 }

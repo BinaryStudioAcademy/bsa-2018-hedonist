@@ -44,8 +44,8 @@ class LikeController extends ApiController
                 new LikeReviewRequest($id)
             );
         } catch (ReviewNotFoundException $exception) {
-            return $this->errorResponse('Review not found', 404);
+            return $this->errorResponse('Review not found', 400);
         }
-        return $this->successResponse([], 200);
+        return $this->successResponse([], 201);
     }
 }

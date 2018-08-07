@@ -29,12 +29,17 @@ class LikeReviewApiTest extends JwtTestCase
     public function testLikeReviewNotFound()
     {
         $response =  $this->json('POST', "/api/v1/reviews/999/dislike", []);
-        $response->assertStatus(404);
+        $response->assertStatus(400);
     }
 
     public function testLikeReview()
     {
         $response =  $this->json('POST', "/api/v1/reviews/{$this->review->id}/dislike", []);
-        $response->assertStatus(200);
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('dislikes', [
+            'dislikeable_id' => $this->review->id,
+            'dislikeable_type' => Review::class,
+            'user_id' => $this->user->id
+        ]);
     }
 }
