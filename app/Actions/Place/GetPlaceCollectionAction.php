@@ -15,7 +15,7 @@ class GetPlaceCollectionAction
         $this->placeRepository = $placeRepository;
     }
 
-    public function execute(): GetPlaceCollectionResponse
+    public function execute(GetPlaceCollectionRequest $request): GetPlaceCollectionResponse
     {
         $places = $this->placeRepository->findAll();
         $placesCollection = $this->transformCollection($places);
