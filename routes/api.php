@@ -36,7 +36,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'jwt.auth'], function() {
-        Route::namespace('Api')->group(function() {
+        Route::namespace('Api\\Places')->group(function() {
             Route::get('places', 'PlaceController@getCollection')->name('getPlaceCollection');
             Route::get('places/{id}', 'PlaceController@getPlace')
                 ->where('id', '[0-9]+')

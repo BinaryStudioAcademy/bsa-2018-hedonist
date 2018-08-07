@@ -178,8 +178,8 @@ class PlaceControllerTest extends ApiTestCase
             route($routeName, ['id' => $this->place->id]),
             [
                 'creator_id' => -1,
-                'category_id' => -1,
-                'city_id' => -1,
+                'category_id' => 'ew',
+                'city_id' => 'df',
                 'longitude' => -9999,
                 'latitude' => 99999999,
                 'zip' => 1234,
@@ -190,7 +190,7 @@ class PlaceControllerTest extends ApiTestCase
             ]
         );
 
-        $response->assertStatus(400);
+        $response->assertStatus(422);
     }
 
     public function testGetPlaceCollectionUnauthenticated()
@@ -205,9 +205,9 @@ class PlaceControllerTest extends ApiTestCase
         /* @var \Illuminate\Foundation\Testing\TestResponse $response */
         $response->assertJsonStructure(['data' => [
             'id',
-            'creator',
-            'category',
-            'city',
+            'creator_id',
+            'category_id',
+            'city_id',
             'longitude',
             'latitude',
             'zip',

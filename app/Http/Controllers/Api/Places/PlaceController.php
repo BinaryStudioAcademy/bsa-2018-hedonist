@@ -1,29 +1,31 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api;
+namespace Hedonist\Http\Controllers\Api\Places;
 
-use Hedonist\Actions\Place\AddPlaceAction;
-use Hedonist\Actions\Place\AddPlacePresenter;
-use Hedonist\Actions\Place\AddPlaceRequest;
-use Hedonist\Actions\Place\GetPlaceCollectionAction;
-use Hedonist\Actions\Place\GetPlaceCollectionPresenter;
-use Hedonist\Actions\Place\GetPlaceCollectionRequest;
-use Hedonist\Actions\Place\GetPlaceItemAction;
-use Hedonist\Actions\Place\GetPlaceItemPresenter;
-use Hedonist\Actions\Place\GetPlaceItemRequest;
-use Hedonist\Actions\Place\RemovePlaceAction;
-use Hedonist\Actions\Place\RemovePlaceRequest;
-use Hedonist\Actions\Place\UpdatePlaceAction;
-use Hedonist\Actions\Place\UpdatePlacePresenter;
-use Hedonist\Actions\Place\UpdatePlaceRequest;
+use Hedonist\Actions\Place\AddPlace\AddPlaceAction;
+use Hedonist\Actions\Place\AddPlace\AddPlacePresenter;
+use Hedonist\Actions\Place\AddPlace\AddPlaceRequest;
+use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionAction;
+use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionPresenter;
+use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionRequest;
+use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemAction;
+use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemPresenter;
+use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemRequest;
+use Hedonist\Actions\Place\RemovePlace\RemovePlaceAction;
+use Hedonist\Actions\Place\RemovePlace\RemovePlaceRequest;
+use Hedonist\Actions\Place\UpdatePlace\UpdatePlaceAction;
+use Hedonist\Actions\Place\UpdatePlace\UpdatePlacePresenter;
+use Hedonist\Actions\Place\UpdatePlace\UpdatePlaceRequest;
 use Hedonist\Exceptions\PlaceExceptions\PlaceAddInvalidException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceUpdateInvalidException;
+use Hedonist\Http\Controllers\Api\ApiController;
+use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
+use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class PlaceController extends ApiController
 {
@@ -76,7 +78,7 @@ class PlaceController extends ApiController
         return $this->emptyResponse(204);
     }
 
-    public function addPlace(Request $request): JsonResponse
+    public function addPlace(ValidateAddPlaceRequest $request): JsonResponse
     {
         try {
             $placeResponse = $this->addPlaceAction->execute(new AddPlaceRequest(
@@ -100,7 +102,7 @@ class PlaceController extends ApiController
         return $this->successResponse(AddPlacePresenter::present($placeResponse), 201);
     }
 
-    public function updatePlace(Request $request): JsonResponse
+    public function updatePlace(ValidateUpdatePlaceRequest $request): JsonResponse
     {
         try {
             $placeResponse = $this->updatePlaceAction->execute(new UpdatePlaceRequest(

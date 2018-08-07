@@ -1,10 +1,10 @@
 <?php
 
-namespace Hedonist\Actions\Place;
+namespace Hedonist\Actions\Place\UpdatePlace;
 
-
-class AddPlaceRequest
+class UpdatePlaceRequest
 {
+    private $id;
     private $creatorId;
     private $categoryId;
     private $cityId;
@@ -14,6 +14,7 @@ class AddPlaceRequest
     private $address;
 
     public function __construct(
+        int $id,
         int $creatorId,
         int $categoryId,
         int $cityId,
@@ -22,6 +23,7 @@ class AddPlaceRequest
         int $zip,
         string $address
     ) {
+        $this->id = $id;
         $this->creatorId = $creatorId;
         $this->categoryId = $categoryId;
         $this->cityId = $cityId;
@@ -29,6 +31,11 @@ class AddPlaceRequest
         $this->latitude = $latitude;
         $this->zip = $zip;
         $this->address = $address;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function getCreatorId(): int
@@ -69,6 +76,7 @@ class AddPlaceRequest
     public function toArray(): array
     {
         return [
+            'id'          => $this->getId(),
             'creator_id'  => $this->getCreatorId(),
             'category_id' => $this->getCategoryId(),
             'city_id'     => $this->getCityId(),

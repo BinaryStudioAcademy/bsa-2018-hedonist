@@ -1,7 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place;
-
+namespace Hedonist\Actions\Place\UpdatePlace;
 
 use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
@@ -36,14 +35,10 @@ class UpdatePlaceAction
 
     public function execute(UpdatePlaceRequest $placeRequest): UpdatePlaceResponse
     {
-        $validation = $this->validateRequest($placeRequest);
-        $creator = $this->userRepository->getById($placeRequest->getCreatorId());
-        $place = $this->placeRepository->getById($placeRequest->getId());
-        $category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
-        $city = $this->cityRepository->getById($placeRequest->getCityId());
-        if ($validation->fails()) {
-            throw new PlaceUpdateInvalidException($validation->getMessageBag()->setFormat());
-        }
+        $creator    = $this->userRepository->getById($placeRequest->getCreatorId());
+        $place      = $this->placeRepository->getById($placeRequest->getId());
+        $category   = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
+        $city       = $this->cityRepository->getById($placeRequest->getCityId());
 
         if (!$place) {
             throw new PlaceDoesNotExistException;
@@ -61,39 +56,15 @@ class UpdatePlaceAction
             throw new PlaceCityDoesNotExistException;
         }
 
-        $place->creator_id = $creator->id;
+        $place->creator_id  = $creator->id;
         $place->category_id = $category->id;
-        $place->city_id = $city->id;
-        $place->longitude = $placeRequest->getLongitude();
-        $place->latitude = $placeRequest->getLatitude();
-        $place->zip = $placeRequest->getZip();
-        $place->address = $placeRequest->getAddress();
+        $place->city_id     = $city->id;
+        $place->longitude   = $placeRequest->getLongitude();
+        $place->latitude    = $placeRequest->getLatitude();
+        $place->zip         = $placeRequest->getZip();
+        $place->address     = $placeRequest->getAddress();
+
         $place = $this->placeRepository->save($place);
-
-        return new UpdatePlaceResponse(
-            $place->id,
-            $place->creator->email,
-            $place->category->name,
-            $place->city->name,
-            $place->longitude,
-            $place->latitude,
-            $place->zip,
-            $place->address,
-            $place->created_at,
-            $place->updated_at
-        );
-    }
-
-    private function validateRequest(UpdatePlaceRequest $request): Validator
-    {
-        return ValidatorFacade::make($request->toArray(), [
-            'longitude'   => 'required|numeric|min:-180|max:180',
-            'latitude'    => 'required|numeric|min:-90|max:90',
-            'zip'         => 'required|numeric|min:0',
-            'address'     => 'required|max:255',
-            'creator_id'  => 'required|numeric|min:1',
-            'category_id' => 'required|numeric|min:1',
-            'city_id'     => 'required|numeric|min:1',
-        ]);
+        return new UpdatePlaceResponse($place);
     }
 }

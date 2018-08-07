@@ -1,7 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place;
-
+namespace Hedonist\Actions\Place\AddPlace;
 
 use Hedonist\Entities\Place\Place;
 use Hedonist\Exceptions\PlaceExceptions\PlaceAddInvalidException;
@@ -36,14 +35,9 @@ class AddPlaceAction
 
     public function execute(AddPlaceRequest $placeRequest): AddPlaceResponse
     {
-        $validation = $this->validateRequest($placeRequest);
         $creator = $this->userRepository->getById($placeRequest->getCreatorId());
         $category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
         $city = $this->cityRepository->getById($placeRequest->getCityId());
-        if ($validation->fails()) {
-            throw new PlaceAddInvalidException($validation->getMessageBag()->setFormat());
-        }
-
         if (!$creator) {
             throw new PlaceCreatorDoesNotExistException;
         }
@@ -66,30 +60,6 @@ class AddPlaceAction
             'address'     => $placeRequest->getAddress(),
         ]));
 
-        return new AddPlaceResponse(
-            $place->id,
-            $place->creator->email,
-            $place->category->name,
-            $place->city->name,
-            $place->longitude,
-            $place->latitude,
-            $place->zip,
-            $place->address,
-            $place->created_at,
-            $place->updated_at
-        );
-    }
-
-    private function validateRequest(AddPlaceRequest $request): Validator
-    {
-        return ValidatorFacade::make($request->toArray(), [
-            'longitude'   => 'required|numeric|min:-180|max:180',
-            'latitude'    => 'required|numeric|min:-90|max:90',
-            'zip'         => 'required|numeric|min:0',
-            'address'     => 'required|max:255',
-            'creator_id'  => 'required|numeric|min:1',
-            'category_id' => 'required|numeric|min:1',
-            'city_id'     => 'required|numeric|min:1',
-        ]);
+        return new AddPlaceResponse($place);
     }
 }

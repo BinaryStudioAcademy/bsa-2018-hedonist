@@ -1,7 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place;
-
+namespace Hedonist\Actions\Place\GetPlaceItem;
 
 use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
@@ -17,21 +16,11 @@ class GetPlaceItemAction
 
     public function execute(GetPlaceItemRequest $getItemRequest): GetPlaceItemResponse
     {
-        if (!$place = $this->placeRepository->getById($getItemRequest->getId())) {
+        $place = $this->placeRepository->getById($getItemRequest->getId());
+        if (!$place) {
             throw new PlaceDoesNotExistException;
         }
 
-        return new GetPlaceItemResponse(
-            $place->id,
-            $place->creator->email,
-            $place->category->name,
-            $place->city->name,
-            $place->longitude,
-            $place->latitude,
-            $place->zip,
-            $place->address,
-            $place->created_at,
-            $place->updated_at
-        );
+        return new GetPlaceItemResponse($place);
     }
 }

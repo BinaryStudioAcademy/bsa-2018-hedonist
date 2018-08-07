@@ -1,7 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place;
-
+namespace Hedonist\Actions\Place\GetPlaceCollection;
 
 use Illuminate\Database\Eloquent\Collection;
 
