@@ -16,8 +16,15 @@ class UserListPlaceController extends ApiController
         $this->attachPlaceAction = $attachPlaceAction;
     }
 
-    public function attachPlace()
+    public function attachPlace($id)
     {
-                
+        try {
+            $response = $this->likePlaceAction->execute(
+                new LikePlaceRequest($id)
+            );
+        } catch (PlaceNotFoundException $exception) {
+            return $this->errorResponse('Place not found', 404);
+        }
+        return $this->successResponse([], 200);                
     }
 }
