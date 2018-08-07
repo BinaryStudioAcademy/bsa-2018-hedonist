@@ -16,6 +16,7 @@ class DeleteUserListAction
     public function execute(DeleteUserListRequest $request): DeleteUserListResponse
     {
         $this->userListRepository->deleteById($request->getId());
+
         return new DeleteUserListResponse();
     }
 }
