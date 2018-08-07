@@ -31,13 +31,13 @@ class PlaceRatingController extends ApiController
     private $userId;
 
     public function __construct(
-        GetPlaceRatingAction $getRateAction,
-        SetPlaceRatingAction $setRateAction,
+        GetPlaceRatingAction $getRatingAction,
+        SetPlaceRatingAction $setRatingAction,
         GetPlaceRatingAvgAction $getPlaceRateAvgAction
     )
     {
-        $this->getRatingAction = $getRateAction;
-        $this->setRatingAction = $setRateAction;
+        $this->getRatingAction = $getRatingAction;
+        $this->setRatingAction = $setRatingAction;
         $this->getPlaceRatingAvgAction = $getPlaceRateAvgAction;
         if (Auth::check()) {
             $this->userId = Auth::id();
@@ -51,8 +51,8 @@ class PlaceRatingController extends ApiController
                 new SetPlaceRatingRequest(
                     $httpRequest->id,
                     $this->userId,
-                    $httpRequest->placeId,
-                    $httpRequest->rateValue
+                    $httpRequest->place_id,
+                    $httpRequest->rating
                 )
             );
         } catch (\Exception $ex) {
@@ -72,12 +72,12 @@ class PlaceRatingController extends ApiController
         try {
             $userId = $httpRequest->user_id ? $httpRequest->user_id : $this->userId;
 
-            $getPlaceRatingResponse = $this->getRateAction->execute(
+            $getPlaceRatingResponse = $this->getRatingAction->execute(
                 new GetPlaceRatingRequest(
                     $id,
                     $userId,
-                    $httpRequest->placeId,
-                    $httpRequest->rateValue
+                    $httpRequest->place_id,
+                    $httpRequest->rating
                 )
             );
         } catch (\Exception $ex) {
