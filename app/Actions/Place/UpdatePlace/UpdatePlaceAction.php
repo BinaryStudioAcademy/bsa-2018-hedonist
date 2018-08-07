@@ -2,10 +2,12 @@
 
 namespace Hedonist\Actions\Place\UpdatePlace;
 
+use Hedonist\Entities\Place\Location;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
+use Hedonist\Exceptions\PlaceExceptions\PlaceLocationInvalidException;
 use Hedonist\Repositories\City\CityRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
@@ -13,10 +15,10 @@ use Hedonist\Repositories\User\UserRepositoryInterface;
 
 class UpdatePlaceAction
 {
-    protected $placeRepository;
-    protected $userRepository;
-    protected $cityRepository;
-    protected $placeCategoryRepository;
+    private $placeRepository;
+    private $userRepository;
+    private $cityRepository;
+    private $placeCategoryRepository;
 
     public function __construct(
         PlaceRepositoryInterface $placeRepository,
@@ -37,6 +39,12 @@ class UpdatePlaceAction
         $category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
         $city = $this->cityRepository->getById($placeRequest->getCityId());
 
+        try {
+            $location = new Location($placeRequest->getLongitude(), $placeRequest->getLatitude());
+        } catch (\InvalidArgumentException $e) {
+            throw new PlaceLocationInvalidException($e->getMessage());
+        }
+
         if (!$place) {
             throw new PlaceDoesNotExistException;
         }
@@ -53,11 +61,10 @@ class UpdatePlaceAction
             throw new PlaceCityDoesNotExistException;
         }
 
+        $place->setLocation($location);
         $place->creator_id  = $creator->id;
         $place->category_id = $category->id;
         $place->city_id     = $city->id;
-        $place->longitude   = $placeRequest->getLongitude();
-        $place->latitude    = $placeRequest->getLatitude();
         $place->zip         = $placeRequest->getZip();
         $place->address     = $placeRequest->getAddress();
 

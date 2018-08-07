@@ -7,7 +7,7 @@ use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 
 class GetPlaceItemAction
 {
-    protected $placeRepository;
+    private $placeRepository;
 
     public function __construct(PlaceRepositoryInterface $placeRepository)
     {

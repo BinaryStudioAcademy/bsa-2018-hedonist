@@ -27,7 +27,7 @@ class ValidateUpdatePlaceRequest extends JsonRequest
             'longitude'   => 'required|numeric',
             'latitude'    => 'required|numeric',
             'zip'         => 'required|numeric',
-            'address'     => 'required',
+            'address'     => 'required|max:255',
             'creator_id'  => 'required|numeric',
             'category_id' => 'required|numeric',
             'city_id'     => 'required|numeric',

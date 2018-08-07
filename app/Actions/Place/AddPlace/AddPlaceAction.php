@@ -2,7 +2,9 @@
 
 namespace Hedonist\Actions\Place\AddPlace;
 
+use Hedonist\Entities\Place\Location;
 use Hedonist\Entities\Place\Place;
+use Hedonist\Exceptions\PlaceExceptions\PlaceLocationInvalidException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
 use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
@@ -13,10 +15,10 @@ use Hedonist\Repositories\User\UserRepositoryInterface;
 
 class AddPlaceAction
 {
-    protected $placeRepository;
-    protected $userRepository;
-    protected $cityRepository;
-    protected $placeCategoryRepository;
+    private $placeRepository;
+    private $userRepository;
+    private $cityRepository;
+    private $placeCategoryRepository;
 
     public function __construct(
         PlaceRepositoryInterface $placeRepository,
@@ -35,6 +37,13 @@ class AddPlaceAction
         $creator = $this->userRepository->getById($placeRequest->getCreatorId());
         $category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
         $city = $this->cityRepository->getById($placeRequest->getCityId());
+
+        try {
+            $location = new Location($placeRequest->getLongitude(), $placeRequest->getLatitude());
+        } catch (\InvalidArgumentException $e) {
+            throw new PlaceLocationInvalidException($e->getMessage());
+        }
+
         if (!$creator) {
             throw new PlaceCreatorDoesNotExistException;
         }
@@ -51,8 +60,8 @@ class AddPlaceAction
             'creator_id'  => $creator->id,
             'category_id' => $category->id,
             'city_id'     => $city->id,
-            'longitude'   => $placeRequest->getLongitude(),
-            'latitude'    => $placeRequest->getLatitude(),
+            'longitude'   => $location->getLongitude(),
+            'latitude'    => $location->getLatitude(),
             'zip'         => $placeRequest->getZip(),
             'address'     => $placeRequest->getAddress(),
         ]));
