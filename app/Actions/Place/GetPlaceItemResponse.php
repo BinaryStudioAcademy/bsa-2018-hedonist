@@ -17,15 +17,15 @@ class GetPlaceItemResponse
 
     public function __construct(
         int $id,
-        $creatorEmail,
-        $categoryName,
-        $city,
+        string $creatorEmail,
+        string $categoryName,
+        string $city,
         float $longitude,
         float $latitude,
         int $zip,
-        $address,
-        $createdAt,
-        $updatedAt
+        string $address,
+        string $createdAt,
+        string $updatedAt
     ) {
         $this->id = $id;
         $this->creatorEmail = $creatorEmail;
@@ -44,17 +44,17 @@ class GetPlaceItemResponse
         return $this->id;
     }
 
-    public function getCreatorEmail()
+    public function getCreatorEmail(): string
     {
         return $this->creatorEmail;
     }
 
-    public function getCategory()
+    public function getCategory(): string
     {
         return $this->category;
     }
 
-    public function getCity()
+    public function getCity(): string
     {
         return $this->city;
     }
@@ -74,17 +74,17 @@ class GetPlaceItemResponse
         return $this->zip;
     }
 
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt()
+    public function getUpdatedAt(): string
     {
         return $this->updatedAt;
     }

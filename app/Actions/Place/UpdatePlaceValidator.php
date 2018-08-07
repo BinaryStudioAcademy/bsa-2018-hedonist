@@ -9,7 +9,7 @@ class UpdatePlaceValidator
 {
     public function validate(UpdatePlaceRequest $request): \Illuminate\Contracts\Validation\Validator
     {
-        return Validator::make($request->all(), [
+        return Validator::make($request->toArray(), [
             'longitude'   => 'required|numeric|min:-180|max:180',
             'latitude'    => 'required|numeric|min:-90|max:90',
             'zip'         => 'required|numeric|min:0',

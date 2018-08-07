@@ -12,6 +12,7 @@ use Hedonist\Repositories\City\CityRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
+use Illuminate\Support\Facades\Validator;
 
 class UpdatePlaceAction
 {
@@ -19,42 +20,43 @@ class UpdatePlaceAction
     protected $userRepository;
     protected $cityRepository;
     protected $placeCategoryRepository;
-    protected $updatePlaceValidator;
 
     public function __construct(
         PlaceRepositoryInterface $placeRepository,
         UserRepositoryInterface $userRepository,
         CityRepositoryInterface $cityRepository,
-        UpdatePlaceValidator $updatePlaceValidator,
         PlaceCategoryRepositoryInterface $placeCategoryRepository
     ) {
         $this->placeRepository = $placeRepository;
         $this->userRepository = $userRepository;
         $this->cityRepository = $cityRepository;
         $this->placeCategoryRepository = $placeCategoryRepository;
-        $this->updatePlaceValidator = $updatePlaceValidator;
     }
 
     public function execute(UpdatePlaceRequest $placeRequest): UpdatePlaceResponse
     {
-        $validation = $this->updatePlaceValidator->validate($placeRequest);
+        $validation = $this->validateRequest($placeRequest);
+        $creator = $this->userRepository->getById($placeRequest->getCreatorId());
+        $place = $this->placeRepository->getById($placeRequest->getId());
+        $category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
+        $city = $this->cityRepository->getById($placeRequest->getCityId());
         if ($validation->fails()) {
             throw new PlaceUpdateInvalidException($validation->getMessageBag()->setFormat());
         }
 
-        if (!$place = $this->placeRepository->getById($placeRequest->getId())) {
+        if (!$place) {
             throw new PlaceDoesNotExistException;
         }
 
-        if (!$creator = $this->userRepository->getById($placeRequest->getCreatorId())) {
+        if (!$creator) {
             throw new PlaceCreatorDoesNotExistException;
         }
 
-        if (!$category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId())) {
+        if (!$category) {
             throw new PlaceCategoryDoesNotExistException;
         }
 
-        if (!$city = $this->cityRepository->getById($placeRequest->getCityId())) {
+        if (!$city) {
             throw new PlaceCityDoesNotExistException;
         }
 
@@ -69,7 +71,7 @@ class UpdatePlaceAction
 
         return new UpdatePlaceResponse(
             $place->id,
-            $place->creator->email,    // TODO here should be a userInfo->username loaded from user_info
+            $place->creator->email,
             $place->category->name,
             $place->city->name,
             $place->longitude,
@@ -79,5 +81,18 @@ class UpdatePlaceAction
             $place->created_at,
             $place->updated_at
         );
+    }
+
+    public function validateRequest(UpdatePlaceRequest $request): \Illuminate\Contracts\Validation\Validator
+    {
+        return Validator::make($request->toArray(), [
+            'longitude'   => 'required|numeric|min:-180|max:180',
+            'latitude'    => 'required|numeric|min:-90|max:90',
+            'zip'         => 'required|numeric|min:0',
+            'address'     => 'required|max:255',
+            'creator_id'  => 'required|numeric|min:1',
+            'category_id' => 'required|numeric|min:1',
+            'city_id'     => 'required|numeric|min:1',
+        ]);
     }
 }

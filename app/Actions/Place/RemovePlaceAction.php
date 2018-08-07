@@ -15,12 +15,13 @@ class RemovePlaceAction
         $this->placeRepository = $placeRepository;
     }
 
-    public function execute(RemovePlaceRequest $placeRequest): void
+    public function execute(RemovePlaceRequest $placeRequest): RemovePlaceResponse
     {
         if (!$place = $this->placeRepository->getById($placeRequest->getId())) {
              throw new PlaceDoesNotExistException;
         }
 
         $this->placeRepository->deleteById($placeRequest->getId());
+        return new RemovePlaceResponse();
     }
 }

@@ -23,7 +23,7 @@ class GetPlaceItemAction
 
         return new GetPlaceItemResponse(
             $place->id,
-            $place->creator->email,    // TODO here should be a userInfo->username loaded from user_info
+            $place->creator->email,
             $place->category->name,
             $place->city->name,
             $place->longitude,

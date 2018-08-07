@@ -66,7 +66,7 @@ class AddPlaceRequest
         return $this->address;
     }
 
-    public function all()
+    public function toArray()
     {
         return [
             'creator_id'  => $this->getCreatorId(),

@@ -35,7 +35,7 @@ class GetPlaceCollectionAction
         return $places->transform(function($place) {
             return [
                 'id'         => $place->id,
-                'creator'    => $place->creator->email,    // TODO here should be a userInfo->username loaded from user_info
+                'creator'    => $place->creator->email,
                 'category'   => $place->category->name,
                 'city'       => $place->city->name,
                 'longitude'  => $place->longitude,

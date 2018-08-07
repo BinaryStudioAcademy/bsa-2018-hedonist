@@ -74,7 +74,7 @@ class UpdatePlaceRequest
         return $this->address;
     }
 
-    public function all()
+    public function toArray()
     {
         return [
             'id'          => $this->getId(),

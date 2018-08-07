@@ -1,14 +1,15 @@
 <?php
 
-namespace Tests\Feature\Api;
+namespace tests\Feature\Api\Place;
+
 
 use Hedonist\Entities\Place\Place;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\Api\ApiTestCase;
 
-class PlaceTest extends ApiTestCase
+class PlaceControllerTest extends ApiTestCase
 {
     use DatabaseTransactions;
 
