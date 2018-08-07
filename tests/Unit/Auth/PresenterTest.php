@@ -27,7 +27,6 @@ class PresenterTest extends TestCase
         $result = AuthPresenter::presentUser($user);
 
         $this->assertEquals($result['email'],$user->email);
-        $this->assertEquals($result['name'],$user->name);
         $this->assertFalse(isset($result['password']));
     }
 
