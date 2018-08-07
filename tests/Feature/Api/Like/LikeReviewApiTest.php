@@ -6,7 +6,7 @@ use Hedonist\Entities\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Api\ApiTestCase;
 
-class LikePlaceApiTest extends ApiTestCase
+class LikeReviewApiTest extends ApiTestCase
 {
     use RefreshDatabase;
 

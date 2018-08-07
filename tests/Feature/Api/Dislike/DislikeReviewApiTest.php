@@ -5,7 +5,7 @@ namespace Tests\Feature\Api\Dislike;
 use Hedonist\Entities\User\User;
 use Tests\Feature\Api\ApiTestCase;
 
-class DislikePlaceApiTest extends ApiTestCase
+class DislikeReviewApiTest extends ApiTestCase
 {
     public function testDislikePlaceNotFound()
     {
