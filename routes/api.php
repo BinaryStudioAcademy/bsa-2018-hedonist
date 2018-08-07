@@ -36,6 +36,8 @@ Route::prefix('v1')->group(function () {
 
     Route::group(['middleware' => 'jwt.auth'], function() {
 
+        Route::post('/user-list/{id}/attach-place', 'Api\UserList\UserListPlaceController@attachPlace');
+
         Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
             ->name('place.features.indexFeature');
 
