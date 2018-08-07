@@ -10,7 +10,7 @@ use Hedonist\Entities\Dislike\Dislike;
 use Hedonist\Repositories\Review\ReviewRepository;
 use Illuminate\Support\Facades\Auth;
 
-class LikeReviewAction
+class DislikeReviewAction
 {
     private $likeRepository;
     private $dislikeRepository;
