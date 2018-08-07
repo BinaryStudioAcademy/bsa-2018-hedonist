@@ -23,7 +23,7 @@ use Hedonist\Repositories\Like\{
     LikeRepositoryInterface,
     LikeRepository
 };
-use Hedonist\Repositories\UserTaste\{
+use Hedonist\Repositories\User\{
     TasteRepository,
     TasteRepositoryInterface
 };
