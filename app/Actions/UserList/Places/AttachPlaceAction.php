@@ -1,50 +1,43 @@
 <?php
 
-namespace Hedonist\Actions\Like;
+namespace Hedonist\Actions\UserList\Places;
 
-use Hedonist\Entities\Place\Place;
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
+use Hedonist\Exceptions\NonAuthorizedException;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
-use Hedonist\Repositories\Dislike\DislikeRepository;
-use Hedonist\Repositories\Place\PlaceRepository;
+use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
-class LikePlaceAction
+class AttachPlaceAction
 {
-    private $likeRepository;
-    private $dislikeRepository;
+    private $userListRepository;
     private $placeRepository;
 
     public function __construct(
-        LikeRepository $likeRepository,
-        DislikeRepository $dislikeRepository,
-        PlaceRepository $placeRepository
+        UserListRepositoryInterface $userListRepository,
+        PlaceRepositoryInterface $placeRepository
     ) {
-        $this->likeRepository = $likeRepository;
-        $this->dislikeRepository = $dislikeRepository;
+        $this->userListRepository = $userListRepository;
         $this->placeRepository = $placeRepository;
     }
 
-    public function execute(LikePlaceRequest $request): LikePlaceResponse
+    public function execute(AttachPlaceRequest $request): AttachPlaceResponse
     {
+        $userList = $this->userListRepository->getById($request->getUserListId());
+        if ($userList->user_id !== Auth::id()) {
+            throw new NonAuthorizedException();
+        }
         $place = $this->placeRepository->getById($request->getPlaceId());
         if (empty($place)) {
             throw new PlaceNotFoundException();
         }
-        $like = $this->likeRepository->findByUserAndPlace(Auth::id(), $request->getPlaceId());
-        $dislike = $this->dislikeRepository->findByUserAndPlace(Auth::id(), $request->getPlaceId());
-        if ($dislike) {
-            $this->dislikeRepository->deleteById($dislike->id);
-        }
-        if (empty($like)) {
-            $like = new Like([
-                'likeable_id' => $request->getPlaceId(),
-                'likeable_type' => Place::class,
-                'user_id' => Auth::id()
+        if (empty($userListPlace)) {  // userListPlaceRepository?..
+            $userListPlace = new UserListPlace([
+                'list_id' => $request->getUserListId(),
+                'place_id' => $request->getPlaceId()
             ]);
-            $this->likeRepository->save($like);
+            //$this->likeRepository->save($like);
         }
-        
-        return new LikePlaceResponse();
+        return new AttachPlaceResponse();
     }
 }
