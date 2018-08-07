@@ -56,7 +56,7 @@ class Place extends Model
 
     public function ratings()
     {
-        return $this->hasMany(Rating::class);
+        return $this->hasMany(PlaceRating::class);
     }
 
     public function lists()
@@ -67,5 +67,18 @@ class Place extends Model
     public function features()
     {
         return $this->belongsToMany(PlaceFeature::class, 'places_places_features');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function ($place) {
+            $place->lists->delete();
+            $place->features->delete();
+            $place->ratings->delete();
+            $place->reviews->delete();
+            $place->photos->delete();
+        });
     }
 }
