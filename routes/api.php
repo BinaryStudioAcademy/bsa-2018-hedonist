@@ -36,10 +36,14 @@ Route::prefix('v1')->group(function () {
 
     Route::group(['middleware' => 'jwt.auth'], function() {
 
-        Route::get('/user/tastes', 'Api\UserTaste\UserTasteController@getTastes');
-        Route::post('/user/tastes', 'Api\UserTaste\UserTasteController@addTaste');
-        Route::delete('/user/tastes/{id}', 'Api\UserTaste\UserTasteController@deleteTaste');
-        Route::get('/tastes', 'Api\UserTaste\TasteController@getTastes');
+        Route::get('/user/tastes', 'Api\UserTaste\UserTasteController@getTastes')
+            ->name('user.tastes.getTastes');
+        Route::post('/user/tastes', 'Api\UserTaste\UserTasteController@addTaste')
+            ->name('user.tastes.addTaste');
+        Route::delete('/user/tastes/{id}', 'Api\UserTaste\UserTasteController@deleteTaste')
+            ->name('user.tastes.deleteTaste');
+        Route::get('/tastes', 'Api\UserTaste\TasteController@getTastes')
+            ->name('tastes.getTastes');
 
 
         Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
