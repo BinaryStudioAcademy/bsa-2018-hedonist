@@ -7,6 +7,7 @@ use Hedonist\Actions\Place\AddPlacePresenter;
 use Hedonist\Actions\Place\AddPlaceRequest;
 use Hedonist\Actions\Place\GetPlaceCollectionAction;
 use Hedonist\Actions\Place\GetPlaceCollectionPresenter;
+use Hedonist\Actions\Place\GetPlaceCollectionRequest;
 use Hedonist\Actions\Place\GetPlaceItemAction;
 use Hedonist\Actions\Place\GetPlaceItemPresenter;
 use Hedonist\Actions\Place\GetPlaceItemRequest;
@@ -59,7 +60,7 @@ class PlaceController extends ApiController
 
     public function getCollection(): JsonResponse
     {
-        $placeResponse = $this->getPlaceCollectionAction->execute();
+        $placeResponse = $this->getPlaceCollectionAction->execute(new GetPlaceCollectionRequest());
 
         return $this->successResponse(GetPlaceCollectionPresenter::present($placeResponse));
     }

@@ -12,7 +12,8 @@ use Hedonist\Repositories\City\CityRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Validator as ValidatorFacade;
 
 class UpdatePlaceAction
 {
@@ -83,9 +84,9 @@ class UpdatePlaceAction
         );
     }
 
-    public function validateRequest(UpdatePlaceRequest $request): \Illuminate\Contracts\Validation\Validator
+    public function validateRequest(UpdatePlaceRequest $request): Validator
     {
-        return Validator::make($request->toArray(), [
+        return ValidatorFacade::make($request->toArray(), [
             'longitude'   => 'required|numeric|min:-180|max:180',
             'latitude'    => 'required|numeric|min:-90|max:90',
             'zip'         => 'required|numeric|min:0',
