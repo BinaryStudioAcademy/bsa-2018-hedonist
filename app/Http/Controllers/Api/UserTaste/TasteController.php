@@ -12,6 +12,7 @@ class TasteController extends ApiController
     public function __construct(GetTastesAction $getTastesAction) {
         $this->getTastesAction = $getTastesAction;
     }
+    
     public function getTastes() 
     {
         $getTastesResponse = $this->getTastesAction->execute();
