@@ -21,7 +21,6 @@ class GetUserListAction
         if (!$userList) {
             throw new UserListExistsException('User list not found.');
         }
-        $responseUserList = new GetUserListResponse($userList);
-        return $responseUserList;
+        return new GetUserListResponse($userList);
     }
 }

@@ -16,7 +16,6 @@ class GetCollectionUserListAction
     public function execute(): GetCollectionUserListResponse
     {
         $userLists = $this->userListRepository->findAll();
-        $responseCollection = new GetCollectionUserListResponse($userLists);
-        return $responseCollection;
+        return new GetCollectionUserListResponse($userLists);
     }
 }

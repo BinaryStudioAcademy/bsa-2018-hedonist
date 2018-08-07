@@ -18,7 +18,7 @@ class GetCollectionUserListResponse
         return $this->collectionUserList;
     }
 
-    public function getData()
+    public function toArray()
     {
         return $this->collectionUserList->toArray();
     }

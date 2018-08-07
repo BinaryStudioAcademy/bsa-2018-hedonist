@@ -3,19 +3,25 @@
 namespace Tests\Feature;
 
 use Hedonist\Entities\UserList\UserList;
-use Hedonist\Entities\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Feature\Api\ApiTestCase;
+use Tests\JwtTestCase;
 
-class UserListApiTest extends ApiTestCase
+class UserListApiTest extends JwtTestCase
 {
     use RefreshDatabase;
 
+    protected $user;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->actingAsJwtToken();
+    }
+
     public function test_add_user_list()
     {
-        $user = factory(User::class)->create();
         $data = [
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'name' => 'Bar',
             'img_url' => 'http://test.image',
         ];
@@ -56,7 +62,7 @@ class UserListApiTest extends ApiTestCase
         $userList = factory(UserList::class)->create();
         $this->json('DELETE',"/api/v1/user-list/$userList->id");
 
-        $this->assertNotFoundJsonResponse("/api/v1/user-list/$userList->id", 'GET');
+        $this->json('GET', "/api/v1/user-list/$userList->id")->assertStatus(404);
     }
 
     public function test_get_all_user_list()
@@ -76,6 +82,6 @@ class UserListApiTest extends ApiTestCase
 
     public function test_get_user_list_not_found()
     {
-        $this->assertNotFoundJsonResponse("/api/v1/user-list/1", 'GET');
+        $this->json('GET', "/api/v1/user-list/1")->assertStatus(404);
     }
 }

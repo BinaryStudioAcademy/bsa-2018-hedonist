@@ -9,7 +9,7 @@ class SaveUserListRequest
     private $name;
     private $userId;
 
-    public function __construct($id = null, $userId, $name, $imgUrl)
+    public function __construct(int $userId, string $name, string $imgUrl, int $id = null)
     {
         $this->id = $id;
         $this->userId = $userId;

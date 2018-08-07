@@ -18,7 +18,7 @@ class SaveUserListResponse
         return $this->userList;
     }
 
-    public function getData()
+    public function toArray()
     {
         return $this->userList->toArray();
     }

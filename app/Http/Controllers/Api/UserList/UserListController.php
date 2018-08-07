@@ -19,10 +19,11 @@ class UserListController extends ApiController
     public $getUserListAction;
     public $deleteUserListAction;
 
-    public function __construct(SaveUserListAction $userListAction,
-                                GetCollectionUserListAction $collectionUserListAction,
-                                GetUserListAction $getUserListAction,
-                                DeleteUserListAction $deleteUserListAction)
+    public function __construct(
+        SaveUserListAction $userListAction,
+        GetCollectionUserListAction $collectionUserListAction,
+        GetUserListAction $getUserListAction,
+        DeleteUserListAction $deleteUserListAction)
     {
         $this->userListAction = $userListAction;
         $this->collectionUserListAction = $collectionUserListAction;
@@ -33,7 +34,7 @@ class UserListController extends ApiController
     public function index()
     {
         $responseUserLists = $this->collectionUserListAction->execute();
-        return $this->successResponse($responseUserLists->getData(), 200);
+        return $this->successResponse($responseUserLists->toArray(), 200);
     }
 
     public function store(UserListRequest $request)
@@ -41,13 +42,12 @@ class UserListController extends ApiController
         try {
             $responseUserList = $this->userListAction->execute(
                 new SaveUserListRequest(
-                    null,
                     $request->get('user_id'),
                     $request->get('name'),
                     $request->get('img_url')
                 )
             );
-            return $this->successResponse($responseUserList->getData(), 201);
+            return $this->successResponse($responseUserList->toArray(), 201);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
@@ -59,7 +59,7 @@ class UserListController extends ApiController
             $responseUserList = $this->getUserListAction->execute(
                 new GetUserListRequest($id)
             );
-            return $this->successResponse($responseUserList->getData(), 200);
+            return $this->successResponse($responseUserList->toArray(), 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 404);
         }
@@ -70,13 +70,13 @@ class UserListController extends ApiController
         try {
             $responseUserList = $this->userListAction->execute(
                 new SaveUserListRequest(
-                    $id,
                     $request->get('user_id'),
                     $request->get('name'),
-                    $request->get('img_url')
+                    $request->get('img_url'),
+                    $id
                 )
             );
-            return $this->successResponse($responseUserList->getData(), 201);
+            return $this->successResponse($responseUserList->toArray(), 201);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 404);
         }

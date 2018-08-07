@@ -28,7 +28,6 @@ class SaveUserListAction
         $userList->img_url = $userListRequest->getImgUrl();
 
         $userList = $this->userListRepository->save($userList);
-        $responseRepository = new SaveUserListResponse($userList);
-        return $responseRepository;
+        return new SaveUserListResponse($userList);
     }
 }
