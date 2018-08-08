@@ -31,7 +31,7 @@ class ReviewApiTest extends ApiTestCase
     public function testCreateReview()
     {
         $response = $this->json('POST',
-            'api/v1/review',
+            'api/v1/reviews',
             [
                 'user_id'       => $this->user->id,
                 'place_id'      => $this->place->id,
@@ -55,7 +55,7 @@ class ReviewApiTest extends ApiTestCase
         $reviewId = $review->id;
 
         $response = $this->json('GET',
-            "api/v1/review/$reviewId",
+            "api/v1/reviews/$reviewId",
             [],
             ['Authorization' => 'Bearer ' . $this->credentials['access_token']]);
 
@@ -67,7 +67,7 @@ class ReviewApiTest extends ApiTestCase
         $review = $this->newReview($this->user, $this->place);
         $reviewId = $review->id;
 
-        $response = $this->json('GET', "api/v1/review/$reviewId");
+        $response = $this->json('GET', "api/v1/reviews/$reviewId");
 
         $response->assertStatus(401);
     }
@@ -75,7 +75,7 @@ class ReviewApiTest extends ApiTestCase
     public function testGetReviewNotFound()
     {
         $response = $this->json('GET',
-            'api/v1/review/9999999',
+            'api/v1/reviews/9999999',
             [],
             ['Authorization' => 'Bearer ' . $this->credentials['access_token']]);
 
@@ -85,7 +85,7 @@ class ReviewApiTest extends ApiTestCase
     public function testGetReviewCollection()
     {
         $response = $this->json('GET',
-            'api/v1/review',
+            'api/v1/reviews',
             [],
             ['Authorization' => 'Bearer ' . $this->credentials['access_token']]);
 
@@ -112,7 +112,7 @@ class ReviewApiTest extends ApiTestCase
         ])->getOriginalContent()['data'];
 
         $response = $this->json('PUT',
-            "api/v1/review/$reviewId",
+            "api/v1/reviews/$reviewId",
             [
                 'user_id'       => $user->id,
                 'place_id'      => $review->place_id,
@@ -154,7 +154,7 @@ class ReviewApiTest extends ApiTestCase
         );
 
         $response = $this->json('DELETE',
-            "api/v1/review/$review->id",
+            "api/v1/reviews/$review->id",
             [],
             ['Authorization' => 'Bearer ' . $this->credentials['access_token']]
         );
