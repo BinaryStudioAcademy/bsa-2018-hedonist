@@ -79,6 +79,8 @@ class PlaceControllerTest extends ApiTestCase
                 'latitude' => 32.3,
                 'zip' => 3322,
                 'address' => 'sdf',
+                'phone' => 'dsd',
+                'website' => 'ghf',
             ],
             [
                 'HTTP_Authorization' => 'Bearer ' . $this->credentials
@@ -109,6 +111,8 @@ class PlaceControllerTest extends ApiTestCase
                 'latitude' => 33.3,
                 'zip' => 1234,
                 'address' => 'sdf',
+                'phone' => 'dsd',
+                'website' => 'ghf',
             ],
             [
                 'HTTP_Authorization' => 'Bearer ' . $this->credentials
@@ -184,6 +188,8 @@ class PlaceControllerTest extends ApiTestCase
                 'latitude' => 99999999,
                 'zip' => 1234,
                 'address' => 'sdf',
+                'phone' => 'dsd',
+                'website' => 'ghf',
             ],
             [
                 'HTTP_Authorization' => 'Bearer ' . $this->credentials
@@ -211,7 +217,9 @@ class PlaceControllerTest extends ApiTestCase
             'longitude',
             'latitude',
             'zip',
-            'address'
+            'address',
+            'phone',
+            'website'
         ]]);
     }
 }
