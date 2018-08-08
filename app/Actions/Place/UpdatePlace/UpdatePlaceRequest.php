@@ -12,6 +12,8 @@ class UpdatePlaceRequest
     private $latitude;
     private $zip;
     private $address;
+    private $phone;
+    private $website;
 
     public function __construct(
         int $id,
@@ -21,7 +23,9 @@ class UpdatePlaceRequest
         float $longitude,
         float $latitude,
         int $zip,
-        string $address
+        string $address,
+        string $phone,
+        string $website
     ) {
         $this->id = $id;
         $this->creatorId = $creatorId;
@@ -31,6 +35,8 @@ class UpdatePlaceRequest
         $this->latitude = $latitude;
         $this->zip = $zip;
         $this->address = $address;
+        $this->phone = $phone;
+        $this->website = $website;
     }
 
     public function getId(): int
@@ -73,6 +79,16 @@ class UpdatePlaceRequest
         return $this->address;
     }
 
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function getWebsite(): string
+    {
+        return $this->website;
+    }
+
     public function toArray(): array
     {
         return [
@@ -84,6 +100,8 @@ class UpdatePlaceRequest
             'latitude'    => $this->getLatitude(),
             'zip'         => $this->getZip(),
             'address'     => $this->getAddress(),
+            'phone'     => $this->getPhone(),
+            'website'     => $this->getWebsite(),
         ];
     }
 }
