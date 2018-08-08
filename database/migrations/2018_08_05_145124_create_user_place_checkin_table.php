@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVisitedPlacesTable extends Migration
+class CreateUserPlaceCheckinTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateVisitedPlacesTable extends Migration
      */
     public function up()
     {
-        Schema::create('visited_places', function (Blueprint $table) {
+        Schema::create('user_place_checkin', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('place_id');
@@ -38,6 +38,6 @@ class CreateVisitedPlacesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('visited_places');
+        Schema::dropIfExists('user_place_checkin');
     }
 }

@@ -1,13 +1,12 @@
 <?php
-
 namespace Hedonist\Entities\Place;
 
 use Hedonist\Entities\User\User;
 use Illuminate\Database\Eloquent\Model;
 
-class PlaceCheckin extends Model
+class Checkin extends Model
 {
-    protected $table = 'visited_places';
+    protected $table = 'user_place_checkin';
 
     protected $dates = ['deleted_at'];
 

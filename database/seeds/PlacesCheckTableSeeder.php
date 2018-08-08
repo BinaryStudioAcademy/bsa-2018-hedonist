@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Hedonist\Entities\User\User;
+use Hedonist\Entities\Place\Place;
 
 class PlacesCheckTableSeeder extends Seeder
 {
@@ -12,15 +14,15 @@ class PlacesCheckTableSeeder extends Seeder
     public function run()
     {
         $placesId = [];
-        $users = \Hedonist\Entities\User\User::all();
-        $places = \Hedonist\Entities\Place\Place::all();
+        $users = User::all();
+        $places = Place::all();
 
         foreach ($places as $place){
             $placesId[] = $place->id;
         }
 
         foreach ($users as $user) {
-            factory(\Hedonist\Entities\Place\PlaceCheckin::class)->create([
+            factory(\Hedonist\Entities\Place\Checkin::class)->create([
                 'user_id' => $user->id,
                 'place_id' => array_random($placesId)
             ]);
