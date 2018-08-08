@@ -11,9 +11,9 @@ use Hedonist\Actions\Review\{
 };
 use Hedonist\Actions\Review\{
     GetReviewRequest,
-    UpdateReviewDescriptionRequest,
     CreateReviewRequest,
-    DeleteReviewRequest
+    DeleteReviewRequest,
+    UpdateReviewDescriptionRequest
 };
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Review\SaveReviewRequest;
@@ -29,9 +29,9 @@ class ReviewController extends ApiController
 
     public function __construct(
         GetReviewAction $getReviewAction,
-        UpdateReviewDescriptionAction $updateReviewAction,
         CreateReviewAction $createReviewAction,
         DeleteReviewAction $deleteReviewAction,
+        UpdateReviewDescriptionAction $updateReviewAction,
         GetReviewCollectionAction $getReviewCollectionAction
     ) {
         $this->getReviewAction = $getReviewAction;
@@ -70,7 +70,7 @@ class ReviewController extends ApiController
                 )
             );
             return $this->successResponse($createReviewResponse->getModel()->toArray());
-        } catch (ReviewNotFoundException $e) {
+        } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 400);
         }
     }
