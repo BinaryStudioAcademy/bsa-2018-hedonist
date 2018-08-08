@@ -1,6 +1,8 @@
 <template>
-    <aside>
-        2
+    <aside class="column is-two-fifths">
+        <div class="place-sidebar">
+            123
+        </div>
     </aside>
 </template>
 
@@ -11,6 +13,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+
+.place-sidebar {
+    background-color: #fff;
+}
 
 </style>

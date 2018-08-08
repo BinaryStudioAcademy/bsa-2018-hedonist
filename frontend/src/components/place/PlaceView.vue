@@ -1,7 +1,14 @@
 <template>
-    <div class="container">
+    <div class="place-view container">
         <PlaceTopInfo />
-        <PlaceSidebarInfo />
+        <div class="main-wrapper columns">
+            <div class="column is-three-fifths">
+                <div class="main">
+                    main content
+                </div>
+            </div>
+            <PlaceSidebarInfo />
+        </div>
     </div>
 </template>
 
@@ -20,4 +27,10 @@ export default {
 
 <style>
 
+.main-wrapper {
+    margin-top: 20px;
+}
+.main {
+    background-color: white;
+}
 </style>

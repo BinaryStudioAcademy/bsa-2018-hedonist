@@ -11,8 +11,7 @@ import PlacePhoto from './PlacePhoto';
 
 export default {
     name: "PlacePhotoList",
-    components: {PlacePhoto},
-    component: { PlacePhoto },
+    components: { PlacePhoto },
     data() {
         return {
             photos: [
