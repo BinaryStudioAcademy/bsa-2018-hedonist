@@ -87,7 +87,9 @@ class PlaceController extends ApiController
                 $request->longitude,
                 $request->latitude,
                 $request->zip,
-                $request->address
+                $request->address,
+                $request->phone,
+                $request->website
             ));
         } catch ( PlaceDoesNotExistException
                 | PlaceCityDoesNotExistException
@@ -112,7 +114,9 @@ class PlaceController extends ApiController
                 $request->longitude,
                 $request->latitude,
                 $request->zip,
-                $request->address
+                $request->address,
+                $request->phone,
+                $request->website
             ));
         } catch ( PlaceDoesNotExistException
                 | PlaceCityDoesNotExistException
