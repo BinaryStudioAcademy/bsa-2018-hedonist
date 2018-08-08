@@ -1,5 +1,5 @@
-import StorageService from './storageService';
-import httpService from "./httpService";
+import StorageService from '../common/storageService';
+import httpService from "../common/httpService";
 
 export default {
     state: {
@@ -25,12 +25,13 @@ export default {
         },
         USER_LOGOUT: (state, user) => {
             httpService.authRequest({
-                url: '',
+                url: '/user/logout',
                 method: 'post',
                 data: {
                     user
                 }
             }).then(function (res) {
+                StorageService.removeToken();
                 state.token = '';
                 state.user = null;
             }).catch(function (err) {
@@ -44,8 +45,8 @@ export default {
 
     actions: {
         login: (context, username, password) => {
-            httpService({
-                url: configuration.LoginUri,
+            httpService.request({
+                url: '/user/login',
                 method: 'post',
                 data: {
                     username,
@@ -54,6 +55,7 @@ export default {
             }).then(function (res) {
                 state.token = res.token;
                 state.user = res.user;
+                StorageService.setToken(res.token);
             }).catch(function (err) {
                 // TODO: Handle error
             });
@@ -62,8 +64,8 @@ export default {
             context.commit('USER_LOGOUT', state.currentUser);
         },
         resetPassword: (context, email) => {
-            httpService({
-                url: configuration.ResetPassword,
+            httpService.request({
+                url: '/user/resetPassword',
                 method: 'post',
                 data: {
                     email
@@ -74,22 +76,23 @@ export default {
             });
         },
         refreshToken: (context, email) => {
-            httpService({
-                url: configuration.RefreshToken,
+            httpService.authRequest({
+                url: '/user/refreshToken',
                 method: 'post',
                 params: {
                     email
                 }
             }).then(function (res) {
                 state.token = res.token;
+                StorageService.setToken(res.token);
             }).catch(function (err) {
                 // TODO: Handle error
             });
         },
         sendForgotEmail: (context, state) => {
             let data = state.user;
-            httpService({
-                url: configuration.ForgotEmail,
+            httpService.authRequest({
+                url: '/user/forgotEmail',
                 method: 'post',
                 data: {
                     data
@@ -100,8 +103,8 @@ export default {
             });
         },
         fetchAuthenticatedUser: (context, token) => {
-            httpService({
-                url: configuration.UserInfoUri,
+            httpService.authRequest({
+                url: '/user/userInfo',
                 method: 'get',
                 params: {
                     token

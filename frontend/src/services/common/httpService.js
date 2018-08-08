@@ -3,25 +3,21 @@ import store from '../../store';
 import storageService from './storageService';
 import state from '../../state';
 
-export function request(url) {
-    axios.get(url)
-        .then((resp) => {
-            return Promise.resolve(resp);
-        })
-        .catch(function(err) {
-            return Promise.resolve(err);
-        });
-}
 
-export function authRequest() {
-    return authAxios.get(url)
-        .then((resp) => {
-            return Promise.resolve(resp);
-        })
-        .catch(function(err) {
-            return Promise.resolve(err);
-        });
-}
+export const httpService = {
+    request(url) {
+        axios.request(url)
+            .then((resp) => {
+                return Promise.resolve(resp);
+            })
+            .catch(function(err) {
+                return Promise.resolve(err);
+            });
+    },
+    authRequest() {
+        return authAxios;
+    }
+};
 
 const authAxios = axios.create({
     baseURL: process.env.HOST,
@@ -52,3 +48,5 @@ authAxios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+export default httpService;
