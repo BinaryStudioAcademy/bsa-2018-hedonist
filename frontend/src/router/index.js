@@ -5,6 +5,7 @@ import SignUp from '@/components/auth/SignUp'
 import Login from '@/components/auth/Login'
 import Reset from '@/components/auth/Reset'
 import Recover from '@/components/auth/Recover'
+import ProfilePage from '@/pages/ProfilePage';
 
 Vue.use(Router)
 
@@ -35,5 +36,10 @@ export default new Router({
       name: 'Recover',
       component: Recover
     },
+    {
+      path: '/profile',
+      name: 'ProfilePage',
+      component: ProfilePage
+    }
   ]
 })
