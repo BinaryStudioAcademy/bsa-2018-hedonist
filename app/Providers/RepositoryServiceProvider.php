@@ -28,6 +28,7 @@ use Hedonist\Repositories\Like\{
 use Hedonist\Repositories\Review\{
     ReviewRepositoryInterface,
     ReviewRepository
+};
 use Hedonist\Repositories\User\{
     TasteRepository,
     TasteRepositoryInterface
