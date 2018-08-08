@@ -1,5 +1,5 @@
+import StorageService from './storageService';
 import httpService from "./httpService";
-import configuration from "../config";
 
 export default {
     state: {
@@ -24,8 +24,8 @@ export default {
             state.token = token;
         },
         USER_LOGOUT: (state, user) => {
-            httpService({
-                url: configuration.LogoutUri,
+            httpService.authRequest({
+                url: '',
                 method: 'post',
                 data: {
                     user
@@ -112,4 +112,4 @@ export default {
             });
         }
     }
-}
+};
