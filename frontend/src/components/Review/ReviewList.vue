@@ -32,8 +32,8 @@
                 <div class="filter-area">
                     <ul>
                         <li class="sort-word">Sort by:</li>
-                        <li class="active"><a>Popular</a></li>
-                        <li><a>Recent</a></li>
+                        <li v-on:click="onSortFilter('popular')" :class="{ active: isActive.popular }"><a>Popular</a></li>
+                        <li v-on:click="onSortFilter('recent')" :class="{ active: isActive.recent }"><a>Recent</a></li>
                     </ul>
                 </div>
             </div>
@@ -58,7 +58,10 @@
 
         data() {
             return {
-                isActiveName: ''
+                isActive: {
+                    popular: true,
+                    recent: false
+                }
             };
         },
 
@@ -66,6 +69,15 @@
         },
 
         methods: {
+            onSortFilter(name) {
+                for (let item in this.isActive) {
+                    if (item === name) {
+                        this.isActive[item] = true;
+                    } else {
+                        this.isActive[item] = false;
+                    }
+                }
+            }
         }
     }
 
