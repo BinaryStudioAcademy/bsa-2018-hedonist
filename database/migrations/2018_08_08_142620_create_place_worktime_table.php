@@ -13,12 +13,12 @@ class CreatePlaceWorktimeTable extends Migration
      */
     public function up()
     {
-        Schema::table('place_worktime', function (Blueprint $table) {
+        Schema::create('place_worktime', function (Blueprint $table) {
             $table->increments('id');
-            $table->increments('place_id');
+            $table->unsignedInteger('place_id');
             $table->string('day_code');
-            $table->timestamp('start_time');
-            $table->timestamp('end_time');
+            $table->timestamp('start_time')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('end_time')->default(\DB::raw('CURRENT_TIMESTAMP'));
 
             $table->foreign('place_id')
                 ->references('id')
