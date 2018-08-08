@@ -20,8 +20,8 @@ class CreatePlacesTable extends Migration
             $table->float('latitude');
             $table->integer('zip');
             $table->string('address');
-            $table->string('phone');
-            $table->string('website');
+            $table->string('phone')->nullable();
+            $table->string('website')->nullable();
 
             $table->unsignedInteger('creator_id');
             $table->unsignedInteger('category_id');
