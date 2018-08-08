@@ -1,10 +1,18 @@
 <template>
   <Container title="Create new account">
     <Form>
-      <b-field label="Name">
+      <b-field label="First name">
         <b-input
-          v-model="newUser.name"
-          placeholder="Your Name"
+          v-model="newUser.firstName"
+          placeholder="Your first name"
+          autofocus>
+        </b-input>
+      </b-field>
+
+      <b-field label="Last name">
+        <b-input
+          v-model="newUser.lastName"
+          placeholder="Your last name"
           autofocus>
         </b-input>
       </b-field>
@@ -44,7 +52,8 @@ export default {
   data: function () {
     return {
       newUser: {
-        name: '',
+        firtName: '',
+        lastName: '',
         email: '',
         password: ''
       }
