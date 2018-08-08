@@ -16,8 +16,10 @@ use Hedonist\Actions\Review\{
     UpdateReviewDescriptionRequest
 };
 use Hedonist\Http\Controllers\Api\ApiController;
+use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Http\Requests\Review\SaveReviewRequest;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
+use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
 
 class ReviewController extends ApiController
 {
@@ -70,7 +72,11 @@ class ReviewController extends ApiController
                 )
             );
             return $this->successResponse($createReviewResponse->getModel()->toArray());
-        } catch (\Exception $e) {
+        }
+        catch (UserNotFoundException $e) {
+            return $this->errorResponse($e->getMessage(), 400);
+        }
+        catch (PlaceDoesNotExistException $e) {
             return $this->errorResponse($e->getMessage(), 400);
         }
     }
