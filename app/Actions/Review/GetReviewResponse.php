@@ -13,10 +13,8 @@ class GetReviewResponse
         $this->review = $review;
     }
 
-    public function getReview(): array
+    public function getModel(): Review
     {
-        return [
-            $this->review
-        ];
+        return $this->review;
     }
 }

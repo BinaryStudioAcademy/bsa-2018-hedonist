@@ -46,7 +46,7 @@ class ReviewController extends ApiController
             $getReviewResponse = $this->getReviewAction->execute(
                 new GetReviewRequest($id)
             );
-            return $this->successResponse($getReviewResponse->getReview());
+            return $this->successResponse($getReviewResponse->getModel()->toArray());
         } catch (\LogicException $e) {
             return $this->errorResponse($e->getMessage(), 404);
         }
@@ -68,7 +68,7 @@ class ReviewController extends ApiController
                     $request->input('description')
                 )
             );
-            return $this->successResponse($createReviewResponse->getModel());
+            return $this->successResponse($createReviewResponse->getModel()->toArray());
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 400);
         }
@@ -85,7 +85,7 @@ class ReviewController extends ApiController
                 ),
                 $id
             );
-            return $this->successResponse($updateReviewResponse->getModel());
+            return $this->successResponse($updateReviewResponse->getModel()->toArray());
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 400);
         }
