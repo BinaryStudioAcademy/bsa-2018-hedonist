@@ -1,52 +1,45 @@
 import axios from 'axios';
-import store from '../../store';
-import storageService from './storageService';
-import state from '../../state';
+import storageService from "./storageService";
 
+export class HttpService {
+    constructor() {
+        this.axios = axios;
 
-export const httpService = {
-    request(url) {
-        axios.request(url)
-            .then((resp) => {
-                return Promise.resolve(resp);
-            })
-            .catch(function(err) {
-                return Promise.resolve(err);
+        this.authAxios = axios.create({
+            baseURL: config.host,
+            //timeout: config.TIMEOUT || 10000
+        });
+
+        this.authAxios.interceptors.request.use(config => {
+                if (storageService.getToken()) {
+                    config.headers['Authorization'] = 'Bearer ' + storageService.getToken()
+                }
+                return Promise.resolve(config);
+            },
+            error => {
+                Promise.reject(error);
             });
-    },
-    authRequest() {
+    }
+
+    get(url, params) {
+        return this.axios.get(url, params);
+    }
+
+    post(url, data) {
+        return this.axios.post(url, data);
+    }
+
+    put(url, data) {
+        return this.axios.put(url, data);
+    }
+
+    delete(url, params) {
+        return this.axios.delete(url, params);
+    }
+
+    static authRequest() {
         return authAxios;
     }
-};
+}
 
-const authAxios = axios.create({
-    baseURL: process.env.HOST,
-    timeout: process.env.TIMEOUT || 10000
-});
-
-authAxios.interceptors.request.use(config => {
-        if (store.getters.token) {
-            config.headers['X-Token'] = storageService.getToken()
-        }
-        state.commit('setLoading', true);
-        return Promise.resolve(config);
-    },
-    error => {
-        state.commit('setLoading', false);
-        state.commit('setError', error);
-        Promise.reject(error);
-    });
-
-authAxios.interceptors.response.use(
-    response => {
-        state.commit('setLoading', false);
-        return Promise.resolve(response.data);
-    },
-    error => {
-        state.commit('setLoading', false);
-        state.commit('setError', error);
-        return Promise.reject(error);
-    }
-);
-
-export default httpService;
+export default HttpService();
