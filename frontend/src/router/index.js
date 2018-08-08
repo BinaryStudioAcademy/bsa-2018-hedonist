@@ -32,7 +32,11 @@ const [ isLoggedIn ] = mapGetters('auth', [
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.guest)) {
-        next()
+        if (isLoggedIn()) {
+            next('/')
+        } else {
+            next()
+        }
     } else {
         if (isLoggedIn()) {
             next()
