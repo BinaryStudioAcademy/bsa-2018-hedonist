@@ -4,7 +4,7 @@ namespace Tests\Feature\Api\UserList;
 
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\Place;
-use Hedonist\Entities\UserList\{UserList,UserListPlace};
+use Hedonist\Entities\UserList\UserList;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Api\ApiTestCase;
 
@@ -81,7 +81,7 @@ class UserListAttachPlaceApiTest extends ApiTestCase
             ['id' => $this->place->id],
             ['Authorization' => 'Bearer ' . $this->token]
         );
-
+        
         $response->assertHeader('Content-Type', 'application/json')
             ->assertStatus(201);
         

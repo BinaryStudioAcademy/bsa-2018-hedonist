@@ -6,6 +6,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\UserList\UserList;
 
 class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
 {
@@ -40,5 +41,10 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     public function deleteById(int $id)
     {
         $this->delete($id);
+    }
+
+    public function getbyList(int $listId)
+    {
+        return UserList::find($listId)->places();
     }
 }
