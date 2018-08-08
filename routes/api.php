@@ -57,7 +57,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
         Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
 
-        Route::prefix('review')->group(function () {
+        Route::prefix('reviews')->group(function () {
 
             Route::get('/', 'ReviewController@getReviewCollection');
 
