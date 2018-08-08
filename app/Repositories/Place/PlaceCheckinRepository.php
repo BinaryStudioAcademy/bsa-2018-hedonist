@@ -1,21 +1,19 @@
 <?php
-
 namespace Hedonist\Repositories\Place;
 
-
-use Hedonist\Entities\Place\PlacesVisited;
+use Hedonist\Entities\Place\PlaceCheckin;
 use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
 
-class PlacesVisitedRepository extends BaseRepository implements PlacesVisitedRepositoryInterface
+class PlaceCheckinRepository extends BaseRepository implements PlaceCheckinRepositoryInterface
 {
     public function model()
     {
-        return PlacesVisited::class;
+        return PlaceCheckin::class;
     }
 
-    public function save(PlacesVisited $placesVisited): PlacesVisited
+    public function save(PlaceCheckin $placesVisited): PlaceCheckin
     {
         $placesVisited->save();
 
@@ -24,12 +22,12 @@ class PlacesVisitedRepository extends BaseRepository implements PlacesVisitedRep
 
     public function findAll(): Collection
     {
-        return PlacesVisited::all();
+        return PlaceCheckin::all();
     }
 
-    public function getById(int $id): ?PlacesVisited
+    public function getById(int $id): ?PlaceCheckin
     {
-        return PlacesVisited::find($id);
+        return PlaceCheckin::find($id);
     }
 
     public function findByCriteria(CriteriaInterface $criteria): Collection
