@@ -3,37 +3,29 @@
 namespace tests\Feature\Api\Place;
 
 use Hedonist\Entities\Place\PlaceFeature;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Support\Facades\DB;
-use Tests\JwtTestCase;
-use Tests\TestCase;
-use Hedonist\Entities\User\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\Api\ApiTestCase;
 
-class PlaceFeaturesControllerTest extends JwtTestCase
+class PlaceFeaturesControllerTest extends ApiTestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     protected $user;
-    /** @var PlaceFeature */
     protected $placeFeature_1;
-    /** @var PlaceFeature */
     protected $placeFeature_2;
 
     public function setUp()
     {
         parent::setUp();
 
-        DB::table('places_features')->delete();
+        $this->actingWithToken();
 
-        $this->actingAsJwtToken();
-
-        /** @var PlaceFeature placeFeature_1 */
-        $this->placeFeature_1 = factory(\Hedonist\Entities\Place\PlaceFeature::class, 1)->create([
+        $this->placeFeature_1 = factory(PlaceFeature::class)->create([
             'name' => 'wi-fi'
-        ])->first();
-        $this->placeFeature_2 = factory(\Hedonist\Entities\Place\PlaceFeature::class, 1)->create([
+        ]);
+        $this->placeFeature_2 = factory(PlaceFeature::class)->create([
             'name' => 'music'
-        ])->first();
+        ]);
     }
 
     public function test_getting_item_by_id() : void
@@ -57,7 +49,6 @@ class PlaceFeaturesControllerTest extends JwtTestCase
             'httpStatus' => 400,
             'message' => "Trying to get property 'id' of non-object",
         ]);
-
     }
 
     public function test_gettind_items_collection() : void
@@ -73,13 +64,13 @@ class PlaceFeaturesControllerTest extends JwtTestCase
         $response->assertStatus(201);
         $response->assertJsonFragment([
             'data' => [
-            $id_1 => [
-                'id' => $id_1,
-                'name' => $name_1
+                $id_1 => [
+                    'id' => $id_1,
+                    'name' => $name_1
                 ],
-            $id_2 => [
-                'id' => $id_2,
-                'name' => $name_2
+                $id_2 => [
+                    'id' => $id_2,
+                    'name' => $name_2
                 ]
             ]
         ]);
@@ -96,8 +87,8 @@ class PlaceFeaturesControllerTest extends JwtTestCase
         $response->assertStatus(201);
         $response->assertJsonFragment([
             'data' => [
-                    'id' => $id,
-                    'name' => 'hukabuka'
+                'id' => $id,
+                'name' => 'hukabuka'
             ]
         ]);
         $this->assertDatabaseHas('places_features', [
