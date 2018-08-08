@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Review;
 
+use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 
 class GetReviewAction
@@ -17,7 +18,7 @@ class GetReviewAction
     {
         $review = $this->reviewRepository->getById($request->getReviewId());
         if ($review === null) {
-            throw new \LogicException('Review not found!');
+            throw new ReviewNotFoundException('Review not found!');
         }
         return new GetReviewResponse($review);
     }

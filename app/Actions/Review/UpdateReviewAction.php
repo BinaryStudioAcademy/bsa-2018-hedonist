@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\Review;
 
-use Hedonist\Entities\Review\Review;
+use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 
 class UpdateReviewAction
@@ -17,8 +17,8 @@ class UpdateReviewAction
     public function execute(UpdateReviewRequest $request, $id): UpdateReviewResponse
     {
         $review = $this->reviewRepository->getById($id);
-        if (!$review) {
-            $review = $this->reviewRepository->model();
+        if ($review === null) {
+            throw new ReviewNotFoundException('The Review does NOT exist!');
         }
         $review->user_id = $request->getUserId();
         $review->place_id = $request->getPlaceId();
