@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import EditProfile from '@/components/profile/EditProfile';
+import ProfilePage from '@/pages/ProfilePage';
 
 Vue.use(Router)
 
@@ -13,9 +13,9 @@ export default new Router({
             component: HelloWorld
         },
         {
-            path: '/profile/edit',
-            name: 'EditProfile',
-            component: EditProfile
+            path: '/profile',
+            name: 'ProfilePage',
+            component: ProfilePage
         }
     ]
 })
