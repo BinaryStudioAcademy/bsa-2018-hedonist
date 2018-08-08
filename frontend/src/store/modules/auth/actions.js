@@ -1,22 +1,18 @@
-import httpService from "../../../services/common/httpService";
+import HttpService from "../../../services/common/httpService";
 import StorageService from "../../../services/common/storageService";
 
-export default  {
+const httpService = new HttpService();
+
+export default {
     login: (context, username, password) => {
-        httpService.request({
-            url: '/user/login',
-            method: 'post',
-            data: {
-                username,
-                password
-            }
-        }).then(function (res) {
-            context.commit('USER_LOGIN', state.currentUser);
-        }).catch(function (err) {
+        httpService.post('/user/login', {username, password})
+            .then(function (res) {
+                context.commit('USER_LOGIN', res);
+            }).catch(function (err) {
             // TODO: Handle error
         });
     },
-    logout: (context) => {
+    logout: (context, user) => {
         httpService.authRequest({
             url: '/user/logout',
             method: 'post',
@@ -24,22 +20,17 @@ export default  {
                 user
             }
         }).then(function (res) {
-            context.commit('USER_LOGOUT', state.currentUser);
+            context.commit('USER_LOGOUT', res);
         }).catch(function (err) {
             // TODO: Handle error
         });
     },
     resetPassword: (context, email) => {
-        httpService.request({
-            url: '/user/resetPassword',
-            method: 'post',
-            data: {
-                email
-            }
-        }).then(function (res) {
-        }).catch(function (err) {
-            // TODO: Handle error
-        });
+        httpService.post('/user/resetPassword', {email})
+            .then(function (res) {
+            }).catch(function (err) {
+                // TODO: Handle error
+            });
     },
     refreshToken: (context, email) => {
         httpService.authRequest({
@@ -56,7 +47,7 @@ export default  {
         });
     },
     sendForgotEmail: (context, state) => {
-        let data = state.user;
+        let data = state.currentUser;
         httpService.authRequest({
             url: '/user/forgotEmail',
             method: 'post',

@@ -4,10 +4,10 @@ export default {
     SET_TOKEN: (state, token) => {
         state.token = token;
     },
-    USER_LOGIN: (state, user) => {
-        StorageService.setToken(res.token);
-        state.token = res.token;
-        state.user = res.user;
+    USER_LOGIN: (state, response) => {
+        StorageService.setToken(response.token);
+        state.token = response.token;
+        state.currentUser = response.user;
     },
     USER_LOGOUT: (state) => {
         StorageService.removeToken();
