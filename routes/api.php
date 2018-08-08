@@ -54,8 +54,21 @@ Route::prefix('v1')->group(function () {
                 ->name('removePlace');
         });
 
+        Route::prefix('reviews')->group(function () {
+
+            Route::get('/', 'ReviewController@getReviewCollection');
+
+            Route::post('/', 'ReviewController@createReview');
+
+            Route::get('/{id}', 'ReviewController@getReview');
+
+            Route::put('/{id}', 'ReviewController@updateReview');
+
+            Route::delete('/{id}', 'ReviewController@deleteReview');
+        });
+      
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
-        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
+        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');    
 
         Route::prefix('tastes')->group(function () {
             Route::get('/', 'Api\UserTaste\TasteController@getTastes')
@@ -67,7 +80,7 @@ Route::prefix('v1')->group(function () {
             Route::delete('my/{id}', 'Api\User\UserTasteController@deleteTaste')
                 ->name('user.tastes.deleteTaste');
         });
-        
+
         Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
             ->name('place.features.indexFeature');
 
