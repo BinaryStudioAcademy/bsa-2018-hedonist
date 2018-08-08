@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Requests;
+namespace Hedonist\Http\Requests\Review;
 
 use Illuminate\Foundation\Http\FormRequest;
 

@@ -15,8 +15,8 @@ use Hedonist\Actions\Review\{
     CreateReviewRequest,
     DeleteReviewRequest
 };
-use Hedonist\Http\Requests\SaveReviewRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
+use Hedonist\Http\Requests\Review\SaveReviewRequest;
 
 class ReviewController extends ApiController
 {
