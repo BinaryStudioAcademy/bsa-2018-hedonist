@@ -4,12 +4,32 @@ import authCookie from './auth';
 import configuration from '../config';
 import state from '../state';
 
-const httpService = axios.create({
+export function request(url) {
+    axios.get(url)
+        .then((resp) => {
+            return Promise.resolve(resp);
+        })
+        .catch(function(err) {
+            return Promise.resolve(err);
+        });
+}
+
+export function authRequest() {
+    return authAxios.get(url)
+        .then((resp) => {
+            return Promise.resolve(resp);
+        })
+        .catch(function(err) {
+            return Promise.resolve(err);
+        });
+}
+
+const authAxios = axios.create({
     baseURL: process.env.HOST,
     timeout: configuration.TIMEOUT
 });
 
-httpService.interceptors.request.use(config => {
+authAxios.interceptors.request.use(config => {
         if (store.getters.token) {
             config.headers['X-Token'] = authCookie.getToken()
         }
@@ -22,7 +42,7 @@ httpService.interceptors.request.use(config => {
         Promise.reject(error);
     });
 
-httpService.interceptors.response.use(
+authAxios.interceptors.response.use(
     response => {
         state.commit('setLoading', false);
         return Promise.resolve(response.data);
@@ -33,5 +53,3 @@ httpService.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
-export default httpService;
