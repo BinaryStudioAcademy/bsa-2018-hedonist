@@ -3,9 +3,11 @@
 namespace Hedonist\Actions\UserList\Places;
 
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
+use Hedonist\Exceptions\UserList\UserListNotFoundException;
 use Hedonist\Exceptions\NonAuthorizedException;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
+use Hedonist\Entities\UserList\UserListPlace;
 use Illuminate\Support\Facades\Auth;
 
 class AttachPlaceAction
@@ -24,11 +26,14 @@ class AttachPlaceAction
     public function execute(AttachPlaceRequest $request): AttachPlaceResponse
     {
         $userList = $this->userListRepository->getById($request->getUserListId());
+        if (!$userList) {
+            throw new UserListNotFoundException();
+        }
         if ($userList->user_id !== Auth::id()) {
             throw new NonAuthorizedException();
         }
         $place = $this->placeRepository->getById($request->getPlaceId());
-        if (empty($place)) {
+        if (!$place) {
             throw new PlaceNotFoundException();
         }
         if (empty($userListPlace)) {  // userListPlaceRepository?..

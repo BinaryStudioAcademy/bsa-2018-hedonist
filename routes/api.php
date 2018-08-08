@@ -53,7 +53,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
         Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
 
-        Route::post('/user-list/{id}/attach-place', 'Api\UserList\UserListPlaceController@attachPlace')
+        Route::post('/user-lists/{id}/attach-place', 'Api\UserList\UserListPlaceController@attachPlace')
             ->name('user-list.place.attach');
 
         Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')

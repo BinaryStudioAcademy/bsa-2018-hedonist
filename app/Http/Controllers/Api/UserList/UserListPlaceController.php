@@ -2,11 +2,13 @@
 
 namespace Hedonist\Http\Controllers\Api\UserList;
 
+use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Actions\UserList\Places\{
     AttachPlaceAction,
     AttachPlaceRequest
 };
 use Hedonist\Http\Requests\UserList\AttachPlaceHttpRequest;
+use Illuminate\Http\JsonResponse;
 
 class UserListPlaceController extends ApiController
 {
@@ -23,8 +25,8 @@ class UserListPlaceController extends ApiController
             $response = $this->attachPlaceAction->execute(
                 new AttachPlaceRequest($id, $httpRequest->id)
             );
-        } catch (PlaceNotFoundException $exception) {
-            return $this->errorResponse('Place not found', 400);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 400);
         }
         return $this->successResponse([], 201);                
     }
