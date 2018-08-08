@@ -9,12 +9,11 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect:'/placesList',
             name: 'HelloWorld',
             component: HelloWorld
         },
         {
-            path: '/placesList',
+            path: '/places/list',
             component: PlacesList
         }
     ]

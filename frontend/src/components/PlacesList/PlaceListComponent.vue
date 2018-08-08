@@ -1,87 +1,89 @@
 <template>
-    <div class="container place-item">
-        <div class="columns">
-            <figure class="image is-128x128">
-                <img :src="place.photo.url"/>
-            </figure>
-            <div class="rating-wrapper">
-                <div class="rating">
-                    {{place.rating}}
-                </div>
-            </div>
-            <div class="column content-wrapper">
-                <h3 class="title has-text-primary">
-                    {{place.name}}
-                    <a class="button is-outlined is-info" @click="subscribe">
-                        <i class="fas fa-bell"></i>
-                    </a>
-                </h3>
-                <p class="place-category">
-                    <a href="#">{{place.category}}</a>
-                </p>
-                <p class="address">
-                    {{place.address}}
-                </p>
-                <b-taglist>
-                    <b-tag
-                            type="is-info"
-                            v-for="tag in place.tags"
-                            :key="tag.id"
-                    >
-                        {{tag.name}}
-                    </b-tag>
-                </b-taglist>
-            </div>
-        </div>
-        <div class="media" v-if="place.review">
-            <div class="media-left">
-                <figure class="image is-32x32">
-                    <img :src="place.review.user.avatar"/>
+    <transition name="slide-fade">
+        <div class="container place-item" v-if="active">
+            <div class="columns">
+                <figure class="image is-128x128">
+                    <img :src="place.photo.url"/>
                 </figure>
-            </div>
-            <div class="media-content">
-                <div>
-                    <a class="has-text-weight-semibold has-text-primary" href="#">
-                        {{place.review.user.name}}
-                    </a>
-                    •
-                    <small>{{place.review.published_at}}</small>
+                <div class="rating-wrapper">
+                    <div class="rating">
+                        {{place.rating}}
+                    </div>
                 </div>
-                <p>
-                    {{place.review.text}}
-                </p>
-                <nav class="level">
-                    <div class="level-left">
-                        <a class="level-item">
-                            <b-taglist attached>
-                                <b-tag type="is-light">
-                                    {{place.review.likes}}
-                                </b-tag>
-                                <b-tag type="is-success" @click.native="like">
+                <div class="column content-wrapper">
+                    <h3 class="title has-text-primary">
+                        {{place.name}}
+                        <a class="button is-outlined is-info" @click="subscribe">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                    </h3>
+                    <p class="place-category">
+                        <a href="#">{{place.category}}</a>
+                    </p>
+                    <p class="address">
+                        {{place.address}}
+                    </p>
+                    <b-taglist>
+                        <b-tag
+                                type="is-info"
+                                v-for="tag in place.tags"
+                                :key="tag.id"
+                        >
+                            {{tag.name}}
+                        </b-tag>
+                    </b-taglist>
+                </div>
+            </div>
+            <div class="media" v-if="place.review">
+                <div class="media-left">
+                    <figure class="image is-32x32">
+                        <img :src="place.review.user.avatar"/>
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <div>
+                        <a class="has-text-weight-semibold has-text-primary" href="#">
+                            {{place.review.user.name}}
+                        </a>
+                        •
+                        <small>{{place.review.published_at}}</small>
+                    </div>
+                    <p>
+                        {{place.review.text}}
+                    </p>
+                    <nav class="level">
+                        <div class="level-left">
+                            <a class="level-item">
+                                <b-taglist attached>
+                                    <b-tag type="is-light">
+                                        {{place.review.likes}}
+                                    </b-tag>
+                                    <b-tag type="is-success" @click.native="like">
                                     <span class="icon">
                                         <i class="far fa-arrow-alt-circle-up"></i>
                                     </span>
-                                </b-tag>
-                            </b-taglist>
-                        </a>
-                        <a class="level-item">
-                            <b-taglist attached>
-                                <b-tag type="is-light">
-                                    {{place.review.dislikes}}
-                                </b-tag>
-                                <b-tag type="is-danger" @click.native="dislike">
+                                    </b-tag>
+                                </b-taglist>
+                            </a>
+                            <a class="level-item">
+                                <b-taglist attached>
+                                    <b-tag type="is-light">
+                                        {{place.review.dislikes}}
+                                    </b-tag>
+                                    <b-tag type="is-danger" @click.native="dislike">
                                     <span class="icon">
                                         <i class="far fa-arrow-alt-circle-down"></i>
                                     </span>
-                                </b-tag>
-                            </b-taglist>
-                        </a>
-                    </div>
-                </nav>
+                                    </b-tag>
+                                </b-taglist>
+                            </a>
+                        </div>
+                    </nav>
+                </div>
             </div>
+            <hr>
         </div>
-        <hr>
-    </div>
+    </transition>
 </template>
 
 <style scoped>
@@ -144,6 +146,14 @@
         border-width: 3px;
     }
 
+    .slide-fade-enter-active {
+        transition: all 0.5s ease;
+    }
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateX(300px);
+        opacity: 0;
+    }
+
     @media screen and (min-width: 769px) {
         .title, .place-category, .address {
             text-align: left;
@@ -169,37 +179,46 @@
 <script>
     export default {
         name: "PlaceListComponent",
-        props:
-            {
-                place:
-                    {
-                        required: true,
-                        type: Object,
-                    }
-            },
-        methods:
-            {
-                like(){
-                    this.$toast.open({
-                        message:'You liked this review!',
-                        type:'is-info',
-                        position:'is-bottom'
-                    })
-                },
-                dislike(){
-                    this.$toast.open({
-                        message: `You disliked this review`,
-                        position: 'is-bottom',
-                        type: 'is-info'
-                    });
-                },
-                subscribe(){
-                    this.$toast.open({
-                        message: `You now will recive updates on this place`,
-                        position: 'is-bottom',
-                        type: 'is-info'
-                    });
-                }
+        data() {
+            return {
+                active: false
             }
+        },
+        props: {
+            place: {
+                required: true,
+                type: Object,
+            },
+            timer:{
+                required: true,
+                type: Number,
+            }
+        },
+        methods: {
+            like() {
+                this.$toast.open({
+                    message: 'You liked this review!',
+                    type: 'is-info',
+                    position: 'is-bottom'
+                })
+            },
+            dislike() {
+                this.$toast.open({
+                    message: `You disliked this review`,
+                    position: 'is-bottom',
+                    type: 'is-info'
+                });
+            },
+            subscribe() {
+                this.$toast.open({
+                    message: `You now will recive updates on this place`,
+                    position: 'is-bottom',
+                    type: 'is-info'
+                });
+            }
+        },
+        created(){
+            setTimeout(()=>{this.active = true},this.timer)
+        }
     }
 </script>
