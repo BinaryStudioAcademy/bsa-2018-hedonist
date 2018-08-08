@@ -47,7 +47,7 @@ class ReviewController extends ApiController
                 new GetReviewRequest($id)
             );
             return $this->successResponse($getReviewResponse->getModel()->toArray());
-        } catch (\LogicException $e) {
+        } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 404);
         }
     }
