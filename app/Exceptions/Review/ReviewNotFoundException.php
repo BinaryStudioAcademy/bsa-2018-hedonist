@@ -2,9 +2,12 @@
 
 namespace Hedonist\Exceptions\Review;
 
-use Symfony\Component\Console\Exception\LogicException;
-
-class ReviewNotFoundException extends LogicException
+class ReviewNotFoundException extends \LogicException
 {
-    //
+    const MESSAGE = 'Review not found';
+
+    public static function create(): self
+    {
+        return new self(self::MESSAGE);
+    }
 }

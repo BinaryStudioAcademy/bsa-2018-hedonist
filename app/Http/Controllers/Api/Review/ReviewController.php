@@ -4,19 +4,20 @@ namespace Hedonist\Http\Controllers;
 
 use Hedonist\Actions\Review\{
     GetReviewAction,
-    UpdateReviewAction,
+    UpdateReviewDescriptionAction,
     CreateReviewAction,
     DeleteReviewAction,
     GetReviewCollectionAction
 };
 use Hedonist\Actions\Review\{
     GetReviewRequest,
-    UpdateReviewRequest,
+    UpdateReviewDescriptionRequest,
     CreateReviewRequest,
     DeleteReviewRequest
 };
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Review\SaveReviewRequest;
+use Hedonist\Exceptions\Review\ReviewNotFoundException;
 
 class ReviewController extends ApiController
 {
@@ -28,7 +29,7 @@ class ReviewController extends ApiController
 
     public function __construct(
         GetReviewAction $getReviewAction,
-        UpdateReviewAction $updateReviewAction,
+        UpdateReviewDescriptionAction $updateReviewAction,
         CreateReviewAction $createReviewAction,
         DeleteReviewAction $deleteReviewAction,
         GetReviewCollectionAction $getReviewCollectionAction
@@ -47,7 +48,7 @@ class ReviewController extends ApiController
                 new GetReviewRequest($id)
             );
             return $this->successResponse($getReviewResponse->getModel()->toArray());
-        } catch (\Exception $e) {
+        } catch (ReviewNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 404);
         }
     }
@@ -69,7 +70,7 @@ class ReviewController extends ApiController
                 )
             );
             return $this->successResponse($createReviewResponse->getModel()->toArray());
-        } catch (\Exception $e) {
+        } catch (ReviewNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 400);
         }
     }
@@ -78,15 +79,13 @@ class ReviewController extends ApiController
     {
         try {
             $updateReviewResponse = $this->updateReviewAction->execute(
-                new UpdateReviewRequest(
-                    $request->input('user_id'),
-                    $request->input('place_id'),
+                new UpdateReviewDescriptionRequest(
                     $request->input('description')
                 ),
                 $id
             );
             return $this->successResponse($updateReviewResponse->getModel()->toArray());
-        } catch (\Exception $e) {
+        } catch (ReviewNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 400);
         }
     }

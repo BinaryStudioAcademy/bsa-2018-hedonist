@@ -18,7 +18,7 @@ class GetReviewAction
     {
         $review = $this->reviewRepository->getById($request->getReviewId());
         if ($review === null) {
-            throw new ReviewNotFoundException('Review not found!');
+            throw ReviewNotFoundException::create();
         }
         return new GetReviewResponse($review);
     }
