@@ -44,7 +44,7 @@ class AuthController extends ApiController
     public function register(RegisterHttpRequest $httpRequset, RegisterUserAction $action)
     {
         try {
-            $registerRequest = new RegisterRequest($httpRequset->email, $httpRequset->password, $httpRequset->name);
+            $registerRequest = new RegisterRequest($httpRequset->email, $httpRequset->password);
             $action->execute($registerRequest);
 
             return $this->successResponse([]);

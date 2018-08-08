@@ -17,7 +17,6 @@ class GetUserTastesAction
     
     public function execute(): GetUserTastesResponse
     {
-       
         $tastes = $this->tasteRepository->findByUser(Auth::id());
        
         return new GetUserTastesResponse($tastes);

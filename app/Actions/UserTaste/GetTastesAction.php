@@ -16,7 +16,6 @@ class GetTastesAction
     
     public function execute(): GetTastesResponse
     {
-       
         $tastes = $this->tasteRepository->findAll();
  
         return new GetTastesResponse($tastes);

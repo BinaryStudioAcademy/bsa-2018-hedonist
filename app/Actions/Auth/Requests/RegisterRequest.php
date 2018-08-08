@@ -6,13 +6,11 @@ class RegisterRequest
 {
     private $email;
     private $password;
-    private $name;
 
-    public function __construct(string $email, string $password, string $name)
+    public function __construct(string $email, string $password)
     {
         $this->email = $email;
         $this->password = $password;
-        $this->name = $name;
     }
 
     public function getEmail(): string
@@ -23,10 +21,5 @@ class RegisterRequest
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 }

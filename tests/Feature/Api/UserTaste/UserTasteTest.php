@@ -35,32 +35,30 @@ class UserTasteTest extends ApiTestCase
         });
         $response = $this->json('GET','/api/v1/tastes/my', [], ['Authorization' => 'Bearer ' . $this->token]);
         $response->assertHeader('Content-Type', 'application/json')
-                    ->assertJsonCount(3,'data')
-                    ->assertOk();
+                 ->assertJsonCount(3,'data')
+                 ->assertOk();
     }
   
-    public function test_user_add_taste() {
+    public function test_user_add_taste() 
+    {
         $taste = factory(Taste::class)->create();
         $response = $this->json('POST', '/api/v1/tastes/my', ['taste_id' => $taste['id']], ['Authorization' => 'Bearer ' . $this->token]);
         $response->assertHeader('Content-Type', 'application/json')
-                    ->assertStatus(201);
+                 ->assertStatus(201);
     }
     
-    public function test_user_add_nonexistent_taste() {
-      
+    public function test_user_add_nonexistent_taste() 
+    {
         $response = $this->json('POST', '/api/v1/tastes/my', ['taste_id' => 12345], ['Authorization' => 'Bearer ' . $this->token]);
         $response->assertHeader('Content-Type', 'application/json')
-                    ->assertNotFound();
+                 ->assertNotFound();
     }
     
-    public function test_user_delete_taste() {
+    public function test_user_delete_taste() 
+    {
         $taste = factory(Taste::class)->create();
         $this->user->tastes()->save($taste);
       
-        $this->assertDatabaseHas('taste_user', [
-            'user_id' => $this->user->id,
-            'taste_id' => $taste->id
-        ]);
         $response = $this->json('DELETE', "/api/v1/tastes/my/$taste->id",[], ['Authorization' => 'Bearer ' . $this->token]);
         $response->assertOk();
         $this->assertDatabaseMissing('taste_user', [

@@ -9,6 +9,7 @@ use Hedonist\Actions\UserTaste\AddUserTasteAction;
 use Hedonist\Actions\UserTaste\DeleteUserTasteAction;
 use Hedonist\Actions\UserTaste\AddUserTasteRequest;
 use Hedonist\Actions\UserTaste\DeleteUserTasteRequest;
+use Hedonist\Exceptions\UserTaste\TasteNotFoundException;
 
 class UserTasteController extends ApiController
 {
@@ -35,7 +36,7 @@ class UserTasteController extends ApiController
                 new AddUserTasteRequest($request['taste_id'])
             );
             return $this->successResponse($addUserTasteResponse->getTaste(),201);
-        }catch (\LogicException $e) {
+        }catch (TasteNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 404);
         }
     }
@@ -45,7 +46,7 @@ class UserTasteController extends ApiController
         try {
             $this->deleteUserTasteAction->execute(new DeleteUserTasteRequest($tasteId));
             return $this->successResponse([], 200);
-        } catch (\LogicException $e) {
+        } catch (TasteNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 404);
         }
         
