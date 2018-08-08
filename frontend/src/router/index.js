@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '@/store'
 import HelloWorld from '@/components/HelloWorld'
 import ProfilePage from '@/pages/ProfilePage';
 
@@ -27,17 +26,21 @@ const router = new Router({
     ]
 })
 
+const [ isLoggedIn ] = mapGetters('auth', [
+    'isLoggedIn'
+])
+
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.guest)) {
         next()
     } else {
-        if (!store.getters['auth/isLoggedIn']) {
+        if (isLoggedIn()) {
+            next()
+        } else {
             next({
                 path: '/login',
                 query: { redirect: to.fullPath }
-              })
-        } else {
-            next()
+            })
         }
     }
 })
