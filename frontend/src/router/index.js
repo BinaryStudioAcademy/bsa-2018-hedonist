@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Vue from 'vue';
+import Router from 'vue-router';
+import HelloWorld from '@/components/HelloWorld';
 import ProfilePage from '@/pages/ProfilePage';
 
-Vue.use(Router)
+Vue.use(Router);
 
 const router = new Router({
     routes: [
@@ -24,29 +24,27 @@ const router = new Router({
             meta: { guest: true }
         }
     ]
-})
+});
 
-const [ isLoggedIn ] = mapGetters('auth', [
-    'isLoggedIn'
-])
+const [ isLoggedIn ] = mapGetters('auth', [ 'isLoggedIn' ]);
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.guest)) {
-        if (isLoggedIn()) {
-            next('/')
-        } else {
-            next()
+    const isGuestRoute = to.matched.some(record => record.meta.guest);
+
+    if (isLoggedIn()) {
+        if (isGuestRoute) {
+            return next('/');
         }
     } else {
-        if (isLoggedIn()) {
-            next()
-        } else {
-            next({
+        if (isGuestRoute) {
+            return next({
                 path: '/login',
                 query: { redirect: to.fullPath }
-            })
+            });
         }
     }
-})
+
+    next();
+});
 
 export default router
