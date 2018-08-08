@@ -28,7 +28,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.notRequiresAuth)) {
+    if (to.matched.some(record => record.meta.guest)) {
         next()
     } else {
         if (!store.getters['auth/isLoggedIn']) {
