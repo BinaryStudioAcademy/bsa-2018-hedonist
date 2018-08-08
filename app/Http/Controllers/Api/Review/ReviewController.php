@@ -9,17 +9,14 @@ use Hedonist\Actions\Review\{
     DeleteReviewAction,
     GetReviewCollectionAction
 };
-
 use Hedonist\Actions\Review\{
     GetReviewRequest,
     UpdateReviewRequest,
     CreateReviewRequest,
     DeleteReviewRequest
 };
-
+use Hedonist\Http\Requests\SaveReviewRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
-use Hedonist\Http\Requests\ReviewCreateUpdateRequest;
-
 
 class ReviewController extends ApiController
 {
@@ -35,8 +32,7 @@ class ReviewController extends ApiController
         CreateReviewAction $createReviewAction,
         DeleteReviewAction $deleteReviewAction,
         GetReviewCollectionAction $getReviewCollectionAction
-    )
-    {
+    ) {
         $this->getReviewAction = $getReviewAction;
         $this->updateReviewAction = $updateReviewAction;
         $this->createReviewAction = $createReviewAction;
@@ -62,7 +58,7 @@ class ReviewController extends ApiController
         return $this->successResponse($getReviewCollectionResponse->getReviewCollection());
     }
 
-    public function createReview(ReviewCreateUpdateRequest $request)
+    public function createReview(SaveReviewRequest $request)
     {
         try {
             $createReviewResponse = $this->createReviewAction->execute(
@@ -78,7 +74,7 @@ class ReviewController extends ApiController
         }
     }
 
-    public function updateReview(ReviewCreateUpdateRequest $request, $id)
+    public function updateReview(SaveReviewRequest $request, $id)
     {
         try {
             $updateReviewResponse = $this->updateReviewAction->execute(
