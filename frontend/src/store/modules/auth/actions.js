@@ -1,24 +1,20 @@
-import HttpService from "../../../services/common/httpService";
+import httpService from "../../../services/common/httpService";
 import StorageService from "../../../services/common/storageService";
 
-const httpService = new HttpService();
 
 export default {
     login: (context, username, password) => {
-        httpService.post('/user/login', {username, password})
-            .then(function (res) {
-                context.commit('USER_LOGIN', res);
-            }).catch(function (err) {
+        httpService.post('/user/login', {
+            data: {username, password}
+        }).then(function (res) {
+            context.commit('USER_LOGIN', res);
+        }).catch(function (err) {
             // TODO: Handle error
         });
     },
     logout: (context, user) => {
-        httpService.authRequest({
-            url: '/user/logout',
-            method: 'post',
-            data: {
-                user
-            }
+        httpService.post('/user/logout', {
+            data: user
         }).then(function (res) {
             context.commit('USER_LOGOUT', res);
         }).catch(function (err) {
@@ -26,19 +22,16 @@ export default {
         });
     },
     resetPassword: (context, email) => {
-        httpService.post('/user/resetPassword', {email})
-            .then(function (res) {
-            }).catch(function (err) {
-                // TODO: Handle error
-            });
+        httpService.post('/user/resetPassword', {
+            data: email
+        }).then(function (res) {
+        }).catch(function (err) {
+            // TODO: Handle error
+        });
     },
     refreshToken: (context, email) => {
-        httpService.authRequest({
-            url: '/user/refreshToken',
-            method: 'post',
-            params: {
-                email
-            }
+        httpService.post('/user/refreshToken', {
+            params: {email}
         }).then(function (res) {
             state.token = res.token;
             StorageService.setToken(res.token);
@@ -48,9 +41,7 @@ export default {
     },
     sendForgotEmail: (context, state) => {
         let data = state.currentUser;
-        httpService.authRequest({
-            url: '/user/forgotEmail',
-            method: 'post',
+        httpService.post('/user/forgotEmail', {
             data: {
                 data
             }
@@ -60,9 +51,7 @@ export default {
         });
     },
     fetchAuthenticatedUser: (context, token) => {
-        httpService.authRequest({
-            url: '/user/userInfo',
-            method: 'get',
+        httpService.get('/user/userInfo', {
             params: {
                 token
             }

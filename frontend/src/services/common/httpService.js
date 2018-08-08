@@ -3,14 +3,12 @@ import storageService from "./storageService";
 
 export class HttpService {
     constructor() {
-        this.axios = axios;
-
-        this.authAxios = axios.create({
+        this.axios = axios.create({
             baseURL: config.host,
             //timeout: config.TIMEOUT || 10000
         });
 
-        this.authAxios.interceptors.request.use(config => {
+        this.axios.interceptors.request.use(config => {
                 if (storageService.getToken()) {
                     config.headers['Authorization'] = 'Bearer ' + storageService.getToken()
                 }
@@ -36,10 +34,6 @@ export class HttpService {
     delete(url, params) {
         return this.axios.delete(url, params);
     }
-
-    static authRequest() {
-        return authAxios;
-    }
 }
 
-export default HttpService();
+export default new HttpService();
