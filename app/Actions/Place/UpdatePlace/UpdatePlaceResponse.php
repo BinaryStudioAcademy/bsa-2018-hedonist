@@ -28,7 +28,7 @@ class UpdatePlaceResponse
         $this->latitude    = $place->latitude;
         $this->zip         = $place->zip;
         $this->address     = $place->address;
-        $this->phone     = $place->phone;
+        $this->phone       = $place->phone;
         $this->website     = $place->website;
         $this->createdAt   = $place->created_at;
         $this->updatedAt   = $place->updated_at;

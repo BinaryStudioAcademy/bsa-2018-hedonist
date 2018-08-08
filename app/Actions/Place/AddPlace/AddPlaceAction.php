@@ -64,7 +64,7 @@ class AddPlaceAction
             'latitude'    => $location->getLatitude(),
             'zip'         => $placeRequest->getZip(),
             'address'     => $placeRequest->getAddress(),
-            'phone'     => $placeRequest->getPhone(),
+            'phone'       => $placeRequest->getPhone(),
             'website'     => $placeRequest->getWebsite(),
         ]));
 

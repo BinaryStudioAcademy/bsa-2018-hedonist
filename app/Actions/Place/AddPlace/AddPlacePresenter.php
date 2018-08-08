@@ -12,7 +12,7 @@ class AddPlacePresenter
             'longitude'   => $placeResponse->getLongitude(),
             'zip'         => $placeResponse->getZip(),
             'address'     => $placeResponse->getAddress(),
-            'phone'     => $placeResponse->getPhone(),
+            'phone'       => $placeResponse->getPhone(),
             'website'     => $placeResponse->getWebsite(),
             'category_id' => $placeResponse->getCategoryId(),
             'city_id'     => $placeResponse->getCityId(),

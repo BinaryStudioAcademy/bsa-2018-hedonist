@@ -67,7 +67,7 @@ class UpdatePlaceAction
         $place->city_id     = $city->id;
         $place->zip         = $placeRequest->getZip();
         $place->address     = $placeRequest->getAddress();
-        $place->phone     = $placeRequest->getPhone();
+        $place->phone       = $placeRequest->getPhone();
         $place->website     = $placeRequest->getWebsite();
 
         $place = $this->placeRepository->save($place);

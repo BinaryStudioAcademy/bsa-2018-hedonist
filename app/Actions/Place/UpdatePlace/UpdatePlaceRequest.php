@@ -100,7 +100,7 @@ class UpdatePlaceRequest
             'latitude'    => $this->getLatitude(),
             'zip'         => $this->getZip(),
             'address'     => $this->getAddress(),
-            'phone'     => $this->getPhone(),
+            'phone'       => $this->getPhone(),
             'website'     => $this->getWebsite(),
         ];
     }
