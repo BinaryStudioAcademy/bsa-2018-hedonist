@@ -4,8 +4,7 @@ import storageService from "./storageService";
 export class HttpService {
     constructor() {
         this.axios = axios.create({
-            baseURL: config.host,
-            //timeout: config.TIMEOUT || 10000
+            baseURL: '/'
         });
 
         this.axios.interceptors.request.use(config => {
