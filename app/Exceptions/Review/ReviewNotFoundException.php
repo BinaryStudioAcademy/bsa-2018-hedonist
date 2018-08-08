@@ -4,7 +4,7 @@ namespace Hedonist\Exceptions\Review;
 
 class ReviewNotFoundException extends \LogicException
 {
-    const MESSAGE = 'Review not found';
+    const MESSAGE = 'Review NOT found';
 
     public static function create(): self
     {
