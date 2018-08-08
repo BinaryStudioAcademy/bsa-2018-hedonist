@@ -36,7 +36,7 @@ class AttachPlaceAction
             throw new PlaceNotFoundException();
         }
         $userlistPlace = $this->placeRepository
-            ->getbyList($request->getUserListId())
+            ->getByList($request->getUserListId())
             ->find($place->id);
         if (empty($userlistPlace)) {  
             $this->userListRepository->attachPlace($userList, $place);
