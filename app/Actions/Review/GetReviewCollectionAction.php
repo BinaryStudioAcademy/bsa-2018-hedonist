@@ -8,9 +8,9 @@ class GetReviewCollectionAction
 {
     private $reviewRepository;
 
-    public function __construct()
+    public function __construct(ReviewRepositoryInterface $repository)
     {
-        $this->reviewRepository = app()->make(ReviewRepositoryInterface::class);
+        $this->reviewRepository = $repository;
     }
 
     public function execute(): GetReviewCollectionResponse
