@@ -22,7 +22,7 @@ const router = new Router({
             path: '/login',
             name: 'Login',
             component: LoginPage,
-            meta: { notRequiresAuth: true }
+            meta: { guest: true }
         }
     ]
 })
