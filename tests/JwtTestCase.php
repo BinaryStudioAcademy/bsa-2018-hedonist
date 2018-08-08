@@ -7,18 +7,10 @@ use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 
 class JwtTestCase extends TestCase
 {
-
-    /**
-     * @var User
-     */
     protected $user;
 
     /**
-     * Set the currently logged in user for the application.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param  string|null                                $driver
-     * @return $this
+     * @deprecated use actingWithToken() of tests/Feature/Api/ApiTestCase.php instead
      */
     public function actingAs(UserContract $user, $driver = null) : self
     {
@@ -28,20 +20,10 @@ class JwtTestCase extends TestCase
     }
 
     /**
-     * Call the given URI and return the Response.
-     *
-     * @param  string $method
-     * @param  string $uri
-     * @param  array  $parameters
-     * @param  array  $cookies
-     * @param  array  $files
-     * @param  array  $server
-     * @param  string $content
-     * @return \Illuminate\Http\Response
+     * @deprecated use tests/Feature/Api/ApiTestCase.php instead
      */
     public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
     {
-
         if ($this->user) {
             $server['HTTP_AUTHORIZATION'] = 'Bearer ' . auth()->login($this->user);
         }
@@ -52,12 +34,10 @@ class JwtTestCase extends TestCase
     }
 
     /**
-     * @return $this
+     * @deprecated use actingWithToken() of tests/Feature/Api/ApiTestCase.php instead
      */
     protected function actingAsJwtToken()
     {
         return $this->actingAs(factory(User::class)->create());
     }
-
-
 }
