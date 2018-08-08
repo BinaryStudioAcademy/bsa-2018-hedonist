@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import SignUp from '@/components/auth/SignUp'
 import Login from '@/components/auth/Login'
 import Reset from '@/components/auth/Reset'
+import Recover from '@/components/auth/Recover'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/reset',
       name: 'Reset',
       component: Reset
+    },
+    {
+      path: '/recover',
+      name: 'Recover',
+      component: Recover
     },
   ]
 })
