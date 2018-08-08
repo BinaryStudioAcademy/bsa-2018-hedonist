@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property float  $latitude
  * @property int    $zip
  * @property string $address
+ * @property string $phone
+ * @property string $website
  * @property int    $creator_id
  * @property int    $category_id
  * @property int    $city_id
@@ -32,6 +34,8 @@ class Place extends Model
         "latitude",
         "zip",
         "address",
+        "phone",
+        "website",
         "creator_id",
         "category_id",
         "city_id",
