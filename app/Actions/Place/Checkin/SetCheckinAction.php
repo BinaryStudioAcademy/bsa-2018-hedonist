@@ -1,0 +1,53 @@
+<?php
+
+namespace Hedonist\Actions\Place\Checkin;
+
+use Hedonist\Actions\Place\Checkin\Criteria\UserIdAndPlaceIdCriteria;
+use Hedonist\Exceptions\Place\PlaceNotFoundException;
+use Hedonist\Repositories\Place\CheckinRepositoryInterface;
+use Hedonist\Entities\Place\Checkin;
+use Hedonist\Repositories\Place\PlaceRepositoryInterface;
+
+class SetCheckinAction
+{
+    protected $repository;
+    protected $placeRepository;
+
+    public function __construct(CheckinRepositoryInterface $repository, PlaceRepositoryInterface $placeRepository)
+    {
+        $this->repository = $repository;
+        $this->placeRepository = $placeRepository;
+    }
+
+    public function execute(SetCheckinRequest $request): SetCheckinResponse
+    {
+        $userId = $request->getUserId();
+        $placeId = $request->getPlaceId();
+
+        throw_if(
+            !$this->placeRepository->getById($placeId),
+            new PlaceNotFoundException('Place not found')
+        );
+
+        $checkin = $this->repository->findByCriteria(
+            new UserIdAndPlaceIdCriteria(
+                $userId,
+                $placeId
+            )
+        )->first();
+
+
+        $checkin = $checkin ? : new Checkin([
+            'user_id' => $userId,
+            'place_id' => $placeId,
+        ]);
+
+        $checkin = $this->repository->save($checkin);
+
+        return new SetCheckinResponse(
+            $checkin->id,
+            $checkin->user_id,
+            $checkin->place_id
+        );
+    }
+}

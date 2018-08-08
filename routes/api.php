@@ -67,7 +67,7 @@ Route::prefix('v1')->group(function () {
             Route::delete('my/{id}', 'Api\User\UserTasteController@deleteTaste')
                 ->name('user.tastes.deleteTaste');
         });
-        
+
         Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
             ->name('place.features.indexFeature');
 
@@ -80,5 +80,8 @@ Route::prefix('v1')->group(function () {
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
 
+
+        Route::post('/users/me/checkins', 'Api\Places\PlaceCheckinController@setCheckin')
+            ->name('user.me.checkin');
     });
 });
