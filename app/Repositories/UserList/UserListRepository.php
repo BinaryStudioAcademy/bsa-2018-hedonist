@@ -45,6 +45,6 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
 
     public function attachPlace(UserList $userList, Place $place)
     {
-        $this->find($userList->id)->places()->attach($place->pluck('id'));
+        $this->getById($userList->id)->places()->attach($place->pluck('id'));
     }
 }
