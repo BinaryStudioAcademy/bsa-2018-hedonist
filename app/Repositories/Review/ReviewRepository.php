@@ -26,9 +26,7 @@ class ReviewRepository extends BaseRepository implements ReviewRepositoryInterfa
 
     public function deleteById(int $id): void
     {
-        if ($review = Review::find($id)) {
-            $review->delete();
-        }
+        $this->delete($id);
     }
 
     public function model()
