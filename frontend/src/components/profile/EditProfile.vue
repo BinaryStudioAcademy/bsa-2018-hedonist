@@ -46,10 +46,6 @@
                     </b-field>
                 </b-field>
 
-                <!--<b-field label="Password">-->
-                <!--<b-input value="123" type="password" password-reveal></b-input>-->
-                <!--</b-field>-->
-
                 <b-field label="Instagram">
                     <b-input v-model="user.instagram"></b-input>
                 </b-field>
