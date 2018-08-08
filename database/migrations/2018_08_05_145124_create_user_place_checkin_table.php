@@ -4,10 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-/**
- * Class CreatePlaceCategoriesTable.
- */
-class CreatePlaceRatingTable extends Migration
+class CreateUserPlaceCheckinTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,13 +13,21 @@ class CreatePlaceRatingTable extends Migration
      */
     public function up()
     {
-        Schema::create('place_rating', function(Blueprint $table) {
+        Schema::create('user_place_checkin', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('place_id');
-            $table->unsignedDecimal('rating', 8, 2);
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('place_id')->references('id')->on('places');
+            $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
+
+            $table->foreign('place_id')
+                ->references('id')
+                ->on('places');
+
         });
     }
 
@@ -33,6 +38,6 @@ class CreatePlaceRatingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('place_rating');
+        Schema::dropIfExists('user_place_checkin');
     }
 }
