@@ -11,3 +11,5 @@ export const storageService = {
         return localStorage.removeItem(this.keyName);
     }
 };
+
+export default storageService;

@@ -1,8 +1,7 @@
 import axios from 'axios';
-import store from '../store';
-import authCookie from './auth';
-import configuration from '../config';
-import state from '../state';
+import store from '../../store';
+import storageService from './storageService';
+import state from '../../state';
 
 export function request(url) {
     axios.get(url)
@@ -26,12 +25,12 @@ export function authRequest() {
 
 const authAxios = axios.create({
     baseURL: process.env.HOST,
-    timeout: configuration.TIMEOUT
+    timeout: process.env.TIMEOUT || 10000
 });
 
 authAxios.interceptors.request.use(config => {
         if (store.getters.token) {
-            config.headers['X-Token'] = authCookie.getToken()
+            config.headers['X-Token'] = storageService.getToken()
         }
         state.commit('setLoading', true);
         return Promise.resolve(config);
