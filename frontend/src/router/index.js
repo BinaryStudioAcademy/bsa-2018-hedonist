@@ -36,7 +36,7 @@ router.beforeEach((to, from, next) => {
             return next('/');
         }
     } else {
-        if (isGuestRoute) {
+        if (!isGuestRoute) {
             return next({
                 path: '/login',
                 query: { redirect: to.fullPath }
