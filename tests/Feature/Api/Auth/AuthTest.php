@@ -19,8 +19,7 @@ class AuthTest extends TestCase
         $user = factory(User::class)->make();
         $response = $this->json('POST', '/api/v1/auth/signup', [
             'email' => $user->email,
-            'password' => 'secret',
-            'name' => $user->name
+            'password' => 'secret'
         ]);
 
         $response->assertStatus(200);
@@ -33,8 +32,7 @@ class AuthTest extends TestCase
         $user = factory(User::class)->create();
         $response = $this->json('POST', '/api/v1/auth/signup', [
             'email' => $user->email,
-            'password' => 'secret',
-            'name' => $user->name
+            'password' => 'secret'
         ]);
 
         $response->assertStatus(400);
