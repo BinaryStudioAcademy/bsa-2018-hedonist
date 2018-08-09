@@ -69,6 +69,10 @@ Route::prefix('v1')->group(function () {
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
 
+        Route::get('/users/{userId}/info/', 'Api\Users\UserInfoController@show')
+            ->name('user.info.show');
+        Route::put('/users/{userId}/info/', 'Api\Users\UserInfoController@update')
+            ->name('user.info.update');
         /* Routes here.. */
     });
 });

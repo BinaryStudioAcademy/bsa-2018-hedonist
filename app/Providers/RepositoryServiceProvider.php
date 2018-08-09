@@ -26,8 +26,7 @@ use Hedonist\Repositories\Like\{
     LikeRepository
 };
 use Hedonist\Repositories\User\{
-    TasteRepository,
-    TasteRepositoryInterface
+    TasteRepository, TasteRepositoryInterface, UserInfoRepository, UserInfoRepositoryInterface
 };
 use Hedonist\Repositories\City\{
     CityRepositoryInterface,
@@ -62,5 +61,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(LikeRepositoryInterface::class, LikeRepository::class);
         $this->app->bind(TasteRepositoryInterface::class, TasteRepository::class);
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
+        $this->app->bind(UserInfoRepositoryInterface::class, UserInfoRepository::class);
     }
 }
