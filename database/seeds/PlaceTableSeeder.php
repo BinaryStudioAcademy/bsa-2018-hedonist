@@ -67,17 +67,11 @@ class PlaceTableSeeder extends Seeder
             'name' => array_random(self::CITY_NAMES)
         ]);
 
-        /* Seed users table */
-        $this->call(UserTableSeeder::class);
-
-        /* Seed categories table */
-        $this->call(PlaceCategoryTableSeeder::class);
-
         foreach (self::PLACE_NAMES as $placeName) {
             $place = factory(Place::class)->create([
                 'city_id'       => $city->id,
-                'creator_id'    => User::orderByRaw('RAND()')->first()->id,
-                'category_id'   => PlaceCategory::orderByRaw('RAND()')->first()->id
+                'creator_id'    => User::inRandomOrder()->first()->id,
+                'category_id'   => PlaceCategory::inRandomOrder()->first()->id
             ]);
 
             $placeTranslation = factory(PlaceTranslation::class)->create([
