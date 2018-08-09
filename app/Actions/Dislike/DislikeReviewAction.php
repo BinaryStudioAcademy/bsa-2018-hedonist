@@ -29,7 +29,7 @@ class DislikeReviewAction
     public function execute(DislikeReviewRequest $request): DislikeReviewResponse
     {        
         $reviewId = $request->getReviewId();
-        $review = $this->reviewRepository->getById($request->getReviewId());
+        $review = $this->reviewRepository->getById($reviewId);
         if (empty($review)) {
             throw new ReviewNotFoundException();
         }
@@ -49,6 +49,7 @@ class DislikeReviewAction
             ]);
             $this->dislikeRepository->save($dislike);
         }
+        
         return new DislikeReviewResponse();
     }
 }

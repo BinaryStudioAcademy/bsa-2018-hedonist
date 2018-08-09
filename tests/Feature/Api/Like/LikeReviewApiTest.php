@@ -11,26 +11,18 @@ class LikeReviewApiTest extends ApiTestCase
 {
     use RefreshDatabase;
 
-    protected $user;
-    protected $token;
     protected $review;
 
     public function setUp()
     {
         parent::setUp();
         
-        $this->user = factory(User::class)->create();
-        $this->token = \JWTAuth::fromUser($this->user);
         $this->review = factory(Review::class)->create();
     }
 
     public function testLikeReviewNotFound()
     {
-        $response = $this->post(
-            "/api/v1/reviews/99999/like",
-            [],
-            ['Authorization' => 'Bearer ' . $this->token]
-        );
+        $response = $this->actingWithToken()->post("/api/v1/reviews/99999/like");
 
         $response->assertHeader('Content-Type', 'application/json')
             ->assertNotFound()
@@ -41,11 +33,7 @@ class LikeReviewApiTest extends ApiTestCase
 
     public function testLikeReview()
     {
-        $response = $this->post(
-            "/api/v1/reviews/{$this->review->id}/like",
-            [],
-            ['Authorization' => 'Bearer ' . $this->token]
-        );
+        $response = $this->actingWithToken()->post("/api/v1/reviews/{$this->review->id}/like");
         
         $response->assertStatus(200);
         $this->assertDatabaseHas('likes', [

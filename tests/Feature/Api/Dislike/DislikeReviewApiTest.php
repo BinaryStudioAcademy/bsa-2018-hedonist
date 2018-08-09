@@ -11,25 +11,18 @@ class DislikeReviewApiTest extends ApiTestCase
 {
     use RefreshDatabase;
 
-    protected $user;
-    protected $token;
     protected $review;
 
     public function setUp()
     {
         parent::setUp();
         
-        $this->user = factory(User::class)->create();
-        $this->token = \JWTAuth::fromUser($this->user);
         $this->review = factory(Review::class)->create();
     }
 
     public function testDislikeReviewNotFound()
     {
-        $user = factory(User::class)->create();
-        $token = \JWTAuth::fromUser($user);
-
-        $response = $this->post('/api/v1/reviews/99999/dislike', [], ['Authorization' => 'Bearer ' . $token]);
+        $response = $this->actingWithToken()->post("/api/v1/reviews/99999/dislike");
 
         $response->assertHeader('Content-Type', 'application/json')
             ->assertNotFound()
@@ -40,11 +33,8 @@ class DislikeReviewApiTest extends ApiTestCase
 
     public function testDislikeReview()
     {
-        $response = $this->post(
-            "/api/v1/reviews/{$this->review->id}/dislike",
-            [],
-            ['Authorization' => 'Bearer ' . $this->token]
-        );
+        $response = $this->actingWithToken()->post(
+            "/api/v1/reviews/{$this->review->id}/dislike");
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('dislikes', [

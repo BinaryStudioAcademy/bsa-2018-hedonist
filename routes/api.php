@@ -56,15 +56,15 @@ Route::prefix('v1')->group(function () {
 
         Route::prefix('reviews')->group(function () {
 
-            Route::get('/', 'ReviewController@getReviewCollection');
+            Route::get('/', 'Api\Review\ReviewController@getReviewCollection');
 
-            Route::post('/', 'ReviewController@createReview');
+            Route::post('/', 'Api\Review\ReviewController@createReview');
 
-            Route::get('/{id}', 'ReviewController@getReview');
+            Route::get('/{id}', 'Api\Review\ReviewController@getReview');
 
-            Route::put('/{id}', 'ReviewController@updateReview');
+            Route::put('/{id}', 'Api\Review\ReviewController@updateReview');
 
-            Route::delete('/{id}', 'ReviewController@deleteReview');
+            Route::delete('/{id}', 'Api\Review\ReviewController@deleteReview');
         });
       
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
