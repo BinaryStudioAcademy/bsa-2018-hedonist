@@ -7,9 +7,10 @@ use Hedonist\Entities\Review\Review;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\Feature\Api\ApiTestCase;
 use Tests\JwtTestCase;
 
-class ReviewPhotoApiTest extends JwtTestCase
+class ReviewPhotoApiTest extends ApiTestCase
 {
     use RefreshDatabase;
 
@@ -18,7 +19,7 @@ class ReviewPhotoApiTest extends JwtTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->actingAsJwtToken();
+        $this->actingWithToken();
     }
 
     public function test_review_photo_add()
@@ -69,8 +70,6 @@ class ReviewPhotoApiTest extends JwtTestCase
         Storage::disk('review-photos')->assertExists($data['data']['img_url']);
 
         $this->json('DELETE',"/api/v1/review-photo/" . $data['data']['id']);
-
-        $this->json('GET', "/api/v1/review-photo/" . $data['data']['id'])->assertStatus(404);
         Storage::disk('review_photos')->assertMissing($data['data']['img_url']);
     }
 }
