@@ -6,6 +6,9 @@ import ProfilePage from '@/pages/ProfilePage';
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
+    base: '/',
+    scrollBehavior: () => ({y: 0}),
     routes: [
         {
             path: '/',
