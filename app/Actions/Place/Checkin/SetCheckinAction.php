@@ -37,14 +37,7 @@ class SetCheckinAction
             new PlaceNotFoundException('Place not found')
         );
 
-        $checkin = $this->repository->findByCriteria(
-            new UserIdAndPlaceIdCriteria(
-                $userId,
-                $placeId
-            )
-        )->first();
-
-        $checkin = $checkin ? : new Checkin([
+        $checkin = new Checkin([
             'user_id' => $userId,
             'place_id' => $placeId,
         ]);
