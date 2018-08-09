@@ -25,17 +25,15 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/reset','AuthController@resetPassword');
 
-        Route::post('/recover','AuthCOntroller@recoverPassword');
+        Route::post('/recover','AuthController@recoverPassword');
 
-        Route::group(['middleware' => 'jwt.auth'], function() {
+        Route::post('/refresh', 'AuthController@refresh');
 
-            Route::post('/refresh', 'AuthController@refresh');
+        Route::get('/me', 'AuthController@me')->middleware('custom.jwt.auth');
 
-            Route::get('/me', 'AuthController@me');
-        });
     });
 
-    Route::group(['middleware' => 'jwt.auth'], function() {
+    Route::group(['middleware' => 'custom.jwt.auth'], function() {
         Route::resource('user-list', 'Api\UserList\UserListController')->except([
             'create', 'edit'
         ]);

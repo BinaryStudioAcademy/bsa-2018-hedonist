@@ -24,6 +24,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class AuthController extends ApiController
 {
@@ -64,11 +65,17 @@ class AuthController extends ApiController
 
     public function refresh()
     {
-        return $this->successResponse(
-            AuthPresenter::presentAuthenticateResponse(
-                new RefreshResponse(Auth::refresh())
-            )
-        );
+        try {
+            $token = Auth::refresh();
+
+            return $this->successResponse(AuthPresenter::presentAuthenticateResponse(
+                    new RefreshResponse($token)
+            ));
+        } catch (TokenExpiredException $exception){
+            return $this->errorResponse(AuthPresenter::presentError($exception), 401);
+        } catch (JWTException $exception){
+            return $this->errorResponse(AuthPresenter::presentError($exception), 401);
+        }
     }
 
     public function logout()
