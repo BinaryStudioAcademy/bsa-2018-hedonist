@@ -15,7 +15,7 @@ class ReviewPhotoRequest extends FormRequest
         return [
             'review_id' => 'required|integer',
             'description' => 'required|string|max:255',
-            'img_url' => 'required|url|max:255',
+            'image' => 'required|image|max:2048',
         ];
     }
 }

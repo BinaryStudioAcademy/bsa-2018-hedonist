@@ -50,10 +50,14 @@ Route::prefix('v1')->group(function () {
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
 
-        Route::resource('review-photo', 'Api\Review\ReviewPhotoController')->except([
+        Route::resource('review-photos', 'Api\Review\ReviewPhotoController')->except([
             'create', 'edit',
         ]);
-      
+
+        Route::post('/review-photos', 'Api\Review\ReviewPhotoController@upload')->name('review-photo.upload');
+
+        Route::delete('/review-photos/{id}', 'Api\Review\ReviewPhotoController@destroy')->name('review-photo.destroy');
+
         /* Routes here.. */
     });
 });

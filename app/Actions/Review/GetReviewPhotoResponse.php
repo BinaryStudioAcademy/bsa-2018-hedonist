@@ -22,4 +22,24 @@ class GetReviewPhotoResponse
             'review_id' => $this->reviewPhoto->review_id,
         ];
     }
+
+    public function getId(): int
+    {
+        return $this->reviewPhoto->id;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->reviewPhoto->description;
+    }
+
+    public function getImgUrl(): string
+    {
+        return $this->reviewPhoto->img_url;
+    }
+
+    public function getReviewId(): int
+    {
+        return $this->reviewPhoto->review_id;
+    }
 }
