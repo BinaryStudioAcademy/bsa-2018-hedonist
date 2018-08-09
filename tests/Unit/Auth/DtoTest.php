@@ -31,7 +31,6 @@ class DtoTest extends TestCase
 
         $this->assertEquals($this->user->email, $request->getEmail());
         $this->assertEquals('secret', $request->getPassword());
-        $this->assertEquals($this->user->name, $request->getName());
     }
 
     public function test_login_request()

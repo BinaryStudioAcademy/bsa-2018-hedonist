@@ -20,7 +20,7 @@ class User extends Authenticatable implements JWTSubject, CanResetPasswordContra
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password',
     ];
 
     /**
@@ -31,6 +31,11 @@ class User extends Authenticatable implements JWTSubject, CanResetPasswordContra
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function tastes()
+    {
+        return $this->belongsToMany(Taste::class);
+    }
 
     public function getJWTIdentifier()
     {
@@ -45,5 +50,19 @@ class User extends Authenticatable implements JWTSubject, CanResetPasswordContra
     public function sendPasswordResetNotification($token)
     {
         Event::dispatch(new PasswordResetedEvent($this, $token));
+    }
+
+    public function info()
+    {
+        return $this->hasOne(UserInfo::class);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::deleting(function ($user) {
+            $user->info->delete();
+        });
     }
 }
