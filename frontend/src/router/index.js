@@ -2,9 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import ProfilePage from '@/pages/ProfilePage';
-import PlacesList from  '@/components/PlacesList/PlacesList'
+import PlacesList from  '@/components/PlacesList/PlacesList';
+import VisitedPlacesPage from '@/pages/VisitedPlacesPage';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
     mode: 'history',
@@ -25,6 +26,11 @@ export default new Router({
             path: '/places/list',
             name: 'PlacesList',
             component: PlacesList
+        },
+        {
+            path: '/places/visited',
+            name: 'VisitedPlacesPage',
+            component: VisitedPlacesPage
         }
     ]
 })
