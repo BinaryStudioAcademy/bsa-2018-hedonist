@@ -19,19 +19,21 @@
 </template>
 
 <style lang="scss" scoped>
-    .container {
-        display: flex;
-        flex-wrap: nowrap;
-    }
 
     article {
-        margin: 0.5rem;
+        margin: 1.5rem 3rem;
         text-align: left;
+    }
+
+    .entry-media {
+        height: 300px;
+        width: 400px;
     }
 
     .image {
         margin: 0 auto;
         max-width: 400px;
+        max-height: 300px;
     }
 
     .item-description {
