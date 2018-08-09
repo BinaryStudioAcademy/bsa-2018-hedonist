@@ -14,7 +14,7 @@ class SetCheckinHttpRequest extends JsonRequest
     public function rules() : array
     {
         return [
-            'place_id' => 'required|integer|min:1',
+            'place_id' => 'required|integer',
         ];
     }
 }

@@ -7,19 +7,14 @@ use Hedonist\Actions\Place\Checkin\SetCheckinAction;
 use Hedonist\Actions\Place\Checkin\SetCheckinRequest;
 use Hedonist\Http\Requests\Place\Checkin\SetCheckinHttpRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class PlaceCheckinController extends ApiController
 {
     private $setCheckinAction;
-    private $userId;
 
     public function __construct(SetCheckinAction $setCheckinAction )
     {
         $this->setCheckinAction = $setCheckinAction;
-        if (Auth::check()) {
-            $this->userId = Auth::id();
-        }
     }
     
     public function setCheckin(SetCheckinHttpRequest $httpRequest) : JsonResponse
@@ -27,11 +22,10 @@ class PlaceCheckinController extends ApiController
         try {
             $response = $this->setCheckinAction->execute(
                 new SetCheckinRequest(
-                    $this->userId,
                     $httpRequest->place_id
                 )
             );
-        } catch (\Exception $ex) {
+        } catch (\LogicException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
