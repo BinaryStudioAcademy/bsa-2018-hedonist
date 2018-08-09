@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import PlaceView from '@/components/place/PlaceView'
+import PlacePage from '@/pages/PlacePage'
 import ProfilePage from '@/pages/ProfilePage';
 import PlacesList from  '@/components/PlacesList/PlacesList'
 
@@ -24,8 +24,8 @@ export default new Router({
         },
         {
             path: '/place-info',
-            name: 'PlaceView',
-            component: PlaceView
+            name: 'PlacePage',
+            component: PlacePage
         },
         {
             path: '/places/list',

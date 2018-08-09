@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import PlaceSidebarInfo from './PlaceSidebarInfo';
-import PlaceTopInfo from './PlaceTopInfo';
+import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
+import PlaceTopInfo from '@/components/place/PlaceTopInfo';
 
 export default {
-    name: "PlaceView",
+    name: "PlacePage",
     components: {
         PlaceSidebarInfo,
         PlaceTopInfo,
@@ -25,7 +25,6 @@ export default {
 </script>
 
 <style scoped>
-
 .main-wrapper {
     margin-top: 20px;
 }

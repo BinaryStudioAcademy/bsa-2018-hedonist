@@ -31,10 +31,10 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     color: #4e595d;
     background-color: #efeff4;
-    margin-top: 60px;
 }
 
 .navigation .navbar li {
+    line-height: 50px;
     margin-right: 15px;
 }
 </style>
