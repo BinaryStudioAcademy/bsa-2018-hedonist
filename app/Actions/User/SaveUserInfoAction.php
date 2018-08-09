@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\User;
 
 use Hedonist\Entities\User\UserInfo;
+use Hedonist\Exceptions\UserInfoExceptions\UserInfoNotValidSocialUrlException;
 use Hedonist\Exceptions\UserInfoExceptions\UserInfoRequiredFieldsException;
 use Hedonist\Repositories\User\UserInfoRepositoryInterface as UserInfoRepository;
 
@@ -34,10 +35,10 @@ class SaveUserInfoAction
 
         if ($userHasNotInfo) {
             if (empty($first_name)) {
-                throw(new UserInfoRequiredFieldsException('First name field cannot be empty'));
+                throw new UserInfoRequiredFieldsException('First name field cannot be empty');
             }
             if (empty($last_name)) {
-                throw(new UserInfoRequiredFieldsException('Last name field cannot be empty'));
+                throw new UserInfoRequiredFieldsException('Last name field cannot be empty');
             }
         }
 
@@ -59,12 +60,31 @@ class SaveUserInfoAction
             $userInfo->avatar_url = $avatar_url;
         }
         if ($userHasNotInfo || !empty($facebook_url)) {
+            if (
+                !empty($facebook_url) &&
+                stripos(parse_url($facebook_url, PHP_URL_HOST), 'facebook.com') === false
+            ) {
+                throw new UserInfoNotValidSocialUrlException('Invalid facebook url');
+            }
+
             $userInfo->facebook_url = $facebook_url;
         }
         if ($userHasNotInfo || !empty($instagram_url)) {
+            if (
+                !empty($instagram_url) &&
+                stripos(parse_url($instagram_url, PHP_URL_HOST), 'instagram.com') === false
+            ) {
+                throw new UserInfoNotValidSocialUrlException('Invalid instagram url');
+            }
             $userInfo->instagram_url = $instagram_url;
         }
         if ($userHasNotInfo || !empty($twitter_url)) {
+            if (
+                !empty($twitter_url) &&
+                stripos(parse_url($twitter_url, PHP_URL_HOST), 'twitter.com') === false
+            ) {
+                throw new UserInfoNotValidSocialUrlException('Invalid twitter url');
+            }
             $userInfo->twitter_url = $twitter_url;
         }
 

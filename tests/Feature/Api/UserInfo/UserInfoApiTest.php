@@ -69,6 +69,22 @@ class UserInfoApiTest extends JwtTestCase
         $this->assertEquals($result['data']['twitter_url'], $userInfo->twitter_url);
     }
 
+    public function test_update_invalid_social()
+    {
+        $userInfo = factory(UserInfo::class)->create();
+        $data = [
+            'first_name' => "test_first_name",
+            'date_of_birth' => '1970/04/12',
+            'phone_number' => "380123456789",
+            'avatar_url' => $this->avatar,
+            'facebook_url' => "https://twitter.com",
+        ];
+
+        $response = $this->json('PUT', "/api/v1/users/$userInfo->user_id/info", $data);
+
+        $response->assertStatus(400);
+
+    }
 
     public function test_create_user_info()
     {
