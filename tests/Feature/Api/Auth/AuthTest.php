@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api\Auth;
 
 use Hedonist\Entities\User\User;
+use Hedonist\Entities\User\UserInfo;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -17,22 +18,33 @@ class AuthTest extends TestCase
         Event::fake();
 
         $user = factory(User::class)->make();
+        $userInfo = factory(UserInfo::class)->make();
         $response = $this->json('POST', '/api/v1/auth/signup', [
             'email' => $user->email,
-            'password' => 'secret'
+            'password' => 'secret',
+            'first_name' => $userInfo->first_name,
+            'last_name' => $userInfo->last_name
         ]);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('users', ['email' => $user->email]);
+        $this->assertDatabaseHas('user_info', [
+            'first_name' => $userInfo->first_name,
+            'last_name' => $userInfo->last_name
+        ]);
         Event::assertDispatched(Registered::class, 1);
     }
 
     public function test_email_in_use()
     {
         $user = factory(User::class)->create();
+        $userInfo = factory(UserInfo::class)->make();
+
         $response = $this->json('POST', '/api/v1/auth/signup', [
             'email' => $user->email,
-            'password' => 'secret'
+            'password' => 'secret',
+            'first_name' => $userInfo->first_name,
+            'last_name' => $userInfo->last_name
         ]);
 
         $response->assertStatus(400);
