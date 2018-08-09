@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/{any}', function () {
+    return redirect('/');
+})->where('any', '\b(?!api|dist/|storage/\b)\w+');
