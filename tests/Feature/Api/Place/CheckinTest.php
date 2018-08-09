@@ -55,10 +55,11 @@ class CheckinTest extends ApiTestCase
             'user_id' => $userId,
         ]);
 
-        // assert that in DB new row NOT created
+        // assert that in DB new row created
         $response = $this->json('POST', route('user.me.checkin'), [
             'place_id' => $placeId,
         ]);
+        $id = $response->getOriginalContent()['data']['id'];
         $response->assertStatus(201);
         $response->assertJsonFragment([
             'data' => [
@@ -67,7 +68,7 @@ class CheckinTest extends ApiTestCase
                 'user_id' => $userId,
             ]
         ]);
-        $this->assertEquals(1, Checkin::where([
+        $this->assertEquals(2, Checkin::where([
                 ['place_id', $placeId],
                 ['user_id', $userId],
             ])->count()
