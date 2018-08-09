@@ -23,7 +23,7 @@ class PlaceWorkTime extends Model
         'end_time'
     ];
 
-    public function places()
+    public function place()
     {
         return $this->belongsTo(Place::class);
     }
