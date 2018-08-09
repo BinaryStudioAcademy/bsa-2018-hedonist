@@ -4,7 +4,7 @@ import HelloWorld from '@/components/HelloWorld';
 import ProfilePage from '@/pages/ProfilePage';
 import PlacesList from  '@/components/PlacesList/PlacesList';
 import store from '../store/index';
-import middlewares from 'middlewares';
+import middlewares from './middlewares';
 
 Vue.use(Router);
 
