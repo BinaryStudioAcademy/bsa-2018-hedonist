@@ -8,7 +8,7 @@ export default {
             next();
         }
     },
-    guest = store => (to, from, next) => {
+    guest: store => (to, from, next) => {
         if (store.getters.isLoggedIn) {
             next({
                 path: '/'
