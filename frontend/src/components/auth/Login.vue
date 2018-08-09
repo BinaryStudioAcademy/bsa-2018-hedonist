@@ -8,6 +8,7 @@
         <b-input type="email"
           v-model="user.email"
           placeholder="Your Email"
+          name="email"
           autofocus>
         </b-input>
       </b-field>
@@ -22,7 +23,12 @@
 
       <div class="login-footer">
         <router-link class="link" to="/recover">Forgot Password?</router-link>
-        <button type="button" class="button is-primary is-rounded">Login</button>
+        <button 
+          type="button"
+          class="button is-primary is-rounded"
+          @click="onLogin">
+            Login
+        </button>
       </div>
     </Form>
 
@@ -31,6 +37,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import Container from './Container'
 import Form from './Form'
 
@@ -46,6 +53,14 @@ export default {
         email: '',
         password: ''
       }
+    }
+  },
+
+  methods: {
+    ...mapActions(['login']),
+
+    onLogin () {
+      this.login(this.user)
     }
   }
 }
