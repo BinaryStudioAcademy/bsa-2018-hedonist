@@ -17,8 +17,8 @@ class CreatePlaceWorktimeTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('place_id');
             $table->string('day_code');
-            $table->timestamp('start_time')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('end_time')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('start_time')->nullable();
+            $table->timestamp('end_time')->nullable();
 
             $table->foreign('place_id')
                 ->references('id')
