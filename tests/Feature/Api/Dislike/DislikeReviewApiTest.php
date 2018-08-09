@@ -4,6 +4,8 @@ namespace Tests\Feature\Api\Like;
 
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\Review\Review;
+use Hedonist\Entities\Like\Like;
+use Hedonist\Entities\Dislike\Dislike;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Api\ApiTestCase;
 
@@ -49,18 +51,21 @@ class DislikeReviewApiTest extends ApiTestCase
         ]);
     }
 
-    public function testDoubleDislikeReview()
+    public function testRemoveDislikeReview()
     {
-        $this->actingWithToken($this->user)->post(
-            "/api/v1/reviews/{$this->review->id}/dislike"
-        );
+        factory(Dislike::class)->create([
+            'user_id' => $this->user->id,
+            'dislikeable_id' => $this->review->id,
+            'dislikeable_type' => Review::class
+        ]);
 
         $response = $this->actingWithToken($this->user)->post(
             "/api/v1/reviews/{$this->review->id}/dislike"
         );
         
         $response->assertStatus(200);
-        $this->assertDatabaseHas('dislikes', [
+
+        $this->assertDatabaseMissing('dislikes', [
             'dislikeable_id' => $this->review->id,
             'dislikeable_type' => Review::class,
             'user_id' => $this->user->id
@@ -69,15 +74,18 @@ class DislikeReviewApiTest extends ApiTestCase
 
     public function testDislikeAfterLikeReview()
     {
-        $this->actingWithToken($this->user)->post(
-            "/api/v1/reviews/{$this->review->id}/like"
-        );
+        factory(Like::class)->create([
+            'user_id' => $this->user->id,
+            'likeable_id' => $this->review->id,
+            'likeable_type' => Review::class
+        ]);
 
         $response = $this->actingWithToken($this->user)->post(
             "/api/v1/reviews/{$this->review->id}/dislike"
         );
         
         $response->assertStatus(200);
+        
         $this->assertDatabaseMissing('likes', [
             'likeable_id' => $this->review->id,
             'likeable_type' => Review::class,
