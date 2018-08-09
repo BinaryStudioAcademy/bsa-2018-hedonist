@@ -34,8 +34,7 @@ class PlaceRatingController extends ApiController
         GetPlaceRatingAction $getRatingAction,
         SetPlaceRatingAction $setRatingAction,
         GetPlaceRatingAvgAction $getPlaceRateAvgAction
-    )
-    {
+    ) {
         $this->getRatingAction = $getRatingAction;
         $this->setRatingAction = $setRatingAction;
         $this->getPlaceRatingAvgAction = $getPlaceRateAvgAction;
@@ -49,13 +48,13 @@ class PlaceRatingController extends ApiController
         try {
             $setPlaceRatingResponse = $this->setRatingAction->execute(
                 new SetPlaceRatingRequest(
+                    $httpRequest->rating,
                     $httpRequest->id,
                     $this->userId,
-                    $httpRequest->place_id,
-                    $httpRequest->rating
+                    $httpRequest->place_id
                 )
             );
-        } catch (\Exception $ex) {
+        } catch (\LogicException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
@@ -80,7 +79,7 @@ class PlaceRatingController extends ApiController
                     $httpRequest->rating
                 )
             );
-        } catch (\Exception $ex) {
+        } catch (\LogicException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
@@ -100,7 +99,7 @@ class PlaceRatingController extends ApiController
                     $placeId
                 )
             );
-        } catch (\Exception $ex) {
+        } catch (\LogicException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 

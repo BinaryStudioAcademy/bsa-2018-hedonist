@@ -12,7 +12,7 @@ class SetPlaceRatingRequest
 
     protected $ratingValue;
 
-    public function __construct(int $id = null, int $userId = null, int $placeId = null, int $ratingValue)
+    public function __construct(int $ratingValue, int $id = null, int $userId = null, int $placeId = null)
     {
         $this->id = $id;
         $this->userId = $userId;

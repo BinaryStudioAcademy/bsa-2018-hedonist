@@ -2,11 +2,9 @@
 
 namespace Hedonist\Actions\Place\Rate;
 
-
 use Hedonist\Actions\Place\Rate\Exceptions\PlaceRatingNotFoundException;
 use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
 use Hedonist\Entities\Place\PlaceRating;
-
 
 class GetPlaceRatingAction
 {

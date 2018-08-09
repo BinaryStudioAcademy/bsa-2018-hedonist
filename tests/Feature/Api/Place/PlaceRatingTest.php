@@ -215,58 +215,53 @@ class PlaceRatingTest extends ApiTestCase
 
     public function test_set_rating_validation(): void
     {
-        $rating = random_int(0, 10);
+        $placeId = $this->place_1_rating_1->place_id;
         $rating_less = random_int(-100, -1);
         $rating_over = random_int(11, 100);
 
         $response = $this->json('POST', 'api/v1/places/rating', [
-            'rating' => 'kk'
         ]);
-
         $response->assertStatus(422);
         $response->assertJsonFragment([
-            'message' => 'The given data was invalid.',
             'errors' => [
-                'place_id' => [
-                    0 => 'The place id field is required.'
-                ],
-                'rating' => [
-                    0 => 'The rating must be an integer.'
-                ]
-            ]
+                'place_id' => ['The place id field is required.'],
+                'rating' => ['The rating field is required.']
+            ],
+            'message' => 'The given data was invalid.'
         ]);
 
         $response = $this->json('POST', 'api/v1/places/rating', [
             'place_id' => 'k',
             'rating' => $rating_less
         ]);
-
         $response->assertJsonFragment([
             'message' => 'The given data was invalid.',
             'errors' => [
                 'place_id' => [
                     0 => 'The place id must be an integer.'
                 ],
-                'rating' => [
-                    0 => 'The rating must be at least 0.'
-                ]
             ]
         ]);
 
         $response = $this->json('POST', 'api/v1/places/rating', [
-            'place_id' => -5,
+            'place_id' => $placeId,
             'rating' => $rating_over
         ]);
-
         $response->assertJsonFragment([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'place_id' => [
-                    0 => 'The place id must be at least 1.'
-                ],
-                'rating' => [
-                    0 => 'The rating may not be greater than 10.'
-                ]
+            'error' => [
+                'httpStatus' => 400,
+                'message' => 'Rating value must be between 0 and 10'
+            ]
+        ]);
+
+        $response = $this->json('POST', 'api/v1/places/rating', [
+            'place_id' => $placeId,
+            'rating' => $rating_less
+        ]);
+        $response->assertJsonFragment([
+            'error' => [
+                'httpStatus' => 400,
+                'message' => 'Rating value must be between 0 and 10'
             ]
         ]);
     }
