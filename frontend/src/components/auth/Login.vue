@@ -27,6 +27,7 @@
           placeholder="Your Password"
           @blur="onBlur('password')"
           @focus="onFocus('password')"
+          @keyup.enter="onLogin"
           password-reveal>
         </b-input>
       </b-field>
@@ -36,7 +37,8 @@
         <button 
           type="button"
           class="button is-primary is-rounded"
-          @click="onLogin">
+          @click="onLogin"
+          @keyup.enter="onLogin">
             Login
         </button>
       </div>
@@ -67,12 +69,10 @@ export default {
 
       input: {
         email: {
-          type: '',
-          message: []
+          type: ''
         },
         password: {
-          type: '',
-          message: []
+          type: ''
         }
       }
     }
@@ -82,7 +82,9 @@ export default {
     ...mapActions(['login']),
 
     onLogin () {
-      this.login(this.user)
+      if (!this.$v.user.$invalid) {
+        this.login(this.user)
+      }
       
       this.refreshInput()
     },
@@ -97,7 +99,6 @@ export default {
 
     onFocus (el) {
       this.input[el].type = ''
-      this.input[el].message = []
     },
 
     refreshInput () {
