@@ -67,7 +67,6 @@ Route::prefix('v1')->group(function () {
             Route::delete('/{id}', 'Api\Review\ReviewController@deleteReview');
 
             Route::post('/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
-            
             Route::post('/{id}/dislike', 'Api\DislikeController@dislikeReview')->name('review.dislike');
         });
       
