@@ -39,8 +39,6 @@ class PlaceCategoriesTagsSeeder extends Seeder
 
     ];
 
-    public $test;
-
     /**
      * Run the database seeds.
      *
@@ -57,19 +55,11 @@ class PlaceCategoriesTagsSeeder extends Seeder
         foreach (self::DATA as $category => $tags) {
 
             $placeCategoryId = PlaceCategory::create(['name' => $category])->id;
-            $this->test = $category;
 
             foreach ($tags as $subTag) {
                 PlaceCategoryTag::create([
-                    'name' => $subTag,
-                    'category_id' => $placeCategoryId
-                ])
-                    ->each(function ($tag) {
-//                        $tag->categories()->save(factory(PlaceCategory::class)->create([
-//                            'place_tag_id' => $tag->id,
-//                            'place_category_id' => $this->test
-//                        ]));
-                    });
+                    'name' => $subTag
+                ]);
             }
         }
 
