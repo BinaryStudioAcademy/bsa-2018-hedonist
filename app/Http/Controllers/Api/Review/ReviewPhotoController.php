@@ -31,7 +31,7 @@ class ReviewPhotoController extends ApiController
     public function upload(ReviewPhotoRequest $request)
     {
         try {
-            $file = $request->file('image');
+            $file = $request->file('img_url');
             $newFileName = time() . '.' . $file->extension();
             $file->storeAs('public/upload/review', $newFileName);
             $responseReviewPhoto = $this->saveReviewPhotoAction->execute(
@@ -41,7 +41,6 @@ class ReviewPhotoController extends ApiController
                     $newFileName
                 )
             );
-
             return $this->successResponse($responseReviewPhoto->toArray(), 201);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
