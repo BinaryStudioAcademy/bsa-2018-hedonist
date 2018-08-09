@@ -25,8 +25,6 @@
         <button type="button" class="button is-primary is-rounded">Login</button>
       </div>
     </Form>
-
-    <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
   </Container>
 </template>
 

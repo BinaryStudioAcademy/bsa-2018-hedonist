@@ -34,8 +34,6 @@
 
       <button type="button" class="button is-primary is-rounded button-wide">Create</button>
     </Form>
-
-    <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
   </Container>
 </template>
 

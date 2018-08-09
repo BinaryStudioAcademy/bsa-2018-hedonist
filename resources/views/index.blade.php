@@ -8,6 +8,8 @@
         @if (config("app.env") === "production" || config("app.env") === "staging")
             <link href="/dist/css/app.css" rel="stylesheet">
         @endif
+
+        <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
     </head>
     <body>
         <div id="app"></div>
