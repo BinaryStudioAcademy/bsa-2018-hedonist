@@ -1,10 +1,12 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api;
+namespace Hedonist\Http\Controllers\Api\Auth;
 
+use Hedonist\Actions\Auth\ChangePasswordAction;
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\Auth\RecoverPasswordAction;
 use Hedonist\Actions\Auth\RegisterUserAction;
+use Hedonist\Actions\Auth\Requests\ChangePasswordRequest;
 use Hedonist\Actions\Auth\Requests\LoginRequest;
 use Hedonist\Actions\Auth\Requests\RecoverPasswordRequest;
 use Hedonist\Actions\Auth\Requests\ResetPasswordRequest;
@@ -14,14 +16,15 @@ use Hedonist\Actions\LoginUserAction;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
 use Hedonist\Exceptions\Auth\PasswordResetEmailSentException;
 use Hedonist\Exceptions\Auth\PasswordResetFailedException;
-use Hedonist\Http\Controllers\Controller;
+use Hedonist\Exceptions\Auth\PasswordsDosentMatchException;
+use Hedonist\Http\Controllers\Api\ApiController;
+use Hedonist\Http\Requests\Auth\ChangePasswordHttpRequest;
 use Hedonist\Http\Requests\Auth\LoginHttpRequest;
 use Hedonist\Http\Requests\Auth\RecoverPasswordHttpRequest;
 use Hedonist\Http\Requests\Auth\RegisterHttpRequest;
 use Hedonist\Http\Requests\Auth\ResetPasswordHttpRequest;
 use Hedonist\Requests\Auth\RegisterRequest;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -109,6 +112,18 @@ class AuthController extends ApiController
 
             return $this->successResponse([]);
         } catch (PasswordResetEmailSentException $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
+        }
+    }
+
+    public function cahngePassword(ChangePasswordHttpRequest $httpRequest,ChangePasswordAction $action)
+    {
+        try {
+            $changeRequest = new ChangePasswordRequest($httpRequest->old_password,$httpRequest->new_password);
+            $action->execute($changeRequest);
+
+            return $this->successResponse([]);
+        } catch (PasswordsDosentMatchException $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
     }
