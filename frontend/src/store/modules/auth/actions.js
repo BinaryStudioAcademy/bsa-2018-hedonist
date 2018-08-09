@@ -22,11 +22,11 @@ export default {
         .then(function (res) {
             context.commit('USER_LOGIN', res);
         }).catch(function (err) {
-            console.log(err)
+            // TODO: Handle error
         });
     },
     logout: (context, user) => {
-        httpService.post('/user/logout', {
+        httpService.post('/auth/logout', {
             data: user
         }).then(function (res) {
             context.commit('USER_LOGOUT', res);
@@ -34,16 +34,19 @@ export default {
             // TODO: Handle error
         });
     },
-    resetPassword: (context, email) => {
-        httpService.post('/user/resetPassword', {
-            data: email
+    resetPassword: (context, user) => {
+        httpService.post('/auth/reset', {
+            email: user.email,
+            password: user.password,
+            password_confirmation: user.passwordConfirmation,
+            token: user.token
         }).then(function (res) {
         }).catch(function (err) {
             // TODO: Handle error
         });
     },
     refreshToken: (context, email) => {
-        httpService.post('/user/refreshToken', {
+        httpService.post('/auth/refresh', {
             params: {email}
         }).then(function (res) {
             state.token = res.token;
@@ -52,19 +55,16 @@ export default {
             // TODO: Handle error
         });
     },
-    sendForgotEmail: (context, state) => {
-        let data = state.currentUser;
-        httpService.post('/user/forgotEmail', {
-            data: {
-                data
-            }
+    recoverPassword: (context, email) => {
+        httpService.post('/auth/recover', {
+            email: email
         }).then(function (res) {
         }).catch(function (err) {
             // TODO: Handle error
         });
     },
     fetchAuthenticatedUser: (context, token) => {
-        httpService.get('/user/userInfo', {
+        httpService.get('/auth/me', {
             params: {
                 token
             }
