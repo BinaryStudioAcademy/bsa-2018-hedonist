@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import RouterMiddleware from 'vue-router-middleware';
 import HelloWorld from '@/components/HelloWorld';
 import ProfilePage from '@/pages/ProfilePage';
 import PlacesList from  '@/components/PlacesList/PlacesList';
 import store from '../store/index';
+import middlewares from 'middlewares';
 
 Vue.use(Router);
 
@@ -17,7 +17,7 @@ export default new Router({
     base: '/',
     scrollBehavior: () => ({y: 0}),
     routes: [
-        ...middleware(auth(store))([
+        ...middleware(middlewares.auth(store))([
             {
                 path: '/',
                 name: 'HelloWorld',
@@ -34,7 +34,7 @@ export default new Router({
                 component: PlacesList
             }
         ]),
-        ...middleware(guest(store))([
+        ...middleware(middlewares.guest(store))([
             {
                 path: '/login',
                 name: 'Login',
