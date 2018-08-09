@@ -65,9 +65,9 @@ export default {
         }
     }
 }
-</script scoped>
+</script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .place-top-info {
     background-color: #fff;
 
