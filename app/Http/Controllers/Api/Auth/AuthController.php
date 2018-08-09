@@ -116,7 +116,7 @@ class AuthController extends ApiController
         }
     }
 
-    public function cahngePassword(ChangePasswordHttpRequest $httpRequest,ChangePasswordAction $action)
+    public function changePassword(ChangePasswordHttpRequest $httpRequest,ChangePasswordAction $action)
     {
         try {
             $changeRequest = new ChangePasswordRequest($httpRequest->old_password,$httpRequest->new_password);

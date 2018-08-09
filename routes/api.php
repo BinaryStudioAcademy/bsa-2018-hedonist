@@ -33,7 +33,7 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/me', 'AuthController@me');
 
-            Route::post('/change', 'AuthController@cahngePassword');
+            Route::post('/reset-password', 'AuthController@changePassword');
         });
     });
 

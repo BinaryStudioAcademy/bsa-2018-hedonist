@@ -7,9 +7,10 @@ use Hedonist\Events\Auth\PasswordResetedEvent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
+use Tests\Feature\Api\ApiTestCase;
 use Tests\TestCase;
 
-class ResetPasswordTest extends TestCase
+class ResetPasswordTest extends ApiTestCase
 {
     use RefreshDatabase;
 
@@ -78,26 +79,18 @@ class ResetPasswordTest extends TestCase
 
     public function test_change_password_success()
     {
-        $response = $this->json('POST', '/api/v1/auth/login', [
-            'email' => $this->user->email,
-            'password' => 'secret'
-        ]);
-        $token = $response->json('data')['access_token'];
+        $this->authenticate($this->user);
 
         $response = $this->json('POST',
-            'api/v1/auth/change',
+            'api/v1/auth/reset-password',
             [
                 'old_password' => 'secret',
                 'new_password' => 'new_secret'
-            ],
-            ['Authorization' => 'Bearer ' . $token]);
+            ]);
 
         $response->assertStatus(200);
 
-        $response = $this->json('GET',
-            'api/v1/auth/me',
-            [],
-            ['Authorization' => 'Bearer ' . $token]);
+        $response = $this->json('GET', 'api/v1/auth/me');
 
         $response->assertStatus(200);
 
@@ -106,19 +99,14 @@ class ResetPasswordTest extends TestCase
 
     public function test_change_password_fail()
     {
-        $response = $this->json('POST', '/api/v1/auth/login', [
-            'email' => $this->user->email,
-            'password' => 'secret'
-        ]);
-        $token = $response->json('data')['access_token'];
+        $this->authenticate($this->user);
 
         $response = $this->json('POST',
-            'api/v1/auth/change',
+            'api/v1/auth/reset-password',
             [
                 'old_password' => 'not_secret',
                 'new_password' => 'new_secret'
-            ],
-            ['Authorization' => 'Bearer ' . $token]);
+            ]);
 
         $response->assertStatus(400);
     }
