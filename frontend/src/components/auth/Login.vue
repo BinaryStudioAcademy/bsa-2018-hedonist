@@ -4,10 +4,7 @@
       <router-link class="link link-signup" to="/signup">Create New</router-link>
     </p>
     <Form>
-      <b-field
-        :type="input.email.type"
-        :message="input.email.message">
-
+      <b-field :type="input.email.type">
         <b-input
           v-model="user.email"
           placeholder="Your Email"
@@ -18,10 +15,7 @@
         </b-input>
       </b-field>
 
-      <b-field
-        :type="input.password.type"
-        :message="input.password.message">
-
+      <b-field :type="input.password.type">
         <b-input type="password"
           v-model="user.password"
           placeholder="Your Password"
@@ -84,9 +78,9 @@ export default {
     onLogin () {
       if (!this.$v.user.$invalid) {
         this.login(this.user)
+
+        this.refreshInput()
       }
-      
-      this.refreshInput()
     },
 
     onBlur (el) {
@@ -109,12 +103,10 @@ export default {
 
       this.input = {
         email: {
-          type: '',
-          message: []
+          type: ''
         },
         password: {
-          type: '',
-          message: []
+          type: ''
         }
       }
     }
