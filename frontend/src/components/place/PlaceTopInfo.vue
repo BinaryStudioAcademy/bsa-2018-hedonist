@@ -65,7 +65,7 @@ export default {
         }
     }
 }
-</script>
+</script scoped>
 
 <style lang="scss">
 .place-top-info {
