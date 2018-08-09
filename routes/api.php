@@ -81,6 +81,9 @@ Route::prefix('v1')->group(function () {
                 ->name('user.tastes.deleteTaste');
         });
 
+        Route::post('/user-lists/{id}/attach-place', 'Api\UserList\UserListPlaceController@attachPlace')
+            ->name('user-list.place.attach');
+
         Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
             ->name('place.features.indexFeature');
 
