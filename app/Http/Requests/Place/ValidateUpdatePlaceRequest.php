@@ -3,6 +3,7 @@
 namespace Hedonist\Http\Requests\Place;
 
 use Hedonist\Http\Requests\JsonRequest;
+use Hedonist\Rules\Phone;
 
 class ValidateUpdatePlaceRequest extends JsonRequest
 {
@@ -31,6 +32,8 @@ class ValidateUpdatePlaceRequest extends JsonRequest
             'creator_id'  => 'required|numeric',
             'category_id' => 'required|numeric',
             'city_id'     => 'required|numeric',
+            'phone'       => [new Phone()],
+            'website'     => 'url|max:255'
         ];
     }
 }
