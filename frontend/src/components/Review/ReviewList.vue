@@ -87,7 +87,6 @@
 
     /* Main block wrapper. */
     .reviews-wrp {
-        width: 40%;
         margin: auto;
         font-size: 18px;
         color: #808080;
