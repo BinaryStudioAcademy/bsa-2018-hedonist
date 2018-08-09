@@ -2,10 +2,14 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
 import ProfilePage from '@/pages/ProfilePage';
+import PlacesList from  '@/components/PlacesList/PlacesList'
 
 Vue.use(Router);
 
-const router = new Router({
+export default new Router({
+    mode: 'history',
+    base: '/',
+    scrollBehavior: () => ({y: 0}),
     routes: [
         {
             path: '/',
@@ -18,33 +22,13 @@ const router = new Router({
             component: ProfilePage,
         },
         {
+            path: '/places/list',
+            name: 'PlacesList',
+            component: PlacesList
+        },
+        {
             path: '/login',
             name: 'Login',
-            component: LoginPage,
-            meta: { guest: true }
         }
     ]
 });
-
-const [ isLoggedIn ] = mapGetters('auth', [ 'isLoggedIn' ]);
-
-router.beforeEach((to, from, next) => {
-    const isGuestRoute = to.matched.some(record => record.meta.guest);
-
-    if (isLoggedIn()) {
-        if (isGuestRoute) {
-            return next('/');
-        }
-    } else {
-        if (!isGuestRoute) {
-            return next({
-                path: '/login',
-                query: { redirect: to.fullPath }
-            });
-        }
-    }
-
-    next();
-});
-
-export default router
