@@ -13,9 +13,8 @@ class DeleteReviewPhotoAction
         $this->reviewPhotoRepository = $reviewPhotoRepository;
     }
 
-    public function execute(DeleteReviewPhotoRequest $request): DeleteReviewPhotoResponse
+    public function execute(DeleteReviewPhotoRequest $request): void
     {
         $this->reviewPhotoRepository->deleteById($request->getId());
-        return new DeleteReviewPhotoResponse();
     }
 }
