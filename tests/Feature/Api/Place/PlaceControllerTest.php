@@ -26,7 +26,7 @@ class PlaceControllerTest extends ApiTestCase
     public function testGetCollection()
     {
         $routeName = 'getPlaceCollection';
-        $response =  $this->actingWithToken($this->place->creator)->json(
+        $response =  $this->actingWithToken()->json(
             'GET',
             self::ENDPOINT
         );
@@ -37,7 +37,6 @@ class PlaceControllerTest extends ApiTestCase
             $arrayContent['data'][0]['city'],
             $arrayContent['data'][0]['creator'])
         );
-        $this->assertTrue(Route::has($routeName));
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
     }
@@ -45,7 +44,7 @@ class PlaceControllerTest extends ApiTestCase
     public function testGetPlace()
     {
         $routeName = 'getPlace';
-        $response =  $this->actingWithToken($this->place->creator)->json(
+        $response =  $this->actingWithToken()->json(
             'GET',
             self::ENDPOINT . "/{$this->place->id}"
         );
@@ -57,13 +56,12 @@ class PlaceControllerTest extends ApiTestCase
         );
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
-        $this->assertTrue(Route::has($routeName));
     }
 
     public function testAddPlace()
     {
         $routeName = 'addPlace';
-        $response = $this->actingWithToken($this->place->creator)->json(
+        $response = $this->actingWithToken()->json(
             'POST', route($routeName),
             [
                 'creator_id' => $this->place->creator->id,
@@ -85,13 +83,12 @@ class PlaceControllerTest extends ApiTestCase
         $this->checkJsonStructure($response);
         $response->assertStatus(201);
         $response->assertHeader('Content-Type', 'application/json');
-        $this->assertTrue(Route::has($routeName));
     }
 
     public function testUpdatePlace()
     {
         $routeName = 'updatePlace';
-        $response = $this->actingWithToken($this->place->creator)->json(
+        $response = $this->actingWithToken()->json(
             'PUT',
             route($routeName, ['id' => $this->place->id]),
             [
@@ -113,12 +110,11 @@ class PlaceControllerTest extends ApiTestCase
         $this->checkJsonStructure($response);
         $response->assertStatus(201);
         $response->assertHeader('Content-Type', 'application/json');
-        $this->assertTrue(Route::has($routeName));
     }
 
     public function testRemovePlace()
     {
-        $response = $this->actingWithToken($this->place->creator)->json(
+        $response = $this->actingWithToken()->json(
             'DELETE',
             self::ENDPOINT . "/{$this->place->id}"
         );
@@ -129,12 +125,11 @@ class PlaceControllerTest extends ApiTestCase
         ]);
         $response->assertStatus(204);
         $response->assertHeaderMissing('Content-Type');
-        $this->assertTrue(Route::has('removePlace'));
     }
 
     public function testShowNotExistingPlace()
     {
-        $response =  $this->actingWithToken($this->place->creator)->json(
+        $response =  $this->actingWithToken()->json(
             'GET',
             self::ENDPOINT . '/99999999'
         );
@@ -143,7 +138,7 @@ class PlaceControllerTest extends ApiTestCase
 
     public function testDestroyNotExistingId()
     {
-        $response =  $this->actingWithToken($this->place->creator)->json(
+        $response =  $this->actingWithToken()->json(
             'DELETE',
             self::ENDPOINT . '/99999999'
         );
@@ -153,7 +148,7 @@ class PlaceControllerTest extends ApiTestCase
     public function testWrongDataUpdate()
     {
         $routeName = 'updatePlace';
-        $response = $this->actingWithToken($this->place->creator)->json(
+        $response = $this->actingWithToken()->json(
             'PUT',
             route($routeName, ['id' => $this->place->id]),
             [
