@@ -6,6 +6,7 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Hedonist\Entities\UserList\UserList;
+use Hedonist\Entities\Place\Place;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserListRepository extends BaseRepository implements UserListRepositoryInterface
@@ -40,5 +41,10 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
     public function model()
     {
         return UserList::class;
+    }
+
+    public function attachPlace(UserList $userList, Place $place)
+    {
+        $this->getById($userList->id)->places()->attach($place->pluck('id'));
     }
 }
