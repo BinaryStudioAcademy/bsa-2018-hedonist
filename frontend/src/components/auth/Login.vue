@@ -51,7 +51,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .link-signup {
   margin-left: 16px;
 }
