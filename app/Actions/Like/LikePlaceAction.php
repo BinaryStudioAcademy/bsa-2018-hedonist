@@ -4,7 +4,6 @@ namespace Hedonist\Actions\Like;
 
 use Hedonist\Entities\Like\Like;
 use Hedonist\Entities\Place\Place;
-use Hedonist\Events\Dislike\DislikeAddEvent;
 use Hedonist\Events\Like\LikeAddEvent;
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Repositories\Like\LikeRepository;
