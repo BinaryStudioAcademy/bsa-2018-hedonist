@@ -1,19 +1,20 @@
 <template>
     <section class="container">
-        <ul>
-            <li v-for="(visitedPlace,index) in visitedPlaces" :key="visitedPlace.id">
-                <VisitedPlacesComponent :visitedPlace="visitedPlace" :timer="50 * (index)"/>
-            </li>
-        </ul>
+        <div v-for="(visitedPlace,index) in visitedPlaces" :key="visitedPlace.id">
+            <VisitedPlacesComponent :visitedPlace="visitedPlace" :index="index + 1"/>
+        </div>
     </section>
 </template>
 
 <style lang="scss" scoped>
-
+    .container {
+        display: flex;
+        flex-wrap: nowrap;
+    }
 </style>
 
 <script>
-    import VisitedPlacesComponent from '@/components/Places/VisitedPlacesComponent';
+    import VisitedPlacesComponent from '../components/Places/VisitedPlacesComponent';
 
     export default {
         name: "VisitedPlacesPage",
@@ -64,7 +65,7 @@
                         category_id: 1,
                         place_photo: {
                             url: "https://media4.designs.net/images/hero_illustration_left.png",
-                            description: "Чебуречек",
+                            description: "Ч12ебуречек",
                             posted_at: '2018-08-08'
                         },
                         reviews: {
@@ -88,7 +89,7 @@
                         category_id: 1,
                         place_photo: {
                             url: "https://media4.designs.net/images/hero_illustration_left.png",
-                            description: "Чебуречек",
+                            description: "Ч1241ебуречек",
                             posted_at: '2018-08-08'
                         },
                         reviews: {

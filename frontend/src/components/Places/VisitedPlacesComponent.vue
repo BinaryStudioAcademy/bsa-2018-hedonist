@@ -1,25 +1,21 @@
 <template>
-    <div class="container place-item">
-
-        <article>
-            <div class="entry-media">
-                <img class="image" :src="visitedPlace.place_photo.url"/>
-            </div>
-            <div class="item-description">
-                <div class="rating-wrapper">
-                    <div class="rating">
-                        {{visitedPlace.ratings.rating}}
-                    </div>
+    <article>
+        <div class="entry-media">
+            <img class="image" :src="visitedPlace.place_photo.url"/>
+        </div>
+        <div class="item-description">
+            <div class="rating-wrapper">
+                <div class="rating">
+                    {{visitedPlace.ratings.rating}}
                 </div>
-                <h2 class="title">{{ visitedPlace.places_tr.place_name }}</h2>
-                <p>{{ visitedPlace.address }}, {{ visitedPlace.cities.name }}</p>
-                <p>{{ visitedPlace.categories.name }} - Подсказок и отзывов: </p>
-
-                <button class="saved" disabled><i class="fa fa-star"></i>Сохранено</button>
             </div>
-        </article>
+            <h2 class="title">{{ index }}.{{ visitedPlace.places_tr.place_name }}</h2>
+            <p>{{ visitedPlace.address }}, {{ visitedPlace.cities.name }}</p>
+            <p>{{ visitedPlace.categories.name }} - Подсказок и отзывов: </p>
 
-    </div>
+            <button class="saved"><i class="fa fa-bookmark"></i>Сохранено</button>
+        </div>
+    </article>
 </template>
 
 <style lang="scss" scoped>
@@ -48,18 +44,22 @@
         }
 
         .saved {
+            padding-top: 0.3rem;
+            padding-bottom: 0.3rem;
             margin-top: 2rem;
+
+            i {
+                padding-right: 0.6rem;
+                color: #00E676;
+            }
         }
     }
 
     .title {
-        padding-top: 0.4rem;
+        margin-top: 1.5rem;
         padding-left: 0.5rem;
     }
 
-    .rating-wrapper {
-        margin-top: 1.5rem;
-    }
     .rating {
         width: 48px;
         height: 48px;
@@ -80,6 +80,9 @@
             visitedPlace: {
                 required: true,
                 type: Object,
+            },
+            index: {
+                type: Number
             }
         }
     }
