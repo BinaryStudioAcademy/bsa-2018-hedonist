@@ -2,7 +2,7 @@
     <div class="place-top-info">
         <PlacePhotoList />
         <div class="place-venue columns">
-            <div class="column is-three-fifths">
+            <div class="column is-two-thirds">
                 <div class="place-venue__logo">
                     <img src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png" data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png" width="88" height="88">
                 </div>
@@ -12,7 +12,7 @@
                     <div class="place-venue__region">Голосеевский район, Киев</div>
                 </div>
             </div>
-            <div class="column is-two-fifths place-venue__actions">
+            <div class="column is-one-third place-venue__actions">
                 <button class="button is-success">
                     <i class="far fa-save"></i>Save
                 </button>
@@ -22,13 +22,13 @@
             </div>
         </div>
         <div class="place-top-info__sidebar columns">
-            <div class="column is-three-fifths">
+            <div class="column is-two-thirds">
                 <b-tabs class="sidebar-actions" v-model="activeTab">
                     <b-tab-item label="Comments (123)"></b-tab-item>
                     <b-tab-item label="Photos (321)"></b-tab-item>
                 </b-tabs>
             </div>
-            <div class="column is-two-fifths place-rate">
+            <div class="column is-one-third place-rate">
                 <div class="place-rate__mark">
                     <span>9.2</span><sup>/<span>10</span></sup>
                 </div>

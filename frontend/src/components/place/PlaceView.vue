@@ -2,9 +2,8 @@
     <div class="place-view container">
         <PlaceTopInfo />
         <div class="main-wrapper columns">
-            <div class="column is-three-fifths">
+            <div class="column is-two-thirds">
                 <div class="main">
-                    main content
                 </div>
             </div>
             <PlaceSidebarInfo />
