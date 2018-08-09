@@ -2,6 +2,8 @@
 
 namespace Hedonist\Http\Controllers\Api\Places;
 
+use Hedonist\Exceptions\Place\PlaceNotFoundException;
+use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Actions\Place\Checkin\SetCheckinAction;
 use Hedonist\Actions\Place\Checkin\SetCheckinRequest;
@@ -25,7 +27,8 @@ class PlaceCheckinController extends ApiController
                     $httpRequest->place_id
                 )
             );
-        } catch (\LogicException $ex) {
+        } catch ( UserNotFoundException
+                | PlaceNotFoundException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
