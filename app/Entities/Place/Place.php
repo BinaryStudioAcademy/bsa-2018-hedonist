@@ -84,6 +84,11 @@ class Place extends Model
         return $this->belongsToMany(PlaceFeature::class, 'places_places_features');
     }
 
+    public function worktime()
+    {
+        return $this->hasMany(PlaceWorkTime::class);
+    }
+
     public function setLocation(Location $location): void
     {
         $this->latitude = $location->getLatitude();

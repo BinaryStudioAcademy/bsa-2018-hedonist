@@ -15,7 +15,9 @@ use Hedonist\Repositories\Place\{
     PlaceFeatureRepositoryInterface,
     PlaceFeatureRepository,
     PlaceRepository,
-    PlaceRepositoryInterface
+    PlaceRepositoryInterface,
+    CheckinRepository,
+    CheckinRepositoryInterface
 };
 use Hedonist\Repositories\Dislike\{
     DislikeRepositoryInterface,
@@ -25,12 +27,20 @@ use Hedonist\Repositories\Like\{
     LikeRepositoryInterface,
     LikeRepository
 };
+use Hedonist\Repositories\Review\{
+    ReviewRepositoryInterface,
+    ReviewRepository
+};
 use Hedonist\Repositories\User\{
     TasteRepository, TasteRepositoryInterface, UserInfoRepository, UserInfoRepositoryInterface
 };
 use Hedonist\Repositories\City\{
     CityRepositoryInterface,
     CityRepository
+};
+use Hedonist\Repositories\UserList\{
+    UserListRepositoryInterface,
+    UserListRepository
 };
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -55,6 +65,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PlaceCategoryRepositoryInterface::class, PlaceCategoryRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(PlaceFeatureRepositoryInterface::class, PlaceFeatureRepository::class);
+        $this->app->bind(ReviewRepositoryInterface::class, ReviewRepository::class);
         $this->app->bind(PlaceRepositoryInterface::class, PlaceRepository::class);
         $this->app->bind(FavouritePlaceRepositoryInterface::class, FavouritePlaceRepository::class);
         $this->app->bind(DislikeRepositoryInterface::class, DislikeRepository::class);
@@ -62,5 +73,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(TasteRepositoryInterface::class, TasteRepository::class);
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
         $this->app->bind(UserInfoRepositoryInterface::class, UserInfoRepository::class);
+        $this->app->bind(UserListRepositoryInterface::class, UserListRepository::class);
+        $this->app->bind(CheckinRepositoryInterface::class, CheckinRepository::class);
     }
 }

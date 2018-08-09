@@ -54,8 +54,38 @@ Route::prefix('v1')->group(function () {
                 ->name('removePlace');
         });
 
+        Route::prefix('reviews')->group(function () {
+
+            Route::get('/', 'Api\Review\ReviewController@getReviewCollection');
+
+            Route::post('/', 'Api\Review\ReviewController@createReview');
+
+            Route::get('/{id}', 'Api\Review\ReviewController@getReview');
+
+            Route::put('/{id}', 'Api\Review\ReviewController@updateReview');
+
+            Route::delete('/{id}', 'Api\Review\ReviewController@deleteReview');
+
+            Route::post('/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
+            Route::post('/{id}/dislike', 'Api\DislikeController@dislikeReview')->name('review.dislike');
+        });
+      
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
-        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
+        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');    
+
+        Route::prefix('tastes')->group(function () {
+            Route::get('/', 'Api\UserTaste\TasteController@getTastes')
+                ->name('tastes.getTastes');
+            Route::get('/my', 'Api\User\UserTasteController@getTastes')
+                ->name('user.tastes.getTastes');
+            Route::post('/my', 'Api\User\UserTasteController@addTaste')
+                ->name('user.tastes.addTaste');
+            Route::delete('my/{id}', 'Api\User\UserTasteController@deleteTaste')
+                ->name('user.tastes.deleteTaste');
+        });
+        
+        Route::post('/user-lists/{id}/attach-place', 'Api\UserList\UserListPlaceController@attachPlace')
+            ->name('user-list.place.attach');
 
         Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
             ->name('place.features.indexFeature');
