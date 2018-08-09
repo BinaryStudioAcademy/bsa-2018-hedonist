@@ -16,11 +16,8 @@ class CreatePlaceCategoriesTagsTable extends Migration
         Schema::create('place_categories_tags', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->unsignedInteger('category_id');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('category_id')->references('id')->on('place_categories');
         });
     }
 
