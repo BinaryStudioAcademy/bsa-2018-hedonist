@@ -49,7 +49,7 @@ class DislikeReviewApiTest extends ApiTestCase
         ]);
     }
 
-    public function testDoubleDisikeReview()
+    public function testDoubleDislikeReview()
     {
         $this->actingWithToken($this->user)->post(
             "/api/v1/reviews/{$this->review->id}/dislike"
