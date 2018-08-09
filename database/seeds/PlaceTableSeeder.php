@@ -1,10 +1,12 @@
 <?php
 
+use Illuminate\Database\Seeder;
+use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\City;
 use Hedonist\Entities\Place\Place;
-use Illuminate\Database\Seeder;
-use Hedonist\Entities\Localization\PlaceTranslation;
+use Hedonist\Entities\Place\PlaceCategory;
 use Hedonist\Entities\Localization\Language;
+use Hedonist\Entities\Localization\PlaceTranslation;
 
 
 class PlaceTableSeeder extends Seeder
@@ -60,13 +62,24 @@ class PlaceTableSeeder extends Seeder
             'default' => true,
         ]);
 
+        /* Choose random city to locate places in */
+        $city = factory(City::class)->create([
+            'name' => array_random(self::CITY_NAMES)
+        ]);
+
+        /* Seed users table */
+        $this->call(UserTableSeeder::class);
+
+        /* Seed categories table */
+        $this->call(PlaceCategoryTableSeeder::class);
+
         foreach (self::PLACE_NAMES as $placeName) {
-            $city = factory(City::class)->create([
-                'name' => array_random(self::CITY_NAMES)
-            ]);
             $place = factory(Place::class)->create([
-                'city_id' => $city->id,
+                'city_id'       => $city->id,
+                'creator_id'    => User::orderByRaw('RAND()')->first()->id,
+                'category_id'   => PlaceCategory::orderByRaw('RAND()')->first()->id
             ]);
+
             $placeTranslation = factory(PlaceTranslation::class)->create([
                 'place_name' => $placeName,
                 'place_id' => $place->id,
