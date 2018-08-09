@@ -7,22 +7,24 @@
             </template>
         </section>
         
-        <section id="map" class="column mapbox">
-            <mapbox
-                access-token="pk.eyJ1IjoiYWxsZXh1cyIsImEiOiJjamttdGE1cmIxM2htM2xtZzQxZXJubGdrIn0.KgivvenlaQUbX8cQxLNiWw"
-                :map-options="{
-                style: 'mapbox://styles/mapbox/light-v9',
-                zoom: 3
-                }"
-                :scale-control="{
-                show: true,
-                position: 'top-left'
-                }"
-                :fullscreen-control="{
-                show: true,
-                position: 'top-left'
-                }">
-            </mapbox>
+        <section class="column mapbox-wrapper">
+            <section id="map">
+                <mapbox
+                    access-token="pk.eyJ1IjoiYWxsZXh1cyIsImEiOiJjamttdGE1cmIxM2htM2xtZzQxZXJubGdrIn0.KgivvenlaQUbX8cQxLNiWw"
+                    :map-options="{
+                    style: 'mapbox://styles/mapbox/light-v9',
+                    zoom: 3
+                    }"
+                    :scale-control="{
+                    show: true,
+                    position: 'top-left'
+                    }"
+                    :fullscreen-control="{
+                    show: true,
+                    position: 'top-left'
+                    }">
+                </mapbox>
+            </section>
         </section>
     </section>
 </template>
@@ -72,9 +74,12 @@
         padding-right: 10px;
     }
 
-    #map { 
-        width: 100%;
-        height: 100%;
-        min-height: 500px;
+    #map {
+        text-align: justify;
+        position: fixed;
+        top: 260px;
+        bottom: 0;
+        right: 0;
+        width: 50%;
     }
 </style>
