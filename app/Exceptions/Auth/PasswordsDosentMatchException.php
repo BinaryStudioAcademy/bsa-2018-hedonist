@@ -2,7 +2,6 @@
 
 namespace Hedonist\Exceptions\Auth;
 
-
 use Throwable;
 
 class PasswordsDosentMatchException extends \Exception
