@@ -4,12 +4,13 @@ namespace Hedonist\Actions\Review;
 
 use Hedonist\Entities\Review\ReviewPhoto;
 use Hedonist\Repositories\Review\ReviewPhotoRepository;
+use Hedonist\Repositories\Review\ReviewPhotoRepositoryInterface;
 
 class SaveReviewPhotoAction
 {
     private $reviewPhotoRepository;
 
-    public function __construct(ReviewPhotoRepository $reviewPhotoRepository)
+    public function __construct(ReviewPhotoRepositoryInterface $reviewPhotoRepository)
     {
         $this->reviewPhotoRepository = $reviewPhotoRepository;
     }

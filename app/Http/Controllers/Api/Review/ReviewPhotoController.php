@@ -6,24 +6,19 @@ use Hedonist\Actions\Review\DeleteReviewPhotoAction;
 use Hedonist\Actions\Review\DeleteReviewPhotoRequest;
 use Hedonist\Actions\Review\SaveReviewPhotoRequest;
 use Hedonist\Actions\Review\SaveReviewPhotoAction;
-use Hedonist\Actions\Review\GetReviewPhotoAction;
-use Hedonist\Actions\Review\GetReviewPhotoRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Review\ReviewPhotoRequest;
 
 class ReviewPhotoController extends ApiController
 {
     public $saveReviewPhotoAction;
-    public $getReviewPhotoAction;
     public $deleteReviewPhotoAction;
 
     public function __construct(
         SaveReviewPhotoAction $saveReviewPhotoAction,
-        GetReviewPhotoAction $getReviewPhotoAction,
         DeleteReviewPhotoAction $deleteReviewPhotoAction
     ) {
         $this->saveReviewPhotoAction = $saveReviewPhotoAction;
-        $this->getReviewPhotoAction = $getReviewPhotoAction;
         $this->deleteReviewPhotoAction = $deleteReviewPhotoAction;
     }
 
@@ -48,10 +43,7 @@ class ReviewPhotoController extends ApiController
     public function destroy(int $id)
     {
         try {
-            $responseReviewPhoto = $this->getReviewPhotoAction->execute(
-                new GetReviewPhotoRequest($id)
-            );
-            $this->deleteReviewPhotoAction->execute(new DeleteReviewPhotoRequest($id, $responseReviewPhoto->getImgUrl()));
+            $this->deleteReviewPhotoAction->execute(new DeleteReviewPhotoRequest($id));
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }

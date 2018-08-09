@@ -30,7 +30,7 @@ class ReviewPhotoApiTest extends ApiTestCase
         $review = factory(Review::class)->create();
 
 
-        $response = $this->json('POST', '/api/v1/review-photos', [
+        $response = $this->json('POST', '/api/v1/reviews/photos', [
             'review_id' => $review->id,
             'description' => 'test',
             'img_url' => $file
@@ -56,7 +56,7 @@ class ReviewPhotoApiTest extends ApiTestCase
         $review = factory(Review::class)->create();
 
 
-        $response = $this->json('POST', '/api/v1/review-photos', [
+        $response = $this->json('POST', '/api/v1/reviews/photos', [
             'review_id' => $review->id,
             'description' => 'test',
             'img_url' => $file
@@ -71,7 +71,7 @@ class ReviewPhotoApiTest extends ApiTestCase
         ]);
         Storage::disk('public/upload/review')->assertExists($data['data']['img_url']);
 
-        $this->json('DELETE',"/api/v1/review-photos/" . $data['data']['id']);
+        $this->json('DELETE',"/api/v1/reviews/photos/" . $data['data']['id']);
         Storage::disk('public/upload/review')->assertMissing($data['data']['img_url']);
     }
 }

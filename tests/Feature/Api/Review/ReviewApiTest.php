@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Hedonist\Entities\Review\ReviewPhoto;
 use Hedonist\Entities\User\User;
 use Tests\Feature\Api\ApiTestCase;
 use Hedonist\Entities\Place\Place;
@@ -220,5 +221,21 @@ class ReviewApiTest extends ApiTestCase
                 'description'   => 'Lorem ipsum dolor sit amet..'
             ]
         );
+    }
+
+    public function test_get_photos_by_review()
+    {
+        $reviewPhoto = factory(ReviewPhoto::class)->create();
+        $response = $this->json('GET',
+            "/api/v1/reviews/$reviewPhoto->review_id/photos",
+            [],
+            ['Authorization' => 'Bearer ' . $this->credentials['access_token']]);
+
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+        $data = json_decode($response->getContent(), true);
+        $this->assertEquals($reviewPhoto->id, $data['data'][0]['id']);
+        $this->assertEquals($reviewPhoto->description, $data['data'][0]['description']);
+        $this->assertEquals($reviewPhoto->img_url, $data['data'][0]['img_url']);
     }
 }

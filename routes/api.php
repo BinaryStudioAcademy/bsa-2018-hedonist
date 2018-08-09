@@ -65,6 +65,12 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}', 'Api\Review\ReviewController@updateReview');
 
             Route::delete('/{id}', 'Api\Review\ReviewController@deleteReview');
+
+            Route::get('/{id}/photos', 'Api\Review\ReviewController@getPhotosByReviewId');
+
+            Route::post('/photos', 'Api\Review\ReviewPhotoController@upload')->name('review.photo.upload');
+
+            Route::delete('/photos/{id}', 'Api\Review\ReviewPhotoController@destroy')->name('review.photo.destroy');
         });
       
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
@@ -95,10 +101,6 @@ Route::prefix('v1')->group(function () {
 
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
-
-        Route::post('/review-photos', 'Api\Review\ReviewPhotoController@upload')->name('review-photo.upload');
-
-        Route::delete('/review-photos/{id}', 'Api\Review\ReviewPhotoController@destroy')->name('review-photo.destroy');
 
         /* Routes here.. */
     });

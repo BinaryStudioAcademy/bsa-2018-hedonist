@@ -9,12 +9,12 @@ use Hedonist\Actions\Review\{
     DeleteReviewAction,
     GetReviewCollectionAction
 };
-use Hedonist\Actions\Review\{
+use Hedonist\Actions\Review\{GetReviewPhotoByReviewAction,
+    GetReviewPhotoByReviewRequest,
     GetReviewRequest,
     CreateReviewRequest,
     DeleteReviewRequest,
-    UpdateReviewDescriptionRequest
-};
+    UpdateReviewDescriptionRequest};
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Http\Requests\Review\SaveReviewRequest;
@@ -28,19 +28,22 @@ class ReviewController extends ApiController
     private $createReviewAction;
     private $deleteReviewAction;
     private $getReviewCollectionAction;
+    private $getReviewPhotosByReviewAction;
 
     public function __construct(
         GetReviewAction $getReviewAction,
         CreateReviewAction $createReviewAction,
         DeleteReviewAction $deleteReviewAction,
         UpdateReviewDescriptionAction $updateReviewAction,
-        GetReviewCollectionAction $getReviewCollectionAction
+        GetReviewCollectionAction $getReviewCollectionAction,
+        GetReviewPhotoByReviewAction $getReviewPhotosByReviewAction
     ) {
         $this->getReviewAction = $getReviewAction;
         $this->updateReviewAction = $updateReviewAction;
         $this->createReviewAction = $createReviewAction;
         $this->deleteReviewAction = $deleteReviewAction;
         $this->getReviewCollectionAction = $getReviewCollectionAction;
+        $this->getReviewPhotosByReviewAction = $getReviewPhotosByReviewAction;
     }
 
     public function getReview(int $id)
@@ -102,5 +105,15 @@ class ReviewController extends ApiController
             new DeleteReviewRequest($id)
         );
         return $this->successResponse([], 200);
+    }
+
+    public function getPhotosByReviewId(int $reviewId)
+    {
+        try {
+            $reviewPhotosByReviewResponse = $this->getReviewPhotosByReviewAction->execute(new GetReviewPhotoByReviewRequest($reviewId));
+            return $this->successResponse($reviewPhotosByReviewResponse->toArray(), 200);
+        } catch (\Exception $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
+        }
     }
 }
