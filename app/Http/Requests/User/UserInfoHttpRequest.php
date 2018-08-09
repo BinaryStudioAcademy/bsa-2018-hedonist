@@ -18,7 +18,7 @@ class UserInfoHttpRequest extends FormRequest
             "last_name" => 'max:255',
             "date_of_birth" => 'date_format:Y/m/d',
             "phone_number" => 'max:25',
-            "avatar_url" => 'url',
+            "avatar_url" => 'image',
             "facebook_url" => 'url',
             "instagram_url" => 'url',
             "twitter_url" => 'url',
