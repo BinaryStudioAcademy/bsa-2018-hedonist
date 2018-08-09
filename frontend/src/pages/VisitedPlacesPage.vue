@@ -41,9 +41,20 @@
                             description: "Сказка",
                             posted_at: '2018-08-08'
                         },
-                        reviews: {
-
-                        },
+                        reviews: [
+                            {
+                                id: 1,
+                                rate: 2
+                            },
+                            {
+                                id: 2,
+                                rate: 2
+                            },
+                            {
+                                id: 3,
+                                rate: 2
+                            }
+                        ],
                         places_tr: {
                             id: 2,
                             place_name: "Сказка",
@@ -74,9 +85,12 @@
                             description: "Буржуй",
                             posted_at: '2018-08-08'
                         },
-                        reviews: {
-
-                        },
+                        reviews: [
+                            {
+                                id: 1,
+                                rate: 2
+                            }
+                        ],
                         places_tr: {
                             id: 2,
                             place_name: "Буржуй",
@@ -140,9 +154,20 @@
                             description: "Чебуречек",
                             posted_at: '2018-08-08'
                         },
-                        reviews: {
-
-                        },
+                        reviews: [
+                            {
+                                id: 1,
+                                rate: 2
+                            },
+                            {
+                                id: 2,
+                                rate: 2
+                            },
+                            {
+                                id: 3,
+                                rate: 2
+                            }
+                        ],
                         places_tr: {
                             id: 2,
                             place_name: "Чебуречек",

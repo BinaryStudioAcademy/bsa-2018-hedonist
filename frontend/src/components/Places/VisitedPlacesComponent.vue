@@ -10,8 +10,8 @@
                 </div>
             </div>
             <h2 class="title">{{ index }}.{{ visitedPlace.places_tr.place_name }}</h2>
-            <p>{{ visitedPlace.address }}, {{ visitedPlace.cities.name }}</p>
-            <p>{{ visitedPlace.categories.name }} - Подсказок и отзывов: </p>
+            <p>{{ cityAddress }}</p>
+            <p>{{ visitedPlace.categories.name }} - Подсказок и отзывов: {{reviewCount}}</p>
 
             <button class="saved"><i class="fa fa-bookmark"></i>Сохранено</button>
         </div>
@@ -85,6 +85,14 @@
             },
             index: {
                 type: Number
+            }
+        },
+        computed: {
+            cityAddress: function() {
+                return this.visitedPlace.address + ', ' + this.visitedPlace.cities.name;
+            },
+            reviewCount: function() {
+                return this.visitedPlace.reviews.length || 0;
             }
         }
     }
