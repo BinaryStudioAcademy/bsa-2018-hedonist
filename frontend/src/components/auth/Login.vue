@@ -4,19 +4,29 @@
       <router-link class="link link-signup" to="/signup">Create New</router-link>
     </p>
     <Form>
-      <b-field>
-        <b-input type="email"
+      <b-field
+        :type="input.email.type"
+        :message="input.email.message">
+
+        <b-input
           v-model="user.email"
           placeholder="Your Email"
           name="email"
+          @blur="onBlur('email')"
+          @focus="onFocus('email')"
           autofocus>
         </b-input>
       </b-field>
 
-      <b-field>
+      <b-field
+        :type="input.password.type"
+        :message="input.password.message">
+
         <b-input type="password"
           v-model="user.password"
           placeholder="Your Password"
+          @blur="onBlur('password')"
+          @focus="onFocus('password')"
           password-reveal>
         </b-input>
       </b-field>
@@ -38,6 +48,7 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { required, email, minLength } from 'vuelidate/lib/validators'
 import Container from './Container'
 import Form from './Form'
 
@@ -52,6 +63,17 @@ export default {
       user: {
         email: '',
         password: ''
+      },
+
+      input: {
+        email: {
+          type: '',
+          message: []
+        },
+        password: {
+          type: '',
+          message: []
+        }
       }
     }
   },
@@ -61,6 +83,52 @@ export default {
 
     onLogin () {
       this.login(this.user)
+      
+      this.refreshInput()
+    },
+
+    onBlur (el) {
+      if (this.$v.user[el].$invalid) {
+        this.input[el].type = 'is-danger'
+      } else {
+        this.input[el].type = 'is-success'
+      }
+    },
+
+    onFocus (el) {
+      this.input[el].type = ''
+      this.input[el].message = []
+    },
+
+    refreshInput () {
+      this.user = {
+        email: '',
+        password: ''
+      },
+
+      this.input = {
+        email: {
+          type: '',
+          message: []
+        },
+        password: {
+          type: '',
+          message: []
+        }
+      }
+    }
+  },
+
+  validations: {
+    user: {
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        minLength: minLength(6)
+      }
     }
   }
 }
