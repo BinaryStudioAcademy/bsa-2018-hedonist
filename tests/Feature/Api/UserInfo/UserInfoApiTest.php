@@ -6,9 +6,9 @@ use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\UserInfo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
-use Tests\JwtTestCase;
+use Tests\Feature\Api\ApiTestCase;
 
-class UserInfoApiTest extends JwtTestCase
+class UserInfoApiTest extends ApiTestCase
 {
     use RefreshDatabase;
 
@@ -18,7 +18,7 @@ class UserInfoApiTest extends JwtTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->actingAsJwtToken();
+        $this->actingWithToken();
 
         $this->avatar = UploadedFile::fake()->image('test.jpg');
     }
