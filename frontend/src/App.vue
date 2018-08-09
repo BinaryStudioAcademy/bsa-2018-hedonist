@@ -13,6 +13,7 @@ export default {
 
 <style>
 @import url(buefy/lib/buefy.css);
+@import url('https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css');
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
