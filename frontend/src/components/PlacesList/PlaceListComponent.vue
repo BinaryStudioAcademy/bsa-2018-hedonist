@@ -86,7 +86,7 @@
     </transition>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
     .place-item {
         color: grey;
     }
@@ -106,6 +106,19 @@
 
     .place-category {
         margin-bottom: 0.25rem;
+        a{
+            color: grey;
+            -webkit-transition: color 0.3s;
+            -moz-transition: color 0.3s;
+            -ms-transition: color 0.3s;
+            -o-transition: color 0.3s;
+            transition: color 0.3s;
+
+            &:hover{
+                color: black;
+                text-decoration: underline;
+            }
+        }
     }
 
     .address {
@@ -122,21 +135,6 @@
         font-size: 1.5rem;
         color: #FFF;
     }
-
-    .place-category > a {
-        color: grey;
-        -webkit-transition: color 0.3s;
-        -moz-transition: color 0.3s;
-        -ms-transition: color 0.3s;
-        -o-transition: color 0.3s;
-        transition: color 0.3s;
-    }
-
-    .place-category > a:hover {
-        color: black;
-        text-decoration: underline;
-    }
-
     .rating-wrapper {
         margin-top: 1.5rem;
     }

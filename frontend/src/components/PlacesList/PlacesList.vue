@@ -11,7 +11,7 @@
     </section>
 </template>
 
-<style>
+<style lang="scss" scoped>
     section {
         background: #FFF;
     }
