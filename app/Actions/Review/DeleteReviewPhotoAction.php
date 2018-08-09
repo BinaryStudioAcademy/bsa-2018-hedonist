@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\Review;
 
 use Hedonist\Repositories\Review\ReviewPhotoRepository;
+use Illuminate\Support\Facades\Storage;
 
 class DeleteReviewPhotoAction
 {
@@ -15,6 +16,7 @@ class DeleteReviewPhotoAction
 
     public function execute(DeleteReviewPhotoRequest $request): void
     {
+        Storage::delete('public/upload/review/' . $request->getImgUrl());
         $this->reviewPhotoRepository->deleteById($request->getId());
     }
 }

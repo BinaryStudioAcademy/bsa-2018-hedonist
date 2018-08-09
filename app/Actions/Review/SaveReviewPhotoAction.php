@@ -22,10 +22,14 @@ class SaveReviewPhotoAction
         } else {
             $reviewPhoto = $this->reviewPhotoRepository->getById($id);
         }
+        $file = $request->getImg();
+        $newFileName = time() . '.' . $file->extension();
+        $file->storeAs('public/upload/review', $newFileName);
         $reviewPhoto->review_id = $request->getReviewId();
         $reviewPhoto->description = $request->getDescription();
-        $reviewPhoto->img_url = $request->getImgUrl();
+        $reviewPhoto->img_url = $newFileName;
         $reviewPhoto = $this->reviewPhotoRepository->save($reviewPhoto);
+
         return new SaveReviewPhotoResponse($reviewPhoto);
     }
 }

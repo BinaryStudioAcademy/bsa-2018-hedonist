@@ -2,18 +2,20 @@
 
 namespace Hedonist\Actions\Review;
 
+use Illuminate\Http\UploadedFile;
+
 class SaveReviewPhotoRequest
 {
     private $id;
     private $description;
-    private $img_url;
+    private $img;
     private $review_id;
 
-    public function __construct(int $review_id, string $description, string $img_url, int $id = null)
+    public function __construct(int $review_id, string $description, UploadedFile $img, int $id = null)
     {
         $this->id = $id;
         $this->description = $description;
-        $this->img_url = $img_url;
+        $this->img = $img;
         $this->review_id = $review_id;
     }
 
@@ -27,9 +29,9 @@ class SaveReviewPhotoRequest
         return $this->description;
     }
 
-    public function getImgUrl(): string
+    public function getImg(): UploadedFile
     {
-        return $this->img_url;
+        return $this->img;
     }
 
     public function getReviewId(): int

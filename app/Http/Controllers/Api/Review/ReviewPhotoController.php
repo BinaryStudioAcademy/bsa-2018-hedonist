@@ -2,7 +2,6 @@
 
 namespace Hedonist\Http\Controllers\Api\Review;
 
-use Illuminate\Support\Facades\Storage;
 use Hedonist\Actions\Review\DeleteReviewPhotoAction;
 use Hedonist\Actions\Review\DeleteReviewPhotoRequest;
 use Hedonist\Actions\Review\SaveReviewPhotoRequest;
@@ -32,15 +31,14 @@ class ReviewPhotoController extends ApiController
     {
         try {
             $file = $request->file('img_url');
-            $newFileName = time() . '.' . $file->extension();
-            $file->storeAs('public/upload/review', $newFileName);
             $responseReviewPhoto = $this->saveReviewPhotoAction->execute(
                 new SaveReviewPhotoRequest(
                     $request->get('review_id'),
                     $request->get('description'),
-                    $newFileName
+                    $file
                 )
             );
+
             return $this->successResponse($responseReviewPhoto->toArray(), 201);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
@@ -53,8 +51,7 @@ class ReviewPhotoController extends ApiController
             $responseReviewPhoto = $this->getReviewPhotoAction->execute(
                 new GetReviewPhotoRequest($id)
             );
-            Storage::delete('public/upload/review/' . $responseReviewPhoto->getImgUrl());
-            $this->deleteReviewPhotoAction->execute(new DeleteReviewPhotoRequest($id));
+            $this->deleteReviewPhotoAction->execute(new DeleteReviewPhotoRequest($id, $responseReviewPhoto->getImgUrl()));
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
