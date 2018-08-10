@@ -76,9 +76,6 @@ export default {
     onLogin () {
       if (!this.$v.user.$invalid) {
         this.login(this.user)
-
-        // Redirect to root
-
         this.refreshInput()
       } else {
         this.$dialog.alert({
