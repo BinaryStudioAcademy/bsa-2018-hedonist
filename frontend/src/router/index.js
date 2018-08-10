@@ -48,16 +48,18 @@ export default new Router({
                 path: '/reviews',
                 name: 'ReviewList',
                 component: ReviewList
+            }
+        ]),
+        ...middleware(middlewares.guest(store))([
+            {
+                path: '/login',
+                name: 'Login',
+                component: Login
             },
             {
                 path: '/signup',
                 name: 'SignUp',
                 component: SignUp
-            },
-            {
-                path: '/login',
-                name: 'Login',
-                component: Login
             },
             {
                 path: '/reset',
@@ -68,12 +70,6 @@ export default new Router({
                 path: '/recover',
                 name: 'Recover',
                 component: Recover
-            }
-        ]),
-        ...middleware(middlewares.guest(store))([
-            {
-                path: '/login',
-                name: 'Login',
             }
         ])
     ]
