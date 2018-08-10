@@ -1,10 +1,12 @@
 <?php
 
+use Illuminate\Database\Seeder;
+use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\City;
 use Hedonist\Entities\Place\Place;
-use Illuminate\Database\Seeder;
-use Hedonist\Entities\Localization\PlaceTranslation;
+use Hedonist\Entities\Place\PlaceCategory;
 use Hedonist\Entities\Localization\Language;
+use Hedonist\Entities\Localization\PlaceTranslation;
 
 
 class PlaceTableSeeder extends Seeder
@@ -54,19 +56,28 @@ class PlaceTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('languages')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         $language = factory(Language::class)->create([
             'code' => 'en',
             'active' => true,
             'default' => true,
         ]);
 
+        /* Choose random city to locate places in */
+        $city = factory(City::class)->create([
+            'name' => array_random(self::CITY_NAMES)
+        ]);
+
         foreach (self::PLACE_NAMES as $placeName) {
-            $city = factory(City::class)->create([
-                'name' => array_random(self::CITY_NAMES)
-            ]);
             $place = factory(Place::class)->create([
-                'city_id' => $city->id,
+                'city_id'       => $city->id,
+                'creator_id'    => User::inRandomOrder()->first()->id,
+                'category_id'   => PlaceCategory::inRandomOrder()->first()->id
             ]);
+
             $placeTranslation = factory(PlaceTranslation::class)->create([
                 'place_name' => $placeName,
                 'place_id' => $place->id,

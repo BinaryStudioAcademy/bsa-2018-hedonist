@@ -14,6 +14,8 @@ class AddPlaceResponse
     private $latitude;
     private $zip;
     private $address;
+    private $phone;
+    private $website;
     private $createdAt;
     private $updatedAt;
 
@@ -26,6 +28,8 @@ class AddPlaceResponse
         $this->latitude    = $place->latitude;
         $this->zip         = $place->zip;
         $this->address     = $place->address;
+        $this->phone       = $place->phone;
+        $this->website     = $place->website;
         $this->createdAt   = $place->created_at;
         $this->updatedAt   = $place->updated_at;
     }
@@ -68,6 +72,16 @@ class AddPlaceResponse
     public function getAddress(): string
     {
         return $this->address;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function getWebsite(): string
+    {
+        return $this->website;
     }
 
     public function getCreatedAt(): string
