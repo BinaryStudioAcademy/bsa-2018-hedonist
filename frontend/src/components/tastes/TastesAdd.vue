@@ -107,6 +107,14 @@
         }
     }
 
+    .container {
+        border-radius: 3px;
+        background: #fff;
+        position: relative;
+        text-align: center;
+        padding: 20px;
+    }
+
     .taste {
         animation-fill-mode: both;
         animation-duration: .2s;
