@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
 import ProfilePage from '@/pages/ProfilePage';
-import ReviewList from '@/components/Review/ReviewList';
+import ReviewPage from '@/pages/ReviewPage';
 
 Vue.use(Router);
 
@@ -20,8 +20,8 @@ export default new Router({
     },
     {
       path: '/reviews',
-      name: 'Reviews',
-      component: ReviewList
+      name: 'ReviewPage',
+      component: ReviewPage
     }
   ]
 });
