@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
 import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
+import ReviewList from '@/components/review/ReviewList';
 import PlacesList from  '@/components/PlacesList/PlacesList';
 import store from '../store/index';
 import middlewares from './middlewares';
@@ -42,6 +43,11 @@ export default new Router({
                 path: '/place-info',
                 name: 'PlacePage',
                 component: PlacePage
+            },
+            {
+                path: '/reviews',
+                name: 'ReviewList',
+                component: ReviewList
             },
             {
                 path: '/signup',
