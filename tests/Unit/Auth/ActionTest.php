@@ -10,6 +10,7 @@ use Hedonist\Actions\LoginUserAction;
 use Hedonist\Entities\User\User;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
 use Hedonist\Exceptions\Auth\PasswordResetFailedException;
+use Hedonist\Repositories\User\UserInfoRepositoryInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Requests\Auth\RegisterRequest;
 use Illuminate\Auth\AuthenticationException;
@@ -25,12 +26,14 @@ class ActionTest extends TestCase
 {
     private $repository;
     private $broker;
+    private $infoRepository;
 
     protected function setUp()
     {
         parent::setUp();
 
         $this->repository = $this->createMock(UserRepositoryInterface::class);
+        $this->infoRepository = $this->createMock(UserInfoRepositoryInterface::class);
         $this->broker = $this->createMock(PasswordBroker::class);
     }
 
@@ -44,8 +47,8 @@ class ActionTest extends TestCase
             ->method('save')
             ->willReturn(factory(User::class)->make());
 
-        $request = new RegisterRequest('abcd@gamil.com', '123', 'Test');
-        $action = new RegisterUserAction($this->repository);
+        $request = new RegisterRequest('abcd@gamil.com', '123', 'Test','Test');
+        $action = new RegisterUserAction($this->repository,$this->infoRepository);
         $action->execute($request);
 
         Event::assertDispatched(Registered::class, 1);
@@ -57,8 +60,8 @@ class ActionTest extends TestCase
 
         $this->expectException(EmailAlreadyExistsException::class);
 
-        $request = new RegisterRequest('abcd@gamil.com', '123', 'Test');
-        $action = new RegisterUserAction($this->repository);
+        $request = new RegisterRequest('abcd@gamil.com', '123', 'Test', 'Test');
+        $action = new RegisterUserAction($this->repository,$this->infoRepository);
         $action->execute($request);
     }
 
