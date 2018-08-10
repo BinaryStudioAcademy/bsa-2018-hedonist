@@ -13,6 +13,10 @@ class PlaceCategoryTableSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('place_categories')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         PlaceCategory::query()->insert([
             ['name' => 'cafe'],
             ['name' => 'restaurant'],
