@@ -8,6 +8,8 @@ class SocialAccount extends Model
 {
     protected $fillable = ['user_id','provider','provider_id'];
 
+    public $timestamps = false;
+
     public function user()
     {
         return $this->belongsTo(User::class);
