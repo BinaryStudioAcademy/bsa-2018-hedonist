@@ -103,8 +103,7 @@ class AuthTest extends TestCase
         ]);
     }
 
-    public
-    function test_get_authed_user()
+    public function test_get_authed_user()
     {
         $user = factory(User::class)->create();
         $credentials = $this->login($user);
