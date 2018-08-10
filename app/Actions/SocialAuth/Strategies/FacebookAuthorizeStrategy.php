@@ -18,7 +18,8 @@ class FacebookAuthorizeStrategy extends AbstractAuthorizeStrategy
             'last_name' => $user->user['last_name'],
             'avatar_url' => $user->getAvatar()
         ]);
+        $this->infoRepository->save($userInfo);
 
-        return $this->userRepository->save($user);
+        return $this->userRepository->save($appUser);
     }
 }
