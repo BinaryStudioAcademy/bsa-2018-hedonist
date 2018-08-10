@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
 import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
@@ -24,11 +23,6 @@ export default new Router({
     scrollBehavior: () => ({y: 0}),
     routes: [
         ...middleware(middlewares.auth(store))([
-            {
-                path: '/',
-                name: 'HelloWorld',
-                component: HelloWorld,
-            },
             {
                 path: '/profile',
                 name: 'ProfilePage',
