@@ -5,6 +5,7 @@ import ProfilePage from '@/pages/ProfilePage';
 import PlacesList from  '@/components/PlacesList/PlacesList';
 import store from '../store/index';
 import middlewares from './middlewares';
+import TastesAdd from '@/components/tastes/TastesAdd';
 
 Vue.use(Router);
 
@@ -32,6 +33,11 @@ export default new Router({
                 path: '/places/list',
                 name: 'PlacesList',
                 component: PlacesList
+            },
+            {
+                path: '/tastes/add',
+                name: 'Tastes',
+                component: TastesAdd
             }
         ]),
         ...middleware(middlewares.guest(store))([
