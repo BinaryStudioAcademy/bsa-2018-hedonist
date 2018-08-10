@@ -10,18 +10,18 @@
         <section class="column mapbox-wrapper">
             <section id="map">
                 <mapbox
-                    access-token="pk.eyJ1IjoiYWxsZXh1cyIsImEiOiJjamttdGE1cmIxM2htM2xtZzQxZXJubGdrIn0.KgivvenlaQUbX8cQxLNiWw"
+                    :access-token="mapBoxToken"
                     :map-options="{
-                    style: 'mapbox://styles/mapbox/light-v9',
-                    zoom: 3
+                        style: mapBoxStyle,
+                        zoom: 3
                     }"
                     :scale-control="{
-                    show: true,
-                    position: 'top-left'
+                        show: true,
+                        position: 'top-left'
                     }"
                     :fullscreen-control="{
-                    show: true,
-                    position: 'top-left'
+                        show: true,
+                        position: 'top-left'
                     }">
                 </mapbox>
             </section>
@@ -43,6 +43,8 @@
         },
         data() {
             return {
+                mapBoxToken: process.env.MAPBOX_TOKEN,
+                mapBoxStyle: process.env.MAPBOX_STYLE,
                 filterQuery: ''
             }
         },
