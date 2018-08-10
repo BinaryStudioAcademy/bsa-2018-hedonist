@@ -12,6 +12,7 @@ import SignUp from '@/components/auth/SignUp';
 import Login from '@/components/auth/Login';
 import Reset from '@/components/auth/Reset';
 import Recover from '@/components/auth/Recover';
+import TastesAdd from '@/components/tastes/TastesAdd';
 
 Vue.use(Router);
 
@@ -54,6 +55,11 @@ export default new Router({
                 path: '/reviews',
                 name: 'ReviewList',
                 component: ReviewList
+            },
+            {
+                path: '/tastes/add',
+                name: 'Tastes',
+                component: TastesAdd
             }
         ]),
         ...middleware(middlewares.guest(store))([
