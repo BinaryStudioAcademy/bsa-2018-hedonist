@@ -12,7 +12,7 @@ class SocialRedirectAction
     public function execute(SocialRequest $request): SocialRedirectResponse
     {
         try {
-            $redirect = Socialite::driver($request->getProvider())->redirect();
+            $redirect = Socialite::with($request->getProvider())->stateless()->redirect();
 
             return new SocialRedirectResponse($redirect->getTargetUrl());
         } catch (\InvalidArgumentException $exception) {

@@ -20,7 +20,7 @@ class SocialAuthorizeAction
     public function execute(SocialRequest $request): SocialAuthorizeResponse
     {
         try {
-            $socialUser = Socialite::driver($request->getProvider())->user;
+            $socialUser = Socialite::with($request->getProvider())->stateless()->user();
             $strategy = $this->manager->getStrategy($request->getProvider());
             $token = $strategy->authorize($socialUser);
 
