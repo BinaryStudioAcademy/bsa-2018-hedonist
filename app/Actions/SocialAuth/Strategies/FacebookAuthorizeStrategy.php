@@ -2,32 +2,13 @@
 
 namespace Hedonist\Actions\SocialAuth\Strategies;
 
-use Hedonist\Repositories\User\UserInfoRepositoryInterface;
-use Hedonist\Repositories\User\UserRepositoryInterface;
-use Laravel\Socialite\Contracts\User as SocialUser;
 use Hedonist\Entities\User\User as UserModel;
+use Laravel\Socialite\Contracts\User as SocialUser;
 
-class FacebookAuthorizeStrategy implements SocialAuthorizeStrategyInterface
+class FacebookAuthorizeStrategy extends AbstractAuthorizeStrategy
 {
-    private $userRepository;
-    private $infoRepository;
-
-    public function __construct(
-        UserRepositoryInterface $userRepository,
-        UserInfoRepositoryInterface $infoRepository
-    )
+    protected function createUserFromSocialData(SocialUser $user): UserModel
     {
-        $this->userRepository = $userRepository;
-        $this->infoRepository = $infoRepository;
-    }
-
-    public function authorize(SocialUser $user): string
-    {
-
-    }
-
-    private function findOrCreate(SocialUser $socialUser): UserModel
-    {
-
+        // TODO: Implement createUserFromSocialData() method.
     }
 }
