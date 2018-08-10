@@ -91,6 +91,11 @@
         color: grey;
         max-width: 100%;
     }
+    
+    .columns {
+        width: 100%;
+        margin: 0;
+    }
 
     .title {
         margin-bottom: 0.5rem;
