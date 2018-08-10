@@ -66,6 +66,13 @@
     }
 </script>
 
+<style>
+    .mapboxgl-canvas {
+        top: 0!important;
+        left: 0!important;
+    }
+</style>
+
 <style scoped>
     .search-field {
         margin-bottom: 10px;
@@ -83,5 +90,17 @@
         bottom: 0;
         right: 0;
         width: 50%;
+    }
+    
+    @media screen and (max-width: 769px) {
+        #map {
+            text-align: justify;
+            vertical-align: top; 
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 500px;
+        }
     }
 </style>
