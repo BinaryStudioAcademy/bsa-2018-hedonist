@@ -194,6 +194,10 @@
         padding-left: 0;
     }
 
+    .active {
+        background: #efeff4;
+    }
+
     .sort-word {
         color: #808080;
     }
