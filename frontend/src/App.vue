@@ -1,25 +1,37 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
-  </div>
+   <div id="app">
+        <nav class="navigation">
+            <ul class="navbar">
+                <li><router-link to="/">Home</router-link></li>
+                <li><router-link to="/profile">Profile</router-link></li>
+                <li><router-link to="/place-info">Place-info</router-link></li>
+                <li><router-link to="/places/list">Place-list</router-link></li>
+            </ul>
+        </nav>
+        <router-view/>
+    </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+    name: 'App'
 }
 </script>
 
 <style>
 @import url(buefy/lib/buefy.css);
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500');
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #4e595d;
+    background-color: #efeff4;
+}
+
+.navigation .navbar li {
+    line-height: 50px;
+    margin-right: 15px;
 }
 </style>
