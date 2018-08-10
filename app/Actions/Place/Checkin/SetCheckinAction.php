@@ -20,9 +20,7 @@ class SetCheckinAction
     {
         $this->repository = $repository;
         $this->placeRepository = $placeRepository;
-        if (Auth::check()) {
-            $this->userId = Auth::id();
-        }
+        $this->userId = Auth::id();
     }
 
     public function execute(SetCheckinRequest $request): SetCheckinResponse
