@@ -7,30 +7,39 @@ use Hedonist\Actions\Auth\Requests\RecoverPasswordRequest;
 use Hedonist\Actions\Auth\Requests\ResetPasswordRequest;
 use Hedonist\Actions\Auth\Responses\LoginResponse;
 use Hedonist\Actions\Auth\Responses\RefreshResponse;
-use Hedonist\Actions\Auth\Responses\RegisterResponse;
 use Hedonist\Actions\Auth\Responses\ResetPasswordResponse;
 use Hedonist\Entities\User\User;
+use Hedonist\Entities\User\UserInfo;
 use Hedonist\Requests\Auth\RegisterRequest;
 use Tests\TestCase;
 
 class DtoTest extends TestCase
 {
     private $user;
+    private $userInfo;
 
     protected function setUp()
     {
         parent::setUp();
 
         $this->user = factory(User::class)->make();
+        $this->userInfo = factory(UserInfo::class)->make();
     }
 
     public function test_register_request()
     {
 
-        $request = new RegisterRequest($this->user->email, 'secret', $this->user->name);
+        $request = new RegisterRequest(
+            $this->user->email,
+            'secret',
+            $this->userInfo->last_name,
+            $this->userInfo->first_name
+        );
 
         $this->assertEquals($this->user->email, $request->getEmail());
         $this->assertEquals('secret', $request->getPassword());
+        $this->assertEquals($this->userInfo->last_name,$request->getLastName());
+        $this->assertEquals($this->userInfo->first_name, $request->getFirstName());
     }
 
     public function test_login_request()
