@@ -6,6 +6,10 @@ import ProfilePage from '@/pages/ProfilePage';
 import PlacesList from  '@/components/PlacesList/PlacesList';
 import store from '../store/index';
 import middlewares from './middlewares';
+import SignUp from '@/components/auth/SignUp';
+import Login from '@/components/auth/Login';
+import Reset from '@/components/auth/Reset';
+import Recover from '@/components/auth/Recover';
 
 Vue.use(Router);
 
@@ -39,6 +43,26 @@ export default new Router({
                 name: 'PlacePage',
                 component: PlacePage
             },
+            {
+                path: '/signup',
+                name: 'SignUp',
+                component: SignUp
+            },
+            {
+                path: '/login',
+                name: 'Login',
+                component: Login
+            },
+            {
+                path: '/reset',
+                name: 'Reset',
+                component: Reset
+            },
+            {
+                path: '/recover',
+                name: 'Recover',
+                component: Recover
+            }
         ]),
         ...middleware(middlewares.guest(store))([
             {
