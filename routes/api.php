@@ -67,10 +67,11 @@ Route::prefix('v1')->group(function () {
             Route::delete('/{id}', 'Api\Review\ReviewController@deleteReview');
 
             Route::get('/{id}/photos', 'Api\Review\ReviewController@getPhotosByReviewId');
-
             Route::post('/photos', 'Api\Review\ReviewPhotoController@upload')->name('review.photo.upload');
-
             Route::delete('/photos/{id}', 'Api\Review\ReviewPhotoController@destroy')->name('review.photo.destroy');
+
+            Route::post('/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
+            Route::post('/{id}/dislike', 'Api\DislikeController@dislikeReview')->name('review.dislike');
         });
       
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
@@ -86,7 +87,7 @@ Route::prefix('v1')->group(function () {
             Route::delete('my/{id}', 'Api\User\UserTasteController@deleteTaste')
                 ->name('user.tastes.deleteTaste');
         });
-
+        
         Route::post('/user-lists/{id}/attach-place', 'Api\UserList\UserListPlaceController@attachPlace')
             ->name('user-list.place.attach');
 
@@ -101,6 +102,18 @@ Route::prefix('v1')->group(function () {
 
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
+
+        Route::post('/places/rating', 'Api\Places\PlaceRatingController@setRating')
+            ->name('place.rating.setPlaceRating');
+
+        Route::get('/places/rating/place/{id}', 'Api\Places\PlaceRatingController@getPlaceRatingAvg')
+            ->name('place.rating.getPlaceRatingAvg');
+
+        Route::get('/places/rating/byPlaceUser', 'Api\Places\PlaceRatingController@getRating')
+            ->name('place.rating.getPlaceRatingByPlaceUser');
+
+        Route::get('/places/rating/{id}', 'Api\Places\PlaceRatingController@getRating')
+            ->name('place.rating.getPlaceRating');
 
         /* Routes here.. */
     });

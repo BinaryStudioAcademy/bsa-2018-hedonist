@@ -2,11 +2,12 @@
 
 namespace Tests\Feature;
 
+use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\JwtTestCase;
+use Tests\Feature\Api\ApiTestCase;
 
-class UserListApiTest extends JwtTestCase
+class UserListApiTest extends ApiTestCase
 {
     use RefreshDatabase;
 
@@ -15,7 +16,8 @@ class UserListApiTest extends JwtTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->actingAsJwtToken();
+        $this->user = factory(User::class)->create();
+        $this->actingWithToken($this->user);
     }
 
     public function test_add_user_list()
