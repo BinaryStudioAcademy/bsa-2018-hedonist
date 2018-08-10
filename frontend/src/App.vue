@@ -18,16 +18,25 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 @import url(buefy/lib/buefy.css);
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500');
 
-#app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+$background-color: #efeff4;
+$font-color: #4e595d;
+
+html, body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: $font-color;
+    background-color: $background-color;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #4e595d;
-    background-color: #efeff4;
 }
 
 .navigation .navbar li {
