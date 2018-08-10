@@ -11,6 +11,8 @@ class AddPlaceRequest
     private $latitude;
     private $zip;
     private $address;
+    private $phone;
+    private $website;
 
     public function __construct(
         int $creatorId,
@@ -19,7 +21,9 @@ class AddPlaceRequest
         float $longitude,
         float $latitude,
         int $zip,
-        string $address
+        string $address,
+        string $phone,
+        string $website
     ) {
         $this->creatorId = $creatorId;
         $this->categoryId = $categoryId;
@@ -28,6 +32,8 @@ class AddPlaceRequest
         $this->latitude = $latitude;
         $this->zip = $zip;
         $this->address = $address;
+        $this->phone = $phone;
+        $this->website = $website;
     }
 
     public function getCreatorId(): int
@@ -65,6 +71,16 @@ class AddPlaceRequest
         return $this->address;
     }
 
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function getWebsite(): string
+    {
+        return $this->website;
+    }
+
     public function toArray(): array
     {
         return [
@@ -75,6 +91,8 @@ class AddPlaceRequest
             'latitude'    => $this->getLatitude(),
             'zip'         => $this->getZip(),
             'address'     => $this->getAddress(),
+            'phone'     => $this->getPhone(),
+            'website'     => $this->getWebsite(),
         ];
     }
 }
