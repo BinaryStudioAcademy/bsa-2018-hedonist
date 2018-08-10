@@ -9,6 +9,7 @@ class FacebookAuthorizeStrategy extends AbstractAuthorizeStrategy
 {
     protected function createUserFromSocialData(SocialUser $user): UserModel
     {
-        // TODO: Implement createUserFromSocialData() method.
+        clock($user);
+        return new UserModel();
     }
 }
