@@ -40,4 +40,9 @@ class ReviewPhotoRepository extends BaseRepository implements ReviewPhotoReposit
     {
         return ReviewPhoto::class;
     }
+
+    public function getByReview(int $reviewId): Collection
+    {
+        return ReviewPhoto::where('review_id', $reviewId)->get();
+    }
 }

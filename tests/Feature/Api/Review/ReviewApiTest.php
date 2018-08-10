@@ -15,7 +15,6 @@ class ReviewApiTest extends ApiTestCase
 
     private $user;
     private $place;
-    private $credentials;
 
     public function setUp()
     {
@@ -23,10 +22,7 @@ class ReviewApiTest extends ApiTestCase
 
         $this->user = factory(User::class)->create();
         $this->place = factory(Place::class)->create();
-        $this->credentials = $this->json('POST', '/api/v1/auth/login', [
-            'email'     => $this->user->email,
-            'password'  => 'secret'
-        ])->getOriginalContent()['data'];
+        $this->actingWithToken($this->user);
     }
 
     public function testCreateReview()
@@ -37,8 +33,7 @@ class ReviewApiTest extends ApiTestCase
                 'user_id'       => $this->user->id,
                 'place_id'      => $this->place->id,
                 'description'   => 'test test test'
-            ],
-            ['Authorization' => 'Bearer ' . $this->credentials['access_token']]
+            ]
         );
 
         $response->assertStatus(200);
@@ -58,8 +53,7 @@ class ReviewApiTest extends ApiTestCase
                 'user_id'       => 99999999,
                 'place_id'      => $this->place->id,
                 'description'   => 'test test test'
-            ],
-            ['Authorization' => 'Bearer ' . $this->credentials['access_token']]
+            ]
         );
 
         $response->assertStatus(400);
@@ -81,8 +75,7 @@ class ReviewApiTest extends ApiTestCase
                 'user_id'       => $this->user->id,
                 'place_id'      => 99999999,
                 'description'   => 'test test test'
-            ],
-            ['Authorization' => 'Bearer ' . $this->credentials['access_token']]
+            ]
         );
 
         $response->assertStatus(400);
@@ -103,28 +96,16 @@ class ReviewApiTest extends ApiTestCase
 
         $response = $this->json('GET',
             "api/v1/reviews/$reviewId",
-            [],
-            ['Authorization' => 'Bearer ' . $this->credentials['access_token']]);
+            []);
 
         $response->assertStatus(200);
-    }
-
-    public function testGetReviewNotAuthorize()
-    {
-        $review = $this->newReview($this->user, $this->place);
-        $reviewId = $review->id;
-
-        $response = $this->json('GET', "api/v1/reviews/$reviewId");
-
-        $response->assertStatus(401);
     }
 
     public function testGetReviewNotFound()
     {
         $response = $this->json('GET',
             'api/v1/reviews/9999999',
-            [],
-            ['Authorization' => 'Bearer ' . $this->credentials['access_token']]);
+            []);
 
         $response->assertStatus(404);
     }
@@ -133,8 +114,7 @@ class ReviewApiTest extends ApiTestCase
     {
         $response = $this->json('GET',
             'api/v1/reviews',
-            [],
-            ['Authorization' => 'Bearer ' . $this->credentials['access_token']]);
+            []);
 
         $response->assertStatus(200);
     }
@@ -158,8 +138,7 @@ class ReviewApiTest extends ApiTestCase
                 'user_id'       => $this->user->id,
                 'place_id'      => $review->place_id,
                 'description'   => 'test-update-description!'
-            ],
-            ['Authorization' => 'Bearer ' . $this->credentials['access_token']]
+            ]
         );
 
         $response->assertStatus(200);
@@ -198,8 +177,7 @@ class ReviewApiTest extends ApiTestCase
 
         $response = $this->json('DELETE',
             "api/v1/reviews/$review->id",
-            [],
-            ['Authorization' => 'Bearer ' . $this->credentials['access_token']]
+            []
         );
 
         $response->assertStatus(200);
@@ -228,8 +206,7 @@ class ReviewApiTest extends ApiTestCase
         $reviewPhoto = factory(ReviewPhoto::class)->create();
         $response = $this->json('GET',
             "/api/v1/reviews/$reviewPhoto->review_id/photos",
-            [],
-            ['Authorization' => 'Bearer ' . $this->credentials['access_token']]);
+            []);
 
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);

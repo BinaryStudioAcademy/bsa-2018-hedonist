@@ -2,25 +2,21 @@
 
 namespace Hedonist\Actions\Review;
 
-use Hedonist\Exceptions\Review\ReviewNotFoundException;
-use Hedonist\Repositories\Review\ReviewRepositoryInterface;
+use Hedonist\Repositories\Review\ReviewPhotoRepositoryInterface;
 
 class GetReviewPhotoByReviewAction
 {
-    private $reviewRepository;
+    private $reviewPhotoRepository;
 
-    public function __construct(ReviewRepositoryInterface $reviewRepository)
+    public function __construct(ReviewPhotoRepositoryInterface $reviewPhotoRepository)
     {
-        $this->reviewRepository = $reviewRepository;
+        $this->reviewPhotoRepository = $reviewPhotoRepository;
     }
 
     public function execute(GetReviewPhotoByReviewRequest $request): GetReviewPhotoByReviewResponse
     {
-        $review = $this->reviewRepository->getById($request->getReviewId());
-        if (!$review) {
-            throw ReviewNotFoundException::create();
-        }
-        $reviewPhotos = $review->photos()->getResults();
+        $reviewPhotos = $this->reviewPhotoRepository->getByReview($request->getReviewId());
+
         return new GetReviewPhotoByReviewResponse($reviewPhotos);
     }
 }

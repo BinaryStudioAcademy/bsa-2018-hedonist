@@ -9,12 +9,14 @@ use Hedonist\Actions\Review\{
     DeleteReviewAction,
     GetReviewCollectionAction
 };
-use Hedonist\Actions\Review\{GetReviewPhotoByReviewAction,
+use Hedonist\Actions\Review\{
+    GetReviewPhotoByReviewAction,
     GetReviewPhotoByReviewRequest,
     GetReviewRequest,
     CreateReviewRequest,
     DeleteReviewRequest,
-    UpdateReviewDescriptionRequest};
+    UpdateReviewDescriptionRequest
+};
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Http\Requests\Review\SaveReviewRequest;

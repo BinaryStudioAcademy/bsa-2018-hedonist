@@ -17,4 +17,6 @@ interface ReviewPhotoRepositoryInterface
     public function findByCriteria(CriteriaInterface $criteria): Collection;
 
     public function deleteById(int $id): void;
+
+    public function getByReview(int $reviewId): Collection;
 }
