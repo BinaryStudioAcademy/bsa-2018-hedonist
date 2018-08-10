@@ -50,7 +50,7 @@ class AuthController extends ApiController
             $registerRequest = new RegisterRequest($httpRequset->email, $httpRequset->password);
             $action->execute($registerRequest);
 
-            return $this->successResponse([]);
+            return $this->emptyResponse(200);
         } catch (EmailAlreadyExistsException $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         } catch (JWTException $exception) {
@@ -79,7 +79,7 @@ class AuthController extends ApiController
         try {
             Auth::logout();
 
-            return $this->successResponse([]);
+            return $this->emptyResponse(200);
         } catch (\Exception $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
@@ -110,7 +110,7 @@ class AuthController extends ApiController
             $recoverRequest = new RecoverPasswordRequest($httpRequest->email);
             $action->execute($recoverRequest);
 
-            return $this->successResponse([]);
+            return $this->emptyResponse(200);
         } catch (PasswordResetEmailSentException $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
@@ -122,7 +122,7 @@ class AuthController extends ApiController
             $changeRequest = new ChangePasswordRequest($httpRequest->old_password,$httpRequest->new_password);
             $action->execute($changeRequest);
 
-            return $this->successResponse([]);
+            return $this->emptyResponse(200);
         } catch (PasswordsDosentMatchException $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
