@@ -71,8 +71,8 @@ class PlaceControllerTest extends ApiTestCase
                 'latitude' => 32.3,
                 'zip' => 3322,
                 'address' => 'sdf',
-                'phone' => +380636678400,
-                'website' => 'http://whymytestsarebrokenwhilemybranchalreadymerged3daysago.wtf',
+                'phone' => 'dsd',
+                'website' => 'ghf',
             ]
         );
         $newPlace = $response->getOriginalContent();
@@ -99,8 +99,8 @@ class PlaceControllerTest extends ApiTestCase
                 'latitude' => 33.3,
                 'zip' => 1234,
                 'address' => 'sdf',
-                'phone' => +380636678400,
-                'website' => 'http://whymytestsarebrokenwhilemybranchalreadymerged3daysago.wtf',
+                'phone' => 'dsd',
+                'website' => 'ghf',
             ]
         );
         $updatedPlace = $response->getOriginalContent();
