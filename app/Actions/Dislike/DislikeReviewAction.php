@@ -34,10 +34,15 @@ class DislikeReviewAction
             throw new ReviewNotFoundException();
         }
         $userId = Auth::id();
-        $likeCriteria = new LikeReviewCriteria($reviewId, $userId);
-        $like = $this->likeRepository->findByCriteria($likeCriteria)->first();
-        $dislikeCriteria = new DislikeReviewCriteria($reviewId, $userId);
-        $dislike = $this->dislikeRepository->findByCriteria($dislikeCriteria)->first();
+
+        $like = $this->likeRepository->findByCriteria(
+            new LikeReviewCriteria($reviewId, $userId)
+        )->first();
+
+        $dislike = $this->dislikeRepository->findByCriteria(
+            new DislikeReviewCriteria($reviewId, $userId)
+        )->first();
+        
         if ($like) {
             $this->likeRepository->deleteById($like->id);
         }
@@ -48,6 +53,8 @@ class DislikeReviewAction
                 'user_id' => $userId
             ]);
             $this->dislikeRepository->save($dislike);
+        } else {
+            $this->dislikeRepository->deleteById($dislike->id);
         }
         
         return new DislikeReviewResponse();
