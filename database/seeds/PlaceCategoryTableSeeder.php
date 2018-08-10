@@ -18,12 +18,14 @@ class PlaceCategoryTableSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         PlaceCategory::query()->insert([
-            ['name' => 'cafe'],
-            ['name' => 'restaurant'],
-            ['name' => 'lunch'],
-            ['name' => 'bar'],
-            ['name' => 'coffee'],
-            ['name' => 'pizzeria'],
+            ['name' => 'Bar'],
+            ['name' => 'Beer'],
+            ['name' => 'Restaurant'],
+            ['name' => 'Cafeteria'],
+            ['name' => 'Cafe'],
+            ['name' => 'Nightlife'],
+            ['name' => 'Snacks'],
+            ['name' => 'Other']
         ]);
     }
 }

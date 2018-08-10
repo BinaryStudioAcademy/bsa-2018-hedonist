@@ -6,9 +6,11 @@ use Hedonist\Entities\User\User;
 use Hedonist\Events\Auth\PasswordResetedEvent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Hash;
+use Tests\Feature\Api\ApiTestCase;
 use Tests\TestCase;
 
-class ResetPasswordTest extends TestCase
+class ResetPasswordTest extends ApiTestCase
 {
     use RefreshDatabase;
 
@@ -71,6 +73,40 @@ class ResetPasswordTest extends TestCase
             'password' => '123456',
             'password_confirmation' => '123456'
         ]);
+
+        $response->assertStatus(400);
+    }
+
+    public function test_change_password_success()
+    {
+        $this->authenticate($this->user);
+
+        $response = $this->json('POST',
+            'api/v1/auth/reset-password',
+            [
+                'old_password' => 'secret',
+                'new_password' => 'new_secret'
+            ]);
+
+        $response->assertStatus(200);
+
+        $response = $this->json('GET', 'api/v1/auth/me');
+
+        $response->assertStatus(200);
+
+        $this->assertTrue(Hash::check('new_secret', User::find($this->user->id)->password));
+    }
+
+    public function test_change_password_fail()
+    {
+        $this->authenticate($this->user);
+
+        $response = $this->json('POST',
+            'api/v1/auth/reset-password',
+            [
+                'old_password' => 'not_secret',
+                'new_password' => 'new_secret'
+            ]);
 
         $response->assertStatus(400);
     }
