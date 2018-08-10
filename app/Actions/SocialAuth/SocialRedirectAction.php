@@ -2,17 +2,21 @@
 
 namespace Hedonist\Actions\SocialAuth;
 
-use Hedonist\Actions\SocialAuth\Requests\SocialRedirectRequest;
+use Hedonist\Actions\SocialAuth\Requests\SocialRequest;
 use Hedonist\Actions\SocialAuth\Responses\SocialRedirectResponse;
+use Hedonist\Exceptions\Auth\InvalidSocialProviderException;
+use Laravel\Socialite\Facades\Socialite;
 
 class SocialRedirectAction
 {
-    public function execute(SocialRedirectRequest $request): SocialRedirectResponse
+    public function execute(SocialRequest $request): SocialRedirectResponse
     {
         try {
+            $redirect = Socialite::driver($request->getProvider())->redirect();
 
-        } catch(\InvalidArgumentException $exception){
-
+            return new SocialRedirectResponse($redirect->getTargetUrl());
+        } catch (\InvalidArgumentException $exception) {
+            throw new InvalidSocialProviderException();
         }
     }
 }

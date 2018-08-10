@@ -15,19 +15,27 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::group(['prefix' => '/auth', 'namespace' => 'Api'], function() {
+    Route::group(['prefix' => '/auth', 'namespace' => 'Api\\Auth'], function () {
 
-        Route::post('/signup','AuthController@register');
+        Route::post('/signup', 'AuthController@register');
 
-        Route::post('/login','AuthController@login');
+        Route::post('/login', 'AuthController@login');
 
-        Route::post('/logout','AuthController@logout');
+        Route::post('/logout', 'AuthController@logout');
 
-        Route::post('/reset','AuthController@resetPassword');
+        Route::post('/reset', 'AuthController@resetPassword');
 
-        Route::post('/recover','AuthCOntroller@recoverPassword');
+        Route::post('/recover', 'AuthController@recoverPassword');
 
-        Route::group(['middleware' => 'jwt.auth'], function() {
+        Route::group(['prefix' => '/social'], function () {
+
+            Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
+
+            Route::post('/{provider}/callback', 'SocialAuthController@callback');
+
+        });
+
+        Route::group(['middleware' => 'jwt.auth'], function () {
 
             Route::post('/refresh', 'AuthController@refresh');
 
@@ -35,12 +43,12 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-    Route::group(['middleware' => 'jwt.auth'], function() {
+    Route::group(['middleware' => 'jwt.auth'], function () {
         Route::resource('user-list', 'Api\UserList\UserListController')->except([
             'create', 'edit'
         ]);
 
-        Route::namespace('Api\\Places')->group(function() {
+        Route::namespace('Api\\Places')->group(function () {
             Route::get('places', 'PlaceController@getCollection')->name('getPlaceCollection');
             Route::get('places/{id}', 'PlaceController@getPlace')
                 ->where('id', '[0-9]+')
@@ -69,9 +77,9 @@ Route::prefix('v1')->group(function () {
             Route::post('/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
             Route::post('/{id}/dislike', 'Api\DislikeController@dislikeReview')->name('review.dislike');
         });
-      
+
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
-        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');    
+        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
 
         Route::prefix('tastes')->group(function () {
             Route::get('/', 'Api\UserTaste\TasteController@getTastes')
@@ -83,7 +91,7 @@ Route::prefix('v1')->group(function () {
             Route::delete('my/{id}', 'Api\User\UserTasteController@deleteTaste')
                 ->name('user.tastes.deleteTaste');
         });
-        
+
         Route::post('/user-lists/{id}/attach-place', 'Api\UserList\UserListPlaceController@attachPlace')
             ->name('user-list.place.attach');
 

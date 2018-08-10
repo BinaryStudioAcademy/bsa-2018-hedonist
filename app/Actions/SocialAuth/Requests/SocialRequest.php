@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\SocialAuth\Requests;
 
-class SocialRedirectRequest
+class SocialRequest
 {
     private $provider;
 
