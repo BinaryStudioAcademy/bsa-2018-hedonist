@@ -61,4 +61,14 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         $user->tastes()->sync($tastes);
     }
+
+    public function getUserBySocialAuthCredentials(string $provider, string $token): ?User
+    {
+        return User::where(
+            [
+                'provider' => $provider,
+                'provider_id' => $token
+            ]
+        )->first();
+    }
 }

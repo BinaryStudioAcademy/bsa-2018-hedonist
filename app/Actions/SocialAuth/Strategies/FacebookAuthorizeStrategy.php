@@ -4,7 +4,8 @@ namespace Hedonist\Actions\SocialAuth\Strategies;
 
 use Hedonist\Repositories\User\UserInfoRepositoryInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
-use Laravel\Socialite\Contracts\User;
+use Laravel\Socialite\Contracts\User as SocialUser;
+use Hedonist\Entities\User\User as UserModel;
 
 class FacebookAuthorizeStrategy implements SocialAuthorizeStrategyInterface
 {
@@ -20,7 +21,12 @@ class FacebookAuthorizeStrategy implements SocialAuthorizeStrategyInterface
         $this->infoRepository = $infoRepository;
     }
 
-    public function authorize(User $user): string
+    public function authorize(SocialUser $user): string
+    {
+
+    }
+
+    private function findOrCreate(SocialUser $socialUser): UserModel
     {
 
     }

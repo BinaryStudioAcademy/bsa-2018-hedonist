@@ -57,6 +57,11 @@ class User extends Authenticatable implements JWTSubject, CanResetPasswordContra
         return $this->hasOne(UserInfo::class);
     }
 
+    public function socialAcounts()
+    {
+        return $this->hasMany(SocialAccount::class);
+    }
+
     public static function boot()
     {
         parent::boot();
