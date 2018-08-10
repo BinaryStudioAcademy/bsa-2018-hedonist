@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::group(['prefix' => '/auth', 'namespace' => 'Api\\Auth'], function () {
+
+    Route::group(['prefix' => '/auth', 'namespace' => 'Api\\Auth'], function() {
 
         Route::post('/signup', 'AuthController@register');
 
@@ -40,6 +41,8 @@ Route::prefix('v1')->group(function () {
             Route::post('/refresh', 'AuthController@refresh');
 
             Route::get('/me', 'AuthController@me');
+
+            Route::post('/reset-password', 'AuthController@changePassword');
         });
     });
 
@@ -107,6 +110,9 @@ Route::prefix('v1')->group(function () {
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
 
+        Route::post('/users/me/checkins', 'Api\Places\PlaceCheckinController@setCheckin')
+            ->name('user.me.checkin');
+      
         Route::post('/places/rating', 'Api\Places\PlaceRatingController@setRating')
             ->name('place.rating.setPlaceRating');
 
@@ -119,7 +125,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/places/rating/{id}', 'Api\Places\PlaceRatingController@getRating')
             ->name('place.rating.getPlaceRating');
 
-
         /* Routes here.. */
+
     });
 });

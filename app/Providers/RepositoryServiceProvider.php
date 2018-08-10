@@ -9,7 +9,9 @@ use Hedonist\Repositories\User\{
     TasteRepository,
     TasteRepositoryInterface,
     SocialAccountRepositoryInterface,
-    SocialAccountRepository
+    SocialAccountRepository,
+    UserInfoRepository,
+    UserInfoRepositoryInterface
 };
 use Hedonist\Repositories\Place\{
     FavouritePlaceRepository,
@@ -79,5 +81,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserListRepositoryInterface::class, UserListRepository::class);
         $this->app->bind(CheckinRepositoryInterface::class, CheckinRepository::class);
         $this->app->bind(SocialAccountRepositoryInterface::class, SocialAccountRepository::class);
+        $this->app->bind(UserInfoRepositoryInterface::class, UserInfoRepository::class);
     }
 }

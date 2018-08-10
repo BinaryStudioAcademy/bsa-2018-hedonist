@@ -1,10 +1,16 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
+import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
+import ReviewList from '@/components/review/ReviewList';
 import PlacesList from  '@/components/PlacesList/PlacesList';
 import store from '../store/index';
 import middlewares from './middlewares';
+import SignUp from '@/components/auth/SignUp';
+import Login from '@/components/auth/Login';
+import Reset from '@/components/auth/Reset';
+import Recover from '@/components/auth/Recover';
 
 Vue.use(Router);
 
@@ -32,12 +38,38 @@ export default new Router({
                 path: '/places/list',
                 name: 'PlacesList',
                 component: PlacesList
+            },
+            {
+                path: '/place-info',
+                name: 'PlacePage',
+                component: PlacePage
+            },
+            {
+                path: '/reviews',
+                name: 'ReviewList',
+                component: ReviewList
             }
         ]),
         ...middleware(middlewares.guest(store))([
             {
                 path: '/login',
                 name: 'Login',
+                component: Login
+            },
+            {
+                path: '/signup',
+                name: 'SignUp',
+                component: SignUp
+            },
+            {
+                path: '/reset',
+                name: 'Reset',
+                component: Reset
+            },
+            {
+                path: '/recover',
+                name: 'Recover',
+                component: Recover
             }
         ])
     ]
