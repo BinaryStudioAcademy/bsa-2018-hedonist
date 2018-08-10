@@ -1,6 +1,4 @@
 export default {
-    state: {
-        loading: false,
-        error: null
-    }
+    loading: false,
+    error: null
 }
