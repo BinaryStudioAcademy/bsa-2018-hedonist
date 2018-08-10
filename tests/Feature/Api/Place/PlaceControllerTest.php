@@ -14,7 +14,6 @@ class PlaceControllerTest extends ApiTestCase
     use DatabaseTransactions;
 
     private $place;
-    private $credentials;
     const ENDPOINT = '/api/v1/places';
 
     public function setUp()
@@ -22,17 +21,14 @@ class PlaceControllerTest extends ApiTestCase
         parent::setUp();
 
         $this->place = factory(Place::class)->create();
-        $this->credentials = auth()->login($this->place->creator);
     }
 
     public function testGetCollection()
     {
         $routeName = 'getPlaceCollection';
-        $response =  $this->json(
+        $response =  $this->actingWithToken()->json(
             'GET',
-            self::ENDPOINT,
-            [],
-            ['HTTP_Authorization' => 'Bearer ' . $this->credentials]
+            self::ENDPOINT
         );
         $arrayContent = $response->getOriginalContent();
 
@@ -41,7 +37,6 @@ class PlaceControllerTest extends ApiTestCase
             $arrayContent['data'][0]['city'],
             $arrayContent['data'][0]['creator'])
         );
-        $this->assertTrue(Route::has($routeName));
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
     }
@@ -49,11 +44,9 @@ class PlaceControllerTest extends ApiTestCase
     public function testGetPlace()
     {
         $routeName = 'getPlace';
-        $response =  $this->json(
+        $response =  $this->actingWithToken()->json(
             'GET',
-            self::ENDPOINT . "/{$this->place->id}",
-            [],
-            ['HTTP_Authorization' => 'Bearer ' . $this->credentials]
+            self::ENDPOINT . "/{$this->place->id}"
         );
 
         $this->checkJsonStructure($response);
@@ -63,13 +56,12 @@ class PlaceControllerTest extends ApiTestCase
         );
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
-        $this->assertTrue(Route::has($routeName));
     }
 
     public function testAddPlace()
     {
         $routeName = 'addPlace';
-        $response = $this->json(
+        $response = $this->actingWithToken()->json(
             'POST', route($routeName),
             [
                 'creator_id' => $this->place->creator->id,
@@ -79,9 +71,8 @@ class PlaceControllerTest extends ApiTestCase
                 'latitude' => 32.3,
                 'zip' => 3322,
                 'address' => 'sdf',
-            ],
-            [
-                'HTTP_Authorization' => 'Bearer ' . $this->credentials
+                'phone' => 'dsd',
+                'website' => 'ghf',
             ]
         );
         $newPlace = $response->getOriginalContent();
@@ -92,13 +83,12 @@ class PlaceControllerTest extends ApiTestCase
         $this->checkJsonStructure($response);
         $response->assertStatus(201);
         $response->assertHeader('Content-Type', 'application/json');
-        $this->assertTrue(Route::has($routeName));
     }
 
     public function testUpdatePlace()
     {
         $routeName = 'updatePlace';
-        $response = $this->json(
+        $response = $this->actingWithToken()->json(
             'PUT',
             route($routeName, ['id' => $this->place->id]),
             [
@@ -109,9 +99,8 @@ class PlaceControllerTest extends ApiTestCase
                 'latitude' => 33.3,
                 'zip' => 1234,
                 'address' => 'sdf',
-            ],
-            [
-                'HTTP_Authorization' => 'Bearer ' . $this->credentials
+                'phone' => 'dsd',
+                'website' => 'ghf',
             ]
         );
         $updatedPlace = $response->getOriginalContent();
@@ -121,18 +110,13 @@ class PlaceControllerTest extends ApiTestCase
         $this->checkJsonStructure($response);
         $response->assertStatus(201);
         $response->assertHeader('Content-Type', 'application/json');
-        $this->assertTrue(Route::has($routeName));
     }
 
     public function testRemovePlace()
     {
-        $response = $this->json(
+        $response = $this->actingWithToken()->json(
             'DELETE',
-            self::ENDPOINT . "/{$this->place->id}",
-            [],
-            [
-                'HTTP_Authorization' => 'Bearer ' . $this->credentials
-            ]
+            self::ENDPOINT . "/{$this->place->id}"
         );
 
         $this->assertDatabaseMissing('places', [
@@ -141,31 +125,22 @@ class PlaceControllerTest extends ApiTestCase
         ]);
         $response->assertStatus(204);
         $response->assertHeaderMissing('Content-Type');
-        $this->assertTrue(Route::has('removePlace'));
     }
 
     public function testShowNotExistingPlace()
     {
-        $response =  $this->json(
+        $response =  $this->actingWithToken()->json(
             'GET',
-            self::ENDPOINT . '/99999999',
-            [],
-            [
-                'HTTP_Authorization' => 'Bearer ' . $this->credentials
-            ]
+            self::ENDPOINT . '/99999999'
         );
         $response->assertStatus(404);
     }
 
     public function testDestroyNotExistingId()
     {
-        $response =  $this->json(
+        $response =  $this->actingWithToken()->json(
             'DELETE',
-            self::ENDPOINT . '/99999999',
-            [],
-            [
-                'HTTP_Authorization' => 'Bearer ' . $this->credentials
-            ]
+            self::ENDPOINT . '/99999999'
         );
         $response->assertStatus(404);
     }
@@ -173,7 +148,7 @@ class PlaceControllerTest extends ApiTestCase
     public function testWrongDataUpdate()
     {
         $routeName = 'updatePlace';
-        $response = $this->json(
+        $response = $this->actingWithToken()->json(
             'PUT',
             route($routeName, ['id' => $this->place->id]),
             [
@@ -184,9 +159,8 @@ class PlaceControllerTest extends ApiTestCase
                 'latitude' => 99999999,
                 'zip' => 1234,
                 'address' => 'sdf',
-            ],
-            [
-                'HTTP_Authorization' => 'Bearer ' . $this->credentials
+                'phone' => 'dsd',
+                'website' => 'ghf',
             ]
         );
 
@@ -211,7 +185,9 @@ class PlaceControllerTest extends ApiTestCase
             'longitude',
             'latitude',
             'zip',
-            'address'
+            'address',
+            'phone',
+            'website'
         ]]);
     }
 }
