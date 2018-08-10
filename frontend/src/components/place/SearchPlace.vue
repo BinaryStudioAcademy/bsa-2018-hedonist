@@ -10,9 +10,9 @@
         <section class="column mapbox-wrapper">
             <section id="map">
                 <mapbox
-                    :access-token="mapBoxToken"
+                    :access-token="getMapboxToken"
                     :map-options="{
-                        style: mapBoxStyle,
+                        style: getMapboxStyle,
                         zoom: 3
                     }"
                     :scale-control="{
@@ -43,20 +43,19 @@
         },
         data() {
             return {
-                mapBoxToken: process.env.MAPBOX_TOKEN,
-                mapBoxStyle: process.env.MAPBOX_STYLE,
                 filterQuery: ''
             }
         },
         methods: {
         },
         computed: {
-            ...mapState("places", ["places"]),
-            ...mapGetters("places", ["getFilteredPlaces"]),
+            ...mapState("place", ["places"]),
+            ...mapGetters("place", ["getFilteredByName"]),
+            ...mapGetters("map", ["getMapboxToken", "getMapboxStyle"]),
             filteredPlaces: function() {
                 let places = [];
                 if (this.filterQuery) {
-                    places = this.getFilteredPlaces(this.filterQuery);
+                    places = this.getFilteredByName(this.filterQuery);
                 } else {
                     places = this.places;
                 }
@@ -86,7 +85,7 @@
     #map {
         text-align: justify;
         position: fixed;
-        top: 260px;
+        top: 52px;
         bottom: 0;
         right: 0;
         width: 50%;
