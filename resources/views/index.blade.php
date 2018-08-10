@@ -12,6 +12,12 @@
         @if (config("app.env") === "production" || config("app.env") === "staging")
             <link href="/dist/css/app.css" rel="stylesheet">
         @endif
+
+        {{-- Font Awesome --}}
+        <link rel="stylesheet"
+              href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+              integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+              crossorigin="anonymous">
     </head>
     <body>
         <div id="app"></div>

@@ -3,25 +3,48 @@ import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
 import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
+import PlacesList from  '@/components/PlacesList/PlacesList';
+import store from '../store/index';
+import middlewares from './middlewares';
 
 Vue.use(Router);
 
+const middleware = handler => (
+    routes => routes.map(route => Object.assign({}, route, { beforeEnter: handler }))
+);
+
 export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
-      path: '/profile',
-      name: 'ProfilePage',
-      component: ProfilePage
-    },
-    {
-      path: '/reviews',
-      name: 'ReviewList',
-      component: ReviewList
-    }
-  ]
+    mode: 'history',
+    base: '/',
+    scrollBehavior: () => ({y: 0}),
+    routes: [
+        ...middleware(middlewares.auth(store))([
+            {
+                path: '/',
+                name: 'HelloWorld',
+                component: HelloWorld,
+            },
+            {
+                path: '/profile',
+                name: 'ProfilePage',
+                component: ProfilePage,
+            },
+            {
+                path: '/places/list',
+                name: 'PlacesList',
+                component: PlacesList
+            },
+            {
+                path: '/reviews',
+                name: 'ReviewList',
+                component: ReviewList
+            }
+        ]),
+        ...middleware(middlewares.guest(store))([
+            {
+                path: '/login',
+                name: 'Login',
+            }
+        ])
+    ]
 });
