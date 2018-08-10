@@ -4,7 +4,7 @@ namespace Hedonist\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginHttpRequest extends FormRequest
+class ChangePasswordHttpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class LoginHttpRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
-            'password' =>'required|min:6|string'
+            'old_password' => 'required|string',
+            'new_password' =>'required|min:6|string'
         ];
     }
 }
