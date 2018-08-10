@@ -77,7 +77,18 @@ export default {
       if (!this.$v.user.$invalid) {
         this.login(this.user)
 
+        // Redirect to root
+
         this.refreshInput()
+      } else {
+        this.$dialog.alert({
+          title: 'Error',
+          message: 'Please, check your input data',
+          type: 'is-danger',
+          hasIcon: true,
+          icon: 'times-circle',
+          iconPack: 'fa'
+        })
       }
     },
 

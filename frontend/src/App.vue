@@ -6,6 +6,8 @@
                 <li><router-link to="/profile">Profile</router-link></li>
                 <li><router-link to="/place-info">Place-info</router-link></li>
                 <li><router-link to="/places/list">Place-list</router-link></li>
+                <li><router-link to="/signup">Sign up</router-link></li>
+                <li><router-link to="/login">Login</router-link></li>
             </ul>
         </nav>
         <router-view/>

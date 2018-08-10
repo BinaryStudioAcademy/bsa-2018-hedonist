@@ -1,12 +1,12 @@
-import StorageService from "../../../services/common/storageService";
+import StorageService from '../../../services/common/storageService';
 
 export default {
     SET_TOKEN: (state, token) => {
         state.token = token;
     },
     USER_LOGIN: (state, response) => {
-        StorageService.setToken(response.token);
-        state.token = response.token;
+        StorageService.setToken(response.access_token);
+        state.token = response.access_token;
         state.currentUser = response.user;
         state.isLoggedIn = true;
     },

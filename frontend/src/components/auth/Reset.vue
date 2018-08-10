@@ -2,6 +2,20 @@
   <Container title="Reset your password">
     <Form>
       <b-field
+        label="Email"
+        :type="input.email.type">
+
+        <b-input
+          v-model="user.email"
+          placeholder="Your Email"
+          name="email"
+          @blur="onBlur('email')"
+          @focus="onFocus('email')"
+          autofocus>
+        </b-input>
+      </b-field>
+      
+      <b-field
         label="New password"
         :type="input.password.type">
 
@@ -57,11 +71,15 @@ export default {
   data: function () {
     return {
       user: {
+        email: '',
         password: '',
         passwordConfirm: ''
       },
 
       input: {
+        email: {
+          type: ''
+        },
         password: {
           type: ''
         },
@@ -73,10 +91,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters([
-      'getAuthenticatedUser',
-      'getToken'
-    ])
+    // ...mapGetters(['getToken'])
   },
 
   methods: {
@@ -85,10 +100,10 @@ export default {
     onReset () {
       if (!this.$v.user.$invalid) {
         this.resetPassword({
-          email: this.getAuthenticatedUser.email,
+          email: this.user.email,
           password: this.user.password,
           passwordConfirmation: this.user.passwordConfirm,
-          token: this.getToken
+          token: this.$store.getters.getToken
         })
 
         this.refreshInput()
@@ -109,11 +124,15 @@ export default {
 
     refreshInput () {
       this.user = {
+        email: '',
         password: '',
         passwordConfirm: ''
       },
 
       this.input = {
+        email: {
+          type: ''
+        },
         password: {
           type: ''
         },
@@ -126,6 +145,10 @@ export default {
 
   validations: {
     user: {
+      email: {
+        required,
+        email
+      },
       password: {
         required,
         minLength: minLength(6)

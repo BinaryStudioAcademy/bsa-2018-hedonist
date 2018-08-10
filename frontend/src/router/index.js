@@ -42,7 +42,9 @@ export default new Router({
                 path: '/place-info',
                 name: 'PlacePage',
                 component: PlacePage
-            },
+            }
+        ]),
+        ...middleware(middlewares.guest(store))([
             {    
                 path: '/signup',
                 name: 'SignUpPage',
@@ -63,12 +65,6 @@ export default new Router({
                 name: 'RecoverPasswordPage',
                 component: RecoverPasswordPage
             },
-        ]),
-        ...middleware(middlewares.guest(store))([
-            {
-                path: '/login',
-                name: 'Login',
-            }
         ])
     ]
 });

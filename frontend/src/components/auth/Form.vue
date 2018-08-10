@@ -15,4 +15,8 @@ export default {
   margin-top: 50px;
   text-align: left;
 }
+
+.button-wide {
+  width: 100%
+}
 </style>

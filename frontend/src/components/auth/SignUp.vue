@@ -95,6 +95,15 @@ export default {
         this.signUp(this.newUser)
 
         this.refreshInput()
+      } else {
+        this.$dialog.alert({
+          title: 'Error',
+          message: 'Please, check your input data',
+          type: 'is-danger',
+          hasIcon: true,
+          icon: 'times-circle',
+          iconPack: 'fa'
+        })
       }
     },
 

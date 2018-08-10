@@ -1,29 +1,30 @@
-import httpService from "../../../services/common/httpService";
-import StorageService from "../../../services/common/storageService";
+import httpService from '../../../services/common/httpService';
+import StorageService from '../../../services/common/storageService';
 
 export default {
     signUp: (context, user) => {
         httpService.post('auth/signup', {
-            firstName: user.firstName,
-            lastName: user.lastName,
             email: user.email,
-            password: user.password
+            password: user.password,
+            last_name: user.lastName,
+            first_name: user.firstName
         })
-        .then(function (res) {})
-        .catch(function (err) {
-            // TODO: Handle error
-        });
+            .then(function (res) {
+            })
+            .catch(function (err) {
+                // TODO: Handle error
+            });
     },
     login: (context, user) => {
         httpService.post('auth/login', {
             email: user.email,
             password: user.password
         })
-        .then(function (res) {
-            context.commit('USER_LOGIN', res);
-        }).catch(function (err) {
-            // TODO: Handle error
-        });
+            .then(function (res) {
+                context.commit('USER_LOGIN', res.data.data);
+            }).catch(function (err) {
+                // TODO: Handle error
+            });
     },
     logout: (context, user) => {
         httpService.post('/auth/logout', {
@@ -73,4 +74,4 @@ export default {
             // TODO: Handle error
         });
     }
-}
+};
