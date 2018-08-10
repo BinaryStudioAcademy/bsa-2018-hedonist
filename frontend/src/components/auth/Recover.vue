@@ -23,8 +23,6 @@
           Recover
       </button>
     </Form>
-
-    <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
   </Container>
 </template>
 
