@@ -1,10 +1,12 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api;
+namespace Hedonist\Http\Controllers\Api\Auth;
 
+use Hedonist\Actions\Auth\ChangePasswordAction;
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\Auth\RecoverPasswordAction;
 use Hedonist\Actions\Auth\RegisterUserAction;
+use Hedonist\Actions\Auth\Requests\ChangePasswordRequest;
 use Hedonist\Actions\Auth\Requests\LoginRequest;
 use Hedonist\Actions\Auth\Requests\RecoverPasswordRequest;
 use Hedonist\Actions\Auth\Requests\ResetPasswordRequest;
@@ -14,14 +16,15 @@ use Hedonist\Actions\LoginUserAction;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
 use Hedonist\Exceptions\Auth\PasswordResetEmailSentException;
 use Hedonist\Exceptions\Auth\PasswordResetFailedException;
-use Hedonist\Http\Controllers\Controller;
+use Hedonist\Exceptions\Auth\PasswordsDosentMatchException;
+use Hedonist\Http\Controllers\Api\ApiController;
+use Hedonist\Http\Requests\Auth\ChangePasswordHttpRequest;
 use Hedonist\Http\Requests\Auth\LoginHttpRequest;
 use Hedonist\Http\Requests\Auth\RecoverPasswordHttpRequest;
 use Hedonist\Http\Requests\Auth\RegisterHttpRequest;
 use Hedonist\Http\Requests\Auth\ResetPasswordHttpRequest;
 use Hedonist\Requests\Auth\RegisterRequest;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -47,7 +50,7 @@ class AuthController extends ApiController
             $registerRequest = new RegisterRequest($httpRequset->email, $httpRequset->password);
             $action->execute($registerRequest);
 
-            return $this->successResponse([]);
+            return $this->emptyResponse(200);
         } catch (EmailAlreadyExistsException $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         } catch (JWTException $exception) {
@@ -76,7 +79,7 @@ class AuthController extends ApiController
         try {
             Auth::logout();
 
-            return $this->successResponse([]);
+            return $this->emptyResponse(200);
         } catch (\Exception $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
@@ -107,8 +110,20 @@ class AuthController extends ApiController
             $recoverRequest = new RecoverPasswordRequest($httpRequest->email);
             $action->execute($recoverRequest);
 
-            return $this->successResponse([]);
+            return $this->emptyResponse(200);
         } catch (PasswordResetEmailSentException $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
+        }
+    }
+
+    public function changePassword(ChangePasswordHttpRequest $httpRequest,ChangePasswordAction $action)
+    {
+        try {
+            $changeRequest = new ChangePasswordRequest($httpRequest->old_password,$httpRequest->new_password);
+            $action->execute($changeRequest);
+
+            return $this->emptyResponse(200);
+        } catch (PasswordsDosentMatchException $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
     }

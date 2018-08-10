@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
+import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
 import PlacesList from  '@/components/PlacesList/PlacesList';
@@ -33,6 +34,11 @@ export default new Router({
                 path: '/places/list',
                 name: 'PlacesList',
                 component: PlacesList
+            },
+            {
+                path: '/place-info',
+                name: 'PlacePage',
+                component: PlacePage
             },
             {
                 path: '/reviews',
