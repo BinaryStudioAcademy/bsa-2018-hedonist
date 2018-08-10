@@ -46,22 +46,28 @@ class PlaceCategoriesTagsSeeder extends Seeder
      */
     public function run()
     {
-//        DB::table('place_categories_tags')->truncate();
-
-//            factory(PlaceCategoryTag::class)->create()->each(function ($tag) {
-//                $tag->categories()->save(factory(PlaceCategory::class)->make());
-//            });
 
         foreach (self::DATA as $category => $tags) {
 
-            $placeCategoryId = PlaceCategory::create(['name' => $category])->id;
-
-            foreach ($tags as $subTag) {
-                PlaceCategoryTag::create([
-                    'name' => $subTag
-                ]);
+            foreach ($tags as $tag1) {
+                $placeTagArray[] = $tag1;
             }
-        }
 
+            for ($i = 0; $i < count($placeTagArray); $i++) {
+               $placesTagsArray[] = PlaceCategoryTag::create(
+                    ['name' => $placeTagArray[$i]]
+                );
+            }
+
+            PlaceCategory::create(['name' => $category])
+                    ->tags()
+                    ->saveMany(
+                        $placesTagsArray
+                    );
+
+            $placesTagsArray = [];
+            $placeTagArray = [];
+
+        }
     }
 }
