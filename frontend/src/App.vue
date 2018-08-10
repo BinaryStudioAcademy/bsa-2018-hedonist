@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+   <div id="app">
         <nav class="navigation">
             <ul class="navbar">
                 <li><router-link to="/">Home</router-link></li>
@@ -20,6 +20,7 @@ export default {
 
 <style>
 @import url(buefy/lib/buefy.css);
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500');
 
 #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;

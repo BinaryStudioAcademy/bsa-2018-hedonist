@@ -7,6 +7,10 @@ import ReviewList from '@/components/review/ReviewList';
 import PlacesList from  '@/components/PlacesList/PlacesList';
 import store from '../store/index';
 import middlewares from './middlewares';
+import SignUp from '@/components/auth/SignUp';
+import Login from '@/components/auth/Login';
+import Reset from '@/components/auth/Reset';
+import Recover from '@/components/auth/Recover';
 
 Vue.use(Router);
 
@@ -44,6 +48,26 @@ export default new Router({
                 path: '/reviews',
                 name: 'ReviewList',
                 component: ReviewList
+            },
+            {
+                path: '/signup',
+                name: 'SignUp',
+                component: SignUp
+            },
+            {
+                path: '/login',
+                name: 'Login',
+                component: Login
+            },
+            {
+                path: '/reset',
+                name: 'Reset',
+                component: Reset
+            },
+            {
+                path: '/recover',
+                name: 'Recover',
+                component: Recover
             }
         ]),
         ...middleware(middlewares.guest(store))([
