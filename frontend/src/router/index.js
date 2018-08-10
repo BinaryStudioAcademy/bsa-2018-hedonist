@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
+import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
 import PlacesList from  '@/components/PlacesList/PlacesList';
 import store from '../store/index';
@@ -32,7 +33,12 @@ export default new Router({
                 path: '/places/list',
                 name: 'PlacesList',
                 component: PlacesList
-            }
+            },
+            {
+                path: '/place-info',
+                name: 'PlacePage',
+                component: PlacePage
+            },
         ]),
         ...middleware(middlewares.guest(store))([
             {
