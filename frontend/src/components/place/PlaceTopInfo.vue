@@ -13,6 +13,9 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
+                <button class="button is-primary">
+                    <i class="fas fa-check"></i>Check-in
+                </button>
                 <button class="button is-success">
                     <i class="far fa-save"></i>Save
                 </button>
