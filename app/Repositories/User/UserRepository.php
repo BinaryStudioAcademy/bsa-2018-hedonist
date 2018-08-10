@@ -64,11 +64,14 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function getUserBySocialAuthCredentials(string $provider, string $token): ?User
     {
-        return User::where(
-            [
-                'provider' => $provider,
-                'provider_id' => $token
-            ]
-        )->first();
+        return User::whereHas(
+            'socialAccounts',
+            function ($query) use ($provider, $token) {
+                $query->where([
+                    'provider' => $provider,
+                    'provider_user_id' => $token
+                ]);
+            }
+        );
     }
 }
