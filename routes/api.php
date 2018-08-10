@@ -101,5 +101,19 @@ Route::prefix('v1')->group(function () {
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
 
+        Route::post('/places/rating', 'Api\Places\PlaceRatingController@setRating')
+            ->name('place.rating.setPlaceRating');
+
+        Route::get('/places/rating/place/{id}', 'Api\Places\PlaceRatingController@getPlaceRatingAvg')
+            ->name('place.rating.getPlaceRatingAvg');
+
+        Route::get('/places/rating/byPlaceUser', 'Api\Places\PlaceRatingController@getRating')
+            ->name('place.rating.getPlaceRatingByPlaceUser');
+
+        Route::get('/places/rating/{id}', 'Api\Places\PlaceRatingController@getRating')
+            ->name('place.rating.getPlaceRating');
+
+
+        /* Routes here.. */
     });
 });
