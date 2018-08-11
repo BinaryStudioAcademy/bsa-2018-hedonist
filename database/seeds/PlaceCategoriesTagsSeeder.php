@@ -85,9 +85,7 @@ class PlaceCategoriesTagsSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('place_category_place_tag')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $categories = PlaceCategory::all();
         $tags = PlaceCategoryTag::all();
