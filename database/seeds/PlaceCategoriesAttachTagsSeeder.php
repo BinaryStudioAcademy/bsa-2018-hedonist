@@ -5,7 +5,7 @@ use Hedonist\Entities\Place\PlaceCategoryTag;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
-class PlaceCategoriesTagsSeeder extends Seeder
+class PlaceCategoriesAttachTagsSeeder extends Seeder
 {
 
     const DATA = [
