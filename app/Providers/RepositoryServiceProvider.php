@@ -5,7 +5,11 @@ namespace Hedonist\Providers;
 use Illuminate\Support\ServiceProvider;
 use Hedonist\Repositories\User\{
     UserRepository,
-    UserRepositoryInterface
+    UserRepositoryInterface,
+    TasteRepository,
+    TasteRepositoryInterface,
+    UserInfoRepository,
+    UserInfoRepositoryInterface
 };
 use Hedonist\Repositories\Place\{
     FavouritePlaceRepository,
@@ -33,10 +37,7 @@ use Hedonist\Repositories\Review\{
     ReviewPhotoRepository,
     ReviewPhotoRepositoryInterface,
     ReviewRepositoryInterface,
-    ReviewRepository};
-use Hedonist\Repositories\User\{
-    TasteRepository,
-    TasteRepositoryInterface
+    ReviewRepository
 };
 use Hedonist\Repositories\City\{
     CityRepositoryInterface,
@@ -80,5 +81,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserListRepositoryInterface::class, UserListRepository::class);
         $this->app->bind(CheckinRepositoryInterface::class, CheckinRepository::class);
         $this->app->bind(ReviewPhotoRepositoryInterface::class, ReviewPhotoRepository::class);
+        $this->app->bind(UserInfoRepositoryInterface::class, UserInfoRepository::class);
     }
 }
