@@ -6,8 +6,10 @@ import router from './router';
 import store from './store/index';
 import {sync} from 'vuex-router-sync';
 import Buefy from 'buefy';
+import Vuelidate from 'vuelidate'
 
 Vue.use(Buefy)
+Vue.use(Vuelidate)
 
 sync(store, router);
 
