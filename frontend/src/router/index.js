@@ -11,6 +11,7 @@ import SignUp from '@/components/auth/SignUp';
 import Login from '@/components/auth/Login';
 import Reset from '@/components/auth/Reset';
 import Recover from '@/components/auth/Recover';
+import UserListAdd from '@/components/user-list/UserListAdd';
 
 Vue.use(Router);
 
@@ -48,6 +49,11 @@ export default new Router({
                 path: '/reviews',
                 name: 'ReviewList',
                 component: ReviewList
+            },
+            {
+                path: '/user-list/add',
+                name: 'UserListAdd',
+                component: UserListAdd
             }
         ]),
         ...middleware(middlewares.guest(store))([
