@@ -3,10 +3,14 @@
         <nav class="navigation">
             <ul class="navbar">
                 <li><router-link to="/">Home</router-link></li>
+                <li><router-link to="/signup">Sign up</router-link></li>
+                <li><router-link to="/login">Login</router-link></li>
+                <li><a @click="onLogOut">Logout</a></li>
                 <li><router-link to="/profile">Profile</router-link></li>
                 <li><router-link to="/place-info">Place-info</router-link></li>
                 <li><router-link to="/places/list">Place-list</router-link></li>
                 <li><router-link to="/user-list/add">User-list add</router-link></li>
+                <li><router-link to="/tastes/add">Tastes add</router-link></li>
             </ul>
         </nav>
         <router-view/>
@@ -14,8 +18,18 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
-    name: 'App'
+    name: 'App',
+
+    methods: {
+        ...mapActions(['logout']),
+
+        onLogOut () {
+            this.logout();
+        }
+    }
 }
 </script>
 

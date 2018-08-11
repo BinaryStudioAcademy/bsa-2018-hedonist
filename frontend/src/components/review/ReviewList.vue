@@ -1,5 +1,5 @@
 <template>
-    <div class="container reviews-wrp">
+    <div class="reviews-wrp">
         <div class="review-title-wrp">
             <div class="review-title">
                 <div class="left-side-review-title">
@@ -192,6 +192,10 @@
 
     li:first-child {
         padding-left: 0;
+    }
+
+    .active {
+        background: #efeff4;
     }
 
     .sort-word {

@@ -72,11 +72,17 @@ class AuthController extends ApiController
 
     public function refresh()
     {
-        return $this->successResponse(
-            AuthPresenter::presentAuthenticateResponse(
-                new RefreshResponse(Auth::refresh())
-            )
-        );
+        try {
+            return $this->successResponse(
+                AuthPresenter::presentAuthenticateResponse(
+                    new RefreshResponse(Auth::refresh())
+                )
+            );
+        } catch (JWTException $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 401);
+        } catch (\Exception $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 500);
+        }
     }
 
     public function logout()

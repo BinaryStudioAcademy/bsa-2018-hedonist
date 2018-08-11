@@ -4,6 +4,7 @@
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
+                    <ReviewList></ReviewList>
                 </div>
             </div>
             <PlaceSidebarInfo />
@@ -12,23 +13,26 @@
 </template>
 
 <script>
-import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
-import PlaceTopInfo from '@/components/place/PlaceTopInfo';
+    import PlaceTopInfo from '@/components/place/PlaceTopInfo';
+    import ReviewList from '@/components/review/ReviewList';
+    import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
 
 export default {
     name: "PlacePage",
     components: {
-        PlaceSidebarInfo,
         PlaceTopInfo,
+        ReviewList,
+        PlaceSidebarInfo
     },
 }
 </script>
 
 <style scoped>
-.main-wrapper {
-    margin-top: 20px;
-}
-.main {
-    background-color: white;
-}
+    .main-wrapper {
+        margin-top: 20px;
+    }
+
+    .main {
+        background-color: white;
+    }
 </style>
