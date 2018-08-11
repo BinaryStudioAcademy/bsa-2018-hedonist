@@ -65,7 +65,7 @@ export default new Router({
             {
                 path: '/signup',
                 name: 'SignUp',
-                component: SignUp
+                component: SignUpPage
             },
             {
                 path: '/reset',
