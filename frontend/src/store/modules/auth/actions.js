@@ -11,7 +11,6 @@ export default {
                 first_name: user.firstName
             })
                 .then(function (res) {
-                    console.log(res);
                     // TODO: Check list of http reject status codes
                     if (res.status === 400){
                         resolve(res.data);
