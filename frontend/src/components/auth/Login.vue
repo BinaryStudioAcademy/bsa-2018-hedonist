@@ -75,20 +75,30 @@ export default {
 
     onLogin () {
       if (!this.$v.user.$invalid) {
-        this.login(this.user).then( ()=>{
-            this.refreshInput();
-            this.$router.push({name: 'home'});
+        this.login(this.user).then((res)=>{
+            if(res.error){
+                this.onError(res.error);
+            } else {
+              this.refreshInput();
+              this.$router.push({name: 'home'});
+            }
         });
       } else {
-        this.$dialog.alert({
+          this.onError({
+              message:'Please, check your input data'
+          });
+      }
+    },
+
+    onError(error){
+      this.$dialog.alert({
           title: 'Error',
-          message: 'Please, check your input data',
+          message: error.message,
           type: 'is-danger',
           hasIcon: true,
           icon: 'times-circle',
           iconPack: 'fa'
-        })
-      }
+      })
     },
 
     onBlur (el) {

@@ -11,7 +11,13 @@ export default {
                 first_name: user.firstName
             })
                 .then(function (res) {
-                    resolve();
+                    console.log(res);
+                    // TODO: Check list of http reject status codes
+                    if (res.status === 400){
+                        resolve(res.data);
+                    } else {
+                        resolve(res);
+                    }
                 })
                 .catch(function (err) {
                     // TODO: Handle error
@@ -26,10 +32,15 @@ export default {
                 password: user.password
             })
                 .then(function (res) {
-                    const userData = res.data.data;
-                    context.commit('USER_LOGIN', userData);
-                    context.dispatch('fetchAuthenticatedUser', userData.access_token);
-                    resolve();
+                    // TODO: Check list of http reject status codes
+                    if (res.status === 400){
+                        resolve(res.data);
+                    } else {
+                        const userData = res.data.data;
+                        context.commit('USER_LOGIN', userData);
+                        context.dispatch('fetchAuthenticatedUser', userData.access_token);
+                        resolve(res);
+                    }
                 }).catch(function (err) {
                 // TODO: Handle error
                     reject(err);
@@ -40,8 +51,13 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.post('/auth/logout')
                 .then(function (res) {
-                    context.commit('USER_LOGOUT', res);
-                    resolve();
+                    // TODO: Check list of http reject status codes
+                    if (res.status === 400){
+                        resolve(res.data);
+                    } else {
+                        context.commit('USER_LOGOUT', res);
+                        resolve(res);
+                    }
                 }).catch(function (err) {
                     // TODO: Handle error
                     reject(err);
@@ -49,43 +65,79 @@ export default {
         });
     },
     resetPassword: (context, user) => {
-        httpService.post('/auth/reset', {
-            email: user.email,
-            password: user.password,
-            password_confirmation: user.passwordConfirmation,
-            token: user.token
-        }).then(function (res) {
-        }).catch(function (err) {
-            // TODO: Handle error
+        return new Promise((resolve, reject) => {
+            httpService.post('/auth/reset', {
+                email: user.email,
+                password: user.password,
+                password_confirmation: user.passwordConfirmation,
+                token: user.token
+            }).then(function (res) {
+                // TODO: Check list of http reject status codes
+                if (res.status === 400){
+                    resolve(res.data);
+                } else {
+                    resolve(res);
+                }
+            }).catch(function (err) {
+                // TODO: Handle error
+                reject(err);
+            });
         });
     },
     refreshToken: (context, email) => {
-        httpService.post('/auth/refresh', {
-            params: {email}
-        }).then(function (res) {
-            state.token = res.token;
-            StorageService.setToken(res.token);
-        }).catch(function (err) {
-            // TODO: Handle error
+        return new Promise((resolve, reject) => {
+            httpService.post('/auth/refresh', {
+                params: {email}
+            }).then(function (res) {
+                // TODO: Check list of http reject status codes
+                if (res.status === 401){
+                    resolve(res.data);
+                } else {
+                    state.token = res.token;
+                    StorageService.setToken(res.token);
+                    resolve(res);
+                }
+            }).catch(function (err) {
+                // TODO: Handle error
+                reject(err);
+            });
         });
     },
     recoverPassword: (context, email) => {
-        httpService.post('/auth/recover', {
-            email: email
-        }).then(function (res) {
-        }).catch(function (err) {
-            // TODO: Handle error
+        return new Promise((resolve, reject) => {
+            httpService.post('/auth/recover', {
+                email: email
+            }).then(function (res) {
+                // TODO: Check list of http reject status codes
+                if (res.status === 400){
+                    resolve(res.data);
+                } else {
+                    resolve(res);
+                }
+            }).catch(function (err) {
+                // TODO: Handle error
+                reject(err);
+            });
         });
     },
     fetchAuthenticatedUser: (context, token) => {
-        httpService.get('/auth/me', {
-            params: {
-                token
-            }
-        }).then(function (res) {
-            context.commit('SET_AUTHENTICATED_USER', res.data.data);
-        }).catch(function (err) {
-            // TODO: Handle error
+        return new Promise((resolve, reject) => {
+            httpService.get('/auth/me', {
+                params: {
+                    token
+                }
+            }).then(function (res) {
+                // TODO: Check list of http reject status codes
+                if (res.status === 400){
+                    resolve(res.data);
+                } else {
+                    context.commit('SET_AUTHENTICATED_USER', res.data.data);
+                    resolve(res);
+                }
+            }).catch(function (err) {
+                // TODO: Handle error
+                reject(err);
+            });
         });
     }
 };

@@ -92,28 +92,43 @@ export default {
 
     onSignUp () {
       if (!this.$v.newUser.$invalid) {
-        this.signUp(this.newUser).then(() =>{
-          this.refreshInput();
-          this.$router.push({name: 'LoginPage'});
-          this.$dialog.alert({
-              title: 'Congrats!',
-              message: 'You have successfully registered! Now you need to login',
-              type: 'is-success',
-              hasIcon: true,
-              icon: 'check-circle',
-              iconPack: 'fa'
-          });
+        this.signUp(this.newUser).then((res) =>{
+          if(res.error){
+              this.onError(res.error);
+          } else {
+              this.refreshInput();
+              this.$router.push({name: 'LoginPage'});
+              this.onSuccess({
+                  message:'You have successfully registered! Now you need to login'
+              });
+          }
         });
       } else {
-        this.$dialog.alert({
-          title: 'Error',
-          message: 'Please, check your input data',
-          type: 'is-danger',
-          hasIcon: true,
-          icon: 'times-circle',
-          iconPack: 'fa'
-        })
+          this.onError({
+              message:'Please, check your input data'
+          });
       }
+    },
+
+    onError(error){
+        this.$dialog.alert({
+            title: 'Error',
+            message: error.message,
+            type: 'is-danger',
+            hasIcon: true,
+            icon: 'times-circle',
+            iconPack: 'fa'
+        })
+    },
+    onSuccess(success){
+        this.$dialog.alert({
+            title: 'Congrats!',
+            message: success.message,
+            type: 'is-success',
+            hasIcon: true,
+            icon: 'check-circle',
+            iconPack: 'fa'
+        })
     },
 
     onBlur (el) {
