@@ -141,11 +141,11 @@
                         creator_id: null,
                         categories: {
                             id: 10,
-                            name: 'Ресторан'
+                            name: 'Restaurant'
                         },
                         place_photo: {
                             url: "https://www.stihi.ru/pics/2012/11/19/8139.jpg",
-                            description: "Буржуй",
+                            description: "Bourgeois",
                             posted_at: '2018-08-08'
                         },
                         reviews: [
@@ -239,7 +239,7 @@
                         },
                         cities: {
                             id: 10,
-                            name: "Львов"
+                            name: "Lviv"
                         }
                     },
                 ]
