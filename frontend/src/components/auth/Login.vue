@@ -75,8 +75,9 @@ export default {
 
     onLogin () {
       if (!this.$v.user.$invalid) {
-        this.login(this.user)
-        this.refreshInput()
+        this.login(this.user);
+        this.refreshInput();
+        this.$router.push({name: 'home'});
       } else {
         this.$dialog.alert({
           title: 'Error',

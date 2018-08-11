@@ -27,8 +27,8 @@ export default new Router({
         ...middleware(middlewares.auth(store))([
             {
                 path: '/',
-                name: 'HelloWorld',
-                component: HelloWorld,
+                name: 'home',
+                redirect: '/search'
             },
             {
                 path: '/profile',
