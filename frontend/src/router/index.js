@@ -12,6 +12,7 @@ import Login from '@/components/auth/Login';
 import Reset from '@/components/auth/Reset';
 import Recover from '@/components/auth/Recover';
 import TastesAdd from '@/components/tastes/TastesAdd';
+import test from '@/components/user-list/UserList';
 
 Vue.use(Router);
 
@@ -76,6 +77,10 @@ export default new Router({
                 path: '/recover',
                 name: 'Recover',
                 component: Recover
+            },
+            {
+                path:'/test',
+                component:test
             }
         ])
     ]
