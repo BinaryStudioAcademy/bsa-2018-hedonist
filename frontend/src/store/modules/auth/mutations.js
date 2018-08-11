@@ -7,7 +7,6 @@ export default {
     USER_LOGIN: (state, response) => {
         StorageService.setToken(response.access_token);
         state.token = response.access_token;
-        state.currentUser = response.user;
         state.isLoggedIn = true;
     },
     USER_LOGOUT: (state) => {
