@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::group(['prefix' => '/auth', 'namespace' => 'Api'], function() {
+    Route::group(['prefix' => '/auth', 'namespace' => 'Api\\Auth'], function() {
 
         Route::post('/signup','AuthController@register');
 
@@ -25,17 +25,17 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/reset','AuthController@resetPassword');
 
-        Route::post('/recover','AuthCOntroller@recoverPassword');
+        Route::post('/recover','AuthController@recoverPassword');
 
-        Route::group(['middleware' => 'jwt.auth'], function() {
+        Route::post('/refresh', 'AuthController@refresh');
 
-            Route::post('/refresh', 'AuthController@refresh');
+        Route::get('/me', 'AuthController@me')->middleware('custom.jwt.auth');
 
-            Route::get('/me', 'AuthController@me');
-        });
+        Route::post('/reset-password', 'AuthController@changePassword');
+
     });
 
-    Route::group(['middleware' => 'jwt.auth'], function() {
+    Route::group(['middleware' => 'custom.jwt.auth'], function() {
         Route::resource('user-list', 'Api\UserList\UserListController')->except([
             'create', 'edit'
         ]);
@@ -65,10 +65,20 @@ Route::prefix('v1')->group(function () {
             Route::put('/{id}', 'Api\Review\ReviewController@updateReview');
 
             Route::delete('/{id}', 'Api\Review\ReviewController@deleteReview');
+
+            Route::get('/{id}/photos', 'Api\Review\ReviewController@getPhotosByReviewId');
+            Route::post('/photos', 'Api\Review\ReviewPhotoController@upload')->name('review.photo.upload');
+            Route::delete('/photos/{id}', 'Api\Review\ReviewPhotoController@destroy')->name('review.photo.destroy');
+
+            Route::post('/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
+            Route::post('/{id}/dislike', 'Api\DislikeController@dislikeReview')->name('review.dislike');
         });
-      
+
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
-        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');    
+        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
+
+        Route::get('/places/{id}/rating', 'Api\Places\PlaceRatingController@getPlaceRatingAvg')
+            ->name('place.rating.getPlaceRatingAvg');
 
         Route::prefix('tastes')->group(function () {
             Route::get('/', 'Api\UserTaste\TasteController@getTastes')
@@ -95,6 +105,20 @@ Route::prefix('v1')->group(function () {
 
         Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
+
+        Route::post('/users/me/checkins', 'Api\Places\PlaceCheckinController@setCheckin')
+            ->name('user.me.checkin');
+
+        Route::post('/places/rating', 'Api\Places\PlaceRatingController@setRating')
+            ->name('place.rating.setPlaceRating');
+
+        Route::get('/places/rating/byPlaceUser', 'Api\Places\PlaceRatingController@getRating')
+            ->name('place.rating.getPlaceRatingByPlaceUser');
+
+        Route::get('/places/rating/{id}', 'Api\Places\PlaceRatingController@getRating')
+            ->name('place.rating.getPlaceRating');
+
+        /* Routes here.. */
 
     });
 });
