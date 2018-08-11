@@ -18,12 +18,6 @@ export class HttpService {
                 return Promise.reject(error);
             }
         );
-
-        this.axios.interceptors.response.use(
-            error => {
-                return error.response;
-            }
-        )
     }
 
     get(url, params) {
