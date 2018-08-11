@@ -6,6 +6,7 @@ import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
 import UserListsPage from '@/pages/UserListsPage';
 import PlacesList from  '@/components/PlacesList/PlacesList';
+import HistoryPage from '@/pages/HistoryPage';
 import SeachPlacePage from  '@/pages/SeachPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
@@ -66,6 +67,11 @@ export default new Router({
                 path: '/tastes/add',
                 name: 'Tastes',
                 component: TastesAdd
+            },
+            {
+                path: '/history',
+                name: 'HistoryPage',
+                component: HistoryPage
             }
         ]),
         ...middleware(middlewares.guest(store))([
