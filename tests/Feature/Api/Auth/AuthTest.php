@@ -117,11 +117,19 @@ class AuthTest extends ApiTestCase
     public function test_get_authed_user()
     {
         $user = factory(User::class)->create();
+        factory(UserInfo::class)->create(['user_id' => $user->id]);
         $this->authenticate($user);
         $response = $this->json('GET', 'api/v1/auth/me');
 
         $response->assertStatus(200);
-        $response->assertJson(['data' => $user->toArray()]);
+        $response->assertJsonStructure([
+            'data' => [
+                'first_name',
+                'last_name',
+                'email',
+                'id'
+            ]
+        ]);
     }
 
     function test_logout()

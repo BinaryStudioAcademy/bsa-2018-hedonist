@@ -4,7 +4,9 @@ namespace Tests\Unit\Auth;
 
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\Auth\Responses\AuthenticateResponseInterface;
+use Hedonist\Actions\Auth\Responses\GetUserResponse;
 use Hedonist\Entities\User\User;
+use Hedonist\Entities\User\UserInfo;
 use Tests\TestCase;
 
 class PresenterTest extends TestCase
@@ -16,7 +18,7 @@ class PresenterTest extends TestCase
         $mock->method('getToken')->willReturn($token);
         $result = AuthPresenter::presentAuthenticateResponse($mock);
 
-        $this->assertEquals($token,$result['access_token']);
+        $this->assertEquals($token, $result['access_token']);
         $this->assertNotNull($result['token_type']);
         $this->assertNotNull($result['expires_in']);
     }
@@ -24,9 +26,12 @@ class PresenterTest extends TestCase
     public function test_user_present()
     {
         $user = factory(User::class)->make();
-        $result = AuthPresenter::presentUser($user);
+        $userInfo = factory(UserInfo::class)->make();
+        $result = AuthPresenter::presentUser(new GetUserResponse($user, $userInfo));
 
-        $this->assertEquals($result['email'],$user->email);
+        $this->assertEquals($result['email'], $user->email);
+        $this->assertEquals($result['first_name'],$userInfo->first_name);
+        $this->assertEquals($result['last_name'],$userInfo->last_name);
         $this->assertFalse(isset($result['password']));
     }
 
@@ -35,6 +40,6 @@ class PresenterTest extends TestCase
         $message = 'real test message here';
         $exception = new \Exception($message);
 
-        $this->assertEquals($message,AuthPresenter::presentError($exception));
+        $this->assertEquals($message, AuthPresenter::presentError($exception));
     }
 }

@@ -16,6 +16,7 @@ use Hedonist\Actions\Auth\ResetPasswordAction;
 use Hedonist\Actions\Auth\Responses\RefreshResponse;
 use Hedonist\Actions\LoginUserAction;
 use Hedonist\Exceptions\Auth\EmailAlreadyExistsException;
+use Hedonist\Exceptions\Auth\InvalidUserDataException;
 use Hedonist\Exceptions\Auth\PasswordResetEmailSentException;
 use Hedonist\Exceptions\Auth\PasswordResetFailedException;
 use Hedonist\Exceptions\Auth\PasswordsDosentMatchException;
@@ -73,6 +74,8 @@ class AuthController extends ApiController
             $response = $action->execute(new GetUserRequest(Auth::id()));
 
             return $this->successResponse(AuthPresenter::presentUser($response));
+        } catch (InvalidUserDataException $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         } catch (\Exception $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 500);
         }
