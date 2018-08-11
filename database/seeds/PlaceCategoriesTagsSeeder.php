@@ -8,33 +8,73 @@ use Illuminate\Database\Seeder;
 class PlaceCategoriesTagsSeeder extends Seeder
 {
     const DATA = [
-        'cafe' => [
-            'tagsCafee1',
-            'tagsCafee2',
-            'tagsCafee3',
-            'tagsCafeet4',
-            'tagsCafee5'
+        'Cafe' => [
+            'Ice-cream cafe',
+            'Cafe-confectionery',
+            'Children\'s cafe',
+            'Family cafe',
+            'Internet cafe',
+            'Youth cafe'
         ],
-        'restaurant' => [
-            'tagsRestaurant1',
-            'tagsRestaurant2',
-            'tagsRestaurant3',
-            'tagsRestaurant4',
-            'tagsRestaurant5'
+        'Cafeteria' => [
+            'Coffee Room',
+            'Tea Room',
         ],
-        'bar' => [
-            'tagsBar1',
-            'tagsBar2',
-            'tagsBar3',
-            'tagsBar4',
-            'tagsBar5'
+        'Beer' => [
+            'Brewery',
+            'Kneipp',
+            'Gastropub',
+            'Pub',
+            'Irish Pub',
+            'Beer pub',
+
         ],
-        'pub' => [
-            'tagsPub1',
-            'tagsPub2',
-            'tagsPub3',
-            'tagsPub4',
-            'tagsPub5'
+        'Restaurant' => [
+            'Pizzeria',
+            'Food Court',
+            'Italian restaurant',
+            'Vegan Restaurant',
+            'European restaurant',
+            'West-Ukrainian Restaurant',
+            'French Restaurant',
+            'Ukrainian Restaurant',
+            'Asian Restaurant',
+            'Vietnamese Restaurant',
+            'Steak House',
+        ],
+        'Bar' => [
+            'Lounge bar',
+            'Grill-bar',
+            'Milk bar',
+            'Video Bar',
+            'Cocktail bar',
+            'Karaoke bar',
+            'Sports bar',
+            'Whiskey bar',
+            'Wine bar',
+            'Sushi Bar',
+            'Piano Bar',
+        ],
+        'Nightlife' => [
+            'Hookah',
+            'Strip club',
+            'Night club',
+        ],
+        'Snacks' => [
+            'Snack bar with burgers',
+            'Snack bar with burrito',
+            'Snack with hot dogs',
+            'Snack with dumplings',
+            'Snack with pancake',
+        ],
+        'Others' => [
+            'Sweet shop',
+            'Chocolate shop',
+            'Confectionery',
+            'park',
+            'cinema',
+            'theater',
+            'Book Shop',
         ],
 
     ];
@@ -54,16 +94,16 @@ class PlaceCategoriesTagsSeeder extends Seeder
             }
 
             for ($i = 0; $i < count($placeTagArray); $i++) {
-               $placesTagsArray[] = PlaceCategoryTag::create(
+                $placesTagsArray[] = PlaceCategoryTag::create(
                     ['name' => $placeTagArray[$i]]
                 );
             }
 
             PlaceCategory::create(['name' => $category])
-                    ->tags()
-                    ->saveMany(
-                        $placesTagsArray
-                    );
+                ->tags()
+                ->saveMany(
+                    $placesTagsArray
+                );
 
             $placesTagsArray = [];
             $placeTagArray = [];
