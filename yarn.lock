@@ -2014,6 +2014,10 @@ domutils@1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
+dotenv@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.0.0.tgz#24e37c041741c5f4b25324958ebbc34bca965935"
+
 duplexer2@~0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.1.4.tgz#8b12dab878c0d69e3e7891051662a32fc6bddcc1"
@@ -3835,6 +3839,10 @@ map-visit@^1.0.0:
   resolved "https://registry.yarnpkg.com/map-visit/-/map-visit-1.0.0.tgz#ecdca8f13144e660f1b5bd41f12f3479d98dfb8f"
   dependencies:
     object-visit "^1.0.0"
+
+mapbox-gl-vue@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/mapbox-gl-vue/-/mapbox-gl-vue-1.9.0.tgz#49865e5ff20c2cbfee322e6339fbb13cb162bb20"
 
 mapbox-gl@^0.47.0:
   version "0.47.0"
