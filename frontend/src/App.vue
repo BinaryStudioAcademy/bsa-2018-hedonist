@@ -11,6 +11,7 @@
                 <li><router-link to="/places/list">Place-list</router-link></li>
                 <li><router-link to="/tastes/add">Tastes add</router-link></li>
                 <li><router-link to="/user/lists">User lists</router-link></li>
+                <li><router-link to="/search">Search</router-link></li>
             </ul>
         </nav>
         <router-view/>
