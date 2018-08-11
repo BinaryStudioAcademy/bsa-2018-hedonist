@@ -4,6 +4,7 @@ namespace Hedonist\Actions\Like;
 
 use Hedonist\Entities\Like\Like;
 use Hedonist\Entities\Place\Place;
+use Hedonist\Events\Like\LikeAddEvent;
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Repositories\Like\LikeRepository;
 use Hedonist\Repositories\Dislike\DislikeRepository;
@@ -29,21 +30,21 @@ class LikePlaceAction
     public function execute(LikePlaceRequest $request): LikePlaceResponse
     {
         $place = $this->placeRepository->getById($request->getPlaceId());
-        if (empty($place)) {
+        if ($place === null) {
             throw new PlaceNotFoundException();
         }
+
         $like = $this->likeRepository->findByUserAndPlace(Auth::id(), $request->getPlaceId());
-        $dislike = $this->dislikeRepository->findByUserAndPlace(Auth::id(), $request->getPlaceId());
-        if ($dislike) {
-            $this->dislikeRepository->deleteById($dislike->id);
-        }
-        if (empty($like)) {
+        if ($like === null) {
             $like = new Like([
                 'likeable_id' => $request->getPlaceId(),
                 'likeable_type' => Place::class,
                 'user_id' => Auth::id()
             ]);
             $this->likeRepository->save($like);
+            event(new LikeAddEvent($like));
+        } else {
+            $this->likeRepository->deleteById($like->id);
         }
         
         return new LikePlaceResponse();
