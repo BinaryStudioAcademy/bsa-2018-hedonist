@@ -23,6 +23,7 @@
     article {
         margin: 1.5rem 3rem;
         text-align: left;
+        width: 400px;
     }
 
     .entry-media {

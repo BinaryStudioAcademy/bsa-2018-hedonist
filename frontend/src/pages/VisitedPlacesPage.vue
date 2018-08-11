@@ -1,24 +1,81 @@
 <template>
-    <section class="container">
-        <div v-for="(visitedPlace,index) in visitedPlaces" :key="visitedPlace.id">
-            <VisitedPlacesComponent :visitedPlace="visitedPlace" :index="index + 1"/>
+    <div class="row">
+        <div class="column">
+            <div v-for="(visitedPlace,index) in visitedPlaces" :key="visitedPlace.id">
+                <VisitedPlacesComponent :visitedPlace="visitedPlace" :index="index + 1"/>
+            </div>
         </div>
-    </section>
+
+        <div class="column mapbox-wrapper">
+            <section id="map">
+                <mapbox
+                        :access-token="getMapboxToken"
+                        :map-options="{style: getMapboxStyle}"
+                        :fullscreen-control="{
+                            show: true,
+                            position: 'bottom-right'
+                        }">
+                </mapbox>
+            </section>
+        </div>
+    </div>
 </template>
 
 <style lang="scss" scoped>
-    .container {
+    .row {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .row {
         display: flex;
-        flex-wrap: wrap;
-        justify-content: space-evenly;
+    }
+
+    .column {
+        flex: 50%;
+    }
+
+    #map {
+        text-align: justify;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        width: 50%;
+    }
+
+    @media screen and (max-width: 769px) {
+        #map {
+            text-align: justify;
+            vertical-align: top;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 500px;
+        }
+    }
+</style>
+
+<style>
+    .mapboxgl-ctrl-top-left,
+    .mapboxgl-ctrl-top-right {
+        top: 50px;
     }
 </style>
 
 <script>
+    import { mapGetters } from "vuex";
     import VisitedPlacesComponent from '../components/Places/VisitedPlacesComponent';
+    import Mapbox from 'mapbox-gl-vue';
 
     export default {
         name: "VisitedPlacesPage",
+        components: {
+            VisitedPlacesComponent,
+            Mapbox
+        },
         data() {
             return {
                 visitedPlaces: [
@@ -182,8 +239,8 @@
                 ]
             }
         },
-        components: {
-            VisitedPlacesComponent
+        computed: {
+            ...mapGetters("map", ["getMapboxToken", "getMapboxStyle"])
         }
     }
 </script>
