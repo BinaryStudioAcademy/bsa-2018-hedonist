@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers;
+namespace Hedonist\Http\Controllers\Api\Review;
 
 use Hedonist\Actions\Review\{
     GetReviewAction,

@@ -73,6 +73,9 @@ Route::prefix('v1')->group(function () {
         Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
         Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
 
+        Route::get('/places/{id}/rating', 'Api\Places\PlaceRatingController@getPlaceRatingAvg')
+            ->name('place.rating.getPlaceRatingAvg');
+
         Route::prefix('tastes')->group(function () {
             Route::get('/', 'Api\UserTaste\TasteController@getTastes')
                 ->name('tastes.getTastes');
@@ -104,9 +107,6 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/places/rating', 'Api\Places\PlaceRatingController@setRating')
             ->name('place.rating.setPlaceRating');
-
-        Route::get('/places/rating/place/{id}', 'Api\Places\PlaceRatingController@getPlaceRatingAvg')
-            ->name('place.rating.getPlaceRatingAvg');
 
         Route::get('/places/rating/byPlaceUser', 'Api\Places\PlaceRatingController@getRating')
             ->name('place.rating.getPlaceRatingByPlaceUser');
