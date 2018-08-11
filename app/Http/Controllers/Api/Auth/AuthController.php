@@ -76,8 +76,6 @@ class AuthController extends ApiController
             return $this->successResponse(AuthPresenter::presentUser($response));
         } catch (InvalidUserDataException $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
-        } catch (\Exception $exception) {
-            return $this->errorResponse(AuthPresenter::presentError($exception), 500);
         }
     }
 
