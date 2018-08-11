@@ -2,7 +2,7 @@
     <div class="row">
         <div class="column visitedplaces-wrapper">
             <div v-for="(visitedPlace,index) in visitedPlaces" :key="visitedPlace.id">
-                <VisitedPlacesComponent :visitedPlace="visitedPlace" :index="index + 1"/>
+                <PlaceVisitedComponent :visitedPlace="visitedPlace" :index="index + 1"/>
             </div>
         </div>
 
@@ -72,14 +72,14 @@
 
 <script>
     import { mapGetters } from "vuex";
-    import VisitedPlacesComponent from '../components/place/VisitedPlacesComponent';
+    import PlaceVisitedComponent from '../components/place/PlaceVisitedComponent';
     import Mapbox from 'mapbox-gl-vue';
-    import mapactions from '../store/modules/map/actions';
+    import mapActions from '../store/modules/map/actions';
 
     export default {
-        name: "VisitedPlacesPage",
+        name: "HistoryPage",
         components: {
-            VisitedPlacesComponent,
+            PlaceVisitedComponent,
             Mapbox
         },
         data() {
@@ -90,14 +90,14 @@
                         ratings: {
                             rating: 7.9
                         },
-                        address: "ул. Толкиен, 3",
+                        address: "Tolkien str., 3",
                         latitude: 48.424234,
                         longitude: 34.974195,
                         zip: null,
                         creator_id: null,
                         categories: {
                             id: 2,
-                            name: 'Ресторан'
+                            name: 'Restaurant'
                         },
                         place_photo: {
                             url: "http://www.fraufluger.ru/files/images/story/a7ab21562ce4476d11936f0fd3c27fa6_560x416.jpg",
@@ -120,13 +120,13 @@
                         ],
                         places_tr: {
                             id: 2,
-                            place_name: "Сказка",
+                            place_name: "Fairy tale",
                             place_description: "Ох",
                             language_id: 2
                         },
                         cities: {
                             id: 12,
-                            name: "Днепр"
+                            name: "Dnepr"
                         }
                     },
                     {
@@ -134,7 +134,7 @@
                         ratings: {
                             rating: 8.8
                         },
-                        address: "ул. Космос, 18",
+                        address: "Cosmos str., 18",
                         latitude: 46.423080,
                         longitude: 30.756138,
                         zip: null,
@@ -156,13 +156,13 @@
                         ],
                         places_tr: {
                             id: 2,
-                            place_name: "Буржуй",
-                            place_description: "Зверь",
+                            place_name: "Bourgeois",
+                            place_description: "Beast",
                             language_id: 2
                         },
                         cities: {
                             id: 4,
-                            name: "Одесса"
+                            name: "Odesa"
                         }
                     },
                     {
@@ -195,7 +195,7 @@
                         },
                         cities: {
                             id: 12,
-                            name: "Киев"
+                            name: "Kiev"
                         }
                     },
                     {
@@ -203,18 +203,18 @@
                         ratings: {
                             rating: 6.3
                         },
-                        address: "ул. Кошки, 43",
+                        address: "Cat str., 43",
                         latitude: 49.817136,
                         longitude: 24.005504,
                         zip: null,
                         creator_id: null,
                         categories: {
                             id: 10,
-                            name: 'Парк'
+                            name: 'Park'
                         },
                         place_photo: {
                             url: "https://i.ytimg.com/vi/3lqlc-ooJpE/hqdefault.jpg",
-                            description: "Чебуречек",
+                            description: "Cheburek",
                             posted_at: '2018-08-08'
                         },
                         reviews: [
@@ -233,8 +233,8 @@
                         ],
                         places_tr: {
                             id: 2,
-                            place_name: "Чебуречек",
-                            place_description: "Чебуречек очень вкусный",
+                            place_name: "Cheburek",
+                            place_description: "Cheburek is delicious",
                             language_id: 2
                         },
                         cities: {
@@ -292,7 +292,7 @@
                 return features;
             },
             getMapboxCenter: function() {
-                return mapactions.getMapboxCenter(this.visitedPlaces);
+                return mapActions.getMapboxCenter(this.visitedPlaces);
             }
         }
     }

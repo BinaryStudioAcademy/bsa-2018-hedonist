@@ -5,7 +5,7 @@ import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
 import PlacesList from  '@/components/PlacesList/PlacesList';
-import VisitedPlacesPage from '@/pages/VisitedPlacesPage';
+import HistoryPage from '@/pages/HistoryPage';
 import store from '../store/index';
 import middlewares from './middlewares';
 import SignUp from '@/components/auth/SignUp';
@@ -57,9 +57,9 @@ export default new Router({
                 component: TastesAdd
             },
             {
-                path: '/places/visited',
-                name: 'VisitedPlacesPage',
-                component: VisitedPlacesPage
+                path: '/history',
+                name: 'HistoryPage',
+                component: HistoryPage
             }
         ]),
         ...middleware(middlewares.guest(store))([

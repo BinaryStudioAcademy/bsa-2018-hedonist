@@ -11,9 +11,9 @@
             </div>
             <h2 class="title">{{ index }}.{{ visitedPlace.places_tr.place_name }}</h2>
             <p>{{ cityAddress }}</p>
-            <p>{{ visitedPlace.categories.name }} - Подсказок и отзывов: {{reviewCount}}</p>
+            <p>{{ visitedPlace.categories.name }} - Tips and feedback: {{reviewCount}}</p>
 
-            <button class="saved"><i class="fa fa-bookmark"></i>Сохранено</button>
+            <button class="saved"><i class="fa fa-bookmark"></i>Saved</button>
         </div>
     </article>
 </template>
@@ -83,7 +83,7 @@
 
 <script>
     export default {
-        name: "VisitedPlacesComponent",
+        name: "PlaceVisitedComponent",
         props: {
             visitedPlace: {
                 required: true,
