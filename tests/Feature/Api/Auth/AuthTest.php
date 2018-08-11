@@ -132,7 +132,7 @@ class AuthTest extends ApiTestCase
         ]);
     }
 
-    function test_logout()
+    public function test_logout()
     {
         $user = factory(User::class)->create();
         $this->authenticate($user);

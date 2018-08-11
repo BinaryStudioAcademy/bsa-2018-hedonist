@@ -9,7 +9,7 @@ use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\UserInfo;
 use Tests\TestCase;
 
-class PresenterTest extends TestCase
+class AuthPresenterTest extends TestCase
 {
     public function test_auth_response_present()
     {
