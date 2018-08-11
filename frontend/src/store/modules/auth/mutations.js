@@ -8,6 +8,7 @@ export default {
     },
     USER_LOGOUT: (state) => {
         StorageService.removeToken();
+        StorageService.removeAuthenticatedUser();
         state.token = '';
         state.currentUser = null;
         state.isLoggedIn = false;

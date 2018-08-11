@@ -14,7 +14,6 @@ export const storageService = {
         return this.set(this.keyName, token);
     },
     hasToken() {
-        console.log(this.get(this.keyName));
         return !!this.get(this.keyName);
     },
     setAuthenticatedUser(user) {
@@ -22,6 +21,9 @@ export const storageService = {
     },
     getAuthenticatedUser() {
         return this.get(this.USER);
+    },
+    removeAuthenticatedUser() {
+        return localStorage.removeItem(this.USER);
     },
     removeToken() {
         return localStorage.removeItem(this.keyName);
