@@ -91,7 +91,7 @@
         color: grey;
         max-width: 100%;
     }
-    
+
     .columns {
         width: 100%;
         margin: 0;
@@ -140,6 +140,7 @@
         line-height: 48px;
         font-size: 1.5rem;
         color: #FFF;
+        text-align: center;
     }
     .rating-wrapper {
         margin-top: 1.5rem;
@@ -163,6 +164,7 @@
         .place-item {
             max-width: 100%;
         }
+
         .title, .place-category, .address {
             text-align: left;
         }
