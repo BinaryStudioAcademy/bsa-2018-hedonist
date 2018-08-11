@@ -26,6 +26,7 @@ export default {
   padding: 54px 72px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
   font-family: 'Roboto', Arial, serif;
+  text-align: center;
 }
 
 .title {

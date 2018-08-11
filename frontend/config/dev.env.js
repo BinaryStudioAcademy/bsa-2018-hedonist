@@ -2,7 +2,7 @@
 const merge = require('webpack-merge')
 const devEnv = require('./dev.env')
 
-module.exports = merge(devEnv, {
+module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
   MAPBOX_TOKEN: '"'+process.env.MAPBOX_TOKEN+'"',
   MAPBOX_STYLE: '"'+process.env.MAPBOX_STYLE+'"'

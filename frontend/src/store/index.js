@@ -5,6 +5,7 @@ import actions from './common/actions';
 import getters from './common/getters';
 import mutations from './common/mutations';
 import auth from './modules/auth/index';
+import place from './modules/place/index';
 import map from './modules/map/index';
 
 Vue.use(Vuex);
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
     modules: {
         auth: auth,
-        map: map
+        place,
+        map
     }
 });
