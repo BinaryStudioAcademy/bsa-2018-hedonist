@@ -7,7 +7,7 @@
                 <li><router-link to="/login">Login</router-link></li>
                 <li><a @click="onLogOut">Logout</a></li>
                 <li><router-link to="/profile">Profile</router-link></li>
-                <li><router-link to="/place-info">Place-info</router-link></li>
+                <li><router-link v-if="placeId" :to="`place-info/${placeId}`">Place-info</router-link></li>
                 <li><router-link to="/places/list">Place-list</router-link></li>
                 <li><router-link to="/tastes/add">Tastes add</router-link></li>
                 <li><router-link to="/user/lists">User lists</router-link></li>
@@ -18,11 +18,22 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
     name: 'App',
-
+    data() {
+        return {
+            placeId: null
+        }
+    },
+    created() {
+        this.$store.dispatch('place/loadPlaces')
+            .then(() => this.placeId = this.truePlaces[0].id);
+    },
+    computed: {
+        ...mapState('place', ['truePlaces'])
+    },
     methods: {
         ...mapActions(['logout']),
 

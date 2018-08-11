@@ -48,7 +48,7 @@ export default new Router({
                 component: ExplorePage
             },
             {
-                path: '/place-info',
+                path: '/place-info/:id',
                 name: 'PlacePage',
                 component: PlacePage
             },

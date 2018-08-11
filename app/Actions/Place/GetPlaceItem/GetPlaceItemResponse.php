@@ -2,7 +2,12 @@
 
 namespace Hedonist\Actions\Place\GetPlaceItem;
 
+use Hedonist\Entities\Localization\PlaceTranslation;
+use Hedonist\Entities\Place\City;
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\Place\PlaceCategory;
+use Hedonist\Entities\Place\PlaceRating;
+use Illuminate\Database\Eloquent\Collection;
 
 class GetPlaceItemResponse
 {
@@ -18,20 +23,33 @@ class GetPlaceItemResponse
     private $website;
     private $createdAt;
     private $updatedAt;
+    private $localization;
+    private $category;
+    private $city;
+    private $rating;
 
-    public function __construct(Place $place) {
-        $this->id          = $place->id;
-        $this->creator_id  = $place->creator_id;
-        $this->category_id = $place->category_id;
-        $this->city_id     = $place->city_id;
-        $this->longitude   = $place->longitude;
-        $this->latitude    = $place->latitude;
-        $this->zip         = $place->zip;
-        $this->address     = $place->address;
-        $this->phone       = $place->phone;
-        $this->website     = $place->website;
-        $this->createdAt   = $place->created_at;
-        $this->updatedAt   = $place->updated_at;
+    public function __construct(
+        Place $place,
+        PlaceCategory $placeCategory,
+        City $city,
+        ?float $rating
+    ) {
+        $this->id           = $place->id;
+        $this->creator_id   = $place->creator_id;
+        $this->category_id  = $place->category_id;
+        $this->city_id      = $place->city_id;
+        $this->longitude    = $place->longitude;
+        $this->latitude     = $place->latitude;
+        $this->zip          = $place->zip;
+        $this->address      = $place->address;
+        $this->phone        = $place->phone;
+        $this->website      = $place->website;
+        $this->createdAt    = $place->created_at;
+        $this->updatedAt    = $place->updated_at;
+        $this->localization = $place->localization;
+        $this->category     = $placeCategory;
+        $this->city         = $city;
+        $this->rating       = $rating;
     }
 
 
@@ -93,5 +111,25 @@ class GetPlaceItemResponse
     public function getUpdatedAt(): string
     {
         return $this->updatedAt;
+    }
+
+    public function getLocalization(): Collection
+    {
+        return $this->localization;
+    }
+
+    public function getCategory(): PlaceCategory
+    {
+        return $this->category;
+    }
+
+    public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
     }
 }

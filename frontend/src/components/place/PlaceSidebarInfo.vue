@@ -7,11 +7,11 @@
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
                     <i class="place-sidebar__icon far fa-compass"></i>
-                    <div class="place-name"><strong>МАМА МАНАНА</strong></div>
+                    <div class="place-name"><strong>{{ place.localization.name }}</strong></div>
                     <div class="place-address">
-                        <span class="place-street">вул. Велика Васильківська, 44</span>
-                        <span class="place-city">Киев</span>,
-                        <span class="place-zip">01004</span>
+                        <span class="place-street">{{ place.address }}</span>,
+                        <span class="place-city">{{ place.city.name }}</span>,
+                        <span class="place-zip">{{ place.zip }}</span>,
                         <span class="place-country">Украина</span>
                     </div>
                 </div>
@@ -26,17 +26,17 @@
                 </div>
                 <div class="place-sidebar__phone">
                     <i class="place-sidebar__icon fas fa-phone"></i>
-                    <a class="phone-number" href="tel:+380 44 287 4436">+380 44 287 4436</a>
+                    <a class="phone-number" :href="`tel:${place.phone}`">{{ place.phone }}</a>
                 </div>
-                <div class="place-sidebar__website">
+                <div v-if="place.website" class="place-sidebar__website">
                     <i class="place-sidebar__icon fas fa-globe"></i>
-                    <a target="_blank" href="https://mamamanana.kiev.ua">mamamanana.kiev.ua</a>
+                    <a target="_blank" :href="place.website">{{ place.website }}</a>
                 </div>
-                <div class="place-sidebar__facebook">
+                <div v-if="place.socials" class="place-sidebar__facebook">
                     <i class="place-sidebar__icon fab fa-facebook-square"></i>
                     <a href="https://www.facebook.com/mamamanana.kiev">mamamanana.kiev</a>
                 </div>
-                <div class="place-sidebar__facebook">
+                <div v-if="place.socials" class="place-sidebar__facebook">
                     <i class="place-sidebar__icon fab fa-instagram"></i>
                     <a href="https://www.instagram.com/mamamanana.kiev.ua/">@mamamanana.kiev.ua</a>
                 </div>
@@ -79,6 +79,15 @@
 <script>
 export default {
     name: "PlaceSidebarInfo",
+    props: {
+        place: {
+            type: Object,
+            required: true
+        }
+    },
+    created() {
+        console.log(this.place);
+    }
 }
 </script>
 

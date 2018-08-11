@@ -57,5 +57,7 @@ export default {
                 dislikes: '100'
             }
         }
-    ]
-}
+    ],
+    truePlaces: null,
+    currentPlace: null
+};

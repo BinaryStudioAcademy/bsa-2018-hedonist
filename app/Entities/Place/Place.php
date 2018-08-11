@@ -2,12 +2,30 @@
 
 namespace Hedonist\Entities\Place;
 
+use Hedonist\Entities\Localization\PlaceTranslation;
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class Place
+ *
+ * @property int $id
+ * @property float $longitude
+ * @property float $latitude
+ * @property int $zip
+ * @property string $address
+ * @property string $phone
+ * @property string $website
+ * @property int $creator_id
+ * @property int $category_id
+ * @property int $city_id
+ * @property int $updated_at
+ * @property int $created_at
+ * @property int $deleted_at
+ */
 class Place extends Model
 {
     use SoftDeletes;
@@ -74,6 +92,11 @@ class Place extends Model
     public function worktime()
     {
         return $this->hasMany(PlaceWorkTime::class);
+    }
+
+    public function localization()
+    {
+        return $this->hasMany(PlaceTranslation::class);
     }
 
     public function setLocation(Location $location): void
