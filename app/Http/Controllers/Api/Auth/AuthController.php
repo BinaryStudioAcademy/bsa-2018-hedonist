@@ -3,10 +3,12 @@
 namespace Hedonist\Http\Controllers\Api\Auth;
 
 use Hedonist\Actions\Auth\ChangePasswordAction;
+use Hedonist\Actions\Auth\GetUserAction;
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\Auth\RecoverPasswordAction;
 use Hedonist\Actions\Auth\RegisterUserAction;
 use Hedonist\Actions\Auth\Requests\ChangePasswordRequest;
+use Hedonist\Actions\Auth\Requests\GetUserRequest;
 use Hedonist\Actions\Auth\Requests\LoginRequest;
 use Hedonist\Actions\Auth\Requests\RecoverPasswordRequest;
 use Hedonist\Actions\Auth\Requests\ResetPasswordRequest;
@@ -65,9 +67,15 @@ class AuthController extends ApiController
         }
     }
 
-    public function me()
+    public function me(GetUserAction $action)
     {
-        return $this->successResponse(AuthPresenter::presentUser(Auth::user()));
+        try {
+            $response = $action->execute(new GetUserRequest(Auth::id()));
+
+            return $this->successResponse(AuthPresenter::presentUser($response));
+        } catch (\Exception $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 500);
+        }
     }
 
     public function refresh()
@@ -127,10 +135,10 @@ class AuthController extends ApiController
         }
     }
 
-    public function changePassword(ChangePasswordHttpRequest $httpRequest,ChangePasswordAction $action)
+    public function changePassword(ChangePasswordHttpRequest $httpRequest, ChangePasswordAction $action)
     {
         try {
-            $changeRequest = new ChangePasswordRequest($httpRequest->old_password,$httpRequest->new_password);
+            $changeRequest = new ChangePasswordRequest($httpRequest->old_password, $httpRequest->new_password);
             $action->execute($changeRequest);
 
             return $this->emptyResponse(200);

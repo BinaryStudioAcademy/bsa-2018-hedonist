@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\Auth\Presenters;
 
 use Hedonist\Actions\Auth\Responses\AuthenticateResponseInterface;
+use Hedonist\Actions\Auth\Responses\GetUserResponse;
 use Hedonist\Entities\User\User;
 
 class AuthPresenter
@@ -22,8 +23,15 @@ class AuthPresenter
         ];
     }
 
-    public static function presentUser(User $user): array
+    public static function presentUser(GetUserResponse $response): array
     {
-        return $user->toArray();
+        $user = $response->getUser();
+        $userInfo = $response->getUserInfo();
+        return [
+            'id' => $user->id,
+            'email' => $user->email,
+            'first_name' => $userInfo->first_name,
+            'last_name' => $userInfo->last_name
+        ];
     }
 }
