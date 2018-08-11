@@ -36,8 +36,6 @@
         margin: 0 auto;
         max-width: 400px;
         max-height: 300px;
-        margin-left: auto;
-        margin-right: auto;
     }
 
     .item-description {
