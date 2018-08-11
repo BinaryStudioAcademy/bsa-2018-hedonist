@@ -250,7 +250,6 @@
         },
         methods: {
             mapLoaded: function (map) {
-                this.generateMapFeatures();
                 map.addLayer({
                     'id': 'points',
                     'type': 'symbol',
@@ -274,19 +273,18 @@
                 let features = [];
                 this.visitedPlaces.forEach(function (place, i) {
 
-                    let feature = {};
-                    let geometry = {};
-                    let properties = {};
-
-                    geometry.type = 'Point';
-                    geometry.coordinates = [place.longitude, place.latitude];
-
-                    properties.title = place.places_tr.place_name;
-                    properties.icon = 'marker';
-
-                    feature.type = 'Feature';
-                    feature.geometry = geometry;
-                    feature.properties = properties;
+                    let feature = {
+                        'type' : 'Feature',
+                        'geometry' : {
+                            'type' : 'Point',
+                            'coordinates' : [place.longitude, place.latitude]
+                        },
+                        'properties' : {
+                            "title" : place.places_tr.place_name,
+                            "icon" : 'marker',
+                            "marker-symbol" : i + 1
+                        }
+                    };
 
                     features.push(feature);
                 });
