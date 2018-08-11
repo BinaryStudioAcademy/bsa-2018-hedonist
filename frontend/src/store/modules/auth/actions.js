@@ -21,19 +21,20 @@ export default {
             password: user.password
         })
             .then(function (res) {
-                context.commit('USER_LOGIN', res.data.data);
+                const userData = res.data.data;
+                context.commit('USER_LOGIN', userData);
+                context.dispatch('fetchAuthenticatedUser', userData.access_token);
             }).catch(function (err) {
                 // TODO: Handle error
             });
     },
-    logout: (context, user) => {
-        httpService.post('/auth/logout', {
-            data: user
-        }).then(function (res) {
-            context.commit('USER_LOGOUT', res);
-        }).catch(function (err) {
-            // TODO: Handle error
-        });
+    logout: (context) => {
+        httpService.post('/auth/logout')
+            .then(function (res) {
+                context.commit('USER_LOGOUT', res);
+            }).catch(function (err) {
+                // TODO: Handle error
+            });
     },
     resetPassword: (context, user) => {
         httpService.post('/auth/reset', {
@@ -70,6 +71,7 @@ export default {
                 token
             }
         }).then(function (res) {
+            context.commit('SET_AUTHENTICATED_USER', res.data.data);
         }).catch(function (err) {
             // TODO: Handle error
         });
