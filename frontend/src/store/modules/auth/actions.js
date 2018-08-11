@@ -3,38 +3,50 @@ import StorageService from '../../../services/common/storageService';
 
 export default {
     signUp: (context, user) => {
-        httpService.post('auth/signup', {
-            email: user.email,
-            password: user.password,
-            last_name: user.lastName,
-            first_name: user.firstName
-        })
-            .then(function (res) {
+        return new Promise((resolve, reject) => {
+            httpService.post('auth/signup', {
+                email: user.email,
+                password: user.password,
+                last_name: user.lastName,
+                first_name: user.firstName
             })
-            .catch(function (err) {
-                // TODO: Handle error
-            });
+                .then(function (res) {
+                    resolve();
+                })
+                .catch(function (err) {
+                    // TODO: Handle error
+                    reject(err);
+                });
+        });
     },
     login: (context, user) => {
-        httpService.post('auth/login', {
-            email: user.email,
-            password: user.password
-        })
-            .then(function (res) {
-                const userData = res.data.data;
-                context.commit('USER_LOGIN', userData);
-                context.dispatch('fetchAuthenticatedUser', userData.access_token);
-            }).catch(function (err) {
+        return new Promise((resolve, reject) => {
+            httpService.post('auth/login', {
+                email: user.email,
+                password: user.password
+            })
+                .then(function (res) {
+                    const userData = res.data.data;
+                    context.commit('USER_LOGIN', userData);
+                    context.dispatch('fetchAuthenticatedUser', userData.access_token);
+                    resolve();
+                }).catch(function (err) {
                 // TODO: Handle error
-            });
+                    reject(err);
+                });
+        });
     },
     logout: (context) => {
-        httpService.post('/auth/logout')
-            .then(function (res) {
-                context.commit('USER_LOGOUT', res);
-            }).catch(function (err) {
-                // TODO: Handle error
-            });
+        return new Promise((resolve, reject) => {
+            httpService.post('/auth/logout')
+                .then(function (res) {
+                    context.commit('USER_LOGOUT', res);
+                    resolve();
+                }).catch(function (err) {
+                    // TODO: Handle error
+                    reject(err);
+                });
+        });
     },
     resetPassword: (context, user) => {
         httpService.post('/auth/reset', {

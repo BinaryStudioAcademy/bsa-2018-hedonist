@@ -92,9 +92,18 @@ export default {
 
     onSignUp () {
       if (!this.$v.newUser.$invalid) {
-        this.signUp(this.newUser)
-
-        this.refreshInput()
+        this.signUp(this.newUser).then(() =>{
+          this.refreshInput();
+          this.$router.push({name: 'LoginPage'});
+          this.$dialog.alert({
+              title: 'Congrats!',
+              message: 'You have successfully registered! Now you need to login',
+              type: 'is-success',
+              hasIcon: true,
+              icon: 'check-circle',
+              iconPack: 'fa'
+          });
+        });
       } else {
         this.$dialog.alert({
           title: 'Error',

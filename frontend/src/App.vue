@@ -3,9 +3,12 @@
         <nav class="navigation">
             <ul class="navbar">
                 <li><router-link to="/">Home</router-link></li>
-                <li><router-link to="/signup">Sign up</router-link></li>
-                <li><router-link to="/login">Login</router-link></li>
-                <li><a @click="onLogOut">Logout</a></li>
+                <li v-if="!isLoggedIn">
+                    <router-link to="/signup">Sign up</router-link></li>
+                <li v-if="!isLoggedIn">
+                    <router-link to="/login">Login</router-link></li>
+                <li v-if="isLoggedIn">
+                    <a @click="onLogOut">Logout</a></li>
                 <li><router-link to="/profile">Profile</router-link></li>
                 <li><router-link to="/place-info">Place-info</router-link></li>
                 <li><router-link to="/places/list">Place-list</router-link></li>
@@ -23,15 +26,24 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'App',
+    computed: {
+        ...mapGetters([
+            'isLoggedIn',
+        ]),
 
+    },
     methods: {
-        ...mapActions(['logout']),
-
+        ...mapActions([
+            'logout',
+        ]),
         onLogOut () {
-            this.logout();
+            this.logout().then(()=>{
+                this.$router.push({name: 'LoginPage'});
+            });
         }
     }
 }
