@@ -6,6 +6,7 @@ import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
 import UserListsPage from '@/pages/UserListsPage';
 import PlacesList from  '@/components/PlacesList/PlacesList';
+import ExplorePage from  '@/pages/ExplorePage';
 import store from '../store/index';
 import middlewares from './middlewares';
 import SignUpPage from '@/pages/SignUpPage';
@@ -40,6 +41,11 @@ export default new Router({
                 path: '/places/list',
                 name: 'PlacesList',
                 component: PlacesList
+            },
+            {
+                path: '/explore',
+                name: 'ExplorePage',
+                component: ExplorePage
             },
             {
                 path: '/place-info',

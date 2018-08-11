@@ -35,6 +35,7 @@ export default {
 
 <style lang="scss">
 @import url(buefy/lib/buefy.css);
+@import url('https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css');
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500');
 
 $background-color: #efeff4;
