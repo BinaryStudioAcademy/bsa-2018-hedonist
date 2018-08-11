@@ -72,7 +72,7 @@
 
 <script>
     import { mapGetters } from "vuex";
-    import VisitedPlacesComponent from '../components/Places/VisitedPlacesComponent';
+    import VisitedPlacesComponent from '../components/place/VisitedPlacesComponent';
     import Mapbox from 'mapbox-gl-vue';
     import mapactions from '../store/modules/map/actions';
 
