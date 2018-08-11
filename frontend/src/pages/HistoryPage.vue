@@ -2,7 +2,7 @@
     <div class="row">
         <div class="column visitedplaces-wrapper">
             <div v-for="(visitedPlace,index) in visitedPlaces" :key="visitedPlace.id">
-                <PlaceVisitedComponent :visitedPlace="visitedPlace" :index="index + 1"/>
+                <PlaceVisitedPreview :visitedPlace="visitedPlace" :index="index + 1"/>
             </div>
         </div>
 
@@ -72,14 +72,14 @@
 
 <script>
     import { mapGetters } from "vuex";
-    import PlaceVisitedComponent from '../components/place/PlaceVisitedComponent';
+    import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
     import Mapbox from 'mapbox-gl-vue';
     import mapActions from '../store/modules/map/actions';
 
     export default {
         name: "HistoryPage",
         components: {
-            PlaceVisitedComponent,
+            PlaceVisitedPreview,
             Mapbox
         },
         data() {

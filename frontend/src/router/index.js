@@ -19,7 +19,7 @@ import TastesAdd from '@/components/tastes/TastesAdd';
 Vue.use(Router);
 
 const middleware = handler => (
-    routes => routes.map(route => Object.assign({}, route, {beforeEnter: handler}))
+    routes => routes.map(route => Object.assign({}, route, { beforeEnter: handler }))
 );
 
 export default new Router({

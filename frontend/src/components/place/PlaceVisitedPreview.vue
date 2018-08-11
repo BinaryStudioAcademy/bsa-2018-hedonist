@@ -83,7 +83,7 @@
 
 <script>
     export default {
-        name: "PlaceVisitedComponent",
+        name: "PlaceVisitedPreview",
         props: {
             visitedPlace: {
                 required: true,
