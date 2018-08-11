@@ -90,10 +90,6 @@ export default {
     }
   },
 
-  computed: {
-    // ...mapGetters(['getToken'])
-  },
-
   methods: {
     ...mapActions(['resetPassword']),
 
