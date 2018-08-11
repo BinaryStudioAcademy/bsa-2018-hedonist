@@ -7,7 +7,7 @@ import ReviewList from '@/components/review/ReviewList';
 import UserListsPage from '@/pages/UserListsPage';
 import PlacesList from  '@/components/PlacesList/PlacesList';
 import HistoryPage from '@/pages/HistoryPage';
-import ExplorePage from  '@/pages/ExplorePage';
+import SeachPlacePage from  '@/pages/SeachPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
 import SignUpPage from '@/pages/SignUpPage';
@@ -44,9 +44,9 @@ export default new Router({
                 component: PlacesList
             },
             {
-                path: '/explore',
-                name: 'ExplorePage',
-                component: ExplorePage
+                path: '/search',
+                name: 'SeachPlacePage',
+                component: SeachPlacePage
             },
             {
                 path: '/place-info',
