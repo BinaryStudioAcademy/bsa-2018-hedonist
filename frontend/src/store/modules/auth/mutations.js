@@ -19,4 +19,4 @@ export default {
     SET_AUTHENTICATED_USER: (state, user) => {
         state.currentUser = user;
     }
-}
+};
