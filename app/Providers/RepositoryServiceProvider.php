@@ -78,6 +78,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(PlaceRatingRepositoryInterface::class, PlaceRatingRepository::class);
         $this->app->bind(TasteRepositoryInterface::class, TasteRepository::class);
         $this->app->bind(CityRepositoryInterface::class, CityRepository::class);
+        $this->app->bind(UserInfoRepositoryInterface::class, UserInfoRepository::class);
         $this->app->bind(UserListRepositoryInterface::class, UserListRepository::class);
         $this->app->bind(CheckinRepositoryInterface::class, CheckinRepository::class);
         $this->app->bind(ReviewPhotoRepositoryInterface::class, ReviewPhotoRepository::class);
