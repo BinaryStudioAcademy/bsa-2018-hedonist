@@ -27,6 +27,7 @@ class AuthPresenter
     {
         $user = $response->getUser();
         $userInfo = $response->getUserInfo();
+
         return [
             'id' => $user->id,
             'email' => $user->email,

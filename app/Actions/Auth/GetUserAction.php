@@ -29,6 +29,7 @@ class GetUserAction
         if(is_null($user) || is_null($userInfo)){//if there are no user or user data, then throw exception
             throw new InvalidUserDataException();
         }
+
         return new GetUserResponse($user,$userInfo);
     }
 }
