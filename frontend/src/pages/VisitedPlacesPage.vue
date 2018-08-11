@@ -9,6 +9,7 @@
         <div class="column mapbox-wrapper">
             <section id="map">
                 <mapbox
+                        @map-load="mapLoaded"
                         :access-token="getMapboxToken"
                         :map-options="{style: getMapboxStyle}"
                         :fullscreen-control="{
@@ -85,8 +86,8 @@
                             rating: 7.9
                         },
                         address: "ул. Толкиен, 3",
-                        longitude: null,
-                        latitude: null,
+                        latitude: 48.424234,
+                        longitude: 34.974195,
                         zip: null,
                         creator_id: null,
                         categories: {
@@ -129,8 +130,8 @@
                             rating: 8.8
                         },
                         address: "ул. Космос, 18",
-                        longitude: null,
-                        latitude: null,
+                        latitude: 46.423080,
+                        longitude: 30.756138,
                         zip: null,
                         creator_id: null,
                         categories: {
@@ -165,8 +166,8 @@
                             rating: 10
                         },
                         address: "ул. Р.Стонз, 62",
-                        longitude: null,
-                        latitude: null,
+                        latitude: 50.486555,
+                        longitude: 30.329787,
                         zip: null,
                         creator_id: null,
                         categories: {
@@ -198,8 +199,8 @@
                             rating: 6.3
                         },
                         address: "ул. Кошки, 43",
-                        longitude: null,
-                        latitude: null,
+                        latitude: 49.817136,
+                        longitude: 24.005504,
                         zip: null,
                         creator_id: null,
                         categories: {
@@ -241,7 +242,56 @@
         },
         computed: {
             ...mapGetters("map", ["getMapboxToken", "getMapboxStyle"])
+        },
+        methods: {
+            mapLoaded: function (map) {
+                this.generateMapFeatures();
+                map.addLayer({
+                    'id': 'points',
+                    'type': 'symbol',
+                    'source': {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': this.generateMapFeatures()
+                        }
+                    },
+                    'layout': {
+                        'icon-image': '{icon}-15',
+                        'text-field': '{title}',
+                        'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+                        'text-offset': [0, 0.6],
+                        'text-anchor': 'top'
+                    }
+                });
+            },
+            generateMapFeatures: function () {
+                let features = [];
+                this.visitedPlaces.forEach(function (place, i) {
+
+                    let feature = {};
+                    let geometry = {};
+                    let properties = {};
+
+                    geometry.type = 'Point';
+                    geometry.coordinates = [place.longitude, place.latitude];
+
+                    properties.title = place.places_tr.place_name;
+                    properties.icon = 'marker';
+
+                    feature.type = 'Feature';
+                    feature.geometry = geometry;
+                    feature.properties = properties;
+
+                    features.push(feature);
+                });
+
+                console.log(features);
+
+                return features;
+            }
         }
     }
+
 </script>
 
