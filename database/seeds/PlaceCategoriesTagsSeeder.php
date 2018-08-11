@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 class PlaceCategoriesTagsSeeder extends Seeder
 {
+
     const DATA = [
         'Cafe' => [
             'Ice-cream cafe',
@@ -14,7 +15,7 @@ class PlaceCategoriesTagsSeeder extends Seeder
             'Children\'s cafe',
             'Family cafe',
             'Internet cafe',
-            'Youth cafe'
+            'Youth cafe',
         ],
         'Cafeteria' => [
             'Coffee Room',
@@ -27,7 +28,6 @@ class PlaceCategoriesTagsSeeder extends Seeder
             'Pub',
             'Irish Pub',
             'Beer pub',
-
         ],
         'Restaurant' => [
             'Pizzeria',
@@ -44,7 +44,6 @@ class PlaceCategoriesTagsSeeder extends Seeder
         ],
         'Bar' => [
             'Lounge bar',
-            'Grill-bar',
             'Milk bar',
             'Video Bar',
             'Cocktail bar',
@@ -67,13 +66,13 @@ class PlaceCategoriesTagsSeeder extends Seeder
             'Snack with dumplings',
             'Snack with pancake',
         ],
-        'Others' => [
+        'Other' => [
             'Sweet shop',
             'Chocolate shop',
             'Confectionery',
-            'park',
-            'cinema',
-            'theater',
+            'Park',
+            'Cinema',
+            'Theater',
             'Book Shop',
         ],
 
@@ -86,28 +85,23 @@ class PlaceCategoriesTagsSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('place_category_place_tag')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        foreach (self::DATA as $category => $tags) {
+        $categories = PlaceCategory::all();
+        $tags = PlaceCategoryTag::all();
 
-            foreach ($tags as $tag1) {
-                $placeTagArray[] = $tag1;
-            }
-
-            for ($i = 0; $i < count($placeTagArray); $i++) {
-                $placesTagsArray[] = PlaceCategoryTag::create(
-                    ['name' => $placeTagArray[$i]]
-                );
-            }
-
-            PlaceCategory::create(['name' => $category])
+        foreach ($categories as $category) {
+            $category
                 ->tags()
                 ->saveMany(
-                    $placesTagsArray
+                    $tags
+                        ->whereIn(
+                            'name', self::DATA[$category->name]
+                        )
+                        ->all()
                 );
-
-            $placesTagsArray = [];
-            $placeTagArray = [];
-
         }
     }
 }
