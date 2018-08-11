@@ -23,8 +23,7 @@ jobs:
             && sudo apt-get install -y --no-install-recommends mysql-client zlib1g-dev libsqlite3-dev libpng-dev libjpeg-dev \
             autoconf automake make g++ libtool nasm libpng-dev
 
-      - run: |
-        sudo docker-php-ext-configure gd --with-jpeg-dir=/usr/include \
+      - run: sudo docker-php-ext-configure gd --with-jpeg-dir=/usr/include \
         && sudo docker-php-ext-install pdo pdo_mysql pdo_sqlite gd
 
       - run:
