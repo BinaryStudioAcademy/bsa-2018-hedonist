@@ -91,7 +91,7 @@
         color: grey;
         max-width: 100%;
     }
-    
+
     .columns {
         width: 100%;
         margin: 0;
@@ -163,6 +163,7 @@
         .place-item {
             max-width: 100%;
         }
+
         .title, .place-category, .address {
             text-align: left;
         }

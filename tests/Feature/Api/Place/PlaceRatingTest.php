@@ -141,7 +141,7 @@ class PlaceRatingTest extends ApiTestCase
         ];
         $ratingAvg = round(array_sum($ratings) / \count($ratings), 1);
 
-        $response = $this->json('GET', "api/v1/places/rating/place/$placeId", [
+        $response = $this->json('GET', "api/v1/places/$placeId/rating", [
         ]);
 
         $response->assertStatus(201);
@@ -150,7 +150,7 @@ class PlaceRatingTest extends ApiTestCase
             'rating' => $ratingAvg
         ]);
 
-        $response = $this->json('GET', 'api/v1/places/rating/place/999', [
+        $response = $this->json('GET', 'api/v1/places/999/rating', [
         ]);
 
         $response->assertStatus(400);

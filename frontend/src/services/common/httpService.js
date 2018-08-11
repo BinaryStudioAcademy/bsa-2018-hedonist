@@ -4,7 +4,7 @@ import storageService from "./storageService";
 export class HttpService {
     constructor() {
         this.axios = axios.create({
-            baseURL: '/'
+            baseURL: '/api/v1/'
         });
 
         this.axios.interceptors.request.use(config => {
