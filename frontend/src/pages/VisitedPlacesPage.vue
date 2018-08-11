@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="column">
+        <div class="column visitedplaces-wrapper">
             <div v-for="(visitedPlace,index) in visitedPlaces" :key="visitedPlace.id">
                 <VisitedPlacesComponent :visitedPlace="visitedPlace" :index="index + 1"/>
             </div>

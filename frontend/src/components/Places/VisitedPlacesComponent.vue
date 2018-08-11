@@ -23,21 +23,27 @@
     article {
         margin: 1.5rem 3rem;
         text-align: left;
-        width: 400px;
+        width: 500px;
+        background-color: #FFF;
     }
 
     .entry-media {
         height: 300px;
-        width: 400px;
+        width: 500px;
     }
 
     .image {
         margin: 0 auto;
         max-width: 400px;
         max-height: 300px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .item-description {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+
         .rating-wrapper {
             float: right;
         }
@@ -49,7 +55,8 @@
         .saved {
             padding-top: 0.3rem;
             padding-bottom: 0.3rem;
-            margin-top: 2rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
 
             i {
                 padding-right: 0.6rem;
