@@ -24,7 +24,8 @@ export default new Router({
     routes: [
         ...middleware(middlewares.auth(store))([
             {
-                path: '/'
+                path: '/',
+                component: ProfilePage
             },
             {
                 path: '/profile',
