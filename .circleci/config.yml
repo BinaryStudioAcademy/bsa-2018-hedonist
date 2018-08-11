@@ -24,7 +24,7 @@ jobs:
             autoconf automake make g++ libtool nasm libpng-dev
 
       - run: |
-        sudo docker-php-ext-configure gd --with-jpeg-dir=/usr/include
+        sudo docker-php-ext-configure gd --with-jpeg-dir=/usr/include \
         && sudo docker-php-ext-install pdo pdo_mysql pdo_sqlite gd
 
       - run:
