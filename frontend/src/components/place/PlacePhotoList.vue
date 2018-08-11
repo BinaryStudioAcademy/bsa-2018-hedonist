@@ -1,6 +1,6 @@
 <template>
     <ul class="place-photo-list">
-        <li v-for="photo in photos">
+        <li v-for="photo in photos" :key="photo.id">
             <PlacePhoto :key="photo.id" :photo="photo" />
         </li>
     </ul>

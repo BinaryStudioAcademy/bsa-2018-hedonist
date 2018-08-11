@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
 import PlacePage from '@/pages/PlacePage';
+import PlacePagePhotos from '@/pages/PlacePagePhotos';
 import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
 import PlacesList from  '@/components/PlacesList/PlacesList';
@@ -44,6 +45,11 @@ export default new Router({
                 path: '/place-info',
                 name: 'PlacePage',
                 component: PlacePage
+            },
+            {
+                path: '/place-photos',
+                name: 'PlacePagePhotos',
+                component: PlacePagePhotos
             },
             {
                 path: '/reviews',

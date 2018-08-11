@@ -4,7 +4,7 @@
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
-                    <ReviewList></ReviewList>
+                    <ReviewsPhotos></ReviewsPhotos>
                 </div>
             </div>
             <PlaceSidebarInfo />
