@@ -43,7 +43,7 @@ export default new Router({
                 component: PlacesList
             },
             {
-                path: '/explore',
+                path: '/search',
                 name: 'ExplorePage',
                 component: ExplorePage
             },
