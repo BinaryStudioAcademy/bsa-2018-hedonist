@@ -28,14 +28,14 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('place/loadPlaces')
-            .then(() => this.placeId = this.truePlaces[0].id);
+        this.loadPlaces().then(() => this.placeId = this.truePlaces[0].id);
     },
     computed: {
         ...mapState('place', ['truePlaces'])
     },
     methods: {
         ...mapActions(['logout']),
+        ...mapActions('place', ['loadPlaces']),
 
         onLogOut () {
             this.logout();
