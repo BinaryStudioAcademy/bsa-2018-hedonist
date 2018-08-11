@@ -11,7 +11,11 @@
                 <mapbox
                         @map-load="mapLoaded"
                         :access-token="getMapboxToken"
-                        :map-options="{style: getMapboxStyle}"
+                        :map-options="{
+                            style: getMapboxStyle,
+                            center: getMapboxCenter(),
+                            zoom: 5
+                        }"
                         :fullscreen-control="{
                             show: true,
                             position: 'bottom-right'
@@ -70,6 +74,7 @@
     import { mapGetters } from "vuex";
     import VisitedPlacesComponent from '../components/Places/VisitedPlacesComponent';
     import Mapbox from 'mapbox-gl-vue';
+    import mapactions from '../store/modules/map/actions';
 
     export default {
         name: "VisitedPlacesPage",
@@ -286,9 +291,10 @@
                     features.push(feature);
                 });
 
-                console.log(features);
-
                 return features;
+            },
+            getMapboxCenter: function() {
+                return mapactions.getMapboxCenter(this.visitedPlaces);
             }
         }
     }
