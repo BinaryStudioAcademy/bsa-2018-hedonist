@@ -89,6 +89,12 @@
 <style lang="scss" scoped>
     .place-item {
         color: grey;
+        max-width: 100%;
+    }
+
+    .columns {
+        width: 100%;
+        margin: 0;
     }
 
     .title {
@@ -134,6 +140,7 @@
         line-height: 48px;
         font-size: 1.5rem;
         color: #FFF;
+        text-align: center;
     }
     .rating-wrapper {
         margin-top: 1.5rem;
@@ -154,6 +161,10 @@
     }
 
     @media screen and (min-width: 769px) {
+        .place-item {
+            max-width: 100%;
+        }
+
         .title, .place-category, .address {
             text-align: left;
         }

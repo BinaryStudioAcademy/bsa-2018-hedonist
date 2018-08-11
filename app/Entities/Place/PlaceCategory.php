@@ -1,8 +1,6 @@
 <?php
-
 namespace Hedonist\Entities\Place;
 
-use Hedonist\Entities\Place\PlaceCategoryTag;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

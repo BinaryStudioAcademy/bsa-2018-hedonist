@@ -3,13 +3,17 @@ import Router from 'vue-router';
 import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
+import UserListsPage from '@/pages/UserListsPage';
 import PlacesList from  '@/components/PlacesList/PlacesList';
+import HistoryPage from '@/pages/HistoryPage';
+import SeachPlacePage from  '@/pages/SeachPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
-import SignUp from '@/components/auth/SignUp';
-import Login from '@/components/auth/Login';
-import Reset from '@/components/auth/Reset';
-import Recover from '@/components/auth/Recover';
+import SignUpPage from '@/pages/SignUpPage';
+import LoginPage from '@/pages/LoginPage';
+import ResetPasswordPage from '@/pages/ResetPasswordPage';
+import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
+import TastesAdd from '@/components/tastes/TastesAdd';
 
 Vue.use(Router);
 
@@ -25,7 +29,8 @@ export default new Router({
         ...middleware(middlewares.auth(store))([
             {
                 path: '/',
-                component: ProfilePage
+                name: 'home',
+                redirect: '/search'
             },
             {
                 path: '/profile',
@@ -38,6 +43,11 @@ export default new Router({
                 component: PlacesList
             },
             {
+                path: '/search',
+                name: 'SeachPlacePage',
+                component: SeachPlacePage
+            },
+            {
                 path: '/place-info',
                 name: 'PlacePage',
                 component: PlacePage
@@ -46,29 +56,44 @@ export default new Router({
                 path: '/reviews',
                 name: 'ReviewList',
                 component: ReviewList
+            },
+            {
+                path: '/user/lists',
+                name: 'UserListsPage',
+                component: UserListsPage
+            },
+            {
+                path: '/tastes/add',
+                name: 'Tastes',
+                component: TastesAdd
+            },
+            {
+                path: '/history',
+                name: 'HistoryPage',
+                component: HistoryPage
             }
         ]),
         ...middleware(middlewares.guest(store))([
             {
                 path: '/login',
-                name: 'Login',
-                component: Login
+                name: 'LoginPage',
+                component: LoginPage
             },
             {
                 path: '/signup',
                 name: 'SignUp',
-                component: SignUp
+                component: SignUpPage
             },
             {
                 path: '/reset',
-                name: 'Reset',
-                component: Reset
+                name: 'ResetPasswordPage',
+                component: ResetPasswordPage
             },
             {
                 path: '/recover',
-                name: 'Recover',
-                component: Recover
-            }
+                name: 'RecoverPasswordPage',
+                component: RecoverPasswordPage
+            },
         ])
     ]
 });
