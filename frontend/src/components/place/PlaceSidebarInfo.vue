@@ -43,31 +43,31 @@
                 <h2 class="feature-title">Features</h2>
                 <div class="feature">
                     <div class="feature-name">Бронирование</div>
-                    <div class="feature-info">Да</div>
+                    <div class="feature-info"><i class="fas fa-check"></i></div>
                 </div>
                 <div class="feature">
                     <div class="feature-name">Кредитные карты</div>
-                    <div class="feature-info">Да (вкл. Visa и MasterCard)</div>
+                    <div class="feature-info"><i class="fas fa-check"></i></div>
                 </div>
                 <div class="feature">
                     <div class="feature-name">WiFi</div>
-                    <div class="feature-info">Да</div>
+                    <div class="feature-info"><i class="fas fa-check"></i></div>
                 </div>
                 <div class="feature">
                     <div class="feature-name">Есть заезд для инвалидных колясок</div>
-                    <div class="feature-info">Да</div>
+                    <div class="feature-info"><i class="fas fa-check"></i></div>
                 </div>
                 <div class="feature">
                     <div class="feature-name">Музыка</div>
-                    <div class="feature-info">Да</div>
+                    <div class="feature-info"><i class="fas fa-check"></i></div>
                 </div>
                 <div class="feature">
                     <div class="feature-name">Варианты обеда</div>
-                    <div class="feature-info">Есть столики, Есть бар, Есть блюда "на вынос", Доставки нет</div>
+                    <div class="feature-info"><i class="fas fa-check"></i></div>
                 </div>
                 <div class="feature">
                     <div class="feature-name">Есть туалет</div>
-                    <div class="feature-info">Да</div>
+                    <div class="feature-info"><i class="fas fa-check"></i></div>
                 </div>
             </div>
         </div>
@@ -144,12 +144,13 @@ export default {
             border-bottom: 1px solid #efeff4;
 
             .feature-name {
-                flex: 50%;
+                flex: 80%;
             }
 
             .feature-info {
-                flex: 50%;
+                flex: 20%;
                 text-align: right;
+                color: greenyellow;
             }
         }
     }
