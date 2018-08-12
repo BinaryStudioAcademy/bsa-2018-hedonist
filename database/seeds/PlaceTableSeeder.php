@@ -66,14 +66,9 @@ class PlaceTableSeeder extends Seeder
             'default' => true,
         ]);
 
-        /* Choose random city to locate places in */
-        $city = factory(City::class)->create([
-            'name' => array_random(self::CITY_NAMES)
-        ]);
-
         foreach (self::PLACE_NAMES as $placeName) {
             $place = factory(Place::class)->create([
-                'city_id'       => $city->id,
+                'city_id'       => City::inRandomOrder()->first()->id,
                 'creator_id'    => User::inRandomOrder()->first()->id,
                 'category_id'   => PlaceCategory::inRandomOrder()->first()->id
             ]);
