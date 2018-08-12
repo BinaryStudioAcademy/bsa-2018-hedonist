@@ -1,19 +1,19 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
 import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
 import UserListsPage from '@/pages/UserListsPage';
-import PlacesList from  '@/components/PlacesList/PlacesList';
-import ExplorePage from  '@/pages/ExplorePage';
+import PlacesList from  '@/components/placesList/PlacesList';
+import HistoryPage from '@/pages/HistoryPage';
+import SeachPlacePage from  '@/pages/SeachPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
 import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
-import TastesAdd from '@/components/tastes/TastesAdd';
+import TastesAdd from '@/components/taste/TastesAdd';
 
 Vue.use(Router);
 
@@ -43,9 +43,9 @@ export default new Router({
                 component: PlacesList
             },
             {
-                path: '/explore',
-                name: 'ExplorePage',
-                component: ExplorePage
+                path: '/search',
+                name: 'SeachPlacePage',
+                component: SeachPlacePage
             },
             {
                 path: '/place-info/:id',
@@ -66,6 +66,11 @@ export default new Router({
                 path: '/tastes/add',
                 name: 'Tastes',
                 component: TastesAdd
+            },
+            {
+                path: '/history',
+                name: 'HistoryPage',
+                component: HistoryPage
             }
         ]),
         ...middleware(middlewares.guest(store))([

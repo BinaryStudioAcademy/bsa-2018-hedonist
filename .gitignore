@@ -17,8 +17,6 @@ yarn-error.log
 
 .mysqldata
 .elasticdata
-/public/css
-/public/js
 /public/mix-manifest.json
 /public/dist
 

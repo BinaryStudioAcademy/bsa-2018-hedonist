@@ -1,45 +1,18 @@
 <template>
-   <div id="app">
-        <nav class="navigation">
-            <ul class="navbar">
-                <li><router-link to="/">Home</router-link></li>
-                <li><router-link to="/signup">Sign up</router-link></li>
-                <li><router-link to="/login">Login</router-link></li>
-                <li><a @click="onLogOut">Logout</a></li>
-                <li><router-link to="/profile">Profile</router-link></li>
-                <li><router-link v-if="placeId" :to="`place-info/${placeId}`">Place-info</router-link></li>
-                <li><router-link to="/places/list">Place-list</router-link></li>
-                <li><router-link to="/tastes/add">Tastes add</router-link></li>
-                <li><router-link to="/user/lists">User lists</router-link></li>
-            </ul>
-        </nav>
+    <div id="app">
+        <TopNavbar/>
+
         <router-view/>
     </div>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import TopNavbar from './components/navbar/TopNavbar';
 
 export default {
     name: 'App',
-    data() {
-        return {
-            placeId: null
-        }
-    },
-    created() {
-        this.loadPlaces().then(() => this.placeId = this.truePlaces[0].id);
-    },
-    computed: {
-        ...mapState('place', ['truePlaces'])
-    },
-    methods: {
-        ...mapActions(['logout']),
-        ...mapActions('place', ['loadPlaces']),
-
-        onLogOut () {
-            this.logout();
-        }
+    components: {
+        TopNavbar
     }
 }
 </script>
@@ -64,10 +37,5 @@ html, body {
     background-color: $background-color;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-.navigation .navbar li {
-    line-height: 50px;
-    margin-right: 15px;
 }
 </style>

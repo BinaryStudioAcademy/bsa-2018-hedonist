@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api\Auth;
 
 use Hedonist\Entities\User\User;
+use Hedonist\Entities\User\UserInfo;
 use Hedonist\Events\Auth\PasswordResetedEvent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -80,6 +81,7 @@ class ResetPasswordTest extends ApiTestCase
     public function test_change_password_success()
     {
         $this->authenticate($this->user);
+        factory(UserInfo::class)->create(['user_id' => $this->user->id]);
 
         $response = $this->json('POST',
             'api/v1/auth/reset-password',
