@@ -15,7 +15,7 @@ import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
 import TastesAdd from '@/components/tastes/TastesAdd';
-import test from '@/components/user-list/UserList';
+import test from '@/pages/UserListOnMapPage';
 
 Vue.use(Router);
 

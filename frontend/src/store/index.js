@@ -7,6 +7,7 @@ import mutations from './common/mutations';
 import auth from './modules/auth/index';
 import place from './modules/place/index';
 import map from './modules/map/index';
+import userList from './modules/userList/index';
 
 Vue.use(Vuex);
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     modules: {
         auth: auth,
         place,
-        map
+        map,
+        userList
     }
 });

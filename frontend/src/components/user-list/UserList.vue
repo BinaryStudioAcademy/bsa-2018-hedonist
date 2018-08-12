@@ -1,13 +1,15 @@
 <template>
-    <section class="container is-fluid">
+    <section>
         <div class="list-header">
-            <img :src="list.photoUrl">
+            <figure class="image is-3by1">
+                <img :src="list.photoUrl">
+            </figure>
             <div class="content">
                 <h2 class="title is-2 has-text-primary">
                     {{list.name}}
                 </h2>
                 <div class="list-owner level">
-                    <div class="level-left is-mobile">
+                    <div class="level-left">
                         <div class="level-item">
                             <figure class="image is-32x32">
                                 <img :src="list.user.avatar">
@@ -15,13 +17,16 @@
                         </div>
                         <div class="level-item">
                             <p>
-                                Created by
+                                Created by:<br/>
+                                <a class="has-text-info" href="#">
+                                    {{list.user.name}}
+                                </a>
                             </p>
-                            <a class="has-text-info" href="#">
-                                {{list.user.name}}
-                            </a>
+                        </div>
+                        <div class="level-item">
                             <p>
-                                • Updated on: {{list.updated_at}}
+                                Updated on:<br/>
+                                {{list.updated_at}}
                             </p>
                         </div>
                     </div>
@@ -44,68 +49,14 @@
     export default {
         name: "UserList",
         components: {ListItem},
-        data() {
-            return {
-                list: {
-                    photoUrl: 'https://static1.squarespace.com/static/55b7dde9e4b02b839dad00ad/t/55dc60b3e4b025d475d00d55/1440506039948/SP-Mainheader.jpg?format=1500w',
-                    name: 'Real list name',
-                    updated_at: '12-03-2018',
-                    user: {
-                        name: 'Sample user',
-                        avatar: 'https://www.w3schools.com/howto/img_avatar.png'
-                    }
-                },
-                places:
-                    [
-                        {
-                            id: 1,
-                            name: "Sample place",
-                            rating: 9,
-                            photo: {url: 'https://static1.squarespace.com/static/55b7dde9e4b02b839dad00ad/t/55dc60b3e4b025d475d00d55/1440506039948/SP-Mainheader.jpg?format=1500w'},
-                            category: 'Real Category',
-                            address: 'Pushkina street, Colotushkina house',
-                            reviews: [
-                                {}, {}, {}
-                            ],
-                            tags: [{id: 1, name: 'Tag 1'}, {id: 2, name: 'Tag 2'}, {id: 3, name: 'Tag 3'}]
-                        },
-                        {
-                            id: 2,
-                            name: "Sample place",
-                            rating: 6,
-                            photo: {url: 'https://static1.squarespace.com/static/55b7dde9e4b02b839dad00ad/t/55dc60b3e4b025d475d00d55/1440506039948/SP-Mainheader.jpg?format=1500w'},
-                            category: 'Real Category',
-                            address: 'Pushkina street, Colotushkina house',
-                            reviews: [
-                                {}, {}, {}
-                            ],
-                            tags: [{id: 1, name: 'Tag 1'}, {id: 2, name: 'Tag 2'}, {id: 3, name: 'Tag 3'}]
-                        },
-                        {
-                            id: 3,
-                            name: "Sample place",
-                            rating: 4,
-                            photo: {url: 'https://static1.squarespace.com/static/55b7dde9e4b02b839dad00ad/t/55dc60b3e4b025d475d00d55/1440506039948/SP-Mainheader.jpg?format=1500w'},
-                            category: 'Real Category',
-                            address: 'Pushkina street, Colotushkina house',
-                            reviews: [
-                                {}, {}, {}
-                            ],
-                            tags: [{id: 1, name: 'Tag 1'}, {id: 2, name: 'Tag 2'}, {id: 3, name: 'Tag 3'}]
-                        },
-                        {
-                            id: 4,
-                            name: "Sample place",
-                            rating: 2,
-                            photo: {url: 'https://static1.squarespace.com/static/55b7dde9e4b02b839dad00ad/t/55dc60b3e4b025d475d00d55/1440506039948/SP-Mainheader.jpg?format=1500w'},
-                            category: 'Real Category',
-                            address: 'Pushkina street, Colotushkina house',
-                            reviews: [
-                                {}, {}, {}
-                            ],
-                            tags: [{id: 1, name: 'Tag 1'}, {id: 2, name: 'Tag 2'}, {id: 3, name: 'Tag 3'}]
-                        },
-                    ]
+        props: {
+            places: {
+                required: true,
+                type: Array
+            },
+            list: {
+                required: true,
+                type: Object
             }
         }
     }
@@ -124,14 +75,7 @@
     .content {
         padding: 0 1rem 1rem 1rem;
 
-        figure {
-            margin: 0;
-        }
-
-        p{
-            margin: 0 5px 0 5px;
-        }
-        p{
+        p {
             color: gray;
         }
     }
@@ -140,7 +84,17 @@
         border-radius: 8px;
     }
 
-    .title{
+    .image {
+        margin: auto;
+    }
+
+    .title {
         margin: 0.5rem 0 0.5rem 0;
+    }
+
+    @media screen and (max-width: 769px) {
+        .image {
+            justify-self: center;
+        }
     }
 </style>

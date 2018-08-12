@@ -1,7 +1,7 @@
 <template>
     <transition name="slide-fade">
-        <div class="container" v-if="isActive">
-            <figure class="is-16by9">
+        <div class="item" v-if="isActive">
+            <figure class="image is-3by1">
                 <img :src="place.photo.url"/>
             </figure>
             <div class="content">
@@ -79,7 +79,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .container {
+    .item {
         background: #FFF;
     }
 
