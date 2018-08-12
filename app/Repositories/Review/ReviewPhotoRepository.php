@@ -2,7 +2,6 @@
 
 namespace Hedonist\Repositories\Review;
 
-
 use Hedonist\Entities\Review\ReviewPhoto;
 use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;

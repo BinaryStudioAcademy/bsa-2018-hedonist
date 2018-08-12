@@ -22,6 +22,6 @@ $factory->define(PlaceRating::class, function (Faker $faker) {
         'place_id' => function () {
             return factory(Place::class)->create()->id;
         },
-        'rating' => $faker->randomFloat(0,0,10)
+        'rating' => $faker->randomFloat(0, 0, 10)
     ];
 });

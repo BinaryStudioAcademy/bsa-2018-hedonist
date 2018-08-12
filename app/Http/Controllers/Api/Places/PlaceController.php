@@ -91,7 +91,7 @@ class PlaceController extends ApiController
                 $request->phone,
                 $request->website
             ));
-        } catch ( PlaceDoesNotExistException
+        } catch (PlaceDoesNotExistException
                 | PlaceCityDoesNotExistException
                 | PlaceCategoryDoesNotExistException
                 | PlaceLocationInvalidException
@@ -118,7 +118,7 @@ class PlaceController extends ApiController
                 $request->phone,
                 $request->website
             ));
-        } catch ( PlaceDoesNotExistException
+        } catch (PlaceDoesNotExistException
                 | PlaceCityDoesNotExistException
                 | PlaceCategoryDoesNotExistException
                 | PlaceLocationInvalidException

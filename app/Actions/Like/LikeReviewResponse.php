@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Like;
 
-class LikeReviewResponse 
+class LikeReviewResponse
 {
-
 }

@@ -14,7 +14,6 @@ use Hedonist\Entities\Place\PlaceFeature;
 |
 */
 $factory->define(PlaceFeature::class, function (Faker $faker) {
-
     $array = [
             'wi-fi',
             'music',
