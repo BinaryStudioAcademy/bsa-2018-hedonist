@@ -8,6 +8,8 @@ class UserInfo extends Model
 {
     protected $table = 'user_info';
 
+    protected $dates = ['date_of_birth'];
+
     protected $fillable = [
         'user_id',
         'first_name',

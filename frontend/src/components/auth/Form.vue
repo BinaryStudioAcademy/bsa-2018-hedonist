@@ -1,5 +1,5 @@
 <template>
-  <form class="form" @submit.prevent>
+  <form class="form" @submit.prevent novalidate="true">
     <slot></slot>  
   </form>  
 </template>
@@ -14,5 +14,9 @@ export default {
 .form {
   margin-top: 50px;
   text-align: left;
+}
+
+.button-wide {
+  width: 100%
 }
 </style>
