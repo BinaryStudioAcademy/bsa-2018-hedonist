@@ -1,5 +1,5 @@
 <template>
-        <div class="columns is-mobile">
+        <div class="columns placeholder">
             <div class="column is-4">
                 <UserList
                         class="list"
@@ -45,6 +45,9 @@
 </script>
 
 <style lang="scss" scoped>
+    .placeholder {
+        padding-top: 0.5rem;
+    }
     #map {
         text-align: justify;
         position: fixed;

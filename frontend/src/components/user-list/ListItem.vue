@@ -1,13 +1,13 @@
 <template>
     <transition name="slide-fade">
         <div class="item" v-if="isActive">
-            <figure class="image is-3by1">
+            <figure class="image is-16by9">
                 <img :src="place.photo.url"/>
             </figure>
             <div class="content">
                 <div class="columns">
                     <div class="column is-10">
-                        <h3 class="title is-3 has-text-info">
+                        <h3 class="title is-4 has-text-info">
                             {{place.name}}
                         </h3>
                     </div>

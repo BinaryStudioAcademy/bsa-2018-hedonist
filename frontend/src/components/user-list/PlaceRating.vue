@@ -19,7 +19,7 @@
             side: {
                 required: false,
                 type: Number,
-                default: 48
+                default: 32
             }
         },
         computed: {
@@ -48,9 +48,10 @@
 <style scoped>
     .rating {
         border-radius: 7px;
-        line-height: 48px;
-        font-size: 1.5rem;
+        line-height: 32px;
+        font-size: 1rem;
         color: #FFF;
         text-align:center;
+        font-weight: bold;
     }
 </style>

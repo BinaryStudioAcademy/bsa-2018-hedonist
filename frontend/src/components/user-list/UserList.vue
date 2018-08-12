@@ -1,13 +1,13 @@
 <template>
     <section>
         <div class="list-header">
-            <figure class="image is-3by1">
+            <figure class="image is-16by9">
                 <img :src="list.photoUrl">
             </figure>
             <div class="content">
-                <h2 class="title is-2 has-text-primary">
+                <h3 class="title is-3 has-text-primary">
                     {{list.name}}
-                </h2>
+                </h3>
                 <div class="list-owner level">
                     <div class="level-left">
                         <div class="level-item">
@@ -70,6 +70,11 @@
     .list-header {
         background: #FFF;
         margin-bottom: 1rem;
+    }
+
+    .list-header, .list-item{
+        border-radius: 8px;
+        overflow: hidden;
     }
 
     .content {
