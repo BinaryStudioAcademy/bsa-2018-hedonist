@@ -3,7 +3,10 @@ import Router from 'vue-router';
 import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
+import UserListsPage from '@/pages/UserListsPage';
 import PlacesList from  '@/components/PlacesList/PlacesList';
+import HistoryPage from '@/pages/HistoryPage';
+import SeachPlacePage from  '@/pages/SeachPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
 import SignUp from '@/components/auth/SignUp';
@@ -44,6 +47,11 @@ export default new Router({
                 component: PlacesList
             },
             {
+                path: '/search',
+                name: 'SeachPlacePage',
+                component: SeachPlacePage
+            },
+            {
                 path: '/place-info',
                 name: 'PlacePage',
                 component: PlacePage
@@ -59,9 +67,19 @@ export default new Router({
                 component: UserListAdd
             },
             {
+                path: '/user/lists',
+                name: 'UserListsPage',
+                component: UserListsPage
+            },
+            {
                 path: '/tastes/add',
                 name: 'Tastes',
                 component: TastesAdd
+            },
+            {
+                path: '/history',
+                name: 'HistoryPage',
+                component: HistoryPage
             }
         ]),
         ...middleware(middlewares.guest(store))([
