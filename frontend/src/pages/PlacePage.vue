@@ -16,6 +16,7 @@
 <script>
     import PlaceTopInfo from '@/components/place/PlaceTopInfo';
     import ReviewList from '@/components/review/ReviewList';
+    import ReviewsPhotos from '@/components/review/ReviewsPhotos';
     import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
     import { mapGetters } from 'vuex';
 
@@ -24,6 +25,7 @@
         components: {
             PlaceTopInfo,
             ReviewList,
+            ReviewsPhotos,
             PlaceSidebarInfo
         },
         data() {

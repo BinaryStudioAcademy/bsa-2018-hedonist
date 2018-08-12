@@ -18,12 +18,6 @@ class UserInfoController extends ApiController
     public function __construct(
         SaveUserInfoAction $saveUserInfoAction,
         GetUserInfoAction $getUserInfoAction
-    ) {
-        $this->saveUserInfoAction = $saveUserInfoAction;
-        $this->getUserInfoAction = $getUserInfoAction;
-    }
-
-    public function show(int $userId): JsonResponse
     {
         try {
             $response = $this->getUserInfoAction->execute(
