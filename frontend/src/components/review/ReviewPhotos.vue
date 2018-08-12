@@ -15,29 +15,29 @@
 </template>
 
 <script>
-import ReviewsPhoto from './ReviewsPhoto';
+    import ReviewPhoto from './ReviewPhoto';
 
-export default {
-    name: "ReviewsPhotos",
-    components: { ReviewsPhoto },
-    data() {
-        return {
-            photos: [
-                {id: 1, url: 'https://goo.gl/Ch8Ke9'},
-                {id: 2, url: 'https://goo.gl/x3AmSY'},
-                {id: 3, url: 'https://goo.gl/WfviVp'},
-                {id: 4, url: 'https://goo.gl/QwdfPG'},
-                {id: 5, url: 'https://goo.gl/TAVDcL'},
-                {id: 6, url: 'https://goo.gl/f7zX7n'},
-                {id: 7, url: 'https://goo.gl/LYwf2U'},
-                {id: 8, url: 'https://goo.gl/mjRgka'},
-                {id: 9, url: 'https://goo.gl/jbeku1'},
-                {id: 10, url: 'https://goo.gl/K6Zjgc'},
-                {id: 11, url: 'https://goo.gl/5KJYTS'},
-            ]
-        };
-    },
-}
+    export default {
+        name: "ReviewPhotos",
+        components: { ReviewsPhoto },
+        data() {
+            return {
+                photos: [
+                    {id: 1, url: 'https://goo.gl/Ch8Ke9'},
+                    {id: 2, url: 'https://goo.gl/x3AmSY'},
+                    {id: 3, url: 'https://goo.gl/WfviVp'},
+                    {id: 4, url: 'https://goo.gl/QwdfPG'},
+                    {id: 5, url: 'https://goo.gl/TAVDcL'},
+                    {id: 6, url: 'https://goo.gl/f7zX7n'},
+                    {id: 7, url: 'https://goo.gl/LYwf2U'},
+                    {id: 8, url: 'https://goo.gl/mjRgka'},
+                    {id: 9, url: 'https://goo.gl/jbeku1'},
+                    {id: 10, url: 'https://goo.gl/K6Zjgc'},
+                    {id: 11, url: 'https://goo.gl/5KJYTS'},
+                ]
+            };
+        },
+    }   
 </script>
 
 <style lang="scss" scoped>

@@ -5,14 +5,14 @@
 </template>
 
 <script>
-export default {
-    name: "ReviewsPhoto",
-    props: {
-        photo: {
-            type: Object,
-            required: true
-        }
-    },
+    export default {
+        name: "ReviewPhoto",
+        props: {
+            photo: {
+                type: Object,
+                required: true
+            }
+        },
 }
 </script>
 

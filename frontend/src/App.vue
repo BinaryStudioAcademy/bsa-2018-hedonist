@@ -5,7 +5,6 @@
                 <li><router-link to="/">Home</router-link></li>
                 <li><router-link to="/profile">Profile</router-link></li>
                 <li><router-link to="/place-info">Place-info</router-link></li>
-                <li><router-link to="/place-photos">Place-photos</router-link></li>
                 <li><router-link to="/places/list">Place-list</router-link></li>
                 <li><router-link to="/tastes/add">Tastes add</router-link></li>
             </ul>

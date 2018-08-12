@@ -15,7 +15,7 @@
 <script>
     import PlaceTopInfo from '@/components/place/PlaceTopInfo';
     import ReviewList from '@/components/review/ReviewList';
-    import ReviewsPhotos from '@/components/review/ReviewsPhotos';
+    import ReviewPhotos from '@/components/review/ReviewPhotos';
     import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
 
 export default {
@@ -23,7 +23,7 @@ export default {
     components: {
         PlaceTopInfo,
         ReviewList,
-        ReviewsPhotos,
+        ReviewPhotos,
         PlaceSidebarInfo
     },
 }
