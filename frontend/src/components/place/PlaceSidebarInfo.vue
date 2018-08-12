@@ -7,18 +7,16 @@
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
                     <i class="place-sidebar__icon far fa-compass"></i>
-                    <div class="place-name"><strong>МАМА МАНАНА</strong></div>
+                    <div class="place-name"><strong>{{ place.name }}</strong></div>
                     <div class="place-address">
-                        <span class="place-street">вул. Велика Васильківська, 44</span>
-                        <span class="place-city">Киев</span>,
+                        <div class="place-address">{{ place.address }}</div>
+                        <span class="place-city">{{ place.city }}</span>,
                         <span class="place-zip">01004</span>
-                        <span class="place-country">Украина</span>
                     </div>
                 </div>
                 <div class="place-sidebar__tags">
                     <i class="place-sidebar__icon fas fa-info-circle"></i>
-                    <span class="tag">Craft Beer</span>
-                    <span class="tag">Draft Cocktails & Food</span>
+                    <span v-for="tag in place.tags" class="tag">{{ tag.name }}</span>
                 </div>
                 <div class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock"></i>
@@ -26,11 +24,11 @@
                 </div>
                 <div class="place-sidebar__phone">
                     <i class="place-sidebar__icon fas fa-phone"></i>
-                    <a class="phone-number" href="tel:+380 44 287 4436">+380 44 287 4436</a>
+                    <a class="phone-number" :href="`tel:${place.phone}`">{{ place.phone }}</a>
                 </div>
                 <div class="place-sidebar__website">
                     <i class="place-sidebar__icon fas fa-globe"></i>
-                    <a target="_blank" href="https://mamamanana.kiev.ua">mamamanana.kiev.ua</a>
+                    <a target="_blank" :href="place.website">{{ place.website }}</a>
                 </div>
                 <div class="place-sidebar__facebook">
                     <i class="place-sidebar__icon fab fa-facebook-square"></i>
@@ -79,6 +77,12 @@
 <script>
 export default {
     name: "PlaceSidebarInfo",
+    props: {
+        place: {
+            type: Object,
+            required: true
+        }
+    },
 }
 </script>
 
