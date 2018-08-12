@@ -6,7 +6,7 @@ use Hedonist\Entities\User\UserInfo;
 use Hedonist\Exceptions\UserInfoExceptions\UserInfoNotValidSocialUrlException;
 use Hedonist\Exceptions\UserInfoExceptions\UserInfoRequiredFieldsException;
 use Hedonist\Repositories\User\UserInfoRepositoryInterface as UserInfoRepository;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Illuminate\Http\UploadedFile;
 
 class SaveUserInfoAction
 {
