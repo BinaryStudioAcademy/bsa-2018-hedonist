@@ -11,7 +11,6 @@ export default {
                 first_name: user.firstName
             })
                 .then(function (res) {
-                    // TODO: Check list of http reject status codes
                     if (res.status === 400){
                         resolve(res.data);
                     } else {
@@ -19,7 +18,6 @@ export default {
                     }
                 })
                 .catch(function (err) {
-                    // TODO: Handle error
                     reject(err);
                 });
         });
@@ -31,7 +29,6 @@ export default {
                 password: user.password
             })
                 .then(function (res) {
-                    // TODO: Check list of http reject status codes
                     if (res.status === 400){
                         resolve(res.data);
                     } else {
@@ -41,7 +38,6 @@ export default {
                         resolve(res);
                     }
                 }).catch(function (err) {
-                // TODO: Handle error
                     reject(err);
                 });
         });
@@ -50,7 +46,6 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.post('/auth/logout')
                 .then(function (res) {
-                    // TODO: Check list of http reject status codes
                     if (res.status === 400){
                         resolve(res.data);
                     } else {
@@ -58,7 +53,6 @@ export default {
                         resolve(res);
                     }
                 }).catch(function (err) {
-                    // TODO: Handle error
                     reject(err);
                 });
         });
@@ -71,14 +65,12 @@ export default {
                 password_confirmation: user.passwordConfirmation,
                 token: user.token
             }).then(function (res) {
-                // TODO: Check list of http reject status codes
                 if (res.status === 400){
                     resolve(res.data);
                 } else {
                     resolve(res);
                 }
             }).catch(function (err) {
-                // TODO: Handle error
                 reject(err);
             });
         });
@@ -88,7 +80,6 @@ export default {
             httpService.post('/auth/refresh', {
                 params: {email}
             }).then(function (res) {
-                // TODO: Check list of http reject status codes
                 if (res.status === 401){
                     resolve(res.data);
                 } else {
@@ -97,7 +88,6 @@ export default {
                     resolve(res);
                 }
             }).catch(function (err) {
-                // TODO: Handle error
                 reject(err);
             });
         });
@@ -107,14 +97,12 @@ export default {
             httpService.post('/auth/recover', {
                 email: email
             }).then(function (res) {
-                // TODO: Check list of http reject status codes
                 if (res.status === 400){
                     resolve(res.data);
                 } else {
                     resolve(res);
                 }
             }).catch(function (err) {
-                // TODO: Handle error
                 reject(err);
             });
         });
@@ -126,7 +114,6 @@ export default {
                     token
                 }
             }).then(function (res) {
-                // TODO: Check list of http reject status codes
                 if (res.status === 400){
                     resolve(res.data);
                 } else {
@@ -134,7 +121,6 @@ export default {
                     resolve(res);
                 }
             }).catch(function (err) {
-                // TODO: Handle error
                 reject(err);
             });
         });
