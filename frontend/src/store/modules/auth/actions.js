@@ -13,6 +13,12 @@ export default {
                 .then(function (res) {
                     if (res.status === 400){
                         resolve(res.data);
+                    } else if (res.status === 422){
+                        resolve({
+                            error:{
+                                message: res.data.errors
+                            }
+                        })
                     } else {
                         resolve(res);
                     }
