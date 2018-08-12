@@ -19,7 +19,7 @@
 
     export default {
         name: "ReviewPhotos",
-        components: { ReviewsPhoto },
+        components: { ReviewPhoto },
         data() {
             return {
                 photos: [
