@@ -13,8 +13,10 @@ import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
 import TastesAdd from '@/components/tastes/TastesAdd';
+import vClickOutside from 'v-click-outside'
 
 Vue.use(Router);
+Vue.use(vClickOutside);
 
 const middleware = handler => (
     routes => routes.map(route => Object.assign({}, route, { beforeEnter: handler }))
@@ -25,7 +27,7 @@ export default new Router({
     base: '/',
     scrollBehavior: () => ({y: 0}),
     routes: [
-        ...middleware(middlewares.guest(store))([
+        ...middleware(middlewares.auth(store))([
             {
                 path: '/',
                 name: 'home',

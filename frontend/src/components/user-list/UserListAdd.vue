@@ -18,7 +18,7 @@
             </div>
             <div class="search-places">
                 <input type="text" class="search-field" v-on:keyup="keyUp">
-                <ul class="search-places__list" v-show="displayList">
+                <ul class="search-places__list" v-show="displayList" v-click-outside="onClickOutside">
                     <li>
                         <a href="#">
                             <img height="32" width="32" class="search-places__list__img"
@@ -61,18 +61,11 @@
         methods: {
             keyUp() {
                 this.displayList = true;
+            },
+            onClickOutside() {
+                this.displayList = false;
             }
         }
-        // created: function() {
-        //     let self = this;
-        //     let list = self.$el.querySelector('.search-places__list');
-        //
-        //     window.addEventListener('click', function(e){
-        //         if (!list.$el.contains(e.target)){
-        //             self.displayList = false
-        //         }
-        //     })
-        // }
     }
 </script>
 
@@ -264,6 +257,4 @@
         cursor: pointer;
         font-size: 0.9rem;
     }
-
-
 </style>
