@@ -17,7 +17,7 @@ export const storageService = {
         return !!this.get(this.keyName);
     },
     setAuthenticatedUser(user) {
-        this.set(this.USER, JSON.stringify({email: user.email}));
+        this.set(this.USER, JSON.stringify(user));
     },
     getAuthenticatedUser() {
         return this.get(this.USER);

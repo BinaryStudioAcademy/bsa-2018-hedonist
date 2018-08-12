@@ -2,7 +2,8 @@ import StorageService from '@/services/common/storageService';
 
 export default {
     isLoggedIn: (state) => {
-        return StorageService.hasToken() || !!state.token;
+        let stub = state.token;
+        return StorageService.hasToken();
     },
     getAuthenticatedUser: () => StorageService.getAuthenticatedUser(),
     getToken: () => StorageService.getToken(),
