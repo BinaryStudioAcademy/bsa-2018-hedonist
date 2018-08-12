@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Place\Checkin;
 
-use Hedonist\Actions\Place\Checkin\Criteria\UserIdAndPlaceIdCriteria;
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Repositories\Place\CheckinRepositoryInterface;
@@ -29,9 +28,9 @@ class SetCheckinAction
         $userId = $userId ?: $this->userId;
         $placeId = $request->getPlaceId();
 
-        throw_if(!$userId, new UserNotFoundException('User not found'));
+        throw_if(! $userId, new UserNotFoundException('User not found'));
         throw_if(
-            !$this->placeRepository->getById($placeId),
+            ! $this->placeRepository->getById($placeId),
             new PlaceNotFoundException('Place not found')
         );
 

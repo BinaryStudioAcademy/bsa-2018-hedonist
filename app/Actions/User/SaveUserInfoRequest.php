@@ -21,13 +21,12 @@ class SaveUserInfoRequest
         $firstName,
         $lastName,
         $dateOfBirth = null,
-        $phoneNumber = "",
-        $avatarUrl = "",
-        $facebookUrl = "",
-        $instagramUrl = "",
-        $twitterUrl = ""
-    )
-    {
+        $phoneNumber = '',
+        $avatarUrl = '',
+        $facebookUrl = '',
+        $instagramUrl = '',
+        $twitterUrl = ''
+    ) {
         $this->userId = $userId;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -44,7 +43,6 @@ class SaveUserInfoRequest
         return $this->userId;
     }
 
-
     public function getFirstName(): ?string
     {
         return $this->firstName;
@@ -60,6 +58,7 @@ class SaveUserInfoRequest
         if ($this->dateOfBirth !== null) {
             return Carbon::createFromFormat('Y/m/d', $this->dateOfBirth);
         }
+
         return null;
     }
 
@@ -87,5 +86,4 @@ class SaveUserInfoRequest
     {
         return $this->twitterUrl;
     }
-
 }

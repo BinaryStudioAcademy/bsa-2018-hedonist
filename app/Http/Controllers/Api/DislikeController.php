@@ -2,12 +2,10 @@
 
 namespace Hedonist\Http\Controllers\Api;
 
-use Hedonist\Actions\Dislike\{
-    DislikePlaceAction,
-    DislikePlaceRequest,
-    DislikeReviewAction,
-    DislikeReviewRequest
-};
+use Hedonist\Actions\Dislike\DislikePlaceAction;
+use Hedonist\Actions\Dislike\DislikePlaceRequest;
+use Hedonist\Actions\Dislike\DislikeReviewAction;
+use Hedonist\Actions\Dislike\DislikeReviewRequest;
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 
@@ -33,6 +31,7 @@ class DislikeController extends ApiController
         } catch (PlaceNotFoundException $exception) {
             return $this->errorResponse('Place not found', 404);
         }
+
         return $this->successResponse([], 200);
     }
 
@@ -45,6 +44,7 @@ class DislikeController extends ApiController
         } catch (ReviewNotFoundException $exception) {
             return $this->errorResponse('Review not found', 404);
         }
+
         return $this->successResponse([], 200);
     }
 }

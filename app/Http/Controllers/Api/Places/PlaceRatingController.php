@@ -4,23 +4,14 @@ namespace Hedonist\Http\Controllers\Api\Places;
 
 use Hedonist\Http\Controllers\Api\ApiController;
 use Illuminate\Http\JsonResponse;
-
-use Hedonist\Http\Requests\Place\Rate\{
-    SetRatingHttpRequest,
-    GetRatingHttpRequest
-};
-
-use Hedonist\Actions\Place\Rate\{
-    GetPlaceRatingAction,
-    SetPlaceRatingAction,
-    GetPlaceRatingAvgAction
-};
-
-use Hedonist\Actions\Place\Rate\{
-    GetPlaceRatingRequest,
-    SetPlaceRatingRequest,
-    GetPlaceRatingAvgRequest
-};
+use Hedonist\Http\Requests\Place\Rate\SetRatingHttpRequest;
+use Hedonist\Http\Requests\Place\Rate\GetRatingHttpRequest;
+use Hedonist\Actions\Place\Rate\GetPlaceRatingAction;
+use Hedonist\Actions\Place\Rate\SetPlaceRatingAction;
+use Hedonist\Actions\Place\Rate\GetPlaceRatingAvgAction;
+use Hedonist\Actions\Place\Rate\GetPlaceRatingRequest;
+use Hedonist\Actions\Place\Rate\SetPlaceRatingRequest;
+use Hedonist\Actions\Place\Rate\GetPlaceRatingAvgRequest;
 use Illuminate\Support\Facades\Auth;
 
 class PlaceRatingController extends ApiController

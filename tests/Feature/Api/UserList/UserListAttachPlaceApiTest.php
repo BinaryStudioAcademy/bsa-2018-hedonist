@@ -22,7 +22,7 @@ class UserListAttachPlaceApiTest extends ApiTestCase
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->user = factory(User::class)->create();
         $this->user2 = factory(User::class)->create();
         $this->token = \JWTAuth::fromUser($this->user);
@@ -41,7 +41,7 @@ class UserListAttachPlaceApiTest extends ApiTestCase
     public function testUserListNotFound()
     {
         $response = $this->post(
-            "/api/v1/user-lists/99999/attach-place",
+            '/api/v1/user-lists/99999/attach-place',
             ['id' => $this->place->id],
             ['Authorization' => 'Bearer ' . $this->token]
         );
@@ -81,13 +81,13 @@ class UserListAttachPlaceApiTest extends ApiTestCase
             ['id' => $this->place->id],
             ['Authorization' => 'Bearer ' . $this->token]
         );
-        
+
         $response->assertHeader('Content-Type', 'application/json')
             ->assertStatus(201);
-        
+
         $this->assertDatabaseHas('user_list_places', [
             'list_id' => $this->userList->id,
             'place_id' => $this->place->id
-        ]);    
+        ]);
     }
 }

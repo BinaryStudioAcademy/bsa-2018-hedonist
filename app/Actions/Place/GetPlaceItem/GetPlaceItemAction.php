@@ -17,7 +17,7 @@ class GetPlaceItemAction
     public function execute(GetPlaceItemRequest $getItemRequest): GetPlaceItemResponse
     {
         $place = $this->placeRepository->getById($getItemRequest->getId());
-        if (!$place) {
+        if (! $place) {
             throw new PlaceDoesNotExistException;
         }
 

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace tests\Unit\Routes;
 
 use Illuminate\Support\Facades\Route;
@@ -8,7 +7,6 @@ use Tests\TestCase;
 
 class PlacesFeatureRoutesTest extends TestCase
 {
-
     public function testIndexEndpoint() : void
     {
         $routeName = 'place.features.indexFeature';

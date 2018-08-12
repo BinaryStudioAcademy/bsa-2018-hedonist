@@ -5,11 +5,9 @@ namespace tests\Feature\Api\Place;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\PlaceRating;
 use Hedonist\Entities\User\User;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\Feature\Api\ApiTestCase;
-use Tests\JwtTestCase;
 
 class PlaceRatingTest extends ApiTestCase
 {
@@ -22,7 +20,6 @@ class PlaceRatingTest extends ApiTestCase
     protected $place_1_rating_3;
     protected $place_1;
     protected $place_2;
-
 
     public function setUp()
     {

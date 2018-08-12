@@ -19,7 +19,7 @@ class SaveUserInfoAction
     public function execute(SaveUserInfoRequest $userInfoRequest): SaveUserInfoResponse
     {
         $userInfo = $this->userInfoRepository->getByUserId($userInfoRequest->getUserId());
-        $userHasNotInfo = !$userInfo;
+        $userHasNotInfo = ! $userInfo;
         if ($userHasNotInfo) {
             $userInfo = new UserInfo;
             $userInfo->user_id = $userInfoRequest->getUserId();
@@ -42,26 +42,26 @@ class SaveUserInfoAction
             }
         }
 
-        if ($userHasNotInfo || !empty($first_name)) {
+        if ($userHasNotInfo || ! empty($first_name)) {
             $userInfo->first_name = $first_name;
         }
 
-        if ($userHasNotInfo || !empty($last_name)) {
+        if ($userHasNotInfo || ! empty($last_name)) {
             $userInfo->last_name = $last_name;
         }
 
-        if ($userHasNotInfo || !empty($date_of_birth)) {
+        if ($userHasNotInfo || ! empty($date_of_birth)) {
             $userInfo->date_of_birth = $date_of_birth;
         }
-        if ($userHasNotInfo || !empty($phone_number)) {
+        if ($userHasNotInfo || ! empty($phone_number)) {
             $userInfo->phone_number = $phone_number;
         }
-        if ($userHasNotInfo || !empty($avatar_url)) {
+        if ($userHasNotInfo || ! empty($avatar_url)) {
             $userInfo->avatar_url = $avatar_url;
         }
-        if ($userHasNotInfo || !empty($facebook_url)) {
+        if ($userHasNotInfo || ! empty($facebook_url)) {
             if (
-                !empty($facebook_url) &&
+                ! empty($facebook_url) &&
                 stripos(parse_url($facebook_url, PHP_URL_HOST), 'facebook.com') === false
             ) {
                 throw new UserInfoNotValidSocialUrlException('Invalid facebook url');
@@ -69,18 +69,18 @@ class SaveUserInfoAction
 
             $userInfo->facebook_url = $facebook_url;
         }
-        if ($userHasNotInfo || !empty($instagram_url)) {
+        if ($userHasNotInfo || ! empty($instagram_url)) {
             if (
-                !empty($instagram_url) &&
+                ! empty($instagram_url) &&
                 stripos(parse_url($instagram_url, PHP_URL_HOST), 'instagram.com') === false
             ) {
                 throw new UserInfoNotValidSocialUrlException('Invalid instagram url');
             }
             $userInfo->instagram_url = $instagram_url;
         }
-        if ($userHasNotInfo || !empty($twitter_url)) {
+        if ($userHasNotInfo || ! empty($twitter_url)) {
             if (
-                !empty($twitter_url) &&
+                ! empty($twitter_url) &&
                 stripos(parse_url($twitter_url, PHP_URL_HOST), 'twitter.com') === false
             ) {
                 throw new UserInfoNotValidSocialUrlException('Invalid twitter url');

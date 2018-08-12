@@ -21,6 +21,7 @@ class ReviewRepository extends BaseRepository implements ReviewRepositoryInterfa
     public function save(Review $review): Review
     {
         $review->save();
+
         return $review;
     }
 

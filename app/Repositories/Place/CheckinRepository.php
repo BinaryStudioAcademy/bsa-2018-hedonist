@@ -1,4 +1,5 @@
 <?php
+
 namespace Hedonist\Repositories\Place;
 
 use Hedonist\Entities\Place\Checkin;
@@ -39,5 +40,4 @@ class CheckinRepository extends BaseRepository implements CheckinRepositoryInter
     {
         $this->delete($id);
     }
-
 }

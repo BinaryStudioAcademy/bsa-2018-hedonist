@@ -2,7 +2,6 @@
 
 namespace Hedonist\Repositories\Review;
 
-
 use Hedonist\Entities\Review\ReviewPhoto;
 use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
@@ -13,6 +12,7 @@ class ReviewPhotoRepository extends BaseRepository implements ReviewPhotoReposit
     public function save(ReviewPhoto $reviewPhoto): ReviewPhoto
     {
         $reviewPhoto->save();
+
         return $reviewPhoto;
     }
 

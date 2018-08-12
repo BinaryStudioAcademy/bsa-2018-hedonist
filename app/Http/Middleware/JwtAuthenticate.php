@@ -2,7 +2,6 @@
 
 namespace Hedonist\Http\Middleware;
 
-
 use Closure;
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Illuminate\Http\JsonResponse;
@@ -21,6 +20,7 @@ class JwtAuthenticate extends Authenticate
                 401
             );
         }
+
         return $next($request);
     }
 
@@ -32,6 +32,7 @@ class JwtAuthenticate extends Authenticate
                 'message' => $data
             ]
         ];
+
         return JsonResponse::create($errorData, $statusCode);
     }
 }

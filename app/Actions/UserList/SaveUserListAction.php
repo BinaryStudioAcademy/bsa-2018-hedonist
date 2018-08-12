@@ -17,7 +17,7 @@ class SaveUserListAction
     public function execute(SaveUserListRequest $userListRequest): SaveUserListResponse
     {
         $id = $userListRequest->getId();
-        if (!$id) {
+        if (! $id) {
             $userList = new UserList;
         } else {
             $userList = $this->userListRepository->getById($id);

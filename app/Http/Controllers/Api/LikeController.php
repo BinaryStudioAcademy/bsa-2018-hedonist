@@ -2,12 +2,10 @@
 
 namespace Hedonist\Http\Controllers\Api;
 
-use Hedonist\Actions\Like\{
-    LikePlaceAction,
-    LikePlaceRequest,
-    LikeReviewAction,
-    LikeReviewRequest
-};
+use Hedonist\Actions\Like\LikePlaceAction;
+use Hedonist\Actions\Like\LikePlaceRequest;
+use Hedonist\Actions\Like\LikeReviewAction;
+use Hedonist\Actions\Like\LikeReviewRequest;
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 
@@ -33,6 +31,7 @@ class LikeController extends ApiController
         } catch (PlaceNotFoundException $exception) {
             return $this->errorResponse('Place not found', 404);
         }
+
         return $this->successResponse([], 200);
     }
 
@@ -45,6 +44,7 @@ class LikeController extends ApiController
         } catch (ReviewNotFoundException $exception) {
             return $this->errorResponse('Review not found', 404);
         }
+
         return $this->successResponse([], 200);
     }
 }

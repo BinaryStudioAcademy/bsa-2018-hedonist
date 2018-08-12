@@ -3,7 +3,6 @@
 namespace Hedonist\Actions\Place\SpecialFeature;
 
 use Hedonist\Repositories\Place\PlaceFeatureRepositoryInterface;
-use Hedonist\Entities\Place\PlaceFeature;
 
 class GetCollectionPlaceFeatureAction
 {
@@ -27,6 +26,7 @@ class GetCollectionPlaceFeatureAction
                 'name' => $placeFeature->name,
             ];
         }
+
         return new GetCollectionPlaceFeatureResponse(
             $responseArray
         );

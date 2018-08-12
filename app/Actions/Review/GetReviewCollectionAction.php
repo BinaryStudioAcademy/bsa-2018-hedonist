@@ -16,6 +16,7 @@ class GetReviewCollectionAction
     public function execute(): GetReviewCollectionResponse
     {
         $reviews = $this->reviewRepository->findAll();
+
         return new GetReviewCollectionResponse($reviews);
     }
 }

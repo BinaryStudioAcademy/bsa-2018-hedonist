@@ -3,7 +3,6 @@
 namespace Hedonist\Repositories\Dislike;
 
 use Hedonist\Entities\Dislike\Dislike;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
 

@@ -20,13 +20,13 @@ $factory->define(UserInfo::class, function (Faker $faker) {
         'user_id' => function () {
             return factory(User::class)->create()->id;
         },
-        "first_name" => $faker->firstName,
-        "last_name" => $faker->lastName,
-        "date_of_birth" => $faker->date(),
-        "phone_number" => $faker->phoneNumber,
-        "avatar_url" => $faker->imageUrl(),
-        "facebook_url" => $faker->url,
-        "instagram_url" => $faker->url,
-        "twitter_url" => $faker->url,
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
+        'date_of_birth' => $faker->date(),
+        'phone_number' => $faker->phoneNumber,
+        'avatar_url' => $faker->imageUrl(),
+        'facebook_url' => $faker->url,
+        'instagram_url' => $faker->url,
+        'twitter_url' => $faker->url,
     ];
 });

@@ -18,8 +18,7 @@ class UserInfoController extends ApiController
     public function __construct(
         SaveUserInfoAction $saveUserInfoAction,
         GetUserInfoAction $getUserInfoAction
-    )
-    {
+    ) {
         $this->saveUserInfoAction = $saveUserInfoAction;
         $this->getUserInfoAction = $getUserInfoAction;
     }
@@ -55,7 +54,7 @@ class UserInfoController extends ApiController
                 $avatarUrl = $userId . '.' . $avatar->extension();
                 $avatar->storeAs('public/upload/avatar', $avatarUrl);
             } else {
-                $avatarUrl = "";
+                $avatarUrl = '';
             }
 
             $response = $this->saveUserInfoAction->execute(

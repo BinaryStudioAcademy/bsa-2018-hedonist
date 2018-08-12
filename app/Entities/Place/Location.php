@@ -2,7 +2,6 @@
 
 namespace Hedonist\Entities\Place;
 
-
 class Location
 {
     const MIN_LONGITUDE = -180;

@@ -19,9 +19,10 @@ class UserIdAndPlaceIdCriteria implements CriteriaInterface
     public function apply($model, RepositoryInterface $repository)
     {
         $model = $model->where([
-            ['user_id','=', $this->userId],
-            ['place_id','=', $this->placeId],
+            ['user_id', '=', $this->userId],
+            ['place_id', '=', $this->placeId],
         ]);
+
         return $model;
     }
 }

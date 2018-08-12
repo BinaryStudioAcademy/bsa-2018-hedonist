@@ -8,45 +8,44 @@ use Hedonist\Entities\Place\PlaceCategory;
 use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Localization\PlaceTranslation;
 
-
 class PlaceTableSeeder extends Seeder
 {
     private const CITY_NAMES = [
-        "Kiev",
-        "Lviv",
-        "Dnipro",
-        "Kharkiv",
-        "Khmelnytskyi",
-        "Cherkasy",
-        "Chernivtsi",
-        "Chernihiv",
-        "Odessa"
+        'Kiev',
+        'Lviv',
+        'Dnipro',
+        'Kharkiv',
+        'Khmelnytskyi',
+        'Cherkasy',
+        'Chernivtsi',
+        'Chernihiv',
+        'Odessa'
     ];
 
     private const PLACE_NAMES = [
-        "Red Cat",
-        "Plates & Cups",
-        "SOWA",
-        "Croissants",
-        "Food and Good",
-        "Fixage",
-        "Diana",
-        "Glory Cafe",
-        "Veronika",
-        "Kredens Cafe",
-        "Agrus",
-        "Ratusha",
+        'Red Cat',
+        'Plates & Cups',
+        'SOWA',
+        'Croissants',
+        'Food and Good',
+        'Fixage',
+        'Diana',
+        'Glory Cafe',
+        'Veronika',
+        'Kredens Cafe',
+        'Agrus',
+        'Ratusha',
         "L'affinage cheese&wine",
-        "SelfieCoffee",
-        "Blackwood Coffee",
-        "Tarta Cafe",
-        "Druzi",
-        "The Blue Cup",
-        "Honey",
-        "Aroma Espresso Bar",
-        "Milk Bar",
+        'SelfieCoffee',
+        'Blackwood Coffee',
+        'Tarta Cafe',
+        'Druzi',
+        'The Blue Cup',
+        'Honey',
+        'Aroma Espresso Bar',
+        'Milk Bar',
         "L'kafa",
-        "City-Zen cafe"
+        'City-Zen cafe'
     ];
 
     /**
@@ -68,9 +67,9 @@ class PlaceTableSeeder extends Seeder
 
         foreach (self::PLACE_NAMES as $placeName) {
             $place = factory(Place::class)->create([
-                'city_id'       => City::inRandomOrder()->first()->id,
-                'creator_id'    => User::inRandomOrder()->first()->id,
-                'category_id'   => PlaceCategory::inRandomOrder()->first()->id
+                'city_id' => City::inRandomOrder()->first()->id,
+                'creator_id' => User::inRandomOrder()->first()->id,
+                'category_id' => PlaceCategory::inRandomOrder()->first()->id
             ]);
 
             $placeTranslation = factory(PlaceTranslation::class)->create([

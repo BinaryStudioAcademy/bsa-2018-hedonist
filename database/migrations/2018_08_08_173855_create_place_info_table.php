@@ -19,7 +19,7 @@ class CreatePlaceInfoTable extends Migration
             $table->boolean('work_weekend');
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
-            $table->string('twitter')->nullable(); 
+            $table->string('twitter')->nullable();
             $table->timestamps();
 
             $table->foreign('place_id')->references('id')->on('places');

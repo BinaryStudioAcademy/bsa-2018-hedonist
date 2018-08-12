@@ -18,7 +18,7 @@ class Phone implements Rule
 
     /**
      * Checks through all validation methods to verify it is in a
-     * phone number format of some type
+     * phone number format of some type.
      */
     protected function isPhone($value)
     {
@@ -26,7 +26,7 @@ class Phone implements Rule
     }
 
     /**
-     * Format example 5555555555, 15555555555
+     * Format example 5555555555, 15555555555.
      */
     protected function isDigits($value)
     {
@@ -34,29 +34,32 @@ class Phone implements Rule
         $conditions[] = strlen($value) >= 10;
         $conditions[] = strlen($value) <= 16;
         $conditions[] = preg_match("/[^\d]/i", $value) === 0;
+
         return (bool) array_product($conditions);
     }
 
     /**
-     * Format example +15555555555
+     * Format example +15555555555.
      */
     protected function isE164($value)
     {
         $conditions = [];
-        $conditions[] = strpos($value, "+") === 0;
+        $conditions[] = strpos($value, '+') === 0;
         $conditions[] = strlen($value) >= 9;
         $conditions[] = strlen($value) <= 16;
         $conditions[] = preg_match("/[^\d+]/i", $value) === 0;
+
         return (bool) array_product($conditions);
     }
 
     /**
-     * Format examples: (555) 555-5555, 1 (555) 555-5555, 1-555-555-5555, 555-555-5555, 1 555 555-5555
+     * Format examples: (555) 555-5555, 1 (555) 555-5555, 1-555-555-5555, 555-555-5555, 1 555 555-5555.
      */
     protected function isNANP($value)
     {
         $conditions = [];
         $conditions[] = preg_match("/^(?:\+1|1)?\s?-?\(?\d{3}\)?(\s|-)?\d{3}-\d{4}$/i", $value) > 0;
+
         return (bool) array_product($conditions);
     }
 }

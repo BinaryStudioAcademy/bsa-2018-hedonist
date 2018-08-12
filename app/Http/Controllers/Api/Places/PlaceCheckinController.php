@@ -14,11 +14,11 @@ class PlaceCheckinController extends ApiController
 {
     private $setCheckinAction;
 
-    public function __construct(SetCheckinAction $setCheckinAction )
+    public function __construct(SetCheckinAction $setCheckinAction)
     {
         $this->setCheckinAction = $setCheckinAction;
     }
-    
+
     public function setCheckin(SetCheckinHttpRequest $httpRequest) : JsonResponse
     {
         try {
@@ -27,7 +27,7 @@ class PlaceCheckinController extends ApiController
                     $httpRequest->place_id
                 )
             );
-        } catch ( UserNotFoundException
+        } catch (UserNotFoundException
                 | PlaceNotFoundException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }

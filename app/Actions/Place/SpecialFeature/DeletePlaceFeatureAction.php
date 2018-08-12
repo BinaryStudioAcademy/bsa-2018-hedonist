@@ -4,7 +4,6 @@ namespace Hedonist\Actions\Place\SpecialFeature;
 
 use Hedonist\Actions\Place\SpecialFeature\Exceptions\PlaceFeatureNotFoundException;
 use Hedonist\Repositories\Place\PlaceFeatureRepositoryInterface;
-use Hedonist\Entities\Place\PlaceFeature;
 
 class DeletePlaceFeatureAction
 {

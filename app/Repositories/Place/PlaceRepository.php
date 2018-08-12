@@ -10,7 +10,6 @@ use Hedonist\Entities\UserList\UserList;
 
 class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
 {
-
     public function model()
     {
         return Place::class;

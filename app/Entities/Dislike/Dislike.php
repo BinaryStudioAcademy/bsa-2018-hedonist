@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dislike extends Model
 {
-    protected $table = "dislikes";
+    protected $table = 'dislikes';
 
     protected $fillable = [
         'dislikeable_id',

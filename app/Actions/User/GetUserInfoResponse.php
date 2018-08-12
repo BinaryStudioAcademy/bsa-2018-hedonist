@@ -34,7 +34,6 @@ class GetUserInfoResponse
         return $this->userId;
     }
 
-
     public function getFirstName(): string
     {
         return $this->firstName;

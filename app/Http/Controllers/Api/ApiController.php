@@ -20,6 +20,7 @@ abstract class ApiController extends Controller
                 'message' => $data
             ]
         ];
+
         return JsonResponse::create($errorData, $statusCode);
     }
 

@@ -19,21 +19,21 @@ class GetPlaceItemResponse
     private $createdAt;
     private $updatedAt;
 
-    public function __construct(Place $place) {
-        $this->id          = $place->id;
-        $this->creator_id  = $place->creator_id;
+    public function __construct(Place $place)
+    {
+        $this->id = $place->id;
+        $this->creator_id = $place->creator_id;
         $this->category_id = $place->category_id;
-        $this->city_id     = $place->city_id;
-        $this->longitude   = $place->longitude;
-        $this->latitude    = $place->latitude;
-        $this->zip         = $place->zip;
-        $this->address     = $place->address;
-        $this->phone       = $place->phone;
-        $this->website     = $place->website;
-        $this->createdAt   = $place->created_at;
-        $this->updatedAt   = $place->updated_at;
+        $this->city_id = $place->city_id;
+        $this->longitude = $place->longitude;
+        $this->latitude = $place->latitude;
+        $this->zip = $place->zip;
+        $this->address = $place->address;
+        $this->phone = $place->phone;
+        $this->website = $place->website;
+        $this->createdAt = $place->created_at;
+        $this->updatedAt = $place->updated_at;
     }
-
 
     public function getId(): int
     {

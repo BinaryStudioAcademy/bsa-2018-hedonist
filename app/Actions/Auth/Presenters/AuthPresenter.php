@@ -4,7 +4,6 @@ namespace Hedonist\Actions\Auth\Presenters;
 
 use Hedonist\Actions\Auth\Responses\AuthenticateResponseInterface;
 use Hedonist\Actions\Auth\Responses\GetUserResponse;
-use Hedonist\Entities\User\User;
 
 class AuthPresenter
 {
@@ -12,7 +11,6 @@ class AuthPresenter
     {
         return $exception->getMessage();
     }
-
 
     public static function presentAuthenticateResponse(AuthenticateResponseInterface $response): array
     {

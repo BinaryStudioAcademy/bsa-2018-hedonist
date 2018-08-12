@@ -34,7 +34,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function getByEmail(string $email): ?User
     {
-        return User::where(["email" => $email])->first();
+        return User::where(['email' => $email])->first();
     }
 
     public function deleteById(int $id): void

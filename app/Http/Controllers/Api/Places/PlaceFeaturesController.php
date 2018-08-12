@@ -4,20 +4,14 @@ namespace Hedonist\Http\Controllers\Api\Places;
 
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Place\SpecialFeature\CreateSpecialFeatureHttpRequest;
-
-use Hedonist\Actions\Place\SpecialFeature\{
-    CreatePlaceFeatureAction,
-    DeletePlaceFeatureAction,
-    ReadPlaceFeatureAction,
-    GetCollectionPlaceFeatureAction
-};
-use Hedonist\Actions\Place\SpecialFeature\{
-    CreatePlaceFeatureRequest,
-    DeletePlaceFeatureRequest,
-    ReadPlaceFeatureRequest,
-    GetCollectionPlaceFeatureRequest
-};
-
+use Hedonist\Actions\Place\SpecialFeature\CreatePlaceFeatureAction;
+use Hedonist\Actions\Place\SpecialFeature\DeletePlaceFeatureAction;
+use Hedonist\Actions\Place\SpecialFeature\ReadPlaceFeatureAction;
+use Hedonist\Actions\Place\SpecialFeature\GetCollectionPlaceFeatureAction;
+use Hedonist\Actions\Place\SpecialFeature\CreatePlaceFeatureRequest;
+use Hedonist\Actions\Place\SpecialFeature\DeletePlaceFeatureRequest;
+use Hedonist\Actions\Place\SpecialFeature\ReadPlaceFeatureRequest;
+use Hedonist\Actions\Place\SpecialFeature\GetCollectionPlaceFeatureRequest;
 use Illuminate\Http\JsonResponse;
 
 class PlaceFeaturesController extends ApiController
@@ -26,20 +20,19 @@ class PlaceFeaturesController extends ApiController
     private $deletePlaceFeatureAction;
     private $readPlaceFeatureAction;
     private $collectionPlaceFeatureAction;
-    
+
     public function __construct(
         CreatePlaceFeatureAction $createPlaceFeatureAction,
         DeletePlaceFeatureAction $deletePlaceFeatureAction,
         ReadPlaceFeatureAction $readPlaceFeatureAction,
         GetCollectionPlaceFeatureAction $collectionPlaceFeatureAction
-    )
-    {
+    ) {
         $this->createPlaceFeatureAction = $createPlaceFeatureAction;
         $this->deletePlaceFeatureAction = $deletePlaceFeatureAction;
         $this->readPlaceFeatureAction = $readPlaceFeatureAction;
         $this->collectionPlaceFeatureAction = $collectionPlaceFeatureAction;
     }
-    
+
     public function indexPlaceFeature() : JsonResponse
     {
         try {
@@ -49,10 +42,10 @@ class PlaceFeaturesController extends ApiController
         } catch (\Exception $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
-        
+
         return $this->successResponse($response->getCollection(), 201);
     }
-    
+
     public function storePlaceFeature(CreateSpecialFeatureHttpRequest $httpRequest) : JsonResponse
     {
         try {
@@ -70,7 +63,7 @@ class PlaceFeaturesController extends ApiController
             'name' => $response->getName()
         ], 201);
     }
-    
+
     public function showPlaceFeature($id) : JsonResponse
     {
         try {
@@ -98,7 +91,6 @@ class PlaceFeaturesController extends ApiController
                 )
             );
         } catch (\Exception $ex) {
-
             return $this->errorResponse($ex->getMessage(), 400);
         }
 

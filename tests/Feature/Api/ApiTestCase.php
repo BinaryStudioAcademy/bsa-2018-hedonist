@@ -8,8 +8,7 @@ use Hedonist\Entities\User\User;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 
 /**
- * Class ApiTestCase
- * @package Tests\Feature\Api
+ * Class ApiTestCase.
  */
 abstract class ApiTestCase extends TestCase
 {
@@ -21,6 +20,7 @@ abstract class ApiTestCase extends TestCase
             $server['HTTP_AUTHORIZATION'] = 'Bearer ' . $this->jwtToken;
         }
         $server['HTTP_ACCEPT'] = 'application/json';
+
         return parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
     }
 
@@ -33,6 +33,7 @@ abstract class ApiTestCase extends TestCase
     {
         $user = $user ? $user : factory(User::class)->create();
         $this->authenticate($user);
+
         return $this->actingAs($user, $driver);
     }
 

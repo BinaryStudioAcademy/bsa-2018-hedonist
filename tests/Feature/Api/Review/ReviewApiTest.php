@@ -30,17 +30,17 @@ class ReviewApiTest extends ApiTestCase
         $response = $this->json('POST',
             'api/v1/reviews',
             [
-                'user_id'       => $this->user->id,
-                'place_id'      => $this->place->id,
-                'description'   => 'test test test'
+                'user_id' => $this->user->id,
+                'place_id' => $this->place->id,
+                'description' => 'test test test'
             ]
         );
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('reviews',
             [
-                'user_id'   => $this->user->id,
-                'place_id'  => $this->place->id
+                'user_id' => $this->user->id,
+                'place_id' => $this->place->id
             ]
         );
     }
@@ -50,9 +50,9 @@ class ReviewApiTest extends ApiTestCase
         $response = $this->json('POST',
             'api/v1/reviews',
             [
-                'user_id'       => 99999999,
-                'place_id'      => $this->place->id,
-                'description'   => 'test test test'
+                'user_id' => 99999999,
+                'place_id' => $this->place->id,
+                'description' => 'test test test'
             ]
         );
 
@@ -60,8 +60,8 @@ class ReviewApiTest extends ApiTestCase
         $response->assertExactJson(
             [
                 'error' => [
-                    'message'       => 'User NOT found!',
-                    'httpStatus'    => 400
+                    'message' => 'User NOT found!',
+                    'httpStatus' => 400
                 ]
             ]
         );
@@ -72,9 +72,9 @@ class ReviewApiTest extends ApiTestCase
         $response = $this->json('POST',
             'api/v1/reviews',
             [
-                'user_id'       => $this->user->id,
-                'place_id'      => 99999999,
-                'description'   => 'test test test'
+                'user_id' => $this->user->id,
+                'place_id' => 99999999,
+                'description' => 'test test test'
             ]
         );
 
@@ -82,8 +82,8 @@ class ReviewApiTest extends ApiTestCase
         $response->assertExactJson(
             [
                 'error' => [
-                    'message'       => 'Place does NOT exist!',
-                    'httpStatus'    => 400
+                    'message' => 'Place does NOT exist!',
+                    'httpStatus' => 400
                 ]
             ]
         );
@@ -126,18 +126,18 @@ class ReviewApiTest extends ApiTestCase
 
         $this->assertDatabaseHas('reviews',
             [
-                'id'        => $reviewId,
-                'user_id'   => $this->user->id,
-                'place_id'  => $this->place->id
+                'id' => $reviewId,
+                'user_id' => $this->user->id,
+                'place_id' => $this->place->id
             ]
         );
 
         $response = $this->json('PUT',
             "api/v1/reviews/$reviewId",
             [
-                'user_id'       => $this->user->id,
-                'place_id'      => $review->place_id,
-                'description'   => 'test-update-description!'
+                'user_id' => $this->user->id,
+                'place_id' => $review->place_id,
+                'description' => 'test-update-description!'
             ]
         );
 
@@ -145,19 +145,19 @@ class ReviewApiTest extends ApiTestCase
 
         $this->assertDatabaseMissing('reviews',
             [
-                'id'            => $reviewId,
-                'user_id'       => $this->user->id,
-                'place_id'      => $this->place->id,
-                'description'   => 'Lorem ipsum dolor sit amet..'
+                'id' => $reviewId,
+                'user_id' => $this->user->id,
+                'place_id' => $this->place->id,
+                'description' => 'Lorem ipsum dolor sit amet..'
             ]
         );
 
         $this->assertDatabaseHas('reviews',
             [
-                'id'        => $reviewId,
-                'user_id'   => $this->user->id,
-                'place_id'  => $this->place->id,
-                'description'   => 'test-update-description!'
+                'id' => $reviewId,
+                'user_id' => $this->user->id,
+                'place_id' => $this->place->id,
+                'description' => 'test-update-description!'
             ]
         );
     }
@@ -169,9 +169,9 @@ class ReviewApiTest extends ApiTestCase
 
         $this->assertDatabaseHas('reviews',
             [
-                'id'        => $reviewId,
-                'user_id'   => $this->user->id,
-                'place_id'  => $this->place->id
+                'id' => $reviewId,
+                'user_id' => $this->user->id,
+                'place_id' => $this->place->id
             ]
         );
 
@@ -183,9 +183,9 @@ class ReviewApiTest extends ApiTestCase
         $response->assertStatus(200);
         $this->assertDatabaseMissing('reviews',
             [
-                'id'        => $reviewId,
-                'user_id'   => $this->user->id,
-                'place_id'  => $this->place->id
+                'id' => $reviewId,
+                'user_id' => $this->user->id,
+                'place_id' => $this->place->id
             ]
         );
     }
@@ -194,9 +194,9 @@ class ReviewApiTest extends ApiTestCase
     {
         return Review::create(
             [
-                'user_id'       => $user->getAttribute('id'),
-                'place_id'      => $place->getAttribute('id'),
-                'description'   => 'Lorem ipsum dolor sit amet..'
+                'user_id' => $user->getAttribute('id'),
+                'place_id' => $place->getAttribute('id'),
+                'description' => 'Lorem ipsum dolor sit amet..'
             ]
         );
     }

@@ -13,15 +13,15 @@ class Place extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        "longitude",
-        "latitude",
-        "zip",
-        "address",
-        "phone",
-        "website",
-        "creator_id",
-        "category_id",
-        "city_id",
+        'longitude',
+        'latitude',
+        'zip',
+        'address',
+        'phone',
+        'website',
+        'creator_id',
+        'category_id',
+        'city_id',
     ];
 
     protected $dates = ['deleted_at'];

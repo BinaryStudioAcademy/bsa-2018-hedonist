@@ -20,6 +20,7 @@ class GetReviewAction
         if ($review === null) {
             throw ReviewNotFoundException::create();
         }
+
         return new GetReviewResponse($review);
     }
 }
