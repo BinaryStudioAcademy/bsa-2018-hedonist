@@ -8,7 +8,6 @@ use Hedonist\Entities\Place\PlaceCategory;
 use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Localization\PlaceTranslation;
 
-
 class PlaceTableSeeder extends Seeder
 {
     private const CITY_NAMES = [

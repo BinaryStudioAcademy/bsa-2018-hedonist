@@ -88,6 +88,6 @@ class UserListAttachPlaceApiTest extends ApiTestCase
         $this->assertDatabaseHas('user_list_places', [
             'list_id' => $this->userList->id,
             'place_id' => $this->place->id
-        ]);    
+        ]);
     }
 }

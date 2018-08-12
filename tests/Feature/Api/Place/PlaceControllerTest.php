@@ -2,7 +2,6 @@
 
 namespace tests\Feature\Api\Place;
 
-
 use Hedonist\Entities\Place\Place;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;

@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Place\Rate;
 
-
 class SetPlaceRatingResponse
 {
     protected $id;
@@ -40,5 +39,4 @@ class SetPlaceRatingResponse
     {
         return $this->ratingValue;
     }
-
 }

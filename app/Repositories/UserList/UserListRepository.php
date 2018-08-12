@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class UserListRepository extends BaseRepository implements UserListRepositoryInterface
 {
-    public function save(UserList $userList): UserList 
+    public function save(UserList $userList): UserList
     {
         $userList->save();
         
@@ -23,17 +23,17 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         return UserList::find($id);
     }
     
-    public function findAll(): Collection 
+    public function findAll(): Collection
     {
         return UserList::all();
     }
      
-    public function findByCriteria(CriteriaInterface $criteria): Collection 
+    public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
     }
     
-    public function deleteById(int $id) 
+    public function deleteById(int $id)
     {
         $this->delete($id);
     }

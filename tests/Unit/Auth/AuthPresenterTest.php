@@ -30,8 +30,8 @@ class AuthPresenterTest extends TestCase
         $result = AuthPresenter::presentUser(new GetUserResponse($user, $userInfo));
 
         $this->assertEquals($result['email'], $user->email);
-        $this->assertEquals($result['first_name'],$userInfo->first_name);
-        $this->assertEquals($result['last_name'],$userInfo->last_name);
+        $this->assertEquals($result['first_name'], $userInfo->first_name);
+        $this->assertEquals($result['last_name'], $userInfo->last_name);
         $this->assertFalse(isset($result['password']));
     }
 

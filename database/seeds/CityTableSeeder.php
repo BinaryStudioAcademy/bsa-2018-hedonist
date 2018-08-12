@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 use Hedonist\Entities\Place\City;
 use Illuminate\Support\Facades\DB;
 
-
 class CityTableSeeder extends Seeder
 {
     private const CITY_NAMES = [
