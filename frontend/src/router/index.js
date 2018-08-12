@@ -93,17 +93,13 @@ export default new Router({
             },
             {
                 path: '/recover',
-                name: 'Recover',
-                component: Recover
+                name: 'RecoverPasswordPage',
+                component: RecoverPasswordPage
             },
             {
                 path:'/test',
                 component:test
-            },
-            {
-                name: 'RecoverPasswordPage',
-                component: RecoverPasswordPage
-            },
+            }
         ])
     ]
 });

@@ -1,9 +1,9 @@
 <template>
     <transition name="slide-fade">
         <div class="container" v-if="isActive">
-            <div class="img-wrapper">
+            <figure class="is-16by9">
                 <img :src="place.photo.url"/>
-            </div>
+            </figure>
             <div class="content">
                 <div class="columns">
                     <div class="column is-10">
@@ -89,16 +89,6 @@
 
     .columns {
         margin-bottom: 0;
-    }
-
-    .img-wrapper {
-
-        img {
-            height: auto;
-            max-height: 200px;
-            margin: auto;
-            display: block;
-        }
     }
 
     .content {
