@@ -37,4 +37,12 @@ class Location
     {
         return $this->latitude;
     }
+
+    public function getLocation() : Location
+    {
+        return new Location(
+            $this->longitude,
+            $this->latitude
+        );
+    }
 }
