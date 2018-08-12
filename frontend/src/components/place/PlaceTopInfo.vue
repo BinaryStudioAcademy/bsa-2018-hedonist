@@ -7,11 +7,9 @@
                     <img src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png" data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png" width="88" height="88">
                 </div>
                 <div class="place-venue__prime-info">
-                    <div class="place-venue__place-name">{{ place.localization.name }}</div>
-                    <div class="place-venue__category">{{ place.category.name }}</div>
-                    <div class="place-venue__city">
-                        {{ place.city.name }}, <span class="place-zip">{{ place.zip }}</span>
-                    </div>
+                    <div class="place-venue__place-name">МАМА МАНАНА</div>
+                    <div class="place-venue__category">Ресторан кавказской кухни</div>
+                    <div class="place-venue__region">Голосеевский район, Киев</div>
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
@@ -41,7 +39,7 @@
             </div>
             <div class="column is-one-third place-rate">
                 <div class="place-rate__mark">
-                    <span>{{ place.rating }}</span><sup>/<span>10</span></sup>
+                    <span>9.2</span><sup>/<span>10</span></sup>
                 </div>
                 <div class="place-rate__mark-count">444 marks</div>
                 <div class="place-rate__preference">
@@ -69,12 +67,6 @@ export default {
     name: "PlaceTopInfo",
     components: {
         PlacePhotoList,
-    },
-    props: {
-        place: {
-            type: Object,
-            required: true
-        }
     },
     data() {
         return {
