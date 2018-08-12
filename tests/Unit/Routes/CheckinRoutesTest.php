@@ -8,7 +8,6 @@ use Tests\TestCase;
 
 class CheckinRoutesTest extends TestCase
 {
-
     public function testIndexEndpoint() : void
     {
         $routeName = 'user.me.checkin';

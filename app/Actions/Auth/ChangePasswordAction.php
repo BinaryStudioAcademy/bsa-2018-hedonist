@@ -21,14 +21,14 @@ class ChangePasswordAction
     public function execute(ChangePasswordRequest $request):void
     {
         $user = Auth::user();
-        $this->validate($user,$request);
+        $this->validate($user, $request);
         $user->password = Hash::make($request->getNewPassword());
         $this->repository->save($user);
     }
 
-    private function validate(User $user,ChangePasswordRequest $request):void
+    private function validate(User $user, ChangePasswordRequest $request):void
     {
-        if(!Hash::check($request->getOldPassword(),$user->getAuthPassword())){
+        if (!Hash::check($request->getOldPassword(), $user->getAuthPassword())) {
             throw new PasswordsDosentMatchException();
         }
     }

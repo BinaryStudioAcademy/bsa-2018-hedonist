@@ -6,5 +6,4 @@ use Hedonist\Exceptions\DomainException;
 
 class UserInfoNotValidSocialUrlException extends DomainException
 {
-
 }

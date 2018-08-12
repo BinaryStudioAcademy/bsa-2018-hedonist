@@ -7,7 +7,7 @@ use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Hedonist\Entities\Review\Review;
 
-class LikeReviewCriteria implements CriteriaInterface 
+class LikeReviewCriteria implements CriteriaInterface
 {
     private $reviewId;
     private $userId;
@@ -16,7 +16,7 @@ class LikeReviewCriteria implements CriteriaInterface
     {
         $this->reviewId = $reviewId;
         $this->userId = $userId;
-    } 
+    }
 
     public function apply($model, RepositoryInterface $repository)
     {

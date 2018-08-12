@@ -2,7 +2,6 @@
 
 namespace Hedonist\Exceptions\PlaceExceptions;
 
-
 use Hedonist\Exceptions\DomainException;
 
 class PlaceLocationInvalidException extends DomainException

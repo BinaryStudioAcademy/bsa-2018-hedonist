@@ -16,7 +16,7 @@ class CreatePlaceRatingTable extends Migration
      */
     public function up()
     {
-        Schema::create('place_rating', function(Blueprint $table) {
+        Schema::create('place_rating', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('place_id');

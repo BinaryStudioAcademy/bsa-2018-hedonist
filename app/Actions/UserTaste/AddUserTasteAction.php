@@ -14,7 +14,7 @@ class AddUserTasteAction
     private $userRepository;
     private $tasteRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository,TasteRepositoryInterface $tasteRepository)
+    public function __construct(UserRepositoryInterface $userRepository, TasteRepositoryInterface $tasteRepository)
     {
         $this->userRepository = $userRepository;
         $this->tasteRepository = $tasteRepository;
@@ -23,8 +23,8 @@ class AddUserTasteAction
     public function execute(AddUserTasteRequest $request): AddUserTasteResponse
     {
         $taste = $this->tasteRepository->getById($request->getTasteId());
-        if($taste) {
-            $this->userRepository->addTaste(Auth::user(),$taste);
+        if ($taste) {
+            $this->userRepository->addTaste(Auth::user(), $taste);
             return new AddUserTasteResponse($taste);
         }
         throw new TasteNotFoundException('Taste not found!');
