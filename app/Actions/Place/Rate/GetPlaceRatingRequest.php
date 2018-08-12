@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Place\Rate;
 
-
 class GetPlaceRatingRequest
 {
     protected $id;

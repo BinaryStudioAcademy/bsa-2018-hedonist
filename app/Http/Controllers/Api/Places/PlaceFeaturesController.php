@@ -32,8 +32,7 @@ class PlaceFeaturesController extends ApiController
         DeletePlaceFeatureAction $deletePlaceFeatureAction,
         ReadPlaceFeatureAction $readPlaceFeatureAction,
         GetCollectionPlaceFeatureAction $collectionPlaceFeatureAction
-    )
-    {
+    ) {
         $this->createPlaceFeatureAction = $createPlaceFeatureAction;
         $this->deletePlaceFeatureAction = $deletePlaceFeatureAction;
         $this->readPlaceFeatureAction = $readPlaceFeatureAction;
@@ -98,7 +97,6 @@ class PlaceFeaturesController extends ApiController
                 )
             );
         } catch (\Exception $ex) {
-
             return $this->errorResponse($ex->getMessage(), 400);
         }
 

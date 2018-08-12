@@ -13,7 +13,6 @@ class PlaceRatingRoutesTest extends TestCase
         $routeName = 'place.rating.setPlaceRating';
         $this->assertTrue(Route::has($routeName));
         $this->assertEquals(URL::to('/').'/api/v1/places/rating', route($routeName));
-
     }
 
     public function testGetPlaceRatingAvg() : void

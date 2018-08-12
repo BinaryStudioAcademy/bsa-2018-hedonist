@@ -38,7 +38,7 @@ class AttachPlaceAction
         $userlistPlace = $this->placeRepository
             ->getByList($request->getUserListId())
             ->find($place->id);
-        if (empty($userlistPlace)) {  
+        if (empty($userlistPlace)) {
             $this->userListRepository->attachPlace($userList, $place);
         }
         return new AttachPlaceResponse();

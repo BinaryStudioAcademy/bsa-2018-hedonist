@@ -14,7 +14,6 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('users')->truncate();
         DB::table('user_info')->truncate();
@@ -59,6 +58,5 @@ class UserTableSeeder extends Seeder
             'instagram_url' => 'https://www.instagram.com/fiannac4/',
             'twitter_url' => 'https://twitter.com/fiannac4',
         ]);
-
     }
 }

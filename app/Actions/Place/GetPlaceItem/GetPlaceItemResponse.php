@@ -19,7 +19,8 @@ class GetPlaceItemResponse
     private $createdAt;
     private $updatedAt;
 
-    public function __construct(Place $place) {
+    public function __construct(Place $place)
+    {
         $this->id          = $place->id;
         $this->creator_id  = $place->creator_id;
         $this->category_id = $place->category_id;

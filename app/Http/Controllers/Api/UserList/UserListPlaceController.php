@@ -14,7 +14,7 @@ class UserListPlaceController extends ApiController
 {
     public $attachPlaceAction;
 
-    public function __construct(AttachPlaceAction $attachPlaceAction) 
+    public function __construct(AttachPlaceAction $attachPlaceAction)
     {
         $this->attachPlaceAction = $attachPlaceAction;
     }
@@ -28,6 +28,6 @@ class UserListPlaceController extends ApiController
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 400);
         }
-        return $this->successResponse([], 201);                
+        return $this->successResponse([], 201);
     }
 }

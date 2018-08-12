@@ -20,8 +20,7 @@ class RegisterUserAction
     public function __construct(
         UserRepositoryInterface $userRepository,
         UserInfoRepositoryInterface $infoRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->infoRepository = $infoRepository;
     }
