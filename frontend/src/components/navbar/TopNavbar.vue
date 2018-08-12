@@ -115,7 +115,7 @@
     }
     .navbar-notification-btn{
         cursor:pointer;
-        background: url("https://foursquare.com/img/chrome/icon-notifications_foursquare8.png") top left no-repeat;
+        background: url("../../assets/icon-notifications.png") top left no-repeat;
         font-weight: bold;
         height: 24px;
         width: 27px;
