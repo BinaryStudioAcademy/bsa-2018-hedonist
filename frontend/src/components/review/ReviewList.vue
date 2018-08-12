@@ -38,10 +38,8 @@
                 </div>
             </div>
             <div class="reviews-section-list">
-                <template>
-                    <Review></Review>
-                    <Review></Review>
-                    <Review></Review>
+                <template v-for="review in place.reviews">
+                    <Review :key="review.id" :review="review"></Review>
                 </template>
             </div>
         </div>
@@ -54,6 +52,13 @@
     export default {
         components: {
             Review
+        },
+
+        props: {
+            place: {
+                type: Object,
+                required: true
+            }
         },
 
         data() {
