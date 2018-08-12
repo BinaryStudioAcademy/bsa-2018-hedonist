@@ -4,22 +4,19 @@ import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
 import ReviewList from '@/components/review/ReviewList';
 import UserListsPage from '@/pages/UserListsPage';
-import PlacesList from  '@/components/PlacesList/PlacesList';
+import PlacesList from  '@/components/placesList/PlacesList';
 import HistoryPage from '@/pages/HistoryPage';
 import SeachPlacePage from  '@/pages/SeachPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
-import SignUp from '@/components/auth/SignUp';
-import UserListAdd from '@/components/user-list/UserListAdd';
+import UserListAddPage from '@/pages/UserListAddPage';
 import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
-import TastesAdd from '@/components/tastes/TastesAdd';
-import vClickOutside from 'v-click-outside'
+import TastesAdd from '@/components/taste/TastesAdd';
 
 Vue.use(Router);
-Vue.use(vClickOutside);
 
 const middleware = handler => (
     routes => routes.map(route => Object.assign({}, route, { beforeEnter: handler }))
@@ -30,7 +27,7 @@ export default new Router({
     base: '/',
     scrollBehavior: () => ({y: 0}),
     routes: [
-        ...middleware(middlewares.auth(store))([
+        ...middleware(middlewares.guest(store))([
             {
                 path: '/',
                 name: 'home',
@@ -62,9 +59,9 @@ export default new Router({
                 component: ReviewList
             },
             {
-                path: '/user-list/add',
-                name: 'UserListAdd',
-                component: UserListAdd
+                path: '/users/lists/add',
+                name: 'UserListAddPage',
+                component: UserListAddPage
             },
             {
                 path: '/user/lists',
@@ -90,7 +87,7 @@ export default new Router({
             },
             {
                 path: '/signup',
-                name: 'SignUp',
+                name: 'SignUpPage',
                 component: SignUpPage
             },
             {
