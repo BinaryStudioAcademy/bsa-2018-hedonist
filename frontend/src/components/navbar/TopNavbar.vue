@@ -68,7 +68,9 @@
 
     export default {
         name: "TopNavbar",
-        computed: mapGetters({isUserLoggedIn:"isLoggedIn"}),
+        computed: mapGetters({
+            isUserLoggedIn: "isLoggedIn"
+        }),
         data() {
             return {
                 user: {
@@ -82,7 +84,10 @@
             ...mapActions(['logout']),
 
             onLogOut () {
-                this.logout();
+                this.logout()
+                    .then(()=>{
+                        this.$router.push({name: 'LoginPage'});
+                    });
             }
         },
     }
