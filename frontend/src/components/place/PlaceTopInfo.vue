@@ -105,7 +105,7 @@ export default {
             margin-left: 12px;
             padding-top: 35px;
         }
-        
+
         .tab-content {
             display: none;
         }
