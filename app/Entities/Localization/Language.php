@@ -11,5 +11,4 @@ class Language extends Model
         "active",
         "default"
     ];
-
 }

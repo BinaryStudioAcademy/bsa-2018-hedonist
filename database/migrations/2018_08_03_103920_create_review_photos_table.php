@@ -19,7 +19,6 @@ class CreateReviewPhotosTable extends Migration
             $table->text('description');
             $table->unsignedInteger('review_id');
             $table->foreign('review_id')->references('id')->on('reviews');
-            
         });
     }
 

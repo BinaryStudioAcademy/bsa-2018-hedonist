@@ -26,8 +26,7 @@ class SaveUserInfoRequest
         $facebookUrl = "",
         $instagramUrl = "",
         $twitterUrl = ""
-    )
-    {
+    ) {
         $this->userId = $userId;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
@@ -87,5 +86,4 @@ class SaveUserInfoRequest
     {
         return $this->twitterUrl;
     }
-
 }

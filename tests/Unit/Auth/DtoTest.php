@@ -28,7 +28,6 @@ class DtoTest extends TestCase
 
     public function test_register_request()
     {
-
         $request = new RegisterRequest(
             $this->user->email,
             'secret',
@@ -38,7 +37,7 @@ class DtoTest extends TestCase
 
         $this->assertEquals($this->user->email, $request->getEmail());
         $this->assertEquals('secret', $request->getPassword());
-        $this->assertEquals($this->userInfo->last_name,$request->getLastName());
+        $this->assertEquals($this->userInfo->last_name, $request->getLastName());
         $this->assertEquals($this->userInfo->first_name, $request->getFirstName());
     }
 

@@ -15,32 +15,30 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-    Route::group(['prefix' => '/auth', 'namespace' => 'Api\\Auth'], function() {
+    Route::group(['prefix' => '/auth', 'namespace' => 'Api\\Auth'], function () {
+        Route::post('/signup', 'AuthController@register');
 
-        Route::post('/signup','AuthController@register');
+        Route::post('/login', 'AuthController@login');
 
-        Route::post('/login','AuthController@login');
+        Route::post('/logout', 'AuthController@logout');
 
-        Route::post('/logout','AuthController@logout');
+        Route::post('/reset', 'AuthController@resetPassword');
 
-        Route::post('/reset','AuthController@resetPassword');
-
-        Route::post('/recover','AuthController@recoverPassword');
+        Route::post('/recover', 'AuthController@recoverPassword');
 
         Route::post('/refresh', 'AuthController@refresh');
 
         Route::get('/me', 'AuthController@me')->middleware('custom.jwt.auth');
 
         Route::post('/reset-password', 'AuthController@changePassword');
-
     });
 
-    Route::group(['middleware' => 'custom.jwt.auth'], function() {
+    Route::group(['middleware' => 'custom.jwt.auth'], function () {
         Route::resource('user-list', 'Api\UserList\UserListController')->except([
             'create', 'edit'
         ]);
 
-        Route::namespace('Api\\Places')->group(function() {
+        Route::namespace('Api\\Places')->group(function () {
             Route::get('places', 'PlaceController@getCollection')->name('getPlaceCollection');
             Route::get('places/{id}', 'PlaceController@getPlace')
                 ->where('id', '[0-9]+')
@@ -55,7 +53,6 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('reviews')->group(function () {
-
             Route::get('/', 'Api\Review\ReviewController@getReviewCollection');
 
             Route::post('/', 'Api\Review\ReviewController@createReview');
@@ -124,6 +121,5 @@ Route::prefix('v1')->group(function () {
             ->name('place.rating.getPlaceRating');
 
         /* Routes here.. */
-
     });
 });
