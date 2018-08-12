@@ -26,10 +26,16 @@
         </div>
         <div class="place-top-info__sidebar columns">
             <div class="column is-two-thirds">
-                <b-tabs class="sidebar-actions" v-model="activeTab">
-                    <b-tab-item label="Comments (123)"></b-tab-item>
-                    <b-tab-item label="Photos (321)"></b-tab-item>
-                </b-tabs>
+                <nav class="sidebar-actions tabs">
+                    <ul>
+                        <li @click="changeTab(1)" :class="{ 'is-active' : activeTab === 1}">
+                            <a><span>Comments (123)</span></a>
+                        </li>
+                        <li @click="changeTab(2)" :class="{ 'is-active' : activeTab === 2}">
+                            <a><span>Photos (321)</span></a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             <div class="column is-one-third place-rate">
                 <div class="place-rate__mark">
@@ -64,7 +70,12 @@ export default {
     },
     data() {
         return {
-            activeTab: 0
+            activeTab: 1
+        }
+    },
+    methods: {
+        changeTab: function(activeTab) {
+            this.activeTab = activeTab;
         }
     }
 }
@@ -86,7 +97,7 @@ export default {
             margin-left: 12px;
             padding-top: 35px;
         }
-        
+
         .tab-content {
             display: none;
         }

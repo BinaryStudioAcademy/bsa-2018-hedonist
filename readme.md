@@ -1,4 +1,5 @@
 [![CircleCI](https://circleci.com/gh/BinaryStudioAcademy/bsa-2018-hedonist.svg?style=svg)](https://circleci.com/gh/BinaryStudioAcademy/bsa-2018-hedonist)
+[![StyleCI](https://github.styleci.io/repos/142902374/shield)](https://github.styleci.io/repos/142902374)
 
 ## BSA PHP 2018 Hedonist project
 

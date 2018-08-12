@@ -32,7 +32,7 @@
 <script>
     import { mapState } from "vuex";
     import { mapGetters } from "vuex";
-    import PlaceListComponent from '@/components/PlacesList/PlaceListComponent';
+    import PlaceListComponent from '@/components/placesList/PlaceListComponent';
     import Mapbox from 'mapbox-gl-vue';
 
     export default {

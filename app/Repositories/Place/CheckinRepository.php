@@ -39,5 +39,4 @@ class CheckinRepository extends BaseRepository implements CheckinRepositoryInter
     {
         $this->delete($id);
     }
-
 }

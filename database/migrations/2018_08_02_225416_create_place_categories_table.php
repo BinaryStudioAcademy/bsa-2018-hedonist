@@ -16,7 +16,7 @@ class CreatePlaceCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('place_categories', function(Blueprint $table) {
+        Schema::create('place_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
             $table->softDeletes();

@@ -2,13 +2,12 @@
 
 namespace Hedonist\Exceptions\UserList;
 
-use LogicException;
+use Hedonist\Exceptions\DomainException;
 
-class UserListNotFoundException extends LogicException
+class UserListNotFoundException extends DomainException
 {
-    public function __construct(string $message = 'The userlist does not exists', $code = 400)
+    public function __construct(string $message = 'The userlist does not exists', $code = 400, \Throwable $previous = null)
     {
-        $this->message = $message;
-        $this->code = $code;
+        parent::__construct($message, $code, $previous);
     }
 }

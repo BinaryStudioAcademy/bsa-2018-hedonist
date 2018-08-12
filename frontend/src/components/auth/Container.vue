@@ -22,6 +22,10 @@ export default {
   box-sizing: border-box;
 }
 
+.columns {
+  padding: 40px;
+}
+
 .box {
   padding: 54px 72px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);

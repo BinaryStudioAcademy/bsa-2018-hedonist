@@ -27,7 +27,7 @@ class DislikeReviewAction
     }
 
     public function execute(DislikeReviewRequest $request): DislikeReviewResponse
-    {        
+    {
         $reviewId = $request->getReviewId();
         $review = $this->reviewRepository->getById($reviewId);
         if (empty($review)) {

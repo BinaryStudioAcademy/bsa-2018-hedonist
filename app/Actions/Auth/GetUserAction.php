@@ -16,8 +16,7 @@ class GetUserAction
     public function __construct(
         UserRepositoryInterface $userRepository,
         UserInfoRepositoryInterface $infoRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->infoRepository = $infoRepository;
     }
@@ -26,10 +25,10 @@ class GetUserAction
     {
         $user = $this->userRepository->getById($request->getId());
         $userInfo = $this->infoRepository->getByUserId($request->getId());
-        if(is_null($user) || is_null($userInfo)){
+        if (is_null($user) || is_null($userInfo)) {
             throw InvalidUserDataException::create();
         }
 
-        return new GetUserResponse($user,$userInfo);
+        return new GetUserResponse($user, $userInfo);
     }
 }
