@@ -3,6 +3,7 @@
 use Faker\Generator as Faker;
 use Hedonist\Entities\Review\ReviewPhoto;
 use Hedonist\Entities\Review\Review;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories

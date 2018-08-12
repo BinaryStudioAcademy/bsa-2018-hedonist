@@ -2,7 +2,6 @@
 
 namespace tests\Feature\Api\Place;
 
-
 use Hedonist\Entities\Place\Place;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
@@ -26,7 +25,7 @@ class PlaceControllerTest extends ApiTestCase
     public function testGetCollection()
     {
         $routeName = 'getPlaceCollection';
-        $response =  $this->actingWithToken()->json(
+        $response = $this->actingWithToken()->json(
             'GET',
             self::ENDPOINT
         );
@@ -44,7 +43,7 @@ class PlaceControllerTest extends ApiTestCase
     public function testGetPlace()
     {
         $routeName = 'getPlace';
-        $response =  $this->actingWithToken()->json(
+        $response = $this->actingWithToken()->json(
             'GET',
             self::ENDPOINT . "/{$this->place->id}"
         );
@@ -129,7 +128,7 @@ class PlaceControllerTest extends ApiTestCase
 
     public function testShowNotExistingPlace()
     {
-        $response =  $this->actingWithToken()->json(
+        $response = $this->actingWithToken()->json(
             'GET',
             self::ENDPOINT . '/99999999'
         );
@@ -138,7 +137,7 @@ class PlaceControllerTest extends ApiTestCase
 
     public function testDestroyNotExistingId()
     {
-        $response =  $this->actingWithToken()->json(
+        $response = $this->actingWithToken()->json(
             'DELETE',
             self::ENDPOINT . '/99999999'
         );

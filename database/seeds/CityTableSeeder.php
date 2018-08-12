@@ -4,19 +4,18 @@ use Illuminate\Database\Seeder;
 use Hedonist\Entities\Place\City;
 use Illuminate\Support\Facades\DB;
 
-
 class CityTableSeeder extends Seeder
 {
     private const CITY_NAMES = [
-        "Kiev",
-        "Lviv",
-        "Dnipro",
-        "Kharkiv",
-        "Khmelnytskyi",
-        "Cherkasy",
-        "Chernivtsi",
-        "Chernihiv",
-        "Odessa"
+        'Kiev',
+        'Lviv',
+        'Dnipro',
+        'Kharkiv',
+        'Khmelnytskyi',
+        'Cherkasy',
+        'Chernivtsi',
+        'Chernihiv',
+        'Odessa'
     ];
 
     /**

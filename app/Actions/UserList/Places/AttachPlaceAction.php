@@ -25,22 +25,23 @@ class AttachPlaceAction
     public function execute(AttachPlaceRequest $request): AttachPlaceResponse
     {
         $userList = $this->userListRepository->getById($request->getUserListId());
-        if (!$userList) {
+        if (! $userList) {
             throw new UserListNotFoundException();
         }
         if ($userList->user_id !== Auth::id()) {
             throw new NonAuthorizedException();
         }
         $place = $this->placeRepository->getById($request->getPlaceId());
-        if (!$place) {
+        if (! $place) {
             throw new PlaceNotFoundException();
         }
         $userlistPlace = $this->placeRepository
             ->getByList($request->getUserListId())
             ->find($place->id);
-        if (empty($userlistPlace)) {  
+        if (empty($userlistPlace)) {
             $this->userListRepository->attachPlace($userList, $place);
         }
+
         return new AttachPlaceResponse();
     }
 }

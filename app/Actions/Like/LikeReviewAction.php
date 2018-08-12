@@ -3,8 +3,10 @@
 namespace Hedonist\Actions\Like;
 
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
-use Hedonist\Repositories\Like\{LikeRepositoryInterface,LikeReviewCriteria};
-use Hedonist\Repositories\Dislike\{DislikeRepositoryInterface,DislikeReviewCriteria};
+use Hedonist\Repositories\Like\LikeRepositoryInterface;
+use Hedonist\Repositories\Like\LikeReviewCriteria;
+use Hedonist\Repositories\Dislike\DislikeRepositoryInterface;
+use Hedonist\Repositories\Dislike\DislikeReviewCriteria;
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\Like\Like;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
@@ -27,7 +29,7 @@ class LikeReviewAction
     }
 
     public function execute(LikeReviewRequest $request): LikeReviewResponse
-    {        
+    {
         $reviewId = $request->getReviewId();
         $review = $this->reviewRepository->getById($reviewId);
         if (empty($review)) {
@@ -42,7 +44,7 @@ class LikeReviewAction
         $dislike = $this->dislikeRepository->findByCriteria(
             new DislikeReviewCriteria($reviewId, $userId)
         )->first();
-        
+
         if ($dislike) {
             $this->dislikeRepository->deleteById($dislike->id);
         }
@@ -56,7 +58,7 @@ class LikeReviewAction
         } else {
             $this->likeRepository->deleteById($like->id);
         }
-        
+
         return new LikeReviewResponse();
     }
 }

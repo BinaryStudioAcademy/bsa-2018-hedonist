@@ -36,7 +36,7 @@ $factory->define(PlaceCategoryTag::class, function (Faker $faker) {
         'vegetatian food',
         'wine',
     ];
-    
+
     return [
         'name' => $faker->unique()->randomElement($tags),
         'category_id' => $faker->numberBetween(1, 6)

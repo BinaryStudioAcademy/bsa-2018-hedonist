@@ -18,14 +18,14 @@ class LikeReviewApiTest extends ApiTestCase
     public function setUp()
     {
         parent::setUp();
-        
+
         $this->user = factory(User::class)->create();
     }
 
     public function testLikeReviewNotFound()
     {
         $response = $this->actingWithToken()->post(
-            "/api/v1/reviews/99999/like"
+            '/api/v1/reviews/99999/like'
         );
 
         $response->assertHeader('Content-Type', 'application/json')
@@ -41,7 +41,7 @@ class LikeReviewApiTest extends ApiTestCase
         $response = $this->actingWithToken($this->user)->post(
             "/api/v1/reviews/{$review->id}/like"
         );
-        
+
         $response->assertStatus(200);
         $this->assertDatabaseHas('likes', [
             'likeable_id' => $review->id,
@@ -61,7 +61,7 @@ class LikeReviewApiTest extends ApiTestCase
         $response = $this->actingWithToken($this->user)->post(
             "/api/v1/reviews/{$like->likeable_id}/like"
         );
-        
+
         $response->assertStatus(200);
 
         $this->assertDatabaseMissing('likes', [
@@ -82,9 +82,9 @@ class LikeReviewApiTest extends ApiTestCase
         $response = $this->actingWithToken($this->user)->post(
             "/api/v1/reviews/{$dislike->dislikeable_id}/like"
         );
-        
+
         $response->assertStatus(200);
-        
+
         $this->assertDatabaseHas('likes', [
             'likeable_id' => $dislike->dislikeable_id,
             'likeable_type' => $dislike->dislikeable_type,

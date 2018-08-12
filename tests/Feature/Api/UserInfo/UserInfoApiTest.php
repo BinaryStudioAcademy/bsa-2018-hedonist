@@ -47,12 +47,12 @@ class UserInfoApiTest extends ApiTestCase
     {
         $userInfo = factory(UserInfo::class)->create();
         $data = [
-            'first_name' => "test_first_name",
+            'first_name' => 'test_first_name',
             'date_of_birth' => '1970/04/12',
-            'phone_number' => "380123456789",
+            'phone_number' => '380123456789',
             'avatar_url' => $this->avatar
         ];
-        $avatarUrl = $userInfo->user_id . "." . $this->avatar->extension();
+        $avatarUrl = $userInfo->user_id . '.' . $this->avatar->extension();
 
         $response = $this->json('PUT', "/api/v1/users/$userInfo->user_id/info", $data);
         $response->assertStatus(200);
@@ -73,17 +73,16 @@ class UserInfoApiTest extends ApiTestCase
     {
         $userInfo = factory(UserInfo::class)->create();
         $data = [
-            'first_name' => "test_first_name",
+            'first_name' => 'test_first_name',
             'date_of_birth' => '1970/04/12',
-            'phone_number' => "380123456789",
+            'phone_number' => '380123456789',
             'avatar_url' => $this->avatar,
-            'facebook_url' => "https://twitter.com",
+            'facebook_url' => 'https://twitter.com',
         ];
 
         $response = $this->json('PUT', "/api/v1/users/$userInfo->user_id/info", $data);
 
         $response->assertStatus(400);
-
     }
 
     public function test_create_user_info()
@@ -92,15 +91,15 @@ class UserInfoApiTest extends ApiTestCase
 
         $data = [
             'user_id' => $user->id,
-            'first_name' => "test_first_name",
-            'last_name' => "test_last_name",
+            'first_name' => 'test_first_name',
+            'last_name' => 'test_last_name',
             'date_of_birth' => '1970/04/12',
-            'phone_number' => "380123456789",
+            'phone_number' => '380123456789',
             'avatar_url' => $this->avatar,
-            'facebook_url' => "https://www.facebook.com/profile.php?id=123456789012345",
-            'instagram_url' => "https://www.instagram.com/12345/"
+            'facebook_url' => 'https://www.facebook.com/profile.php?id=123456789012345',
+            'instagram_url' => 'https://www.instagram.com/12345/'
         ];
-        $avatarUrl = $user->id . "." . $this->avatar->extension();
+        $avatarUrl = $user->id . '.' . $this->avatar->extension();
 
         $response = $this->json('PUT', "/api/v1/users/$user->id/info", $data);
         $response->assertStatus(200);
@@ -115,7 +114,7 @@ class UserInfoApiTest extends ApiTestCase
         $this->assertEquals($result['data']['avatar_url'], $avatarUrl);
         $this->assertEquals($result['data']['facebook_url'], $data['facebook_url']);
         $this->assertEquals($result['data']['instagram_url'], $data['instagram_url']);
-        $this->assertEquals($result['data']['twitter_url'], "");
+        $this->assertEquals($result['data']['twitter_url'], '');
 
         $data['avatar_url'] = $avatarUrl;
         $this->assertDatabaseHas('user_info', $data);
@@ -127,13 +126,13 @@ class UserInfoApiTest extends ApiTestCase
 
         $data = [
             'user_id' => $user->id,
-            'first_name' => "test_first_name",
+            'first_name' => 'test_first_name',
             'date_of_birth' => '1970/04/12',
-            'phone_number' => "380123456789",
+            'phone_number' => '380123456789',
             'avatar_url' => $this->avatar,
-            'facebook_url' => "https://www.facebook.com/profile.php?id=123456789012345",
-            'instagram_url' => "https://www.instagram.com/12345/",
-            'twitter_url' => "https://twitter.com/12345"
+            'facebook_url' => 'https://www.facebook.com/profile.php?id=123456789012345',
+            'instagram_url' => 'https://www.instagram.com/12345/',
+            'twitter_url' => 'https://twitter.com/12345'
         ];
 
         $response = $this->json('PUT', "/api/v1/users/$user->id/info", $data);
@@ -142,6 +141,6 @@ class UserInfoApiTest extends ApiTestCase
 
     public function test_get_user_list_not_found()
     {
-        $this->json('GET', "/api/v1/user/9999/info")->assertStatus(404);
+        $this->json('GET', '/api/v1/user/9999/info')->assertStatus(404);
     }
 }

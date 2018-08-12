@@ -45,32 +45,33 @@ class UpdatePlaceAction
             throw new PlaceLocationInvalidException($e->getMessage());
         }
 
-        if (!$place) {
+        if (! $place) {
             throw new PlaceDoesNotExistException;
         }
 
-        if (!$creator) {
+        if (! $creator) {
             throw new PlaceCreatorDoesNotExistException;
         }
 
-        if (!$category) {
+        if (! $category) {
             throw new PlaceCategoryDoesNotExistException;
         }
 
-        if (!$city) {
+        if (! $city) {
             throw new PlaceCityDoesNotExistException;
         }
 
         $place->setLocation($location);
-        $place->creator_id  = $creator->id;
+        $place->creator_id = $creator->id;
         $place->category_id = $category->id;
-        $place->city_id     = $city->id;
-        $place->zip         = $placeRequest->getZip();
-        $place->address     = $placeRequest->getAddress();
-        $place->phone       = $placeRequest->getPhone();
-        $place->website     = $placeRequest->getWebsite();
+        $place->city_id = $city->id;
+        $place->zip = $placeRequest->getZip();
+        $place->address = $placeRequest->getAddress();
+        $place->phone = $placeRequest->getPhone();
+        $place->website = $placeRequest->getWebsite();
 
         $place = $this->placeRepository->save($place);
+
         return new UpdatePlaceResponse($place);
     }
 }

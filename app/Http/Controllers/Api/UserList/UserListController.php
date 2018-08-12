@@ -34,6 +34,7 @@ class UserListController extends ApiController
     public function index()
     {
         $responseUserLists = $this->collectionUserListAction->execute();
+
         return $this->successResponse($responseUserLists->toArray(), 200);
     }
 
@@ -47,6 +48,7 @@ class UserListController extends ApiController
                     $request->get('img_url')
                 )
             );
+
             return $this->successResponse($responseUserList->toArray(), 201);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
@@ -59,6 +61,7 @@ class UserListController extends ApiController
             $responseUserList = $this->getUserListAction->execute(
                 new GetUserListRequest($id)
             );
+
             return $this->successResponse($responseUserList->toArray(), 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 404);
@@ -76,6 +79,7 @@ class UserListController extends ApiController
                     $id
                 )
             );
+
             return $this->successResponse($responseUserList->toArray(), 201);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 404);

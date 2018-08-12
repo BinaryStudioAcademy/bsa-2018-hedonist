@@ -34,7 +34,6 @@ class SaveUserInfoResponse
         return $this->userId;
     }
 
-
     public function getFirstName(): string
     {
         return $this->firstName;
@@ -50,31 +49,32 @@ class SaveUserInfoResponse
         if ($this->dateOfBirth !== null) {
             return $this->dateOfBirth->format('Y/m/d');
         }
-        return "";
+
+        return '';
     }
 
     public function getPhoneNumber(): string
     {
-        return (string)$this->phoneNumber;
+        return (string) $this->phoneNumber;
     }
 
     public function getAvatarUrl(): string
     {
-        return (string)$this->avatarUrl;
+        return (string) $this->avatarUrl;
     }
 
     public function getFacebookUrl(): string
     {
-        return (string)$this->facebookUrl;
+        return (string) $this->facebookUrl;
     }
 
     public function getInstagramUrl(): string
     {
-        return (string)$this->instagramUrl;
+        return (string) $this->instagramUrl;
     }
 
     public function getTwitterUrl(): string
     {
-        return (string)$this->twitterUrl;
+        return (string) $this->twitterUrl;
     }
 }

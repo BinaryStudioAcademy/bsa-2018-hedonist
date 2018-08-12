@@ -46,7 +46,7 @@ class LikePlaceAction
         } else {
             $this->likeRepository->deleteById($like->id);
         }
-        
+
         return new LikePlaceResponse();
     }
 }

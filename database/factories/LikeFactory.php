@@ -5,7 +5,6 @@ use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Like\Like;
 
-
 $factory->define(Like::class, function (Faker $faker) {
     return [
         'user_id' => function () {

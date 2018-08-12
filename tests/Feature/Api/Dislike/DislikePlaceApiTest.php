@@ -12,7 +12,7 @@ class DislikePlaceApiTest extends ApiTestCase
     public function testDislikePlaceNotFound()
     {
         $response = $this->actingWithToken()->post('/api/v1/places/99999/dislike');
-        
+
         $response->assertHeader('Content-Type', 'application/json')
             ->assertNotFound()
             ->assertJsonStructure([

@@ -17,7 +17,7 @@ class LoginUserAction
         ];
 
         $token = Auth::attempt($credentials);
-        if (!$token) {
+        if (! $token) {
             throw new AuthenticationException();
         }
 

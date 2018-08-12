@@ -9,7 +9,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Hash;
 use Tests\Feature\Api\ApiTestCase;
-use Tests\TestCase;
 
 class ResetPasswordTest extends ApiTestCase
 {
@@ -25,7 +24,6 @@ class ResetPasswordTest extends ApiTestCase
         $this->user = factory(User::class)->create();
     }
 
-
     public function test_reset_password()
     {
         Event::fake();
@@ -34,6 +32,7 @@ class ResetPasswordTest extends ApiTestCase
 
         Event::assertDispatched(PasswordResetedEvent::class, function ($e) {
             $this->token = $e->getToken();
+
             return true;
         });
 

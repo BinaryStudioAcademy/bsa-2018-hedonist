@@ -5,7 +5,6 @@ namespace Hedonist\Repositories\Dislike;
 use Hedonist\Entities\Dislike\Dislike;
 use Hedonist\Entities\Place\Place;
 use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
 

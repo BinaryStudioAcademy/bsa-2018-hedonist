@@ -8,34 +8,34 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 
 class PlaceCategoryTagRepository extends BaseRepository implements PlaceCategoryTagRepositoryInterface
-{ 
+{
     public function model()
     {
         return PlaceCategoryTag::class;
     }
-  
-    public function save(PlaceCategoryTag $placeCategoryTag): PlaceCategoryTag 
+
+    public function save(PlaceCategoryTag $placeCategoryTag): PlaceCategoryTag
     {
         $placeCategoryTag->save();
-        
+
         return $placeCategoryTag;
     }
-    
+
     public function findAll(): Collection
     {
         return PlaceCategoryTag::all();
     }
-    
+
     public function getById(int $id): ?PlaceCategoryTag
     {
         return PlaceCategoryTag::find($id);
     }
-    
+
     public function findByCriteria(CriteriaInterface $criteria)
     {
         return $this->getByCriteria($criteria);
     }
-    
+
     public function deleteById(int $id): void
     {
         PlaceCategoryTag::destroy($id);

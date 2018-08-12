@@ -1,6 +1,5 @@
 <?php
 
-
 namespace tests\Unit\Routes;
 
 use Illuminate\Support\Facades\Route;
@@ -8,7 +7,6 @@ use Tests\TestCase;
 
 class CheckinRoutesTest extends TestCase
 {
-
     public function testIndexEndpoint() : void
     {
         $routeName = 'user.me.checkin';

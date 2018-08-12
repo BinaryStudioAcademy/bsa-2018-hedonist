@@ -14,5 +14,5 @@ use Hedonist\Entities\Place\PlaceCategory;
 |
 */
 $factory->define(PlaceCategory::class, function (Faker $faker) {
-    return [ 'name' => $faker->unique()->word ];
+    return ['name' => $faker->unique()->word];
 });

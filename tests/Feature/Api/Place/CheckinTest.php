@@ -79,9 +79,9 @@ class CheckinTest extends ApiTestCase
         ]);
 
         $response->assertJsonFragment([
-            'error'=>[
-                'httpStatus'=>400,
-                'message'=>'Place not found'
+            'error' => [
+                'httpStatus' => 400,
+                'message' => 'Place not found'
             ]
         ]);
     }

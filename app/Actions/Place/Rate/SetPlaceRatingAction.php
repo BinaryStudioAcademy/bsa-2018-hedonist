@@ -38,12 +38,12 @@ class SetPlaceRatingAction
         if ($id) {
             $this->placeRating = $this->repository->getById($id);
         } else {
-            $this->placeRating = $this->repository->getByPlaceUser($placeId,$userId);
+            $this->placeRating = $this->repository->getByPlaceUser($placeId, $userId);
         }
 
-        throw_if(!$this->placeRepository->getById($placeId), new PlaceNotFoundException('Item not found'));
+        throw_if(! $this->placeRepository->getById($placeId), new PlaceNotFoundException('Item not found'));
 
-        if(!$this->placeRating) {
+        if (! $this->placeRating) {
             $this->placeRating = new PlaceRating([
                 'user_id' => $userId,
                 'place_id' => $placeId,

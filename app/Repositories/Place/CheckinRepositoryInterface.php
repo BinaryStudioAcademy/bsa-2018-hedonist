@@ -1,4 +1,5 @@
 <?php
+
 namespace Hedonist\Repositories\Place;
 
 use Hedonist\Entities\Place\Checkin;
@@ -16,5 +17,4 @@ interface CheckinRepositoryInterface
     public function findByCriteria(CriteriaInterface $criteria) : Collection;
 
     public function deleteById(int $id);
-
 }

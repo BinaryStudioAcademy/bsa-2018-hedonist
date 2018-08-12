@@ -17,11 +17,12 @@ class RemovePlaceAction
     public function execute(RemovePlaceRequest $placeRequest): RemovePlaceResponse
     {
         $place = $this->placeRepository->getById($placeRequest->getId());
-        if (!$place) {
-             throw new PlaceDoesNotExistException;
+        if (! $place) {
+            throw new PlaceDoesNotExistException;
         }
 
         $this->placeRepository->deleteById($placeRequest->getId());
+
         return new RemovePlaceResponse();
     }
 }

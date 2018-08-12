@@ -10,7 +10,7 @@ class PlaceFeature extends Model
     use SoftDeletes;
 
     protected $table = 'places_features';
-    
+
     protected $fillable = ['name'];
 
     protected $dates = ['deleted_at'];

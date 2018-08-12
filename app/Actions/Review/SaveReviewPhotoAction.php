@@ -3,7 +3,6 @@
 namespace Hedonist\Actions\Review;
 
 use Hedonist\Entities\Review\ReviewPhoto;
-use Hedonist\Repositories\Review\ReviewPhotoRepository;
 use Hedonist\Repositories\Review\ReviewPhotoRepositoryInterface;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +18,7 @@ class SaveReviewPhotoAction
     public function execute(SaveReviewPhotoRequest $request): SaveReviewPhotoResponse
     {
         $id = $request->getId();
-        if (!$id) {
+        if (! $id) {
             $reviewPhoto = new ReviewPhoto;
         } else {
             $reviewPhoto = $this->reviewPhotoRepository->getById($id);

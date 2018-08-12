@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlaceTranslation extends Model
 {
-    protected $table = "places_tr";
+    protected $table = 'places_tr';
 
     protected $fillable = [
-        "place_name",
-        "place_description",
-        "place_id",
-        "language_id"
+        'place_name',
+        'place_description',
+        'place_id',
+        'language_id'
     ];
 
     public function place()

@@ -24,7 +24,7 @@ class CreatePlaceCategoryPlaceTagTable extends Migration
                 ->references('id')
                 ->on('place_categories')
                 ->onDelete('cascade');
-            
+
             $table->foreign('place_tag_id')
                 ->references('id')
                 ->on('place_categories_tags')

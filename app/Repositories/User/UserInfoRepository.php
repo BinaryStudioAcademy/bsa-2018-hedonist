@@ -9,7 +9,6 @@ use Prettus\Repository\Eloquent\BaseRepository;
 
 class UserInfoRepository extends BaseRepository implements UserInfoRepositoryInterface
 {
-
     public function model()
     {
         return UserInfo::class;
@@ -39,12 +38,11 @@ class UserInfoRepository extends BaseRepository implements UserInfoRepositoryInt
 
     public function getByUserId(int $user_id): ?UserInfo
     {
-        return UserInfo::where(["user_id" => $user_id])->first();
+        return UserInfo::where(['user_id' => $user_id])->first();
     }
 
     public function deleteById(int $id): void
     {
         $this->delete($id);
     }
-
 }

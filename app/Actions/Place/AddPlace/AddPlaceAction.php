@@ -44,28 +44,28 @@ class AddPlaceAction
             throw new PlaceLocationInvalidException($e->getMessage());
         }
 
-        if (!$creator) {
+        if (! $creator) {
             throw new PlaceCreatorDoesNotExistException;
         }
 
-        if (!$category) {
+        if (! $category) {
             throw new PlaceCategoryDoesNotExistException;
         }
 
-        if (!$city) {
+        if (! $city) {
             throw new PlaceCityDoesNotExistException;
         }
 
         $place = $this->placeRepository->save(new Place([
-            'creator_id'  => $creator->id,
+            'creator_id' => $creator->id,
             'category_id' => $category->id,
-            'city_id'     => $city->id,
-            'longitude'   => $location->getLongitude(),
-            'latitude'    => $location->getLatitude(),
-            'zip'         => $placeRequest->getZip(),
-            'address'     => $placeRequest->getAddress(),
-            'phone'       => $placeRequest->getPhone(),
-            'website'     => $placeRequest->getWebsite(),
+            'city_id' => $city->id,
+            'longitude' => $location->getLongitude(),
+            'latitude' => $location->getLatitude(),
+            'zip' => $placeRequest->getZip(),
+            'address' => $placeRequest->getAddress(),
+            'phone' => $placeRequest->getPhone(),
+            'website' => $placeRequest->getWebsite(),
         ]));
 
         return new AddPlaceResponse($place);

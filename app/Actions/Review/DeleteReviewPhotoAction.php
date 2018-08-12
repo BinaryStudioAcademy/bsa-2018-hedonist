@@ -19,7 +19,7 @@ class DeleteReviewPhotoAction
     {
         $id = $request->getId();
         $reviewPhoto = $this->reviewPhotoRepository->getById($id);
-        if (!$reviewPhoto) {
+        if (! $reviewPhoto) {
             throw new ReviewPhotoExistsException('Review photo not found.');
         }
         $arr = explode('/', $reviewPhoto->img_url);

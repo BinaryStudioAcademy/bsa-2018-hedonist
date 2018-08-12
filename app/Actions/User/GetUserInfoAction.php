@@ -17,9 +17,10 @@ class GetUserInfoAction
     public function execute(GetUserInfoRequest $userInfoRequest): GetUserInfoResponse
     {
         $userInfo = $this->userInfoRepository->getByUserId($userInfoRequest->getUserId());
-        if (!$userInfo) {
+        if (! $userInfo) {
             $userInfo = new UserInfo;
         }
+
         return new GetUserInfoResponse($userInfo);
     }
 }

@@ -27,22 +27,23 @@ class CreateReviewAction
 
     public function execute(CreateReviewRequest $request): CreateReviewResponse
     {
-        if (!$this->placeRepository->getById($request->getPlaceId())) {
+        if (! $this->placeRepository->getById($request->getPlaceId())) {
             throw new PlaceDoesNotExistException('Place does NOT exist!');
         }
-        if (!$this->userRepository->getById($request->getUserId())) {
+        if (! $this->userRepository->getById($request->getUserId())) {
             throw UserNotFoundException::create();
         }
 
         $review = $this->reviewRepository->save(
             new Review(
                 [
-                    'user_id'       => $request->getUserId(),
-                    'place_id'      => $request->getPlaceId(),
-                    'description'   => $request->getDescription()
+                    'user_id' => $request->getUserId(),
+                    'place_id' => $request->getPlaceId(),
+                    'description' => $request->getDescription()
                 ]
             )
         );
+
         return new CreateReviewResponse($review);
     }
 }

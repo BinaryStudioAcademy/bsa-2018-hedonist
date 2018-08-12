@@ -3,50 +3,36 @@
 namespace Hedonist\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Hedonist\Repositories\User\{
-    UserRepository,
-    UserRepositoryInterface,
-    TasteRepository,
-    TasteRepositoryInterface,
-    UserInfoRepository,
-    UserInfoRepositoryInterface
-};
-use Hedonist\Repositories\Place\{
-    FavouritePlaceRepository,
-    FavouritePlaceRepositoryInterface,
-    PlaceCategoryRepositoryInterface,
-    PlaceCategoryRepository,
-    PlaceFeatureRepositoryInterface,
-    PlaceFeatureRepository,
-    PlaceRatingRepositoryInterface,
-    PlaceRatingRepository,
-    PlaceRepository,
-    PlaceRepositoryInterface,
-    CheckinRepository,
-    CheckinRepositoryInterface
-};
-use Hedonist\Repositories\Dislike\{
-    DislikeRepositoryInterface,
-    DislikeRepository
-};
-use Hedonist\Repositories\Like\{
-    LikeRepositoryInterface,
-    LikeRepository
-};
-use Hedonist\Repositories\Review\{
-    ReviewPhotoRepository,
-    ReviewPhotoRepositoryInterface,
-    ReviewRepositoryInterface,
-    ReviewRepository
-};
-use Hedonist\Repositories\City\{
-    CityRepositoryInterface,
-    CityRepository
-};
-use Hedonist\Repositories\UserList\{
-    UserListRepositoryInterface,
-    UserListRepository
-};
+use Hedonist\Repositories\User\UserRepository;
+use Hedonist\Repositories\User\UserRepositoryInterface;
+use Hedonist\Repositories\User\TasteRepository;
+use Hedonist\Repositories\User\TasteRepositoryInterface;
+use Hedonist\Repositories\User\UserInfoRepository;
+use Hedonist\Repositories\User\UserInfoRepositoryInterface;
+use Hedonist\Repositories\Place\FavouritePlaceRepository;
+use Hedonist\Repositories\Place\FavouritePlaceRepositoryInterface;
+use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
+use Hedonist\Repositories\Place\PlaceCategoryRepository;
+use Hedonist\Repositories\Place\PlaceFeatureRepositoryInterface;
+use Hedonist\Repositories\Place\PlaceFeatureRepository;
+use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
+use Hedonist\Repositories\Place\PlaceRatingRepository;
+use Hedonist\Repositories\Place\PlaceRepository;
+use Hedonist\Repositories\Place\PlaceRepositoryInterface;
+use Hedonist\Repositories\Place\CheckinRepository;
+use Hedonist\Repositories\Place\CheckinRepositoryInterface;
+use Hedonist\Repositories\Dislike\DislikeRepositoryInterface;
+use Hedonist\Repositories\Dislike\DislikeRepository;
+use Hedonist\Repositories\Like\LikeRepositoryInterface;
+use Hedonist\Repositories\Like\LikeRepository;
+use Hedonist\Repositories\Review\ReviewPhotoRepository;
+use Hedonist\Repositories\Review\ReviewPhotoRepositoryInterface;
+use Hedonist\Repositories\Review\ReviewRepositoryInterface;
+use Hedonist\Repositories\Review\ReviewRepository;
+use Hedonist\Repositories\City\CityRepositoryInterface;
+use Hedonist\Repositories\City\CityRepository;
+use Hedonist\Repositories\UserList\UserListRepositoryInterface;
+use Hedonist\Repositories\UserList\UserListRepository;
 
 class RepositoryServiceProvider extends ServiceProvider
 {

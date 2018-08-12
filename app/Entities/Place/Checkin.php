@@ -1,4 +1,5 @@
 <?php
+
 namespace Hedonist\Entities\Place;
 
 use Hedonist\Entities\User\User;

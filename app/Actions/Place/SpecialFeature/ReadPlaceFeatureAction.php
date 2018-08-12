@@ -3,7 +3,6 @@
 namespace Hedonist\Actions\Place\SpecialFeature;
 
 use Hedonist\Repositories\Place\PlaceFeatureRepositoryInterface;
-use Hedonist\Entities\Place\PlaceFeature;
 
 class ReadPlaceFeatureAction
 {

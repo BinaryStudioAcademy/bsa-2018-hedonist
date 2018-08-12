@@ -9,12 +9,12 @@ use Hedonist\Entities\UserList\UserList;
 interface UserListRepositoryInterface
 {
     public function save(UserList $userList): UserList;
-    
+
     public function getById(int $id) : ?UserList;
-  
+
     public function findAll(): Collection;
-   
+
     public function findByCriteria(CriteriaInterface $criteria): Collection;
- 
+
     public function deleteById(int $id);
 }

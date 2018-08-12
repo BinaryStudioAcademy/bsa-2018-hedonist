@@ -4,7 +4,6 @@ namespace Hedonist\Actions\Place\Rate;
 
 use Hedonist\Actions\Place\Rate\Exceptions\PlaceRatingNotFoundException;
 use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
-use Hedonist\Entities\Place\PlaceRating;
 
 class GetPlaceRatingAction
 {
@@ -29,7 +28,7 @@ class GetPlaceRatingAction
             $this->placeRating = $this->repository->getByPlaceUser($placeId, $userId);
         }
 
-        throw_if(!$this->placeRating, new PlaceRatingNotFoundException('Item not found'));
+        throw_if(! $this->placeRating, new PlaceRatingNotFoundException('Item not found'));
 
         $response = $this->response = new GetPlaceRatingResponse(
             $this->placeRating->id,

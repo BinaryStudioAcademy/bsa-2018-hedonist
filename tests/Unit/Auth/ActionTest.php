@@ -47,8 +47,8 @@ class ActionTest extends TestCase
             ->method('save')
             ->willReturn(factory(User::class)->make());
 
-        $request = new RegisterRequest('abcd@gamil.com', '123', 'Test','Test');
-        $action = new RegisterUserAction($this->repository,$this->infoRepository);
+        $request = new RegisterRequest('abcd@gamil.com', '123', 'Test', 'Test');
+        $action = new RegisterUserAction($this->repository, $this->infoRepository);
         $action->execute($request);
 
         Event::assertDispatched(Registered::class, 1);
@@ -61,7 +61,7 @@ class ActionTest extends TestCase
         $this->expectException(EmailAlreadyExistsException::class);
 
         $request = new RegisterRequest('abcd@gamil.com', '123', 'Test', 'Test');
-        $action = new RegisterUserAction($this->repository,$this->infoRepository);
+        $action = new RegisterUserAction($this->repository, $this->infoRepository);
         $action->execute($request);
     }
 
@@ -88,7 +88,6 @@ class ActionTest extends TestCase
         $action->execute($request);
     }
 
-
     public function test_reset()
     {
         $token = str_random(30);
@@ -96,6 +95,7 @@ class ActionTest extends TestCase
 
         $this->broker->method('reset')->will($this->returnCallback(function ($data, $cb) {
             $cb(factory(User::class)->make(), 'secret');
+
             return Password::PASSWORD_RESET;
         }));
 

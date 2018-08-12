@@ -3,7 +3,6 @@
 namespace Hedonist\Repositories\Like;
 
 use Hedonist\Entities\Like\Like;
-use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
 
