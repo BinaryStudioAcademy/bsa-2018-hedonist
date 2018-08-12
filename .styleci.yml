@@ -1,11 +1,8 @@
-preset: laravel
+preset: psr2
 
 risky: false
 
 disabled:
-  - align_double_arrow
+  - elseif
   - single_blank_line_at_eof
-  - trailing_comma_in_multiline_array
-  - new_with_braces
-  - align_phpdoc
-  - alpha_ordered_imports
+  - single_import_per_statement
