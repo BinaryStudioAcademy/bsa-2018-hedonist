@@ -2,7 +2,9 @@
 
 namespace Hedonist\Exceptions\Auth;
 
-class InvalidUserDataException extends \Exception
+use Hedonist\Exceptions\DomainException;
+
+class InvalidUserDataException extends DomainException
 {
    public static function create(): self
    {

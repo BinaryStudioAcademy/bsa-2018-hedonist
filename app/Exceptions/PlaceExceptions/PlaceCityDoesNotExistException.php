@@ -2,12 +2,12 @@
 
 namespace Hedonist\Exceptions\PlaceExceptions;
 
+use Hedonist\Exceptions\DomainException;
 
-class PlaceCityDoesNotExistException extends \LogicException
+class PlaceCityDoesNotExistException extends DomainException
 {
-    public function __construct(string $message = 'The city does not exists', $code = 404)
+    public function __construct(string $message = 'The city does not exists', $code = 404, \Throwable $previous = null)
     {
-        $this->message = $message;
-        $this->code = $code;
+        parent::__construct($message, $code, $previous);
     }
 }
