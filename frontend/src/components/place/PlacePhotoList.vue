@@ -5,7 +5,7 @@
         </span>
         <ul ref="photo-list" class="photo-slider__list">
             <li v-for="photo in photos">
-                <PlacePhoto :key="photo.id" :photo="photo" :last="photos.length"/>
+                <PlacePhoto :key="photo.id" :photo="photo" :lastId="photos.length"/>
             </li>
         </ul>
         <span class="photo-slider__right-arrow slider-arrow" @click="toRight">
@@ -27,7 +27,7 @@ export default {
                 {id: 2, url: 'https://igx.4sqi.net/img/general/200x200/26166006_NbsG6630seaUu5oBMHF1nJN5faMbAJBB-U_fftfgLQ0.jpg'},
                 {id: 3, url: 'https://igx.4sqi.net/img/general/200x200/14194563_V7QcNe7QxElooKfHflch-zJsOky6c58iNIMq5_gqf2g.jpg'},
                 {id: 4, url: 'https://igx.4sqi.net/img/general/200x200/30460270_jXczXSrGxp69jx5_iU-NXRoxXfZl1OKMqrbSRL5IOh4.jpg'},
-                {id: 5, url: 'https://igx.4sqi.net/img/general/200x200/30460270_jXczXSrGxp69jx5_iU-NXRoxXfZl1OKMqrbSRL5IOh4.jpg'},
+                {id: 5, url: 'https://igx.4sqi.net/img/general/200x200/49523061_7l_R5LyP657g624USxZ_oomdQ3QkqJyI0OvSdKGQLsY.jpg'},
                 {id: 6, url: 'https://igx.4sqi.net/img/general/200x200/43170088_MOsT6vDk8CrgoM8hMPQ2Ex1OLGUR3SBJJP8CKK317_s.jpg'},
                 {id: 7, url: 'https://igx.4sqi.net/img/general/200x200/5131275_W0cHIwqqMi95dCIhgAiTdDFBySZL4xsS93Prjxv8GJM.jpg'},
                 {id: 8, url: 'https://igx.4sqi.net/img/general/200x200/83196834_6Jkr24BOV5h52EMvb8cy9oeP5IdcZdSfmNzazYBEz_g.jpg'},
@@ -81,11 +81,11 @@ $blue: #0e71de;
     }
 
     &__right-arrow {
-        right: -50px;
+        right: -40px;
     }
 
     &__left-arrow {
-        left: -50px;
+        left: -40px;
     }
 }
 

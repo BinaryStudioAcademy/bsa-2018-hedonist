@@ -1,7 +1,7 @@
 <template>
     <div class="place-photo">
         <img class="place-photo__image" :src="photo.url" alt="place image">
-        <div v-if="photo.id === last" class="place-photo__show-all"><a href="#">Show all</a></div>
+        <div v-if="photo.id === lastId" class="place-photo__show-all"><a href="#">Show all</a></div>
     </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
             type: Object,
             required: true
         },
-        last: {
+        lastId: {
             type: Number
         }
     },
