@@ -140,6 +140,7 @@
         line-height: 48px;
         font-size: 1.5rem;
         color: #FFF;
+        text-align: center;
     }
     .rating-wrapper {
         margin-top: 1.5rem;

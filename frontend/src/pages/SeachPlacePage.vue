@@ -5,7 +5,7 @@
 <script>
     import SearchPlace from '@/components/place/SearchPlace';
     export default {
-        name: "ExplorePage",
+        name: "SeachPlacePage",
         components: {
             SearchPlace
         }
