@@ -74,8 +74,8 @@ export default {
         }
     },
     methods: {
-        changeTab: function(tabNumber) {
-            this.activeTab = tabNumber
+        changeTab: function(activeTab) {
+            this.activeTab = activeTab
         }
     }
 }
