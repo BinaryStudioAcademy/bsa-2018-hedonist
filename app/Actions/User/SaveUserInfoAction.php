@@ -6,6 +6,7 @@ use Hedonist\Entities\User\UserInfo;
 use Hedonist\Exceptions\UserInfoExceptions\UserInfoNotValidSocialUrlException;
 use Hedonist\Exceptions\UserInfoExceptions\UserInfoRequiredFieldsException;
 use Hedonist\Repositories\User\UserInfoRepositoryInterface as UserInfoRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class SaveUserInfoAction
 {
@@ -28,7 +29,7 @@ class SaveUserInfoAction
         $last_name = $userInfoRequest->getLastName();
         $date_of_birth = $userInfoRequest->getDateOfBirth();
         $phone_number = $userInfoRequest->getPhoneNumber();
-        $avatar_url = $userInfoRequest->getAvatarUrl();
+        $avatar = $userInfoRequest->getAvatar();
         $facebook_url = $userInfoRequest->getFacebookUrl();
         $instagram_url = $userInfoRequest->getInstagramUrl();
         $twitter_url = $userInfoRequest->getTwitterUrl();
@@ -55,9 +56,6 @@ class SaveUserInfoAction
         }
         if ($userHasNotInfo || !empty($phone_number)) {
             $userInfo->phone_number = $phone_number;
-        }
-        if ($userHasNotInfo || !empty($avatar_url)) {
-            $userInfo->avatar_url = $avatar_url;
         }
         if ($userHasNotInfo || !empty($facebook_url)) {
             if (
@@ -88,8 +86,22 @@ class SaveUserInfoAction
             $userInfo->twitter_url = $twitter_url;
         }
 
+        if ($userHasNotInfo || !empty($avatar)) {
+            $userInfo->avatar_url = $this->storeAvatar($userInfo->user_id, $avatar);
+        }
+
         $userInfo = $this->userInfoRepository->save($userInfo);
 
         return new SaveUserInfoResponse($userInfo);
+    }
+
+    private function storeAvatar(int $userId, ?UploadedFile $avatar): string
+    {
+        $avatarUrl = "";
+        if ($avatar !== null) {
+            $avatarUrl = $userId . '.' . $avatar->extension();
+            $avatar->storeAs('public/upload/avatar', $avatarUrl);
+        }
+        return $avatarUrl;
     }
 }

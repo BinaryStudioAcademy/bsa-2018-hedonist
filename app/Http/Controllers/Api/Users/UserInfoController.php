@@ -50,14 +50,6 @@ class UserInfoController extends ApiController
     public function update(UserInfoHttpRequest $httpRequest, int $userId): JsonResponse
     {
         try {
-            $avatar = $httpRequest->file('avatar_url');
-            if ($avatar !== null) {
-                $avatarUrl = $userId . '.' . $avatar->extension();
-                $avatar->storeAs('public/upload/avatar', $avatarUrl);
-            } else {
-                $avatarUrl = "";
-            }
-
             $response = $this->saveUserInfoAction->execute(
                 new SaveUserInfoRequest(
                     $userId,
@@ -65,7 +57,7 @@ class UserInfoController extends ApiController
                     $httpRequest->last_name,
                     $httpRequest->date_of_birth,
                     $httpRequest->phone_number,
-                    $avatarUrl,
+                    $httpRequest->file('avatar_url'),
                     $httpRequest->facebook_url,
                     $httpRequest->instagram_url,
                     $httpRequest->twitter_url
