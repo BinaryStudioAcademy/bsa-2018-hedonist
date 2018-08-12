@@ -2,7 +2,9 @@
 
 namespace Hedonist\Exceptions\UserInfoExceptions;
 
-class UserInfoNotValidSocialUrlException extends \LogicException
+use Hedonist\Exceptions\DomainException;
+
+class UserInfoNotValidSocialUrlException extends DomainException
 {
 
 }

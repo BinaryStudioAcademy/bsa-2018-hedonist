@@ -2,10 +2,9 @@
 
 namespace Hedonist\Actions\Place\SpecialFeature\Exceptions;
 
+use Hedonist\Exceptions\DomainException;
 
-use Symfony\Component\Console\Exception\LogicException;
-
-class PlaceFeatureNotFoundException extends LogicException
+class PlaceFeatureNotFoundException extends DomainException
 {
 
 }
