@@ -2,8 +2,8 @@
 
 namespace Hedonist\Actions\Place\Rate\Exceptions;
 
-use \LogicException;
+use Hedonist\Exceptions\DomainException;
 
-class PlaceRatingNotFoundException extends LogicException
+class PlaceRatingNotFoundException extends DomainException
 {
 }

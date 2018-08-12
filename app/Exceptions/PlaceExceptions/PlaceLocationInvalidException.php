@@ -3,11 +3,12 @@
 namespace Hedonist\Exceptions\PlaceExceptions;
 
 
-class PlaceLocationInvalidException extends \LogicException
+use Hedonist\Exceptions\DomainException;
+
+class PlaceLocationInvalidException extends DomainException
 {
-    public function __construct(string $message, $code = 400)
+    public function __construct(string $message, $code = 400, \Throwable $previous = null)
     {
-        $this->message = $message;
-        $this->code = $code;
+        parent::__construct($message, $code, $previous);
     }
 }
