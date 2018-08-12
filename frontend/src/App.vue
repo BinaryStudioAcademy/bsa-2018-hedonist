@@ -1,41 +1,20 @@
 <template>
-   <div id="app">
-        <nav class="navigation">
-            <ul class="navbar">
-                <li><router-link to="/">Home</router-link></li>
-                <li><router-link to="/signup">Sign up</router-link></li>
-                <li><router-link to="/login">Login</router-link></li>
-                <li><a @click="onLogOut">Logout</a></li>
-                <li><router-link to="/profile">Profile</router-link></li>
-                <li><router-link to="/place-info">Place-info</router-link></li>
-                <li><router-link to="/places/list">Place-list</router-link></li>
-                <li><router-link to="/history">History</router-link></li>
-                <li><router-link to="/tastes/add">Tastes add</router-link></li>
-                <li><router-link to="/test">test</router-link></li>
-                <li><router-link to="/user/lists">User lists</router-link></li>
-                <li><router-link to="/search">Search</router-link></li>
-            </ul>
-        </nav>
-       <section class="main-content">
-           <router-view/>
-       </section>
+    <div id="app">
+        <TopNavbar/>
+
+        <router-view/>
     </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+    import TopNavbar from './components/navbar/TopNavbar';
 
-export default {
-    name: 'App',
-
-    methods: {
-        ...mapActions(['logout']),
-
-        onLogOut () {
-            this.logout();
+    export default {
+        name: 'App',
+        components:{
+            TopNavbar
         }
     }
-}
 </script>
 
 <style lang="scss">
@@ -58,14 +37,5 @@ export default {
         background-color: $background-color;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-    }
-
-    .navigation .navbar li {
-        line-height: 50px;
-        margin-right: 15px;
-    }
-
-    .main-content {
-        padding: 40px;
     }
 </style>
