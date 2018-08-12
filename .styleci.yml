@@ -1,3 +1,11 @@
 preset: laravel
 
 risky: false
+
+disabled:
+  - align_double_arrow
+  - single_blank_line_at_eof
+  - trailing_comma_in_multiline_array
+  - new_with_braces
+  - align_phpdoc
+  - alpha_ordered_imports
