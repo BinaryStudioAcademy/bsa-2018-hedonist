@@ -15,7 +15,9 @@
                     </div>
                 </div>
 
-                <h4>Address and Location</h4>
+                <div class="section-divider">
+                    <h4>Address and Location</h4>
+                </div>
 
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
@@ -51,7 +53,9 @@
                     </div>
                 </div>
 
-                <h4>Contact and Other Info</h4>
+                <div class="section-divider">
+                    <h4>Contact and Other Info</h4>
+                </div>
 
                 <div class="field is-horizontal">
                     <div class="field-label is-normal">
@@ -64,11 +68,32 @@
                             </p>
                         </div>
                         <div class="field-label is-normal">
-                            <label class="label">Website</label>
+                            <label class="label">Facebook</label>
                         </div>
                         <div class="field">
                             <p class="control is-expanded">
+                                <input class="input" type="text" placeholder="Place's facebook">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Website</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control is-expanded">
                                 <input class="input" type="text" placeholder="Place's website">
+                            </p>
+                        </div>
+                        <div class="field-label is-normal">
+                            <label class="label">Instagram</label>
+                        </div>
+                        <div class="field">
+                            <p class="control is-expanded">
+                                <input class="input" type="text" placeholder="Place's instagram">
                             </p>
                         </div>
                     </div>
@@ -125,18 +150,19 @@
         margin: auto;
     }
 
-    .name-block {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-
-        span {
-            text-align: center;
-        }
+    .label {
+        color: #50595D;
     }
 
+    .section-divider {
+        padding-left: 10px;
+        margin: 30px 0 20px 0;
+        border-bottom: 1px solid #50595D;
 
+        h4 {
+            font-weight: 500;
+        }
+    }
 
     .map-box {
         img {
