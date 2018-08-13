@@ -9,6 +9,7 @@ import HistoryPage from '@/pages/HistoryPage';
 import SeachPlacePage from  '@/pages/SeachPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
+import UserListAddPage from '@/pages/UserListAddPage';
 import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
@@ -53,9 +54,19 @@ export default new Router({
                 component: SeachPlacePage
             },
             {
-                path: '/place-info',
+                path: '/places/:id',
                 name: 'PlacePage',
                 component: PlacePage
+            },
+            {
+                path: '/reviews',
+                name: 'ReviewList',
+                component: ReviewList
+            },
+            {
+                path: '/users/lists/add',
+                name: 'UserListAddPage',
+                component: UserListAddPage
             },
             {
                 path: '/user/lists',
@@ -81,7 +92,7 @@ export default new Router({
             },
             {
                 path: '/signup',
-                name: 'SignUp',
+                name: 'SignUpPage',
                 component: SignUpPage
             },
             {

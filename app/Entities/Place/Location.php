@@ -2,7 +2,6 @@
 
 namespace Hedonist\Entities\Place;
 
-
 class Location
 {
     const MIN_LONGITUDE = -180;
@@ -36,5 +35,13 @@ class Location
     public function getLatitude(): float
     {
         return $this->latitude;
+    }
+
+    public function getLocation() : Location
+    {
+        return new Location(
+            $this->longitude,
+            $this->latitude
+        );
     }
 }

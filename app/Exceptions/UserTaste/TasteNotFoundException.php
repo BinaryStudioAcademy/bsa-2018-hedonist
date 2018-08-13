@@ -2,9 +2,8 @@
 
 namespace Hedonist\Exceptions\UserTaste;
 
-use LogicException;
+use Hedonist\Exceptions\DomainException;
 
-class TasteNotFoundException extends LogicException
+class TasteNotFoundException extends DomainException
 {
-
 }

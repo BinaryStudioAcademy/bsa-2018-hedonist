@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\User;
 
 use Carbon\Carbon;
+use Illuminate\Http\UploadedFile;
 
 class SaveUserInfoRequest
 {
@@ -11,32 +12,31 @@ class SaveUserInfoRequest
     private $lastName;
     private $dateOfBirth;
     private $phoneNumber;
-    private $avatarUrl;
+    private $avatar;
     private $facebookUrl;
     private $instagramUrl;
     private $twitterUrl;
 
     public function __construct(
         int $userId,
-        $firstName,
-        $lastName,
-        $dateOfBirth = null,
-        $phoneNumber = "",
-        $avatarUrl = "",
-        $facebookUrl = "",
-        $instagramUrl = "",
-        $twitterUrl = ""
-    )
-    {
+        ?string $firstName,
+        ?string $lastName,
+        ?string $dateOfBirth = null,
+        ?string $phoneNumber = "",
+        ?UploadedFile $avatar = null,
+        ?string $facebookUrl = "",
+        ?string $instagramUrl = "",
+        ?string $twitterUrl = ""
+    ) {
         $this->userId = $userId;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->dateOfBirth = $dateOfBirth;
         $this->phoneNumber = $phoneNumber;
-        $this->avatarUrl = $avatarUrl;
         $this->facebookUrl = $facebookUrl;
         $this->instagramUrl = $instagramUrl;
         $this->twitterUrl = $twitterUrl;
+        $this->avatar = $avatar;
     }
 
     public function getUserId(): int
@@ -68,9 +68,9 @@ class SaveUserInfoRequest
         return $this->phoneNumber;
     }
 
-    public function getAvatarUrl(): ?string
+    public function getAvatar(): ?UploadedFile
     {
-        return $this->avatarUrl;
+        return $this->avatar;
     }
 
     public function getFacebookUrl(): ?string
@@ -87,5 +87,4 @@ class SaveUserInfoRequest
     {
         return $this->twitterUrl;
     }
-
 }

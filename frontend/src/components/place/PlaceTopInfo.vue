@@ -7,9 +7,9 @@
                     <img src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png" data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png" width="88" height="88">
                 </div>
                 <div class="place-venue__prime-info">
-                    <div class="place-venue__place-name">МАМА МАНАНА</div>
-                    <div class="place-venue__category">Ресторан кавказской кухни</div>
-                    <div class="place-venue__region">Голосеевский район, Киев</div>
+                    <div class="place-venue__place-name">{{ place.name }}</div>
+                    <div class="place-venue__category">{{ place.category }}</div>
+                    <div class="place-venue__city">{{ place.city }}</div>
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
@@ -26,14 +26,20 @@
         </div>
         <div class="place-top-info__sidebar columns">
             <div class="column is-two-thirds">
-                <b-tabs class="sidebar-actions" v-model="activeTab">
-                    <b-tab-item label="Comments (123)"></b-tab-item>
-                    <b-tab-item label="Photos (321)"></b-tab-item>
-                </b-tabs>
+                <nav class="sidebar-actions tabs">
+                    <ul>
+                        <li @click="changeTab(1)" :class="{ 'is-active' : activeTab === 1}">
+                            <a><span>Comments ({{place.reviews.length}})</span></a>
+                        </li>
+                        <li @click="changeTab(2)" :class="{ 'is-active' : activeTab === 2}">
+                            <a><span>Photos (12)</span></a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             <div class="column is-one-third place-rate">
                 <div class="place-rate__mark">
-                    <span>9.2</span><sup>/<span>10</span></sup>
+                    <span>{{ place.rating }}</span><sup>/<span>10</span></sup>
                 </div>
                 <div class="place-rate__mark-count">444 marks</div>
                 <div class="place-rate__preference">
@@ -62,9 +68,21 @@ export default {
     components: {
         PlacePhotoList,
     },
+    props: {
+        place: {
+            type: Object,
+            required: true
+        }
+    },
     data() {
         return {
-            activeTab: 0
+            activeTab: 1
+        }
+    },
+    methods: {
+        changeTab: function(activeTab) {
+            this.activeTab = activeTab;
+            this.$emit('tabChanged', activeTab);
         }
     }
 }
@@ -86,7 +104,7 @@ export default {
             margin-left: 12px;
             padding-top: 35px;
         }
-        
+
         .tab-content {
             display: none;
         }

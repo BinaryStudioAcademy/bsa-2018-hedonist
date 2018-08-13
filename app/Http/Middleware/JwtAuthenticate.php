@@ -2,7 +2,6 @@
 
 namespace Hedonist\Http\Middleware;
 
-
 use Closure;
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Illuminate\Http\JsonResponse;
