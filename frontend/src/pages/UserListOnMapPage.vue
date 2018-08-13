@@ -31,7 +31,7 @@
     import {mapState} from "vuex";
     import {mapGetters} from "vuex"
     import Mapbox from 'mapbox-gl-vue';
-    import UserList from '@/components/user-list/UserList'
+    import UserList from '@/components/userPlacesList/UserList'
 
     export default {
         name: "UserListOnMapPage",
