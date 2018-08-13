@@ -34,7 +34,7 @@ class PlaceControllerTest extends ApiTestCase
         $this->assertTrue(isset(
             $arrayContent['data'][0]['id'],
             $arrayContent['data'][0]['city'],
-            $arrayContent['data'][0]['creator'])
+            $arrayContent['data'][0]['address'])
         );
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
