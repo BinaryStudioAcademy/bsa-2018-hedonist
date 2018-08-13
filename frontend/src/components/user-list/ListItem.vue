@@ -10,23 +10,23 @@
                         <h3 class="title is-4 has-text-info">
                             {{place.name}}
                         </h3>
+                        <div class="address">
+                            {{place.address}}
+                        </div>
+                        <div class="category">
+                            <a href="#" class="link">
+                                {{place.category}}
+                            </a>
+                            •
+                            <a class="link" href="#">
+                                Reviews
+                            </a>
+                            : {{place.reviews.length}}
+                        </div>
                     </div>
                     <div class="column">
                         <RatingComponent :rating="place.rating" class="rating"/>
                     </div>
-                </div>
-                <div class="address">
-                    {{place.address}}
-                </div>
-                <div class="category">
-                    <a href="#" class="link">
-                        {{place.category}}
-                    </a>
-                    •
-                    <a class="link" href="#">
-                        Reviews
-                    </a>
-                    : {{place.reviews.length}}
                 </div>
                 <b-taglist>
                     <b-tag
@@ -37,7 +37,7 @@
                         {{tag.name}}
                     </b-tag>
                 </b-taglist>
-                <button class="button is-info is-rounded">
+                <button class="button is-info">
                     <i class="fas fa-save"></i>
                     <p class="icon-text">
                         save
@@ -84,7 +84,8 @@
     }
 
     .title {
-        margin-bottom: 0;
+        margin-bottom: 0.5rem;
+        align-self: center;
     }
 
     .columns {

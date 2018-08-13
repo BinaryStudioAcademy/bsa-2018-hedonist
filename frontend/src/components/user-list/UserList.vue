@@ -17,7 +17,7 @@
                         </div>
                         <div class="level-item">
                             <p>
-                                Created by:<br/>
+                                Created by:
                                 <a class="has-text-info" href="#">
                                     {{list.user.name}}
                                 </a>
@@ -25,12 +25,15 @@
                         </div>
                         <div class="level-item">
                             <p>
-                                Updated on:<br/>
+                                Updated on:
                                 {{list.updated_at}}
                             </p>
                         </div>
                     </div>
                 </div>
+                <button class="button is-info">
+                    Subscribe
+                </button>
             </div>
         </div>
         <ListItem

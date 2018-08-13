@@ -7,7 +7,7 @@ export default {
                 rating: 9,
                 photo: {url: 'https://static1.squarespace.com/static/55b7dde9e4b02b839dad00ad/t/55dc60b3e4b025d475d00d55/1440506039948/SP-Mainheader.jpg?format=1500w'},
                 category: 'Real Category',
-                address: 'Pushkina street, Colotushkina house',
+                address: 'Sample str, Sample house',
                 reviews: [
                     {}, {}, {}
                 ],
@@ -19,7 +19,7 @@ export default {
                 rating: 6,
                 photo: {url: 'https://static1.squarespace.com/static/55b7dde9e4b02b839dad00ad/t/55dc60b3e4b025d475d00d55/1440506039948/SP-Mainheader.jpg?format=1500w'},
                 category: 'Real Category',
-                address: 'Pushkina street, Colotushkina house',
+                address: 'Sample str, Sample house',
                 reviews: [
                     {}, {}, {}
                 ],
@@ -31,7 +31,7 @@ export default {
                 rating: 4,
                 photo: {url: 'https://static1.squarespace.com/static/55b7dde9e4b02b839dad00ad/t/55dc60b3e4b025d475d00d55/1440506039948/SP-Mainheader.jpg?format=1500w'},
                 category: 'Real Category',
-                address: 'Pushkina street, Colotushkina house',
+                address: 'Sample str, Sample house',
                 reviews: [
                     {}, {}, {}
                 ],
@@ -43,7 +43,7 @@ export default {
                 rating: 2,
                 photo: {url: 'https://static1.squarespace.com/static/55b7dde9e4b02b839dad00ad/t/55dc60b3e4b025d475d00d55/1440506039948/SP-Mainheader.jpg?format=1500w'},
                 category: 'Real Category',
-                address: 'Pushkina street, Colotushkina house',
+                address: 'Sample str, Sample house',
                 reviews: [
                     {}, {}, {}
                 ],

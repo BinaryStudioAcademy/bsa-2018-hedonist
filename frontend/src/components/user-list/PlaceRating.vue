@@ -19,7 +19,7 @@
             side: {
                 required: false,
                 type: Number,
-                default: 32
+                default: 40
             }
         },
         computed: {
@@ -32,13 +32,13 @@
             },
             background: function(){
                 if (this.rating >= 8) {
-                    return {background: '#00E676'};
+                    return {background: '#4CAF50'};
                 } else if (this.rating >= 6) {
-                    return {background: '#C6FF00'};
+                    return {background: '#AEEA00'};
                 } else if (this.rating >= 4) {
-                    return {background: '#FFD600'};
+                    return {background: '#FF9800'};
                 } else {
-                    return {background: '#FF3D00'};
+                    return {background: '#F44336'};
                 }
             }
         }

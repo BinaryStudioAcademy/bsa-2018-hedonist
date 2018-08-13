@@ -13,7 +13,7 @@ import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
-import test from '@/pages/UserListOnMapPage';
+import UserPlaceListMap from '@/pages/UserListOnMapPage';
 import TastesAdd from '@/components/taste/TastesAdd';
 
 Vue.use(Router);
@@ -72,6 +72,10 @@ export default new Router({
                 path: '/history',
                 name: 'HistoryPage',
                 component: HistoryPage
+            },
+            {
+                path:'/user/list',
+                component:UserPlaceListMap
             }
         ]),
         ...middleware(middlewares.guest(store))([
@@ -94,10 +98,6 @@ export default new Router({
                 path: '/recover',
                 name: 'RecoverPasswordPage',
                 component: RecoverPasswordPage
-            },
-            {
-                path:'/test',
-                component:test
             }
         ])
     ]

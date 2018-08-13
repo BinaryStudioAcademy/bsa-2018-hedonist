@@ -1,12 +1,12 @@
 <template>
-        <div class="columns placeholder">
-            <div class="column is-4">
-                <UserList
-                        class="list"
-                        :places="places"
-                        :list="list"
-                />
-            </div>
+    <div class="columns placeholder">
+        <div class="column is-5">
+            <UserList
+                    class="list"
+                    :places="places"
+                    :list="list"
+            />
+        </div>
             <section id="map">
                 <mapbox
                         :access-token="getMapboxToken"
@@ -47,18 +47,34 @@
 <style lang="scss" scoped>
     .placeholder {
         padding-top: 0.5rem;
+        background: #DDD;
     }
+
     #map {
         text-align: justify;
         position: fixed;
         top: 52px;
         bottom: 0;
         right: 0;
-        width: 66%;
+        width: 58%;
     }
 
     .columns {
         padding-left: 10px;
         padding-right: 10px;
     }
+
+    @media screen and (max-width: 769px) {
+        #map {
+            text-align: justify;
+            vertical-align: top;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 500px;
+            order:-1;
+        }
+    }
+
 </style>
