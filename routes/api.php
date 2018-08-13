@@ -111,6 +111,9 @@ Route::prefix('v1')->group(function () {
         Route::post('/users/me/checkins', 'Api\Places\PlaceCheckinController@setCheckin')
             ->name('user.me.checkin');
 
+        Route::get('/users/me/lists' , 'Api\UserList\UserListController@index')
+            ->name('user.me.lists');
+
         Route::post('/places/rating', 'Api\Places\PlaceRatingController@setRating')
             ->name('place.rating.setPlaceRating');
 
