@@ -10,7 +10,7 @@ use Hedonist\Entities\Place\PlaceCategory;
 
 class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRepositoryInterface
 {
-    public function save(PlaceCategory $placeCategory): PlaceCategory 
+    public function save(PlaceCategory $placeCategory): PlaceCategory
     {
         $placeCategory->save();
         
@@ -22,12 +22,12 @@ class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRep
         return PlaceCategory::find($id);
     }
     
-    public function findAll(): Collection 
+    public function findAll(): Collection
     {
         return PlaceCategory::all();
     }
     
-    public function findByCriteria(CriteriaInterface $criteria): Collection 
+    public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
     }

@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Dislike;
 
-class DislikeReviewResponse 
+class DislikeReviewResponse
 {
-
 }

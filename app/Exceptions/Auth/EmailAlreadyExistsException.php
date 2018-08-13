@@ -2,9 +2,10 @@
 
 namespace Hedonist\Exceptions\Auth;
 
+use Hedonist\Exceptions\DomainException;
 use Throwable;
 
-class EmailAlreadyExistsException extends \LogicException
+class EmailAlreadyExistsException extends DomainException
 {
     public function __construct(string $message = "Sorry, this email is already in use", int $code = 0, Throwable $previous = null)
     {

@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 use Hedonist\Entities\Place\PlaceCategory;
 use Illuminate\Support\Facades\DB;
 
-
 class PlaceCategoryTableSeeder extends Seeder
 {
     /**

@@ -27,7 +27,6 @@ class CreateUserPlaceCheckinTable extends Migration
             $table->foreign('place_id')
                 ->references('id')
                 ->on('places');
-
         });
     }
 

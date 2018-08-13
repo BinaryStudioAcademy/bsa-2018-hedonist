@@ -12,7 +12,9 @@
                 </div>
                 <div class="column content-wrapper">
                     <h3 class="title has-text-primary">
-                        {{place.name}}
+                        <router-link :to="`/places/${place.id}`">
+                            {{place.name}}
+                        </router-link>
                         <a class="button is-outlined is-info" @click="subscribe">
                             <i class="fas fa-bell"></i>
                         </a>
@@ -34,29 +36,29 @@
                     </b-taglist>
                 </div>
             </div>
-            <div class="media" v-if="place.review">
+            <div class="media" v-if="place.reviews[0]">
                 <div class="media-left">
                     <figure class="image is-32x32">
-                        <img :src="place.review.user.avatar"/>
+                        <img :src="place.reviews[0].user.avatar"/>
                     </figure>
                 </div>
                 <div class="media-content">
                     <div>
                         <a class="has-text-weight-semibold has-text-primary" href="#">
-                            {{place.review.user.name}}
+                            {{place.reviews[0].user.name}}
                         </a>
                         •
-                        <small>{{place.review.published_at}}</small>
+                        <small>{{place.reviews[0].published_at}}</small>
                     </div>
                     <p>
-                        {{place.review.text}}
+                        {{place.reviews[0].text}}
                     </p>
                     <nav class="level">
                         <div class="level-left">
                             <a class="level-item">
                                 <b-taglist attached>
                                     <b-tag type="is-light">
-                                        {{place.review.likes}}
+                                        {{place.reviews[0].likes}}
                                     </b-tag>
                                     <b-tag type="is-success" @click.native="like">
                                     <span class="icon">
@@ -68,7 +70,7 @@
                             <a class="level-item">
                                 <b-taglist attached>
                                     <b-tag type="is-light">
-                                        {{place.review.dislikes}}
+                                        {{place.reviews[0].dislikes}}
                                     </b-tag>
                                     <b-tag type="is-danger" @click.native="dislike">
                                     <span class="icon">

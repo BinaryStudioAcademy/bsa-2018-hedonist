@@ -2,7 +2,9 @@
 
 namespace Hedonist\Exceptions\Review;
 
-class ReviewNotFoundException extends \LogicException
+use Hedonist\Exceptions\DomainException;
+
+class ReviewNotFoundException extends DomainException
 {
     const MESSAGE = 'Review NOT found';
 

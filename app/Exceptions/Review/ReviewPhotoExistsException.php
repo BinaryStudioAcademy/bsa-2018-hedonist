@@ -2,7 +2,8 @@
 
 namespace Hedonist\Exceptions\Review;
 
-class ReviewPhotoExistsException extends \LogicException
-{
+use Hedonist\Exceptions\DomainException;
 
+class ReviewPhotoExistsException extends DomainException
+{
 }

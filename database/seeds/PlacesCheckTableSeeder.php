@@ -17,7 +17,7 @@ class PlacesCheckTableSeeder extends Seeder
         $users = User::all();
         $places = Place::all();
 
-        foreach ($places as $place){
+        foreach ($places as $place) {
             $placesId[] = $place->id;
         }
 

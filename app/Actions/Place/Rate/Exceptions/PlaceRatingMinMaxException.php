@@ -2,8 +2,8 @@
 
 namespace Hedonist\Actions\Place\Rate\Exceptions;
 
-use \LogicException;
+use Hedonist\Exceptions\DomainException;
 
-class PlaceRatingMinMaxException extends LogicException
+class PlaceRatingMinMaxException extends DomainException
 {
 }
