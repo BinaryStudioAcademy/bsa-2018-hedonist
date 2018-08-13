@@ -30,7 +30,7 @@
             <div class="column is-two-thirds">
                 <nav class="sidebar-actions tabs">
                     <ul>
-                        <li @click="changeTab(1)" :class="{ 'is-active' : activeTab === 1}">
+                        <li v-if="place.reviews" @click="changeTab(1)" :class="{ 'is-active' : activeTab === 1}">
                             <a><span>Comments ({{place.reviews.length}})</span></a>
                         </li>
                         <li @click="changeTab(2)" :class="{ 'is-active' : activeTab === 2}">

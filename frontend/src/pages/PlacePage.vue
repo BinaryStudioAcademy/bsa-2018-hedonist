@@ -1,14 +1,14 @@
 <template>
     <div class="place-view container">
         <b-loading :active.sync="isLoading"></b-loading>
-        <PlaceTopInfo v-if="!isLoading" :place="place" />
+        <PlaceTopInfo v-if="!isLoading" :place="currentPlace" />
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
-                    <ReviewList v-if="!isLoading" :place="place"></ReviewList>
+                    <ReviewList v-if="!isLoading" :place="currentPlace"></ReviewList>
                 </div>
             </div>
-            <PlaceSidebarInfo v-if="!isLoading" :place="place" />
+            <PlaceSidebarInfo v-if="!isLoading" :place="currentPlace" />
         </div>
     </div>
 </template>
