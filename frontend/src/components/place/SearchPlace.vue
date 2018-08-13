@@ -13,7 +13,11 @@
                     :access-token="getMapboxToken"
                     :map-options="{
                         style: getMapboxStyle,
-                        zoom: 3
+                        center: {
+                            lat: 40.7128,
+                            lng: -74.0060
+                        },
+                        zoom: 11
                     }"
                     :scale-control="{
                         show: true,
@@ -22,7 +26,9 @@
                     :fullscreen-control="{
                         show: true,
                         position: 'top-left'
-                    }">
+                    }"
+                    @map-init="mapInitialized"
+                >
                 </mapbox>
             </section>
         </section>
@@ -34,6 +40,7 @@
     import { mapGetters } from "vuex";
     import PlaceListComponent from '@/components/placesList/PlaceListComponent';
     import Mapbox from 'mapbox-gl-vue';
+    import LocationService from '@/services/location/locationService';
 
     export default {
         name: "SearchPlace",
@@ -43,10 +50,23 @@
         },
         data() {
             return {
-                filterQuery: ''
+                filterQuery: '',
+                map: {},
             }
         },
         methods: {
+            mapInitialized(map) {
+                this.map = map;
+                LocationService.getUserLocationData()
+                    .then(coordinates => {
+                        this.jumpTo(coordinates);
+                    });
+            },
+            jumpTo (coordinates) {
+                this.map.jumpTo({
+                    center: coordinates,
+                })
+            },
         },
         computed: {
             ...mapState("place", ["places"]),
