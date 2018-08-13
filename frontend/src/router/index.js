@@ -13,7 +13,7 @@ import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
-import TasteListPage from '@/components/taste/TastesList';
+import MyTastesPage from '@/pages/MyTastesPage';
 
 Vue.use(Router);
 
@@ -64,8 +64,8 @@ export default new Router({
             },
             {
                 path: '/tastes',
-                name: 'TasteListPage',
-                component: TasteListPage
+                name: 'MyTastesPage',
+                component: MyTastesPage
             },
             {
                 path: '/history',
