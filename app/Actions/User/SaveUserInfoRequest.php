@@ -27,8 +27,7 @@ class SaveUserInfoRequest
         ?string $facebookUrl = "",
         ?string $instagramUrl = "",
         ?string $twitterUrl = ""
-    )
-    {
+    ) {
         $this->userId = $userId;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
