@@ -46,6 +46,23 @@ class UserListApiTest extends ApiTestCase
         $this->assertEquals($userList->img_url, $data['data']['img_url']);
     }
 
+    public function test_get_user_lists()
+    {
+        $userLists = factory(UserList::class, 3)->create();
+        foreach ($userLists as $userList) {
+            $response = $this->json('GET', "/api/v1/user-lists/$userList->user_id/lists");
+            $response->assertHeader('Content-Type', 'application/json');
+            $response->assertStatus(200);
+            $data = json_decode($response->getContent(), true);
+            for ($i = 0; $i < count($data); $i++) {
+                $this->assertEquals($userList->id, $data['data'][$i]['id']);
+                $this->assertEquals($userList->user_id, $data['data'][$i]['user_id']);
+                $this->assertEquals($userList->name, $data['data'][$i]['name']);
+                $this->assertEquals($userList->img_url, $data['data'][$i]['img_url']);
+            }
+        }
+    }
+
     public function test_update_user_list()
     {
         $userList = factory(UserList::class)->create();

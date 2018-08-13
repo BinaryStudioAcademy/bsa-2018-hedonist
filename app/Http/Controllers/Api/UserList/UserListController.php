@@ -4,6 +4,7 @@ namespace Hedonist\Http\Controllers\Api\UserList;
 
 use Hedonist\Actions\UserList\DeleteUserListAction;
 use Hedonist\Actions\UserList\DeleteUserListRequest;
+use Hedonist\Actions\UserList\GetCollectionUserListsAction;
 use Hedonist\Actions\UserList\SaveUserListRequest;
 use Hedonist\Actions\UserList\SaveUserListAction;
 use Hedonist\Actions\UserList\GetCollectionUserListAction;
@@ -16,17 +17,20 @@ class UserListController extends ApiController
 {
     public $userListAction;
     public $collectionUserListAction;
+    public $collectionUserListsAction;
     public $getUserListAction;
     public $deleteUserListAction;
 
     public function __construct(
         SaveUserListAction $userListAction,
         GetCollectionUserListAction $collectionUserListAction,
+        GetCollectionUserListsAction $collectionUserListsAction,
         GetUserListAction $getUserListAction,
         DeleteUserListAction $deleteUserListAction
     ) {
         $this->userListAction = $userListAction;
         $this->collectionUserListAction = $collectionUserListAction;
+        $this->collectionUserListsAction = $collectionUserListsAction;
         $this->getUserListAction = $getUserListAction;
         $this->deleteUserListAction = $deleteUserListAction;
     }
@@ -35,6 +39,12 @@ class UserListController extends ApiController
     {
         $responseUserLists = $this->collectionUserListAction->execute();
         return $this->successResponse($responseUserLists->toArray(), 200);
+    }
+
+    public function userLists(int $user_id)
+    {
+        $resUserLists = $this->collectionUserListsAction->execute($user_id);
+        return $this->successResponse($resUserLists->toArray(), 200);
     }
 
     public function store(UserListRequest $request)
