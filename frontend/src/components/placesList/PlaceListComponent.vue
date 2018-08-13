@@ -83,7 +83,6 @@
                     </nav>
                 </div>
             </div>
-            <hr>
         </div>
     </transition>
 </template>
@@ -92,6 +91,7 @@
     .place-item {
         color: grey;
         max-width: 100%;
+        margin-bottom:1rem;
     }
 
     .columns {
@@ -165,6 +165,8 @@
     @media screen and (min-width: 769px) {
         .place-item {
             max-width: 100%;
+            padding: 10px;
+            background: #FFF;
         }
 
         .title, .place-category, .address {
