@@ -5,10 +5,10 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.get('/places')
                 .then(function (res) {
-                    if (res.status === 400){
+                    if (res.status === 200){
+                        context.commit('SET_PLACES', res.data);
                         resolve(res.data);
                     } else {
-                        context.commit('SET_PLACES', res);
                         resolve(res);
                     }
                 }).catch(function (err) {
