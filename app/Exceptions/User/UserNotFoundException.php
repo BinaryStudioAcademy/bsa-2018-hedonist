@@ -2,7 +2,9 @@
 
 namespace Hedonist\Exceptions\User;
 
-class UserNotFoundException extends \LogicException
+use Hedonist\Exceptions\DomainException;
+
+class UserNotFoundException extends DomainException
 {
     const MESSAGE = 'User NOT found!';
 

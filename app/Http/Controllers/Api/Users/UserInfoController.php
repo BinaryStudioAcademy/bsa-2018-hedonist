@@ -18,8 +18,7 @@ class UserInfoController extends ApiController
     public function __construct(
         SaveUserInfoAction $saveUserInfoAction,
         GetUserInfoAction $getUserInfoAction
-    )
-    {
+    ) {
         $this->saveUserInfoAction = $saveUserInfoAction;
         $this->getUserInfoAction = $getUserInfoAction;
     }

@@ -39,13 +39,13 @@ class UserTastesTest extends TestCase
 
     public function test_set_taste()
     {
-        $tastes = factory(Taste::class,3)->make();
+        $tastes = factory(Taste::class, 3)->make();
         $tastes->each(function ($item) {
             $this->tasteRepo->save($item);
         });
 
         $this->assertEquals($tastes->count(), $this->tasteRepo->findAll()->count());
-        $this->userRepo->setTastes($this->user,$tastes);
+        $this->userRepo->setTastes($this->user, $tastes);
         $this->assertEquals($tastes->count(), $this->tasteRepo->findByUser($this->user->id)->count());
     }
 
@@ -54,15 +54,15 @@ class UserTastesTest extends TestCase
         $taste = factory(Taste::class)->make();
         $this->user->tastes()->save($taste);
         $tasteToAdd = factory(Taste::class)->create();
-        $this->userRepo->addTaste($this->user,$tasteToAdd);
+        $this->userRepo->addTaste($this->user, $tasteToAdd);
         $this->assertEquals(2, $this->tasteRepo->findByUser($this->user->id)->count());
     }
 
     public function test_delete_taste()
     {
-        $taste = factory(Taste::class,2)->make();
+        $taste = factory(Taste::class, 2)->make();
         $this->user->tastes()->saveMany($taste);
-        $this->userRepo->deleteTaste($this->user,$taste[0]);
+        $this->userRepo->deleteTaste($this->user, $taste[0]);
         $this->assertEquals(1, $this->tasteRepo->findByUser($this->user->id)->count());
     }
 }

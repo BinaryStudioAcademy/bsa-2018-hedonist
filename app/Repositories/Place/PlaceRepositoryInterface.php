@@ -8,7 +8,6 @@ use Hedonist\Entities\Place\Place;
 
 interface PlaceRepositoryInterface
 {
-
     public function save(Place $placeCategory): Place;
 
     public function getById(int $id) : ?Place;

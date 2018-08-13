@@ -27,7 +27,7 @@ class LikeReviewAction
     }
 
     public function execute(LikeReviewRequest $request): LikeReviewResponse
-    {        
+    {
         $reviewId = $request->getReviewId();
         $review = $this->reviewRepository->getById($reviewId);
         if (empty($review)) {

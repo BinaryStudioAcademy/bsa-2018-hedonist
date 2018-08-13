@@ -18,7 +18,7 @@ class RemovePlaceAction
     {
         $place = $this->placeRepository->getById($placeRequest->getId());
         if (!$place) {
-             throw new PlaceDoesNotExistException;
+            throw new PlaceDoesNotExistException;
         }
 
         $this->placeRepository->deleteById($placeRequest->getId());

@@ -4,6 +4,7 @@ use Faker\Generator as Faker;
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\Place;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories

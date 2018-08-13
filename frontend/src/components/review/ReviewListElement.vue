@@ -4,18 +4,16 @@
             <article class="media">
                 <figure class="media-left">
                     <p class="image is-32x32">
-                        <img src="https://bulma.io/images/placeholders/128x128.png">
+                        <img :src="review.user.avatar">
                     </p>
                 </figure>
                 <div class="media-content">
                     <div class="top-line">
-                        <strong><a>John Smith</a></strong>
+                        <strong><a>{{ review.user.name }}</a></strong>
                         <small><a>21 September 2018</a></small>
                     </div>
                     <div class="content">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-                        </p>
+                        <p>{{ review.text }}</p>
                     </div>
                     <nav class="level">
                         <div class="level-left">
@@ -37,7 +35,13 @@
 
 <script>
     export default {
-        name: "ReviewListElement"
+        name: 'ReviewListElement',
+        props: {
+            review: {
+                type: Object,
+                required: true
+            }
+        },
     }
 </script>
 

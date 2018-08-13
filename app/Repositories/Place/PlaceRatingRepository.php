@@ -9,7 +9,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Contracts\CriteriaInterface;
 
 class PlaceRatingRepository extends BaseRepository implements PlaceRatingRepositoryInterface
-{ 
+{
     public function model()
     {
         return PlaceRating::class;
