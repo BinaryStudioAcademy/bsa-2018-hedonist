@@ -8,8 +8,10 @@ class GetPlaceCollectionPresenter
     {
         $placesArray = [];
 
-        foreach ($placeResponse->getPlaceCollection() as $place) {
-            $placesArray[] = $place;
+        foreach ($placeResponse->getPlaceCollection() as $key => $place) {
+            $placesArray[$key] = $place->toArray();
+            $placesArray[$key]['likes'] = $place->likes->count();
+            $placesArray[$key]['dislikes'] = $place->dislikes->count();
         }
 
         return $placesArray;
