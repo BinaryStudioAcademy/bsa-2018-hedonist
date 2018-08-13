@@ -16,9 +16,21 @@
                 <button class="button is-primary">
                     <i class="fas fa-check"></i>Check-in
                 </button>
-                <button class="button is-success">
-                    <i class="far fa-save"></i>Save
-                </button>
+
+                <b-dropdown>
+                    <button class="button is-success" slot="trigger">
+                        <i class="far fa-save"></i>Save
+                        <b-icon icon="menu-down"></b-icon>
+                    </button>
+
+                    <template v-for="(list, index) in userLists">
+                        <b-dropdown-item :key="index">{{ list.name }}</b-dropdown-item>
+                    </template>
+
+                    <hr class="dropdown-divider">
+                    <b-dropdown-item>Create new list</b-dropdown-item>
+                </b-dropdown>
+
                 <button class="button is-info">
                     <i class="far fa-share-square"></i>Share
                 </button>
@@ -76,7 +88,18 @@ export default {
     },
     data() {
         return {
-            activeTab: 1
+            activeTab: 1,
+            userLists: [
+                {
+                    name: 'Hookah'
+                },
+                {
+                    name: 'Pubs and Bars'
+                },
+                {
+                    name: 'Lounge'
+                }
+            ]
         }
     },
     methods: {
