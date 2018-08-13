@@ -32,6 +32,7 @@
 <script>
     import { mapState } from "vuex";
     import { mapGetters } from "vuex";
+    import { mapActions } from 'vuex';
     import PlacePreview from '@/components/place/PlacePreview';
     import Mapbox from 'mapbox-gl-vue';
 
@@ -46,7 +47,8 @@
                 filterQuery: ''
             }
         },
-        methods: {
+        created() {
+            this.$store.dispatch("place/featchPlaces");
         },
         computed: {
             ...mapState("place", ["places"]),
