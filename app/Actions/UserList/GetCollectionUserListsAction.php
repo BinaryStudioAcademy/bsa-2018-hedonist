@@ -1,7 +1,6 @@
 <?php
 namespace Hedonist\Actions\UserList;
 
-
 use Hedonist\Repositories\UserList\UserListRepository;
 
 class GetCollectionUserListsAction
