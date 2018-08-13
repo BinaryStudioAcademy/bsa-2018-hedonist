@@ -31,10 +31,10 @@
                 <nav class="sidebar-actions tabs">
                     <ul>
                         <li @click="changeTab(1)" :class="{ 'is-active' : activeTab === 1}">
-                            <a><span>Comments (123)</span></a>
+                            <a><span>Comments ({{place.reviews.length}})</span></a>
                         </li>
                         <li @click="changeTab(2)" :class="{ 'is-active' : activeTab === 2}">
-                            <a><span>Photos (321)</span></a>
+                            <a><span>Photos (12)</span></a>
                         </li>
                     </ul>
                 </nav>

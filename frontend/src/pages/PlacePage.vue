@@ -1,14 +1,14 @@
 <template>
     <div class="place-view container">
         <b-loading :active.sync="isLoading"></b-loading>
-        <PlaceTopInfo v-if="!isLoading" v-bind:place="currentPlace" />
+        <PlaceTopInfo v-if="!isLoading" :place="place" />
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
-                    <ReviewList></ReviewList>
+                    <ReviewList v-if="!isLoading" :place="place"></ReviewList>
                 </div>
             </div>
-            <PlaceSidebarInfo v-if="!isLoading" v-bind:place="currentPlace" />
+            <PlaceSidebarInfo v-if="!isLoading" :place="place" />
         </div>
     </div>
 </template>
@@ -29,11 +29,10 @@ export default {
     data() {
         return {
             isLoading: true,
-            id: this.$route.params.id
         };
     },
     created() {
-        this.$store.dispatch('place/loadCurrentPlace', this.id)
+        this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
             .finally(() => this.isLoading = false);
     },
     computed: {

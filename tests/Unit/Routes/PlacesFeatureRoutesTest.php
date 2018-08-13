@@ -8,7 +8,6 @@ use Tests\TestCase;
 
 class PlacesFeatureRoutesTest extends TestCase
 {
-
     public function testIndexEndpoint() : void
     {
         $routeName = 'place.features.indexFeature';

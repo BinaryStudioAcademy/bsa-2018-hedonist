@@ -56,7 +56,7 @@ class ReviewPhotoApiTest extends ApiTestCase
         $reviewPhoto->img_url = Storage::url('upload/review/' . $file->hashName());
         $reviewPhoto->save();
 
-        $this->json('DELETE',"/api/v1/reviews/photos/" . $reviewPhoto->id);
+        $this->json('DELETE', "/api/v1/reviews/photos/" . $reviewPhoto->id);
         Storage::disk('public')->assertMissing('upload/review/' . $file->hashName());
     }
 }

@@ -77,11 +77,9 @@ class ReviewController extends ApiController
                 )
             );
             return $this->successResponse($createReviewResponse->getModel()->toArray());
-        }
-        catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 400);
-        }
-        catch (PlaceDoesNotExistException $e) {
+        } catch (PlaceDoesNotExistException $e) {
             return $this->errorResponse($e->getMessage(), 400);
         }
     }

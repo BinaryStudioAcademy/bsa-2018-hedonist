@@ -3,5 +3,12 @@ export default {
         return state.places.filter(
             place => place.name.toLowerCase().indexOf(name.toLowerCase()) > -1
         );
+    },
+    getById: state => id => {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(state.places.find(function (place) { return place.id === parseInt(id); }));
+            }, 500);
+        });
     }
 };

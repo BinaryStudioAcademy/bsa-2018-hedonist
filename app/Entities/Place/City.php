@@ -4,7 +4,6 @@ namespace Hedonist\Entities\Place;
 
 use Illuminate\Database\Eloquent\Model;
 
-
 /**
  * Class City
  *

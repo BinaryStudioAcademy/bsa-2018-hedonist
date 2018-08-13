@@ -8,13 +8,13 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 
 class PlaceCategoryTagRepository extends BaseRepository implements PlaceCategoryTagRepositoryInterface
-{ 
+{
     public function model()
     {
         return PlaceCategoryTag::class;
     }
   
-    public function save(PlaceCategoryTag $placeCategoryTag): PlaceCategoryTag 
+    public function save(PlaceCategoryTag $placeCategoryTag): PlaceCategoryTag
     {
         $placeCategoryTag->save();
         

@@ -9,13 +9,13 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Contracts\CriteriaInterface;
 
 class PlaceFeatureRepository extends BaseRepository implements PlaceFeatureRepositoryInterface
-{ 
+{
     public function model()
     {
         return PlaceFeature::class;
     }
   
-    public function save(PlaceFeature $placeFeature): PlaceFeature 
+    public function save(PlaceFeature $placeFeature): PlaceFeature
     {
         $placeFeature->save();
         

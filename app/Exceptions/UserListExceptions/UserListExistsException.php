@@ -2,7 +2,8 @@
 
 namespace Hedonist\Exceptions\UserListExceptions;
 
-class UserListExistsException extends \LogicException
-{
+use Hedonist\Exceptions\DomainException;
 
+class UserListExistsException extends DomainException
+{
 }

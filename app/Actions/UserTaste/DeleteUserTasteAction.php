@@ -13,7 +13,7 @@ class DeleteUserTasteAction
     private $userRepository;
     private $tasteRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository,TasteRepositoryInterface $tasteRepository)
+    public function __construct(UserRepositoryInterface $userRepository, TasteRepositoryInterface $tasteRepository)
     {
         $this->userRepository = $userRepository;
         $this->tasteRepository = $tasteRepository;
@@ -21,12 +21,10 @@ class DeleteUserTasteAction
     
     public function execute(DeleteUserTasteRequest $request)
     {
-         
         $taste = $this->tasteRepository->getById($request->getTasteId());
-        if(!$taste) {
+        if (!$taste) {
             throw new TasteNotFoundException('Taste not found!');
         }
-        $this->userRepository->deleteTaste(Auth::user(),$taste);
-        
+        $this->userRepository->deleteTaste(Auth::user(), $taste);
     }
 }

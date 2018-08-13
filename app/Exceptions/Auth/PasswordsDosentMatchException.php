@@ -2,11 +2,11 @@
 
 namespace Hedonist\Exceptions\Auth;
 
-use Throwable;
+use Hedonist\Exceptions\DomainException;
 
-class PasswordsDosentMatchException extends \Exception
+class PasswordsDosentMatchException extends DomainException
 {
-    public function __construct(string $message = "Provided password is incorrect", int $code = 0, Throwable $previous = null)
+    public function __construct(string $message = "Provided password is incorrect", int $code = 0, \Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }

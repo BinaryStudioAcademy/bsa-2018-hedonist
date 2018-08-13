@@ -7,7 +7,6 @@ use Illuminate\Database\Seeder;
 
 class PlaceCategoriesAttachTagsSeeder extends Seeder
 {
-
     const DATA = [
         'Cafe' => [
             'Ice-cream cafe',

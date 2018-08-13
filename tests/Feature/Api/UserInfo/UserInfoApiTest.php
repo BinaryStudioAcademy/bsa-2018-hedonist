@@ -83,7 +83,6 @@ class UserInfoApiTest extends ApiTestCase
         $response = $this->json('PUT', "/api/v1/users/$userInfo->user_id/info", $data);
 
         $response->assertStatus(400);
-
     }
 
     public function test_create_user_info()

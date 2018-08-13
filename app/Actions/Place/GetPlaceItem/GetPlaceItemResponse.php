@@ -2,11 +2,9 @@
 
 namespace Hedonist\Actions\Place\GetPlaceItem;
 
-use Hedonist\Entities\Localization\PlaceTranslation;
 use Hedonist\Entities\Place\City;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\PlaceCategory;
-use Hedonist\Entities\Place\PlaceRating;
 use Illuminate\Database\Eloquent\Collection;
 
 class GetPlaceItemResponse
@@ -51,7 +49,6 @@ class GetPlaceItemResponse
         $this->city         = $city;
         $this->rating       = $rating;
     }
-
 
     public function getId(): int
     {

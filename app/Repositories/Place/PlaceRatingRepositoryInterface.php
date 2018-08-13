@@ -21,5 +21,4 @@ interface PlaceRatingRepositoryInterface
     public function getByPlaceUser(int $placeId, int $userId) : ?PlaceRating;
 
     public function getAverage(int $placeId) : ?Float;
-
 }
