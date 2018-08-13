@@ -3,7 +3,7 @@
         <section class="column is-half">
             <b-input class="search-field" placeholder="Find..." v-model="filterQuery"></b-input>            
             <template v-for="(place, index) in filteredPlaces">
-                <PlaceListComponent :key="place.id" :place="place" :timer="50 * (index+1)"/>
+                <PlacePreview :key="place.id" :place="place" :timer="50 * (index+1)"/>
             </template>
         </section>
         
@@ -32,13 +32,13 @@
 <script>
     import { mapState } from "vuex";
     import { mapGetters } from "vuex";
-    import PlaceListComponent from '@/components/placesList/PlaceListComponent';
+    import PlacePreview from '@/components/place/PlacePreview';
     import Mapbox from 'mapbox-gl-vue';
 
     export default {
         name: "SearchPlace",
         components: {
-            PlaceListComponent,
+            PlacePreview,
             Mapbox,
         },
         data() {
