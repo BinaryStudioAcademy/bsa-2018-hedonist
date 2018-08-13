@@ -9,7 +9,7 @@ export default {
             city: 'Kyiv',
             phone: '+380 44 287 4436',
             website: 'http://mamamanana.kiev.ua/',
-            photo: {url: 'http://via.placeholder.com/200x200'},
+            photo: {url: 'https://igx.4sqi.net/img/general/300x300/36555653_cf909H6TDxIV4K0LHL6bShcaIQt9JWayeS1g0alBB_M.jpg'},
             tags: [{id: 1, name: 'sleep'}, {id: 2, name: 'house'}],
             reviews: [
                 {
@@ -45,7 +45,7 @@ export default {
             city: 'Lviv',
             phone: '+380 66 123 4488',
             website: 'http://beef.kiev.ua',
-            photo: {url: 'http://via.placeholder.com/200x200'},
+            photo: {url: 'https://igx.4sqi.net/img/general/300x300/79483323_g58b9DtjZXeTt6SFbOoFHLzr-PQOqiUj7vgaS84-nZw.jpg'},
             tags: [{id: 1, name: 'films'}, {id: 2, name: 'Star Wars'}],
             reviews: [
                 {
@@ -81,7 +81,7 @@ export default {
             city: 'Chernihiv',
             phone: '+380 96 332 4437',
             website: 'http://php.net',
-            photo: {url: 'http://via.placeholder.com/200x200'},
+            photo: {url: 'https://igx.4sqi.net/img/general/300x300/20592915_L_vGm0nxQgQ6JH3ukgI35muCsVYLpFmpIF5qxo8VUVI.jpg'},
             tags: [{id: 1, name: 'food'}, {id: 2, name: 'drink'}],
             reviews: [
                 {
