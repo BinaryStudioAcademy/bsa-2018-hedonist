@@ -32,6 +32,19 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         return Place::all();
     }
 
+    public function getAllWithRelations(): Collection
+    {
+        return Place::with(
+            'category',
+            'city',
+            'localization',
+            'localization.language',
+            'likes',
+            'dislikes',
+            'ratings')
+            ->get();
+    }
+
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
