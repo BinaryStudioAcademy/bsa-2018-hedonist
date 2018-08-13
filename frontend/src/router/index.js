@@ -9,6 +9,7 @@ import HistoryPage from '@/pages/HistoryPage';
 import SeachPlacePage from  '@/pages/SeachPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
+import UserListAddPage from '@/pages/UserListAddPage';
 import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
@@ -58,6 +59,11 @@ export default new Router({
                 component: ReviewList
             },
             {
+                path: '/users/lists/add',
+                name: 'UserListAddPage',
+                component: UserListAddPage
+            },
+            {
                 path: '/user/lists',
                 name: 'UserListsPage',
                 component: UserListsPage
@@ -81,7 +87,7 @@ export default new Router({
             },
             {
                 path: '/signup',
-                name: 'SignUp',
+                name: 'SignUpPage',
                 component: SignUpPage
             },
             {
