@@ -18,7 +18,7 @@
     import ReviewPhoto from './ReviewPhoto';
 
     export default {
-        name: "ReviewsPhotos",
+        name: "ReviewPhotoGallery",
 
         components: { 
             ReviewPhoto 

@@ -6,7 +6,7 @@
             <div class="column is-two-thirds">
                 <div class="main">
                     <ReviewList v-if="!isLoading && (activeTab == 1)" :place="place"></ReviewList>
-                    <ReviewsPhotos v-if="!isLoading && (activeTab == 2)" :place="place"></ReviewsPhotos>
+                    <ReviewPhotoGallery v-if="!isLoading && (activeTab == 2)" :place="place"></ReviewPhotoGallery>
                 </div>
             </div>
             <PlaceSidebarInfo v-if="!isLoading" :place="place" />
@@ -17,7 +17,7 @@
 <script>
     import PlaceTopInfo from '@/components/place/PlaceTopInfo';
     import ReviewList from '@/components/review/ReviewList';
-    import ReviewsPhotos from '@/components/review/ReviewsPhotos';
+    import ReviewPhotoGallery from '@/components/review/ReviewPhotoGallery';
     import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
     import { mapGetters } from 'vuex';
 
@@ -27,7 +27,7 @@
         components: {
             PlaceTopInfo,
             ReviewList,
-            ReviewsPhotos,
+            ReviewPhotoGallery,
             PlaceSidebarInfo
         },
 
