@@ -21,15 +21,15 @@
 <style lang="scss" scoped>
 
     article {
-        margin: 1.5rem 3rem;
+        margin: 1.5rem auto;
         text-align: left;
-        width: 500px;
+        width: 600px;
         background-color: #FFF;
     }
 
     .entry-media {
         height: 300px;
-        width: 500px;
+        width: 600px;
     }
 
     .image {

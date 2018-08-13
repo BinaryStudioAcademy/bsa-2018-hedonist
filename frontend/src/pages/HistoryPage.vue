@@ -27,11 +27,6 @@
 </template>
 
 <style lang="scss" scoped>
-    .row {
-        max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-    }
 
     .row {
         display: flex;
