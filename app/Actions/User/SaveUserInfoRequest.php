@@ -19,14 +19,14 @@ class SaveUserInfoRequest
 
     public function __construct(
         int $userId,
-        $firstName,
-        $lastName,
-        $dateOfBirth = null,
-        $phoneNumber = "",
+        ?string $firstName,
+        ?string $lastName,
+        ?string $dateOfBirth = null,
+        ?string $phoneNumber = "",
         ?UploadedFile $avatar = null,
-        $facebookUrl = "",
-        $instagramUrl = "",
-        $twitterUrl = ""
+        ?string $facebookUrl = "",
+        ?string $instagramUrl = "",
+        ?string $twitterUrl = ""
     )
     {
         $this->userId = $userId;
