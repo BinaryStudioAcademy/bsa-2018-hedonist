@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api\Places;
+namespace Hedonist\Http\Controllers\Api\Place;
 
 use Hedonist\Actions\Place\AddPlace\AddPlaceAction;
 use Hedonist\Actions\Place\AddPlace\AddPlacePresenter;

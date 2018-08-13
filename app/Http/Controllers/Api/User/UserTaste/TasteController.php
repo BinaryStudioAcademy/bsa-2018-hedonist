@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api\UserTaste;
+namespace Hedonist\Http\Controllers\Api\User\UserTaste;
 
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Actions\UserTaste\GetTastesAction;

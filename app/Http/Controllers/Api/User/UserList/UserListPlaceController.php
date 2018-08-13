@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api\UserList;
+namespace Hedonist\Http\Controllers\Api\User\UserList;
 
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Actions\UserList\Places\{
