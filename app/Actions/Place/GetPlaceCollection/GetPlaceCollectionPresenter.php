@@ -9,9 +9,19 @@ class GetPlaceCollectionPresenter
         $placesArray = [];
 
         foreach ($placeResponse->getPlaceCollection() as $key => $place) {
-            $placesArray[$key] = $place->toArray();
-            $placesArray[$key]['likes'] = $place->likes->count();
+            $placesArray[$key]['id'] = $place->id;
+            $placesArray[$key]['address'] = $place->address;
+            $placesArray[$key]['category'] = $place->category;
+            $placesArray[$key]['city'] = $place->city;
+            $placesArray[$key]['created_at'] = $place->created_at->toDateTimeString();
             $placesArray[$key]['dislikes'] = $place->dislikes->count();
+            $placesArray[$key]['likes'] = $place->likes->count();
+            $placesArray[$key]['rating'] = $place->ratings->avg('rating');
+            $placesArray[$key]['latitude'] = $place->latitude;
+            $placesArray[$key]['longitude'] = $place->longitude;
+            $placesArray[$key]['phone'] = $place->phone;
+            $placesArray[$key]['website'] = $place->website;
+            $placesArray[$key]['zip'] = $place->zip;
         }
 
         return $placesArray;
