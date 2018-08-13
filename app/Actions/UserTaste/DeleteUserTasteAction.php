@@ -6,7 +6,7 @@ use Hedonist\Actions\UserTaste\DeleteUserTasteRequest;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Repositories\User\TasteRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
-use Hedonist\Exceptions\UserTaste\TasteNotFoundException;
+use Hedonist\Exceptions\User\TasteNotFoundException;
 
 class DeleteUserTasteAction
 {

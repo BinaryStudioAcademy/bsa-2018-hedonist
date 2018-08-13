@@ -9,7 +9,7 @@ use Hedonist\Actions\UserTaste\AddUserTasteAction;
 use Hedonist\Actions\UserTaste\DeleteUserTasteAction;
 use Hedonist\Actions\UserTaste\AddUserTasteRequest;
 use Hedonist\Actions\UserTaste\DeleteUserTasteRequest;
-use Hedonist\Exceptions\UserTaste\TasteNotFoundException;
+use Hedonist\Exceptions\User\TasteNotFoundException;
 
 class UserTasteController extends ApiController
 {
