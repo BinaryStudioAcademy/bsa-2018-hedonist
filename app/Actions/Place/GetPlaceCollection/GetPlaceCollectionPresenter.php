@@ -22,6 +22,12 @@ class GetPlaceCollectionPresenter
             $placesArray[$key]['phone'] = $place->phone;
             $placesArray[$key]['website'] = $place->website;
             $placesArray[$key]['zip'] = $place->zip;
+            foreach ($place->localization as $localization) {
+                $locale['language'] = $localization->language->code;
+                $locale['name'] = $localization->place_name;
+                $locale['description'] = $localization->place_description;
+                $placesArray[$key]['localization'][] = $locale;
+            }
         }
 
         return $placesArray;
