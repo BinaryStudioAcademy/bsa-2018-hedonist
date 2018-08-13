@@ -12,8 +12,7 @@ class UserInfoApiTest extends ApiTestCase
 {
     use RefreshDatabase;
 
-    protected $user;
-    protected $avatar;
+    private $avatar;
 
     public function setUp()
     {
