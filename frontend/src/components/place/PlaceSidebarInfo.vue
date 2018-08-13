@@ -154,6 +154,13 @@ export default {
             }
         }
     }
+
+    &__tags {
+        .tag {
+            margin-right: 5px;
+            cursor: pointer;
+        }
+    }
 }
 
 </style>
