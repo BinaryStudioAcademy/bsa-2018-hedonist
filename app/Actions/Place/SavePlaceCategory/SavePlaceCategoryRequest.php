@@ -22,5 +22,4 @@ class SavePlaceCategoryRequest
     {
         return $this->name;
     }
-
 }
