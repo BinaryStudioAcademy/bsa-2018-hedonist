@@ -107,7 +107,7 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'TopNavbar',
     computed: mapGetters({
-        isUserLoggedIn: 'isLoggedIn'
+        isUserLoggedIn: 'hasToken'
     }),
     data() {
         return {
