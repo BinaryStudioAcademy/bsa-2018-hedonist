@@ -7,27 +7,7 @@
                 </div>
 
                 <div class="navbar-menu">
-                    <div class="navbar-start">
-                        <div class="navbar-item">
-                            <div class="control has-icons-right">
-                                <input class="input" type="search" placeholder="I'm looking for...">
-                                <span class="icon is-right">
-                                    <i class="fas fa-caret-down"></i>
-                               </span>
-                            </div>
-                        </div>
-                        <div class="navbar-item">
-                            <div class="control">
-                                <input class="input" type="search" value="Lviv, UA">
-                            </div>
-                        </div>
-                        <div class="navbar-item is-paddingless navbar-search-btn">
-                           <span class="icon is-large">
-                               <i class="fas fa-lg fa-search"></i>
-                           </span>
-                        </div>
-
-                    </div>
+                    <search-input></search-input>
 
                     <div v-if="!this.isUserLoggedIn" class="navbar-end">
                         <router-link class="navbar-item" to="/login">Log In</router-link>
@@ -65,6 +45,7 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
+    import SearchInput from './SearchInput';
 
     export default {
         name: "TopNavbar",
@@ -90,6 +71,9 @@
                     });
             }
         },
+        components: {
+            SearchInput
+        }
     }
 </script>
 
