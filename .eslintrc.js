@@ -13,6 +13,13 @@ module.exports = {
     },
     "rules": {
         "vue/html-indent": ["error", 4],
+        "vue/max-attributes-per-line": ["error", {
+            "singleline": 3,
+            "multiline": {
+                "max": 1,
+                "allowFirstLine": false
+            }
+        }],
         "indent": [
             "error",
             4
