@@ -7,6 +7,7 @@ module.exports = {
         "plugin:vue/strongly-recommended"
     ],
     "parserOptions": {
+        "parser": "babel-eslint",
         "ecmaVersion": 2016,
         "sourceType": "module"
     },
