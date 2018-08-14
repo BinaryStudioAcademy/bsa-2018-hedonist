@@ -82,6 +82,7 @@ export default {
     methods: {
         changeTab: function(activeTab) {
             this.activeTab = activeTab;
+            this.$emit('tabChanged', activeTab);
         }
     }
 }

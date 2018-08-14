@@ -124,24 +124,16 @@
         }
       },
 
-      onError(error){
-        this.$dialog.alert({
-          title: 'Error',
+      onError (error) {
+        this.$toast.open({
           message: error.message,
-          type: 'is-danger',
-          hasIcon: true,
-          icon: 'times-circle',
-          iconPack: 'fa'
+          type: 'is-danger'
         })
       },
-      onSuccess(success){
-        this.$dialog.alert({
-          title: 'Congrats!',
+      onSuccess (success) {
+        this.$toast.open({
           message: success.message,
-          type: 'is-success',
-          hasIcon: true,
-          icon: 'check-circle',
-          iconPack: 'fa'
+          type: 'is-success'
         })
       },
 

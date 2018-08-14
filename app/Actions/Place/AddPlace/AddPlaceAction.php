@@ -4,10 +4,10 @@ namespace Hedonist\Actions\Place\AddPlace;
 
 use Hedonist\Entities\Place\Location;
 use Hedonist\Entities\Place\Place;
-use Hedonist\Exceptions\PlaceExceptions\PlaceLocationInvalidException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
+use Hedonist\Exceptions\Place\PlaceCategoryDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceCityDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceCreatorDoesNotExistException;
 use Hedonist\Repositories\City\CityRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
