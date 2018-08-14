@@ -1,22 +1,15 @@
 <template>
     <div class="place-view container">
         <b-loading :active.sync="isLoading"></b-loading>
-<!--<<<<<<< HEAD-->
-        <!--<PlaceTopInfo v-if="!isLoading" :place="currentPlace" />-->
-        <!--<div class="main-wrapper columns">-->
-            <!--<div class="column is-two-thirds">-->
-                <!--<div class="main">-->
-                    <!--<ReviewList v-if="!isLoading" :place="currentPlace"></ReviewList>-->
-<!--=======-->
-        <PlaceTopInfo v-if="!isLoading" :place="currentPlace" @tabChanged="tabChanged" />
+        <PlaceTopInfo v-if="!isLoading" :place="place" @tabChanged="tabChanged" />
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
-                    <ReviewList v-if="!isLoading && (activeTab === 1)" :place="currentPlace"></ReviewList>
-                    <ReviewPhotoGallery v-if="!isLoading && (activeTab === 2)" :place="currentPlace"></ReviewPhotoGallery>
+                    <ReviewList v-if="!isLoading && (activeTab === 1)" :place="places[0]"></ReviewList>
+                    <ReviewPhotoGallery v-if="!isLoading && (activeTab === 2)" :place="places[0]"></ReviewPhotoGallery>
                 </div>
             </div>
-            <PlaceSidebarInfo v-if="!isLoading" :place="currentPlace" />
+            <PlaceSidebarInfo v-if="!isLoading" :place="place" />
         </div>
     </div>
 </template>
@@ -57,52 +50,10 @@
         },
 
         computed: {
-            ...mapState('place', ['currentPlace'])
+            ...mapState('place', ['place']),
+            ...mapState('place', ['places'])
         },
     }
-// =======
-//     import PlaceTopInfo from '@/components/place/PlaceTopInfo';
-//     import ReviewList from '@/components/review/ReviewList';
-//     import ReviewPhotoGallery from '@/components/review/ReviewPhotoGallery';
-//     import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
-//     import { mapGetters } from 'vuex';
-//
-//     export default {
-//         name: "PlacePage",
-//
-//         components: {
-//             PlaceTopInfo,
-//             ReviewList,
-//             ReviewPhotoGallery,
-//             PlaceSidebarInfo
-//         },
-//
-//         data() {
-//             return {
-//                 place: null,
-//                 isLoading: true,
-//                 activeTab: 1
-//             }
-//         },
-//
-//         created() {
-//             this.getById(this.$route.params.id).then(place => {
-//                 this.place = place;
-//                 this.isLoading = false;
-//             });
-//         },
-//
-//         methods: {
-//             tabChanged(activeTab) {
-//                 this.activeTab = activeTab;
-//             }
-//         },
-//
-//         computed: {
-//             ...mapGetters('place', ['getById'])
-//         },
-//     }
-// >>>>>>> development
 </script>
 
 <style lang="scss" scoped>

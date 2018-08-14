@@ -109,6 +109,6 @@ export default {
             ]
         }
     ],
-    truePlaces: null,
-    currentPlace: null
+    backendPlaces: null,
+    place: null
 };

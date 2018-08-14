@@ -25,12 +25,17 @@ class GetPlaceItemResponse
     private $category;
     private $city;
     private $rating;
+    private $reviews;
+    private $features;
 
     public function __construct(
         Place $place,
         PlaceCategory $placeCategory,
         City $city,
-        ?float $rating
+        ?float $rating,
+        Collection $localization,
+        Collection $reviews,
+        Collection $features
     ) {
         $this->id           = $place->id;
         $this->creator_id   = $place->creator_id;
@@ -44,10 +49,12 @@ class GetPlaceItemResponse
         $this->website      = $place->website;
         $this->createdAt    = $place->created_at;
         $this->updatedAt    = $place->updated_at;
-        $this->localization = $place->localization;
+        $this->localization = $localization;
         $this->category     = $placeCategory;
         $this->city         = $city;
         $this->rating       = $rating;
+        $this->reviews      = $reviews;
+        $this->features     = $features;
     }
 
     public function getId(): int
@@ -128,5 +135,15 @@ class GetPlaceItemResponse
     public function getRating(): ?float
     {
         return $this->rating;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
+    }
+
+    public function getFeatures(): Collection
+    {
+        return $this->features;
     }
 }

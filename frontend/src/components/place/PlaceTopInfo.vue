@@ -7,7 +7,8 @@
                     <img src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png" data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png" width="88" height="88">
                 </div>
                 <div class="place-venue__prime-info">
-                    <div class="place-venue__place-name">{{ place.localization.name }}</div>
+                    <div v-if="place.localization" class="place-venue__place-name">{{ place.localization.name }}</div>
+                    <div v-else class="place-venue__place-name">No localization</div>
                     <div class="place-venue__category">{{ place.category.name }}</div>
                     <div class="place-venue__city">
                         {{ place.city.name }}, <span class="place-zip">{{ place.zip }}</span>
