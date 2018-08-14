@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Exceptions\UserListExceptions\UserListExistsException;
+use Hedonist\Exceptions\UserList\UserListExistsException;
 use Hedonist\Repositories\UserList\UserListRepository;
 
 class GetUserListAction

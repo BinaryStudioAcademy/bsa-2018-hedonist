@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Exceptions\UserTaste;
+namespace Hedonist\Exceptions\User;
 
 use Hedonist\Exceptions\DomainException;
 

@@ -7,7 +7,7 @@ use Hedonist\Actions\UserTaste\AddUserTasteResponse;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Repositories\User\TasteRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
-use Hedonist\Exceptions\UserTaste\TasteNotFoundException;
+use Hedonist\Exceptions\User\TasteNotFoundException;
 
 class AddUserTasteAction
 {

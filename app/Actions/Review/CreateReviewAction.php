@@ -7,7 +7,7 @@ use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
-use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 
 class CreateReviewAction
 {

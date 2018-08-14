@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\Place\RemovePlace;
 
-use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 
 class RemovePlaceAction
