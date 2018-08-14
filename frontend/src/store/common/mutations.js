@@ -1,5 +1,5 @@
 export default {
-    setLoading: (state, isLoading) => {
+    SET_LOADING: (state, isLoading) => {
         state.loading = isLoading;
     },
     setError: (state, error) => {
@@ -8,4 +8,4 @@ export default {
     clearError: state => {
         state.error = null;
     }
-}
+};

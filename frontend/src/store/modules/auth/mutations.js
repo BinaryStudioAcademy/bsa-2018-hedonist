@@ -8,13 +8,15 @@ export default {
     },
     USER_LOGOUT: (state) => {
         StorageService.removeToken();
-        StorageService.removeAuthenticatedUser();
         state.token = '';
         state.currentUser = null;
         state.isLoggedIn = false;
     },
     SET_AUTHENTICATED_USER: (state, user) => {
-        StorageService.setAuthenticatedUser(user);
         state.currentUser = user;
+    },
+    REFRESH_TOKEN: (state, token) => {
+        state.token = token;
+        StorageService.setToken(token);
     }
 };
