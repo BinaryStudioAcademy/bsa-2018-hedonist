@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "webpack-dev-server --inline --progress --config frontend/build/webpack.dev.conf.js",
         "start": "yarn run dev",
-        "prod": "node frontend/build/build.js"
+        "prod": "node frontend/build/build.js",
+        "lint": "eslint --ext .js,.vue frontend/src"
     },
     "dependencies": {
         "axios": "^0.18.0",

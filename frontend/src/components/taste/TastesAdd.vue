@@ -1,13 +1,26 @@
 <template>
     <div class="container">
         <ul>
-            <li v-for="(taste, index) in tastes" class="taste"
-                v-bind:class="{added: taste.check, pop: taste.isAnimate, popin: !taste.isClick}" :key="taste.id"
-                v-bind:style="{ animationDelay: index * 0.02 + 's' }">
-                <div class="pill" @click="checkTaste(index)">
+            <li 
+                v-for="(taste, index) in tastes" 
+                class="taste"
+                :class="{added: taste.check, pop: taste.isAnimate, popin: !taste.isClick}" 
+                :key="taste.id"
+                :style="{ animationDelay: index * 0.02 + 's' }"
+            >
+                <div 
+                    class="pill" 
+                    @click="checkTaste(index)"
+                >
                     {{ taste.name }}
-                    <i v-if="taste.check" class="fas fa-check"></i>
-                    <i v-else class="fas fa-plus"></i>
+                    <i 
+                        v-if="taste.check" 
+                        class="fas fa-check"
+                    />
+                    <i 
+                        v-else 
+                        class="fas fa-plus"
+                    />
                 </div>
             </li>
         </ul>
@@ -17,69 +30,69 @@
 </template>
 
 <script>
-    export default {
-        name: "TastesAdd",
-        data() {
-            return {
-                timeDelay: 0,
-                tastes: [
-                    {
-                        id: 1,
-                        name: 'Craft beer',
-                        check: false,
-                        isAnimate: false,
-                        isClick: false
-                    },
-                    {
-                        id: 2,
-                        name: 'Ice-cream',
-                        check: false,
-                        isAnimate: false,
-                        isClick: false
-                    },
-                    {
-                        id: 3,
-                        name: 'Live-music',
-                        check: false,
-                        isAnimate: false,
-                        isClick: false
-                    },
-                    {
-                        id: 4,
-                        name: 'Sport-bar',
-                        check: false,
-                        isAnimate: false,
-                        isClick: false
-                    },
-                    {
-                        id: 5,
-                        name: 'Lunch',
-                        check: false,
-                        isAnimate: false,
-                        isClick: false
-                    },
-                    {
-                        id: 6,
-                        name: 'Sushi',
-                        check: false,
-                        isAnimate: false,
-                        isClick: false
-                    }
-                ]
-            }
-        },
-        methods: {
-            checkTaste(index) {
-                let taste = this.tastes[index];
-                taste.check = !taste.check;
-                taste.isClick = true;
-                taste.isAnimate = true;
-                setTimeout(function () {
-                    taste.isAnimate = false;
-                }, 200);
-            }
+export default {
+    name: 'TastesAdd',
+    data() {
+        return {
+            timeDelay: 0,
+            tastes: [
+                {
+                    id: 1,
+                    name: 'Craft beer',
+                    check: false,
+                    isAnimate: false,
+                    isClick: false
+                },
+                {
+                    id: 2,
+                    name: 'Ice-cream',
+                    check: false,
+                    isAnimate: false,
+                    isClick: false
+                },
+                {
+                    id: 3,
+                    name: 'Live-music',
+                    check: false,
+                    isAnimate: false,
+                    isClick: false
+                },
+                {
+                    id: 4,
+                    name: 'Sport-bar',
+                    check: false,
+                    isAnimate: false,
+                    isClick: false
+                },
+                {
+                    id: 5,
+                    name: 'Lunch',
+                    check: false,
+                    isAnimate: false,
+                    isClick: false
+                },
+                {
+                    id: 6,
+                    name: 'Sushi',
+                    check: false,
+                    isAnimate: false,
+                    isClick: false
+                }
+            ]
+        };
+    },
+    methods: {
+        checkTaste(index) {
+            let taste = this.tastes[index];
+            taste.check = !taste.check;
+            taste.isClick = true;
+            taste.isAnimate = true;
+            setTimeout(function () {
+                taste.isAnimate = false;
+            }, 200);
         }
     }
+};
 </script>
 
 <style lang="scss" scoped>
