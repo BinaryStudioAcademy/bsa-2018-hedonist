@@ -2,10 +2,10 @@
 
 namespace Hedonist\Actions\Place\GetPlaceItem;
 
-use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
 use Hedonist\Repositories\City\CityRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
+use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 
 class GetPlaceItemAction

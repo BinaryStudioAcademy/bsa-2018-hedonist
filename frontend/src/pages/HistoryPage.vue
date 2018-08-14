@@ -2,7 +2,7 @@
     <div class="row">
         <div class="column visitedplaces-wrapper">
             <div v-for="(visitedPlace,index) in visitedPlaces" :key="visitedPlace.id">
-                <PlaceVisitedPreview :visitedPlace="visitedPlace" :index="index + 1"/>
+                <PlaceVisitedPreview :visitedPlace="visitedPlace" :index="index + 1" :timer="50 * (index+1)"/>
             </div>
         </div>
 
@@ -27,11 +27,6 @@
 </template>
 
 <style lang="scss" scoped>
-    .row {
-        max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-    }
 
     .row {
         display: flex;

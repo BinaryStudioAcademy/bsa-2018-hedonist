@@ -30,8 +30,8 @@
             <div class="column is-two-thirds">
                 <nav class="sidebar-actions tabs">
                     <ul>
-                        <li v-if="place.reviews" @click="changeTab(1)" :class="{ 'is-active' : activeTab === 1}">
-                            <a><span>Comments ({{place.reviews.length}})</span></a>
+                        <li @click="changeTab(1)" :class="{ 'is-active' : activeTab === 1}">
+                            <a><span>Comments (2)</span></a>
                         </li>
                         <li @click="changeTab(2)" :class="{ 'is-active' : activeTab === 2}">
                             <a><span>Photos (12)</span></a>
@@ -84,6 +84,7 @@
         methods: {
             changeTab: function(activeTab) {
                 this.activeTab = activeTab;
+                this.$emit('tabChanged', activeTab);
             }
         }
     }
