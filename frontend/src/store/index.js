@@ -7,7 +7,7 @@ import mutations from './common/mutations';
 import auth from './modules/auth/index';
 import place from './modules/place/index';
 import map from './modules/map/index';
-import userlist from './modules/userlist/index';
+import userlist from './modules/userList/index';
 
 Vue.use(Vuex);
 
