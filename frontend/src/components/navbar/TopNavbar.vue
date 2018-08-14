@@ -40,13 +40,16 @@
                         </div>
                         <div  class="navbar-item has-dropdown is-hoverable">
                             <div class="navbar-link navbar-dropdown-menu">
-                                <img class="navbar-avatar" :src="user.avatar_url"
+                                <img v-if="user.avatar_url" class="navbar-avatar" :src="user.avatar_url"
                                      :title="user.first_name+' '+user.last_name"
                                      :alt="user.first_name+' '+user.last_name">
+                                <span v-else class="icon">
+                                    <i class="fas fa-file-image fa-lg"></i>
+                                </span>
                                 <span>{{user.first_name}}</span>
                                 <span class="icon">
                                     <i class="fas fa-caret-down"></i>
-                               </span>
+                                </span>
                             </div>
                             <div class="navbar-dropdown">
                                 <router-link class="navbar-item" to="/profile">Profile</router-link>
