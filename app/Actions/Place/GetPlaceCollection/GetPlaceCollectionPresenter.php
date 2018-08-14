@@ -25,7 +25,6 @@ class GetPlaceCollectionPresenter
                 'id' => $place->category->id,
                 'name' => $place->category->name
             ];
-            $place->category;
             foreach ($place->localization as $localization) {
                 $placesArray[$key]['localization'][] = [
                     'language' => $localization->language->code,
