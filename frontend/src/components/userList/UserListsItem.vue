@@ -39,7 +39,8 @@
                     message: 'action to open the list of places "'+place_name+'"',
                     type: 'is-danger',
                     position: 'is-top'
-                })
+                });
+                this.$router.push('/user/list');
             }
         },
         created() {
