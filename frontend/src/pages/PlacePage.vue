@@ -1,59 +1,77 @@
 <template>
     <div class="place-view container">
-        <b-loading :active.sync="isLoading"></b-loading>
-        <PlaceTopInfo v-if="!isLoading" :place="place" @tabChanged="tabChanged" />
+        <b-loading :active.sync="isLoading" />
+        <PlaceTopInfo 
+            v-if="!isLoading" 
+            :place="place" 
+            @tabChanged="tabChanged"
+        />
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
+<<<<<<< HEAD
                     <ReviewList v-if="!isLoading && (activeTab === 1)" :place="places[0]"></ReviewList>
                     <ReviewPhotoGallery v-if="!isLoading && (activeTab === 2)" :place="places[0]"></ReviewPhotoGallery>
+=======
+                    <ReviewList 
+                        v-if="!isLoading && (activeTab == 1)" 
+                        :place="place"
+                    />
+                    <ReviewPhotoGallery 
+                        v-if="!isLoading && (activeTab == 2)" 
+                        :place="place"
+                    />
+>>>>>>> development
                 </div>
             </div>
-            <PlaceSidebarInfo v-if="!isLoading" :place="place" />
+            <PlaceSidebarInfo 
+                v-if="!isLoading" 
+                :place="place"
+            />
         </div>
     </div>
 </template>
 
 <script>
-    import PlaceTopInfo from '@/components/place/PlaceTopInfo';
-    import ReviewList from '@/components/review/ReviewList';
-    import ReviewPhotoGallery from '@/components/review/ReviewPhotoGallery';
-    import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
-    import { mapState } from 'vuex';
+import PlaceTopInfo from '@/components/place/PlaceTopInfo';
+import ReviewList from '@/components/review/ReviewList';
+import ReviewPhotoGallery from '@/components/review/ReviewPhotoGallery';
+import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
+import { mapState } from 'vuex';
 
-    export default {
-        name: "PlacePage",
+export default {
+    name: 'PlacePage',
 
-        components: {
-            PlaceTopInfo,
-            ReviewList,
-            ReviewPhotoGallery,
-            PlaceSidebarInfo
-        },
+    components: {
+        PlaceTopInfo,
+        ReviewList,
+        ReviewPhotoGallery,
+        PlaceSidebarInfo
+    },
 
-        data() {
-            return {
-                isLoading: true,
-                activeTab: 1
-            }
-        },
+    data() {
+        return {
+            isLoading: true,
+            activeTab: 1
+        }
+    },
 
-        created() {
-            this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
-                .finally(() => this.isLoading = false);
-        },
+    created() {
+        this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
+            .finally(() => this.isLoading = false);
+    },
 
-        methods: {
-            tabChanged(activeTab) {
-                this.activeTab = activeTab;
-            }
-        },
+    methods: {
+        tabChanged(activeTab) {
+            this.activeTab = activeTab;
+        }
+    },
 
-        computed: {
-            ...mapState('place', ['place']),
-            ...mapState('place', ['places'])
-        },
-    }
+    computed: {
+        ...mapState('place', ['place']),
+        ...mapState('place', ['places'])
+    },
+}
 </script>
 
 <style lang="scss" scoped>

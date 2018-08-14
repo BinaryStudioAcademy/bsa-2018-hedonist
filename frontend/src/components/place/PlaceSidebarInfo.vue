@@ -2,7 +2,10 @@
     <aside class="column is-one-third">
         <div class="place-sidebar">
             <div class="map-box">
-                <img src="https://image.ibb.co/isC2MU/Screenshot_from_2018_08_09_00_25_38.png" alt="mapbox">
+                <img 
+                    src="https://image.ibb.co/isC2MU/Screenshot_from_2018_08_09_00_25_38.png" 
+                    alt="mapbox"
+                >
             </div>
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
@@ -18,19 +21,29 @@
                 </div>
                 <div v-if="place.tags" class="place-sidebar__tags">
                     <i class="place-sidebar__icon fas fa-info-circle"></i>
-                    <span v-for="tag in place.tags" class="tag">{{ tag.name }}</span>
+                    <span 
+                        v-for="tag in place.tags" 
+                        class="tag"
+                        :key="tag.id"
+                    >{{ tag.name }}</span>
                 </div>
                 <div class="place-sidebar__worktime">
-                    <i class="place-sidebar__icon far fa-clock"></i>
+                    <i class="place-sidebar__icon far fa-clock" />
                     <span class="worktime-info--red">Закрыто до 15:00</span>
                 </div>
                 <div class="place-sidebar__phone">
-                    <i class="place-sidebar__icon fas fa-phone"></i>
-                    <a class="phone-number" :href="`tel:${place.phone}`">{{ place.phone }}</a>
+                    <i class="place-sidebar__icon fas fa-phone" />
+                    <a 
+                        class="phone-number" 
+                        :href="`tel:${place.phone}`"
+                    >{{ place.phone }}</a>
                 </div>
                 <div v-if="place.website" class="place-sidebar__website">
                     <i class="place-sidebar__icon fas fa-globe"></i>
-                    <a target="_blank" :href="place.website">{{ place.website }}</a>
+                    <a
+                        target="_blank"
+                        :href="place.website"
+                    >{{ place.website }}</a>
                 </div>
                 <div v-if="place.socials" class="place-sidebar__facebook">
                     <i class="place-sidebar__icon fab fa-facebook-square"></i>
@@ -54,14 +67,14 @@
 
 <script>
 export default {
-    name: "PlaceSidebarInfo",
+    name: 'PlaceSidebarInfo',
     props: {
         place: {
             type: Object,
             required: true
         }
-    }
-}
+    },
+};
 </script>
 
 <style lang="scss" scoped>
