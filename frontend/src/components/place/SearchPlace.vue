@@ -48,7 +48,7 @@
             }
         },
         created() {
-            this.$store.dispatch("place/featchPlaces");
+            this.$store.dispatch("place/fetchPlaces");
         },
         computed: {
             ...mapState("place", ["places"]),

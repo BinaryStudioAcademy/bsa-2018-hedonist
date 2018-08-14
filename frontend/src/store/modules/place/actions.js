@@ -1,7 +1,7 @@
 import httpService from '../../../services/common/httpService';
 
 export default {
-    featchPlaces: (context) => {
+    fetchPlaces: (context) => {
         return new Promise((resolve, reject) => {
             httpService.get('/places')
                 .then(function (res) {
