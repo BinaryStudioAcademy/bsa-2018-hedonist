@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Exceptions\PlaceExceptions;
+namespace Hedonist\Exceptions\Place;
 
 use Hedonist\Exceptions\DomainException;
 

@@ -79,25 +79,31 @@ export default {
             if(res.error){
                 this.onError(res.error);
             } else {
+              this.onSuccess({
+                message: 'Welcome!'
+              })
               this.refreshInput();
               this.$router.push({name: 'home'});
             }
         });
       } else {
           this.onError({
-              message:'Please, check your input data'
+              message: 'Please, check your input data'
           });
       }
     },
 
-    onError(error){
-      this.$dialog.alert({
-          title: 'Error',
+    onError (error) {
+      this.$toast.open({
           message: error.message,
-          type: 'is-danger',
-          hasIcon: true,
-          icon: 'times-circle',
-          iconPack: 'fa'
+          type: 'is-danger'
+      })
+    },
+
+    onSuccess (success) {
+      this.$toast.open({
+        message: success.message,
+        type: 'is-success'
       })
     },
 
