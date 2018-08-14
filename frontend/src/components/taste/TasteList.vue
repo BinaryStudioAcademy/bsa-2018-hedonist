@@ -18,7 +18,7 @@
 
 <script>
     export default {
-        name: "TastesAdd",
+        name: "TasteList",
         data() {
             return {
                 timeDelay: 0,
