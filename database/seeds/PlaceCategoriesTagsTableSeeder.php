@@ -13,7 +13,6 @@ class PlaceCategoriesTagsTableSeeder extends Seeder
      */
     public function run()
     {
-
         PlaceCategoryTag::query()->insert([
             [ 'name' => 'Ice-cream cafe' ],
             [ 'name' => 'Cafe-confectionery' ],

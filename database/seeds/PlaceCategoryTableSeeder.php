@@ -13,7 +13,6 @@ class PlaceCategoryTableSeeder extends Seeder
      */
     public function run()
     {
-
         PlaceCategory::query()->insert([
             ['name' => 'Bar'],
             ['name' => 'Beer'],
