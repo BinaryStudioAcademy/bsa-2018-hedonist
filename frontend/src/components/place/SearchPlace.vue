@@ -35,7 +35,7 @@
     import {mapGetters} from "vuex";
     import PlaceListComponent from '@/components/placesList/PlaceListComponent';
     import Mapbox from 'mapbox-gl-vue';
-    import MarkerService from '@/services/location/markerManagerService';
+    import MarkerService from '@/services/map/markerManagerService';
 
     let markerManager = null;
 
