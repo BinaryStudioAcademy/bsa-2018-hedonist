@@ -8,8 +8,8 @@
                     itemtype="http://schema.org/ImageObject"
                     v-for="(item, index) in items" :src="item.src"
                     v-bind:key="index">
-                <a :href="item.src" itemprop="contentUrl" :data-size="'' + item.w + 'x' + item.h" :title="item.title">
-                    <img :src="item.thumbnail" itemprop="thumbnail"/>
+                <a :href="item.url" itemprop="contentUrl" :title="item.title">
+                    <img :src="item.url" itemprop="thumbnail"/>
                 </a>
             </figure>
         </div>
@@ -102,12 +102,16 @@
                             continue;
                         }
                         linkEl = figureEl.children[0]; // <a> element
-                        size = linkEl.getAttribute('data-size').split('x');
+
+                        // TODO: Hardcoded image dimension
+                        let imageWidth = 1000;
+                        let imageHeight = 600;
+
                         // create slide object
                         item = {
                             src: linkEl.getAttribute('href'),
-                            w: parseInt(size[0], 10),
-                            h: parseInt(size[1], 10),
+                            w: imageWidth,
+                            h: imageHeight,
                             title: linkEl.getAttribute('title')
                         };
                         if (figureEl.children.length > 1) {
@@ -259,7 +263,6 @@
     }
 </script>
 <style>
-    @import "https://fonts.googleapis.com/icon?family=Material+Icons";
     .pswp__top-bar {
         text-align: right;
     }
