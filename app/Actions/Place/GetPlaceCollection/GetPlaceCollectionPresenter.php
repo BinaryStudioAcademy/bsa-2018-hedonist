@@ -2,42 +2,53 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
+use Hedonist\Entities\Place\Place;
+
 class GetPlaceCollectionPresenter
 {
+    public static function presentAsArray(Place $place): array
+    {
+        $placeArray = [];
+
+        $placeArray['id'] = $place->id;
+        $placeArray['address'] = $place->address;
+        $placeArray['city'] = $place->city;
+        $placeArray['created_at'] = $place->created_at->toDateTimeString();
+        $placeArray['dislikes'] = $place->dislikes->count();
+        $placeArray['likes'] = $place->likes->count();
+        $placeArray['rating'] = round($place->ratings->avg('rating'), 1);
+        $placeArray['latitude'] = $place->latitude;
+        $placeArray['longitude'] = $place->longitude;
+        $placeArray['phone'] = $place->phone;
+        $placeArray['website'] = $place->website;
+        $placeArray['zip'] = $place->zip;
+        $placeArray['category'] = [
+            'id' => $place->category->id,
+            'name' => $place->category->name
+        ];
+        foreach ($place->localization as $localization) {
+            $placeArray['localization'][] = [
+                'language' => $localization->language->code,
+                'name' => $localization->place_name,
+                'description' => $localization->place_description
+            ];
+        }
+        foreach ($place->category->tags as $tag) {
+            $placeArray['category']['tags'][] = [
+                'id' => $tag->id,
+                'name' => $tag->name
+            ];
+        }
+
+        return $placeArray;
+    }
+
     public static function present(GetPlaceCollectionResponse $placeResponse): array
     {
         $placesArray = [];
 
-        foreach ($placeResponse->getPlaceCollection() as $key => $place) {
-            $placesArray[$key]['id'] = $place->id;
-            $placesArray[$key]['address'] = $place->address;
-            $placesArray[$key]['city'] = $place->city;
-            $placesArray[$key]['created_at'] = $place->created_at->toDateTimeString();
-            $placesArray[$key]['dislikes'] = $place->dislikes->count();
-            $placesArray[$key]['likes'] = $place->likes->count();
-            $placesArray[$key]['rating'] = round($place->ratings->avg('rating'), 1);
-            $placesArray[$key]['latitude'] = $place->latitude;
-            $placesArray[$key]['longitude'] = $place->longitude;
-            $placesArray[$key]['phone'] = $place->phone;
-            $placesArray[$key]['website'] = $place->website;
-            $placesArray[$key]['zip'] = $place->zip;
-            $placesArray[$key]['category'] = [
-                'id' => $place->category->id,
-                'name' => $place->category->name
-            ];
-            foreach ($place->localization as $localization) {
-                $placesArray[$key]['localization'][] = [
-                    'language' => $localization->language->code,
-                    'name' => $localization->place_name,
-                    'description' => $localization->place_description
-                ];
-            }
-            foreach ($place->category->tags as $tag) {
-                $placesArray[$key]['category']['tags'][] = [
-                    'id' => $tag->id,
-                    'name' => $tag->name
-                ];
-            }
+        foreach ($placeResponse->getPlaceCollection() as $place) {
+            $placesArray[] = self::presentAsArray($place);
         }
 
         return $placesArray;
