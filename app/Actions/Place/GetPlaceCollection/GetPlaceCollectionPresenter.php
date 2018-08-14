@@ -15,7 +15,7 @@ class GetPlaceCollectionPresenter
             $placesArray[$key]['created_at'] = $place->created_at->toDateTimeString();
             $placesArray[$key]['dislikes'] = $place->dislikes->count();
             $placesArray[$key]['likes'] = $place->likes->count();
-            $placesArray[$key]['rating'] = $place->ratings->avg('rating');
+            $placesArray[$key]['rating'] = round($place->ratings->avg('rating'), 1);
             $placesArray[$key]['latitude'] = $place->latitude;
             $placesArray[$key]['longitude'] = $place->longitude;
             $placesArray[$key]['phone'] = $place->phone;
