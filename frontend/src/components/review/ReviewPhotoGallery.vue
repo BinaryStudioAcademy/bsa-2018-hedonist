@@ -6,22 +6,20 @@
                 <span>321 Photos</span>
             </div>
         </div>
-        <ul class="reviews-photo-list">
-            <li v-for="photo in photos" :key="photo.id">
-                <ReviewPhoto :key="photo.id" :photo="photo" />
-            </li>
-        </ul>
+        <div class="reviews-photo-list">
+            <ImageSwipe :items="photos"></ImageSwipe>
+        </div>
     </div>
 </template>
 
 <script>
-    import ReviewPhoto from './ReviewPhoto';
+    import ImageSwipe from '../image/ImageSwipe';
 
     export default {
         name: "ReviewPhotoGallery",
 
-        components: { 
-            ReviewPhoto 
+        components: {
+            ImageSwipe
         },
 
         props: {
@@ -51,15 +49,16 @@
     }   
 </script>
 
-<style lang="scss" scoped>
-
-    .reviews-photo-list {
+<style>
+    .my-gallery {
         display: grid;
         grid-gap: 10px;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         padding: 15px;
         padding-top: 0;
     }
+</style>
+<style lang="scss" scoped>
     
     .reviews-photos-wrp {
         margin: auto;
