@@ -25,6 +25,15 @@
                     <p class="address">
                         {{place.address}}
                     </p>
+                    <b-taglist>
+                        <b-tag
+                                type="is-info"
+                                v-for="tag in place.tags"
+                                :key="tag.id"
+                        >
+                            {{tag.name}}
+                        </b-tag>
+                    </b-taglist>
                     <nav class="level">
                         <div class="level-left">
                             <a class="level-item">
