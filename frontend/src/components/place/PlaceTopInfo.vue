@@ -23,7 +23,7 @@
                         <b-icon icon="menu-down"></b-icon>
                     </button>
 
-                    <template v-for="(list, index) in userLists">
+                    <template v-for="(list, index) in userlists">
                         <b-dropdown-item :key="index">{{ list.name }}</b-dropdown-item>
                     </template>
 
@@ -88,20 +88,16 @@ export default {
     },
     data() {
         return {
-            activeTab: 1,
-            userLists: [
-                {
-                    name: 'Hookah'
-                },
-                {
-                    name: 'Pubs and Bars'
-                },
-                {
-                    name: 'Lounge'
-                }
-            ]
+            activeTab: 1
         }
     },
+
+    computed: {
+        userlists() {
+            return this.$store.getters['userlist/getByUserId'](1);
+        }
+    },
+
     methods: {
         changeTab: function(activeTab) {
             this.activeTab = activeTab;
