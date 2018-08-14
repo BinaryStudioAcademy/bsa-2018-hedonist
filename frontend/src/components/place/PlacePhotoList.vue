@@ -1,31 +1,15 @@
 <template>
     <div class="photo-slider">
-        <span class="photo-slider__left-arrow slider-arrow" @click="toLeft">
-            <i class="fas fa-caret-left"></i>
-        </span>
-        <ul ref="photo-list" class="photo-slider__list">
-            <li v-for="photo in photos">
-                <PlacePhoto :key="photo.id" :photo="photo" :lastId="photos.length"/>
-            </li>
-        </ul>
-        <span class="photo-slider__right-arrow slider-arrow" @click="toRight">
-            <i class="fas fa-caret-right"></i>
-        </span>
-
-        <div id="imgFullModal" class="modal">
-            <span class="closeModal">&times;</span>
-            <img class="modal-content" id="imgPlacePhoto">
-            <div id="caption"></div>
-        </div>
+        <ImageSwipe :items="photos"></ImageSwipe>
     </div>
 </template>
 
 <script>
-import PlacePhoto from './PlacePhoto';
+    import ImageSwipe from '../image/ImageSwipe';
 
 export default {
     name: "PlacePhotoList",
-    components: { PlacePhoto },
+    components: { ImageSwipe },
     data() {
         return {
             photos: [
@@ -63,97 +47,17 @@ export default {
 }
 </script>
 
+<style>
+    .photo-slider .my-gallery {
+        display: inline-flex;
+    }
+    .photo-slider figure a img{
+        min-width: 200px;
+    }
+</style>
+
 <style lang="scss" scoped>
-
-$blue: #0e71de;
-
-.photo-slider {
-    position: relative;
-
-    &__list {
-        overflow: hidden;
-        display: flex;
-        flex-direction: row;
-        margin: 5px;
-        scroll-behavior: smooth;
+    .photo-slider {
+        overflow-x: scroll;
     }
-
-    .slider-arrow {
-        position: absolute;
-        font-size: 100px;
-        top: 25px;
-        color: $blue;
-        z-index: 2;
-    }
-
-    &__right-arrow {
-        right: -40px;
-    }
-
-    &__left-arrow {
-        left: -40px;
-    }
-}
-
-
-/* The Modal (background) */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 100;
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.9);
-}
-.modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-}
-#caption {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-    text-align: center;
-    color: #ccc;
-    padding: 10px 0;
-    height: 150px;
-}
-.modal-content, #caption {
-    animation-name: zoom;
-    animation-duration: 0.6s;
-}
-
-@keyframes zoom {
-    from {transform:scale(0)}
-    to {transform:scale(1)}
-}
-.closeModal {
-    position: absolute;
-    top: 50px;
-    right: 35px;
-    color: #f1f1f1;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.closeModal:hover,
-.closeModal:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
-@media only screen and (max-width: 700px){
-    .modal-content {
-        width: 100%;
-    }
-}
 </style>

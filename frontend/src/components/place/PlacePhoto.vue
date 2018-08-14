@@ -1,6 +1,6 @@
 <template>
     <div class="place-photo">
-        <img class="place-photo__image" @click="showModal(photo.url)" :src="photo.url" alt="place image">
+        <img class="place-photo__image" :src="photo.url" alt="place image">
         <div v-if="photo.id === lastId" class="place-photo__show-all"><a href="#">Show all</a></div>
     </div>
 </template>
@@ -15,21 +15,6 @@ export default {
         },
         lastId: {
             type: Number
-        }
-    },
-    methods: {
-        showModal: function(url) {
-            var modal = document.getElementById('imgFullModal');
-            modal.style.display = "block";
-
-            var modalImg = document.getElementById("imgPlacePhoto");
-            modalImg.src = url;
-
-            var span = document.getElementsByClassName("closeModal")[0];
-
-            span.onclick = function() {
-                modal.style.display = "none";
-            }
         }
     }
 }
