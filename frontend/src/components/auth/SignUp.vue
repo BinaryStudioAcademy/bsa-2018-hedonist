@@ -38,8 +38,11 @@
         </b-input>
       </b-field>
 
+      <label class="label">
+        Password <span class="grayed">(at least 6 characters)</span>
+      </label>
+
       <b-field
-          label="Password"
           :type="input.password.type">
 
         <b-input type="password"
@@ -190,6 +193,10 @@
   }
 </script>
 
-<style>
-
+<style scoped>
+  .grayed {
+    color: darkgray;
+    font-size: .8em;
+    font-weight: normal;
+  }
 </style>
