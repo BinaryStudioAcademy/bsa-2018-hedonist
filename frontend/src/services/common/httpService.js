@@ -1,5 +1,5 @@
 import axios from 'axios';
-import storageService from "./storageService";
+import storageService from './storageService';
 
 export class HttpService {
     constructor() {
@@ -10,7 +10,7 @@ export class HttpService {
         this.axios.interceptors.request.use(
             config => {
                 if (storageService.getToken()) {
-                    config.headers['Authorization'] = 'Bearer ' + storageService.getToken()
+                    config.headers['Authorization'] = 'Bearer ' + storageService.getToken();
                 }
                 return Promise.resolve(config);
             },
