@@ -41,57 +41,57 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { required, email, minLength } from 'vuelidate/lib/validators'
-import Container from './Container'
-import Form from './Form'
+import { mapActions } from 'vuex';
+import { required, email, minLength } from 'vuelidate/lib/validators';
+import Container from './Container';
+import Form from './Form';
 
 export default {
-  components: {
-    Container,
-    Form
-  },
-
-  data: function () {
-    return {
-      user: {
-        email: '',
-        password: ''
-      },
-
-      input: {
-        email: {
-          type: ''
-        },
-        password: {
-          type: ''
-        }
-      }
-    }
-  },
-
-  methods: {
-    ...mapActions(['login']),
-
-    onLogin () {
-      if (!this.$v.user.$invalid) {
-        this.login(this.user).then((res)=>{
-            if(res.error){
-                this.onError(res.error);
-            } else {
-              this.onSuccess({
-                message: 'Welcome!'
-              })
-              this.refreshInput();
-              this.$router.push({name: 'home'});
-            }
-        });
-      } else {
-          this.onError({
-              message: 'Please, check your input data'
-          });
-      }
+    components: {
+        Container,
+        Form
     },
+
+    data: function () {
+        return {
+            user: {
+                email: '',
+                password: ''
+            },
+
+            input: {
+                email: {
+                    type: ''
+                },
+                password: {
+                    type: ''
+                }
+            }
+        };
+    },
+
+    methods: {
+        ...mapActions(['login']),
+
+        onLogin () {
+            if (!this.$v.user.$invalid) {
+                this.login(this.user).then((res)=>{
+                    if(res.error){
+                        this.onError(res.error);
+                    } else {
+                        this.onSuccess({
+                            message: 'Welcome!'
+                        });
+                        this.refreshInput();
+                        this.$router.push({name: 'home'});
+                    }
+                });
+            } else {
+                this.onError({
+                    message: 'Please, check your input data'
+                });
+            }
+        },
 
     onError (error) {
       this.$toast.open({
@@ -99,56 +99,55 @@ export default {
           type: 'is-danger'
       })
     },
-
-    onSuccess (success) {
-      this.$toast.open({
-        message: success.message,
-        type: 'is-success'
-      })
-    },
-
-    onBlur (el) {
-      if (this.$v.user[el].$invalid) {
-        this.input[el].type = 'is-danger'
-      } else {
-        this.input[el].type = 'is-success'
-      }
-    },
-
-    onFocus (el) {
-      this.input[el].type = ''
-    },
-
-    refreshInput () {
-      this.user = {
-        email: '',
-        password: ''
-      },
-
-      this.input = {
-        email: {
-          type: ''
+        onSuccess (success) {
+            this.$toast.open({
+                message: success.message,
+                type: 'is-success'
+            });
         },
-        password: {
-          type: ''
-        }
-      }
-    }
-  },
 
-  validations: {
-    user: {
-      email: {
-        required,
-        email
-      },
-      password: {
-        required,
-        minLength: minLength(6)
-      }
+        onBlur (el) {
+            if (this.$v.user[el].$invalid) {
+                this.input[el].type = 'is-danger';
+            } else {
+                this.input[el].type = 'is-success';
+            }
+        },
+
+        onFocus (el) {
+            this.input[el].type = '';
+        },
+
+        refreshInput () {
+            this.user = {
+                email: '',
+                password: ''
+            },
+
+            this.input = {
+                email: {
+                    type: ''
+                },
+                password: {
+                    type: ''
+                }
+            };
+        }
+    },
+
+    validations: {
+        user: {
+            email: {
+                required,
+                email
+            },
+            password: {
+                required,
+                minLength: minLength(6)
+            }
+        }
     }
-  }
-}
+};
 </script>
 
 <style scoped>
