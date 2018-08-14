@@ -3,8 +3,8 @@
 namespace Hedonist\Actions\User;
 
 use Hedonist\Entities\User\UserInfo;
-use Hedonist\Exceptions\UserInfoExceptions\UserInfoNotValidSocialUrlException;
-use Hedonist\Exceptions\UserInfoExceptions\UserInfoRequiredFieldsException;
+use Hedonist\Exceptions\User\UserInfoNotValidSocialUrlException;
+use Hedonist\Exceptions\User\UserInfoRequiredFieldsException;
 use Hedonist\Repositories\User\UserInfoRepositoryInterface as UserInfoRepository;
 use Illuminate\Http\UploadedFile;
 

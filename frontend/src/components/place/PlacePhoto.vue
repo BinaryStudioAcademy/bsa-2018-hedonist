@@ -1,23 +1,31 @@
 <template>
     <div class="place-photo">
-        <img class="place-photo__image" :src="photo.url" alt="place image">
-        <div v-if="photo.id === lastId" class="place-photo__show-all"><a href="#">Show all</a></div>
+        <img 
+            class="place-photo__image" 
+            :src="photo.url" 
+            alt="place image"
+        >
+        <div 
+            v-if="photo.id === lastId" 
+            class="place-photo__show-all"
+        ><a href="#">Show all</a></div>
     </div>
 </template>
 
 <script>
 export default {
-    name: "PlacePhoto",
+    name: 'PlacePhoto',
     props: {
         photo: {
             type: Object,
             required: true
         },
         lastId: {
-            type: Number
+            type: Number,
+            required: true
         }
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

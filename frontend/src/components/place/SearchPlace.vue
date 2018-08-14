@@ -1,9 +1,17 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-            <b-input class="search-field" placeholder="Find..." v-model="filterQuery"></b-input>            
+            <b-input 
+                class="search-field" 
+                placeholder="Find..." 
+                v-model="filterQuery"
+            />            
             <template v-for="(place, index) in filteredPlaces">
-                <PlaceListComponent :key="place.id" :place="place" :timer="50 * (index+1)"/>
+                <PlaceListComponent 
+                    :key="place.id" 
+                    :place="place" 
+                    :timer="50 * (index+1)"
+                />
             </template>
         </section>
         
@@ -28,8 +36,8 @@
                         position: 'top-left'
                     }"
                     @map-init="mapInitialized"
-                >
-                </mapbox>
+                ></mapbox>
+>>>>>>> development
             </section>
         </section>
     </section>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api;
+namespace Hedonist\Http\Controllers\Api\Like;
 
 use Hedonist\Actions\Dislike\{
     DislikePlaceAction,
@@ -10,6 +10,7 @@ use Hedonist\Actions\Dislike\{
 };
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
+use Hedonist\Http\Controllers\Api\ApiController;
 
 class DislikeController extends ApiController
 {
