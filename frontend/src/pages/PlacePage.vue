@@ -2,30 +2,25 @@
     <div class="place-view container">
         <b-loading :active.sync="isLoading" />
         <PlaceTopInfo 
-            v-if="!isLoading" 
+            v-if="loaded"
             :place="place" 
             @tabChanged="tabChanged"
         />
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
-<<<<<<< HEAD
-                    <ReviewList v-if="!isLoading && (activeTab === 1)" :place="places[0]"></ReviewList>
-                    <ReviewPhotoGallery v-if="!isLoading && (activeTab === 2)" :place="places[0]"></ReviewPhotoGallery>
-=======
                     <ReviewList 
-                        v-if="!isLoading && (activeTab == 1)" 
-                        :place="place"
+                        v-if="loaded && (activeTab == 1)"
+                        :place="places[0]"
                     />
                     <ReviewPhotoGallery 
-                        v-if="!isLoading && (activeTab == 2)" 
-                        :place="place"
+                        v-if="loaded && (activeTab == 2)"
+                        :place="places[0]"
                     />
->>>>>>> development
                 </div>
             </div>
             <PlaceSidebarInfo 
-                v-if="!isLoading" 
+                v-if="loaded"
                 :place="place"
             />
         </div>
@@ -52,13 +47,20 @@ export default {
     data() {
         return {
             isLoading: true,
+            loaded: false,
             activeTab: 1
         }
     },
 
     created() {
         this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
-            .finally(() => this.isLoading = false);
+            .then(() => {
+                this.isLoading = false;
+                this.loaded = true;
+            })
+            .catch((err) => {
+                this.isLoading = false;
+            });
     },
 
     methods: {
