@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Exceptions\UserListExceptions;
+namespace Hedonist\Exceptions\UserList;
 
 use Hedonist\Exceptions\DomainException;
 

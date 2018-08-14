@@ -21,7 +21,7 @@ use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Http\Requests\Review\SaveReviewRequest;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 
 class ReviewController extends ApiController
 {
