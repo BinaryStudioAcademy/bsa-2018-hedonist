@@ -64,12 +64,16 @@
                         <div class="navbar-item has-dropdown is-hoverable">
                             <div class="navbar-link navbar-dropdown-menu">
                                 <img 
+                                    v-if="user.avatar_url"
                                     class="navbar-avatar" 
-                                    :src="user.avatarUrl"
-                                    :title="user.firstName+' '+user.lastName"
-                                    :alt="user.firstName+' '+user.lastName"
+                                    :src="user.avatar_url"
+                                    :title="user.first_name+' '+user.last_name"
+                                    :alt="user.first_name+' '+user.last_name"
                                 >
-                                <span>{{ user.firstName }}</span>
+                                <span v-else class="icon">
+                                    <i class="fas fa-file-image fa-lg"></i>
+                                </span>
+                                <span>{{ user.first_name }}</span>
                                 <span class="icon">
                                     <i class="fas fa-caret-down" />
                                 </span>
@@ -107,17 +111,9 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'TopNavbar',
     computed: mapGetters({
-        isUserLoggedIn: 'hasToken'
+        isUserLoggedIn: 'hasToken',
+        user: "getAuthenticatedUser"
     }),
-    data() {
-        return {
-            user: {
-                firstName: 'John',
-                lastName: 'Carter',
-                avatarUrl:'http://via.placeholder.com/200x200'
-            }
-        };
-    },
     methods: {
         ...mapActions(['logout']),
 
