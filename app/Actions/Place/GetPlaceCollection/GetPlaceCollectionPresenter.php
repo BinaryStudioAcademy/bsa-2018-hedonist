@@ -23,10 +23,11 @@ class GetPlaceCollectionPresenter
             $placesArray[$key]['website'] = $place->website;
             $placesArray[$key]['zip'] = $place->zip;
             foreach ($place->localization as $localization) {
-                $locale['language'] = $localization->language->code;
-                $locale['name'] = $localization->place_name;
-                $locale['description'] = $localization->place_description;
-                $placesArray[$key]['localization'][] = $locale;
+                $placesArray[$key]['localization'][] = [
+                    'language' => $localization->language->code,
+                    'name' => $localization->place_name,
+                    'description' => $localization->place_description
+                ];
             }
             foreach ($place->tags as $tag) {
                 $placesArray[$key]['category']['tags'][] = [
