@@ -84,8 +84,6 @@ class PlaceCategoriesAttachTagsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('place_category_place_tag')->truncate();
-
         $categories = PlaceCategory::all();
         $tags = PlaceCategoryTag::all();
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api\Places;
+namespace Hedonist\Http\Controllers\Api\Place;
 
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Place\SpecialFeature\CreateSpecialFeatureHttpRequest;

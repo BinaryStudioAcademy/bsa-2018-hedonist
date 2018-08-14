@@ -32,7 +32,8 @@ class AuthPresenter
             'id' => $user->id,
             'email' => $user->email,
             'first_name' => $userInfo->first_name,
-            'last_name' => $userInfo->last_name
+            'last_name' => $userInfo->last_name,
+            'avatar_url' => $userInfo->avatar_url
         ];
     }
 }

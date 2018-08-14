@@ -1,19 +1,19 @@
 <template>
-   <div id="app">
-        <TopNavbar/>
-        <router-view/>
+    <div id="app">
+        <TopNavbar />
+        <router-view />
     </div>
 </template>
 
 <script>
-    import TopNavbar from './components/navbar/TopNavbar';
+import TopNavbar from './components/navbar/TopNavbar';
 
-    export default {
-        name: 'App',
-        components:{
-            TopNavbar
-        }
+export default {
+    name: 'App',
+    components:{
+        TopNavbar
     }
+};
 </script>
 
 <style lang="scss">
