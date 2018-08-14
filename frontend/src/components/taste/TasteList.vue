@@ -8,19 +8,10 @@
                 :key="taste.id"
                 :style="{ animationDelay: index * 0.02 + 's' }"
             >
-                <div 
-                    class="pill" 
-                    @click="checkTaste(index)"
-                >
+                <div class="pill" @click="checkTaste(index)">
                     {{ taste.name }}
-                    <i 
-                        v-if="taste.check" 
-                        class="fas fa-check"
-                    />
-                    <i 
-                        v-else 
-                        class="fas fa-plus"
-                    />
+                    <i v-if="taste.check" class="fas fa-check" />
+                    <i v-else class="fas fa-plus" />
                 </div>
             </li>
         </ul>
@@ -31,7 +22,7 @@
 
 <script>
 export default {
-    name: 'TastesAdd',
+    name: 'TasteList',
     data() {
         return {
             timeDelay: 0,
