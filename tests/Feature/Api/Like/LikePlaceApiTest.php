@@ -107,7 +107,7 @@ class LikePlaceApiTest extends ApiTestCase
         ]);
     }
 
-    public function testGetLiked()    
+    public function testGetLiked()
     {
         $like = factory(Like::class)->create([
             'user_id' => $this->user->id,
@@ -123,7 +123,7 @@ class LikePlaceApiTest extends ApiTestCase
         ]);
     }
 
-    public function testGetDisliked()    
+    public function testGetDisliked()
     {
         $dislike = factory(Dislike::class)->create([
             'user_id' => $this->user->id,
