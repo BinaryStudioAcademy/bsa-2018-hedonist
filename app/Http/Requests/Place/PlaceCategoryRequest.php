@@ -14,7 +14,8 @@ class PlaceCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255'
+            'name' => 'nullable|string|min:0|max:255',
+            'limit' => 'nullable|int',
         ];
     }
 }

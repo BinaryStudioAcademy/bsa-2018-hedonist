@@ -2,14 +2,16 @@
 
 namespace Hedonist\Http\Controllers\Api\Places;
 
+use Hedonist\Actions\Place\GetPlaceCategoryByName\GetPlaceCategoryByNameAction;
+use Hedonist\Actions\Place\GetPlaceCategoryByName\GetPlaceCategoryByNameRequest;
 use Hedonist\Actions\Place\GetPlaceCategoryCollection\GetPlaceCategoryCollectionAction;
 use Hedonist\Actions\Place\GetPlaceCategoryCollection\GetPlaceCategoryCollectionRequest;
 use Hedonist\Actions\Place\GetPlaceCategoryItem\GetPlaceCategoryItemAction;
 use Hedonist\Actions\Place\GetPlaceCategoryItem\GetPlaceCategoryItemRequest;
 use Hedonist\Actions\Place\RemovePlaceCategory\RemovePlaceCategoryAction;
 use Hedonist\Actions\Place\RemovePlaceCategory\RemovePlaceCategoryRequest;
-use Hedonist\Actions\Place\SaveCategory\SavePlaceCategoryAction;
-use Hedonist\Actions\Place\SaveCategory\SavePlaceCategoryRequest;
+use Hedonist\Actions\Place\SavePlaceCategory\SavePlaceCategoryAction;
+use Hedonist\Actions\Place\SavePlaceCategory\SavePlaceCategoryRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Place\PlaceCategoryRequest;
 use Illuminate\Http\JsonResponse;
@@ -20,17 +22,20 @@ class PlaceCategoryController extends ApiController
     private $getPlaceCategoryCollectionAction;
     private $getPlaceCategoryItemAction;
     private $removePlaceCategoryAction;
+    private $getPlaceCategoryByNameAction;
 
     public function __construct(
         SavePlaceCategoryAction $savePlaceCategoryAction,
         GetPlaceCategoryCollectionAction $getPlaceCategoryCollectionAction,
         GetPlaceCategoryItemAction $getPlaceCategoryItemAction,
-        RemovePlaceCategoryAction $removePlaceCategoryAction
+        RemovePlaceCategoryAction $removePlaceCategoryAction,
+        GetPlaceCategoryByNameAction $getPlaceCategoryByNameAction
     ) {
         $this->savePlaceCategoryAction = $savePlaceCategoryAction;
         $this->getPlaceCategoryCollectionAction = $getPlaceCategoryCollectionAction;
         $this->getPlaceCategoryItemAction = $getPlaceCategoryItemAction;
         $this->removePlaceCategoryAction = $removePlaceCategoryAction;
+        $this->getPlaceCategoryByNameAction = $getPlaceCategoryByNameAction;
     }
 
     public function index(): JsonResponse
@@ -88,6 +93,22 @@ class PlaceCategoryController extends ApiController
     {
         try {
             $this->removePlaceCategoryAction->execute(new RemovePlaceCategoryRequest($id));
+        } catch (\Exception $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
+        }
+    }
+
+    public function getPlaceCategoryByName(PlaceCategoryRequest $request)
+    {
+        try {
+            $responsePlaceCategory = $this->getPlaceCategoryByNameAction->execute(
+                new GetPlaceCategoryByNameRequest(
+                    $request->get('name'),
+                    $request->get('limit')
+                )
+            );
+
+            return $this->successResponse($responsePlaceCategory->toArray(), 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }

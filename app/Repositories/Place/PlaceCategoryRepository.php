@@ -41,4 +41,12 @@ class PlaceCategoryRepository extends BaseRepository implements PlaceCategoryRep
     {
         return PlaceCategory::class;
     }
+
+    public function getByName(string $name, int $limit): Collection
+    {
+        if (empty($name)) {
+            return PlaceCategory::limit($limit)->get();
+        }
+        return PlaceCategory::where('name', 'like', '%' . $name . '%')->limit($limit)->get();
+    }
 }

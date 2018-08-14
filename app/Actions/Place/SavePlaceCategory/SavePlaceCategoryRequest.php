@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place\SaveCategory;
+namespace Hedonist\Actions\Place\SavePlaceCategory;
 
 class SavePlaceCategoryRequest
 {
@@ -13,7 +13,7 @@ class SavePlaceCategoryRequest
         $this->name = $name;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

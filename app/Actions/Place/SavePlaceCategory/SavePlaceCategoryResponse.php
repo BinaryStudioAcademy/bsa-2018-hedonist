@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place\SaveCategory;
+namespace Hedonist\Actions\Place\SavePlaceCategory;
 
 use Hedonist\Entities\Place\PlaceCategory;
 
