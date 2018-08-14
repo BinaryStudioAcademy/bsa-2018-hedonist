@@ -6,4 +6,4 @@ export default {
     },
     isLoggedIn: false,
     token: ''
-}
+};

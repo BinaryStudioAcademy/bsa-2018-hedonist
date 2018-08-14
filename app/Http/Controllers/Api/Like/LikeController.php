@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api;
+namespace Hedonist\Http\Controllers\Api\Like;
 
 use Hedonist\Actions\Like\{
     LikePlaceAction,
@@ -10,6 +10,7 @@ use Hedonist\Actions\Like\{
 };
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
+use Hedonist\Http\Controllers\Api\ApiController;
 
 class LikeController extends ApiController
 {

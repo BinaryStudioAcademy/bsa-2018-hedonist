@@ -1,20 +1,23 @@
 <template>
-  <div class="columns">
-    <div class="column is-4 is-offset-4">
-      <div class="box">
-        <h3 class="title is-4">{{ title }}</h3>
-        <slot></slot>
-      </div>
-    </div>
-  </div>  
+    <div class="columns">
+        <div class="column is-4 is-offset-4">
+            <div class="box">
+                <h3 class="title is-4">{{ title }}</h3>
+                <slot />
+            </div>
+        </div>
+    </div>  
 </template>
 
 <script>
 export default {
-  props: [
-    'title'
-  ]
-}
+    props: {
+        title: {
+            type: String,
+            required: true
+        }
+    }
+};
 </script>
 
 <style scoped>

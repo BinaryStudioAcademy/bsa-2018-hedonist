@@ -18,11 +18,11 @@
                     <nav class="level">
                         <div class="level-left">
                             <a class="level-item">
-                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-up"></i></span>
+                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-up" /></span>
                                 <span class="is-size-6">Upvote</span>
                             </a>
                             <a class="level-item">
-                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-down"></i></span>
+                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-down" /></span>
                                 <span class="is-size-6">Downvote</span>
                             </a>
                         </div>
@@ -34,15 +34,15 @@
 </template>
 
 <script>
-    export default {
-        name: 'ReviewListElement',
-        props: {
-            review: {
-                type: Object,
-                required: true
-            }
-        },
-    }
+export default {
+    name: 'ReviewListElement',
+    props: {
+        review: {
+            type: Object,
+            required: true
+        }
+    },
+};
 </script>
 
 <style scoped>
