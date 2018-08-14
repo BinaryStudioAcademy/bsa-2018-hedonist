@@ -11,7 +11,6 @@ class GetPlaceCollectionPresenter
         foreach ($placeResponse->getPlaceCollection() as $key => $place) {
             $placesArray[$key]['id'] = $place->id;
             $placesArray[$key]['address'] = $place->address;
-            $placesArray[$key]['category'] = $place->category;
             $placesArray[$key]['city'] = $place->city;
             $placesArray[$key]['created_at'] = $place->created_at->toDateTimeString();
             $placesArray[$key]['dislikes'] = $place->dislikes->count();
@@ -22,6 +21,11 @@ class GetPlaceCollectionPresenter
             $placesArray[$key]['phone'] = $place->phone;
             $placesArray[$key]['website'] = $place->website;
             $placesArray[$key]['zip'] = $place->zip;
+            $placesArray[$key]['category'] = [
+                'id' => $place->category->id,
+                'name' => $place->category->name
+            ];
+            $place->category;
             foreach ($place->localization as $localization) {
                 $placesArray[$key]['localization'][] = [
                     'language' => $localization->language->code,
@@ -29,7 +33,7 @@ class GetPlaceCollectionPresenter
                     'description' => $localization->place_description
                 ];
             }
-            foreach ($place->tags as $tag) {
+            foreach ($place->category->tags as $tag) {
                 $placesArray[$key]['category']['tags'][] = [
                     'id' => $tag->id,
                     'name' => $tag->name
