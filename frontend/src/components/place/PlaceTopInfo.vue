@@ -13,9 +13,13 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <button class="button is-primary">
+                <button class="button is-primary"
+                    @click="isCheckinModalActive = true">
                     <i class="fas fa-check"></i>Check-in
                 </button>
+                <b-modal :active.sync="isCheckinModalActive" has-modal-card>
+                    <PlaceCheckinModal :place="place"></PlaceCheckinModal>
+                </b-modal>
                 <button class="button is-success">
                     <i class="far fa-save"></i>Save
                 </button>
@@ -62,11 +66,13 @@
 
 <script>
 import PlacePhotoList from './PlacePhotoList';
+import PlaceCheckinModal from './PlaceCheckinModal';
 
 export default {
     name: "PlaceTopInfo",
     components: {
         PlacePhotoList,
+        PlaceCheckinModal
     },
     props: {
         place: {
@@ -76,7 +82,8 @@ export default {
     },
     data() {
         return {
-            activeTab: 1
+            activeTab: 1,
+            isCheckinModalActive: false
         }
     },
     methods: {
