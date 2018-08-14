@@ -18,7 +18,7 @@ class GetPlaceItemPresenter
             'createdAt'    => $placeResponse->getCreatedAt(),
             'updatedAt'    => $placeResponse->getUpdatedAt(),
             'localization' => $placeResponse->getLocalization()->isNotEmpty()
-                ? array_map(function($localization) {
+                ? array_map(function ($localization) {
                     return [
                         'id'          => $localization['id'],
                         'name'        => $localization['place_name'],
@@ -28,7 +28,7 @@ class GetPlaceItemPresenter
                 }, $placeResponse->getLocalization()->toArray())
                 : null,
             'reviews' => $placeResponse->getReviews()->isNotEmpty()
-                ? array_map(function($review) {
+                ? array_map(function ($review) {
                     return [
                         'id'          => $review['id'],
                         'userId'      => $review['user_id'],
@@ -37,7 +37,7 @@ class GetPlaceItemPresenter
                 }, $placeResponse->getReviews()->toArray())
                 : null,
             'features' => $placeResponse->getFeatures()->isNotEmpty()
-                ? array_map(function($feature) {
+                ? array_map(function ($feature) {
                     return [
                         'id'   => $feature['id'],
                         'name' => $feature['name'],
