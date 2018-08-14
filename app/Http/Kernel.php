@@ -59,5 +59,7 @@ class Kernel extends HttpKernel
         'guest' => \Hedonist\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
+        'custom.jwt.auth' => \Hedonist\Http\Middleware\JwtAuthenticate::class,
     ];
 }
