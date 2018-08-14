@@ -6,15 +6,15 @@
                     <img src="http://via.placeholder.com/128x128"/>
                 </figure>
                 <div class="rating-wrapper">
-                    <div class="rating">
+                    <div v-if="place.rating" class="rating">
                         {{place.rating}}
                     </div>
                 </div>
                 <div class="column content-wrapper">
                     <h3 class="title has-text-primary">
-                        <!--<router-link :to="`/places/${place.id}`">-->
-                            <!--{{place.localization[0].name}}-->
-                        <!--</router-link>-->
+                        <router-link :to="`/places/${place.id}`">
+                            {{place.localization[0].name}}
+                        </router-link>
                         <a class="button is-outlined is-info" @click="subscribe">
                             <i class="fas fa-bell"></i>
                         </a>
@@ -25,6 +25,34 @@
                     <p class="address">
                         {{place.address}}
                     </p>
+                    <nav class="level">
+                        <div class="level-left">
+                            <a class="level-item">
+                                <b-taglist attached>
+                                    <b-tag type="is-light">
+                                        {{place.likes}}
+                                    </b-tag>
+                                    <b-tag type="is-success" @click.native="like">
+                                    <span class="icon">
+                                        <i class="far fa-arrow-alt-circle-up"></i>
+                                    </span>
+                                    </b-tag>
+                                </b-taglist>
+                            </a>
+                            <a class="level-item">
+                                <b-taglist attached>
+                                    <b-tag type="is-light">
+                                        {{place.dislikes}}
+                                    </b-tag>
+                                    <b-tag type="is-danger" @click.native="dislike">
+                                    <span class="icon">
+                                        <i class="far fa-arrow-alt-circle-down"></i>
+                                    </span>
+                                    </b-tag>
+                                </b-taglist>
+                            </a>
+                        </div>
+                    </nav>
                 </div>
             </div>
         </div>

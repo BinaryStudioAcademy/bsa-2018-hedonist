@@ -18,10 +18,6 @@
                     :scale-control="{
                         show: true,
                         position: 'top-left'
-                    }"
-                    :fullscreen-control="{
-                        show: true,
-                        position: 'top-left'
                     }">
                 </mapbox>
             </section>
@@ -80,8 +76,7 @@
     }
 
     .columns {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 10px;
     }
 
     #map {
