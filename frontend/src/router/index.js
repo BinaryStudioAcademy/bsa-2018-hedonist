@@ -27,7 +27,7 @@ export default new Router({
     base: '/',
     scrollBehavior: () => ({y: 0}),
     routes: [
-        ...middleware(middlewares.guest(store))([
+        ...middleware(middlewares.auth(store))([
             {
                 path: '/',
                 name: 'home',
