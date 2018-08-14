@@ -11,6 +11,8 @@ export default {
             website: 'http://mamamanana.kiev.ua/',
             photo: {url: "http://via.placeholder.com/200x200"},
             tags: [{id: 1, name: 'Tag1'}, {id: 2, name: 'Tag2'}],
+            longitude:0,
+            latitude:0,
             reviews: [
                 {
                     id: 1,
@@ -47,6 +49,8 @@ export default {
             website: 'http://beef.kiev.ua',
             photo: {url: "http://via.placeholder.com/200x200"},
             tags: [{id: 1, name: 'Tag3'}, {id: 2, name: 'Tag4'}],
+            longitude:1,
+            latitude:1,
             reviews: [
                 {
                     id: 3,
@@ -83,6 +87,8 @@ export default {
             website: 'http://php.net',
             photo: {url: "http://via.placeholder.com/200x200"},
             tags: [{id: 1, name: 'Tag5'}, {id: 2, name: 'Tag6'}],
+            longitude:2,
+            latitude:2,
             reviews: [
                 {
                     id: 5,
