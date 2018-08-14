@@ -1,3 +1,5 @@
+import MarkerGenerator from './markerGeneratorService';
+
 class MarkerManagerService {
     constructor(map, parser = null) {
         this._map = map;
@@ -7,11 +9,11 @@ class MarkerManagerService {
     }
 
     setMarkers(...items) {
-        let converted = items.map((item) => this._parser(item));
-        this._removeMarkers(converted);
-        converted.forEach((item) => {
-            if(!this._activeMarkers.has(item.id)) {
-                if(this._markersPool.has(item.id)){
+        let markersData = items.map((item) => this._parser(item));
+        this._removeMarkers(markersData);
+        markersData.forEach((item) => {
+            if (!this._activeMarkers.has(item.id)) {
+                if (this._markersPool.has(item.id)) {
                     this._restoreMarker(item);
                 } else {
                     this._createMarker(item);
@@ -23,27 +25,26 @@ class MarkerManagerService {
     _removeMarkers(markerData) {
         for (let markerId of this._activeMarkers.keys()) {
             if (!markerData.find((item) => item.id === markerId)) {
-                let marker = this._activeMarkers.get(markerId);
-                marker.remove();
+                let object = this._activeMarkers.get(markerId);
+                object.marker.remove();
                 this._activeMarkers.delete(markerId);
             }
         }
     }
 
-    _createMarker(markerData){
+    _createMarker(markerData) {
         console.log('creating marker');
-        let marker = new mapboxgl.Marker();
-        marker.setLngLat([markerData.lng,markerData.lat]);
+        let marker = MarkerGenerator.generateMarker(markerData);
         marker.addTo(this._map);
-        this._activeMarkers.set(markerData.id,marker);
-        this._markersPool.set(markerData.id,marker);
+        this._activeMarkers.set(markerData.id, {marker, markerData});
+        this._markersPool.set(markerData.id, {marker, markerData});
     }
 
-    _restoreMarker(markerData){
+    _restoreMarker(markerData) {
         console.log('Loading from cache...');
-        let marker = this._markersPool.get(markerData.id);
-        marker.addTo(this._map);
-        this._activeMarkers.set(markerData.id,marker);
+        let object = this._markersPool.get(markerData.id);
+        object.marker.addTo(this._map);
+        this._activeMarkers.set(markerData.id, object.marker);
     }
 
     static _getDefaultParser() {
@@ -51,7 +52,9 @@ class MarkerManagerService {
             id: item.id,
             name: item.name,
             lng: item.longitude,
-            lat: item.latitude
+            lat: item.latitude,
+            photoUrl: item.photo.url,
+            address: item.address
         })
     }
 }

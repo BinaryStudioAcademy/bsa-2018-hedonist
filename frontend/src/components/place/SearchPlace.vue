@@ -55,13 +55,6 @@
             initMap(map) {
                 markerManager = new MarkerService(map);
                 this.mapLoaded = true;
-                setTimeout(()=>{
-                    this.updateMap(this.filteredPlaces.slice(0,1));
-                },5000);
-
-                setTimeout(()=>{
-                    this.updateMap(this.filteredPlaces);
-                },10000)
             },
             updateMap(places){
                 markerManager.setMarkers(...places);
