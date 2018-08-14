@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
-import ReviewList from '@/components/review/ReviewList';
+import NewPlacePage from '@/pages/NewPlacePage';
 import UserListsPage from '@/pages/UserListsPage';
 import PlacesList from  '@/components/placesList/PlacesList';
 import HistoryPage from '@/pages/HistoryPage';
@@ -42,6 +42,11 @@ export default new Router({
                 path: '/places/list',
                 name: 'PlacesList',
                 component: PlacesList
+            },
+            {
+                path: '/places/add',
+                name: 'NewPlacePage',
+                component: NewPlacePage
             },
             {
                 path: '/search',
