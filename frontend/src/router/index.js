@@ -15,7 +15,6 @@ import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
 import MyTastesPage from '@/pages/MyTastesPage';
-import ReviewList from '@/components/review/ReviewList';
 
 Vue.use(Router);
 
@@ -58,11 +57,6 @@ export default new Router({
                 path: '/places/:id',
                 name: 'PlacePage',
                 component: PlacePage
-            },
-            {
-                path: '/reviews',
-                name: 'ReviewList',
-                component: ReviewList
             },
             {
                 path: '/users/lists/add',
