@@ -81,16 +81,22 @@
                             <div class="navbar-dropdown">
                                 <router-link 
                                     class="navbar-item" 
-                                    to="/profile"
+                                    :to="{ name: 'ProfilePage' }"
                                 >Profile</router-link>
                                 <router-link 
                                     class="navbar-personal-link navbar-item" 
-                                    to="/places/list"
+                                    :to="{ name: 'PlacesList' }"
                                 >My places</router-link>
                                 <router-link 
                                     class="navbar-personal-link navbar-item" 
-                                    to="/user/lists"
-                                >My lists</router-link>
+                                    :to="{ name: 'UserListsPage' }"
+                                >My lists
+                                </router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'HistoryPage' }"
+                                >History
+                                </router-link>
                                 <a 
                                     class="navbar-item" 
                                     @click="onLogOut"
