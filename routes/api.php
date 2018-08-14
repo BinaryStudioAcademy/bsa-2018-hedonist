@@ -120,6 +120,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/places/rating/{id}', 'Api\Places\PlaceRatingController@getRating')
             ->name('place.rating.getPlaceRating');
 
+        Route::resource('/palces/categories', 'Api\Place\PlaceCategoryController');
+
         /* Routes here.. */
     });
 });
