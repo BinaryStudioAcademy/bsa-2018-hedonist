@@ -1,5 +1,9 @@
 export default {
-    currentUser: null,
+    currentUser: {
+        first_name: "",
+        last_name: "",
+        avatar_url: require("@/assets/no-photo.png"),
+    },
     isLoggedIn: false,
     token: ''
 }
