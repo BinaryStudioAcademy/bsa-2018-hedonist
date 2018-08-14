@@ -9,3 +9,4 @@ export default {
         state.error = null;
     }
 };
+

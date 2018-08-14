@@ -18,7 +18,7 @@ export default {
                             error:{
                                 message: res.data.errors
                             }
-                        })
+                        });
                     } else {
                         resolve(res);
                     }

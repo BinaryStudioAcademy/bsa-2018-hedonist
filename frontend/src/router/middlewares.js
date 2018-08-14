@@ -70,3 +70,4 @@ const fetchUser = (store) => {
             });
     });
 };
+

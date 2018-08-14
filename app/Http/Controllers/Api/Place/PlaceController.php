@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api\Places;
+namespace Hedonist\Http\Controllers\Api\Place;
 
 use Hedonist\Actions\Place\AddPlace\AddPlaceAction;
 use Hedonist\Actions\Place\AddPlace\AddPlacePresenter;
@@ -16,11 +16,11 @@ use Hedonist\Actions\Place\RemovePlace\RemovePlaceRequest;
 use Hedonist\Actions\Place\UpdatePlace\UpdatePlaceAction;
 use Hedonist\Actions\Place\UpdatePlace\UpdatePlacePresenter;
 use Hedonist\Actions\Place\UpdatePlace\UpdatePlaceRequest;
-use Hedonist\Exceptions\PlaceExceptions\PlaceLocationInvalidException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceCategoryDoesNotExistException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceCityDoesNotExistException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceCreatorDoesNotExistException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
+use Hedonist\Exceptions\Place\PlaceCategoryDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceCityDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceCreatorDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
