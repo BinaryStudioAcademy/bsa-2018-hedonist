@@ -28,6 +28,12 @@ class GetPlaceCollectionPresenter
                 $locale['description'] = $localization->place_description;
                 $placesArray[$key]['localization'][] = $locale;
             }
+            foreach ($place->tags as $tag) {
+                $placesArray[$key]['category']['tags'][] = [
+                    'id' => $tag->id,
+                    'name' => $tag->name
+                ];
+            }
         }
 
         return $placesArray;

@@ -36,6 +36,7 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     {
         return Place::with(
             'category',
+            'category.tags',
             'city',
             'localization',
             'localization.language',
