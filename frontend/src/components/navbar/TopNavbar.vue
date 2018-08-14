@@ -132,9 +132,6 @@ export default {
 </script>
 
 <style scoped>
-    .navbar-wrapper{
-        width:1060px;
-    }
     .navbar-brand-name{
         text-transform: uppercase;
         font-weight: bold;
