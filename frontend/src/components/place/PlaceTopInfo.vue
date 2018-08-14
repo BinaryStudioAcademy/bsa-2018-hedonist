@@ -93,8 +93,12 @@ export default {
     },
 
     computed: {
+        user() {
+            return this.$store.getters.getAuthenticatedUser;
+        },
+
         userlists() {
-            return this.$store.getters['userlist/getByUserId'](1);
+            return this.$store.getters['userlist/getByUserId'](this.user.id);
         }
     },
 
