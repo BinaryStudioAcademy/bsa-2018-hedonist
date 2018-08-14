@@ -3,14 +3,22 @@
         <div class="review-title-wrp">
             <div class="review-title">
                 <div class="left-side-review-title">
-                    <img src="https://ss1.4sqi.net/img/venuepage/v2/section_title_tips@2x-6449ea09a26b1d885184e709e2c8f693.png" height="25" width="25">
+                    <img 
+                        src="https://ss1.4sqi.net/img/venuepage/v2/section_title_tips@2x-6449ea09a26b1d885184e709e2c8f693.png" 
+                        height="25" 
+                        width="25"
+                    >
                     <span>21 Reviews</span>
                 </div>
                 <div class="review-title-search">
                     <div class="control has-icons-left">
-                        <input class="input is-small" type="search" placeholder="Find review..">
+                        <input 
+                            class="input is-small" 
+                            type="search" 
+                            placeholder="Find review.."
+                        >
                         <span class="icon is-small is-left">
-                            <i class="fas fa-search"></i>
+                            <i class="fas fa-search" />
                         </span>
                     </div>
                 </div>
@@ -19,11 +27,18 @@
         <div class="add-review-wrp">
             <div class="add-review">
                 <div class="left-side-add-review">
-                    <img src="https://ss0.4sqi.net/img/venuepage/v2/add_tip_blank_avatar@2x-4321684c656168f26ae9208901a9d83e.png" height="32" width="32">
+                    <img 
+                        src="https://ss0.4sqi.net/img/venuepage/v2/add_tip_blank_avatar@2x-4321684c656168f26ae9208901a9d83e.png" 
+                        height="32" 
+                        width="32"
+                    >
                     <span><a>Login</a>, to leave a review.</span>
                 </div>
                 <div class="add-review-btn">
-                    <button class="button" disabled>Post</button>
+                    <button 
+                        class="button" 
+                        disabled
+                    >Post</button>
                 </div>
             </div>
         </div>
@@ -32,14 +47,23 @@
                 <div class="filter-area">
                     <ul>
                         <li class="sort-word">Sort by:</li>
-                        <li v-on:click="onSortFilter('popular')" :class="{ active: isActive.popular }"><a>Popular</a></li>
-                        <li v-on:click="onSortFilter('recent')" :class="{ active: isActive.recent }"><a>Recent</a></li>
+                        <li 
+                            @click="onSortFilter('popular')" 
+                            :class="{ active: isActive.popular }"
+                        ><a>Popular</a></li>
+                        <li 
+                            @click="onSortFilter('recent')" 
+                            :class="{ active: isActive.recent }"
+                        ><a>Recent</a></li>
                     </ul>
                 </div>
             </div>
             <div class="reviews-section-list">
                 <template v-for="review in place.reviews">
-                    <Review :key="review.id" :review="review"></Review>
+                    <Review 
+                        :key="review.id" 
+                        :review="review"
+                    />
                 </template>
             </div>
         </div>
@@ -47,44 +71,44 @@
 </template>
 
 <script>
-    import Review from './ReviewListElement';
+import Review from './ReviewListElement';
 
-    export default {
-        components: {
-            Review
-        },
+export default {
+    components: {
+        Review
+    },
 
-        props: {
-            place: {
-                type: Object,
-                required: true
+    props: {
+        place: {
+            type: Object,
+            required: true
+        }
+    },
+
+    data() {
+        return {
+            isActive: {
+                popular: true,
+                recent: false
             }
-        },
+        };
+    },
 
-        data() {
-            return {
-                isActive: {
-                    popular: true,
-                    recent: false
-                }
-            };
-        },
+    computed: {
+    },
 
-        computed: {
-        },
-
-        methods: {
-            onSortFilter(name) {
-                for (let item in this.isActive) {
-                    if (item === name) {
-                        this.isActive[item] = true;
-                    } else {
-                        this.isActive[item] = false;
-                    }
+    methods: {
+        onSortFilter(name) {
+            for (let item in this.isActive) {
+                if (item === name) {
+                    this.isActive[item] = true;
+                } else {
+                    this.isActive[item] = false;
                 }
             }
         }
     }
+};
 
 </script>
 
