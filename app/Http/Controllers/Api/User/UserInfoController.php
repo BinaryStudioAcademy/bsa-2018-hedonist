@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Http\Controllers\Api\Users;
+namespace Hedonist\Http\Controllers\Api\User;
 
 use Hedonist\Actions\User\GetUserInfoAction;
 use Hedonist\Actions\User\GetUserInfoRequest;

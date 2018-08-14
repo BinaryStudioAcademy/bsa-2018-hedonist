@@ -1,11 +1,17 @@
 <template>
     <section class="container">
         <ul>
-            <li v-for="(place,index) in places" :key="place.id">
+            <li 
+                v-for="(place,index) in places" 
+                :key="place.id"
+            >
                 <div class="index">
-                    {{index+1}}.
+                    {{ index+1 }}.
                 </div>
-                <PlaceListComponent :place="place" :timer="50 * (index+1)"/>
+                <PlaceListComponent 
+                    :place="place" 
+                    :timer="50 * (index+1)"
+                />
             </li>
         </ul>
     </section>
@@ -34,13 +40,13 @@
 </style>
 
 <script>
-    import PlaceListComponent from './PlaceListComponent';
-    import { mapState } from "vuex";
+import PlaceListComponent from './PlaceListComponent';
+import { mapState } from 'vuex';
 
-    export default {
-        name: "PlaceList",
-        components: {PlaceListComponent},
-        computed: {...mapState("place", ["places"])}
-    }
+export default {
+    name: 'PlaceList',
+    components: {PlaceListComponent},
+    computed: {...mapState('place', ['places'])}
+};
 </script>
 

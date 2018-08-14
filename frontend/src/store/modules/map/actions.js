@@ -12,4 +12,4 @@ export default {
 
         return [totalLongtitude/count, totalLatitude/count];
     }
-}
+};
