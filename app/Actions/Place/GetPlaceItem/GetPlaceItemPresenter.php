@@ -19,30 +19,30 @@ class GetPlaceItemPresenter
             'updatedAt'    => $placeResponse->getUpdatedAt(),
             'localization' => $placeResponse->getLocalization()->isNotEmpty()
                 ? array_map(function($localization) {
-                        return [
-                            'id'          => $localization['id'],
-                            'name'        => $localization['place_name'],
-                            'description' => $localization['place_description'],
-                            'languageId'  => $localization['language_id']
-                        ];
-                    }, $placeResponse->getLocalization()->toArray())
+                    return [
+                        'id'          => $localization['id'],
+                        'name'        => $localization['place_name'],
+                        'description' => $localization['place_description'],
+                        'languageId'  => $localization['language_id']
+                    ];
+                }, $placeResponse->getLocalization()->toArray())
                 : null,
             'reviews' => $placeResponse->getReviews()->isNotEmpty()
                 ? array_map(function($review) {
-                        return [
-                            'id'          => $review['id'],
-                            'userId'      => $review['user_id'],
-                            'description' => $review['description']
-                        ];
-                    }, $placeResponse->getReviews()->toArray())
+                    return [
+                        'id'          => $review['id'],
+                        'userId'      => $review['user_id'],
+                        'description' => $review['description']
+                    ];
+                }, $placeResponse->getReviews()->toArray())
                 : null,
             'features' => $placeResponse->getFeatures()->isNotEmpty()
                 ? array_map(function($feature) {
-                        return [
-                            'id'   => $feature['id'],
-                            'name' => $feature['name'],
-                        ];
-                    }, $placeResponse->getFeatures()->toArray())
+                    return [
+                        'id'   => $feature['id'],
+                        'name' => $feature['name'],
+                    ];
+                }, $placeResponse->getFeatures()->toArray())
                 : null,
             'category' => [
                 'id'   => $placeResponse->getCategory()->id,
