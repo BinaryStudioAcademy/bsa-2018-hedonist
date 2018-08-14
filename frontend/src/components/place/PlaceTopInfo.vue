@@ -23,12 +23,9 @@
                         <b-icon icon="menu-down"></b-icon>
                     </button>
 
-                    <template v-for="(list, index) in userlists">
-                        <b-dropdown-item :key="index">{{ list.name }}</b-dropdown-item>
+                    <template v-for="list in userlist">
+                        <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}</b-dropdown-item>
                     </template>
-
-                    <hr class="dropdown-divider">
-                    <b-dropdown-item>Create new list</b-dropdown-item>
                 </b-dropdown>
 
                 <button class="button is-info">
@@ -92,13 +89,17 @@ export default {
         }
     },
 
+    created() {
+        this.$store.dispatch('userlist/setListsByUser', this.user.id);
+    },
+
     computed: {
         user() {
             return this.$store.getters.getAuthenticatedUser;
         },
 
-        userlists() {
-            return this.$store.getters['userlist/getByUserId'](this.user.id);
+        userlist() {
+            return this.$store.getters['userlist/getLists'];
         }
     },
 
@@ -106,6 +107,13 @@ export default {
         changeTab: function(activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);
+        },
+        
+        addPlaceToList: function (listId) {
+            this.$store.dispatch('userlist/addPlaceToList', {
+                listId: listId,
+                placeId: this.place.id
+            });
         }
     }
 }
