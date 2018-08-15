@@ -5,4 +5,4 @@ export default {
     setError: (context, error) => {
         context.commit('setError', error);
     }
-}
+};

@@ -1,10 +1,16 @@
 <template>
     <div class="navbar-start">
         <div class="navbar-item">
-            <div class="control has-icons-right" v-bind:class="{'show-list': isShow}" v-click-outside="onClickOutside">
-                <input class="input" type="search" placeholder="I'm looking for..." v-model="search" v-on:focus="getCategories">
+            <div class="control has-icons-right" :class="{'show-list': isShow}" v-click-outside="onClickOutside">
+                <input 
+                    class="input" 
+                    type="search" 
+                    placeholder="I'm looking for..." 
+                    v-model="search" 
+                    @focus="getCategories"
+                >
                 <span class="icon is-right">
-                    <i class="fas fa-caret-down"></i>
+                    <i class="fas fa-caret-down" />
                 </span>
                 <ul class="place-category-list">
                     <li v-for="category in categories" :key="category.id">
@@ -20,40 +26,40 @@
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <span class="icon is-large">
-                <i class="fas fa-lg fa-search"></i>
+                <i class="fas fa-lg fa-search" />
             </span>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        name: "SearchInput",
-        data() {
-            return {
-                search: '',
-                isShow: false,
-                categories: [
-                    {
-                        id: 1,
-                        name: 'Restaurant'
-                    },
-                    {
-                        id: 2,
-                        name: 'Bar'
-                    }
-                ]
-            }
+export default {
+    name: 'SearchInput',
+    data() {
+        return {
+            search: '',
+            isShow: false,
+            categories: [
+                {
+                    id: 1,
+                    name: 'Restaurant'
+                },
+                {
+                    id: 2,
+                    name: 'Bar'
+                }
+            ]
+        };
+    },
+    methods: {
+        getCategories() {
+            this.isShow = true;
         },
-        methods: {
-            getCategories() {
-                this.isShow = true;
-            },
-            onClickOutside() {
-                this.isShow = false;
-            }
+        onClickOutside() {
+            this.isShow = false;
         }
     }
+};
 </script>
 
 <style lang="scss" scoped>

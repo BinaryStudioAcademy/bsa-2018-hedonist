@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCategoryByName;
 
+use Hedonist\Repositories\Place\PlaceCategoryCriteria;
 use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 
 class GetPlaceCategoryByNameAction
@@ -15,7 +16,9 @@ class GetPlaceCategoryByNameAction
 
     public function execute(GetPlaceCategoryByNameRequest $request): GetPlaceCategoryByNameResponse
     {
-        $placeCategories = $this->placeCategoryRepository->getByName($request->getName(), $request->getLimit());
+        $placeCategories = $this->placeCategoryRepository->findByCriteria(
+            new PlaceCategoryCriteria($request->getName(), $request->getLimit())
+        );
 
         return new GetPlaceCategoryByNameResponse($placeCategories);
     }
