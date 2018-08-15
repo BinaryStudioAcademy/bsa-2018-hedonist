@@ -5,10 +5,7 @@
                 v-for="(place,index) in places" 
                 :key="place.id"
             >
-                <div class="index">
-                    {{ index+1 }}.
-                </div>
-                <PlaceListComponent 
+                <PlacePreviewList
                     :place="place" 
                     :timer="50 * (index+1)"
                 />
@@ -20,33 +17,33 @@
 <style lang="scss" scoped>
     section {
         background: #FFF;
-    }
+        padding: 0 10%;
 
-    li {
-        padding-left: 1rem;
-        display: flex;
-    }
+        ul {
+            list-style: none;
 
-    ul {
-        list-style: none;
-    }
+            li {
+                display: flex;
+                margin-bottom: 5%;
 
-    .index {
-        width: 10%;
-        text-align: center;
-        color: grey;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
     }
-
 </style>
 
 <script>
-import PlaceListComponent from './PlaceListComponent';
+import PlacePreviewList from './PlacePreviewList';
 import { mapState } from 'vuex';
 
 export default {
     name: 'PlaceList',
-    components: {PlaceListComponent},
+    components: {PlacePreviewList},
+    created() {
+        this.$store.dispatch("place/fetchPlaces");
+    },
     computed: {...mapState('place', ['places'])}
 };
 </script>
-
