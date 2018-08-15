@@ -18,6 +18,7 @@
                 <div class="media-right">
                     <button
                         class="button is-primary"
+                        @click="onAddReview"
                     >Post</button>
                 </div>
             </b-field>
@@ -45,11 +46,30 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
     name: "AddReview",
+    data: function () {
+        return {
+            newReview: {
+                user_id: this.userId,
+                place_id: '',
+                description: ''
+            }
+        }
+    },
     computed: {
         ...mapGetters({isUserLoggedIn: 'hasToken'}),
+        userId: function() {
+            console.log(this.$store.getters.getAuthenticatedUser());
+        }
+    },
+    methods: {
+        ...mapActions('review', ['addReview']),
+        onAddReview () {
+            this.addReview();
+        }
     }
 }
 </script>
