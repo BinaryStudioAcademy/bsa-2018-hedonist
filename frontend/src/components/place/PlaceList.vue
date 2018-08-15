@@ -5,9 +5,6 @@
                 v-for="(place,index) in places" 
                 :key="place.id"
             >
-                <div class="index">
-                    {{ index+1 }}.
-                </div>
                 <PlaceListComponent 
                     :place="place" 
                     :timer="50 * (index+1)"
