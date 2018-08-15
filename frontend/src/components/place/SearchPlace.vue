@@ -36,61 +36,60 @@
                         position: 'top-left'
                     }"
                     @map-init="mapInitialized"
-                ></mapbox>
->>>>>>> development
+                />
             </section>
         </section>
     </section>
 </template>
 
 <script>
-    import { mapState } from "vuex";
-    import { mapGetters } from "vuex";
-    import PlaceListComponent from '@/components/placesList/PlaceListComponent';
-    import Mapbox from 'mapbox-gl-vue';
-    import LocationService from '@/services/location/locationService';
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import PlaceListComponent from '@/components/placesList/PlaceListComponent';
+import Mapbox from 'mapbox-gl-vue';
+import LocationService from '@/services/location/locationService';
 
-    export default {
-        name: "SearchPlace",
-        components: {
-            PlaceListComponent,
-            Mapbox,
+export default {
+    name: 'SearchPlace',
+    components: {
+        PlaceListComponent,
+        Mapbox,
+    },
+    data() {
+        return {
+            filterQuery: '',
+            map: {},
+        };
+    },
+    methods: {
+        mapInitialized(map) {
+            this.map = map;
+            LocationService.getUserLocationData()
+                .then(coordinates => {
+                    this.jumpTo(coordinates);
+                });
         },
-        data() {
-            return {
-                filterQuery: '',
-                map: {},
+        jumpTo (coordinates) {
+            this.map.jumpTo({
+                center: coordinates,
+            });
+        },
+    },
+    computed: {
+        ...mapState('place', ['places']),
+        ...mapGetters('place', ['getFilteredByName']),
+        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
+        filteredPlaces: function() {
+            let places = [];
+            if (this.filterQuery) {
+                places = this.getFilteredByName(this.filterQuery);
+            } else {
+                places = this.places;
             }
-        },
-        methods: {
-            mapInitialized(map) {
-                this.map = map;
-                LocationService.getUserLocationData()
-                    .then(coordinates => {
-                        this.jumpTo(coordinates);
-                    });
-            },
-            jumpTo (coordinates) {
-                this.map.jumpTo({
-                    center: coordinates,
-                })
-            },
-        },
-        computed: {
-            ...mapState("place", ["places"]),
-            ...mapGetters("place", ["getFilteredByName"]),
-            ...mapGetters("map", ["getMapboxToken", "getMapboxStyle"]),
-            filteredPlaces: function() {
-                let places = [];
-                if (this.filterQuery) {
-                    places = this.getFilteredByName(this.filterQuery);
-                } else {
-                    places = this.places;
-                }
-                return places;
-            }
+            return places;
         }
     }
+};
 </script>
 
 <style>
