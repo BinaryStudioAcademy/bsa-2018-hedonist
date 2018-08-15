@@ -2,6 +2,9 @@
 
 namespace Hedonist\Entities\Place;
 
+use Hedonist\Entities\Dislike\Dislike;
+use Hedonist\Entities\Like\Like;
+use Hedonist\Entities\Localization\PlaceTranslation;
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
@@ -80,5 +83,20 @@ class Place extends Model
     {
         $this->latitude = $location->getLatitude();
         $this->longitude = $location->getLongitude();
+    }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function dislikes()
+    {
+        return $this->morphMany(Dislike::class, 'dislikeable');
+    }
+
+    public function localization()
+    {
+        return $this->hasMany(PlaceTranslation::class);
     }
 }

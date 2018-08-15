@@ -15,7 +15,7 @@ class GetPlaceCollectionAction
 
     public function execute(GetPlaceCollectionRequest $request): GetPlaceCollectionResponse
     {
-        $places = $this->placeRepository->findAll();
+        $places = $this->placeRepository->getAllWithRelations();
 
         return new GetPlaceCollectionResponse($places);
     }
