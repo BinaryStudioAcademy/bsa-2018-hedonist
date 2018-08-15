@@ -13,12 +13,10 @@ export default {
             .then(() => {
                 next( {path: to} );
             })
-            .catch(() => {
-                store.commit('USER_LOGOUT');
+            .catch((error) => {
+                store.commit('auth/USER_LOGOUT');
                 next({ path: '/login' });
             });
-
-        next();
     },
     guest: store => (to, from, next) => {
         if (store.getters['auth/hasToken']()) {
@@ -33,9 +31,9 @@ export default {
 
 const refreshAuth = (store) => {
     return new Promise((resolve, reject) => {
-        store.dispatch('refreshToken')
+        store.dispatch('auth/refreshToken')
             .then(() => {
-                store.dispatch('fetchAuthenticatedUser')
+                store.dispatch('auth/fetchAuthenticatedUser')
                     .then(() => {
                         resolve();
                     })
@@ -54,7 +52,11 @@ const fetchUser = (store) => {
         // show loading spinner
         store.commit('SET_LOADING', true);
 
-        store.dispatch('fetchAuthenticatedUser')
+        store.dispatch('auth/fetchAuthenticatedUser')
+            .then(() => {
+                store.commit('SET_LOADING', false);
+                resolve();
+            })
             .catch(response => {
                 if (response.code === TOKEN_EXPIRED) {
                     refreshAuth(store)
@@ -70,4 +72,3 @@ const fetchUser = (store) => {
             });
     });
 };
-
