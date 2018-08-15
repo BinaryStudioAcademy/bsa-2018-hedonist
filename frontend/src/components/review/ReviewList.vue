@@ -25,22 +25,7 @@
             </div>
         </div>
         <div class="add-review-wrp">
-            <div class="add-review">
-                <div class="left-side-add-review">
-                    <img 
-                        src="https://ss0.4sqi.net/img/venuepage/v2/add_tip_blank_avatar@2x-4321684c656168f26ae9208901a9d83e.png" 
-                        height="32" 
-                        width="32"
-                    >
-                    <span><a>Login</a>, to leave a review.</span>
-                </div>
-                <div class="add-review-btn">
-                    <button 
-                        class="button" 
-                        disabled
-                    >Post</button>
-                </div>
-            </div>
+            <AddReview/>
         </div>
         <div class="reviews-section-wrp">
             <div class="reviews-section-header">
@@ -72,10 +57,12 @@
 
 <script>
 import Review from './ReviewListElement';
+import AddReview from './AddReview';
 
 export default {
     components: {
-        Review
+        Review,
+        AddReview
     },
 
     props: {
@@ -162,33 +149,6 @@ export default {
         margin-bottom: 15px;
         border: 1px solid #efeff4;
     }
-
-    .add-review {
-        padding: 15px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .add-review-btn {
-        width: 30%;
-        display: flex;
-        justify-content: flex-end;
-    }
-
-    .left-side-add-review {
-        width: 50%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-    }
-
-    .left-side-add-review > img {
-        margin-right: 15px;
-    }
-
 
     /* Review list part. */
     .reviews-section-wrp {
