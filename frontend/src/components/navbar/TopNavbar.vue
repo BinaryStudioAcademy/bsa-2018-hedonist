@@ -98,7 +98,7 @@ export default {
             return this.hasToken();
         },
         user: function() {
-            return this.getAuthenticatedUser();
+            return this.getAuthenticatedUser;
         }
     },
     methods: {
