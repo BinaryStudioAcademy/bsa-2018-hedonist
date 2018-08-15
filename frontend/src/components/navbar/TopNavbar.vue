@@ -116,10 +116,19 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
     name: 'TopNavbar',
-    computed: mapGetters({
-        isUserLoggedIn: 'hasToken',
-        user: "getAuthenticatedUser"
-    }),
+    computed:
+    {
+        ...mapGetters([
+            'hasToken',
+            'getAuthenticatedUser'
+        ]),
+        isUserLoggedIn: function() {
+            return this.hasToken();
+        },
+        user: function() {
+            return this.getAuthenticatedUser();
+        }
+    },
     methods: {
         ...mapActions(['logout']),
 
@@ -129,7 +138,7 @@ export default {
                     this.$router.push({name: 'LoginPage'});
                 });
         }
-    },
+    }
 };
 </script>
 
