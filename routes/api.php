@@ -107,7 +107,7 @@ Route::prefix('v1')->group(function () {
             ->name('user.info.show');
         Route::put('/users/{userId}/info/', 'Api\User\UserInfoController@update')
             ->name('user.info.update');
-      
+
         Route::post('/users/me/checkins', 'Api\Place\PlaceCheckinController@setCheckin')
             ->name('user.me.checkin');
 
@@ -120,11 +120,11 @@ Route::prefix('v1')->group(function () {
         Route::get('/places/rating/{id}', 'Api\Place\PlaceRatingController@getRating')
             ->name('place.rating.getPlaceRating');
 
-        Route::resource('/places/categories', 'Api\Places\PlaceCategoryController')->except([
+        Route::resource('/places/categories', 'Api\Place\PlaceCategoryController')->except([
             'create', 'edit'
         ]);
 
-        Route::post('/places/categories/search', 'Api\Places\PlaceCategoryController@getPlaceCategoryByName');
+        Route::post('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 
         /* Routes here.. */
     });
