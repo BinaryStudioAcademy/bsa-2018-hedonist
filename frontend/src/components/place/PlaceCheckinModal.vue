@@ -76,39 +76,41 @@ export default {
         onSelect: function(value) {
             this.checkIn({
                 place_id: this.place.id
-            }).then((res) => {
-                if (res.error) {
-                    this.$toast.open({
-                        type: 'is-danger',
-                        message: res.error.message
-                    });
-                } else {
-                    this.$toast.open({
-                        type: 'is-success',
-                        message: 'Checked in'
-                    });
-                }
+            }).then((response) => {
+                this.handleResponse(response, 'Checked in');
             });
 
             this.setPlaceRating({
                 place_id: this.place.id,
                 rating: value,
                 user_id: this.getAuthenticatedUser.id
-            }).then((res) => {
-                if (res.error) {
-                    this.$toast.open({
-                        type: 'is-danger',
-                        message: res.error.message
-                    });
-                } else {
-                    this.$toast.open({
-                        type: 'is-success',
-                        message: 'Rating set'
-                    });
-                }
+            }).then((response) => {
+                this.handleResponse(response, 'Rating set');
             });
 
             this.$parent.close();
+        },
+
+        handleResponse: function(response, successMessage) {
+            switch (response.status) {
+                case 201:
+                    this.$toast.open({
+                        type: 'is-success',
+                        message: successMessage
+                    });
+                    break;
+                case 400:
+                    this.$toast.open({
+                        type: 'is-danger',
+                        message: response.statusText
+                    });
+                    break;
+                default:
+                    this.$toast.open({
+                        type: 'is-danger',
+                        message: 'Something went wrong. Try again later'
+                    });
+            }
         }
     }
 }
