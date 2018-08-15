@@ -2,9 +2,9 @@
 
 namespace Hedonist\Http\Requests\Auth;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Hedonist\Http\Requests\JsonRequest;
 
-class CheckEmailUniqueHttpRequest extends FormRequest
+class CheckEmailUniqueHttpRequest extends JsonRequest
 {
     /**
      * Determine if the user is authorized to make this request.

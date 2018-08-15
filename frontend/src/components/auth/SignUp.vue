@@ -3,7 +3,7 @@
         <Form>
             <b-field
                 label="First name"
-                :type="input.firstName.type"
+                :type="type('firstName')"
             >
                 <b-input
                     name="firstName"
@@ -14,13 +14,17 @@
                 />
             </b-field>
                 <div class="error"
-                     v-if="!$v.newUser.firstName.required && input.firstName.type">First name is required.</div>
+                     v-if="!$v.newUser.firstName.required && !focus.firstName"
+                >
+                    First name is required.</div>
                 <div class="error"
-                     v-if="!$v.newUser.firstName.alpha  && input.firstName.type">Only letters are allowed</div>
+                     v-if="!$v.newUser.firstName.alpha && !focus.firstName"
+                >
+                    Only letters are allowed</div>
 
             <b-field
                 label="Last name"
-                :type="input.lastName.type"
+                :type="type('lastName')"
             >
                 <b-input
                     name="lastName"
@@ -31,13 +35,17 @@
                 />
             </b-field>
                 <div class="error"
-                     v-if="!$v.newUser.lastName.required && input.lastName.type">Last name is required.</div>
+                     v-if="!$v.newUser.lastName.required && !focus.lastName"
+                >
+                    Last name is required.</div>
                 <div class="error"
-                     v-if="!$v.newUser.lastName.alpha  && input.lastName.type">Only letters are allowed</div>
+                     v-if="!$v.newUser.lastName.alpha && !focus.lastName"
+                >
+                    Only letters are allowed</div>
 
             <b-field
                 label="Email"
-                :type="input.email.type"
+                :type="type('email')"
             >
 
                 <b-input
@@ -49,18 +57,24 @@
                 />
             </b-field>
                 <div class="error"
-                     v-if="!$v.newUser.email.required && input.email.type">Email is required.</div>
+                     v-if="!$v.newUser.email.required && !focus.email"
+                >
+                    Email is required.</div>
                 <div class="error"
-                     v-if="!$v.newUser.email.email && input.email.type">Wrong email format</div>
+                     v-if="!$v.newUser.email.email && !focus.email"
+                >
+                    Wrong email format</div>
                 <div class="error"
-                     v-if="!$v.newUser.email.isUnique && input.email.type">This email is already registered.</div>
+                     v-if="!$v.newUser.email.isUnique && !focus.email"
+                >
+                    This email is already registered.</div>
 
             <label class="label">
                 Password <span class="grayed">(at least 6 characters)</span>
             </label>
 
             <b-field
-                :type="input.password.type"
+                :type="type('password')"
             >
 
                 <b-input 
@@ -74,9 +88,13 @@
                 />
             </b-field>
                 <div class="error"
-                     v-if="!$v.newUser.password.required && input.password.type">Password is required.</div>
+                     v-if="!$v.newUser.password.required && !focus.password"
+                >
+                    Password is required.</div>
                 <div class="error"
-                     v-if="!$v.newUser.password.minLength  && input.password.type">Should be 6 symbols at least </div>
+                     v-if="!$v.newUser.password.minLength  && !focus.password"
+                >
+                    Should be 6 symbols at least </div>
 
             <button
                 type="button"
@@ -111,20 +129,12 @@ export default {
                 password: ''
             },
 
-            input: {
-                firstName: {
-                    type: ''
-                },
-                lastName: {
-                    type: ''
-                },
-                email: {
-                    type: ''
-                },
-                password: {
-                    type: ''
-                }
-            }
+            focus: {
+                firstName: true,
+                lastName: true,
+                email: true,
+                password: true
+            },
         };
     },
 
@@ -133,6 +143,11 @@ export default {
             'signUp',
             'checkEmailUnique'
         ]),
+
+        type(el) {
+            if (this.focus[el]) return '';
+            return this.$v.newUser[el].$invalid ? 'is-danger' : 'is-success';
+        },
 
         onSignUp () {
             if (!this.$v.newUser.$invalid) {
@@ -169,15 +184,11 @@ export default {
         },
 
         onBlur (el) {
-            if (this.$v.newUser[el].$invalid) {
-                this.input[el].type = 'is-danger';
-            } else {
-                this.input[el].type = 'is-success';
-            }
+            this.focus[el] = false;
         },
 
         onFocus (el) {
-            this.input[el].type = '';
+            this.focus[el] = true;
         },
 
         refreshInput () {
@@ -217,14 +228,11 @@ export default {
                     return new Promise((resolve, reject) => {
                         this.checkEmailUnique(value)
                             .then((res)=>{
-                                    if(res.error){
-                                        this.onError(res.error);
-                                        reject();
-                                    } else {
-                                        resolve(res.email === value && res.isUnique);
-                                    }
-                                }
-                            );
+                                resolve(res.email === value && res.isUnique);
+                            })
+                            .catch(function (err) {
+                                reject(err);
+                            });
                     })
                 }
             },
