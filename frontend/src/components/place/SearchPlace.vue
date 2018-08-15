@@ -1,13 +1,9 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-            <b-input 
-                class="search-field" 
-                placeholder="Find..." 
-                v-model="filterQuery"
-            />
-            <template v-for="(place, index) in filteredPlaces">
-                <PlaceListComponent 
+            <template v-for="(place, index) in places">
+                <PlaceListComponent
+                    v-if="isPlacesLoaded"
                     :key="place.id" 
                     :place="place" 
                     :timer="50 * (index+1)"
@@ -63,11 +59,13 @@ export default {
         return {
             filterQuery: '',
             isMapLoaded: false,
+            isPlacesLoaded: false,
             map: {},
         };
     },
     created() {
-        this.$store.dispatch("place/fetchPlaces");
+        this.$store.dispatch("place/fetchPlaces")
+            .then(() => this.isPlacesLoaded = true);
     },
     methods: {
         mapInitialized(map) {
@@ -92,21 +90,7 @@ export default {
     },
     computed: {
         ...mapState('place', ['places']),
-        ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
-        filteredPlaces: function() {
-            let places = [];
-            if (this.filterQuery) {
-                places = this.getFilteredByName(this.filterQuery);
-            } else {
-                places = this.places;
-            }
-            if(this.isMapLoaded){
-                this.updateMap(places);
-            }
-
-            return places;
-        }
     }
 };
 </script>
