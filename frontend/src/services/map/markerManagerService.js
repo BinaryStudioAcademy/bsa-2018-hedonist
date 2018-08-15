@@ -33,7 +33,6 @@ class MarkerManagerService {
     }
 
     _createMarker(markerData) {
-        console.log('creating marker');
         let marker = MarkerGenerator.generateMarker(markerData);
         marker.addTo(this._map);
         this._activeMarkers.set(markerData.id, {marker, markerData});
@@ -41,7 +40,6 @@ class MarkerManagerService {
     }
 
     _restoreMarker(markerData) {
-        console.log('Loading from cache...');
         let object = this._markersPool.get(markerData.id);
         object.marker.addTo(this._map);
         this._activeMarkers.set(markerData.id, object.marker);
