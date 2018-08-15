@@ -24,7 +24,7 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
 
     public function getById(int $id): ?Place
     {
-        return Place::find($id);
+        return Place::with(['localization'])->where(['id' => $id])->get()->first();
     }
 
     public function findAll(): Collection

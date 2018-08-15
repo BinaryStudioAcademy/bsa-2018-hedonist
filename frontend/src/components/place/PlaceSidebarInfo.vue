@@ -9,16 +9,18 @@
             </div>
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
-                    <i class="place-sidebar__icon far fa-compass" />
-                    <div class="place-name"><strong>{{ place.name }}</strong></div>
+                    <i class="place-sidebar__icon far fa-compass"></i>
+                    <div v-if="place.localization" class="place-name"><strong>{{ place.localization.name }}</strong></div>
+                    <div v-else class="place-name"><strong>No localization</strong></div>
                     <div class="place-address">
-                        <div class="place-address">{{ place.address }}</div>
-                        <span class="place-city">{{ place.city }}</span>,
-                        <span class="place-zip">01004</span>
+                        <span class="place-street">{{ place.address }}</span>,
+                        <span class="place-city">{{ place.city.name }}</span>,
+                        <span class="place-zip">{{ place.zip }}</span>,
+                        <span class="place-country">Украина</span>
                     </div>
                 </div>
-                <div class="place-sidebar__tags">
-                    <i class="place-sidebar__icon fas fa-info-circle" />
+                <div v-if="place.tags" class="place-sidebar__tags">
+                    <i class="place-sidebar__icon fas fa-info-circle"></i>
                     <span 
                         v-for="tag in place.tags" 
                         class="tag"
@@ -36,51 +38,27 @@
                         :href="`tel:${place.phone}`"
                     >{{ place.phone }}</a>
                 </div>
-                <div class="place-sidebar__website">
-                    <i class="place-sidebar__icon fas fa-globe" />
-                    <a 
-                        target="_blank" 
+                <div v-if="place.website" class="place-sidebar__website">
+                    <i class="place-sidebar__icon fas fa-globe"></i>
+                    <a
+                        target="_blank"
                         :href="place.website"
                     >{{ place.website }}</a>
                 </div>
-                <div class="place-sidebar__facebook">
-                    <i class="place-sidebar__icon fab fa-facebook-square" />
+                <div v-if="place.socials" class="place-sidebar__facebook">
+                    <i class="place-sidebar__icon fab fa-facebook-square"></i>
                     <a href="https://www.facebook.com/mamamanana.kiev">mamamanana.kiev</a>
                 </div>
-                <div class="place-sidebar__facebook">
-                    <i class="place-sidebar__icon fab fa-instagram" />
+                <div v-if="place.socials" class="place-sidebar__facebook">
+                    <i class="place-sidebar__icon fab fa-instagram"></i>
                     <a href="https://www.instagram.com/mamamanana.kiev.ua/">@mamamanana.kiev.ua</a>
                 </div>
             </div>
-            <div class="place-sidebar__features">
+            <div v-if="place.features" v-for="feature in place.features" class="place-sidebar__features">
                 <h2 class="feature-title">Features</h2>
                 <div class="feature">
-                    <div class="feature-name">Бронирование</div>
-                    <div class="feature-info"><i class="fas fa-check" /></div>
-                </div>
-                <div class="feature">
-                    <div class="feature-name">Кредитные карты</div>
-                    <div class="feature-info"><i class="fas fa-check" /></div>
-                </div>
-                <div class="feature">
-                    <div class="feature-name">WiFi</div>
-                    <div class="feature-info"><i class="fas fa-check" /></div>
-                </div>
-                <div class="feature">
-                    <div class="feature-name">Есть заезд для инвалидных колясок</div>
-                    <div class="feature-info"><i class="fas fa-check" /></div>
-                </div>
-                <div class="feature">
-                    <div class="feature-name">Музыка</div>
-                    <div class="feature-info"><i class="fas fa-check" /></div>
-                </div>
-                <div class="feature">
-                    <div class="feature-name">Варианты обеда</div>
-                    <div class="feature-info"><i class="fas fa-check" /></div>
-                </div>
-                <div class="feature">
-                    <div class="feature-name">Есть туалет</div>
-                    <div class="feature-info"><i class="fas fa-check" /></div>
+                    <div class="feature-name">{{ feature.name }}</div>
+                    <div class="feature-info"><i class="fas fa-check"></i></div>
                 </div>
             </div>
         </div>
