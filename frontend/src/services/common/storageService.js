@@ -20,7 +20,7 @@ export const storageService = {
         this.set(this.USER, JSON.stringify(user));
     },
     getAuthenticatedUser() {
-        return this.get(this.USER);
+        return JSON.parse(this.get(this.USER));
     },
     removeAuthenticatedUser() {
         return localStorage.removeItem(this.USER);
