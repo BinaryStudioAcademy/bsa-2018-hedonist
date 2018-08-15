@@ -128,6 +128,4 @@ Route::prefix('v1')->group(function () {
 
         /* Routes here.. */
     });
-
-
 });
