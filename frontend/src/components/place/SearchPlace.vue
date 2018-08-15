@@ -66,6 +66,9 @@ export default {
             map: {},
         };
     },
+    created() {
+        this.$store.dispatch("place/fetchPlaces");
+    },
     methods: {
         mapInitialized(map) {
             this.map = map;
