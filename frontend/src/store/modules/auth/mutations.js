@@ -13,6 +13,7 @@ export default {
         state.isLoggedIn = false;
     },
     SET_AUTHENTICATED_USER: (state, user) => {
+        state.isLoggedIn = true;
         state.currentUser = user;
     },
     REFRESH_TOKEN: (state, token) => {

@@ -40,7 +40,7 @@ export default {
                     } else {
                         const userData = res.data.data;
                         context.commit('USER_LOGIN', userData);
-                        context.dispatch('fetchAuthenticatedUser', userData.access_token);
+                        context.dispatch('fetchAuthenticatedUser');
                         resolve(res);
                     }
                 }).catch(function (err) {

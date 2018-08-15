@@ -10,9 +10,9 @@
                 </div>
 
                 <div class="navbar-menu">
-                    <search-input v-if="this.isUserLoggedIn" />
+                    <search-input v-if="isUserLoggedIn" />
                     <div
-                        v-if="!this.isUserLoggedIn"
+                        v-if="!isUserLoggedIn"
                         class="navbar-end"
                     >
                         <router-link
@@ -26,14 +26,14 @@
                     </div>
 
                     <div
-                        v-if="this.isUserLoggedIn"
+                        v-if="isUserLoggedIn"
                         class="navbar-end"
                     >
                         <div class="navbar-item is-paddingless">
                             <span class="navbar-notification-btn" />
                         </div>
                         <div class="navbar-item has-dropdown is-hoverable">
-                            <div class="navbar-link navbar-dropdown-menu">
+                            <div v-if="user" class="navbar-link navbar-dropdown-menu">
                                 <img
                                     v-if="user.avatar_url"
                                     class="navbar-avatar"
@@ -88,10 +88,12 @@ import SearchInput from './SearchInput';
 
 export default {
     name: 'TopNavbar',
-    computed: mapGetters({
-        isUserLoggedIn: 'auth/hasToken',
-        user: 'auth/getAuthenticatedUser'
-    }),
+    computed: {
+        ...mapGetters({
+            isUserLoggedIn: 'auth/isLoggedIn',
+            user: 'auth/getAuthenticatedUser'
+       })
+    },
 
     methods: {
         ...mapActions({
