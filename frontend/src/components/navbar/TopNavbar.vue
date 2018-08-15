@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="navbar-menu">
-                    <search-input />
+                    <search-input v-if="this.isUserLoggedIn" />
                     <div
                         v-if="!this.isUserLoggedIn"
                         class="navbar-end"

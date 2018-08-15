@@ -2,12 +2,13 @@
     <div class="navbar-start">
         <div class="navbar-item">
             <div class="control has-icons-right" :class="{'show-list': isShow}" v-click-outside="onClickOutside">
-                <input 
-                    class="input" 
-                    type="search" 
-                    placeholder="I'm looking for..." 
-                    v-model="search" 
-                    @focus="getCategories"
+                <input
+                    class="input"
+                    type="text"
+                    placeholder="I'm looking for..."
+                    v-model="filterQuery"
+                    @focus="isShow = true"
+                    @keyup="loadCategories()"
                 >
                 <span class="icon is-right">
                     <i class="fas fa-caret-down" />
@@ -33,30 +34,31 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
+
 export default {
     name: 'SearchInput',
     data() {
         return {
-            search: '',
+            filterQuery: '',
             isShow: false,
-            categories: [
-                {
-                    id: 1,
-                    name: 'Restaurant'
-                },
-                {
-                    id: 2,
-                    name: 'Bar'
-                }
-            ]
         };
     },
     methods: {
-        getCategories() {
-            this.isShow = true;
-        },
         onClickOutside() {
             this.isShow = false;
+        },
+        loadCategories() {
+            this.$store.dispatch('placeCategory/loadCategories', this.filterQuery);
+        }
+    },
+    created() {
+        this.loadCategories();
+    },
+    computed: {
+        ...mapState('placeCategory', ['searchCategories']),
+        categories: function () {
+            return this.searchCategories;
         }
     }
 };
