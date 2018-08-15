@@ -27,10 +27,6 @@
                         show: true,
                         position: 'top-left'
                     }"
-                    :fullscreen-control="{
-                        show: true,
-                        position: 'top-left'
-                    }"
                     @map-init="mapInitialized"
                     @map-load="mapLoaded"
                 />
@@ -108,8 +104,7 @@ export default {
     }
 
     .columns {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 10px;
     }
 
     #map {
