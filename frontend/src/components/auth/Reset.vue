@@ -62,7 +62,7 @@
 
 <script>
 import { required, email, minLength } from 'vuelidate/lib/validators';
-import { mapGetters, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 import Container from './Container';
 import Form from './Form';
 
@@ -95,7 +95,9 @@ export default {
     },
 
     methods: {
-        ...mapActions(['resetPassword']),
+        ...mapActions({
+            resetPassword: 'auth/resetPassword'
+        }),
 
         onReset () {
             if (!this.$v.user.$invalid) {
