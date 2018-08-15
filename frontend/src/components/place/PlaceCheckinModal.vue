@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import Smiley from '../misc/Smiley';
 
 export default {
@@ -62,6 +62,10 @@ export default {
         }
     },
 
+    computed: {
+        ...mapGetters(['getAuthenticatedUser'])
+    },
+
     methods: {
         ...mapActions('place', ['checkIn', 'setPlaceRating']),
 
@@ -89,7 +93,7 @@ export default {
             this.setPlaceRating({
                 place_id: this.place.id,
                 rating: value,
-                user_id: this.$store.state.auth.currentUser.id
+                user_id: this.getAuthenticatedUser.id
             }).then((res) => {
                 if (res.error) {
                     this.$toast.open({
