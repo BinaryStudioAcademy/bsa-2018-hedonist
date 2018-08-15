@@ -111,7 +111,9 @@ export default {
     },
 
     methods: {
-        ...mapActions(['signUp']),
+        ...mapActions({
+            signUp: 'auth/signUp'
+        }),
 
         onSignUp () {
             if (!this.$v.newUser.$invalid) {
