@@ -22,6 +22,7 @@ use Hedonist\Exceptions\Auth\InvalidUserDataException;
 use Hedonist\Exceptions\Auth\PasswordResetEmailSentException;
 use Hedonist\Exceptions\Auth\PasswordResetFailedException;
 use Hedonist\Exceptions\Auth\PasswordsDosentMatchException;
+use Hedonist\Exceptions\DomainException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Auth\ChangePasswordHttpRequest;
 use Hedonist\Http\Requests\Auth\CheckEmailUniqueHttpRequest;
@@ -162,7 +163,7 @@ class AuthController extends ApiController
                 'email' => $response->getEmail(),
                 'isUnique' => $response->isUnique(),
             ], 201);
-        } catch (\LogicException $ex) {
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
     }
