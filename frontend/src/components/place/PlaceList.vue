@@ -17,14 +17,14 @@
 <style lang="scss" scoped>
     section {
         background: #FFF;
-        padding: 0 calc(10%);
+        padding: 0 10%;
 
         ul {
             list-style: none;
 
             li {
                 display: flex;
-                margin-bottom: calc(5%);
+                margin-bottom: 5%;
 
                 &:last-child {
                     margin-bottom: 0;
