@@ -1,6 +1,6 @@
 <template>
     <div class="columns">
-        <div class="column is-4 is-offset-4">
+        <div class="column is-4-widescreen is-5-desktop container is-8-tablet">
             <div class="box">
                 <h3 class="title is-4">{{ title }}</h3>
                 <slot />

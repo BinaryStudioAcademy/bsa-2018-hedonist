@@ -59,11 +59,6 @@ export default new Router({
                 component: PlacePage
             },
             {
-                path: '/reviews',
-                name: 'ReviewList',
-                component: ReviewList
-            },
-            {
                 path: '/users/lists/add',
                 name: 'UserListAddPage',
                 component: UserListAddPage

@@ -1,51 +1,43 @@
 <template>
-    <Container title="Login into your account">
-        <p class="subtitle">Don't have an account? 
-            <router-link 
-                class="link link-signup" 
-                to="/signup"
-            >Create New</router-link>
-        </p>
-        <Form>
-            <b-field :type="input.email.type">
-                <b-input
-                    v-model="user.email"
-                    placeholder="Your Email"
-                    name="email"
-                    @blur="onBlur('email')"
-                    @focus="onFocus('email')"
-                    autofocus
-                />
-            </b-field>
+  <Container title="Login into your account">
+    <p class="subtitle">Don't have an account?
+      <router-link class="link link-signup" to="/signup">Create New</router-link>
+    </p>
+    <Form>
+      <b-field :type="input.email.type">
+        <b-input
+          v-model="user.email"
+          placeholder="Your Email"
+          name="email"
+          @blur="onBlur('email')"
+          @focus="onFocus('email')"
+          autofocus>
+        </b-input>
+      </b-field>
 
-            <b-field :type="input.password.type">
-                <b-input 
-                    type="password"
-                    v-model="user.password"
-                    placeholder="Your Password"
-                    @blur="onBlur('password')"
-                    @focus="onFocus('password')"
-                    @keyup.enter="onLogin"
-                    password-reveal
-                />
-            </b-field>
+      <b-field :type="input.password.type">
+        <b-input type="password"
+          v-model="user.password"
+          placeholder="Your Password"
+          @blur="onBlur('password')"
+          @focus="onFocus('password')"
+          @keyup.enter="onLogin"
+          password-reveal>
+        </b-input>
+      </b-field>
 
-            <div class="login-footer">
-                <router-link 
-                    class="link" 
-                    to="/recover"
-                >Forgot Password?</router-link>
-                <button 
-                    type="button"
-                    class="button is-primary is-rounded"
-                    @click="onLogin"
-                    @keyup.enter="onLogin"
-                >
-                    Login
-                </button>
-            </div>
-        </Form>
-    </Container>
+      <div class="login-footer">
+        <router-link class="link" to="/recover">Forgot Password?</router-link>
+        <button
+          type="button"
+          class="button is-primary is-rounded"
+          @click="onLogin"
+          @keyup.enter="onLogin">
+            Login
+        </button>
+      </div>
+    </Form>
+  </Container>
 </template>
 
 <script>
@@ -101,13 +93,12 @@ export default {
             }
         },
 
-        onError (error) {
-            this.$toast.open({
-                message: error.message,
-                type: 'is-danger'
-            });
-        },
-
+    onError (error) {
+      this.$toast.open({
+          message: 'The email or password is incorrect',
+          type: 'is-danger'
+      })
+    },
         onSuccess (success) {
             this.$toast.open({
                 message: success.message,
