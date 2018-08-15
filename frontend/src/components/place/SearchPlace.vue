@@ -1,15 +1,11 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-<<<<<<< HEAD
-            <b-input class="search-field" placeholder="Find..." v-model="filterQuery"></b-input>
-=======
             <b-input 
                 class="search-field" 
                 placeholder="Find..." 
                 v-model="filterQuery"
-            />            
->>>>>>> development
+            />
             <template v-for="(place, index) in filteredPlaces">
                 <PlaceListComponent 
                     :key="place.id" 
@@ -43,58 +39,12 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-    import {mapState} from "vuex";
-    import {mapGetters} from "vuex";
-    import PlaceListComponent from '@/components/placesList/PlaceListComponent';
-    import Mapbox from 'mapbox-gl-vue';
-    import MarkerService from '@/services/map/markerManagerService';
-
-    let markerManager = null;
-
-    export default {
-        name: "SearchPlace",
-        components: {
-            PlaceListComponent,
-            Mapbox,
-        },
-        data() {
-            return {
-                filterQuery: '',
-                mapLoaded: false
-            }
-        },
-        methods: {
-            initMap(map) {
-                markerManager = new MarkerService(map);
-                this.mapLoaded = true;
-            },
-            updateMap(places){
-                markerManager.setMarkers(...places);
-            },
-        },
-        computed: {
-            ...mapState("place", ["places"]),
-            ...mapGetters("place", ["getFilteredByName"]),
-            ...mapGetters("map", ["getMapboxToken", "getMapboxStyle"]),
-            filteredPlaces: function () {
-                let places = [];
-                if (this.filterQuery) {
-                    places = this.getFilteredByName(this.filterQuery);
-                } else {
-                    places = this.places;
-                }
-                if(this.mapLoaded){
-                    this.updateMap(places);
-                }
-                return places;
-            },
-        },
-=======
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import PlaceListComponent from '@/components/placesList/PlaceListComponent';
 import Mapbox from 'mapbox-gl-vue';
+
+let markerManager = null;
 
 export default {
     name: 'SearchPlace',
@@ -104,10 +54,18 @@ export default {
     },
     data() {
         return {
-            filterQuery: ''
+            filterQuery: '',
+            mapLoaded: false
         };
     },
     methods: {
+        initMap(map) {
+            markerManager = new MarkerService(map);
+            this.mapLoaded = true;
+        },
+        updateMap(places){
+            markerManager.setMarkers(...places);
+        },
     },
     computed: {
         ...mapState('place', ['places']),
@@ -120,9 +78,12 @@ export default {
             } else {
                 places = this.places;
             }
+            if(this.mapLoaded){
+                this.updateMap(places);
+            }
+
             return places;
         }
->>>>>>> development
     }
 };
 </script>
