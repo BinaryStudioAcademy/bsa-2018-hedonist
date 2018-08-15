@@ -17,6 +17,7 @@
 <style lang="scss" scoped>
     section {
         background: #FFF;
+        padding: 0 200px;
     }
 
     li {
@@ -46,4 +47,3 @@ export default {
     computed: {...mapState('place', ['places'])}
 };
 </script>
-
