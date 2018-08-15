@@ -213,6 +213,7 @@ export default {
                 email,
                 async isUnique(value) {
                     if (value === '') return true;
+                    if(!this.$v.newUser.email.email) return true;
                     return new Promise((resolve, reject) => {
                         this.checkEmailUnique(value)
                             .then((res)=>{
