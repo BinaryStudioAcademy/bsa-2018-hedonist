@@ -18,11 +18,14 @@
         <section class="column mapbox-wrapper">
             <section id="map">
                 <mapbox
-                    @map-load="initMap"
                     :access-token="getMapboxToken"
                     :map-options="{
                         style: getMapboxStyle,
-                        zoom: 3,
+                        center: {
+                            lat: 40.7128,
+                            lng: -74.0060
+                        },
+                        zoom: 11
                     }"
                     :scale-control="{
                         show: true,
@@ -32,6 +35,8 @@
                         show: true,
                         position: 'top-left'
                     }"
+                    @map-init="mapInitialized"
+                    @map-load="mapLoaded"
                 />
             </section>
         </section>
@@ -43,6 +48,7 @@ import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
 import PlaceListComponent from '@/components/placesList/PlaceListComponent';
 import Mapbox from 'mapbox-gl-vue';
+import LocationService from '@/services/location/locationService';
 
 let markerManager = null;
 
@@ -55,17 +61,30 @@ export default {
     data() {
         return {
             filterQuery: '',
-            mapLoaded: false
+            isMapLoaded: false,
+            map: {},
         };
     },
     methods: {
-        initMap(map) {
+        mapInitialized(map) {
+            this.map = map;
+            LocationService.getUserLocationData()
+                .then(coordinates => {
+                    this.jumpTo(coordinates);
+                });
+        },
+        mapLoaded(map) {
             markerManager = new MarkerService(map);
             this.mapLoaded = true;
         },
+        jumpTo (coordinates) {
+            this.map.jumpTo({
+                center: coordinates,
+            });
+        },
         updateMap(places){
             markerManager.setMarkers(...places);
-        },
+        }
     },
     computed: {
         ...mapState('place', ['places']),
@@ -78,7 +97,7 @@ export default {
             } else {
                 places = this.places;
             }
-            if(this.mapLoaded){
+            if(this.isMapLoaded){
                 this.updateMap(places);
             }
 

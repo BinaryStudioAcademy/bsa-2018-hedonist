@@ -1,35 +1,13 @@
-let parser = (item) => ({
-    name: item.name,
-    longitude: item.longitude,
-    latitude: item.latitude
-});
+import VueGeolocation from 'vue-browser-geolocation';
 
-export default {
-    getUserLocationData() {
-    },
+export class LocationService {
 
-    setParser(newParser) {
-        parser = newParser;
-        return this;
-    },
-
-    encodeGeoJson(...objects) {
-        let data = {type: 'FeatureCollection'};
-        data.features = objects.map(function (item) {
-            let parsed = parser(item);
-
-            return {
-                type: 'Feature',
-                geometry: {
-                    type: 'Point',
-                    coordinates: [parsed.latitude, parsed.longitude],
-                    properties: {
-                        title: parsed.name,
-                    }
-                }
-            };
+    getUserLocationData(){
+        return VueGeolocation.getLocation({
+            enableHighAccuracy: true,
         });
+    }
 
-        return data;
-    },
-};
+}
+
+export default new LocationService();
