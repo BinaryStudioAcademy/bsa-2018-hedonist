@@ -4,7 +4,7 @@ import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
 import NewPlacePage from '@/pages/NewPlacePage';
 import UserListsPage from '@/pages/UserListsPage';
-import PlacesList from  '@/components/placesList/PlacesList';
+import PlaceListPage from  '@/pages/PlaceListPage';
 import HistoryPage from '@/pages/HistoryPage';
 import SeachPlacePage from  '@/pages/SeachPlacePage';
 import store from '../store/index';
@@ -41,7 +41,7 @@ export default new Router({
             {
                 path: '/places/list',
                 name: 'PlacesList',
-                component: PlacesList
+                component: PlaceListPage
             },
             {
                 path: '/places/add',

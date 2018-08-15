@@ -5,23 +5,27 @@
                 class="search-field" 
                 placeholder="Find..." 
                 v-model="filterQuery"
-            />            
+            />
             <template v-for="(place, index) in filteredPlaces">
-                <PlaceListComponent 
+                <PlacePreviewList 
                     :key="place.id" 
                     :place="place" 
                     :timer="50 * (index+1)"
                 />
             </template>
         </section>
-        
+
         <section class="column mapbox-wrapper">
             <section id="map">
                 <mapbox
                     :access-token="getMapboxToken"
                     :map-options="{
                         style: getMapboxStyle,
-                        zoom: 3
+                        center: {
+                            lat: 40.7128,
+                            lng: -74.0060
+                        },
+                        zoom: 11
                     }"
                     :scale-control="{
                         show: true,
@@ -31,6 +35,8 @@
                         show: true,
                         position: 'top-left'
                     }"
+                    @map-init="mapInitialized"
+                    @map-load="mapLoaded"
                 />
             </section>
         </section>
@@ -40,21 +46,49 @@
 <script>
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import PlaceListComponent from '@/components/placesList/PlaceListComponent';
+import PlacePreviewList from './PlacePreviewList';
 import Mapbox from 'mapbox-gl-vue';
+import LocationService from '@/services/location/locationService';
+import MarkerService from '@/services/map/markerManagerService';
+
+let markerManager = null;
 
 export default {
     name: 'SearchPlace',
     components: {
-        PlaceListComponent,
+        PlacePreviewList,
         Mapbox,
     },
     data() {
         return {
-            filterQuery: ''
+            filterQuery: '',
+            isMapLoaded: false,
+            map: {},
         };
     },
+    created() {
+        this.$store.dispatch("place/fetchPlaces");
+    },
     methods: {
+        mapInitialized(map) {
+            this.map = map;
+            LocationService.getUserLocationData()
+                .then(coordinates => {
+                    this.jumpTo(coordinates);
+                });
+        },
+        mapLoaded(map) {
+            markerManager = new MarkerService(map);
+            this.isMapLoaded = true;
+        },
+        jumpTo (coordinates) {
+            this.map.jumpTo({
+                center: coordinates,
+            });
+        },
+        updateMap(places){
+            markerManager.setMarkers(...places);
+        }
     },
     computed: {
         ...mapState('place', ['places']),
@@ -67,6 +101,10 @@ export default {
             } else {
                 places = this.places;
             }
+            if(this.isMapLoaded){
+                this.updateMap(places);
+            }
+
             return places;
         }
     }
@@ -75,8 +113,8 @@ export default {
 
 <style>
     .mapboxgl-canvas {
-        top: 0!important;
-        left: 0!important;
+        top: 0 !important;
+        left: 0 !important;
     }
 </style>
 
@@ -98,11 +136,11 @@ export default {
         right: 0;
         width: 50%;
     }
-    
+
     @media screen and (max-width: 769px) {
         #map {
             text-align: justify;
-            vertical-align: top; 
+            vertical-align: top;
             position: relative;
             top: 0;
             left: 0;
