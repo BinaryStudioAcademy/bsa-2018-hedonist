@@ -21,20 +21,13 @@
     }
 
     li {
-        padding-left: 1rem;
         display: flex;
+        margin-bottom: 50px;
     }
 
     ul {
         list-style: none;
     }
-
-    .index {
-        width: 10%;
-        text-align: center;
-        color: grey;
-    }
-
 </style>
 
 <script>
