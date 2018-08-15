@@ -7,7 +7,7 @@
                 v-model="filterQuery"
             />
             <template v-for="(place, index) in filteredPlaces">
-                <PlaceListComponent 
+                <PlacePreviewList 
                     :key="place.id" 
                     :place="place" 
                     :timer="50 * (index+1)"
@@ -46,7 +46,7 @@
 <script>
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import PlaceListComponent from '@/components/placesList/PlaceListComponent';
+import PlacePreviewList from './PlacePreviewList';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import MarkerService from '@/services/map/markerManagerService';
@@ -56,7 +56,7 @@ let markerManager = null;
 export default {
     name: 'SearchPlace',
     components: {
-        PlaceListComponent,
+        PlacePreviewList,
         Mapbox,
     },
     data() {
