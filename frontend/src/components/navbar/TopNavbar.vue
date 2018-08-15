@@ -92,13 +92,15 @@ export default {
         isUserLoggedIn: 'auth/hasToken',
         user: 'auth/getAuthenticatedUser'
     }),
-        isUserLoggedIn: function() {
-            return this.hasToken();
-        },
-        user: function() {
-            return this.getAuthenticatedUser();
-        }
+
+    isUserLoggedIn: function() {
+        return this.hasToken();
     },
+
+    user: function() {
+        return this.getAuthenticatedUser();
+    },
+
     methods: {
         ...mapActions({
             logout: 'auth/logout'
