@@ -1,9 +1,17 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-            <b-input class="search-field" placeholder="Find..." v-model="filterQuery"></b-input>            
+            <b-input 
+                class="search-field" 
+                placeholder="Find..." 
+                v-model="filterQuery"
+            />            
             <template v-for="(place, index) in filteredPlaces">
-                <PlaceListComponent :key="place.id" :place="place" :timer="50 * (index+1)"/>
+                <PlaceListComponent 
+                    :key="place.id" 
+                    :place="place" 
+                    :timer="50 * (index+1)"
+                />
             </template>
         </section>
         
@@ -13,7 +21,11 @@
                     :access-token="getMapboxToken"
                     :map-options="{
                         style: getMapboxStyle,
-                        zoom: 3
+                        center: {
+                            lat: 40.7128,
+                            lng: -74.0060
+                        },
+                        zoom: 11
                     }"
                     :scale-control="{
                         show: true,
@@ -22,47 +34,62 @@
                     :fullscreen-control="{
                         show: true,
                         position: 'top-left'
-                    }">
-                </mapbox>
+                    }"
+                    @map-init="mapInitialized"
+                />
             </section>
         </section>
     </section>
 </template>
 
 <script>
-    import { mapState } from "vuex";
-    import { mapGetters } from "vuex";
-    import PlaceListComponent from '@/components/placesList/PlaceListComponent';
-    import Mapbox from 'mapbox-gl-vue';
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import PlaceListComponent from '@/components/placesList/PlaceListComponent';
+import Mapbox from 'mapbox-gl-vue';
+import LocationService from '@/services/location/locationService';
 
-    export default {
-        name: "SearchPlace",
-        components: {
-            PlaceListComponent,
-            Mapbox,
+export default {
+    name: 'SearchPlace',
+    components: {
+        PlaceListComponent,
+        Mapbox,
+    },
+    data() {
+        return {
+            filterQuery: '',
+            map: {},
+        };
+    },
+    methods: {
+        mapInitialized(map) {
+            this.map = map;
+            LocationService.getUserLocationData()
+                .then(coordinates => {
+                    this.jumpTo(coordinates);
+                });
         },
-        data() {
-            return {
-                filterQuery: ''
+        jumpTo (coordinates) {
+            this.map.jumpTo({
+                center: coordinates,
+            });
+        },
+    },
+    computed: {
+        ...mapState('place', ['places']),
+        ...mapGetters('place', ['getFilteredByName']),
+        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
+        filteredPlaces: function() {
+            let places = [];
+            if (this.filterQuery) {
+                places = this.getFilteredByName(this.filterQuery);
+            } else {
+                places = this.places;
             }
-        },
-        methods: {
-        },
-        computed: {
-            ...mapState("place", ["places"]),
-            ...mapGetters("place", ["getFilteredByName"]),
-            ...mapGetters("map", ["getMapboxToken", "getMapboxStyle"]),
-            filteredPlaces: function() {
-                let places = [];
-                if (this.filterQuery) {
-                    places = this.getFilteredByName(this.filterQuery);
-                } else {
-                    places = this.places;
-                }
-                return places;
-            }
+            return places;
         }
     }
+};
 </script>
 
 <style>
