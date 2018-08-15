@@ -49,6 +49,7 @@ import { mapGetters } from 'vuex';
 import PlaceListComponent from '@/components/placesList/PlaceListComponent';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
+import MarkerService from '@/services/map/markerManagerService';
 
 let markerManager = null;
 
@@ -75,7 +76,7 @@ export default {
         },
         mapLoaded(map) {
             markerManager = new MarkerService(map);
-            this.mapLoaded = true;
+            this.isMapLoaded = true;
         },
         jumpTo (coordinates) {
             this.map.jumpTo({
