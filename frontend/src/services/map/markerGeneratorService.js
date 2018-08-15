@@ -3,6 +3,7 @@ const createMarker = () => {
     element.style.backgroundImage = 'url("https://static.thenounproject.com/png/4096-200.png")';
     element.style.width = '200px';
     element.style.height = '200px';
+
     return element;
 };
 
@@ -27,6 +28,7 @@ const createPopup = (markerData) => {
             </div>
         </div>
     `);
+
     return popup;
 };
 
@@ -37,6 +39,7 @@ const generator = {
         let popup = createPopup(markerData);
         marker.setPopup(popup);
         marker.setLngLat([markerData.lng, markerData.lat]);
+
         return marker;
     }
 };

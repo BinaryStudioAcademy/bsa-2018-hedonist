@@ -17,6 +17,7 @@ export default {
         let data = {type: 'FeatureCollection'};
         data.features = objects.map(function (item) {
             let parsed = parser(item);
+
             return {
                 type: 'Feature',
                 geometry: {
@@ -28,6 +29,7 @@ export default {
                 }
             };
         });
+
         return data;
     },
 };
