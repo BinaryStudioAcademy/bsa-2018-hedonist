@@ -55,7 +55,7 @@
                     </div>
                     
                     <div 
-                        v-if="this.isUserLoggedIn" 
+                        v-if="this.isUserLoggedIn"
                         class="navbar-end"
                     >
                         <div class="navbar-item is-paddingless">
@@ -117,11 +117,13 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'TopNavbar',
     computed: mapGetters({
-        isUserLoggedIn: 'hasToken',
-        user: "getAuthenticatedUser"
+        isUserLoggedIn: 'auth/hasToken',
+        user: 'auth/getAuthenticatedUser'
     }),
     methods: {
-        ...mapActions(['logout']),
+        ...mapActions({
+            logout: 'auth/logout'
+        }),
 
         onLogOut () {
             this.logout()
