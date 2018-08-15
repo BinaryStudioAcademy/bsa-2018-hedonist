@@ -7,6 +7,7 @@ use Hedonist\Repositories\Like\LikeRepository;
 use Hedonist\Repositories\Dislike\DislikeRepository;
 use Hedonist\Repositories\Place\PlaceRepository;
 use Illuminate\Support\Facades\Auth;
+use Hedonist\Entities\Like\LikeStatus;
 
 class GetLikedPlaceAction
 {
@@ -26,7 +27,8 @@ class GetLikedPlaceAction
 
     public function execute(GetLikedPlaceRequest $request): GetLikedPlaceResponse
     {
-        $liked = 'NONE';
+        $likeStatus = new LikeStatus();
+        $liked = $likeStatus->none();
         $placeId = $request->getPlaceId();
         $userId = Auth::id();
         $place = $this->placeRepository->getById($placeId);
@@ -36,11 +38,11 @@ class GetLikedPlaceAction
 
         $like = $this->likeRepository->findByUserAndPlace($userId, $placeId);
         if ($like) {
-            $liked = 'LIKED';
+            $liked = $likeStatus->liked();
         } else {
             $dislike = $this->dislikeRepository->findByUserAndPlace($userId, $placeId);
             if ($dislike) {
-                $liked = 'DISLIKED';
+                $liked = $likeStatus->disliked();
             }
         }
         

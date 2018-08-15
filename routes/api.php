@@ -71,9 +71,9 @@ Route::prefix('v1')->group(function () {
             Route::post('/{id}/dislike', 'Api\Like\DislikeController@dislikeReview')->name('review.dislike');
         });
 
-        Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
-        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
-        Route::get('/places/{id}/liked', 'Api\LikeController@getLikedPlace')->name('place.liked');
+        Route::post('/places/{id}/like', 'Api\Like\LikeController@likePlace')->name('place.like');
+        Route::post('/places/{id}/dislike', 'Api\Like\DislikeController@dislikePlace')->name('place.dislike');
+        Route::get('/places/{id}/liked', 'Api\Like\LikeController@getLikedPlace')->name('place.liked');
 
         Route::get('/places/{id}/rating', 'Api\Place\PlaceRatingController@getPlaceRatingAvg')
             ->name('place.rating.getPlaceRatingAvg');
