@@ -122,6 +122,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/places/rating/{id}', 'Api\Place\PlaceRatingController@getRating')
             ->name('place.rating.getPlaceRating');
 
+        Route::resource('/places/categories', 'Api\Places\PlaceCategoryController')->except([
+            'create', 'edit'
+        ]);
+
+        Route::post('/places/categories/search', 'Api\Places\PlaceCategoryController@getPlaceCategoryByName');
+
         /* Routes here.. */
     });
 });

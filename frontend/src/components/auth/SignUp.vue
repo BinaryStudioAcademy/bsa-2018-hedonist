@@ -55,8 +55,11 @@
                 <div class="error"
                      v-if="!$v.newUser.email.isUnique && input.email.type">This email is already registered.</div>
 
+            <label class="label">
+                Password <span class="grayed">(at least 6 characters)</span>
+            </label>
+
             <b-field
-                label="Password"
                 :type="input.password.type"
             >
 
@@ -233,7 +236,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
     .error {
         color: red;
     }
@@ -244,5 +247,11 @@ export default {
 
     .button {
         margin-top: 1.5rem;
+    }
+
+    .grayed {
+      color: darkgray;
+      font-size: .8em;
+      font-weight: normal;
     }
 </style>
