@@ -85,21 +85,22 @@ export default {
     },
     data() {
         return {
-            activeTab: 1
+            activeTab: 1,
+            userlist: {}
         }
     },
 
     created() {
-        this.$store.dispatch('userlist/setListsByUser', this.user.id);
+        let self = this;
+        this.$store.dispatch('userlist/getListsByUser', this.user.id)
+            .then(function (result) {
+                self.userlist = result;
+            })
     },
 
     computed: {
         user() {
             return this.$store.getters.getAuthenticatedUser;
-        },
-
-        userlist() {
-            return this.$store.getters['userlist/getLists'];
         }
     },
 
