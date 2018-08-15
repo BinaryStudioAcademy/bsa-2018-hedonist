@@ -28,6 +28,8 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/refresh', 'AuthController@refresh');
 
+        Route::get('/unique', 'AuthController@checkEmailUnique');
+
         Route::get('/me', 'AuthController@me')->middleware('custom.jwt.auth');
 
         Route::post('/reset-password', 'AuthController@changePassword');
