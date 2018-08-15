@@ -63,7 +63,7 @@ export default {
         };
     },
     created() {
-        this.$store.dispatch("place/featchPlaces");
+        this.$store.dispatch("place/fetchPlaces");
     },
     methods: {
         mapInitialized(map) {
