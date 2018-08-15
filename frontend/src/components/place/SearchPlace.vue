@@ -18,17 +18,17 @@
         <section class="column mapbox-wrapper">
             <section id="map">
                 <mapbox
-                        @map-load="initMap"
-                        :access-token="getMapboxToken"
-                        :map-options="{
+                    @map-load="initMap"
+                    :access-token="getMapboxToken"
+                    :map-options="{
                         style: getMapboxStyle,
                         zoom: 3,
                     }"
-                        :scale-control="{
+                    :scale-control="{
                         show: true,
                         position: 'top-left'
                     }"
-                        :fullscreen-control="{
+                    :fullscreen-control="{
                         show: true,
                         position: 'top-left'
                     }"

@@ -8,25 +8,27 @@ const createMarker = () => {
 
 const createPopup = (markerData) => {
     let popup = new mapboxgl.Popup();
-    popup.setHTML(`<div class = "media">
-                        <div class="media-left">
-                           <figure class="image is-48x48">
-                                <img src="${markerData.photoUrl}" />
-                            </figure>
-                        </div>
-                        <div class="media-content">
-                                <div>
-                                  <strong>
-                                        ${markerData.name}
-                                   </strong>
-                                </div>
-                                <div>
-                                   ${markerData.address || ''} 
-                                </div>
-                           </div>
-                    </div>`);
+    popup.setHTML(`
+        <div class="media">
+            <div class="media-left">
+                <figure class="image is-48x48">
+                    <img src="${markerData.photoUrl}"/>
+                </figure>
+            </div>
+            <div class="media-content">
+                <div>
+                    <strong>
+                        ${markerData.name}
+                    </strong>
+                </div>
+                <div>
+                    ${markerData.address || ''}
+                </div>
+            </div>
+        </div>
+    `);
     return popup;
-    };
+};
 
 const generator = {
     generateMarker(markerData) {
@@ -40,3 +42,4 @@ const generator = {
 };
 
 export default generator;
+

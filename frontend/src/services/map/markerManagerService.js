@@ -53,7 +53,7 @@ class MarkerManagerService {
             lat: item.latitude,
             photoUrl: item.photo.url,
             address: item.address
-        })
+        });
     }
 }
 

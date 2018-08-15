@@ -18,9 +18,9 @@ export default {
         data.features = objects.map(function (item) {
             let parsed = parser(item);
             return {
-                type: "Feature",
+                type: 'Feature',
                 geometry: {
-                    type: "Point",
+                    type: 'Point',
                     coordinates: [parsed.latitude, parsed.longitude],
                     properties: {
                         title: parsed.name,
