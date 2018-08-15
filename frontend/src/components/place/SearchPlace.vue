@@ -1,9 +1,21 @@
 <template>
     <section class="columns">
         <section class="column is-half">
+<<<<<<< HEAD
             <b-input class="search-field" placeholder="Find..." v-model="filterQuery"></b-input>
+=======
+            <b-input 
+                class="search-field" 
+                placeholder="Find..." 
+                v-model="filterQuery"
+            />            
+>>>>>>> development
             <template v-for="(place, index) in filteredPlaces">
-                <PlaceListComponent :key="place.id" :place="place" :timer="50 * (index+1)"/>
+                <PlaceListComponent 
+                    :key="place.id" 
+                    :place="place" 
+                    :timer="50 * (index+1)"
+                />
             </template>
         </section>
 
@@ -23,14 +35,15 @@
                         :fullscreen-control="{
                         show: true,
                         position: 'top-left'
-                    }">
-                </mapbox>
+                    }"
+                />
             </section>
         </section>
     </section>
 </template>
 
 <script>
+<<<<<<< HEAD
     import {mapState} from "vuex";
     import {mapGetters} from "vuex";
     import PlaceListComponent from '@/components/placesList/PlaceListComponent';
@@ -77,7 +90,41 @@
                 return places;
             },
         },
+=======
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import PlaceListComponent from '@/components/placesList/PlaceListComponent';
+import Mapbox from 'mapbox-gl-vue';
+
+export default {
+    name: 'SearchPlace',
+    components: {
+        PlaceListComponent,
+        Mapbox,
+    },
+    data() {
+        return {
+            filterQuery: ''
+        };
+    },
+    methods: {
+    },
+    computed: {
+        ...mapState('place', ['places']),
+        ...mapGetters('place', ['getFilteredByName']),
+        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
+        filteredPlaces: function() {
+            let places = [];
+            if (this.filterQuery) {
+                places = this.getFilteredByName(this.filterQuery);
+            } else {
+                places = this.places;
+            }
+            return places;
+        }
+>>>>>>> development
     }
+};
 </script>
 
 <style>

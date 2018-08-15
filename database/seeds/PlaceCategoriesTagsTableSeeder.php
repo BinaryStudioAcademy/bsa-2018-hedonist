@@ -13,10 +13,6 @@ class PlaceCategoriesTagsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('place_categories_tags')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
         PlaceCategoryTag::query()->insert([
             [ 'name' => 'Ice-cream cafe' ],
             [ 'name' => 'Cafe-confectionery' ],

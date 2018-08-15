@@ -5,8 +5,7 @@ let parser = (item) => ({
 });
 
 export default {
-    getUserLocationData(){
-
+    getUserLocationData() {
     },
 
     setParser(newParser) {
@@ -31,4 +30,4 @@ export default {
         });
         return data;
     },
-}
+};
