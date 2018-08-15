@@ -1,23 +1,16 @@
 <template>
     <div class="navbar-start">
         <div class="navbar-item">
-            <div class="control has-icons-right" :class="{'show-list': isShow}" v-click-outside="onClickOutside">
-                <input
-                    class="input"
-                    type="text"
-                    placeholder="I'm looking for..."
-                    v-model="filterQuery"
-                    @focus="isShow = true"
-                    @keyup="loadCategories()"
-                >
-                <span class="icon is-right">
-                    <i class="fas fa-caret-down" />
-                </span>
-                <ul class="place-category-list">
-                    <li v-for="category in categories" :key="category.id">
-                        <a href="#">{{ category.name }}</a>
-                    </li>
-                </ul>
+            <div class="control has-icons-right">
+                <b-autocomplete
+                        v-model="filterQuery"
+                        placeholder="I'm looking for..."
+                        :open-on-focus="true"
+                        :data="categories"
+                        field="name"
+                        @input="loadCategories()"
+                        @select="option => selected = option">
+                </b-autocomplete>
             </div>
         </div>
         <div class="navbar-item">
@@ -34,34 +27,34 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+    import {mapState} from 'vuex';
 
-export default {
-    name: 'SearchInput',
-    data() {
-        return {
-            filterQuery: '',
-            isShow: false,
-        };
-    },
-    methods: {
-        onClickOutside() {
-            this.isShow = false;
+    export default {
+        name: 'SearchInput',
+        data() {
+            return {
+                filterQuery: '',
+                isShow: false
+            };
         },
-        loadCategories() {
-            this.$store.dispatch('placeCategory/loadCategories', this.filterQuery);
+        methods: {
+            onClickOutside() {
+                this.isShow = false;
+            },
+            loadCategories() {
+                this.$store.dispatch('placeCategory/loadCategories', this.filterQuery);
+            }
+        },
+        created() {
+            this.loadCategories();
+        },
+        computed: {
+            ...mapState('placeCategory', ['searchCategories']),
+            categories: function () {
+                return this.searchCategories;
+            }
         }
-    },
-    created() {
-        this.loadCategories();
-    },
-    computed: {
-        ...mapState('placeCategory', ['searchCategories']),
-        categories: function () {
-            return this.searchCategories;
-        }
-    }
-};
+    };
 </script>
 
 <style lang="scss" scoped>
