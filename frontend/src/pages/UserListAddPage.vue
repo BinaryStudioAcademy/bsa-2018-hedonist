@@ -1,15 +1,15 @@
 <template>
-    <UserListAdd/>
+    <UserListAdd />
 </template>
 
 <script>
-    import UserListAdd from '@/components/userList/UserListAdd';
-    export default {
-        name: "UserListAddPage",
-        components: {
-            UserListAdd
-        }
+import UserListAdd from '@/components/userList/UserListAdd';
+export default {
+    name: 'UserListAddPage',
+    components: {
+        UserListAdd
     }
+};
 </script>
 
 <style scoped>

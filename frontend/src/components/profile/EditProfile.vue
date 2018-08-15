@@ -6,60 +6,80 @@
                     <img src="http://via.placeholder.com/200x200">
                 </figure>
                 <b-field class="file is-fullwidth">
-                    <b-upload class="upload" accept="image/*" v-model="files">
+                    <b-upload 
+                        class="upload" 
+                        accept="image/*" 
+                        v-model="files"
+                    >
                         <a class="button is-primary is-fullwidth">
-                            <b-icon icon="upload"></b-icon>
+                            <b-icon icon="upload" />
                             <span>Upload new avatar</span>
                         </a>
                     </b-upload>
                 </b-field>
                 <a class="button is-danger is-fullwidth">
-                    <b-icon icon="trash"></b-icon>
+                    <b-icon icon="trash" />
                     <span>Delete avatar</span>
                 </a>
             </div>
             <section class="column">
                 <b-field label="First name">
-                    <b-input v-model="user.firstName"></b-input>
+                    <b-input v-model="user.firstName" />
                 </b-field>
 
                 <b-field label="Last name">
-                    <b-input v-model="user.lastName"></b-input>
+                    <b-input v-model="user.lastName" />
                 </b-field>
 
                 <b-field label="Email">
-                    <b-input type="email"
-                             v-model="user.email"
-                             disabled>
-                    </b-input>
+                    <b-input 
+                        type="email"
+                        v-model="user.email"
+                        disabled
+                    />
                 </b-field>
 
                 <b-field label="Phone">
-                    <b-input v-model="user.phone"></b-input>
+                    <b-input v-model="user.phone" />
                 </b-field>
 
-                <b-field label="Birth date" expanded>
+                <b-field 
+                    label="Birth date" 
+                    expanded
+                >
                     <b-field>
-                        <b-input type="number" v-model="user.birthDay" placeholder="Day"></b-input>
-                        <b-input type="number" v-model="user.birthMonth" placeholder="Month"></b-input>
-                        <b-input type="number" v-model="user.birthYear" placeholder="Year"></b-input>
+                        <b-input 
+                            type="number" 
+                            v-model="user.birthDay" 
+                            placeholder="Day"
+                        />
+                        <b-input 
+                            type="number" 
+                            v-model="user.birthMonth" 
+                            placeholder="Month"
+                        />
+                        <b-input 
+                            type="number" 
+                            v-model="user.birthYear" 
+                            placeholder="Year"
+                        />
                     </b-field>
                 </b-field>
 
                 <b-field label="Instagram">
-                    <b-input v-model="user.instagram"></b-input>
+                    <b-input v-model="user.instagram" />
                 </b-field>
 
                 <b-field label="Twitter">
-                    <b-input v-model="user.twitter"></b-input>
+                    <b-input v-model="user.twitter" />
                 </b-field>
 
                 <b-field label="Facebook">
-                    <b-input v-model="user.facebook"></b-input>
+                    <b-input v-model="user.facebook" />
                 </b-field>
                 <div class="buttons is-right">
                     <a class="button is-primary">
-                        <b-icon icon="upload"></b-icon>
+                        <b-icon icon="upload" />
                         <span>Save</span>
                     </a>
                 </div>
@@ -69,26 +89,26 @@
 </template>
 
 <script>
-    export default {
-        name: "EditProfile",
-        data() {
-            return {
-                user: {
-                    firstName: 'John',
-                    lastName: 'Carter',
-                    email: 'carter@example.com',
-                    phone: '+380999999999',
-                    birthDay: 11,
-                    birthMonth: 11,
-                    birthYear: 1990,
-                    instagram: '@john',
-                    twitter: '@carter',
-                    facebook: ''
-                },
-                files: []
-            }
-        }
+export default {
+    name: 'EditProfile',
+    data() {
+        return {
+            user: {
+                firstName: 'John',
+                lastName: 'Carter',
+                email: 'carter@example.com',
+                phone: '+380999999999',
+                birthDay: 11,
+                birthMonth: 11,
+                birthYear: 1990,
+                instagram: '@john',
+                twitter: '@carter',
+                facebook: ''
+            },
+            files: []
+        };
     }
+};
 </script>
 
 <style scoped>

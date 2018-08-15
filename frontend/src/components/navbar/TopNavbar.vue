@@ -3,56 +3,104 @@
         <nav class="navbar is-info">
             <div class="navbar-wrapper container is-flex">
                 <div class="navbar-brand navbar-brand-name">
-                    <router-link class="navbar-item" to="/">Hedonist</router-link>
+                    <router-link 
+                        class="navbar-item" 
+                        to="/"
+                    >Hedonist</router-link>
                 </div>
 
                 <div class="navbar-menu">
                     <div class="navbar-start">
                         <div class="navbar-item">
                             <div class="control has-icons-right">
-                                <input class="input" type="search" placeholder="I'm looking for...">
+                                <input 
+                                    class="input" 
+                                    type="search" 
+                                    placeholder="I'm looking for..."
+                                >
                                 <span class="icon is-right">
-                                    <i class="fas fa-caret-down"></i>
-                               </span>
+                                    <i class="fas fa-caret-down" />
+                                </span>
                             </div>
                         </div>
                         <div class="navbar-item">
                             <div class="control">
-                                <input class="input" type="search" value="Lviv, UA">
+                                <input 
+                                    class="input" 
+                                    type="search" 
+                                    value="Lviv, UA"
+                                >
                             </div>
                         </div>
                         <div class="navbar-item is-paddingless navbar-search-btn">
-                           <span class="icon is-large">
-                               <i class="fas fa-lg fa-search"></i>
-                           </span>
+                            <span class="icon is-large">
+                                <i class="fas fa-lg fa-search" />
+                            </span>
                         </div>
 
                     </div>
 
-                    <div v-if="!this.isUserLoggedIn" class="navbar-end">
-                        <router-link class="navbar-item" to="/login">Log In</router-link>
-                        <router-link class="navbar-item" to="/signup">Sign Up</router-link>
+                    <div 
+                        v-if="!this.isUserLoggedIn" 
+                        class="navbar-end"
+                    >
+                        <router-link 
+                            class="navbar-item" 
+                            to="/login"
+                        >Log In</router-link>
+                        <router-link 
+                            class="navbar-item" 
+                            to="/signup"
+                        >Sign Up</router-link>
                     </div>
                     
-                    <div v-if="this.isUserLoggedIn" class="navbar-end">
+                    <div 
+                        v-if="this.isUserLoggedIn" 
+                        class="navbar-end"
+                    >
                         <div class="navbar-item is-paddingless">
-                            <span class="navbar-notification-btn"></span>
+                            <span class="navbar-notification-btn" />
                         </div>
-                        <div  class="navbar-item has-dropdown is-hoverable">
+                        <div class="navbar-item has-dropdown is-hoverable">
                             <div class="navbar-link navbar-dropdown-menu">
-                                <img class="navbar-avatar" :src="user.avatarUrl"
-                                     :title="user.firstName+' '+user.lastName"
-                                     :alt="user.firstName+' '+user.lastName">
-                                <span>{{user.firstName}}</span>
+                                <img 
+                                    v-if="user.avatar_url"
+                                    class="navbar-avatar" 
+                                    :src="user.avatar_url"
+                                    :title="user.first_name+' '+user.last_name"
+                                    :alt="user.first_name+' '+user.last_name"
+                                >
+                                <span v-else class="icon">
+                                    <i class="fas fa-file-image fa-lg"></i>
+                                </span>
+                                <span>{{ user.first_name }}</span>
                                 <span class="icon">
-                                    <i class="fas fa-caret-down"></i>
-                               </span>
+                                    <i class="fas fa-caret-down" />
+                                </span>
                             </div>
                             <div class="navbar-dropdown">
-                                <router-link class="navbar-item" to="/profile">Profile</router-link>
-                                <router-link class="navbar-personal-link navbar-item" to="/places/list">My places</router-link>
-                                <router-link class="navbar-personal-link navbar-item" to="/user/lists">My lists</router-link>
-                                <a class="navbar-item" @click="onLogOut">Logout</a>
+                                <router-link 
+                                    class="navbar-item" 
+                                    :to="{ name: 'ProfilePage' }"
+                                >Profile</router-link>
+                                <router-link 
+                                    class="navbar-personal-link navbar-item" 
+                                    :to="{ name: 'PlacesList' }"
+                                >My places</router-link>
+                                <router-link 
+                                    class="navbar-personal-link navbar-item" 
+                                    :to="{ name: 'UserListsPage' }"
+                                >My lists
+                                </router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'HistoryPage' }"
+                                >History
+                                </router-link>
+                                <a 
+                                    class="navbar-item" 
+                                    @click="onLogOut"
+                                >Logout</a>
                             </div>
                         </div>
                     </div>
@@ -64,39 +112,28 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
-    export default {
-        name: "TopNavbar",
-        computed: mapGetters({
-            isUserLoggedIn: "isLoggedIn"
-        }),
-        data() {
-            return {
-                user: {
-                    firstName: 'John',
-                    lastName: 'Carter',
-                    avatarUrl:'http://via.placeholder.com/200x200'
-                }
-            }
-        },
-        methods: {
-            ...mapActions(['logout']),
+export default {
+    name: 'TopNavbar',
+    computed: mapGetters({
+        isUserLoggedIn: 'hasToken',
+        user: "getAuthenticatedUser"
+    }),
+    methods: {
+        ...mapActions(['logout']),
 
-            onLogOut () {
-                this.logout()
-                    .then(()=>{
-                        this.$router.push({name: 'LoginPage'});
-                    });
-            }
-        },
-    }
+        onLogOut () {
+            this.logout()
+                .then(()=>{
+                    this.$router.push({name: 'LoginPage'});
+                });
+        }
+    },
+};
 </script>
 
 <style scoped>
-    .navbar-wrapper{
-        width:1060px;
-    }
     .navbar-brand-name{
         text-transform: uppercase;
         font-weight: bold;

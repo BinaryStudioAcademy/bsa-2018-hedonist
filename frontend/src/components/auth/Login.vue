@@ -1,6 +1,6 @@
 <template>
   <Container title="Login into your account">
-    <p class="subtitle">Don't have an account? 
+    <p class="subtitle">Don't have an account?
       <router-link class="link link-signup" to="/signup">Create New</router-link>
     </p>
     <Form>
@@ -28,7 +28,7 @@
 
       <div class="login-footer">
         <router-link class="link" to="/recover">Forgot Password?</router-link>
-        <button 
+        <button
           type="button"
           class="button is-primary is-rounded"
           @click="onLogin"
@@ -41,114 +41,113 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import { required, email, minLength } from 'vuelidate/lib/validators'
-import Container from './Container'
-import Form from './Form'
+import { mapActions } from 'vuex';
+import { required, email, minLength } from 'vuelidate/lib/validators';
+import Container from './Container';
+import Form from './Form';
 
 export default {
-  components: {
-    Container,
-    Form
-  },
-
-  data: function () {
-    return {
-      user: {
-        email: '',
-        password: ''
-      },
-
-      input: {
-        email: {
-          type: ''
-        },
-        password: {
-          type: ''
-        }
-      }
-    }
-  },
-
-  methods: {
-    ...mapActions(['login']),
-
-    onLogin () {
-      if (!this.$v.user.$invalid) {
-        this.login(this.user).then((res)=>{
-            if(res.error){
-                this.onError(res.error);
-            } else {
-              this.onSuccess({
-                message: 'Welcome!'
-              })
-              this.refreshInput();
-              this.$router.push({name: 'home'});
-            }
-        });
-      } else {
-          this.onError({
-              message: 'Please, check your input data'
-          });
-      }
+    components: {
+        Container,
+        Form
     },
+
+    data: function () {
+        return {
+            user: {
+                email: '',
+                password: ''
+            },
+
+            input: {
+                email: {
+                    type: ''
+                },
+                password: {
+                    type: ''
+                }
+            }
+        };
+    },
+
+    methods: {
+        ...mapActions(['login']),
+
+        onLogin () {
+            if (!this.$v.user.$invalid) {
+                this.login(this.user).then((res)=>{
+                    if(res.error){
+                        this.onError(res.error);
+                    } else {
+                        this.onSuccess({
+                            message: 'Welcome!'
+                        });
+                        this.refreshInput();
+                        this.$router.push({name: 'home'});
+                    }
+                });
+            } else {
+                this.onError({
+                    message: 'Please, check your input data'
+                });
+            }
+        },
 
     onError (error) {
       this.$toast.open({
-          message: error.message,
+          message: 'The email or password is incorrect',
           type: 'is-danger'
       })
     },
-
-    onSuccess (success) {
-      this.$toast.open({
-        message: success.message,
-        type: 'is-success'
-      })
-    },
-
-    onBlur (el) {
-      if (this.$v.user[el].$invalid) {
-        this.input[el].type = 'is-danger'
-      } else {
-        this.input[el].type = 'is-success'
-      }
-    },
-
-    onFocus (el) {
-      this.input[el].type = ''
-    },
-
-    refreshInput () {
-      this.user = {
-        email: '',
-        password: ''
-      },
-
-      this.input = {
-        email: {
-          type: ''
+        onSuccess (success) {
+            this.$toast.open({
+                message: success.message,
+                type: 'is-success'
+            });
         },
-        password: {
-          type: ''
-        }
-      }
-    }
-  },
 
-  validations: {
-    user: {
-      email: {
-        required,
-        email
-      },
-      password: {
-        required,
-        minLength: minLength(6)
-      }
+        onBlur (el) {
+            if (this.$v.user[el].$invalid) {
+                this.input[el].type = 'is-danger';
+            } else {
+                this.input[el].type = 'is-success';
+            }
+        },
+
+        onFocus (el) {
+            this.input[el].type = '';
+        },
+
+        refreshInput () {
+            this.user = {
+                email: '',
+                password: ''
+            },
+
+            this.input = {
+                email: {
+                    type: ''
+                },
+                password: {
+                    type: ''
+                }
+            };
+        }
+    },
+
+    validations: {
+        user: {
+            email: {
+                required,
+                email
+            },
+            password: {
+                required,
+                minLength: minLength(6)
+            }
+        }
     }
-  }
-}
+};
 </script>
 
 <style scoped>
