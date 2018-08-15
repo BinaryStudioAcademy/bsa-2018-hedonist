@@ -3,11 +3,18 @@
         <div class="left-block">
             <div class="list-edit-details">
                 <div class="name-desc-section">
-                    <input type="text" class="text">
+                    <input 
+                        type="text" 
+                        class="text"
+                    >
                 </div>
                 <div class="photo-section">
                     <div>
-                        <img class="list-page-image" src="" alt="">
+                        <img 
+                            class="list-page-image" 
+                            src="" 
+                            alt=""
+                        >
                     </div>
                     <div class="selector-button flatButton">Photo ▾</div>
                 </div>
@@ -17,13 +24,25 @@
                 </div>
             </div>
             <div class="search-places">
-                <input type="text" class="search-field" v-on:keyup="keyUp">
-                <ul class="search-places__list" v-show="displayList" v-click-outside="onClickOutside">
+                <input 
+                    type="text" 
+                    class="search-field" 
+                    @keyup="keyUp"
+                >
+                <ul 
+                    class="search-places__list" 
+                    v-show="displayList" 
+                    v-click-outside="onClickOutside"
+                >
                     <li>
                         <a href="#">
-                            <img height="32" width="32" class="search-places__list__img"
-                                 src="https://ss3.4sqi.net/img/categories_v2/arts_entertainment/stadium_baseball_bg_32.png"
-                                 alt="place image">
+                            <img 
+                                height="32" 
+                                width="32" 
+                                class="search-places__list__img"
+                                src="https://ss3.4sqi.net/img/categories_v2/arts_entertainment/stadium_baseball_bg_32.png"
+                                alt="place image"
+                            >
                             <div class="search-places__list__details">
                                 <div class="search-places__list__name">Yankee Stadium</div>
                                 <div class="search-places__list__description">1 E 161st St (btwn Jerome & Rivera Ave)
@@ -33,9 +52,13 @@
                     </li>
                     <li>
                         <a href="#">
-                            <img height="32" width="32" class="search-places__list__img"
-                                 src="https://ss3.4sqi.net/img/categories_v2/arts_entertainment/stadium_baseball_bg_32.png"
-                                 alt="place image">
+                            <img 
+                                height="32" 
+                                width="32" 
+                                class="search-places__list__img"
+                                src="https://ss3.4sqi.net/img/categories_v2/arts_entertainment/stadium_baseball_bg_32.png"
+                                alt="place image"
+                            >
                             <div class="search-places__list__details">
                                 <div class="search-places__list__name">Yankee Stadium</div>
                                 <div class="search-places__list__description">1 E 161st St (btwn Jerome & Rivera Ave)
@@ -46,27 +69,27 @@
                 </ul>
             </div>
         </div>
-        <div class="right-block"></div>
+        <div class="right-block" />
     </div>
 </template>
 
 <script>
-    export default {
-        name: "UserListAdd",
-        data: function () {
-            return {
-                displayList: false
-            }
+export default {
+    name: 'UserListAdd',
+    data: function () {
+        return {
+            displayList: false
+        };
+    },
+    methods: {
+        keyUp() {
+            this.displayList = true;
         },
-        methods: {
-            keyUp() {
-                this.displayList = true;
-            },
-            onClickOutside() {
-                this.displayList = false;
-            }
+        onClickOutside() {
+            this.displayList = false;
         }
     }
+};
 </script>
 
 <style lang="scss" scoped>

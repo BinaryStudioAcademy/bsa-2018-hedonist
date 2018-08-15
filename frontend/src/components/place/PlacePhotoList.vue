@@ -44,7 +44,7 @@ export default {
             this.photoList.scrollLeft -= this.imageOffset * this.imageSlideNumber;
         }
     },
-}
+};
 </script>
 
 <style>

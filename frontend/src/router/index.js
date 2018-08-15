@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
-import ReviewList from '@/components/review/ReviewList';
+import NewPlacePage from '@/pages/NewPlacePage';
 import UserListsPage from '@/pages/UserListsPage';
 import PlacesList from  '@/components/placesList/PlacesList';
 import HistoryPage from '@/pages/HistoryPage';
@@ -14,7 +14,7 @@ import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
-import TastesAdd from '@/components/taste/TastesAdd';
+import MyTastesPage from '@/pages/MyTastesPage';
 
 Vue.use(Router);
 
@@ -44,6 +44,11 @@ export default new Router({
                 component: PlacesList
             },
             {
+                path: '/places/add',
+                name: 'NewPlacePage',
+                component: NewPlacePage
+            },
+            {
                 path: '/search',
                 name: 'SeachPlacePage',
                 component: SeachPlacePage
@@ -52,11 +57,6 @@ export default new Router({
                 path: '/places/:id',
                 name: 'PlacePage',
                 component: PlacePage
-            },
-            {
-                path: '/reviews',
-                name: 'ReviewList',
-                component: ReviewList
             },
             {
                 path: '/users/lists/add',
@@ -69,9 +69,9 @@ export default new Router({
                 component: UserListsPage
             },
             {
-                path: '/tastes/add',
-                name: 'Tastes',
-                component: TastesAdd
+                path: '/tastes',
+                name: 'MyTastesPage',
+                component: MyTastesPage
             },
             {
                 path: '/history',

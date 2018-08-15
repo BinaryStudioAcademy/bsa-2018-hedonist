@@ -1,6 +1,6 @@
 export default {
     auth: store => (to, from, next) => {
-        if (!store.getters.isLoggedIn) {
+        if (!store.getters.hasToken()) {
             next({
                 path: '/login'
             });
@@ -9,7 +9,7 @@ export default {
         }
     },
     guest: store => (to, from, next) => {
-        if (store.getters.isLoggedIn) {
+        if (store.getters.hasToken()) {
             next({
                 path: '/'
             });
@@ -17,4 +17,4 @@ export default {
             next();
         }
     }
-}
+};

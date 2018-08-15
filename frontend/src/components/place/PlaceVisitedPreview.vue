@@ -2,19 +2,22 @@
     <transition name="slide-fade">
         <article v-if="active">
             <div class="entry-media">
-                <img class="image" :src="visitedPlace.place_photo.url"/>
+                <img 
+                    class="image" 
+                    :src="visitedPlace.place_photo.url"
+                >
             </div>
             <div class="item-description">
                 <div class="rating-wrapper">
                     <div class="rating">
-                        {{visitedPlace.ratings.rating}}
+                        {{ visitedPlace.ratings.rating }}
                     </div>
                 </div>
                 <h2 class="title">{{ index }}.{{ visitedPlace.places_tr.place_name }}</h2>
                 <p>{{ cityAddress }}</p>
-                <p>{{ visitedPlace.categories.name }} - Tips and feedback: {{reviewCount}}</p>
+                <p>{{ visitedPlace.categories.name }} - Tips and feedback: {{ reviewCount }}</p>
 
-                <button class="saved"><i class="fa fa-bookmark"></i>Saved</button>
+                <button class="saved"><i class="fa fa-bookmark" />Saved</button>
             </div>
         </article>
     </transition>
@@ -93,38 +96,39 @@
 </style>
 
 <script>
-    export default {
-        name: "PlaceVisitedPreview",
-        data() {
-            return {
-                active: false
-            }
+export default {
+    name: 'PlaceVisitedPreview',
+    data() {
+        return {
+            active: false
+        };
+    },
+    props: {
+        visitedPlace: {
+            required: true,
+            type: Object,
         },
-        props: {
-            visitedPlace: {
-                required: true,
-                type: Object,
-            },
-            index: {
-                type: Number
-            },
-            timer: {
-                required: true,
-                type: Number
-            }
+        index: {
+            required: true,
+            type: Number
         },
-        computed: {
-            cityAddress: function() {
-                return this.visitedPlace.address + ', ' + this.visitedPlace.cities.name;
-            },
-            reviewCount: function() {
-                return this.visitedPlace.reviews.length || 0;
-            }
-        },
-        created() {
-            setTimeout(() => {
-                this.active = true
-            }, this.timer)
+        timer: {
+            required: true,
+            type: Number
         }
+    },
+    computed: {
+        cityAddress: function() {
+            return this.visitedPlace.address + ', ' + this.visitedPlace.cities.name;
+        },
+        reviewCount: function() {
+            return this.visitedPlace.reviews.length || 0;
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
     }
+};
 </script>
