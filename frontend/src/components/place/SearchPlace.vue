@@ -1,6 +1,6 @@
 <template>
     <section class="columns">
-        <section class="column is-half">
+        <section class="column is-half left-side">
             <b-input 
                 class="search-field" 
                 placeholder="Find..." 
@@ -15,7 +15,7 @@
             </template>
         </section>
 
-        <section class="column mapbox-wrapper">
+        <section class="column mapbox-wrapper right-side">
             <section id="map">
                 <mapbox
                     :access-token="getMapboxToken"
@@ -115,6 +115,7 @@ export default {
     .mapboxgl-canvas {
         top: 0 !important;
         left: 0 !important;
+        z-index: 10;
     }
 </style>
 
@@ -130,11 +131,12 @@ export default {
 
     #map {
         text-align: justify;
-        position: fixed;
-        top: 52px;
-        bottom: 0;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        height:100vh;
         right: 0;
-        width: 50%;
+        width: 100%;
     }
 
     @media screen and (max-width: 769px) {
@@ -146,6 +148,14 @@ export default {
             left: 0;
             width: 100%;
             height: 500px;
+        }
+
+        .left-side{
+            order:2;
+        }
+
+        .right-side{
+            order:1
         }
     }
 </style>
