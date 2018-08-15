@@ -2,7 +2,7 @@ const TOKEN_EXPIRED = 'token_expired';
 
 export default {
     auth: store => (to, from, next) => {
-        if (!store.getters.hasToken()) {
+        if (!store.getters['auth/hasToken']()) {
             next({
                 path: '/login'
             });
@@ -21,7 +21,7 @@ export default {
         next();
     },
     guest: store => (to, from, next) => {
-        if (store.getters.hasToken()) {
+        if (store.getters['auth/hasToken']()) {
             next({
                 path: '/'
             });

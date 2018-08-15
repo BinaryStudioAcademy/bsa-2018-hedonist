@@ -88,21 +88,15 @@ import SearchInput from './SearchInput';
 
 export default {
     name: 'TopNavbar',
-    computed:
-    {
-        ...mapGetters([
-            'hasToken',
-            'getAuthenticatedUser'
-        ]),
-        isUserLoggedIn: function() {
-            return this.hasToken();
-        },
-        user: function() {
-            return this.getAuthenticatedUser;
-        }
-    },
+    computed: mapGetters({
+        isUserLoggedIn: 'auth/hasToken',
+        user: 'auth/getAuthenticatedUser'
+    }),
+
     methods: {
-        ...mapActions(['logout']),
+        ...mapActions({
+            logout: 'auth/logout'
+        }),
 
         onLogOut () {
             this.logout()
