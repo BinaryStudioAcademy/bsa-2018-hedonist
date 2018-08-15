@@ -55,7 +55,9 @@ export default {
     },
 
     methods: {
-        ...mapActions(['recoverPassword']),
+        ...mapActions({
+            recoverPassword: 'auth/recoverPassword'
+        }),
 
         onRecover () {
             if (!this.$v.user.$invalid) {

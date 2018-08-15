@@ -73,7 +73,9 @@ export default {
     },
 
     methods: {
-        ...mapActions(['login']),
+        ...mapActions({
+            login: 'auth/login'
+        }),
 
         onLogin () {
             if (!this.$v.user.$invalid) {

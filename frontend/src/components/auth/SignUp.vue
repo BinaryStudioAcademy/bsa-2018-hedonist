@@ -140,7 +140,7 @@ export default {
 
     methods: {
         ...mapActions([
-            'signUp',
+            'auth/signUp',
             'checkEmailUnique'
         ]),
 

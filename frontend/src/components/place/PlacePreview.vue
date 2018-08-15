@@ -1,94 +1,62 @@
 <template>
     <transition name="slide-fade">
-        <div 
-            class="container place-item" 
-            v-if="active"
-        >
+        <div class="container place-item" v-if="active">
             <div class="columns">
                 <figure class="image is-128x128">
-                    <!-- TODO set place photo url -->
-                    <img src="https://igx.4sqi.net/img/general/200x200/887035_CLhGX1rsu2-V75shOAkPWuxXLY2k4iO17hEdOlOfSWc.jpg">
+                    <img src="http://via.placeholder.com/128x128"/>
                 </figure>
                 <div class="rating-wrapper">
-                    <div class="rating">
-                        {{ place.rating }}
+                    <div v-if="place.rating" class="rating">
+                        {{place.rating}}
                     </div>
                 </div>
                 <div class="column content-wrapper">
                     <h3 class="title has-text-primary">
                         <router-link :to="`/places/${place.id}`">
-                            {{ place.localization[0].name }}
+                            {{place.localization[0].name}}
                         </router-link>
+                        <a class="button is-outlined is-info" @click="subscribe">
+                            <i class="fas fa-bell"></i>
+                        </a>
                     </h3>
                     <p class="place-category">
-                        <a href="#">{{ place.category.name }}</a>
+                        <a href="#">{{place.category.name}}</a>
                     </p>
                     <p class="address">
-                        {{ place.address }}
+                        {{place.address}}
                     </p>
                     <b-taglist>
                         <b-tag
-                            type="is-info"
-                            v-for="tag in place.category.tags"
-                            :key="tag.id"
+                                type="is-info"
+                                v-for="tag in place.category.tags"
+                                :key="tag.id"
                         >
-                            {{ tag.name }}
+                            {{tag.name}}
                         </b-tag>
                     </b-taglist>
-                </div>
-            </div>
-            <div 
-                class="media" 
-                v-if="place.reviews !== undefined && place.reviews[0] !== undefined"
-            >
-                <div class="media-left">
-                    <figure class="image is-32x32">
-                        <img :src="place.reviews[0].user.avatar">
-                    </figure>
-                </div>
-                <div class="media-content">
-                    <div>
-                        <a 
-                            class="has-text-weight-semibold has-text-primary" 
-                            href="#"
-                        >
-                            {{ place.reviews[0].user.name }}
-                        </a>
-                        •
-                        <small>{{ place.reviews[0].published_at }}</small>
-                    </div>
-                    <p>
-                        {{ place.reviews[0].text }}
-                    </p>
                     <nav class="level">
                         <div class="level-left">
                             <a class="level-item">
                                 <b-taglist attached>
                                     <b-tag type="is-light">
-                                        {{ place.reviews[0].likes }}
+                                        {{place.likes}}
                                     </b-tag>
-                                    <b-tag 
-                                        type="is-success" 
-                                        @click.native="like"
-                                    >
-                                        <span class="icon">
-                                            <i class="far fa-arrow-alt-circle-up" />
-                                        </span>
+                                    <b-tag type="is-success" @click.native="like">
+                                    <span class="icon">
+                                        <i class="far fa-arrow-alt-circle-up"></i>
+                                    </span>
                                     </b-tag>
                                 </b-taglist>
                             </a>
                             <a class="level-item">
                                 <b-taglist attached>
                                     <b-tag type="is-light">
-                                        {{ place.reviews[0].dislikes }}
+                                        {{place.dislikes}}
                                     </b-tag>
-                                    <b-tag 
-                                        type="is-danger" 
-                                        @click.native="dislike"
-                                    >
-                                        <span class="icon">
-                                            <i class="far fa-arrow-alt-circle-down" />
-                                        </span>
+                                    <b-tag type="is-danger" @click.native="dislike">
+                                    <span class="icon">
+                                        <i class="far fa-arrow-alt-circle-down"></i>
+                                    </span>
                                     </b-tag>
                                 </b-taglist>
                             </a>
@@ -104,6 +72,7 @@
     .place-item {
         color: grey;
         max-width: 100%;
+        margin-bottom:1rem;
     }
 
     .columns {
@@ -203,43 +172,50 @@
 </style>
 
 <script>
-export default {
-    name: 'PlaceListComponent',
-    data() {
-        return {
-            active: false
-        };
-    },
-    props: {
-        place: {
-            required: true,
-            type: Object,
+    export default {
+        name: "PlacePreview",
+        data() {
+            return {
+                active: false
+            }
         },
-        timer: {
-            required: true,
-            type: Number,
-        }
-    },
-    methods: {
-        like() {
-            this.$toast.open({
-                message: 'You liked this review!',
-                type: 'is-info',
-                position: 'is-bottom'
-            });
+        props: {
+            place: {
+                required: true,
+                type: Object,
+            },
+            timer: {
+                required: true,
+                type: Number,
+            }
         },
-        dislike() {
-            this.$toast.open({
-                message: 'You disliked this review',
-                position: 'is-bottom',
-                type: 'is-info'
-            });
+        methods: {
+            like() {
+                this.$toast.open({
+                    message: 'You liked this review!',
+                    type: 'is-info',
+                    position: 'is-bottom'
+                })
+            },
+            dislike() {
+                this.$toast.open({
+                    message: `You disliked this review`,
+                    position: 'is-bottom',
+                    type: 'is-info'
+                });
+            },
+            subscribe() {
+                this.$toast.open({
+                    message: `You now will recive updates on this place`,
+                    position: 'is-bottom',
+                    type: 'is-info'
+                });
+            }
+        },
+        created() {
+            setTimeout(() => {
+                this.active = true
+            }, this.timer)
         }
-    },
-    created() {
-        setTimeout(() => {
-            this.active = true;
-        }, this.timer);
     }
-};
 </script>
