@@ -82,7 +82,7 @@
                     </nav>
                 </div>
             </div>
-            <hr class = "divider">
+            <hr class="divider">
         </div>
     </transition>
 </template>
@@ -146,9 +146,9 @@
     }
 
     .rating-wrapper {
-        margin-left:auto;
-        margin-right:5px;
-        align-self:flex-start;
+        margin-left: auto;
+        margin-right: 5px;
+        align-self: flex-start;
     }
 
     .slide-fade-enter-active {
@@ -160,16 +160,16 @@
         opacity: 0;
     }
 
-    .divider{
+    .divider {
         border: 1px solid #DDD;
-        margin-bottom:0.5rem;
+        margin-bottom: 0.5rem;
     }
 
-    .likeable{
-        color:rgba(221,221,221,0.6);
+    .likeable {
+        color: rgba(221, 221, 221, 0.6);
         cursor: pointer;
 
-        &:hover{
+        &:hover {
             color: #4e595d;
         }
     }
