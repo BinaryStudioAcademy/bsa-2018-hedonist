@@ -139,10 +139,10 @@ export default {
     },
 
     methods: {
-        ...mapActions([
-            'auth/signUp',
-            'checkEmailUnique'
-        ]),
+        ...mapActions({
+            signUp          : 'auth/signUp',
+            checkEmailUnique: 'auth/checkEmailUnique'
+        }),
 
         type(el) {
             if (this.focus[el]) return '';
