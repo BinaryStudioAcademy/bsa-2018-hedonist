@@ -6,7 +6,8 @@
         >
             <div class="columns">
                 <figure class="image is-128x128">
-                    <img :src="place.photo.url">
+                    <!-- TODO set place photo url -->
+                    <img src="https://igx.4sqi.net/img/general/200x200/887035_CLhGX1rsu2-V75shOAkPWuxXLY2k4iO17hEdOlOfSWc.jpg">
                 </figure>
                 <div class="rating-wrapper">
                     <div class="rating">
@@ -16,11 +17,11 @@
                 <div class="column content-wrapper">
                     <h3 class="title has-text-primary">
                         <router-link :to="`/places/${place.id}`">
-                            {{ place.name }}
+                            {{ place.localization[0].name }}
                         </router-link>
                     </h3>
                     <p class="place-category">
-                        <a href="#">{{ place.category }}</a>
+                        <a href="#">{{ place.category.name }}</a>
                     </p>
                     <p class="address">
                         {{ place.address }}
@@ -28,7 +29,7 @@
                     <b-taglist>
                         <b-tag
                             type="is-info"
-                            v-for="tag in place.tags"
+                            v-for="tag in place.category.tags"
                             :key="tag.id"
                         >
                             {{ tag.name }}
@@ -38,7 +39,7 @@
             </div>
             <div 
                 class="media" 
-                v-if="place.reviews[0]"
+                v-if="place.reviews !== undefined && place.reviews[0] !== undefined"
             >
                 <div class="media-left">
                     <figure class="image is-32x32">
