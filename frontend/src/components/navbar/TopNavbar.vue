@@ -24,7 +24,7 @@
                             to="/signup"
                         >Sign Up</router-link>
                     </div>
-
+                    
                     <div
                         v-if="this.isUserLoggedIn"
                         class="navbar-end"
@@ -88,21 +88,23 @@ import SearchInput from './SearchInput';
 
 export default {
     name: 'TopNavbar',
-    computed:
-    {
-        ...mapGetters([
-            'hasToken',
-            'getAuthenticatedUser'
-        ]),
-        isUserLoggedIn: function() {
-            return this.hasToken();
-        },
-        user: function() {
-            return this.getAuthenticatedUser();
-        }
+    computed: mapGetters({
+        isUserLoggedIn: 'auth/hasToken',
+        user: 'auth/getAuthenticatedUser'
+    }),
+
+    isUserLoggedIn: function() {
+        return this.hasToken();
     },
+
+    user: function() {
+        return this.getAuthenticatedUser();
+    },
+
     methods: {
-        ...mapActions(['logout']),
+        ...mapActions({
+            logout: 'auth/logout'
+        }),
 
         onLogOut () {
             this.logout()
