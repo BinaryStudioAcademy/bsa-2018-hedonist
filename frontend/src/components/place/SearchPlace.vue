@@ -42,7 +42,7 @@
 <script>
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import PlaceListComponent from '@/components/placesList/PlaceListComponent';
+import PlacePreviewList from './PlacePreviewList';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import MarkerService from '@/services/map/markerManagerService';
@@ -52,7 +52,7 @@ let markerManager = null;
 export default {
     name: 'SearchPlace',
     components: {
-        PlaceListComponent,
+        PlacePreviewList,
         Mapbox,
     },
     data() {
