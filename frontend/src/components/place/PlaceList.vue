@@ -35,12 +35,12 @@
 </style>
 
 <script>
-import PlaceListComponent from './PlaceListComponent';
+import PlacePreviewList from './PlacePreviewList';
 import { mapState } from 'vuex';
 
 export default {
     name: 'PlaceList',
-    components: {PlaceListComponent},
+    components: {PlacePreviewList},
     computed: {...mapState('place', ['places'])}
 };
 </script>
