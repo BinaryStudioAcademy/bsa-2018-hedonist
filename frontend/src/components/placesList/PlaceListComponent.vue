@@ -18,12 +18,6 @@
                         <router-link :to="`/places/${place.id}`">
                             {{ place.name }}
                         </router-link>
-                        <a 
-                            class="button is-outlined is-info" 
-                            @click="subscribe"
-                        >
-                            <i class="fas fa-bell" />
-                        </a>
                     </h3>
                     <p class="place-category">
                         <a href="#">{{ place.category }}</a>
@@ -237,13 +231,6 @@ export default {
         dislike() {
             this.$toast.open({
                 message: 'You disliked this review',
-                position: 'is-bottom',
-                type: 'is-info'
-            });
-        },
-        subscribe() {
-            this.$toast.open({
-                message: 'You now will recive updates on this place',
                 position: 'is-bottom',
                 type: 'is-info'
             });
