@@ -3,7 +3,7 @@ namespace Hedonist\Actions\UserList;
 
 use Hedonist\Repositories\UserList\UserListRepository;
 
-class GetCollectionUserListsAction
+class GetUserListsCollectionAction
 {
     private $userListsRepository;
 
@@ -12,9 +12,9 @@ class GetCollectionUserListsAction
         $this->userListsRepository = $userListsRepository;
     }
 
-    public function execute(int $user_id): GetCollectionUserListsResponse
+    public function execute(int $userId): GetCollectionUserListsResponse
     {
-        $userLists = $this->userListsRepository->findUserLists($user_id);
+        $userLists = $this->userListsRepository->findUserLists($userId);
         return new GetCollectionUserListsResponse($userLists);
     }
 }

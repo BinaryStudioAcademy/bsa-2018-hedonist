@@ -48,18 +48,16 @@ class UserListApiTest extends ApiTestCase
 
     public function test_get_user_lists()
     {
-        $userLists = factory(UserList::class, 3)->create();
-        foreach ($userLists as $userList) {
-            $response = $this->json('GET', "/api/v1/user-lists/$userList->user_id/lists");
-            $response->assertHeader('Content-Type', 'application/json');
-            $response->assertStatus(200);
-            $data = json_decode($response->getContent(), true);
-            for ($i = 0; $i < count($data); $i++) {
-                $this->assertEquals($userList->id, $data['data'][$i]['id']);
-                $this->assertEquals($userList->user_id, $data['data'][$i]['user_id']);
-                $this->assertEquals($userList->name, $data['data'][$i]['name']);
-                $this->assertEquals($userList->img_url, $data['data'][$i]['img_url']);
-            }
+        $userLists = factory(UserList::class)->create();
+        $response = $this->json('GET', "/api/v1/user-lists/$userLists->user_id/lists");
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+        $data = json_decode($response->getContent(), true);
+        for ($i = 0; $i < count($data); $i++) {
+            $this->assertEquals($userLists->id, $data['data'][$i]['id']);
+            $this->assertEquals($userLists->user_id, $data['data'][$i]['user_id']);
+            $this->assertEquals($userLists->name, $data['data'][$i]['name']);
+            $this->assertEquals($userLists->img_url, $data['data'][$i]['img_url']);
         }
     }
 
