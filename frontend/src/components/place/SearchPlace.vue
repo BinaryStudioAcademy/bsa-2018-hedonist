@@ -1,13 +1,9 @@
 <template>
     <section class="columns">
-        <section class="column is-half left-side">
-            <b-input 
-                class="search-field" 
-                placeholder="Find..." 
-                v-model="filterQuery"
-            />
-            <template v-for="(place, index) in filteredPlaces">
-                <PlacePreviewList 
+        <section class="column is-half">
+            <template v-for="(place, index) in places">
+                <PlacePreviewList
+                    v-if="isPlacesLoaded"
                     :key="place.id" 
                     :place="place" 
                     :timer="50 * (index+1)"
@@ -28,10 +24,6 @@
                         zoom: 11
                     }"
                     :scale-control="{
-                        show: true,
-                        position: 'top-left'
-                    }"
-                    :fullscreen-control="{
                         show: true,
                         position: 'top-left'
                     }"
@@ -63,11 +55,13 @@ export default {
         return {
             filterQuery: '',
             isMapLoaded: false,
+            isPlacesLoaded: false,
             map: {},
         };
     },
     created() {
-        this.$store.dispatch("place/fetchPlaces");
+        this.$store.dispatch("place/fetchPlaces")
+            .then(() => this.isPlacesLoaded = true);
     },
     methods: {
         mapInitialized(map) {
@@ -92,21 +86,7 @@ export default {
     },
     computed: {
         ...mapState('place', ['places']),
-        ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
-        filteredPlaces: function() {
-            let places = [];
-            if (this.filterQuery) {
-                places = this.getFilteredByName(this.filterQuery);
-            } else {
-                places = this.places;
-            }
-            if(this.isMapLoaded){
-                this.updateMap(places);
-            }
-
-            return places;
-        }
     }
 };
 </script>
@@ -125,8 +105,7 @@ export default {
     }
 
     .columns {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 10px;
     }
 
     #map {

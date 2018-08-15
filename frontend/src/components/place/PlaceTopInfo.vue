@@ -12,9 +12,12 @@
                     >
                 </div>
                 <div class="place-venue__prime-info">
-                    <div class="place-venue__place-name">{{ place.name }}</div>
-                    <div class="place-venue__category">{{ place.category }}</div>
-                    <div class="place-venue__city">{{ place.city }}</div>
+                    <div v-if="place.localization" class="place-venue__place-name">{{ place.localization.name }}</div>
+                    <div v-else class="place-venue__place-name">No localization</div>
+                    <div class="place-venue__category">{{ place.category.name }}</div>
+                    <div class="place-venue__city">
+                        {{ place.city.name }}, <span class="place-zip">{{ place.zip }}</span>
+                    </div>
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
@@ -37,7 +40,7 @@
                             @click="changeTab(1)" 
                             :class="{ 'is-active' : activeTab === 1}"
                         >
-                            <a><span>Comments ({{ place.reviews.length }})</span></a>
+                            <a><span>Comments (2)</span></a>
                         </li>
                         <li 
                             @click="changeTab(2)" 
@@ -72,130 +75,113 @@
 </template>
 
 <script>
-import PlacePhotoList from './PlacePhotoList';
+    import PlacePhotoList from './PlacePhotoList';
 
-export default {
-    name: 'PlaceTopInfo',
-    components: {
-        PlacePhotoList,
-    },
-    props: {
-        place: {
-            type: Object,
-            required: true
-        }
-    },
-    data() {
-        return {
-            activeTab: 1
-        };
-    },
-    methods: {
-        changeTab: function(activeTab) {
-            this.activeTab = activeTab;
-            this.$emit('tabChanged', activeTab);
+    export default {
+        name: "PlaceTopInfo",
+        components: {
+            PlacePhotoList,
+        },
+        props: {
+            place: {
+                type: Object,
+                required: true
+            }
+        },
+        data() {
+            return {
+                activeTab: 1
+            }
+        },
+        methods: {
+            changeTab: function(activeTab) {
+                this.activeTab = activeTab;
+                this.$emit('tabChanged', activeTab);
+            }
         }
     }
-};
 </script>
 
 <style lang="scss" scoped>
-.place-top-info {
-    background-color: #fff;
-
-    .column {
-        padding: 0;
-    }
-
-    &__sidebar {
-        margin-top: 20px;
-
-        .sidebar-actions {
-            background-color: #f7f7fa;
-            margin-left: 12px;
-            padding-top: 35px;
+    .place-top-info {
+        background-color: #fff;
+        .column {
+            padding: 0;
         }
-
-        .tab-content {
-            display: none;
-        }
-
-        .place-rate {
-            padding-left: 50px;
-            display: flex;
-            align-items: center;
-
-            &__mark {
-                border-radius: 3px;
-                color: white;
-                background-color: #00B551;
-                padding: 4px;
+        &__sidebar {
+            margin-top: 20px;
+            .sidebar-actions {
+                background-color: #f7f7fa;
+                margin-left: 12px;
+                padding-top: 35px;
             }
 
-            &__mark-count {
-                margin-left: 10px;
-                font-style: italic;
+            .tab-content {
+                display: none;
             }
-
-            &__preference {
+            .place-rate {
+                padding-left: 50px;
                 display: flex;
-                margin-left: auto;
-                margin-right: 30px;
-
-                .likable {
-                    cursor: pointer;
-
-                    &:hover {
-                        color: black;
+                align-items: center;
+                &__mark {
+                    border-radius: 3px;
+                    color: white;
+                    background-color: #00B551;
+                    padding: 4px;
+                }
+                &__mark-count {
+                    margin-left: 10px;
+                    font-style: italic;
+                }
+                &__preference {
+                    display: flex;
+                    margin-left: auto;
+                    margin-right: 30px;
+                    .likable {
+                        cursor: pointer;
+                        &:hover {
+                            color: black;
+                        }
+                    }
+                    .fa-bolt {
+                        top: -5%;
+                        left: 2%;
+                        font-size:70%;
                     }
                 }
-
-                .fa-bolt {
-                    top: -5%;
-                    left: 2%;
-                    font-size:70%;
+            }
+        }
+    }
+    .place-venue {
+        margin: 20px;
+        &__logo {
+            border-radius: 3px;
+            background-color: #c7cdcf;
+            line-height: 0;
+            margin-right: 20px;
+            max-width: 88px;
+            overflow: hidden;
+            float: left;
+        }
+        &__prime-info {
+            display: inline-block;
+        }
+        &__place-name {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        &__actions {
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            .button {
+                margin-right: 15px;
+                i {
+                    margin-right: 5px;
+                    font-size: 25px;
                 }
             }
         }
     }
-}
-
-.place-venue {
-    margin: 20px;
-
-    &__logo {
-        border-radius: 3px;
-        background-color: #c7cdcf;
-        line-height: 0;
-        margin-right: 20px;
-        max-width: 88px;
-        overflow: hidden;
-        float: left;
-    }
-
-    &__prime-info {
-        display: inline-block;
-    }
-
-    &__place-name {
-        font-size: 25px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    &__actions {
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
-
-        .button {
-            margin-right: 15px;
-
-            i {
-                margin-right: 5px;
-                font-size: 25px;
-            }
-        }
-    }
-}
 </style>
