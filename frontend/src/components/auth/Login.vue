@@ -1,10 +1,7 @@
 <template>
     <Container title="Login into your account">
-        <p class="subtitle">Don't have an account? 
-            <router-link 
-                class="link link-signup" 
-                to="/signup"
-            >Create New</router-link>
+        <p class="subtitle">Don't have an account?
+            <router-link class="link link-signup" to="/signup">Create New</router-link>
         </p>
         <Form>
             <b-field :type="input.email.type">
@@ -31,11 +28,8 @@
             </b-field>
 
             <div class="login-footer">
-                <router-link 
-                    class="link" 
-                    to="/recover"
-                >Forgot Password?</router-link>
-                <button 
+                <router-link class="link" to="/recover">Forgot Password?</router-link>
+                <button
                     type="button"
                     class="button is-primary is-rounded"
                     @click="onLogin"
@@ -103,11 +97,10 @@ export default {
 
         onError (error) {
             this.$toast.open({
-                message: error.message,
+                message: 'The email or password is incorrect',
                 type: 'is-danger'
             });
         },
-
         onSuccess (success) {
             this.$toast.open({
                 message: success.message,

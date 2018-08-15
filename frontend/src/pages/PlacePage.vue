@@ -10,12 +10,12 @@
             <div class="column is-two-thirds">
                 <div class="main">
                     <ReviewList 
-                        v-if="loaded && (activeTab == 1)"
-                        :place="places[0]"
+                        v-if="loaded && (activeTab === 1) && place.reviews"
+                        :place="place"
                     />
                     <ReviewPhotoGallery 
-                        v-if="loaded && (activeTab == 2)"
-                        :place="places[0]"
+                        v-if="loaded && (activeTab === 2) && place.photos"
+                        :place="place"
                     />
                 </div>
             </div>
@@ -48,13 +48,15 @@ export default {
         return {
             isLoading: true,
             loaded: false,
-            activeTab: 1
+            activeTab: 1,
+            place: null
         }
     },
 
     created() {
         this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
-            .then(() => {
+            .then((response) => {
+                this.place = response;
                 this.isLoading = false;
                 this.loaded = true;
             })
@@ -70,7 +72,6 @@ export default {
     },
 
     computed: {
-        ...mapState('place', ['place']),
         ...mapState('place', ['places'])
     },
 }

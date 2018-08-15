@@ -5,8 +5,7 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.get('/places/' + id)
                 .then(function (response) {
-                    commit('SET_PLACE', response.data.data);
-                    resolve(response);
+                    resolve(response.data.data);
                 })
                 .catch(function (err) {
                     reject(err);
@@ -14,14 +13,13 @@ export default {
         });
     },
 
-    loadPlaces: ({ state, commit}) => {
+    fetchPlaces: (context) => {
         return new Promise((resolve, reject) => {
             httpService.get('/places')
-                .then(function (response) {
-                    commit('SET_PLACES', response.data.data);
-                    resolve(response);
-                })
-                .catch(function (err) {
+                .then(function (res) {
+                    context.commit('SET_PLACES', res.data.data);
+                    resolve(res);
+                }).catch(function (err) {
                     reject(err);
                 });
         });

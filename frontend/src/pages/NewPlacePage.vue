@@ -110,14 +110,14 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control">
-                                            <textarea class="textarea" placeholder="Place's description.."></textarea>
+                                            <textarea class="textarea" placeholder="Place's description.." />
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="field is-horizontal">
-                                <div class="field-label"></div>
+                                <div class="field-label" />
                                 <div class="field-body">
                                     <div class="buttons is-centered">
                                         <span class="button is-primary">Save place</span>
@@ -143,8 +143,10 @@
                                     <b-field>
                                         <b-select v-model="category">
                                             <option
-                                                    v-for="option in categories"
-                                                    :value="option.v">
+                                                v-for="option in categories"
+                                                :value="option.v"
+                                                :key="option.id"
+                                            >
                                                 {{ option.name }}
                                             </option>
                                         </b-select>
@@ -154,8 +156,10 @@
                                     <b-field>
                                         <b-select v-model="subcategory" :disabled="isCategoryNOTSelected">
                                             <option
-                                                    v-for="option in subcategories"
-                                                    :value="option.v">
+                                                v-for="option in subcategories"
+                                                :value="option.v"
+                                                :key="option.id"
+                                            >
                                                 {{ option.name }}
                                             </option>
                                         </b-select>
@@ -174,9 +178,10 @@
                                     <span class="label">{{ feature.name }}</span>
                                 </div>
                                 <div class="level-right">
-                                    <b-switch v-model="feature.status"
-                                              type="is-success">
-                                    </b-switch>
+                                    <b-switch 
+                                        v-model="feature.status"
+                                        type="is-success"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -187,32 +192,46 @@
                     <div class="level is-centered">
                         <div class="level-item">
                             <b-field>
-                                <b-checkbox-button v-model="weekdays"
-                                                   native-value="mo">
+                                <b-checkbox-button 
+                                    v-model="weekdays"
+                                    native-value="mo"
+                                >
                                     Monday
                                 </b-checkbox-button>
-                                <b-checkbox-button v-model="weekdays"
-                                                   native-value="tu">
+                                <b-checkbox-button 
+                                    v-model="weekdays"
+                                    native-value="tu"
+                                >
                                     Tuesday
                                 </b-checkbox-button>
-                                <b-checkbox-button v-model="weekdays"
-                                                   native-value="we">
+                                <b-checkbox-button 
+                                    v-model="weekdays"
+                                    native-value="we"
+                                >
                                     Wednesday
                                 </b-checkbox-button>
-                                <b-checkbox-button v-model="weekdays"
-                                                   native-value="th">
+                                <b-checkbox-button 
+                                    v-model="weekdays"
+                                    native-value="th"
+                                >
                                     Thursday
                                 </b-checkbox-button>
-                                <b-checkbox-button v-model="weekdays"
-                                                   native-value="fr">
+                                <b-checkbox-button 
+                                    v-model="weekdays"
+                                    native-value="fr"
+                                >
                                     Friday
                                 </b-checkbox-button>
-                                <b-checkbox-button v-model="weekdays"
-                                                   native-value="sa">
+                                <b-checkbox-button 
+                                    v-model="weekdays"
+                                    native-value="sa"
+                                >
                                     Saturday
                                 </b-checkbox-button>
-                                <b-checkbox-button v-model="weekdays"
-                                                   native-value="su">
+                                <b-checkbox-button 
+                                    v-model="weekdays"
+                                    native-value="su"
+                                >
                                     Sunday
                                 </b-checkbox-button>
                             </b-field>
@@ -223,12 +242,12 @@
                             <div class="level">
                                 <div class="level-item">
                                     <b-field label="from">
-                                        <b-timepicker v-model="timeStart" :disabled="isDaySelected"></b-timepicker>
+                                        <b-timepicker v-model="timeStart" :disabled="isDaySelected" />
                                     </b-field>
                                 </div>
                                 <div class="level-item">
                                     <b-field label="to">
-                                        <b-timepicker v-model="timeEnd" :disabled="isDaySelected"></b-timepicker>
+                                        <b-timepicker v-model="timeEnd" :disabled="isDaySelected" />
                                     </b-field>
                                 </div>
                             </div>
@@ -244,117 +263,117 @@
 </template>
 
 <script>
-    export default {
-        name: "NewPlacePage",
-        data() {
-            return {
-                category: '',
-                subcategory: '',
-                weekdays: [],
-                timeStart: new Date(),
-                timeEnd: new Date(),
-                categories: [
-                    {
-                        v: '',
-                        name: 'Select a category'
-                    },
-                    {
-                        v: 'bar',
-                        name: 'Bar'
-                    },
-                    {
-                        v: 'beer',
-                        name: 'Beer'
-                    },
-                    {
-                        v: 'cafe',
-                        name: 'Cafe'
-                    },
-                    {
-                        v: 'snacks',
-                        name: 'Snacks'
-                    },
-                    {
-                        v: 'restaurant',
-                        name: 'Restaurant'
-                    },
-                    {
-                        v: 'other',
-                        name: 'Other'
-                    }
-                ],
-                subcategories: [
-                    {
-                        v: '',
-                        name: 'Select a subcategory'
-                    },
-                    {
-                        v: 'sub1',
-                        name: 'sub1'
-                    },
-                    {
-                        v: 'sub2',
-                        name: 'sub2'
-                    },
-                    {
-                        v: 'sub3',
-                        name: 'sub3'
-                    }
-                ],
-                features: [
-                    {
-                        name: 'wi-fi',
-                        status: false
-                    },
-                    {
-                        name: 'hookah',
-                        status: false
-                    },
-                    {
-                        name: 'music',
-                        status: false
-                    },
-                    {
-                        name: 'credit cards',
-                        status: false
-                    },
-                    {
-                        name: 'wheelchair accessible',
-                        status: false
-                    },
-                    {
-                        name: 'reservations',
-                        status: false
-                    },
-                    {
-                        name: 'parking',
-                        status: false
-                    },
-                    {
-                        name: 'restroom',
-                        status: false
-                    },
-                    {
-                        name: 'take-out',
-                        status: false
-                    },
-                    {
-                        name: 'delivery',
-                        status: false
-                    }
-                ]
-            }
+export default {
+    name: 'NewPlacePage',
+    data() {
+        return {
+            category: '',
+            subcategory: '',
+            weekdays: [],
+            timeStart: new Date(),
+            timeEnd: new Date(),
+            categories: [
+                {
+                    v: '',
+                    name: 'Select a category'
+                },
+                {
+                    v: 'bar',
+                    name: 'Bar'
+                },
+                {
+                    v: 'beer',
+                    name: 'Beer'
+                },
+                {
+                    v: 'cafe',
+                    name: 'Cafe'
+                },
+                {
+                    v: 'snacks',
+                    name: 'Snacks'
+                },
+                {
+                    v: 'restaurant',
+                    name: 'Restaurant'
+                },
+                {
+                    v: 'other',
+                    name: 'Other'
+                }
+            ],
+            subcategories: [
+                {
+                    v: '',
+                    name: 'Select a subcategory'
+                },
+                {
+                    v: 'sub1',
+                    name: 'sub1'
+                },
+                {
+                    v: 'sub2',
+                    name: 'sub2'
+                },
+                {
+                    v: 'sub3',
+                    name: 'sub3'
+                }
+            ],
+            features: [
+                {
+                    name: 'wi-fi',
+                    status: false
+                },
+                {
+                    name: 'hookah',
+                    status: false
+                },
+                {
+                    name: 'music',
+                    status: false
+                },
+                {
+                    name: 'credit cards',
+                    status: false
+                },
+                {
+                    name: 'wheelchair accessible',
+                    status: false
+                },
+                {
+                    name: 'reservations',
+                    status: false
+                },
+                {
+                    name: 'parking',
+                    status: false
+                },
+                {
+                    name: 'restroom',
+                    status: false
+                },
+                {
+                    name: 'take-out',
+                    status: false
+                },
+                {
+                    name: 'delivery',
+                    status: false
+                }
+            ]
+        };
+    },
+    computed: {
+        isCategoryNOTSelected: function () {
+            return !this.category;
         },
-        computed: {
-            isCategoryNOTSelected: function () {
-                return !this.category;
-            },
 
-            isDaySelected: function () {
-                return !this.weekdays.length;
-            }
+        isDaySelected: function () {
+            return !this.weekdays.length;
         }
     }
+};
 </script>
 
 <style lang="scss" scoped>
