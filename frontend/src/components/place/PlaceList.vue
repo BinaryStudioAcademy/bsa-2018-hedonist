@@ -8,7 +8,7 @@
                 <div class="index">
                     {{ index+1 }}.
                 </div>
-                <PlaceListComponent 
+                <PlacePreviewList 
                     :place="place" 
                     :timer="50 * (index+1)"
                 />
@@ -40,12 +40,12 @@
 </style>
 
 <script>
-import PlaceListComponent from './PlaceListComponent';
+import PlacePreviewList from './PlacePreviewList';
 import { mapState } from 'vuex';
 
 export default {
     name: 'PlaceList',
-    components: {PlaceListComponent},
+    components: {PlacePreviewList},
     computed: {...mapState('place', ['places'])}
 };
 </script>
