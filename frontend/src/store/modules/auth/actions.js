@@ -118,5 +118,15 @@ export default {
                     reject(error.response.data.error);
                 });
         });
-    }
+    },
+    checkEmailUnique: (context, email) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/auth/unique?email='+email
+            ).then(function (res) {
+                resolve(res.data.data);
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    },
 };

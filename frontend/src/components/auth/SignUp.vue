@@ -3,7 +3,7 @@
         <Form>
             <b-field
                 label="First name"
-                :type="input.firstName.type"
+                :type="type('firstName')"
             >
                 <b-input
                     name="firstName"
@@ -13,10 +13,18 @@
                     @focus="onFocus('firstName')"
                 />
             </b-field>
+                <div class="error"
+                     v-if="!$v.newUser.firstName.required && !focus.firstName"
+                >
+                    First name is required.</div>
+                <div class="error"
+                     v-if="!$v.newUser.firstName.alpha && !focus.firstName"
+                >
+                    Only letters are allowed</div>
 
             <b-field
                 label="Last name"
-                :type="input.lastName.type"
+                :type="type('lastName')"
             >
                 <b-input
                     name="lastName"
@@ -26,10 +34,18 @@
                     @focus="onFocus('lastName')"
                 />
             </b-field>
+                <div class="error"
+                     v-if="!$v.newUser.lastName.required && !focus.lastName"
+                >
+                    Last name is required.</div>
+                <div class="error"
+                     v-if="!$v.newUser.lastName.alpha && !focus.lastName"
+                >
+                    Only letters are allowed</div>
 
             <b-field
                 label="Email"
-                :type="input.email.type"
+                :type="type('email')"
             >
 
                 <b-input
@@ -40,13 +56,25 @@
                     @focus="onFocus('email')"
                 />
             </b-field>
+                <div class="error"
+                     v-if="!$v.newUser.email.required && !focus.email"
+                >
+                    Email is required.</div>
+                <div class="error"
+                     v-if="!$v.newUser.email.email && !focus.email"
+                >
+                    Wrong email format</div>
+                <div class="error"
+                     v-if="!$v.newUser.email.isUnique && !focus.email"
+                >
+                    This email is already registered.</div>
 
             <label class="label">
                 Password <span class="grayed">(at least 6 characters)</span>
             </label>
 
             <b-field
-                :type="input.password.type"
+                :type="type('password')"
             >
 
                 <b-input 
@@ -59,6 +87,14 @@
                     password-reveal
                 />
             </b-field>
+                <div class="error"
+                     v-if="!$v.newUser.password.required && !focus.password"
+                >
+                    Password is required.</div>
+                <div class="error"
+                     v-if="!$v.newUser.password.minLength  && !focus.password"
+                >
+                    Should be 6 symbols at least </div>
 
             <button
                 type="button"
@@ -93,27 +129,25 @@ export default {
                 password: ''
             },
 
-            input: {
-                firstName: {
-                    type: ''
-                },
-                lastName: {
-                    type: ''
-                },
-                email: {
-                    type: ''
-                },
-                password: {
-                    type: ''
-                }
-            }
+            focus: {
+                firstName: true,
+                lastName: true,
+                email: true,
+                password: true
+            },
         };
     },
 
     methods: {
-        ...mapActions({
-            signUp: 'auth/signUp'
-        }),
+        ...mapActions([
+            'auth/signUp',
+            'checkEmailUnique'
+        ]),
+
+        type(el) {
+            if (this.focus[el]) return '';
+            return this.$v.newUser[el].$invalid ? 'is-danger' : 'is-success';
+        },
 
         onSignUp () {
             if (!this.$v.newUser.$invalid) {
@@ -141,6 +175,7 @@ export default {
                 type: 'is-danger'
             });
         },
+
         onSuccess (success) {
             this.$toast.open({
                 message: success.message,
@@ -149,15 +184,11 @@ export default {
         },
 
         onBlur (el) {
-            if (this.$v.newUser[el].$invalid) {
-                this.input[el].type = 'is-danger';
-            } else {
-                this.input[el].type = 'is-success';
-            }
+            this.focus[el] = false;
         },
 
         onFocus (el) {
-            this.input[el].type = '';
+            this.focus[el] = true;
         },
 
         refreshInput () {
@@ -190,7 +221,20 @@ export default {
             },
             email: {
                 required,
-                email
+                email,
+                async isUnique(value) {
+                    if (value === '') return true;
+                    if(!this.$v.newUser.email.email) return true;
+                    return new Promise((resolve, reject) => {
+                        this.checkEmailUnique(value)
+                            .then((res)=>{
+                                resolve(res.email === value && res.isUnique);
+                            })
+                            .catch(function (err) {
+                                reject(err);
+                            });
+                    })
+                }
             },
             password: {
                 required,
@@ -202,9 +246,21 @@ export default {
 </script>
 
 <style scoped>
-  .grayed {
-    color: darkgray;
-    font-size: .8em;
-    font-weight: normal;
-  }
+    .error {
+        color: red;
+    }
+    .field:not(:last-child) {
+        margin-bottom: 0;
+        margin-top: 0.75rem;
+    }
+
+    .button {
+        margin-top: 1.5rem;
+    }
+
+    .grayed {
+      color: darkgray;
+      font-size: .8em;
+      font-weight: normal;
+    }
 </style>
