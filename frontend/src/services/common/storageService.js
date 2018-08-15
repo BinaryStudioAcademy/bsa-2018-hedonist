@@ -14,7 +14,7 @@ export const storageService = {
         return this.set(this.keyName, token);
     },
     hasToken() {
-        return !!this.get(this.keyName);
+        return false;
     },
     setAuthenticatedUser(user) {
         this.set(this.USER, JSON.stringify(user));

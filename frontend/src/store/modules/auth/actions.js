@@ -130,5 +130,20 @@ export default {
                 reject(err);
             });
         });
-    }
+    },
+    checkEmailUnique: (context, email) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/auth/unique/email', {
+                email: email
+            }).then(function (res) {
+                if (res.status === 400){
+                    resolve(res.data);
+                } else {
+                    resolve(res.data.data);
+                }
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    },
 };

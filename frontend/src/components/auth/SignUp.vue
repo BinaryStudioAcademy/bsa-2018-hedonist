@@ -13,6 +13,10 @@
                     @focus="onFocus('firstName')"
                 />
             </b-field>
+                <div class="error"
+                     v-if="!$v.newUser.firstName.required && input.firstName.type">First name is required.</div>
+                <div class="error"
+                     v-if="!$v.newUser.firstName.alpha  && input.firstName.type">Only letters are allowed</div>
 
             <b-field
                 label="Last name"
@@ -26,6 +30,10 @@
                     @focus="onFocus('lastName')"
                 />
             </b-field>
+                <div class="error"
+                     v-if="!$v.newUser.lastName.required && input.lastName.type">Last name is required.</div>
+                <div class="error"
+                     v-if="!$v.newUser.lastName.alpha  && input.lastName.type">Only letters are allowed</div>
 
             <b-field
                 label="Email"
@@ -40,6 +48,12 @@
                     @focus="onFocus('email')"
                 />
             </b-field>
+                <div class="error"
+                     v-if="!$v.newUser.email.required && input.email.type">Email is required.</div>
+                <div class="error"
+                     v-if="!$v.newUser.email.email && input.email.type">Wrong email format</div>
+                <div class="error"
+                     v-if="!$v.newUser.email.isUnique && input.email.type">This email is already registered.</div>
 
             <b-field
                 label="Password"
@@ -56,6 +70,10 @@
                     password-reveal
                 />
             </b-field>
+                <div class="error"
+                     v-if="!$v.newUser.password.required && input.password.type">Password is required.</div>
+                <div class="error"
+                     v-if="!$v.newUser.password.minLength  && input.password.type">Should be 6 symbols at least </div>
 
             <button
                 type="button"
@@ -108,7 +126,10 @@ export default {
     },
 
     methods: {
-        ...mapActions(['signUp']),
+        ...mapActions([
+            'signUp',
+            'checkEmailUnique'
+        ]),
 
         onSignUp () {
             if (!this.$v.newUser.$invalid) {
@@ -136,6 +157,7 @@ export default {
                 type: 'is-danger'
             });
         },
+
         onSuccess (success) {
             this.$toast.open({
                 message: success.message,
@@ -185,7 +207,22 @@ export default {
             },
             email: {
                 required,
-                email
+                email,
+                async isUnique(value) {
+                    if (value === '') return true;
+                    return new Promise((resolve, reject) => {
+                        this.checkEmailUnique(value)
+                            .then((res)=>{
+                                    if(res.error){
+                                        this.onError(res.error);
+                                        reject();
+                                    } else {
+                                        resolve(res.email === value && res.isUnique);
+                                    }
+                                }
+                            );
+                    })
+                }
             },
             password: {
                 required,
@@ -197,5 +234,15 @@ export default {
 </script>
 
 <style>
+    .error {
+        color: red;
+    }
+    .field:not(:last-child) {
+        margin-bottom: 0;
+        margin-top: 0.75rem;
+    }
 
+    .button {
+        margin-top: 1.5rem;
+    }
 </style>
