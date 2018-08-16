@@ -114,7 +114,7 @@ export default {
 
     computed: {
         user() {
-            return this.$store.getters.getAuthenticatedUser;
+            return this.$store.getters['auth/getAuthenticatedUser'];
         }
     },
 
