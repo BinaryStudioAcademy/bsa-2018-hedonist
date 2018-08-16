@@ -30,9 +30,18 @@
                 <b-modal :active.sync="isCheckinModalActive" has-modal-card>
                     <PlaceCheckinModal :place="place" />
                 </b-modal>
-                <button class="button is-success">
-                    <i class="far fa-save" />Save
-                </button>
+
+                <b-dropdown>
+                    <button class="button is-success" slot="trigger">
+                        <i class="far fa-save" />Save
+                        <b-icon icon="menu-down" />
+                    </button>
+
+                    <template v-for="list in userlist">
+                        <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}</b-dropdown-item>
+                    </template>
+                </b-dropdown>
+
                 <button class="button is-info">
                     <i class="far fa-share-square" />Share
                 </button>
@@ -99,13 +108,35 @@ export default {
     data() {
         return {
             activeTab: 1,
+            userlist: {},
             isCheckinModalActive: false
         };
     },
+
+    created() {
+        this.$store.dispatch('userlist/getListsByUser', this.user.id)
+            .then((result) => {
+                this.userlist = result;
+            });
+    },
+
+    computed: {
+        user() {
+            return this.$store.getters['auth/getAuthenticatedUser'];
+        }
+    },
+
     methods: {
         changeTab: function(activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);
+        },
+
+        addPlaceToList: function (listId) {
+            this.$store.dispatch('userlist/addPlaceToList', {
+                listId: listId,
+                placeId: this.place.id
+            });
         }
     }
 };

@@ -115,13 +115,31 @@ export default {
     .container {
         max-width: 700px;
         text-align: left;
+        padding: 40px;
     }
 
     .avatar {
         margin-bottom: 10px;
     }
 
+    .image img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .file.is-fullwidth {
+        width: 100%;
+    }
+
     .upload {
         width: 100%;
+    }
+
+    @media screen and (max-width: 769px) {
+        .is-one-third {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     }
 </style>
