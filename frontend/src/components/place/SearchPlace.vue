@@ -119,15 +119,6 @@ export default {
 
     .columns {
         padding: 10px;
-        display: grid;
-        grid-template-areas: "left right";
-
-        .is-half {
-            grid-area: left;
-        }
-        .right-side {
-            grid-area: right;
-        }
     }
 
     #map {
@@ -142,7 +133,15 @@ export default {
 
     @media screen and (max-width: 769px) {
         .columns {
+            display: grid;
             grid-template-areas: "right" "left";
+
+            .is-half {
+                grid-area: left;
+            }
+            .right-side {
+                grid-area: right;
+            }
         }
         #map {
             text-align: justify;
