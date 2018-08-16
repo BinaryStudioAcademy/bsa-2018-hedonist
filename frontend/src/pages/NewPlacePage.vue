@@ -13,7 +13,7 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control is-expanded">
-                                            <input class="input is-medium" type="text" placeholder="Place's name">
+                                            <input v-model="newPlace.name" class="input is-medium" type="text" placeholder="Place's name">
                                         </div>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@
                             <div class="level">
                                 <div class="level-item">
                                     <b-field>
-                                        <b-select v-model="category">
+                                        <b-select v-model="newPlace.category">
                                             <option value="" selected disabled>Select a category</option>
                                             <option
                                                 v-for="option in categories"
@@ -153,37 +153,33 @@
                                         </b-select>
                                     </b-field>
                                 </div>
-                                <!--<div class="level-right">-->
-                                <!--<b-field>-->
-                                <!--<b-select v-model="subcategory" :disabled="isCategoryNOTSelected">-->
-                                <!--<option-->
-                                <!--v-for="option in subcategories"-->
-                                <!--:value="option.v"-->
-                                <!--:key="option.id"-->
-                                <!--&gt;-->
-                                <!--{{ option.name }}-->
-                                <!--</option>-->
-                                <!--</b-select>-->
-                                <!--</b-field>-->
-                                <!--</div>-->
                             </div>
+                            <template v-if="isCategorySelected">
+                                <div class="level">
+                                    <div class="level-item">
+                                        <b-field>
+                                            <b-select v-model="selectedTag">
+                                                <option value="" selected disabled>Add tags</option>
+                                                <option
+                                                        v-for="option in category_tags"
+                                                        :key="option.id"
+                                                        :value="option.name"
+                                                >
+                                                    {{ option.name }}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+                                    </div>
+                                </div>
+                            </template>
 
                             <!-- Tags field here! -->
-                            <template v-if="isCategorySelected">
-                                <!--<div class="tags">-->
-                                <!--<span-->
-                                <!--v-for="tag in category_tags"-->
-                                <!--:key="tag.id"-->
-                                <!--class="tag is-info is-medium"-->
-                                <!--&gt;-->
-                                <!--{{ tag.name }}-->
-                                <!--</span>-->
-                                <!--</div>-->
+                            <template>
                                 <div class="level">
                                     <div class="level-item">
                                         <b-taglist>
                                             <b-tag
-                                                v-for="tag in category_tags"
+                                                v-for="tag in newPlace.category_tags"
                                                 :key="tag.id"
                                                 type="is-info"
                                                 size="is-medium"
@@ -295,47 +291,37 @@ export default {
     name: 'NewPlacePage',
     data() {
         return {
-            category: '',
-            subcategory: '',
-            weekdays: [],
-            timeStart: new Date(),
-            timeEnd: new Date(),
+            newPlace: {
+                name: '',
+                category: '',
+                category_tags: [
+                    {
+                        name: 'test'
+                    }
+                ]
+            },
             categories: {},
+            selectedTag: '',
             category_tags: [
                 {
                     name: 'bar'
                 },
                 {
-                    name: 'bar'
+                    name: 'bar1'
                 },
                 {
-                    name: 'bar'
+                    name: 'bar2'
                 },
                 {
-                    name: 'bar'
+                    name: 'bar3'
                 },
                 {
-                    name: 'bar'
+                    name: 'bar4'
                 }
             ],
-            // subcategories: [
-            //     {
-            //         v: '',
-            //         name: 'Select a subcategory'
-            //     },
-            //     {
-            //         v: 'sub1',
-            //         name: 'sub1'
-            //     },
-            //     {
-            //         v: 'sub2',
-            //         name: 'sub2'
-            //     },
-            //     {
-            //         v: 'sub3',
-            //         name: 'sub3'
-            //     }
-            // ],
+            weekdays: [],
+            timeStart: new Date(),
+            timeEnd: new Date(),
             features: [
                 {
                     name: 'wi-fi',
@@ -387,22 +373,29 @@ export default {
                 this.categories = result;
             });
     },
+    
+    watch: {
+      'selectedTag': function (value) {
+          if (value) {
+              console.log(value);
+              this.newPlace.category_tags.push({
+                  name: value
+              });
+          }
+      }  
+    },
 
     computed: {
-        // isCategoryNOTSelected: function () {
-        //     return !this.category;
-        // },
         isCategorySelected: function () {
-            return !!this.category;
-        },
-
-        onChooseTag: function () {
-            return this.category = {};
+            return !!this.newPlace.category;
         },
 
         isDaySelected: function () {
             return !this.weekdays.length;
         }
+    },
+
+    methods: {
     }
 };
 </script>
