@@ -1,6 +1,7 @@
 <template>
     <div class="reviews-photo">
-        <img v-img:review-group
+        <img
+            v-img:review-group
             class="reviews-photo__image" 
             :src="photo.url" 
             alt="reviews image"

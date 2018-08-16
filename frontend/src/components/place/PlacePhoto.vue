@@ -1,6 +1,7 @@
 <template>
     <div class="place-photo">
-        <img v-img:top-group
+        <img
+            v-img:top-group
             class="place-photo__image" 
             :src="photo.url" 
             alt="place image"
