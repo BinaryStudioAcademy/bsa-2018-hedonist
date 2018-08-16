@@ -21,9 +21,13 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <button class="button is-primary">
-                    <i class="fas fa-check" />Check-in
+                <button class="button is-primary"
+                    @click="isCheckinModalActive = true">
+                    <i class="fas fa-check"></i>Check-in
                 </button>
+                <b-modal :active.sync="isCheckinModalActive" has-modal-card>
+                    <PlaceCheckinModal :place="place"></PlaceCheckinModal>
+                </b-modal>
                 <button class="button is-success">
                     <i class="far fa-save" />Save
                 </button>
@@ -75,31 +79,34 @@
 </template>
 
 <script>
-    import PlacePhotoList from './PlacePhotoList';
+import PlacePhotoList from './PlacePhotoList';
+import PlaceCheckinModal from './PlaceCheckinModal';
 
-    export default {
-        name: "PlaceTopInfo",
-        components: {
-            PlacePhotoList,
-        },
-        props: {
-            place: {
-                type: Object,
-                required: true
-            }
-        },
-        data() {
-            return {
-                activeTab: 1
-            }
-        },
-        methods: {
-            changeTab: function(activeTab) {
-                this.activeTab = activeTab;
-                this.$emit('tabChanged', activeTab);
-            }
+export default {
+    name: 'PlaceTopInfo',
+    components: {
+        PlacePhotoList,
+        PlaceCheckinModal
+    },
+    props: {
+        place: {
+            type: Object,
+            required: true
+        }
+    },
+    data() {
+        return {
+            activeTab: 1,
+            isCheckinModalActive: false
+        }
+    },
+    methods: {
+        changeTab: function(activeTab) {
+            this.activeTab = activeTab;
+            this.$emit('tabChanged', activeTab);
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>
