@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex';
+import {mapState, mapActions, mapGetters} from 'vuex';
 import debounce from 'lodash/debounce';
 import httpService from '@/services/common/httpService';
 
@@ -69,14 +69,13 @@ export default {
             this.findCity.data = [];
             if(this.findCity.query) {
                 this.findCity.isFetching = true;
-                let mapboxCitiesApiUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.findCity.query}.json?access_token=pk.eyJ1IjoibWloYWlsdHMiLCJhIjoiY2prdTk1ZXhxMGU1NDNrcXFkYmg0bnR4MyJ9.lGCRpovOVijAFC1ZrFZk-g&country=ua&autocomplete=true&language=en`;
+                let mapboxCitiesApiUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.findCity.query}.json?access_token=${this.mapboxToken}&country=ua&autocomplete=true&language=en`;
 
                 httpService.get(mapboxCitiesApiUrl)
                     .then(({ data }) => {
                         this.findCity.data = [...data.features];
                         this.findCity.isFetching = false;
                     }, response => {
-                        console.log(response);
                         this.findCity.isFetching = false;
                     });
             }
@@ -86,6 +85,7 @@ export default {
         this.loadCategories();
     },
     computed: {
+        ...mapGetters('map', ['getMapboxToken']),
         ...mapState('placeCategory', ['searchCategories']),
         categories: function () {
             return this.searchCategories;
