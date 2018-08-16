@@ -4,7 +4,7 @@ export default {
     checkIn: (context, data) => {
         return httpService.post('/users/me/checkins', data)
             .then(response => { 
-                return response; 
+                return Promise.resolve(response);
             })
             .catch(error => {
                 return Promise.reject(error);
@@ -14,7 +14,7 @@ export default {
     setPlaceRating: (context, data) => {
         return httpService.post('/places/rating', data)
             .then(response => { 
-                return response; 
+                return Promise.resolve(response);
             })
             .catch(error => {
                 return Promise.reject(error);

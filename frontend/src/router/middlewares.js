@@ -68,6 +68,9 @@ const fetchUser = (store) => {
                             store.commit('SET_LOADING', false);
                             reject();
                         });
+                } else {
+                    store.commit('SET_LOADING', false);
+                    reject();
                 }
             });
     });
