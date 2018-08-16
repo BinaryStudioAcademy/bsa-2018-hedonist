@@ -7,6 +7,7 @@ use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\PlaceCategory;
 use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Localization\PlaceTranslation;
+use Hedonist\Entities\Place\PlacePhoto;
 
 class PlaceTableSeeder extends Seeder
 {
@@ -72,6 +73,11 @@ class PlaceTableSeeder extends Seeder
                 'place_name' => $placeName,
                 'place_id' => $place->id,
                 'language_id' => $language->id
+            ]);
+
+            factory(PlacePhoto::class)->create([
+                'place_id' => $place->id,
+                'creator_id' => User::inRandomOrder()->first()->id,
             ]);
         }
     }
