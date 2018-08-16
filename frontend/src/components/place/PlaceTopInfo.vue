@@ -5,10 +5,10 @@
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
                     <img
-                            src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png"
-                            data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png"
-                            width="88"
-                            height="88"
+                        src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png"
+                        data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png"
+                        width="88"
+                        height="88"
                     >
                 </div>
                 <div class="place-venue__prime-info">
@@ -43,14 +43,14 @@
                 <nav class="sidebar-actions tabs">
                     <ul>
                         <li
-                                @click="changeTab(1)"
-                                :class="{ 'is-active' : activeTab === 1}"
+                            @click="changeTab(1)"
+                            :class="{ 'is-active' : activeTab === 1}"
                         >
                             <a><span>Comments (2)</span></a>
                         </li>
                         <li
-                                @click="changeTab(2)"
-                                :class="{ 'is-active' : activeTab === 2}"
+                            @click="changeTab(2)"
+                            :class="{ 'is-active' : activeTab === 2}"
                         >
                             <a><span>Photos (12)</span></a>
                         </li>
@@ -81,8 +81,8 @@
 </template>
 
 <script>
-    import PlacePhotoList from './PlacePhotoList';
-    import PlaceCheckinModal from './PlaceCheckinModal';
+import PlacePhotoList from './PlacePhotoList';
+import PlaceCheckinModal from './PlaceCheckinModal';
 
 export default {
     name: 'PlaceTopInfo',
