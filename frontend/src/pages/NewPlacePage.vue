@@ -105,6 +105,19 @@
 
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
+                                    <label class="label">Menu link</label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="field">
+                                        <div class="control is-expanded">
+                                            <input class="input" type="text" placeholder="Place's menu">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field is-horizontal">
+                                <div class="field-label is-normal">
                                     <label class="label">Description</label>
                                 </div>
                                 <div class="field-body">

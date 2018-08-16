@@ -4,10 +4,10 @@
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
-                    <img 
-                        src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png" 
-                        data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png" 
-                        width="88" 
+                    <img
+                        src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png"
+                        data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png"
+                        width="88"
                         height="88"
                     >
                 </div>
@@ -30,9 +30,18 @@
                 <b-modal :active.sync="isCheckinModalActive" has-modal-card>
                     <PlaceCheckinModal :place="place" />
                 </b-modal>
-                <button class="button is-success">
-                    <i class="far fa-save" />Save
-                </button>
+
+                <b-dropdown>
+                    <button class="button is-success" slot="trigger">
+                        <i class="far fa-save" />Save
+                        <b-icon icon="menu-down" />
+                    </button>
+
+                    <template v-for="list in userlist">
+                        <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}</b-dropdown-item>
+                    </template>
+                </b-dropdown>
+
                 <button class="button is-info">
                     <i class="far fa-share-square" />Share
                 </button>
@@ -42,14 +51,14 @@
             <div class="column is-two-thirds">
                 <nav class="sidebar-actions tabs">
                     <ul>
-                        <li 
-                            @click="changeTab(1)" 
+                        <li
+                            @click="changeTab(1)"
                             :class="{ 'is-active' : activeTab === 1}"
                         >
                             <a><span>Comments (2)</span></a>
                         </li>
-                        <li 
-                            @click="changeTab(2)" 
+                        <li
+                            @click="changeTab(2)"
                             :class="{ 'is-active' : activeTab === 2}"
                         >
                             <a><span>Photos (12)</span></a>
@@ -99,13 +108,35 @@ export default {
     data() {
         return {
             activeTab: 1,
+            userlist: {},
             isCheckinModalActive: false
         };
     },
+
+    created() {
+        this.$store.dispatch('userlist/getListsByUser', this.user.id)
+            .then((result) => {
+                this.userlist = result;
+            });
+    },
+
+    computed: {
+        user() {
+            return this.$store.getters['auth/getAuthenticatedUser'];
+        }
+    },
+
     methods: {
         changeTab: function(activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);
+        },
+
+        addPlaceToList: function (listId) {
+            this.$store.dispatch('userlist/addPlaceToList', {
+                listId: listId,
+                placeId: this.place.id
+            });
         }
     }
 };
@@ -190,6 +221,23 @@ export default {
                     margin-right: 5px;
                     font-size: 25px;
                 }
+            }
+        }
+    }
+
+    @media screen and (max-width: 520px) {
+        .place-venue {
+            &__actions {
+                justify-content: space-between;
+                margin-top: 50px;
+            }
+        }
+    }
+    @media screen and (max-width: 370px) {
+        .place-venue {
+            &__actions {
+                justify-content: center;
+                flex-wrap: wrap;
             }
         }
     }
