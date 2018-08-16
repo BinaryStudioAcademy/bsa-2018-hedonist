@@ -62,10 +62,10 @@ class PlaceTableSeeder extends Seeder
         ]);
 
         foreach (self::PLACE_NAMES as $placeName) {
-            $place = factory(Place::class)->create([
-                'city_id'       => City::inRandomOrder()->first()->id,
+            $place = factory(Place::class, 'LvivPlaces')->create([
+                'city_id'       => City::where('name','Lviv')->first()->id,
                 'creator_id'    => User::inRandomOrder()->first()->id,
-                'category_id'   => PlaceCategory::inRandomOrder()->first()->id
+                'category_id'   => PlaceCategory::inRandomOrder()->first()->id,
             ]);
 
             $placeTranslation = factory(PlaceTranslation::class)->create([
