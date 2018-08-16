@@ -21,9 +21,13 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <button class="button is-primary">
-                    <i class="fas fa-check" />Check-in
+                <button class="button is-primary"
+                    @click="isCheckinModalActive = true">
+                    <i class="fas fa-check"></i>Check-in
                 </button>
+                <b-modal :active.sync="isCheckinModalActive" has-modal-card>
+                    <PlaceCheckinModal :place="place"></PlaceCheckinModal>
+                </b-modal>
 
                 <b-dropdown>
                     <button class="button is-success" slot="trigger">
@@ -85,11 +89,13 @@
 
 <script>
 import PlacePhotoList from './PlacePhotoList';
+import PlaceCheckinModal from './PlaceCheckinModal';
 
 export default {
-    name: "PlaceTopInfo",
+    name: 'PlaceTopInfo',
     components: {
         PlacePhotoList,
+        PlaceCheckinModal
     },
     props: {
         place: {
@@ -100,7 +106,8 @@ export default {
     data() {
         return {
             activeTab: 1,
-            userlist: {}
+            userlist: {},
+            isCheckinModalActive: false
         }
     },
 
