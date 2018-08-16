@@ -3,7 +3,7 @@
         :class="[ 'far', 'fa-2x', icon ]"
         @mouseover="$emit('onHover', value)"
         @click="$emit('onSelect', value)"
-    ></i>    
+    />    
 </template>
 
 <script>
@@ -21,7 +21,7 @@ export default {
             required: true
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
