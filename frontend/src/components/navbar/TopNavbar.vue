@@ -8,12 +8,18 @@
                         to="/"
                     >Hedonist</router-link>
 
-                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-                        @click="toggleMenu" :class="{'is-active': isBurgerMenu}">
+                    <a 
+                        role="button" 
+                        class="navbar-burger" 
+                        aria-label="menu" 
+                        aria-expanded="false"
+                        @click="toggleMenu" 
+                        :class="{'is-active': isBurgerMenu}"
+                    >
 
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true" />
+                        <span aria-hidden="true" />
+                        <span aria-hidden="true" />
                     </a>
                 </div>
 
@@ -98,9 +104,9 @@ export default {
     name: 'TopNavbar',
 
     data () {
-      return {
-        isBurgerMenu: false
-      }
+        return {
+            isBurgerMenu: false
+        };
     },
 
     computed: {
@@ -123,7 +129,7 @@ export default {
         },
 
         toggleMenu () {
-            this.isBurgerMenu = !this.isBurgerMenu
+            this.isBurgerMenu = !this.isBurgerMenu;
         }
     },
     components: {
