@@ -13,14 +13,16 @@
                     @focus="onFocus('firstName')"
                 />
             </b-field>
-                <div class="error"
-                     v-if="!$v.newUser.firstName.required && !focus.firstName"
-                >
-                    First name is required.</div>
-                <div class="error"
-                     v-if="!$v.newUser.firstName.alpha && !focus.firstName"
-                >
-                    Only letters are allowed</div>
+            <div 
+                class="error"
+                v-if="!$v.newUser.firstName.required && !focus.firstName"
+            >
+                First name is required.</div>
+            <div 
+                class="error"
+                v-if="!$v.newUser.firstName.alpha && !focus.firstName"
+            >
+                Only letters are allowed</div>
 
             <b-field
                 label="Last name"
@@ -34,14 +36,16 @@
                     @focus="onFocus('lastName')"
                 />
             </b-field>
-                <div class="error"
-                     v-if="!$v.newUser.lastName.required && !focus.lastName"
-                >
-                    Last name is required.</div>
-                <div class="error"
-                     v-if="!$v.newUser.lastName.alpha && !focus.lastName"
-                >
-                    Only letters are allowed</div>
+            <div 
+                class="error"
+                v-if="!$v.newUser.lastName.required && !focus.lastName"
+            >
+                Last name is required.</div>
+            <div 
+                class="error"
+                v-if="!$v.newUser.lastName.alpha && !focus.lastName"
+            >
+                Only letters are allowed</div>
 
             <b-field
                 label="Email"
@@ -56,18 +60,21 @@
                     @focus="onFocus('email')"
                 />
             </b-field>
-                <div class="error"
-                     v-if="!$v.newUser.email.required && !focus.email"
-                >
-                    Email is required.</div>
-                <div class="error"
-                     v-if="!$v.newUser.email.email && !focus.email"
-                >
-                    Wrong email format</div>
-                <div class="error"
-                     v-if="!$v.newUser.email.isUnique && !focus.email"
-                >
-                    This email is already registered.</div>
+            <div 
+                class="error"
+                v-if="!$v.newUser.email.required && !focus.email"
+            >
+                Email is required.</div>
+            <div 
+                class="error"
+                v-if="!$v.newUser.email.email && !focus.email"
+            >
+                Wrong email format</div>
+            <div 
+                class="error"
+                v-if="!$v.newUser.email.isUnique && !focus.email"
+            >
+                This email is already registered.</div>
 
             <label class="label">
                 Password <span class="grayed">(at least 6 characters)</span>
@@ -83,24 +90,25 @@
                     placeholder="Your Password"
                     @blur="onBlur('password')"
                     @focus="onFocus('password')"
-                    @keyup.enter="onSignUp"
+                    @keyup.native.enter="onSignUp"
                     password-reveal
                 />
             </b-field>
-                <div class="error"
-                     v-if="!$v.newUser.password.required && !focus.password"
-                >
-                    Password is required.</div>
-                <div class="error"
-                     v-if="!$v.newUser.password.minLength  && !focus.password"
-                >
-                    Should be 6 symbols at least </div>
+            <div 
+                class="error"
+                v-if="!$v.newUser.password.required && !focus.password"
+            >
+                Password is required.</div>
+            <div 
+                class="error"
+                v-if="!$v.newUser.password.minLength && !focus.password"
+            >
+                Should be 6 symbols at least </div>
 
             <button
                 type="button"
                 class="button is-primary is-rounded button-wide"
                 @click="onSignUp"
-                @keyup.enter="onSignUp"
             >
                 Create
             </button>
@@ -139,10 +147,10 @@ export default {
     },
 
     methods: {
-        ...mapActions([
-            'auth/signUp',
-            'checkEmailUnique'
-        ]),
+        ...mapActions({
+            signUp          : 'auth/signUp',
+            checkEmailUnique: 'auth/checkEmailUnique'
+        }),
 
         type(el) {
             if (this.focus[el]) return '';
@@ -233,7 +241,7 @@ export default {
                             .catch(function (err) {
                                 reject(err);
                             });
-                    })
+                    });
                 }
             },
             password: {

@@ -2,7 +2,7 @@
     <section class="columns">
         <section class="column is-half">
             <template v-for="(place, index) in places">
-                <PlacePreviewList
+                <PlacePreview
                     v-if="isPlacesLoaded"
                     :key="place.id" 
                     :place="place" 
@@ -38,7 +38,7 @@
 <script>
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import PlacePreviewList from './PlacePreviewList';
+import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import MarkerService from '@/services/map/markerManagerService';
@@ -48,7 +48,7 @@ let markerManager = null;
 export default {
     name: 'SearchPlace',
     components: {
-        PlacePreviewList,
+        PlacePreview,
         Mapbox,
     },
     data() {
@@ -60,7 +60,7 @@ export default {
         };
     },
     created() {
-        this.$store.dispatch("place/fetchPlaces")
+        this.$store.dispatch('place/fetchPlaces')
             .then(() => this.isPlacesLoaded = true);
     },
     methods: {
@@ -86,7 +86,20 @@ export default {
     },
     computed: {
         ...mapState('place', ['places']),
+        ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
+        filteredPlaces: function() {
+            let places = [];
+            if (this.filterQuery) {
+                places = this.getFilteredByName(this.filterQuery);
+            } else {
+                places = this.places;
+            }
+            if(this.isMapLoaded){
+                this.updateMap(places);
+            }
+            return places;
+        }
     }
 };
 </script>
