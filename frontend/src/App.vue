@@ -13,7 +13,7 @@ export default {
     components: {
         TopNavbar
     }
-}
+};
 </script>
 
 <style lang="scss">
