@@ -1,4 +1,4 @@
-import httpService from "../../../services/common/httpService";
+import httpService from '../../../services/common/httpService';
 
 export default {
     getListsByUser: (context, userId) => {
@@ -9,8 +9,8 @@ export default {
                 })
                 .catch(function (error) {
                     reject(error);
-                })
-        })
+                });
+        });
     },
 
     addPlaceToList: (context, payload) => {
@@ -24,6 +24,6 @@ export default {
                 .catch(function (error) {
                     reject(error);
                 });
-        })
+        });
     }
-}
+};

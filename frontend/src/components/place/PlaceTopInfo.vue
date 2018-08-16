@@ -21,18 +21,20 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <button class="button is-primary"
-                    @click="isCheckinModalActive = true">
-                    <i class="fas fa-check"></i>Check-in
+                <button 
+                    class="button is-primary"
+                    @click="isCheckinModalActive = true"
+                >
+                    <i class="fas fa-check" />Check-in
                 </button>
                 <b-modal :active.sync="isCheckinModalActive" has-modal-card>
-                    <PlaceCheckinModal :place="place"></PlaceCheckinModal>
+                    <PlaceCheckinModal :place="place" />
                 </b-modal>
 
                 <b-dropdown>
                     <button class="button is-success" slot="trigger">
-                        <i class="far fa-save"></i>Save
-                        <b-icon icon="menu-down"></b-icon>
+                        <i class="far fa-save" />Save
+                        <b-icon icon="menu-down" />
                     </button>
 
                     <template v-for="list in userlist">
@@ -108,14 +110,14 @@ export default {
             activeTab: 1,
             userlist: {},
             isCheckinModalActive: false
-        }
+        };
     },
 
     created() {
         this.$store.dispatch('userlist/getListsByUser', this.user.id)
             .then((result) => {
                 this.userlist = result;
-            })
+            });
     },
 
     computed: {
@@ -125,7 +127,7 @@ export default {
     },
 
     methods: {
-        changeTab: function (activeTab) {
+        changeTab: function(activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);
         },
@@ -137,7 +139,7 @@ export default {
             });
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

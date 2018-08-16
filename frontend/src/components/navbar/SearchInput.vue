@@ -3,14 +3,14 @@
         <div class="navbar-item">
             <div class="control has-icons-right">
                 <b-autocomplete
-                        v-model="filterQuery"
-                        placeholder="I'm looking for..."
-                        :open-on-focus="true"
-                        :data="categories"
-                        field="name"
-                        @input="loadCategories()"
-                        @select="option => selected = option">
-                </b-autocomplete>
+                    v-model="filterQuery"
+                    placeholder="I'm looking for..."
+                    :open-on-focus="true"
+                    :data="categories"
+                    field="name"
+                    @input="loadCategories()"
+                    @select="option => selected = option"
+                />
             </div>
         </div>
         <div class="navbar-item">
@@ -27,34 +27,34 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex';
+import {mapState} from 'vuex';
 
-    export default {
-        name: 'SearchInput',
-        data() {
-            return {
-                filterQuery: '',
-                isShow: false
-            };
+export default {
+    name: 'SearchInput',
+    data() {
+        return {
+            filterQuery: '',
+            isShow: false
+        };
+    },
+    methods: {
+        onClickOutside() {
+            this.isShow = false;
         },
-        methods: {
-            onClickOutside() {
-                this.isShow = false;
-            },
-            loadCategories() {
-                this.$store.dispatch('placeCategory/loadCategories', this.filterQuery);
-            }
-        },
-        created() {
-            this.loadCategories();
-        },
-        computed: {
-            ...mapState('placeCategory', ['searchCategories']),
-            categories: function () {
-                return this.searchCategories;
-            }
+        loadCategories() {
+            this.$store.dispatch('placeCategory/loadCategories', this.filterQuery);
         }
-    };
+    },
+    created() {
+        this.loadCategories();
+    },
+    computed: {
+        ...mapState('placeCategory', ['searchCategories']),
+        categories: function () {
+            return this.searchCategories;
+        }
+    }
+};
 </script>
 
 <style lang="scss" scoped>
