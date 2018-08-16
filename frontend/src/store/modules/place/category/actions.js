@@ -23,7 +23,7 @@ export default {
                 })
                 .catch(function (error) {
                     reject(error);
-                })
-        })
+                });
+        });
     }
 };

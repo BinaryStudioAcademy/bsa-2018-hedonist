@@ -154,30 +154,30 @@
                                     </b-field>
                                 </div>
                                 <!--<div class="level-right">-->
-                                    <!--<b-field>-->
-                                        <!--<b-select v-model="subcategory" :disabled="isCategoryNOTSelected">-->
-                                            <!--<option-->
-                                                <!--v-for="option in subcategories"-->
-                                                <!--:value="option.v"-->
-                                                <!--:key="option.id"-->
-                                            <!--&gt;-->
-                                                <!--{{ option.name }}-->
-                                            <!--</option>-->
-                                        <!--</b-select>-->
-                                    <!--</b-field>-->
+                                <!--<b-field>-->
+                                <!--<b-select v-model="subcategory" :disabled="isCategoryNOTSelected">-->
+                                <!--<option-->
+                                <!--v-for="option in subcategories"-->
+                                <!--:value="option.v"-->
+                                <!--:key="option.id"-->
+                                <!--&gt;-->
+                                <!--{{ option.name }}-->
+                                <!--</option>-->
+                                <!--</b-select>-->
+                                <!--</b-field>-->
                                 <!--</div>-->
                             </div>
 
                             <!-- Tags field here! -->
                             <template v-if="isCategorySelected">
                                 <!--<div class="tags">-->
-                                    <!--<span-->
-                                            <!--v-for="tag in category_tags"-->
-                                            <!--:key="tag.id"-->
-                                            <!--class="tag is-info is-medium"-->
-                                    <!--&gt;-->
-                                        <!--{{ tag.name }}-->
-                                    <!--</span>-->
+                                <!--<span-->
+                                <!--v-for="tag in category_tags"-->
+                                <!--:key="tag.id"-->
+                                <!--class="tag is-info is-medium"-->
+                                <!--&gt;-->
+                                <!--{{ tag.name }}-->
+                                <!--</span>-->
                                 <!--</div>-->
                                 <div class="level">
                                     <div class="level-item">
@@ -385,7 +385,7 @@ export default {
         this.$store.dispatch('placeCategory/getAllCategories')
             .then((result) => {
                 this.categories = result;
-            })
+            });
     },
 
     computed: {
