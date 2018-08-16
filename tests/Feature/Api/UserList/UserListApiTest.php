@@ -49,13 +49,13 @@ class UserListApiTest extends ApiTestCase
     public function test_get_user_lists()
     {
         $userLists = factory(UserList::class)->create();
-        $response = $this->json('GET', "/api/v1/user-lists/$userLists->user_id/lists");
+        $response = $this->json('GET', "/api/v1/users/$userLists->user_id/lists");
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
         $response->assertJsonStructure(
             ["data" =>
                 [
-                    0 => [
+                    '*' => [
                         "id",
                         "user_id",
                         "name",

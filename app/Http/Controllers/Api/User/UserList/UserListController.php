@@ -4,12 +4,14 @@ namespace Hedonist\Http\Controllers\Api\User\UserList;
 
 use Hedonist\Actions\UserList\DeleteUserListAction;
 use Hedonist\Actions\UserList\DeleteUserListRequest;
+use Hedonist\Actions\UserList\GetUserListsCollectionRequest;
 use Hedonist\Actions\UserList\SaveUserListRequest;
 use Hedonist\Actions\UserList\SaveUserListAction;
 use Hedonist\Actions\UserList\GetCollectionUserListAction;
 use Hedonist\Actions\UserList\GetUserListsCollectionAction;
 use Hedonist\Actions\UserList\GetUserListAction;
 use Hedonist\Actions\UserList\GetUserListRequest;
+use Hedonist\Exceptions\UserList\UserListsExistExeption;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\UserList\UserListRequest;
 
@@ -43,8 +45,14 @@ class UserListController extends ApiController
 
     public function userLists(int $userId)
     {
-        $resUserLists = $this->collectionUserListsAction->execute($userId);
-        return $this->successResponse($resUserLists->toArray(), 200);
+        try {
+            $resUserLists = $this->collectionUserListsAction->execute(
+                new GetUserListsCollectionRequest($userId)
+            );
+            return $this->successResponse($resUserLists->toArray());
+        } catch (UserListsExistExeption $e) {
+            return $this->errorResponse($e->getMessage(), 404);
+        }
     }
 
     public function store(UserListRequest $request)
