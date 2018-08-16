@@ -11,7 +11,7 @@
             </template>
         </section>
 
-        <section class="column mapbox-wrapper right-side">
+        <section class="column is-half mapbox-wrapper right-side">
             <section id="map">
                 <mapbox
                     :access-token="getMapboxToken"
@@ -142,6 +142,7 @@ export default {
 
     @media screen and (max-width: 769px) {
         .columns {
+            grid-template-columns: 1fr 1fr;
             grid-template-areas: "right" "left";
         }
         #map {
@@ -152,14 +153,6 @@ export default {
             left: 0;
             width: 100%;
             height: 500px;
-        }
-
-        .left-side{
-            order:2;
-        }
-
-        .right-side{
-            order:1
         }
     }
 
