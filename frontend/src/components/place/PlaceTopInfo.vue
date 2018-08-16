@@ -106,6 +106,7 @@ export default {
             this.$emit('tabChanged', activeTab);
         }
     }
+}
 </script>
 
 <style lang="scss" scoped>
