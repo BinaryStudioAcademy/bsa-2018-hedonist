@@ -8,7 +8,7 @@
                     :open-on-focus="true"
                     :data="categories"
                     field="name"
-                    @input="loadCategories(this.filterQuery)"
+                    @input="loadCategories"
                     @select="option => selected = option"
                 />
             </div>
