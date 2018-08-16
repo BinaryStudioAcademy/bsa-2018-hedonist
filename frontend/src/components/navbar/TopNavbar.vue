@@ -107,7 +107,7 @@ export default {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
             user: 'auth/getAuthenticatedUser'
-       })
+        })
     },
 
     methods: {

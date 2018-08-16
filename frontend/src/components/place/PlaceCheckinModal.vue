@@ -52,7 +52,7 @@ export default {
                 'fa-laugh',
                 'fa-laugh-beam'
             ]
-        }
+        };
     },
 
     props: {
@@ -76,44 +76,43 @@ export default {
         onSelect: function(value) {
             this.checkIn({
                 place_id: this.place.id
-            }).then((response) => {
-                this.handleResponse(response, 'Checked in');
-            });
+            })
+                .then(() => {
+                    this.$toast.open({
+                        type: 'is-success',
+                        message: 'Checked in'
+                    });
+                })
+                .catch((response) => {
+                    this.handleError(response);
+                });
 
             this.setPlaceRating({
                 place_id: this.place.id,
                 rating: value,
                 user_id: this.getAuthenticatedUser.id
-            }).then((response) => {
-                this.handleResponse(response, 'Rating set');
-            });
+            })
+                .then(() => {
+                    this.$toast.open({
+                        type: 'is-success',
+                        message: 'Rating set'
+                    });
+                })
+                .catch((response) => {
+                    this.handleError(response);
+                });
 
             this.$parent.close();
         },
 
-        handleResponse: function(response, successMessage) {
-            switch (response.status) {
-                case 201:
-                    this.$toast.open({
-                        type: 'is-success',
-                        message: successMessage
-                    });
-                    break;
-                case 400:
-                    this.$toast.open({
-                        type: 'is-danger',
-                        message: response.statusText
-                    });
-                    break;
-                default:
-                    this.$toast.open({
-                        type: 'is-danger',
-                        message: 'Something went wrong. Try again later'
-                    });
-            }
+        handleError: function(response) {
+            this.$toast.open({
+                type: 'is-danger',
+                message: response.statusText
+            });
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>

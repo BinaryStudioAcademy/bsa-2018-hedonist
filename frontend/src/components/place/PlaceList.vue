@@ -42,7 +42,7 @@ export default {
     name: 'PlaceList',
     components: {PlacePreview},
     created() {
-        this.$store.dispatch("place/fetchPlaces");
+        this.$store.dispatch('place/fetchPlaces');
     },
     computed: {...mapState('place', ['places'])}
 };
