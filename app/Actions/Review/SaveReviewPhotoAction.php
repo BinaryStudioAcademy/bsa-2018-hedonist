@@ -27,9 +27,12 @@ class SaveReviewPhotoAction
         $file = $request->getImg();
         $newFileName = time() . '_' . mt_rand() . '.' . $file->extension();
         $file->storeAs('upload/review', $newFileName, 'public');
+        list($width, $height) = getimagesize($file);
         $reviewPhoto->review_id = $request->getReviewId();
         $reviewPhoto->description = $request->getDescription();
         $reviewPhoto->img_url = Storage::url('upload/review/' . $newFileName);
+        $reviewPhoto->width = $width;
+        $reviewPhoto->height = $height;
         $reviewPhoto = $this->reviewPhotoRepository->save($reviewPhoto);
 
         return new SaveReviewPhotoResponse($reviewPhoto);

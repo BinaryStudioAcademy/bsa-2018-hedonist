@@ -40,6 +40,14 @@ class GetPlaceCollectionPresenter
                 'name' => $tag->name
             ];
         }
+        foreach ($place->photos as $photo) {
+            $placeArray['photos'][] = [
+                'id' => $photo->id,
+                'description' => $photo->description,
+                'img_url' => $photo->img_url,
+                'creator_id' => $photo->creator_id
+            ];
+        }
 
         return $placeArray;
     }
