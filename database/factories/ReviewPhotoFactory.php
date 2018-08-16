@@ -21,6 +21,8 @@ $factory->define(ReviewPhoto::class, function (Faker $faker) {
             return factory(Review::class)->create()->id;
         },
         'description' => $faker->sentence(3),
-        'img_url' => $faker->imageUrl()
+        'img_url' => $faker->imageUrl(),
+        'width' => $faker->numberBetween(100, 1400),
+        'height' => $faker->numberBetween(100, 1400)
     ];
 });
