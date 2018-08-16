@@ -1,31 +1,25 @@
 <template>
     <div class="photo-slider">
-        <span 
-            class="photo-slider__left-arrow slider-arrow" 
-            @click="toLeft"
-        >
-            <i class="fas fa-caret-left" />
+        <span class="photo-slider__left-arrow slider-arrow">
+            <i @click="toLeft" class="fas fa-caret-left" />
         </span>
-        <ul 
-            ref="photo-list" 
+        <ul
+            ref="photo-list"
             class="photo-slider__list"
         >
-            <li 
+            <li
                 v-for="photo in photos"
                 :key="photo.id"
             >
-                <PlacePhoto 
-                    :key="photo.id" 
-                    :photo="photo" 
+                <PlacePhoto
+                    :key="photo.id"
+                    :photo="photo"
                     :last-id="photos.length"
                 />
             </li>
         </ul>
-        <span 
-            class="photo-slider__right-arrow slider-arrow" 
-            @click="toRight"
-        >
-            <i class="fas fa-caret-right" />
+        <span class="photo-slider__right-arrow slider-arrow">
+            <i @click="toRight" class="fas fa-caret-right" />
         </span>
     </div>
 </template>
@@ -75,34 +69,52 @@ export default {
 
 <style lang="scss" scoped>
 
-$blue: #0e71de;
+    $blue: #0e71de;
 
-.photo-slider {
-    position: relative;
+    .photo-slider {
+        position: relative;
 
-    &__list {
-        overflow: hidden;
-        display: flex;
-        flex-direction: row;
-        margin: 5px;
-        scroll-behavior: smooth;
+        &__list {
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            margin: 5px;
+            scroll-behavior: smooth;
+        }
+
+        .slider-arrow {
+            position: absolute;
+            font-size: 100px;
+            top: 25px;
+            color: $blue;
+            z-index: 2;
+
+            .fas {
+                cursor: pointer;
+
+                &:hover {
+                    color: darken($blue, 10%);
+                }
+            }
+        }
+
+        &__right-arrow {
+            right: -40px;
+        }
+
+        &__left-arrow {
+            left: -40px;
+        }
     }
+    @media screen and (max-width: 1085px) {
+        .photo-slider{
+            &__right-arrow {
+                right: 5px;
+            }
 
-    .slider-arrow {
-        position: absolute;
-        font-size: 100px;
-        top: 25px;
-        color: $blue;
-        z-index: 2;
+            &__left-arrow {
+                left: 5px;
+            }
+        }
     }
-
-    &__right-arrow {
-        right: -40px;
-    }
-
-    &__left-arrow {
-        left: -40px;
-    }
-}
-
 </style>
