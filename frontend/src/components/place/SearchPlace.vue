@@ -147,7 +147,7 @@
     }
 </style>
 
-<style scoped>
+<style lang="scss" scoped>
     .search-field {
         margin-bottom: 10px;
     }
@@ -167,6 +167,17 @@
     }
 
     @media screen and (max-width: 769px) {
+        .columns {
+            display: grid;
+            grid-template-areas: "right" "left";
+
+            .is-half {
+                grid-area: left;
+            }
+            .right-side {
+                grid-area: right;
+            }
+        }
         #map {
             text-align: justify;
             vertical-align: top;
@@ -183,6 +194,12 @@
 
         .right-side {
             order: 1
+        }
+    }
+
+    @media screen and (max-width: 520px) {
+        #map {
+            height: 300px;
         }
     }
 </style>
