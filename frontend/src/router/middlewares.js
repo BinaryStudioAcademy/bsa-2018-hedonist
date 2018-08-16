@@ -62,16 +62,16 @@ const fetchUser = (store) => {
                     refreshAuth(store)
                         .then(() => {
                             store.commit('SET_LOADING', false);
-                            resolve();
+                            return resolve();
                         })
                         .catch(error => {
                             store.commit('SET_LOADING', false);
-                            reject();
+                            return reject();
                         });
-                } else {
-                    store.commit('SET_LOADING', false);
-                    reject();
                 }
+
+                store.commit('SET_LOADING', false);
+                return reject();
             });
     });
 };
