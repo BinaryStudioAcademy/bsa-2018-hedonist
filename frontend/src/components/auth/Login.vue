@@ -78,21 +78,16 @@ export default {
 
         onLogin () {
             if (!this.$v.user.$invalid) {
-                let self = this;
                 this.login(this.user)
-                    .then((res)=>{
-                        if(res.error){
-                            this.onError(res.error);
-                        } else {
-                            this.onSuccess({
-                                message: 'Welcome!'
-                            });
-                            this.refreshInput();
-                            this.$router.push({name: 'home'});
-                        }
+                    .then( (res) => {
+                        this.onSuccess({
+                            message: 'Welcome!'
+                        });
+                        this.refreshInput();
+                        this.$router.push({name: 'home'});
                     })
-                    .catch(function (err) {
-                        self.onError(err.response.data);
+                    .catch( (err) => {
+                        this.onError(err.response.data);
                     });
             } else {
                 this.onError({
