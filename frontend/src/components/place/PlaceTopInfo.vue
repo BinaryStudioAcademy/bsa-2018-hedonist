@@ -105,10 +105,9 @@ export default {
     },
 
     created() {
-        let self = this;
         this.$store.dispatch('userlist/getListsByUser', this.user.id)
-            .then(function (result) {
-                self.userlist = result;
+            .then((result) => {
+                this.userlist = result;
             })
     },
 
