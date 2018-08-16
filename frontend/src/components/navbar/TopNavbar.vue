@@ -101,10 +101,20 @@ export default {
         }),
 
         onLogOut () {
+            let self = this;
             this.logout()
                 .then(()=>{
                     this.$router.push({name: 'LoginPage'});
+                })
+                .catch(function (err) {
+                    self.onError(err.response.data);
                 });
+        },
+        onError (error) {
+            this.$toast.open({
+                message: error.error.message,
+                type: 'is-danger'
+            });
         }
     },
     components: {
