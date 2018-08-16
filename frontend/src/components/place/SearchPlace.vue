@@ -17,10 +17,10 @@
                     :map-options="{
                         style: getMapboxStyle,
                         center: {
-                            lat: 40.7128,
-                            lng: -74.0060
+                            lat: 50.4547,
+                            lng: 30.5238
                         },
-                        zoom: 11
+                        zoom: 9
                     }"
                     :scale-control="{
                         show: true,
@@ -55,6 +55,10 @@
                 isMapLoaded: false,
                 isPlacesLoaded: false,
                 map: {},
+                userCoordinates: {
+                    lat: '',
+                    lng: ''
+                },
             };
         },
         created() {
@@ -63,6 +67,7 @@
                     this.isPlacesLoaded = true;
                     if(this.isMapLoaded){
                         this.updateMap(this.places);
+                        markerManager.fitMarkersOnMap();
                     }
                 });
         },
@@ -71,7 +76,8 @@
                 this.map = map;
                 LocationService.getUserLocationData()
                     .then(coordinates => {
-                        this.jumpTo(coordinates);
+                        this.userCoordinates.lat = coordinates.lat;
+                        this.userCoordinates.lng = coordinates.lng;
                     });
             },
             mapLoaded(map) {
@@ -79,7 +85,8 @@
                 this.isMapLoaded = true;
                 if(this.isPlacesLoaded){
                     this.updateMap(this.places);
-                }
+                    markerManager.fitMarkersOnMap();
+                };
             },
             jumpTo(coordinates) {
                 this.map.jumpTo({
@@ -88,12 +95,33 @@
             },
             updateMap(places) {
                 markerManager.setMarkers(...places);
+            },
+            createUserMarker(){
+                return {
+                    id           : 0,
+                    latitude     : this.coordinates.lat,
+                    longitude    : this.coordinates.lng,
+                    localization : {
+                        0: {
+                            description: "Your position",
+                            language: "en",
+                            name: "Your position",
+                        }
+                    },
+                    photoUrl: this.user.avatar_url || "https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg",
+                }
             }
         },
         computed: {
             ...mapState('place', ['places']),
             ...mapGetters('place', ['getFilteredByName']),
-            ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
+            ...mapGetters('map', [
+                'getMapboxToken',
+                'getMapboxStyle'
+            ]),
+            ...mapGetters({
+                user: 'auth/getAuthenticatedUser'
+            }),
             filteredPlaces: function () {
                 let places = [];
                 if (this.filterQuery) {
