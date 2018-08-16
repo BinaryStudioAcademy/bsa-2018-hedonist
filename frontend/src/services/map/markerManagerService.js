@@ -9,8 +9,8 @@ class MarkerManagerService {
         this._markersPool = new Map();
         this._activeMarkers = new Map();
         this._GeoJSON = {
-            "type": "FeatureCollection",
-            "features": []
+            'type': 'FeatureCollection',
+            'features': []
         };
     }
 
@@ -24,10 +24,10 @@ class MarkerManagerService {
                 } else {
                     this._createMarker(item);
                 }
-                    this._addGeoJsonFeature(
-                            item.lng,
-                            item.lat
-                    )
+                this._addGeoJsonFeature(
+                    item.lng,
+                    item.lat
+                );
             }
         });
     }
@@ -40,16 +40,16 @@ class MarkerManagerService {
 
     _addGeoJsonFeature(lng,lat) {
         this._GeoJSON.features.push({
-            "type": "Feature",
-            "properties": {},
-            "geometry": {
-                "type": "Point",
-                "coordinates": [
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [
                     lng,
                     lat
                 ]
             }
-        })
+        });
     }
 
     _removeMarkers(markerData) {

@@ -3,137 +3,137 @@
         <section class="column is-half">
             <template v-for="(place, index) in places">
                 <PlacePreview
-                        v-if="isPlacesLoaded"
-                        :key="place.id"
-                        :place="place"
-                        :timer="50 * (index+1)"
+                    v-if="isPlacesLoaded"
+                    :key="place.id"
+                    :place="place"
+                    :timer="50 * (index+1)"
                 />
             </template>
         </section>
 
         <section class="column mapbox-wrapper right-side">
             <mapbox
-                    :access-token="getMapboxToken"
-                    :map-options="{
-                        style: getMapboxStyle,
-                        center: {
-                            lat: 50.4547,
-                            lng: 30.5238
-                        },
-                        zoom: 9
-                    }"
-                    :scale-control="{
-                        show: true,
-                        position: 'top-left'
-                    }"
-                    @map-init="mapInitialized"
-                    @map-load="mapLoaded"
+                :access-token="getMapboxToken"
+                :map-options="{
+                    style: getMapboxStyle,
+                    center: {
+                        lat: 50.4547,
+                        lng: 30.5238
+                    },
+                    zoom: 9
+                }"
+                :scale-control="{
+                    show: true,
+                    position: 'top-left'
+                }"
+                @map-init="mapInitialized"
+                @map-load="mapLoaded"
             />
         </section>
     </section>
 </template>
 
 <script>
-    import {mapState} from 'vuex';
-    import {mapGetters} from 'vuex';
-    import PlacePreview from './PlacePreview';
-    import Mapbox from 'mapbox-gl-vue';
-    import LocationService from '@/services/location/locationService';
-    import MarkerService from '@/services/map/markerManagerService';
+import {mapState} from 'vuex';
+import {mapGetters} from 'vuex';
+import PlacePreview from './PlacePreview';
+import Mapbox from 'mapbox-gl-vue';
+import LocationService from '@/services/location/locationService';
+import MarkerService from '@/services/map/markerManagerService';
 
-    let markerManager = null;
+let markerManager = null;
 
-    export default {
-        name: 'SearchPlace',
-        components: {
-            PlacePreview,
-            Mapbox,
-        },
-        data() {
-            return {
-                filterQuery: '',
-                isMapLoaded: false,
-                isPlacesLoaded: false,
-                map: {},
-                userCoordinates: {
-                    lat: '',
-                    lng: ''
-                },
-            };
-        },
-        created() {
-            this.$store.dispatch('place/fetchPlaces')
-                .then(() => {
-                    this.isPlacesLoaded = true;
-                    if(this.isMapLoaded){
-                        this.updateMap(this.places);
-                        markerManager.fitMarkersOnMap();
-                    }
-                });
-        },
-        methods: {
-            mapInitialized(map) {
-                this.map = map;
-                LocationService.getUserLocationData()
-                    .then(coordinates => {
-                        this.userCoordinates.lat = coordinates.lat;
-                        this.userCoordinates.lng = coordinates.lng;
-                    });
+export default {
+    name: 'SearchPlace',
+    components: {
+        PlacePreview,
+        Mapbox,
+    },
+    data() {
+        return {
+            filterQuery: '',
+            isMapLoaded: false,
+            isPlacesLoaded: false,
+            map: {},
+            userCoordinates: {
+                lat: '',
+                lng: ''
             },
-            mapLoaded(map) {
-                markerManager = new MarkerService(map);
-                this.isMapLoaded = true;
-                if(this.isPlacesLoaded){
+        };
+    },
+    created() {
+        this.$store.dispatch('place/fetchPlaces')
+            .then(() => {
+                this.isPlacesLoaded = true;
+                if(this.isMapLoaded){
                     this.updateMap(this.places);
                     markerManager.fitMarkersOnMap();
-                };
-            },
-            jumpTo(coordinates) {
-                this.map.jumpTo({
-                    center: coordinates,
+                }
+            });
+    },
+    methods: {
+        mapInitialized(map) {
+            this.map = map;
+            LocationService.getUserLocationData()
+                .then(coordinates => {
+                    this.userCoordinates.lat = coordinates.lat;
+                    this.userCoordinates.lng = coordinates.lng;
                 });
-            },
-            updateMap(places) {
-                markerManager.setMarkers(...places);
-            },
-            createUserMarker(){
-                return {
-                    id           : 0,
-                    latitude     : this.coordinates.lat,
-                    longitude    : this.coordinates.lng,
-                    localization : {
-                        0: {
-                            description: "Your position",
-                            language: "en",
-                            name: "Your position",
-                        }
-                    },
-                    photoUrl: this.user.avatar_url || "https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg",
-                }
-            }
         },
-        computed: {
-            ...mapState('place', ['places']),
-            ...mapGetters('place', ['getFilteredByName']),
-            ...mapGetters('map', [
-                'getMapboxToken',
-                'getMapboxStyle'
-            ]),
-            ...mapGetters({
-                user: 'auth/getAuthenticatedUser'
-            }),
-            filteredPlaces: function () {
-                let places = [];
-                if (this.filterQuery) {
-                    places = this.getFilteredByName(this.filterQuery);
-                } else {
-                    places = this.places;
-                }
-
-                return places;
-            },
+        mapLoaded(map) {
+            markerManager = new MarkerService(map);
+            this.isMapLoaded = true;
+            if(this.isPlacesLoaded){
+                this.updateMap(this.places);
+                markerManager.fitMarkersOnMap();
+            };
+        },
+        jumpTo(coordinates) {
+            this.map.jumpTo({
+                center: coordinates,
+            });
+        },
+        updateMap(places) {
+            markerManager.setMarkers(...places);
+        },
+        createUserMarker(){
+            return {
+                id           : 0,
+                latitude     : this.coordinates.lat,
+                longitude    : this.coordinates.lng,
+                localization : {
+                    0: {
+                        description: 'Your position',
+                        language: 'en',
+                        name: 'Your position',
+                    }
+                },
+                photoUrl: this.user.avatar_url || 'https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg',
+            };
         }
-    };
+    },
+    computed: {
+        ...mapState('place', ['places']),
+        ...mapGetters('place', ['getFilteredByName']),
+        ...mapGetters('map', [
+            'getMapboxToken',
+            'getMapboxStyle'
+        ]),
+        ...mapGetters({
+            user: 'auth/getAuthenticatedUser'
+        }),
+        filteredPlaces: function () {
+            let places = [];
+            if (this.filterQuery) {
+                places = this.getFilteredByName(this.filterQuery);
+            } else {
+                places = this.places;
+            }
+
+            return places;
+        },
+    }
+};
 </script>
 
 <style>
