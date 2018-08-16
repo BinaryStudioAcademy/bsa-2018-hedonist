@@ -14,5 +14,4 @@ class GetUserListsCollectionRequest
     {
         return $this->userId;
     }
-
 }

@@ -73,7 +73,8 @@ class UserListApiTest extends ApiTestCase
         ]);
         $response = $this->json('GET', "/api/v1/user-list/$userLists->id");
         $response->assertHeader('Content-Type', 'application/json');
-        if(empty($response->json())){
+        if(empty($response->json()))
+        {
             $response->json()->assertStatus(404);
         }
     }
