@@ -7,7 +7,7 @@ export default {
                 return response; 
             })
             .catch(error => {
-                return error;
+                return Promise.reject(error);
             });
     },
     
@@ -17,7 +17,7 @@ export default {
                 return response; 
             })
             .catch(error => {
-                return error;
+                return Promise.reject(error);
             });
     },
 
