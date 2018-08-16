@@ -28,7 +28,6 @@ $factory->define(Place::class, function (Faker $faker) {
 
 
 $factory->defineAs(Place::class, 'LvivPlaces', function (Faker $faker) {
-    
     $_radius = 0.003;
 
     return [
