@@ -98,7 +98,7 @@
                 } else {
                     places = this.places;
                 }
-                if (this.isMapLoaded) {
+                if (this.isMapLoaded && this.isPlacesLoaded) {
                     this.updateMap(places);
                 }
                 return places;
