@@ -99,7 +99,7 @@ export default {
                     });
                 })
                 .catch((response) => {
-                   this.handleError(response);
+                    this.handleError(response);
                 });
 
             this.$parent.close();
@@ -109,7 +109,7 @@ export default {
             this.$toast.open({
                 type: 'is-danger',
                 message: response.statusText
-            })
+            });
         }
     }
 };
