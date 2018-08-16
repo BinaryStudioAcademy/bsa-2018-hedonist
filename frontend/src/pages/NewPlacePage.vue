@@ -177,7 +177,7 @@
                                     <div class="level-item">
                                         <b-field>
                                             <b-select v-model="selectedTag">
-                                                <option value="" selected disabled>Add tags</option>
+                                                <option value="v" selected disabled>Add tags</option>
                                                 <option
                                                     v-for="option in category_tags"
                                                     :key="option.id"
@@ -317,7 +317,7 @@ export default {
                 category_tags: []
             },
             categories: {},
-            selectedTag: '',
+            selectedTag: 'v',
             category_tags: [
                 {
                     name: 'bar'
@@ -393,20 +393,19 @@ export default {
     watch: {
         'newPlace.category': function (categoryObject) {
             if (categoryObject) {
-                console.log(categoryObject.name);
                 this.newPlace.category_tags = [];
                 // this.$store.dispatch('placeCategoryTags/getTagsByCategoryId', categoryObject.id)
                 //     .then((result) => {
                 //         this.category_tags = result;
                 //     });
-                this.selectedTag = '';
+                this.selectedTag = 'v';
             }
         },
 
         'selectedTag': function (tagObject) {
-            if (tagObject && !this.newPlace.category_tags.some((tag) => tag.name === tagObject.name)) {
+            if (tagObject !== 'v' && !this.newPlace.category_tags.some((tag) => tag.name === tagObject.name)) {
                 this.newPlace.category_tags.push(tagObject);
-                this.selectedTag = '';
+                console.log(this.selectedTag.name);
             }
         }  
     },
