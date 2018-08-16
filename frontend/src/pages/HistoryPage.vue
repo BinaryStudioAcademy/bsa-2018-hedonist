@@ -48,7 +48,7 @@ export default {
         return {
             visitedPlaces: null,
             isPlacesLoaded: false,
-        }
+        };
     },
     computed: {
         ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle'])

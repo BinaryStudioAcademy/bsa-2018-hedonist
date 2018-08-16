@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Place\Checkin;
 
-
 use Hedonist\Repositories\Place\CheckinRepository;
 
 class GetUserCheckInCollectionAction

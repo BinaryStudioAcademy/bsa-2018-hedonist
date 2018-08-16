@@ -6,7 +6,7 @@ class GetUserCheckInCollectionPresenter
 {
     public static function present(GetUserCheckInCollectionResponse $checkInCollectionResponse): array
     {
-        return $checkInCollectionResponse->getPlaceCollection()->map(function($checkIn) {
+        return $checkInCollectionResponse->getPlaceCollection()->map(function ($checkIn) {
             return [
                 'id'        => $checkIn->id,
                 'createdAt' => $checkIn->created_at->toDateTimeString(),

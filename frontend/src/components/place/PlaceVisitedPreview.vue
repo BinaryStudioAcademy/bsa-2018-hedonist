@@ -19,7 +19,7 @@
                     </router-link>
                 </h2>
                 <p>{{ visitedPlace.place.city }}</p>
-                <p>{{ visitedPlace.place.category}}</p>
+                <p>{{ visitedPlace.place.category }}</p>
 
                 <button class="saved"><i class="fa fa-bookmark" />Saved</button>
             </div>
@@ -28,29 +28,29 @@
 </template>
 
 <script>
-    export default {
-        name: 'PlaceVisitedPreview',
-        data() {
-            return {
-                active: false
-            };
+export default {
+    name: 'PlaceVisitedPreview',
+    data() {
+        return {
+            active: false
+        };
+    },
+    props: {
+        visitedPlace: {
+            required: true,
+            type: Object,
         },
-        props: {
-            visitedPlace: {
-                required: true,
-                type: Object,
-            },
-            timer: {
-                required: true,
-                type: Number
-            }
-        },
-        created() {
-            setTimeout(() => {
-                this.active = true;
-            }, this.timer);
+        timer: {
+            required: true,
+            type: Number
         }
-    };
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
+    }
+};
 </script>
 
 <style lang="scss" scoped>
