@@ -61,4 +61,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         $user->tastes()->sync($tastes);
     }
+
+    public function isEmailUnique(string $email): bool
+    {
+        $user = User::where(["email" => $email])->first();
+        return $user ? false : true;
+    }
 }

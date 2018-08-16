@@ -1,15 +1,31 @@
 <template>
     <div class="photo-slider">
-        <span class="photo-slider__left-arrow slider-arrow" @click="toLeft">
-            <i class="fas fa-caret-left"></i>
+        <span 
+            class="photo-slider__left-arrow slider-arrow" 
+            @click="toLeft"
+        >
+            <i class="fas fa-caret-left" />
         </span>
-        <ul ref="photo-list" class="photo-slider__list">
-            <li v-for="photo in photos">
-                <PlacePhoto :key="photo.id" :photo="photo" :lastId="photos.length"/>
+        <ul 
+            ref="photo-list" 
+            class="photo-slider__list"
+        >
+            <li 
+                v-for="photo in photos"
+                :key="photo.id"
+            >
+                <PlacePhoto 
+                    :key="photo.id" 
+                    :photo="photo" 
+                    :last-id="photos.length"
+                />
             </li>
         </ul>
-        <span class="photo-slider__right-arrow slider-arrow" @click="toRight">
-            <i class="fas fa-caret-right"></i>
+        <span 
+            class="photo-slider__right-arrow slider-arrow" 
+            @click="toRight"
+        >
+            <i class="fas fa-caret-right" />
         </span>
     </div>
 </template>
@@ -18,7 +34,7 @@
 import PlacePhoto from './PlacePhoto';
 
 export default {
-    name: "PlacePhotoList",
+    name: 'PlacePhotoList',
     components: { PlacePhoto },
     data() {
         return {
@@ -54,7 +70,7 @@ export default {
             this.photoList.scrollLeft -= this.imageOffset * this.imageSlideNumber;
         }
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>

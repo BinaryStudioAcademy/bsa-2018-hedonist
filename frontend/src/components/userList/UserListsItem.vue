@@ -1,53 +1,59 @@
 <template>
-        <div class="column is-one-third is-square user-list-container" v-if="show">
-            <div class="user-list-content">
-                <div class="user-list-name">{{ userList.list_name }}</div>
-                <div class="user-list-places-count">{{ userList.places_count }} places saved in the list</div>
-                <div class="user-list-button-wrap">
-                    <div class="button is-info user-list-button-show-places" @click="open(userList.list_name)">
-                        Show places in the list
-                    </div>
+    <div 
+        class="column is-one-third is-square user-list-container" 
+        v-if="show"
+    >
+        <div class="user-list-content">
+            <div class="user-list-name">{{ userList.list_name }}</div>
+            <div class="user-list-places-count">{{ userList.places_count }} places saved in the list</div>
+            <div class="user-list-button-wrap">
+                <div 
+                    class="button is-info user-list-button-show-places" 
+                    @click="open(userList.list_name)"
+                >
+                    Show places in the list
                 </div>
             </div>
-            <figure class="image is-square">
-                <img :src="userList.img_preview.url">
-            </figure>
         </div>
+        <figure class="image is-square">
+            <img :src="userList.img_preview.url">
+        </figure>
+    </div>
 </template>
 
 <script>
-    export default {
-        name: "UserListsItem",
-        data() {
-            return {
-                show: false
-            }
+export default {
+    name: 'UserListsItem',
+    data() {
+        return {
+            show: false
+        };
+    },
+    props: {
+        userList: {
+            required: true,
+            type: Object,
         },
-        props: {
-            userList: {
-                required: true,
-                type: Object,
-            },
-            timer: {
-                required: true,
-                type: Number,
-            }
-        },
-        methods: {
-            open(place_name) {
-                this.$toast.open({
-                    message: 'action to open the list of places "'+place_name+'"',
-                    type: 'is-danger',
-                    position: 'is-top'
-                })
-            }
-        },
-        created() {
-            setTimeout(() => {
-                this.show = true
-            }, this.timer)
+        timer: {
+            required: true,
+            type: Number,
         }
+    },
+    methods: {
+        open(place_name) {
+            this.$toast.open({
+                message: 'action to open the list of places "'+place_name+'"',
+                type: 'is-danger',
+                position: 'is-top'
+            });
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.show = true;
+        }, this.timer);
     }
+};
 </script>
 
 <style lang="scss" scoped>

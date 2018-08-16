@@ -1,69 +1,103 @@
 <template>
     <div class="place-view container">
-        <b-loading :active.sync="isLoading"></b-loading>
-        <PlaceTopInfo v-if="!isLoading" :place="place" @tabChanged="tabChanged" />
+        <b-loading :active.sync="isLoading" />
+        <PlaceTopInfo 
+            v-if="loaded"
+            :place="place" 
+            @tabChanged="tabChanged"
+        />
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
-                    <ReviewList v-if="!isLoading && (activeTab == 1)" :place="place"></ReviewList>
-                    <ReviewPhotoGallery v-if="!isLoading && (activeTab == 2)" :place="place"></ReviewPhotoGallery>
+                    <ReviewList 
+                        v-if="loaded && (activeTab === 1) && place.reviews"
+                        :place="place"
+                    />
+                    <ReviewPhotoGallery 
+                        v-if="loaded && (activeTab === 2) && place.photos"
+                        :place="place"
+                    />
                 </div>
             </div>
-            <PlaceSidebarInfo v-if="!isLoading" :place="place" />
+            <PlaceSidebarInfo 
+                v-if="loaded"
+                :place="place"
+            />
         </div>
     </div>
 </template>
 
 <script>
-    import PlaceTopInfo from '@/components/place/PlaceTopInfo';
-    import ReviewList from '@/components/review/ReviewList';
-    import ReviewPhotoGallery from '@/components/review/ReviewPhotoGallery';
-    import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
-    import { mapGetters } from 'vuex';
+import PlaceTopInfo from '@/components/place/PlaceTopInfo';
+import ReviewList from '@/components/review/ReviewList';
+import ReviewPhotoGallery from '@/components/review/ReviewPhotoGallery';
+import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
+import { mapState } from 'vuex';
 
-    export default {
-        name: "PlacePage",
+export default {
+    name: 'PlacePage',
 
-        components: {
-            PlaceTopInfo,
-            ReviewList,
-            ReviewPhotoGallery,
-            PlaceSidebarInfo
-        },
+    components: {
+        PlaceTopInfo,
+        ReviewList,
+        ReviewPhotoGallery,
+        PlaceSidebarInfo
+    },
 
-        data() {
-            return {
-                place: null,
-                isLoading: true,
-                activeTab: 1
-            }
-        },
+    data() {
+        return {
+            isLoading: true,
+            loaded: false,
+            activeTab: 1,
+            place: null
+        }
+    },
 
-        created() {
-            this.getById(this.$route.params.id).then(place => {
-                this.place = place;
+    created() {
+        this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
+            .then((response) => {
+                this.place = response;
+                this.isLoading = false;
+                this.loaded = true;
+            })
+            .catch((err) => {
                 this.isLoading = false;
             });
-        },
+    },
 
-        methods: {
-            tabChanged(activeTab) {
-                this.activeTab = activeTab;
-            }
-        },
+    methods: {
+        tabChanged(activeTab) {
+            this.activeTab = activeTab;
+        }
+    },
 
-        computed: {
-            ...mapGetters('place', ['getById'])
-        },
-    }
+    computed: {
+        ...mapState('place', ['places'])
+    },
+}
 </script>
 
-<style scoped>
-    .main-wrapper {
-        margin-top: 20px;
-    }
+<style lang="scss" scoped>
+.main-wrapper {
+    margin-top: 20px;
+}
 
-    .main {
-        background-color: white;
+.loader-wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+
+    .loader {
+        width: 100px;
+        height: 100px;
+        z-index: 5000;
     }
+}
+
+.main {
+    background-color: white;
+}
 </style>

@@ -6,6 +6,7 @@ import getters from './common/getters';
 import mutations from './common/mutations';
 import auth from './modules/auth/index';
 import place from './modules/place/index';
+import placeCategory from './modules/place/category/index';
 import map from './modules/map/index';
 import userlist from './modules/userList/index';
 
@@ -18,9 +19,10 @@ export default new Vuex.Store({
     mutations,
     strict: process.env.NODE_ENV !== 'production',
     modules: {
-        auth: auth,
+        auth,
         place,
         map,
-        userlist
+        userlist,
+        placeCategory
     }
 });
