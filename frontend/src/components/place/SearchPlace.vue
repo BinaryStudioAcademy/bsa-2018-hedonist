@@ -108,7 +108,7 @@ export default {
                         name: 'Your position',
                     }
                 },
-                photoUrl: this.user.avatar_url || 'https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg',
+                photoUrl: this.user.avatar_url || '@/assets/user-placeholder.jpg',
             };
         }
     },
