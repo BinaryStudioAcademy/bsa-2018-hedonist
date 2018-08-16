@@ -4,7 +4,7 @@
             <div class="entry-media">
                 <img 
                     class="image" 
-                    src="https://igx.4sqi.net/img/general/200x200/887035_CLhGX1rsu2-V75shOAkPWuxXLY2k4iO17hEdOlOfSWc.jpg"
+                    src="http://www.fraufluger.ru/files/images/story/a7ab21562ce4476d11936f0fd3c27fa6_560x416.jpg"
                 >
             </div>
             <div class="item-description">
