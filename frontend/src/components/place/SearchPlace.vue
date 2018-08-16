@@ -3,109 +3,109 @@
         <section class="column is-half">
             <template v-for="(place, index) in places">
                 <PlacePreview
-                        v-if="isPlacesLoaded"
-                        :key="place.id"
-                        :place="place"
-                        :timer="50 * (index+1)"
+                    v-if="isPlacesLoaded"
+                    :key="place.id"
+                    :place="place"
+                    :timer="50 * (index+1)"
                 />
             </template>
         </section>
 
         <section class="column mapbox-wrapper right-side">
             <mapbox
-                    :access-token="getMapboxToken"
-                    :map-options="{
-                        style: getMapboxStyle,
-                        center: {
-                            lat: 40.7128,
-                            lng: -74.0060
-                        },
-                        zoom: 11
-                    }"
-                    :scale-control="{
-                        show: true,
-                        position: 'top-left'
-                    }"
-                    @map-init="mapInitialized"
-                    @map-load="mapLoaded"
+                :access-token="getMapboxToken"
+                :map-options="{
+                    style: getMapboxStyle,
+                    center: {
+                        lat: 40.7128,
+                        lng: -74.0060
+                    },
+                    zoom: 11
+                }"
+                :scale-control="{
+                    show: true,
+                    position: 'top-left'
+                }"
+                @map-init="mapInitialized"
+                @map-load="mapLoaded"
             />
         </section>
     </section>
 </template>
 
 <script>
-    import {mapState} from 'vuex';
-    import {mapGetters} from 'vuex';
-    import PlacePreview from './PlacePreview';
-    import Mapbox from 'mapbox-gl-vue';
-    import LocationService from '@/services/location/locationService';
-    import MarkerService from '@/services/map/markerManagerService';
+import {mapState} from 'vuex';
+import {mapGetters} from 'vuex';
+import PlacePreview from './PlacePreview';
+import Mapbox from 'mapbox-gl-vue';
+import LocationService from '@/services/location/locationService';
+import MarkerService from '@/services/map/markerManagerService';
 
-    let markerManager = null;
+let markerManager = null;
 
-    export default {
-        name: 'SearchPlace',
-        components: {
-            PlacePreview,
-            Mapbox,
-        },
-        data() {
-            return {
-                filterQuery: '',
-                isMapLoaded: false,
-                isPlacesLoaded: false,
-                map: {},
-            };
-        },
-        created() {
-            this.$store.dispatch('place/fetchPlaces')
-                .then(() => {
-                    this.isPlacesLoaded = true;
-                    if(this.isMapLoaded){
-                        this.updateMap(this.places);
-                    }
-                });
-        },
-        methods: {
-            mapInitialized(map) {
-                this.map = map;
-                LocationService.getUserLocationData()
-                    .then(coordinates => {
-                        this.jumpTo(coordinates);
-                    });
-            },
-            mapLoaded(map) {
-                markerManager = new MarkerService(map);
-                this.isMapLoaded = true;
-                if(this.isPlacesLoaded){
+export default {
+    name: 'SearchPlace',
+    components: {
+        PlacePreview,
+        Mapbox,
+    },
+    data() {
+        return {
+            filterQuery: '',
+            isMapLoaded: false,
+            isPlacesLoaded: false,
+            map: {},
+        };
+    },
+    created() {
+        this.$store.dispatch('place/fetchPlaces')
+            .then(() => {
+                this.isPlacesLoaded = true;
+                if(this.isMapLoaded){
                     this.updateMap(this.places);
                 }
-            },
-            jumpTo(coordinates) {
-                this.map.jumpTo({
-                    center: coordinates,
+            });
+    },
+    methods: {
+        mapInitialized(map) {
+            this.map = map;
+            LocationService.getUserLocationData()
+                .then(coordinates => {
+                    this.jumpTo(coordinates);
                 });
-            },
-            updateMap(places) {
-                markerManager.setMarkers(...places);
+        },
+        mapLoaded(map) {
+            markerManager = new MarkerService(map);
+            this.isMapLoaded = true;
+            if(this.isPlacesLoaded){
+                this.updateMap(this.places);
             }
         },
-        computed: {
-            ...mapState('place', ['places']),
-            ...mapGetters('place', ['getFilteredByName']),
-            ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
-            filteredPlaces: function () {
-                let places = [];
-                if (this.filterQuery) {
-                    places = this.getFilteredByName(this.filterQuery);
-                } else {
-                    places = this.places;
-                }
-
-                return places;
-            },
+        jumpTo(coordinates) {
+            this.map.jumpTo({
+                center: coordinates,
+            });
+        },
+        updateMap(places) {
+            markerManager.setMarkers(...places);
         }
-    };
+    },
+    computed: {
+        ...mapState('place', ['places']),
+        ...mapGetters('place', ['getFilteredByName']),
+        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
+        filteredPlaces: function () {
+            let places = [];
+            if (this.filterQuery) {
+                places = this.getFilteredByName(this.filterQuery);
+            } else {
+                places = this.places;
+            }
+
+            return places;
+        },
+    }
+};
 </script>
 
 <style>
