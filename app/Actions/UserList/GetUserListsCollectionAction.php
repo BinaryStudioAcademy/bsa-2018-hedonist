@@ -12,9 +12,10 @@ class GetUserListsCollectionAction
         $this->userListsRepository = $userListsRepository;
     }
 
-    public function execute(GetUserListsCollectionRequest $userId): GetUserListsCollectionResponse
+    public function execute(GetUserListsCollectionRequest $request): GetUserListsCollectionResponse
     {
-        $userLists = $this->userListsRepository->findUserLists($userId->getUserId());
-        return new GetUserListsCollectionResponse($userLists);
+        return new GetUserListsCollectionResponse(
+            $this->userListsRepository->findUserLists($request->getUserId())
+        );
     }
 }
