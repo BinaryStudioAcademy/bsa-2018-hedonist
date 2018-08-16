@@ -59,7 +59,12 @@
         },
         created() {
             this.$store.dispatch('place/fetchPlaces')
-                .then(() => this.isPlacesLoaded = true);
+                .then(() => {
+                    this.isPlacesLoaded = true;
+                    if(this.isMapLoaded){
+                        this.updateMap(this.places);
+                    }
+                });
         },
         methods: {
             mapInitialized(map) {
@@ -72,6 +77,9 @@
             mapLoaded(map) {
                 markerManager = new MarkerService(map);
                 this.isMapLoaded = true;
+                if(this.isPlacesLoaded){
+                    this.updateMap(this.places);
+                }
             },
             jumpTo(coordinates) {
                 this.map.jumpTo({
@@ -93,11 +101,9 @@
                 } else {
                     places = this.places;
                 }
-                if (this.isMapLoaded && this.isPlacesLoaded) {
-                    this.updateMap(places);
-                }
+
                 return places;
-            }
+            },
         }
     };
 </script>
