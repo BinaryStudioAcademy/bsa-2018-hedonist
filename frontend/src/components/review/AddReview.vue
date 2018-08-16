@@ -106,21 +106,17 @@ export default {
             this.newReview.place_id = this.placeId;
 
             this.addReview(this.newReview).then((res) => {
-                if (res.error) {
-                    this.onError(res.error);
-                } else {
-                    this.photos.forEach((item, i, arr) => {
-                        this.addReviewPhoto({
-                            review_id: res.data.id,
-                            description: 'test',
-                            img: item
-                        });
+                this.photos.forEach((item, i, arr) => {
+                    this.addReviewPhoto({
+                        review_id: res.data.id,
+                        description: 'test',
+                        img: item
                     });
-                    this.refreshInput();
-                    this.onSuccess({
-                        message: 'Your review has been added'
-                    });
-                }
+                });
+                this.refreshInput();
+                this.onSuccess({
+                    message: 'Your review has been added'
+                });
             })
                 .catch((res) => {
                     this.onError(res.response.data);
