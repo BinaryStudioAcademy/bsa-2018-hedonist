@@ -1,12 +1,7 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-            <b-input
-                class="search-field"
-                placeholder="Find..."
-                v-model="filterQuery"
-            />
-            <template v-for="(place, index) in filteredPlaces">
+            <template v-for="(place, index) in places">
                 <PlacePreview
                     v-if="isPlacesLoaded"
                     :key="place.id" 
