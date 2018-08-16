@@ -13,7 +13,12 @@
                                 <div class="field-body">
                                     <div class="field">
                                         <div class="control is-expanded">
-                                            <input v-model="newPlace.name" class="input is-medium" type="text" placeholder="Place's name">
+                                            <input 
+                                                v-model="newPlace.name" 
+                                                class="input is-medium" 
+                                                type="text" 
+                                                placeholder="Place's name"
+                                            >
                                         </div>
                                     </div>
                                 </div>
@@ -174,9 +179,9 @@
                                             <b-select v-model="selectedTag">
                                                 <option value="" selected disabled>Add tags</option>
                                                 <option
-                                                        v-for="option in category_tags"
-                                                        :key="option.id"
-                                                        :value="option.name"
+                                                    v-for="option in category_tags"
+                                                    :key="option.id"
+                                                    :value="option.name"
                                                 >
                                                     {{ option.name }}
                                                 </option>
@@ -388,14 +393,14 @@ export default {
     },
     
     watch: {
-      'selectedTag': function (value) {
-          if (value) {
-              console.log(value);
-              this.newPlace.category_tags.push({
-                  name: value
-              });
-          }
-      }  
+        'selectedTag': function (value) {
+            if (value) {
+                console.log(value);
+                this.newPlace.category_tags.push({
+                    name: value
+                });
+            }
+        }  
     },
 
     computed: {
