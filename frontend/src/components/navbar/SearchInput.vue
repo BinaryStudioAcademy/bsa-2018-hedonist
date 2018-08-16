@@ -8,14 +8,23 @@
                     :open-on-focus="true"
                     :data="categories"
                     field="name"
-                    @input="loadCategories()"
+                    @input="loadCategories(this.filterQuery)"
                     @select="option => selected = option"
                 />
             </div>
         </div>
         <div class="navbar-item">
             <div class="control">
-                <input class="input" type="search" value="Lviv, UA">
+                <b-autocomplete
+                    v-model.trim="findCity.query"
+                    placeholder="city..."
+                    :data="findCity.data"
+                    :open-on-focus="true"
+                    :loading="findCity.isFetching"
+                    field="text"
+                    @input="loadCities"
+                    @select="option => selectSearchCity(option)"
+                />
             </div>
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
@@ -27,23 +36,51 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapActions} from 'vuex';
+import debounce from 'lodash/debounce';
+import httpService from '@/services/common/httpService';
 
 export default {
     name: 'SearchInput',
     data() {
         return {
+            findCity: {
+                data: [],
+                name: '',
+                selected: null,
+                isFetching: false
+            },
             filterQuery: '',
             isShow: false
         };
     },
     methods: {
+        ...mapActions({
+            selectSearchCity: 'city/selectSearchCity',
+            loadCategoriesByQuery: 'placeCategory/loadCategories'
+        }),
         onClickOutside() {
             this.isShow = false;
         },
         loadCategories() {
-            this.$store.dispatch('placeCategory/loadCategories', this.filterQuery);
-        }
+            this.loadCategoriesByQuery(this.filterQuery);
+        },
+        loadCities: debounce(function () {
+            this.findCity.data = [];
+            if(this.findCity.query) {
+                this.findCity.isFetching = true;
+                let mapboxCitiesApiUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.findCity.query}.json?access_token=pk.eyJ1IjoibWloYWlsdHMiLCJhIjoiY2prdTk1ZXhxMGU1NDNrcXFkYmg0bnR4MyJ9.lGCRpovOVijAFC1ZrFZk-g&country=ua&autocomplete=true&language=en`;
+
+                httpService.get(mapboxCitiesApiUrl)
+                    .then(({ data }) => {
+                        this.findCity.data = [...data.features];
+                        this.findCity.isFetching = false;
+                    }, response => {
+                        console.log(response);
+                        this.findCity.isFetching = false;
+                    });
+            }
+        }, 250)
     },
     created() {
         this.loadCategories();

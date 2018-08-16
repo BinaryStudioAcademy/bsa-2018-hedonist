@@ -10,9 +10,62 @@
                 </div>
 
                 <div class="navbar-menu">
-                    <search-input v-if="isUserLoggedIn" />
+                    <template v-if="isUserLoggedIn">
+                        <search-input />
+
+                        <div
+                            class="navbar-end"
+                        >
+                            <div class="navbar-item is-paddingless">
+                                <span class="navbar-notification-btn" />
+                            </div>
+                            <div class="navbar-item has-dropdown is-hoverable">
+                                <div v-if="user" class="navbar-link navbar-dropdown-menu">
+                                    <img
+                                        v-if="user.avatar_url"
+                                        class="navbar-avatar"
+                                        :src="user.avatar_url"
+                                        :title="user.first_name+' '+user.last_name"
+                                        :alt="user.first_name+' '+user.last_name"
+                                    >
+                                    <span v-else class="icon">
+                                        <i class="fas fa-file-image fa-lg" />
+                                    </span>
+                                    <span>{{ user.first_name }}</span>
+                                    <span class="icon">
+                                        <i class="fas fa-caret-down" />
+                                    </span>
+                                </div>
+                                <div class="navbar-dropdown">
+                                    <router-link
+                                        class="navbar-item"
+                                        :to="{ name: 'ProfilePage' }"
+                                    >Profile</router-link>
+                                    <router-link
+                                        class="navbar-personal-link navbar-item"
+                                        :to="{ name: 'PlacesList' }"
+                                    >My places</router-link>
+                                    <router-link
+                                        class="navbar-personal-link navbar-item"
+                                        :to="{ name: 'UserListsPage' }"
+                                    >My lists
+                                    </router-link>
+                                    <router-link
+                                        class="navbar-personal-link navbar-item"
+                                        :to="{ name: 'HistoryPage' }"
+                                    >History
+                                    </router-link>
+                                    <a
+                                        class="navbar-item"
+                                        @click="onLogOut"
+                                    >Logout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
                     <div
-                        v-if="!isUserLoggedIn"
+                        v-else
                         class="navbar-end"
                     >
                         <router-link
@@ -23,57 +76,6 @@
                             class="navbar-item"
                             to="/signup"
                         >Sign Up</router-link>
-                    </div>
-
-                    <div
-                        v-if="isUserLoggedIn"
-                        class="navbar-end"
-                    >
-                        <div class="navbar-item is-paddingless">
-                            <span class="navbar-notification-btn" />
-                        </div>
-                        <div class="navbar-item has-dropdown is-hoverable">
-                            <div v-if="user" class="navbar-link navbar-dropdown-menu">
-                                <img
-                                    v-if="user.avatar_url"
-                                    class="navbar-avatar"
-                                    :src="user.avatar_url"
-                                    :title="user.first_name+' '+user.last_name"
-                                    :alt="user.first_name+' '+user.last_name"
-                                >
-                                <span v-else class="icon">
-                                    <i class="fas fa-file-image fa-lg" />
-                                </span>
-                                <span>{{ user.first_name }}</span>
-                                <span class="icon">
-                                    <i class="fas fa-caret-down" />
-                                </span>
-                            </div>
-                            <div class="navbar-dropdown">
-                                <router-link
-                                    class="navbar-item"
-                                    :to="{ name: 'ProfilePage' }"
-                                >Profile</router-link>
-                                <router-link
-                                    class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'PlacesList' }"
-                                >My places</router-link>
-                                <router-link
-                                    class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'UserListsPage' }"
-                                >My lists
-                                </router-link>
-                                <router-link
-                                    class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'HistoryPage' }"
-                                >History
-                                </router-link>
-                                <a
-                                    class="navbar-item"
-                                    @click="onLogOut"
-                                >Logout</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
