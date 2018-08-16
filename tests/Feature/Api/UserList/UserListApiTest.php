@@ -52,11 +52,17 @@ class UserListApiTest extends ApiTestCase
         $response = $this->json('GET', "/api/v1/user-lists/$userLists->user_id/lists");
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
-        $response->json($response->getContent(), true);
-        $this->assertEquals($userLists->id, $response->json()['data'][0]['id']);
-        $this->assertEquals($userLists->user_id, $response->json()['data'][0]['user_id']);
-        $this->assertEquals($userLists->name, $response->json()['data'][0]['name']);
-        $this->assertEquals($userLists->img_url, $response->json()['data'][0]['img_url']);
+        $response->assertJsonStructure(
+            ["data" =>
+                [
+                    0 => [
+                        "id",
+                        "user_id",
+                        "name",
+                        "img_url"
+                    ]
+                ]
+            ]);
     }
 
     public function test_update_user_list()
