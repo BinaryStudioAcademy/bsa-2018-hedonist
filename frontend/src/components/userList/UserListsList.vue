@@ -65,6 +65,7 @@ export default {
 <style lang="scss" scoped>
     section {
         background: #FFF;
+        min-height: calc(100vh - 42px);
     }
 
     li {
@@ -80,6 +81,33 @@ export default {
         width: 10%;
         text-align: center;
         color: grey;
+    }
+
+    @media  (max-width: 1223px) {
+        .columns {
+            padding-top: 2.5rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+    }
+
+    @media  (min-width: 1224px) {
+        .columns {
+            padding-top: 2.5rem;
+            padding-left: calc((100% - 300px * 3) / 2);
+            padding-right: calc((100% - 300px * 3) / 2);
+        }
+    }
+
+    @media (min-width: 520px) and (max-width: 845px) {
+
+
+        .columns.is-multiline {
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            display: flex;
+            height: 100vh;
+        }
     }
 
 </style>

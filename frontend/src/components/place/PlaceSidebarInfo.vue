@@ -25,7 +25,9 @@
                         v-for="tag in place.tags" 
                         class="tag"
                         :key="tag.id"
-                    >{{ tag.name }}</span>
+                    >
+                        {{ tag.name }}
+                    </span>
                 </div>
                 <div class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock" />
@@ -36,28 +38,34 @@
                     <a 
                         class="phone-number" 
                         :href="`tel:${place.phone}`"
-                    >{{ place.phone }}</a>
+                    >
+                        {{ place.phone }}
+                    </a>
                 </div>
                 <div v-if="place.website" class="place-sidebar__website">
                     <i class="place-sidebar__icon fas fa-globe" />
                     <a
                         target="_blank"
                         :href="place.website"
-                    >{{ place.website }}</a>
+                    >
+                        {{ place.website }}
+                    </a>
                 </div>
-                <div v-if="place.socials" class="place-sidebar__facebook">
-                    <i class="place-sidebar__icon fab fa-facebook-square" />
-                    <a href="https://www.facebook.com/mamamanana.kiev">mamamanana.kiev</a>
-                </div>
-                <div v-if="place.socials" class="place-sidebar__facebook">
-                    <i class="place-sidebar__icon fab fa-instagram" />
-                    <a href="https://www.instagram.com/mamamanana.kiev.ua/">@mamamanana.kiev.ua</a>
-                </div>
+                <template v-if="place.socials">
+                    <div class="place-sidebar__facebook">
+                        <i class="place-sidebar__icon fab fa-facebook-square" />
+                        <a href="https://www.facebook.com/mamamanana.kiev">mamamanana.kiev</a>
+                    </div>
+                    <div class="place-sidebar__facebook">
+                        <i class="place-sidebar__icon fab fa-instagram" />
+                        <a href="https://www.instagram.com/mamamanana.kiev.ua/">@mamamanana.kiev.ua</a>
+                    </div>
+                </template>
             </div>
             <template v-if="place.features">
                 <div
-                    v-for="(feature, index) in place.features"
-                    :key="index"
+                    v-for="feature in place.features"
+                    :key="feature.id"
                     class="place-sidebar__features"
                 >
                     <h2 class="feature-title">Features</h2>
