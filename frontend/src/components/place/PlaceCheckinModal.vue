@@ -52,7 +52,7 @@ export default {
                 'fa-laugh',
                 'fa-laugh-beam'
             ]
-        }
+        };
     },
 
     props: {
@@ -93,27 +93,27 @@ export default {
 
         handleResponse: function(response, successMessage) {
             switch (response.status) {
-                case 201:
-                    this.$toast.open({
-                        type: 'is-success',
-                        message: successMessage
-                    });
-                    break;
-                case 400:
-                    this.$toast.open({
-                        type: 'is-danger',
-                        message: response.statusText
-                    });
-                    break;
-                default:
-                    this.$toast.open({
-                        type: 'is-danger',
-                        message: 'Something went wrong. Try again later'
-                    });
+            case 201:
+                this.$toast.open({
+                    type: 'is-success',
+                    message: successMessage
+                });
+                break;
+            case 400:
+                this.$toast.open({
+                    type: 'is-danger',
+                    message: response.statusText
+                });
+                break;
+            default:
+                this.$toast.open({
+                    type: 'is-danger',
+                    message: 'Something went wrong. Try again later'
+                });
             }
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
