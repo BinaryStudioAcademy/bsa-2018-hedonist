@@ -142,9 +142,10 @@
                                 <div class="level-left">
                                     <b-field>
                                         <b-select v-model="category">
+                                            <option value="" selected>Select a category</option>
                                             <option
                                                 v-for="option in categories"
-                                                :value="option.v"
+                                                :value="option.name"
                                                 :key="option.id"
                                             >
                                                 {{ option.name }}
@@ -272,36 +273,7 @@ export default {
             weekdays: [],
             timeStart: new Date(),
             timeEnd: new Date(),
-            categories: [
-                {
-                    v: '',
-                    name: 'Select a category'
-                },
-                {
-                    v: 'bar',
-                    name: 'Bar'
-                },
-                {
-                    v: 'beer',
-                    name: 'Beer'
-                },
-                {
-                    v: 'cafe',
-                    name: 'Cafe'
-                },
-                {
-                    v: 'snacks',
-                    name: 'Snacks'
-                },
-                {
-                    v: 'restaurant',
-                    name: 'Restaurant'
-                },
-                {
-                    v: 'other',
-                    name: 'Other'
-                }
-            ],
+            categories: {},
             subcategories: [
                 {
                     v: '',
@@ -364,6 +336,14 @@ export default {
             ]
         };
     },
+
+    created() {
+        this.$store.dispatch('placeCategory/getAllCategories')
+            .then((result) => {
+                this.categories = result;
+            })
+    },
+
     computed: {
         isCategoryNOTSelected: function () {
             return !this.category;
