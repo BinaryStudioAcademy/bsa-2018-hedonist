@@ -65,6 +65,19 @@ class UserListApiTest extends ApiTestCase
             ]);
     }
 
+    public function test_get_empty_user_lists()
+    {
+        $userLists = factory(UserList::class)->create([
+            "name" => '',
+            "img_url" => ''
+        ]);
+        $response = $this->json('GET', "/api/v1/user-list/$userLists->id");
+        $response->assertHeader('Content-Type', 'application/json');
+        if(empty($response->json())){
+            $response->json()->assertStatus(404);
+        }
+    }
+
     public function test_update_user_list()
     {
         $userList = factory(UserList::class)->create();
