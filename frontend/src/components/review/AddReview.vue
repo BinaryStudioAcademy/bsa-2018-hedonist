@@ -12,7 +12,7 @@
                 </div>
 
                 <b-field class="media-content">
-                    <b-input v-model="newReview.description" maxlength="200" type="textarea"></b-input>
+                    <b-input v-model="newReview.description" maxlength="500" type="textarea" />
                 </b-field>
 
                 <div class="media-right">
@@ -74,7 +74,7 @@ export default {
     methods: {
         ...mapActions('review', ['addReview']),
         onAddReview () {
-            // this.newReview.user_id = this.userId;
+            this.newReview.user_id = this.userId;
             this.newReview.place_id = this.placeId;
 
             this.addReview(this.newReview).then((res) => {
