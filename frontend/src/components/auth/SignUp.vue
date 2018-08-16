@@ -90,7 +90,7 @@
                     placeholder="Your Password"
                     @blur="onBlur('password')"
                     @focus="onFocus('password')"
-                    @keyup.enter="onSignUp"
+                    @keyup.native.enter="onSignUp"
                     password-reveal
                 />
             </b-field>
@@ -109,7 +109,6 @@
                 type="button"
                 class="button is-primary is-rounded button-wide"
                 @click="onSignUp"
-                @keyup.enter="onSignUp"
             >
                 Create
             </button>
@@ -148,10 +147,10 @@ export default {
     },
 
     methods: {
-        ...mapActions([
-            'auth/signUp',
-            'checkEmailUnique'
-        ]),
+        ...mapActions({
+            signUp          : 'auth/signUp',
+            checkEmailUnique: 'auth/checkEmailUnique'
+        }),
 
         type(el) {
             if (this.focus[el]) return '';

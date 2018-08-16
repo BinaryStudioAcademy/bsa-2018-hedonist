@@ -1,6 +1,26 @@
 import httpService from '@/services/common/httpService';
 
 export default {
+    checkIn: (context, data) => {
+        return httpService.post('/users/me/checkins', data)
+            .then(response => { 
+                return Promise.resolve(response);
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
+    },
+    
+    setPlaceRating: (context, data) => {
+        return httpService.post('/places/rating', data)
+            .then(response => { 
+                return Promise.resolve(response);
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
+    },
+    
     loadCurrentPlace: ({ state, commit }, id) => {
         return new Promise((resolve, reject) => {
             httpService.get('/places/' + id)
