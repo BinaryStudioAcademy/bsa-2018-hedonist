@@ -1,11 +1,15 @@
 <template>
     <div 
-        class="column is-one-third is-square user-list-container" 
+        class="column is-one-third-desktop is-one-third-tablet is-square user-list-container"
         v-if="show"
     >
         <div class="user-list-content">
-            <div class="user-list-name">{{ userList.list_name }}</div>
-            <div class="user-list-places-count">{{ userList.places_count }} places saved in the list</div>
+            <div class="user-list-name">{{
+                userList.list_name
+            }}</div>
+            <div class="user-list-places-count">{{
+                userList.places_count
+            }} places saved in the list</div>
             <div class="user-list-button-wrap">
                 <div 
                     class="button is-info user-list-button-show-places" 
@@ -15,8 +19,10 @@
                 </div>
             </div>
         </div>
-        <figure class="image is-square">
-            <img :src="userList.img_preview.url">
+        <figure class="image is-square image-wrap">
+            <img
+                :src="userList.img_preview.url"
+            >
         </figure>
     </div>
 </template>
@@ -59,6 +65,19 @@ export default {
 <style lang="scss" scoped>
     .user-list-container {
         position: relative;
+        max-width: 341px;
+    }
+    @media (max-width: 845px) {
+        .user-list-container {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+    @media (min-width: 520px) and (max-width: 845px) {
+        .user-list-container {
+            flex: none;
+            width: 50% !important;
+        }
     }
     .user-list-content {
         z-index: 1;
@@ -81,5 +100,9 @@ export default {
     }
     .user-list-button-show-places {
         text-shadow: none;
+    }
+    .image-wrap {
+        border-radius: 5px;
+        overflow: hidden;
     }
 </style>

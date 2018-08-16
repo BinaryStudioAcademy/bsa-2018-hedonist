@@ -85,6 +85,10 @@ jobs:
             - ~/.cache/yarn
 
       - run:
+          name: Eslint
+          command: yarn lint
+
+      - run:
           name: Build frontend app
           command: yarn run prod
 

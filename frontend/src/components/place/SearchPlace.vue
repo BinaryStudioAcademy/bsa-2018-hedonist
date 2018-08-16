@@ -1,12 +1,7 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-            <b-input
-                class="search-field"
-                placeholder="Find..."
-                v-model="filterQuery"
-            />
-            <template v-for="(place, index) in filteredPlaces">
+            <template v-for="(place, index) in places">
                 <PlacePreview
                     v-if="isPlacesLoaded"
                     :key="place.id" 
@@ -117,7 +112,7 @@ export default {
     }
 </style>
 
-<style scoped>
+<style lang="scss" scoped>
     .search-field {
         margin-bottom: 10px;
     }
@@ -137,6 +132,17 @@ export default {
     }
 
     @media screen and (max-width: 769px) {
+        .columns {
+            display: grid;
+            grid-template-areas: "right" "left";
+
+            .is-half {
+                grid-area: left;
+            }
+            .right-side {
+                grid-area: right;
+            }
+        }
         #map {
             text-align: justify;
             vertical-align: top;
@@ -153,6 +159,12 @@ export default {
 
         .right-side{
             order:1
+        }
+    }
+
+    @media screen and (max-width: 520px) {
+        #map {
+            height: 300px;
         }
     }
 </style>
