@@ -1,74 +1,101 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-            <b-input class="search-field" placeholder="Find..." v-model="filterQuery"></b-input>            
-            <template v-for="(place, index) in filteredPlaces">
-                <PlaceListComponent :key="place.id" :place="place" :timer="50 * (index+1)"/>
+            <template v-for="(place, index) in places">
+                <PlacePreviewList
+                    v-if="isPlacesLoaded"
+                    :key="place.id" 
+                    :place="place" 
+                    :timer="50 * (index+1)"
+                />
             </template>
         </section>
-        
-        <section class="column mapbox-wrapper">
+
+        <section class="column mapbox-wrapper right-side">
             <section id="map">
                 <mapbox
                     :access-token="getMapboxToken"
                     :map-options="{
                         style: getMapboxStyle,
-                        zoom: 3
+                        center: {
+                            lat: 40.7128,
+                            lng: -74.0060
+                        },
+                        zoom: 11
                     }"
                     :scale-control="{
                         show: true,
                         position: 'top-left'
                     }"
-                    :fullscreen-control="{
-                        show: true,
-                        position: 'top-left'
-                    }">
-                </mapbox>
+                    @map-init="mapInitialized"
+                    @map-load="mapLoaded"
+                />
             </section>
         </section>
     </section>
 </template>
 
 <script>
-    import { mapState } from "vuex";
-    import { mapGetters } from "vuex";
-    import PlaceListComponent from '@/components/placesList/PlaceListComponent';
-    import Mapbox from 'mapbox-gl-vue';
+import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
+import PlacePreviewList from './PlacePreviewList';
+import Mapbox from 'mapbox-gl-vue';
+import LocationService from '@/services/location/locationService';
+import MarkerService from '@/services/map/markerManagerService';
 
-    export default {
-        name: "SearchPlace",
-        components: {
-            PlaceListComponent,
-            Mapbox,
+let markerManager = null;
+
+export default {
+    name: 'SearchPlace',
+    components: {
+        PlacePreviewList,
+        Mapbox,
+    },
+    data() {
+        return {
+            filterQuery: '',
+            isMapLoaded: false,
+            isPlacesLoaded: false,
+            map: {},
+        };
+    },
+    created() {
+        this.$store.dispatch("place/fetchPlaces")
+            .then(() => this.isPlacesLoaded = true);
+    },
+    methods: {
+        mapInitialized(map) {
+            this.map = map;
+            LocationService.getUserLocationData()
+                .then(coordinates => {
+                    this.jumpTo(coordinates);
+                });
         },
-        data() {
-            return {
-                filterQuery: ''
-            }
+        mapLoaded(map) {
+            markerManager = new MarkerService(map);
+            this.isMapLoaded = true;
         },
-        methods: {
+        jumpTo (coordinates) {
+            this.map.jumpTo({
+                center: coordinates,
+            });
         },
-        computed: {
-            ...mapState("place", ["places"]),
-            ...mapGetters("place", ["getFilteredByName"]),
-            ...mapGetters("map", ["getMapboxToken", "getMapboxStyle"]),
-            filteredPlaces: function() {
-                let places = [];
-                if (this.filterQuery) {
-                    places = this.getFilteredByName(this.filterQuery);
-                } else {
-                    places = this.places;
-                }
-                return places;
-            }
+        updateMap(places){
+            markerManager.setMarkers(...places);
         }
+    },
+    computed: {
+        ...mapState('place', ['places']),
+        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
     }
+};
 </script>
 
 <style>
     .mapboxgl-canvas {
-        top: 0!important;
-        left: 0!important;
+        top: 0 !important;
+        left: 0 !important;
+        z-index: 10;
     }
 </style>
 
@@ -78,28 +105,36 @@
     }
 
     .columns {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 10px;
     }
 
     #map {
         text-align: justify;
-        position: fixed;
-        top: 52px;
-        bottom: 0;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        height:100vh;
         right: 0;
-        width: 50%;
+        width: 100%;
     }
-    
+
     @media screen and (max-width: 769px) {
         #map {
             text-align: justify;
-            vertical-align: top; 
+            vertical-align: top;
             position: relative;
             top: 0;
             left: 0;
             width: 100%;
             height: 500px;
+        }
+
+        .left-side{
+            order:2;
+        }
+
+        .right-side{
+            order:1
         }
     }
 </style>

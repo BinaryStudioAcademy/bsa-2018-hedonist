@@ -12,6 +12,9 @@ export const storageService = {
     setToken(token) {
         return this.set(this.keyName, token);
     },
+    hasToken() {
+        return !!this.get(this.keyName);
+    },
     removeToken() {
         return localStorage.removeItem(this.keyName);
     }

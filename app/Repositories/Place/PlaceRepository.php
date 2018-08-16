@@ -24,12 +24,26 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
 
     public function getById(int $id): ?Place
     {
-        return Place::find($id);
+        return Place::with(['localization'])->where(['id' => $id])->get()->first();
     }
 
     public function findAll(): Collection
     {
         return Place::all();
+    }
+
+    public function getAllWithRelations(): Collection
+    {
+        return Place::with(
+            'category',
+            'category.tags',
+            'city',
+            'localization',
+            'localization.language',
+            'likes',
+            'dislikes',
+            'ratings')
+            ->get();
     }
 
     public function findByCriteria(CriteriaInterface $criteria): Collection

@@ -1,35 +1,40 @@
 <template>
-    <article>
-        <div class="entry-media">
-            <img class="image" :src="visitedPlace.place_photo.url"/>
-        </div>
-        <div class="item-description">
-            <div class="rating-wrapper">
-                <div class="rating">
-                    {{visitedPlace.ratings.rating}}
-                </div>
+    <transition name="slide-fade">
+        <article v-if="active">
+            <div class="entry-media">
+                <img 
+                    class="image" 
+                    :src="visitedPlace.place_photo.url"
+                >
             </div>
-            <h2 class="title">{{ index }}.{{ visitedPlace.places_tr.place_name }}</h2>
-            <p>{{ cityAddress }}</p>
-            <p>{{ visitedPlace.categories.name }} - Tips and feedback: {{reviewCount}}</p>
+            <div class="item-description">
+                <div class="rating-wrapper">
+                    <div class="rating">
+                        {{ visitedPlace.ratings.rating }}
+                    </div>
+                </div>
+                <h2 class="title">{{ index }}.{{ visitedPlace.places_tr.place_name }}</h2>
+                <p>{{ cityAddress }}</p>
+                <p>{{ visitedPlace.categories.name }} - Tips and feedback: {{ reviewCount }}</p>
 
-            <button class="saved"><i class="fa fa-bookmark"></i>Saved</button>
-        </div>
-    </article>
+                <button class="saved"><i class="fa fa-bookmark" />Saved</button>
+            </div>
+        </article>
+    </transition>
 </template>
 
 <style lang="scss" scoped>
 
     article {
-        margin: 1.5rem 3rem;
+        margin: 1.5rem auto;
         text-align: left;
-        width: 500px;
+        width: 600px;
         background-color: #FFF;
     }
 
     .entry-media {
         height: 300px;
-        width: 500px;
+        width: 600px;
     }
 
     .image {
@@ -79,27 +84,51 @@
         color: #FFF;
         text-align: center;
     }
+
+    .slide-fade-enter-active {
+        transition: all 0.5s ease;
+    }
+
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateX(300px);
+        opacity: 0;
+    }
 </style>
 
 <script>
-    export default {
-        name: "PlaceVisitedPreview",
-        props: {
-            visitedPlace: {
-                required: true,
-                type: Object,
-            },
-            index: {
-                type: Number
-            }
+export default {
+    name: 'PlaceVisitedPreview',
+    data() {
+        return {
+            active: false
+        };
+    },
+    props: {
+        visitedPlace: {
+            required: true,
+            type: Object,
         },
-        computed: {
-            cityAddress: function() {
-                return this.visitedPlace.address + ', ' + this.visitedPlace.cities.name;
-            },
-            reviewCount: function() {
-                return this.visitedPlace.reviews.length || 0;
-            }
+        index: {
+            required: true,
+            type: Number
+        },
+        timer: {
+            required: true,
+            type: Number
         }
+    },
+    computed: {
+        cityAddress: function() {
+            return this.visitedPlace.address + ', ' + this.visitedPlace.cities.name;
+        },
+        reviewCount: function() {
+            return this.visitedPlace.reviews.length || 0;
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
     }
+};
 </script>

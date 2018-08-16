@@ -2,18 +2,19 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
-import ReviewList from '@/components/review/ReviewList';
+import NewPlacePage from '@/pages/NewPlacePage';
 import UserListsPage from '@/pages/UserListsPage';
-import PlacesList from  '@/components/placesList/PlacesList';
+import PlaceListPage from  '@/pages/PlaceListPage';
 import HistoryPage from '@/pages/HistoryPage';
 import SeachPlacePage from  '@/pages/SeachPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
+import UserListAddPage from '@/pages/UserListAddPage';
 import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
-import TastesAdd from '@/components/taste/TastesAdd';
+import MyTastesPage from '@/pages/MyTastesPage';
 
 Vue.use(Router);
 
@@ -40,7 +41,12 @@ export default new Router({
             {
                 path: '/places/list',
                 name: 'PlacesList',
-                component: PlacesList
+                component: PlaceListPage
+            },
+            {
+                path: '/places/add',
+                name: 'NewPlacePage',
+                component: NewPlacePage
             },
             {
                 path: '/search',
@@ -53,9 +59,9 @@ export default new Router({
                 component: PlacePage
             },
             {
-                path: '/reviews',
-                name: 'ReviewList',
-                component: ReviewList
+                path: '/users/lists/add',
+                name: 'UserListAddPage',
+                component: UserListAddPage
             },
             {
                 path: '/user/lists',
@@ -63,9 +69,9 @@ export default new Router({
                 component: UserListsPage
             },
             {
-                path: '/tastes/add',
-                name: 'Tastes',
-                component: TastesAdd
+                path: '/tastes',
+                name: 'MyTastesPage',
+                component: MyTastesPage
             },
             {
                 path: '/history',
@@ -81,7 +87,7 @@ export default new Router({
             },
             {
                 path: '/signup',
-                name: 'SignUp',
+                name: 'SignUpPage',
                 component: SignUpPage
             },
             {

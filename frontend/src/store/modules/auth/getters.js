@@ -1,5 +1,8 @@
+import StorageService from '@/services/common/storageService';
+
 export default {
-    isLoggedIn: state => !!state.token,
-    getAuthenticatedUser: state => state.currentUser,
-    getToken: state => state.token,
-}
+    hasToken: () => () => StorageService.hasToken(),
+    isLoggedIn: (state) => !!state.isLoggedIn,
+    getAuthenticatedUser: (state) => state.currentUser,
+    getToken: () => () => StorageService.getToken(),
+};

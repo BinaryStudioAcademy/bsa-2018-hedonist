@@ -6,10 +6,12 @@ import router from './router';
 import store from './store/index';
 import {sync} from 'vuex-router-sync';
 import Buefy from 'buefy';
-import Vuelidate from 'vuelidate'
+import Vuelidate from 'vuelidate';
+import vClickOutside from 'v-click-outside';
 
-Vue.use(Buefy)
-Vue.use(Vuelidate)
+Vue.use(Buefy);
+Vue.use(Vuelidate);
+Vue.use(vClickOutside);
 
 sync(store, router);
 
@@ -22,4 +24,4 @@ new Vue({
     components: {App},
     template: '<App/>',
     store
-})
+});

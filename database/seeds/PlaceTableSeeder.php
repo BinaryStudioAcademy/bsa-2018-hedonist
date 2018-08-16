@@ -55,10 +55,6 @@ class PlaceTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('languages')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
         $language = factory(Language::class)->create([
             'code' => 'en',
             'active' => true,
