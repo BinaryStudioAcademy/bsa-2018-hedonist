@@ -75,31 +75,31 @@
 </template>
 
 <script>
-    import PlacePhotoList from './PlacePhotoList';
+import PlacePhotoList from './PlacePhotoList';
 
-    export default {
-        name: "PlaceTopInfo",
-        components: {
-            PlacePhotoList,
-        },
-        props: {
-            place: {
-                type: Object,
-                required: true
-            }
-        },
-        data() {
-            return {
-                activeTab: 1
-            }
-        },
-        methods: {
-            changeTab: function(activeTab) {
-                this.activeTab = activeTab;
-                this.$emit('tabChanged', activeTab);
-            }
+export default {
+    name: 'PlaceTopInfo',
+    components: {
+        PlacePhotoList,
+    },
+    props: {
+        place: {
+            type: Object,
+            required: true
+        }
+    },
+    data() {
+        return {
+            activeTab: 1
+        };
+    },
+    methods: {
+        changeTab: function(activeTab) {
+            this.activeTab = activeTab;
+            this.$emit('tabChanged', activeTab);
         }
     }
+};
 </script>
 
 <style lang="scss" scoped>

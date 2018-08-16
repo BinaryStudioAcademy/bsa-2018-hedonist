@@ -16,19 +16,24 @@
                         <b-input v-model="newReview.description" maxlength="500" type="textarea" />
 
                         <b-taglist>
-                            <b-tag v-for="(file, index) in photos"
-                                   :key="index"
-                                   type="is-primary">
+                            <b-tag 
+                                v-for="(file, index) in photos"
+                                :key="index"
+                                type="is-primary"
+                            >
                                 {{ file.name }}
-                                <button class="delete is-small"
-                                        type="button"
-                                        @click="deletePhoto(index)">
-                                </button>
+                                <button 
+                                    class="delete is-small"
+                                    type="button"
+                                    @click="deletePhoto(index)"
+                                />
                             </b-tag>
 
-                            <b-upload v-model="photos"
-                                      accept="image/*"
-                                      multiple>
+                            <b-upload 
+                                v-model="photos"
+                                accept="image/*"
+                                multiple
+                            >
                                 <span class="tag is-light">
                                     <a>Add photo</a>
                                 </span>
@@ -71,7 +76,7 @@ import { mapGetters } from 'vuex';
 import { mapActions } from 'vuex';
 
 export default {
-    name: "AddReview",
+    name: 'AddReview',
     props: {
         placeId: {
             type: Number,
@@ -86,7 +91,7 @@ export default {
                 description: ''
             },
             photos: []
-        }
+        };
     },
     computed: {
         ...mapGetters('auth', ['hasToken', 'getAuthenticatedUser']),
@@ -143,10 +148,10 @@ export default {
             });
         },
         deletePhoto(index) {
-            this.photos.splice(index, 1)
+            this.photos.splice(index, 1);
         }
     }
-}
+};
 </script>
 
 <style scoped>
