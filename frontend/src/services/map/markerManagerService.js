@@ -82,7 +82,7 @@ class MarkerManagerService {
             lng: item.longitude,
             lat: item.latitude,
             // TODO set place photo url
-            photoUrl: item.photoUrl || 'https://igx.4sqi.net/img/general/200x200/887035_CLhGX1rsu2-V75shOAkPWuxXLY2k4iO17hEdOlOfSWc.jpg',
+            photoUrl: item.photoUrl || 'http://via.placeholder.com/128x128',
             address: item.address
         });
     }

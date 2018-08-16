@@ -108,7 +108,7 @@ export default {
                         name: 'Your position',
                     }
                 },
-                photoUrl: this.user.avatar_url || '@/assets/user-placeholder.jpg',
+                photoUrl: this.user.avatar_url || 'http://via.placeholder.com/128x128',
             };
         }
     },
