@@ -50,7 +50,7 @@ export default {
             loaded: false,
             activeTab: 1,
             place: null
-        }
+        };
     },
 
     created() {
@@ -74,7 +74,7 @@ export default {
     computed: {
         ...mapState('place', ['places'])
     },
-}
+};
 </script>
 
 <style lang="scss" scoped>
