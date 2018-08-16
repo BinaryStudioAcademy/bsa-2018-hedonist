@@ -26,12 +26,12 @@ $factory->define(Place::class, function (Faker $faker) {
     ];
 });
 
-const radius = 0.003;
+const placesRadius = 0.003;
 
 $factory->defineAs(Place::class, 'LvivPlaces', function (Faker $faker) {
     return [
-        'longitude'     => $faker->unique()->randomFloat(6, 24.0297-radius, 24.0297+radius),
-        'latitude'      => $faker->unique()->randomFloat(6, 49.8397-radius, 49.8397+radius),
+        'longitude'     => $faker->unique()->randomFloat(6, 24.0297-placesRadius, 24.0297+placesRadius),
+        'latitude'      => $faker->unique()->randomFloat(6, 49.8397-placesRadius, 49.8397+placesRadius),
         'zip'           => $faker->numberBetween(10000, 99999),
         'address'       => $faker->address,
         'phone'         => $faker->phoneNumber,
