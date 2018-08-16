@@ -25,7 +25,7 @@ class SaveReviewPhotoAction
             $reviewPhoto = $this->reviewPhotoRepository->getById($id);
         }
         $file = $request->getImg();
-        $newFileName = time() . '.' . $file->extension();
+        $newFileName = time() . '_' . mt_rand() . '.' . $file->extension();
         $file->storeAs('upload/review', $newFileName, 'public');
         $reviewPhoto->review_id = $request->getReviewId();
         $reviewPhoto->description = $request->getDescription();

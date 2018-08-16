@@ -95,7 +95,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions('review', ['addReview']),
+        ...mapActions('review', ['addReview', 'addReviewPhoto']),
         onAddReview () {
             this.newReview.user_id = this.userId;
             this.newReview.place_id = this.placeId;
@@ -104,6 +104,13 @@ export default {
                 if (res.error) {
                     this.onError(res.error);
                 } else {
+                    this.photos.forEach((item, i, arr) => {
+                        this.addReviewPhoto({
+                            review_id: res.data.id,
+                            description: 'test',
+                            img: item
+                        });
+                    });
                     this.refreshInput();
                     this.onSuccess({
                         message: 'Your review has been added'
@@ -119,7 +126,8 @@ export default {
                 user_id: null,
                 place_id: null,
                 description: ''
-            }
+            };
+            this.photos = [];
         },
         onError (error) {
             this.$toast.open({
