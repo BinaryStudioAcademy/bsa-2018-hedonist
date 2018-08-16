@@ -25,6 +25,7 @@ use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class PlaceController extends ApiController
 {
@@ -56,14 +57,14 @@ class PlaceController extends ApiController
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
-        return $this->successResponse(GetPlaceItemPresenter::present($placeResponse));
+        return $this->successResponse(GetPlaceItemPresenter::present($placeResponse,Auth::id()));
     }
 
     public function getCollection(): JsonResponse
     {
         $placeResponse = $this->getPlaceCollectionAction->execute(new GetPlaceCollectionRequest());
 
-        return $this->successResponse(GetPlaceCollectionPresenter::present($placeResponse));
+        return $this->successResponse(GetPlaceCollectionPresenter::present($placeResponse,Auth::id()));
     }
 
     public function removePlace(int $id): JsonResponse
