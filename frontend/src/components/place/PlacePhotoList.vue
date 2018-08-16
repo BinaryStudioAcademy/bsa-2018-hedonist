@@ -1,10 +1,7 @@
 <template>
     <div class="photo-slider">
-        <span
-            class="photo-slider__left-arrow slider-arrow"
-            @click="toLeft"
-        >
-            <i class="fas fa-caret-left" />
+        <span class="photo-slider__left-arrow slider-arrow">
+            <i @click="toLeft" class="fas fa-caret-left" />
         </span>
         <ul
             ref="photo-list"
@@ -21,11 +18,8 @@
                 />
             </li>
         </ul>
-        <span
-            class="photo-slider__right-arrow slider-arrow"
-            @click="toRight"
-        >
-            <i class="fas fa-caret-right" />
+        <span class="photo-slider__right-arrow slider-arrow">
+            <i @click="toRight" class="fas fa-caret-right" />
         </span>
     </div>
 </template>
@@ -94,6 +88,14 @@ export default {
             top: 25px;
             color: $blue;
             z-index: 2;
+
+            .fas {
+                cursor: pointer;
+
+                &:hover {
+                    color: darken($blue, 10%);
+                }
+            }
         }
 
         &__right-arrow {
