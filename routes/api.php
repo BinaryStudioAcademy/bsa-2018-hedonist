@@ -36,7 +36,10 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
-        Route::resource('user-list', 'Api\User\UserList\UserListController')->except([
+        Route::get('/user-lists/{user_id}/lists', 'Api\UserList\UserListController@userLists')
+            ->name('user-list.lists');
+
+        Route::resource('user-list', 'Api\UserList\UserListController')->except([
             'create', 'edit'
         ]);
 

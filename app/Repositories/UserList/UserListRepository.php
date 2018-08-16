@@ -27,7 +27,12 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
     {
         return UserList::all();
     }
-     
+
+    public function findUserLists(int $user_id) : Collection
+    {
+        return UserList::where('user_id', $user_id)->get();
+    }
+
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
