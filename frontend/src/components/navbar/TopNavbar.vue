@@ -9,7 +9,7 @@
                     >Hedonist</router-link>
 
                     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
-                        @click="toggleMenu" :class="{'is-active': navIsActive}">
+                        @click="toggleMenu" :class="{'is-active': isBurgerMenu}">
 
                         <span aria-hidden="true"></span>
                         <span aria-hidden="true"></span>
@@ -17,7 +17,7 @@
                     </a>
                 </div>
 
-                <div class="navbar-menu" :class="{'is-active': navIsActive}">
+                <div class="navbar-menu" :class="{'is-active': isBurgerMenu}">
                     <search-input v-if="isUserLoggedIn" />
                     <div
                         v-if="!isUserLoggedIn"
@@ -99,7 +99,7 @@ export default {
 
     data () {
       return {
-        navIsActive: false
+        isBurgerMenu: false
       }
     },
 
@@ -123,7 +123,7 @@ export default {
         },
 
         toggleMenu () {
-            this.navIsActive = !this.navIsActive
+            this.isBurgerMenu = !this.isBurgerMenu
         }
     },
     components: {
