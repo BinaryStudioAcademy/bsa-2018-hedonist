@@ -9,7 +9,7 @@
             </div>
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
-                    <i class="place-sidebar__icon far fa-compass"></i>
+                    <i class="place-sidebar__icon far fa-compass" />
                     <div v-if="place.localization" class="place-name"><strong>{{ place.localization.name }}</strong></div>
                     <div v-else class="place-name"><strong>No localization</strong></div>
                     <div class="place-address">
@@ -20,12 +20,14 @@
                     </div>
                 </div>
                 <div v-if="place.tags" class="place-sidebar__tags">
-                    <i class="place-sidebar__icon fas fa-info-circle"></i>
+                    <i class="place-sidebar__icon fas fa-info-circle" />
                     <span 
                         v-for="tag in place.tags" 
                         class="tag"
                         :key="tag.id"
-                    >{{ tag.name }}</span>
+                    >
+                        {{ tag.name }}
+                    </span>
                 </div>
                 <div class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock" />
@@ -36,31 +38,43 @@
                     <a 
                         class="phone-number" 
                         :href="`tel:${place.phone}`"
-                    >{{ place.phone }}</a>
+                    >
+                        {{ place.phone }}
+                    </a>
                 </div>
                 <div v-if="place.website" class="place-sidebar__website">
-                    <i class="place-sidebar__icon fas fa-globe"></i>
+                    <i class="place-sidebar__icon fas fa-globe" />
                     <a
                         target="_blank"
                         :href="place.website"
-                    >{{ place.website }}</a>
+                    >
+                        {{ place.website }}
+                    </a>
                 </div>
-                <div v-if="place.socials" class="place-sidebar__facebook">
-                    <i class="place-sidebar__icon fab fa-facebook-square"></i>
-                    <a href="https://www.facebook.com/mamamanana.kiev">mamamanana.kiev</a>
-                </div>
-                <div v-if="place.socials" class="place-sidebar__facebook">
-                    <i class="place-sidebar__icon fab fa-instagram"></i>
-                    <a href="https://www.instagram.com/mamamanana.kiev.ua/">@mamamanana.kiev.ua</a>
-                </div>
+                <template v-if="place.socials">
+                    <div class="place-sidebar__facebook">
+                        <i class="place-sidebar__icon fab fa-facebook-square" />
+                        <a href="https://www.facebook.com/mamamanana.kiev">mamamanana.kiev</a>
+                    </div>
+                    <div class="place-sidebar__facebook">
+                        <i class="place-sidebar__icon fab fa-instagram" />
+                        <a href="https://www.instagram.com/mamamanana.kiev.ua/">@mamamanana.kiev.ua</a>
+                    </div>
+                </template>
             </div>
-            <div v-if="place.features" v-for="feature in place.features" class="place-sidebar__features">
-                <h2 class="feature-title">Features</h2>
-                <div class="feature">
-                    <div class="feature-name">{{ feature.name }}</div>
-                    <div class="feature-info"><i class="fas fa-check"></i></div>
+            <template v-if="place.features">
+                <div
+                    v-for="feature in place.features"
+                    :key="feature.id"
+                    class="place-sidebar__features"
+                >
+                    <h2 class="feature-title">Features</h2>
+                    <div class="feature">
+                        <div class="feature-name">{{ feature.name }}</div>
+                        <div class="feature-info"><i class="fas fa-check" /></div>
+                    </div>
                 </div>
-            </div>
+            </template>
         </div>
     </aside>
 </template>

@@ -93,6 +93,15 @@
         transform: translateX(300px);
         opacity: 0;
     }
+
+    @media screen and (max-width: 769px) {
+        article, .entry-media {
+            width: 100%;
+        }
+        .image {
+            max-width: 90%;
+        }
+    }
 </style>
 
 <script>

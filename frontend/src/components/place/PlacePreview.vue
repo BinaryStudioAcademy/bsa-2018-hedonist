@@ -4,7 +4,7 @@
             <div class="media">
                 <figure class="media-left image is-128x128">
                     <!-- TODO set place photo url -->
-                    <img src="http://via.placeholder.com/128x128"/>
+                    <img src="http://via.placeholder.com/128x128">
                 </figure>
                 <div class="media-content">
                     <h3 class="title has-text-primary">
@@ -46,7 +46,7 @@
                         </b-tag>
                         <b-tag type="is-success" @click.native="like">
                             <span class="icon">
-                                <i class="far fa-arrow-alt-circle-up"></i>
+                                <i class="far fa-arrow-alt-circle-up" />
                             </span>
                         </b-tag>
                     </b-taglist>
@@ -58,7 +58,7 @@
                         </b-tag>
                         <b-tag type="is-danger" @click.native="dislike">
                             <span class="icon">
-                                <i class="far fa-arrow-alt-circle-down"></i>
+                                <i class="far fa-arrow-alt-circle-down" />
                             </span>
                         </b-tag>
                     </b-taglist>
@@ -141,11 +141,11 @@
 
 <script>
 export default {
-    name: "PlacePreview",
+    name: 'PlacePreview',
     data() {
         return {
             active: false
-        }
+        };
     },
     props: {
         place: {
@@ -163,11 +163,11 @@ export default {
                 message: 'You liked this review!',
                 type: 'is-info',
                 position: 'is-bottom'
-            })
+            });
         },
         dislike() {
             this.$toast.open({
-                message: `You disliked this review`,
+                message: 'You disliked this review',
                 position: 'is-bottom',
                 type: 'is-info'
             });
@@ -175,8 +175,8 @@ export default {
     },
     created() {
         setTimeout(() => {
-            this.active = true
-        }, this.timer)
+            this.active = true;
+        }, this.timer);
     }
-}
+};
 </script>
