@@ -63,7 +63,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['getAuthenticatedUser'])
+        ...mapGetters('auth', ['getAuthenticatedUser'])
     },
 
     methods: {
