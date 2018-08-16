@@ -4,40 +4,38 @@
             <template v-for="(place, index) in places">
                 <PlacePreview
                     v-if="isPlacesLoaded"
-                    :key="place.id" 
-                    :place="place" 
+                    :key="place.id"
+                    :place="place"
                     :timer="50 * (index+1)"
                 />
             </template>
         </section>
 
         <section class="column mapbox-wrapper right-side">
-            <section id="map">
-                <mapbox
-                    :access-token="getMapboxToken"
-                    :map-options="{
-                        style: getMapboxStyle,
-                        center: {
-                            lat: 40.7128,
-                            lng: -74.0060
-                        },
-                        zoom: 11
-                    }"
-                    :scale-control="{
-                        show: true,
-                        position: 'top-left'
-                    }"
-                    @map-init="mapInitialized"
-                    @map-load="mapLoaded"
-                />
-            </section>
+            <mapbox
+                :access-token="getMapboxToken"
+                :map-options="{
+                    style: getMapboxStyle,
+                    center: {
+                        lat: 40.7128,
+                        lng: -74.0060
+                    },
+                    zoom: 11
+                }"
+                :scale-control="{
+                    show: true,
+                    position: 'top-left'
+                }"
+                @map-init="mapInitialized"
+                @map-load="mapLoaded"
+            />
         </section>
     </section>
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { mapGetters } from 'vuex';
+import {mapState} from 'vuex';
+import {mapGetters} from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
@@ -61,7 +59,12 @@ export default {
     },
     created() {
         this.$store.dispatch('place/fetchPlaces')
-            .then(() => this.isPlacesLoaded = true);
+            .then(() => {
+                this.isPlacesLoaded = true;
+                if(this.isMapLoaded){
+                    this.updateMap(this.places);
+                }
+            });
     },
     methods: {
         mapInitialized(map) {
@@ -74,13 +77,16 @@ export default {
         mapLoaded(map) {
             markerManager = new MarkerService(map);
             this.isMapLoaded = true;
+            if(this.isPlacesLoaded){
+                this.updateMap(this.places);
+            }
         },
-        jumpTo (coordinates) {
+        jumpTo(coordinates) {
             this.map.jumpTo({
                 center: coordinates,
             });
         },
-        updateMap(places){
+        updateMap(places) {
             markerManager.setMarkers(...places);
         }
     },
@@ -88,18 +94,16 @@ export default {
         ...mapState('place', ['places']),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
-        filteredPlaces: function() {
+        filteredPlaces: function () {
             let places = [];
             if (this.filterQuery) {
                 places = this.getFilteredByName(this.filterQuery);
             } else {
                 places = this.places;
             }
-            if(this.isMapLoaded){
-                this.updateMap(places);
-            }
+
             return places;
-        }
+        },
     }
 };
 </script>
@@ -108,7 +112,10 @@ export default {
     .mapboxgl-canvas {
         top: 0 !important;
         left: 0 !important;
-        z-index: 10;
+    }
+
+    .mapboxgl-marker {
+        cursor: pointer;
     }
 </style>
 
@@ -126,7 +133,7 @@ export default {
         position: sticky;
         position: -webkit-sticky;
         top: 0;
-        height:100vh;
+        height: 100vh;
         right: 0;
         width: 100%;
     }
@@ -153,12 +160,12 @@ export default {
             height: 500px;
         }
 
-        .left-side{
-            order:2;
+        .left-side {
+            order: 2;
         }
 
-        .right-side{
-            order:1
+        .right-side {
+            order: 1
         }
     }
 
