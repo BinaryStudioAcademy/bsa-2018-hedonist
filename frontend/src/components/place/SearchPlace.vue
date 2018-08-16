@@ -1,13 +1,14 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-            <b-input 
-                class="search-field" 
-                placeholder="Find..." 
+            <b-input
+                class="search-field"
+                placeholder="Find..."
                 v-model="filterQuery"
             />
             <template v-for="(place, index) in filteredPlaces">
-                <PlacePreviewList 
+                <PlacePreview
+                    v-if="isPlacesLoaded"
                     :key="place.id" 
                     :place="place" 
                     :timer="50 * (index+1)"
@@ -15,7 +16,7 @@
             </template>
         </section>
 
-        <section class="column mapbox-wrapper">
+        <section class="column mapbox-wrapper right-side">
             <section id="map">
                 <mapbox
                     :access-token="getMapboxToken"
@@ -31,10 +32,6 @@
                         show: true,
                         position: 'top-left'
                     }"
-                    :fullscreen-control="{
-                        show: true,
-                        position: 'top-left'
-                    }"
                     @map-init="mapInitialized"
                     @map-load="mapLoaded"
                 />
@@ -46,7 +43,7 @@
 <script>
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex';
-import PlacePreviewList from './PlacePreviewList';
+import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import MarkerService from '@/services/map/markerManagerService';
@@ -56,18 +53,20 @@ let markerManager = null;
 export default {
     name: 'SearchPlace',
     components: {
-        PlacePreviewList,
+        PlacePreview,
         Mapbox,
     },
     data() {
         return {
             filterQuery: '',
             isMapLoaded: false,
+            isPlacesLoaded: false,
             map: {},
         };
     },
     created() {
-        this.$store.dispatch("place/fetchPlaces");
+        this.$store.dispatch('place/fetchPlaces')
+            .then(() => this.isPlacesLoaded = true);
     },
     methods: {
         mapInitialized(map) {
@@ -104,7 +103,6 @@ export default {
             if(this.isMapLoaded){
                 this.updateMap(places);
             }
-
             return places;
         }
     }
@@ -115,6 +113,7 @@ export default {
     .mapboxgl-canvas {
         top: 0 !important;
         left: 0 !important;
+        z-index: 10;
     }
 </style>
 
@@ -124,17 +123,17 @@ export default {
     }
 
     .columns {
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 10px;
     }
 
     #map {
         text-align: justify;
-        position: fixed;
-        top: 52px;
-        bottom: 0;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        height:100vh;
         right: 0;
-        width: 50%;
+        width: 100%;
     }
 
     @media screen and (max-width: 769px) {
@@ -146,6 +145,14 @@ export default {
             left: 0;
             width: 100%;
             height: 500px;
+        }
+
+        .left-side{
+            order:2;
+        }
+
+        .right-side{
+            order:1
         }
     }
 </style>

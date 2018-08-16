@@ -28,6 +28,8 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/refresh', 'AuthController@refresh');
 
+        Route::get('/unique', 'AuthController@checkEmailUnique');
+
         Route::get('/me', 'AuthController@me')->middleware('custom.jwt.auth');
 
         Route::post('/reset-password', 'AuthController@changePassword');
@@ -73,6 +75,7 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/places/{id}/like', 'Api\Like\LikeController@likePlace')->name('place.like');
         Route::post('/places/{id}/dislike', 'Api\Like\DislikeController@dislikePlace')->name('place.dislike');
+        Route::get('/places/{id}/liked', 'Api\Like\LikeController@getLikedPlace')->name('place.liked');
 
         Route::get('/places/{id}/rating', 'Api\Place\PlaceRatingController@getPlaceRatingAvg')
             ->name('place.rating.getPlaceRatingAvg');

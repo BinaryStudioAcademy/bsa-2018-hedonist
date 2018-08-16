@@ -22,7 +22,7 @@
                     placeholder="Your Password"
                     @blur="onBlur('password')"
                     @focus="onFocus('password')"
-                    @keyup.enter="onLogin"
+                    @keyup.native.enter="onLogin"
                     password-reveal
                 />
             </b-field>
@@ -33,7 +33,6 @@
                     type="button"
                     class="button is-primary is-rounded"
                     @click="onLogin"
-                    @keyup.enter="onLogin"
                 >
                     Login
                 </button>
@@ -73,7 +72,9 @@ export default {
     },
 
     methods: {
-        ...mapActions(['login']),
+        ...mapActions({
+            login: 'auth/login'
+        }),
 
         onLogin () {
             if (!this.$v.user.$invalid) {

@@ -51,7 +51,8 @@ class MarkerManagerService {
             name: item.name,
             lng: item.longitude,
             lat: item.latitude,
-            photoUrl: item.photo.url,
+            // TODO set place photo url
+            photoUrl: 'https://igx.4sqi.net/img/general/200x200/887035_CLhGX1rsu2-V75shOAkPWuxXLY2k4iO17hEdOlOfSWc.jpg',
             address: item.address
         });
     }

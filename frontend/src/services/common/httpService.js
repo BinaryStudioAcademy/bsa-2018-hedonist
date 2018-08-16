@@ -21,35 +21,19 @@ export class HttpService {
     }
 
     get(url, params) {
-        return this.axios
-            .get(url, params)
-            .catch(error => {
-                return error.response;
-            });
+        return this.axios.get(url, params);
     }
 
     post(url, data) {
-        return this.axios
-            .post(url, data)
-            .catch(error => {
-                return error.response;
-            });
+        return this.axios.post(url, data);
     }
 
     put(url, data) {
-        return this.axios
-            .put(url, data)
-            .catch(error => {
-                return error.response;
-            });
+        return this.axios.put(url, data);
     }
 
     delete(url, params) {
-        return this.axios
-            .delete(url, params)
-            .catch(error => {
-                return error.response;
-            });
+        return this.axios.delete(url, params);
     }
 }
 

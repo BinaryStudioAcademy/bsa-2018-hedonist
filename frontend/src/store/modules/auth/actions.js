@@ -40,7 +40,7 @@ export default {
                     } else {
                         const userData = res.data.data;
                         context.commit('USER_LOGIN', userData);
-                        context.dispatch('fetchAuthenticatedUser', userData.access_token);
+                        context.dispatch('fetchAuthenticatedUser');
                         resolve(res);
                     }
                 }).catch(function (err) {
@@ -86,13 +86,8 @@ export default {
             httpService.post('/auth/refresh', {
                 params: {email}
             }).then(function (res) {
-                if (res.status === 401){
-                    resolve(res.data);
-                } else {
-                    state.token = res.token;
-                    StorageService.setToken(res.token);
-                    resolve(res);
-                }
+                context.commit('REFRESH_TOKEN', res.data.data.access_token);
+                resolve(res);
             }).catch(function (err) {
                 reject(err);
             });
@@ -113,22 +108,25 @@ export default {
             });
         });
     },
-    fetchAuthenticatedUser: (context, token) => {
+    fetchAuthenticatedUser: (context) => {
         return new Promise((resolve, reject) => {
-            httpService.get('/auth/me', {
-                params: {
-                    token
-                }
-            }).then(function (res) {
-                if (res.status === 400){
-                    resolve(res.data);
-                } else {
+            httpService.get('/auth/me')
+                .then(function (res) {
                     context.commit('SET_AUTHENTICATED_USER', res.data.data);
                     resolve(res);
-                }
+                }).catch(function (error) {
+                    reject(error.response.data.error);
+                });
+        });
+    },
+    checkEmailUnique: (context, email) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/auth/unique?email='+email
+            ).then(function (res) {
+                resolve(res.data.data);
             }).catch(function (err) {
                 reject(err);
             });
         });
-    }
+    },
 };

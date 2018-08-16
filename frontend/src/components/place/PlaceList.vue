@@ -5,7 +5,7 @@
                 v-for="(place,index) in places" 
                 :key="place.id"
             >
-                <PlaceListComponent 
+                <PlacePreview
                     :place="place" 
                     :timer="50 * (index+1)"
                 />
@@ -35,12 +35,15 @@
 </style>
 
 <script>
-import PlacePreviewList from './PlacePreviewList';
+import PlacePreview from './PlacePreview';
 import { mapState } from 'vuex';
 
 export default {
     name: 'PlaceList',
-    components: {PlacePreviewList},
+    components: {PlacePreview},
+    created() {
+        this.$store.dispatch("place/fetchPlaces");
+    },
     computed: {...mapState('place', ['places'])}
 };
 </script>
