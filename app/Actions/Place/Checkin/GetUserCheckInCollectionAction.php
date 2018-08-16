@@ -2,13 +2,13 @@
 
 namespace Hedonist\Actions\Place\Checkin;
 
-use Hedonist\Repositories\Place\CheckinRepository;
+use Hedonist\Repositories\Place\CheckinRepositoryInterface;
 
 class GetUserCheckInCollectionAction
 {
     private $checkInRepository;
 
-    public function __construct(CheckinRepository $checkInRepository)
+    public function __construct(CheckinRepositoryInterface $checkInRepository)
     {
         $this->checkInRepository = $checkInRepository;
     }
