@@ -53,14 +53,21 @@
     }
 
     @media screen and (max-width: 769px) {
-        #map {
-            text-align: justify;
-            vertical-align: top;
-            position: relative;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 500px;
+        .row {
+            flex-direction: column;
+
+            .mapbox-wrapper {
+                position: relative;
+
+                #map {
+                    position: absolute;
+                    width: 100%;
+                    height: 500px;
+                }
+            }
+        }
+        .column {
+            flex: 100%;
         }
     }
 </style>
