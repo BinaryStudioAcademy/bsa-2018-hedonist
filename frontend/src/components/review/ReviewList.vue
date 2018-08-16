@@ -25,7 +25,9 @@
             </div>
         </div>
         <div class="add-review-wrp">
-            <AddReview/>
+            <AddReview
+                :placeId="place.id"
+            />
         </div>
         <div class="reviews-section-wrp">
             <div class="reviews-section-header">

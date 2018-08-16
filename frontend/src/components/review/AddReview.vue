@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="isUserLoggedIn" class="add-review">
+        <div v-if="hasToken" class="add-review">
             <b-field class="media">
 
                 <div class="media-left">
@@ -12,7 +12,7 @@
                 </div>
 
                 <b-field class="media-content">
-                    <b-input maxlength="200" type="textarea"></b-input>
+                    <b-input v-model="newReview.description" maxlength="200" type="textarea"></b-input>
                 </b-field>
 
                 <div class="media-right">
@@ -50,26 +50,67 @@ import { mapActions } from 'vuex';
 
 export default {
     name: "AddReview",
+    props: {
+        placeId: {
+            type: Number,
+            required: true
+        }
+    },
     data: function () {
         return {
             newReview: {
-                user_id: this.userId,
-                place_id: '',
+                user_id: null,
+                place_id: null,
                 description: ''
             }
         }
     },
     computed: {
-        ...mapGetters({isUserLoggedIn: 'hasToken'}),
-        userId: function() {
-            console.log(this.$store.getters.getAuthenticatedUser());
+        ...mapGetters('auth', ['hasToken', 'getAuthenticatedUser']),
+        userId: function () {
+            return this.getAuthenticatedUser.id;
         }
     },
     methods: {
         ...mapActions('review', ['addReview']),
         onAddReview () {
-            this.addReview();
-        }
+            // this.newReview.user_id = this.userId;
+            this.newReview.place_id = this.placeId;
+
+            this.addReview(this.newReview).then((res) => {
+                if (res.error) {
+                    this.onError(res.error);
+                } else {
+                    this.refreshInput();
+                    this.onSuccess({
+                        message: 'Your review has been added'
+                    });
+                }
+            })
+                .catch((res) => {
+                    this.onError(res.response.data);
+                });
+        },
+        refreshInput () {
+            this.newReview = {
+                user_id: null,
+                place_id: null,
+                description: ''
+            }
+        },
+        onError (error) {
+            this.$toast.open({
+                message: error.message,
+                type: 'is-danger'
+            });
+        },
+
+        onSuccess (success) {
+            this.$toast.open({
+                message: success.message,
+                type: 'is-success'
+            });
+        },
     }
 }
 </script>

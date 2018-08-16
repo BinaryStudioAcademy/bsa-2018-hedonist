@@ -1,6 +1,6 @@
 import actions from './actions';
 
 export default {
-    namespaces: true,
+    namespaced: true,
     actions
 };
