@@ -139,10 +139,10 @@
                     <div class="columns is-centered">
                         <div class="column is-half">
                             <div class="level">
-                                <div class="level-left">
+                                <div class="level-item">
                                     <b-field>
                                         <b-select v-model="category">
-                                            <option value="" selected>Select a category</option>
+                                            <option value="" selected disabled>Select a category</option>
                                             <option
                                                 v-for="option in categories"
                                                 :value="option.name"
@@ -153,20 +153,47 @@
                                         </b-select>
                                     </b-field>
                                 </div>
-                                <div class="level-right">
-                                    <b-field>
-                                        <b-select v-model="subcategory" :disabled="isCategoryNOTSelected">
-                                            <option
-                                                v-for="option in subcategories"
-                                                :value="option.v"
-                                                :key="option.id"
-                                            >
-                                                {{ option.name }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
+                                <!--<div class="level-right">-->
+                                    <!--<b-field>-->
+                                        <!--<b-select v-model="subcategory" :disabled="isCategoryNOTSelected">-->
+                                            <!--<option-->
+                                                <!--v-for="option in subcategories"-->
+                                                <!--:value="option.v"-->
+                                                <!--:key="option.id"-->
+                                            <!--&gt;-->
+                                                <!--{{ option.name }}-->
+                                            <!--</option>-->
+                                        <!--</b-select>-->
+                                    <!--</b-field>-->
+                                <!--</div>-->
                             </div>
+
+                            <!-- Tags field here! -->
+                            <template v-if="isCategorySelected">
+                                <!--<div class="tags">-->
+                                    <!--<span-->
+                                            <!--v-for="tag in category_tags"-->
+                                            <!--:key="tag.id"-->
+                                            <!--class="tag is-info is-medium"-->
+                                    <!--&gt;-->
+                                        <!--{{ tag.name }}-->
+                                    <!--</span>-->
+                                <!--</div>-->
+                                <div class="level">
+                                    <div class="level-item">
+                                        <b-taglist>
+                                            <b-tag
+                                                v-for="tag in category_tags"
+                                                :key="tag.id"
+                                                type="is-info"
+                                                size="is-medium"
+                                            >
+                                                {{ tag.name }}
+                                            </b-tag>
+                                        </b-taglist>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </b-tab-item>
@@ -274,24 +301,41 @@ export default {
             timeStart: new Date(),
             timeEnd: new Date(),
             categories: {},
-            subcategories: [
+            category_tags: [
                 {
-                    v: '',
-                    name: 'Select a subcategory'
+                    name: 'bar'
                 },
                 {
-                    v: 'sub1',
-                    name: 'sub1'
+                    name: 'bar'
                 },
                 {
-                    v: 'sub2',
-                    name: 'sub2'
+                    name: 'bar'
                 },
                 {
-                    v: 'sub3',
-                    name: 'sub3'
+                    name: 'bar'
+                },
+                {
+                    name: 'bar'
                 }
             ],
+            // subcategories: [
+            //     {
+            //         v: '',
+            //         name: 'Select a subcategory'
+            //     },
+            //     {
+            //         v: 'sub1',
+            //         name: 'sub1'
+            //     },
+            //     {
+            //         v: 'sub2',
+            //         name: 'sub2'
+            //     },
+            //     {
+            //         v: 'sub3',
+            //         name: 'sub3'
+            //     }
+            // ],
             features: [
                 {
                     name: 'wi-fi',
@@ -345,8 +389,15 @@ export default {
     },
 
     computed: {
-        isCategoryNOTSelected: function () {
-            return !this.category;
+        // isCategoryNOTSelected: function () {
+        //     return !this.category;
+        // },
+        isCategorySelected: function () {
+            return !!this.category;
+        },
+
+        onChooseTag: function () {
+            return this.category = {};
         },
 
         isDaySelected: function () {
