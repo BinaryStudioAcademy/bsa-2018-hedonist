@@ -6,8 +6,8 @@ export default {
         let count = places.length;
 
         places.forEach(function (place) {
-            totalLongtitude += parseFloat(place.longitude);
-            totalLatitude += parseFloat(place.latitude);
+            totalLongtitude += parseFloat(place.place.longitude);
+            totalLatitude += parseFloat(place.place.latitude);
         });
 
         return [totalLongtitude/count, totalLatitude/count];

@@ -24,4 +24,16 @@ export default {
                 });
         });
     },
+
+    loadCheckInPlaces: () => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/users/me/checkins')
+                .then(function (response) {
+                    resolve(response.data.data);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    }
 };

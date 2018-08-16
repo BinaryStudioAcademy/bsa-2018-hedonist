@@ -4,24 +4,54 @@
             <div class="entry-media">
                 <img 
                     class="image" 
-                    :src="visitedPlace.place_photo.url"
+                    src="https://igx.4sqi.net/img/general/200x200/887035_CLhGX1rsu2-V75shOAkPWuxXLY2k4iO17hEdOlOfSWc.jpg"
                 >
             </div>
             <div class="item-description">
                 <div class="rating-wrapper">
                     <div class="rating">
-                        {{ visitedPlace.ratings.rating }}
+                        {{ visitedPlace.place.rating }}
                     </div>
                 </div>
-                <h2 class="title">{{ index }}.{{ visitedPlace.places_tr.place_name }}</h2>
-                <p>{{ cityAddress }}</p>
-                <p>{{ visitedPlace.categories.name }} - Tips and feedback: {{ reviewCount }}</p>
+                <h2 class="title">
+                    <router-link :to="`/places/${visitedPlace.id}`">
+                        {{ visitedPlace.place.placeName }}
+                    </router-link>
+                </h2>
+                <p>{{ visitedPlace.place.city }}</p>
+                <p>{{ visitedPlace.place.category}}</p>
 
                 <button class="saved"><i class="fa fa-bookmark" />Saved</button>
             </div>
         </article>
     </transition>
 </template>
+
+<script>
+    export default {
+        name: 'PlaceVisitedPreview',
+        data() {
+            return {
+                active: false
+            };
+        },
+        props: {
+            visitedPlace: {
+                required: true,
+                type: Object,
+            },
+            timer: {
+                required: true,
+                type: Number
+            }
+        },
+        created() {
+            setTimeout(() => {
+                this.active = true;
+            }, this.timer);
+        }
+    };
+</script>
 
 <style lang="scss" scoped>
 
@@ -94,41 +124,3 @@
         opacity: 0;
     }
 </style>
-
-<script>
-export default {
-    name: 'PlaceVisitedPreview',
-    data() {
-        return {
-            active: false
-        };
-    },
-    props: {
-        visitedPlace: {
-            required: true,
-            type: Object,
-        },
-        index: {
-            required: true,
-            type: Number
-        },
-        timer: {
-            required: true,
-            type: Number
-        }
-    },
-    computed: {
-        cityAddress: function() {
-            return this.visitedPlace.address + ', ' + this.visitedPlace.cities.name;
-        },
-        reviewCount: function() {
-            return this.visitedPlace.reviews.length || 0;
-        }
-    },
-    created() {
-        setTimeout(() => {
-            this.active = true;
-        }, this.timer);
-    }
-};
-</script>
