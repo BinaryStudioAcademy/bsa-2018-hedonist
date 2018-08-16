@@ -12,7 +12,29 @@
                 </div>
 
                 <b-field class="media-content">
-                    <b-input v-model="newReview.description" maxlength="500" type="textarea" />
+                    <div class="content-wrapper">
+                        <b-input v-model="newReview.description" maxlength="500" type="textarea" />
+
+                        <b-taglist>
+                            <b-tag v-for="(file, index) in photos"
+                                   :key="index"
+                                   type="is-primary">
+                                {{ file.name }}
+                                <button class="delete is-small"
+                                        type="button"
+                                        @click="deletePhoto(index)">
+                                </button>
+                            </b-tag>
+
+                            <b-upload v-model="photos"
+                                      accept="image/*"
+                                      multiple>
+                                <span class="tag is-light">
+                                    <a>Add photo</a>
+                                </span>
+                            </b-upload>
+                        </b-taglist>
+                    </div>
                 </b-field>
 
                 <div class="media-right">
@@ -62,7 +84,8 @@ export default {
                 user_id: null,
                 place_id: null,
                 description: ''
-            }
+            },
+            photos: []
         }
     },
     computed: {
@@ -111,6 +134,9 @@ export default {
                 type: 'is-success'
             });
         },
+        deletePhoto(index) {
+            this.photos.splice(index, 1)
+        }
     }
 }
 </script>
