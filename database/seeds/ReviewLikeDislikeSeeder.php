@@ -17,13 +17,13 @@ class ReviewLikeDislikeSeeder extends Seeder
     {
         Review::all()->map(function ($item) {
             $random = rand(0, 10);
-            if ($random <= 3) {
+            if ($random <= 5) {
                 $item->likes()->save(new Like([
                     'user_id' => User::all()->random()->getKey(),
                     'likeable_type' => Review::class,
                     'likeable_id' => $item->id
                 ]));
-            } else if ($random <= 6) {
+            } else {
                 $item->dislikes()->save(new Dislike([
                     'user_id' => User::all()->random()->getKey(),
                     'dislikeable_type' => Review::class,

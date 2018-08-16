@@ -13,8 +13,8 @@ class ReviewSeeder extends Seeder
      */
     public function run()
     {
-        $reviews = factory(\Hedonist\Entities\Review\Review::class,10)->make();
-        $reviews->map(function($item){
+        $reviews = factory(\Hedonist\Entities\Review\Review::class, 10)->make();
+        $reviews->map(function ($item) {
             $item->user_id = User::all()->random()->getKey();
             $item->place_id = Place::all()->random()->getKey();
             $item->save();

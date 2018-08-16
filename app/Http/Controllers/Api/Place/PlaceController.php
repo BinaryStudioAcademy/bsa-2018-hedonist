@@ -41,7 +41,8 @@ class PlaceController extends ApiController
         RemovePlaceAction $removePlaceAction,
         AddPlaceAction $addPlaceAction,
         UpdatePlaceAction $updatePlaceAction
-    ) {
+    )
+    {
         $this->getPlaceItemAction = $getPlaceItemAction;
         $this->getPlaceCollectionAction = $getPlaceCollectionAction;
         $this->removePlaceAction = $removePlaceAction;
@@ -57,14 +58,14 @@ class PlaceController extends ApiController
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
-        return $this->successResponse(GetPlaceItemPresenter::present($placeResponse,Auth::id()));
+        return $this->successResponse(GetPlaceItemPresenter::present($placeResponse, Auth::id()));
     }
 
     public function getCollection(): JsonResponse
     {
         $placeResponse = $this->getPlaceCollectionAction->execute(new GetPlaceCollectionRequest());
 
-        return $this->successResponse(GetPlaceCollectionPresenter::present($placeResponse,Auth::id()));
+        return $this->successResponse(GetPlaceCollectionPresenter::present($placeResponse, Auth::id()));
     }
 
     public function removePlace(int $id): JsonResponse
@@ -93,10 +94,10 @@ class PlaceController extends ApiController
                 $request->website
             ));
         } catch (PlaceDoesNotExistException
-                | PlaceCityDoesNotExistException
-                | PlaceCategoryDoesNotExistException
-                | PlaceLocationInvalidException
-                | PlaceCreatorDoesNotExistException $e
+        | PlaceCityDoesNotExistException
+        | PlaceCategoryDoesNotExistException
+        | PlaceLocationInvalidException
+        | PlaceCreatorDoesNotExistException $e
         ) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
@@ -120,10 +121,10 @@ class PlaceController extends ApiController
                 $request->website
             ));
         } catch (PlaceDoesNotExistException
-                | PlaceCityDoesNotExistException
-                | PlaceCategoryDoesNotExistException
-                | PlaceLocationInvalidException
-                | PlaceCreatorDoesNotExistException $e
+        | PlaceCityDoesNotExistException
+        | PlaceCategoryDoesNotExistException
+        | PlaceLocationInvalidException
+        | PlaceCreatorDoesNotExistException $e
         ) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }

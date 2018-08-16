@@ -42,7 +42,7 @@ class Review extends Model
 
     public function isLiked(?int $userId): bool
     {
-        if(is_null($userId)){
+        if (is_null($userId)) {
             return false;
         }
         return !is_null($this->likes->first(
@@ -54,7 +54,7 @@ class Review extends Model
 
     public function isDisliked(?int $userId): bool
     {
-        if(is_null($userId)){
+        if (is_null($userId)) {
             return false;
         }
         return !is_null($this->likes->first(
