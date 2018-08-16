@@ -163,8 +163,8 @@
                                             <option value="" selected disabled>Select a category</option>
                                             <option
                                                 v-for="option in categories"
-                                                :value="option.name"
                                                 :key="option.id"
+                                                :value="option"
                                             >
                                                 {{ option.name }}
                                             </option>
@@ -181,7 +181,7 @@
                                                 <option
                                                     v-for="option in category_tags"
                                                     :key="option.id"
-                                                    :value="option.name"
+                                                    :value="option"
                                                 >
                                                     {{ option.name }}
                                                 </option>
@@ -201,6 +201,8 @@
                                                 :key="tag.id"
                                                 type="is-info"
                                                 size="is-medium"
+                                                closable
+                                                @close="onCloseTab(tag)"
                                             >
                                                 {{ tag.name }}
                                             </b-tag>
@@ -312,11 +314,7 @@ export default {
             newPlace: {
                 name: '',
                 category: '',
-                category_tags: [
-                    {
-                        name: 'test'
-                    }
-                ]
+                category_tags: []
             },
             categories: {},
             selectedTag: '',
@@ -393,12 +391,22 @@ export default {
     },
     
     watch: {
-        'selectedTag': function (value) {
-            if (value) {
-                console.log(value);
-                this.newPlace.category_tags.push({
-                    name: value
-                });
+        'newPlace.category': function (categoryObject) {
+            if (categoryObject) {
+                console.log(categoryObject.name);
+                this.newPlace.category_tags = [];
+                // this.$store.dispatch('placeCategoryTags/getTagsByCategoryId', categoryObject.id)
+                //     .then((result) => {
+                //         this.category_tags = result;
+                //     });
+                this.selectedTag = '';
+            }
+        },
+
+        'selectedTag': function (tagObject) {
+            if (tagObject && !this.newPlace.category_tags.some((tag) => tag.name === tagObject.name)) {
+                this.newPlace.category_tags.push(tagObject);
+                this.selectedTag = '';
             }
         }  
     },
@@ -414,6 +422,9 @@ export default {
     },
 
     methods: {
+        onCloseTab: function (tagObject) {
+            this.newPlace.category_tags = this.newPlace.category_tags.filter((tag) => tag.name !== tagObject.name);
+        }
     }
 };
 </script>
