@@ -19,5 +19,10 @@ class ReviewSeeder extends Seeder
             $item->place_id = Place::all()->random()->getKey();
             $item->save();
         });
+        //force first place to have a review with real user data
+        $real_review = factory(\Hedonist\Entities\Review\Review::class)->make();
+        $real_review->user_id = User::all()->first();
+        $real_review->place_id = Place::all()->first();
+        $real_review->save();
     }
 }
