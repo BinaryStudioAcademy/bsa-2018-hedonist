@@ -10,7 +10,6 @@
                 />
             </template>
         </section>
-
         <section class="column mapbox-wrapper right-side">
             <mapbox
                 :access-token="getMapboxToken"
@@ -186,14 +185,6 @@ export default {
             left: 0;
             width: 100%;
             height: 500px;
-        }
-
-        .left-side {
-            order: 2;
-        }
-
-        .right-side {
-            order: 1
         }
     }
 

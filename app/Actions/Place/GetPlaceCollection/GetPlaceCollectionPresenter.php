@@ -2,11 +2,15 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
+use Hedonist\Entities\Dislike\Dislike;
+use Hedonist\Entities\Like\Like;
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\Review\Review;
+use Hedonist\Entities\User\User;
 
 class GetPlaceCollectionPresenter
 {
-    public static function presentAsArray(Place $place): array
+    private static function presentAsArray(Place $place, ?int $userId): array
     {
         $placeArray = [];
 
@@ -27,6 +31,11 @@ class GetPlaceCollectionPresenter
             'id' => $place->category->id,
             'name' => $place->category->name
         ];
+
+        $placeArray['review'] = !is_null($place->reviews->first()) ?
+            self::presentReview($place->reviews->first(), $userId) :
+            null;
+
         foreach ($place->localization as $localization) {
             $placeArray['localization'][] = [
                 'language' => $localization->language->code,
@@ -34,6 +43,7 @@ class GetPlaceCollectionPresenter
                 'description' => $localization->place_description
             ];
         }
+
         foreach ($place->category->tags as $tag) {
             $placeArray['category']['tags'][] = [
                 'id' => $tag->id,
@@ -52,14 +62,30 @@ class GetPlaceCollectionPresenter
         return $placeArray;
     }
 
-    public static function present(GetPlaceCollectionResponse $placeResponse): array
+    private static function presentReview(Review $review, ?int $userId): array
     {
-        $placesArray = [];
+        $result = [
+            'id' => $review->getKey(),
+            'description' => $review->description,
+            'user' => !is_null($review->user->info) ? [
+                'first_name' => $review->user->info->first_name,
+                'last_name' => $review->user->info->last_name,
+                'avatar_url' => $review->user->info->avatar_url,
+            ] : null,
+            'likes' => $review->likes->count(),
+            'dislikes' => $review->dislikes->count(),
+            'liked' => $review->isLiked($userId),
+            'disliked' => $review->isDisliked($userId)
+        ];
 
-        foreach ($placeResponse->getPlaceCollection() as $place) {
-            $placesArray[] = self::presentAsArray($place);
-        }
+        return $result;
+    }
 
-        return $placesArray;
+    public static function present(GetPlaceCollectionResponse $placeResponse, ?int $userId = null): array
+    {
+        return $placeResponse->getPlaceCollection()->map(function (Place $place) use ($userId) {
+            return self::presentAsArray($place, $userId);
+        })
+            ->toArray();
     }
 }
