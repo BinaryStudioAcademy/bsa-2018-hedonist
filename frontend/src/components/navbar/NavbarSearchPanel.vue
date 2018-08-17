@@ -8,14 +8,14 @@
                     :open-on-focus="true"
                     :data="categories"
                     field="name"
-                    @input="loadCategories()"
+                    @input="loadCategories"
                     @select="option => selected = option"
                 />
             </div>
         </div>
         <div class="navbar-item">
             <div class="control">
-                <input class="input" type="search" value="Lviv, UA">
+                <SearchCity @select="selectSearchCity" />
             </div>
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
@@ -30,10 +30,11 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapActions} from 'vuex';
+import SearchCity from './SearchCity';
 
 export default {
-    name: 'SearchInput',
+    name: 'NavbarSearchPanel',
     data() {
         return {
             filterQuery: '',
@@ -41,12 +42,19 @@ export default {
             windowWidth: window.innerWidth
         };
     },
+    components: {
+        SearchCity
+    },
     methods: {
+        ...mapActions({
+            selectSearchCity: 'search/selectSearchCity',
+            loadCategoriesByQuery: 'placeCategory/loadCategories'
+        }),
         onClickOutside() {
             this.isShow = false;
         },
         loadCategories() {
-            this.$store.dispatch('placeCategory/loadCategories', this.filterQuery);
+            this.loadCategoriesByQuery(this.filterQuery);
         },
         onWindowResize(event) {
             this.windowWidth = event.currentTarget.innerWidth;
