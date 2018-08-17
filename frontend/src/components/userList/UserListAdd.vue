@@ -4,17 +4,17 @@
             <div class="photo-section">
                 <div>
                     <img
-                            class="list-page-image"
-                            src=""
-                            alt=""
+                        class="list-page-image"
+                        src=""
+                        alt=""
                     >
                 </div>
                 <div class="selector-button flatButton">Photo ▾</div>
             </div>
             <div class="name-desc-section">
                 <input
-                        type="text"
-                        class="text"
+                    type="text"
+                    class="text"
                 >
             </div>
         </div>
@@ -27,24 +27,24 @@
         <div class="bottom-left">
             <div class="search-places">
                 <input
-                        placeholder="Search places"
-                        type="text"
-                        class="search-field"
-                        @keyup="keyUp"
+                    placeholder="Search places"
+                    type="text"
+                    class="search-field"
+                    @keyup="keyUp"
                 >
                 <ul
-                        class="search-places__list"
-                        v-show="displayList"
-                        v-click-outside="onClickOutside"
+                    class="search-places__list"
+                    v-show="displayList"
+                    v-click-outside="onClickOutside"
                 >
                     <li>
                         <a href="#">
                             <img
-                                    height="32"
-                                    width="32"
-                                    class="search-places__list__img"
-                                    src="https://ss3.4sqi.net/img/categories_v2/arts_entertainment/stadium_baseball_bg_32.png"
-                                    alt="place image"
+                                height="32"
+                                width="32"
+                                class="search-places__list__img"
+                                src="https://ss3.4sqi.net/img/categories_v2/arts_entertainment/stadium_baseball_bg_32.png"
+                                alt="place image"
                             >
                             <div class="search-places__list__details">
                                 <div class="search-places__list__name">Yankee Stadium</div>
@@ -56,11 +56,11 @@
                     <li>
                         <a href="#">
                             <img
-                                    height="32"
-                                    width="32"
-                                    class="search-places__list__img"
-                                    src="https://ss3.4sqi.net/img/categories_v2/arts_entertainment/stadium_baseball_bg_32.png"
-                                    alt="place image"
+                                height="32"
+                                width="32"
+                                class="search-places__list__img"
+                                src="https://ss3.4sqi.net/img/categories_v2/arts_entertainment/stadium_baseball_bg_32.png"
+                                alt="place image"
                             >
                             <div class="search-places__list__details">
                                 <div class="search-places__list__name">Yankee Stadium</div>
@@ -75,8 +75,8 @@
         <div class="bottom-right">
             <div class="mapbox-wrapper">
                 <mapbox
-                        :access-token="getMapboxToken"
-                        :map-options="{
+                    :access-token="getMapboxToken"
+                    :map-options="{
                         style: getMapboxStyle,
                         center: {
                             lat: 50.4547,
@@ -84,7 +84,7 @@
                         },
                         zoom: 9
                     }"
-                        :scale-control="{
+                    :scale-control="{
                         show: true,
                         position: 'top-left'
                     }"
@@ -95,31 +95,31 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
-    import Mapbox from 'mapbox-gl-vue';
+import {mapGetters} from 'vuex';
+import Mapbox from 'mapbox-gl-vue';
 
-    export default {
-        name: 'UserListAdd',
-        components: {
-            Mapbox
+export default {
+    name: 'UserListAdd',
+    components: {
+        Mapbox
+    },
+    data: function () {
+        return {
+            displayList: false
+        };
+    },
+    computed: {
+        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle'])
+    },
+    methods: {
+        keyUp() {
+            this.displayList = true;
         },
-        data: function () {
-            return {
-                displayList: false
-            };
-        },
-        computed: {
-            ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle'])
-        },
-        methods: {
-            keyUp() {
-                this.displayList = true;
-            },
-            onClickOutside() {
-                this.displayList = false;
-            }
+        onClickOutside() {
+            this.displayList = false;
         }
-    };
+    }
+};
 </script>
 
 <style lang="scss" scoped>
