@@ -45,13 +45,13 @@ class GetPlaceCollectionPresenter
 
     public function present(GetPlaceCollectionResponse $placeResponse): array
     {
-        return $placeResponse->getPlaceCollection()->map(function($place) use ($placeResponse) {
+        return $placeResponse->getPlaceCollection()->map(function ($place) use ($placeResponse) {
             $result = $this->placePresenter->present($place);
-            $review = $placeResponse->getReviews()->first(function($item) use ($place){
+            $review = $placeResponse->getReviews()->first(function ($item) use ($place) {
                 return $place->id === $item->place_id;
             });
             $result['review'] = $review ?
-                $this->reviewPresenter->present($review,$placeResponse->getUserId()):
+                $this->reviewPresenter->present($review, $placeResponse->getUserId()) :
                 null;
             $result['photos'] = $place->photos->map(function ($photo) {
                 return $this->photoPresenter->present($photo);
@@ -64,7 +64,9 @@ class GetPlaceCollectionPresenter
                 return $this->localizationPresenter->present($localization);
             });
             $result['category'] = $this->categoryPresenter->present($place->category);
-            $result['category']['tags'] = $this->tagsPresenter->present($place->category->tags);
+            $result['category']['tags'] = $place->category->tags->map(function ($tag) {
+                return $this->tagsPresenter->present($tag);
+            });
 
             return $result;
         })->toArray();

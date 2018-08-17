@@ -9,8 +9,9 @@
                 <div class="media-content">
                     <h3
                         class="title has-text-primary"
+                        v-if="place.localization[0]"
                     >
-                        <router-link :to="`/places/${place.id}`">
+                        <router-link :to="`/places/{$place.id}`">
                             {{ place.localization[0].name }}
                         </router-link>
                     </h3>

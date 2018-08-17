@@ -47,9 +47,9 @@ class GetPlaceItemPresenter
     {
         $place = $placeResponse->getPlace();
         $result = $this->placePresenter->present($place);
-        $result['reviews'] = $place->reviews->map(function ($review) use ($placeResponse) {
+       /* $result['reviews'] = $place->reviews->map(function ($review) use ($placeResponse) {
             return $this->reviewPresenter->present($review, $placeResponse->getUserId());
-        });
+        });*/
         $result['photos'] = $place->photos->map(function($photo){
             return $this->photoPresenter->present($photo);
         });
@@ -61,7 +61,9 @@ class GetPlaceItemPresenter
             return $this->localizationPresenter->present($localization);
         });
         $result['category'] = $this->categoryPresenter->present($place->category);
-        $result['category']['tags'] = $this->tagsPresenter->present($place->category->tags);
+        $result['category']['tags'] = $place->category->tags->map(function ($tag) {
+            return $this->tagsPresenter->present($tag);
+        });
 
         return $result;
     }

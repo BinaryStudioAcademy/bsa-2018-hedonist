@@ -33,10 +33,14 @@ class MarkerManagerService {
     }
 
     _createMarker(markerData) {
-        let marker = MarkerGenerator.generateMarker(markerData);
-        marker.addTo(this._map);
-        this._activeMarkers.set(markerData.id, {marker, markerData});
-        this._markersPool.set(markerData.id, {marker, markerData});
+        try {
+            let marker = MarkerGenerator.generateMarker(markerData);
+            marker.addTo(this._map);
+            this._activeMarkers.set(markerData.id, {marker, markerData});
+            this._markersPool.set(markerData.id, {marker, markerData});
+        }catch (e) {
+            console.log('Fix seeders pls');
+        }
     }
 
     _restoreMarker(markerData) {
@@ -46,7 +50,7 @@ class MarkerManagerService {
     }
 
     static _getDefaultParser() {
-        return (item) => ({
+        return (item) =>({
             id: item.id,
             name: item.localization[0].name,
             lng: item.longitude,

@@ -9,8 +9,8 @@ class CityPresenter
     public function present(City $city): array
     {
         return [
-            $city->id,
-            $city->name
+            'id' =>$city->id,
+            'name' => $city->name
         ];
     }
 }
