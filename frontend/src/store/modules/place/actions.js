@@ -44,4 +44,52 @@ export default {
                 });
         });
     },
+
+    likePlace: (context, placeId) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('places/' + placeId + '/like')
+                .then(function (res) {
+                    if (res.status === 400){
+                        resolve(res.data);
+                    } else {
+                        resolve(res);
+                    }
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+    
+    dislikePlace: (context, placeId) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('places/' + placeId + '/dislike')
+                .then(function (res) {
+                    if (res.status === 400){
+                        resolve(res.data);
+                    } else {
+                        resolve(res);
+                    }
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+
+    getLikedPlace: (context, placeId) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('places/' + placeId + '/liked')
+                .then(function (res) {
+                    if (res.status === 400){
+                        resolve(res.data);
+                    } else {
+                        context.commit('SET_PLACE_LIKED', res.data.data);
+                        resolve(res);
+                    }
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    }
 };

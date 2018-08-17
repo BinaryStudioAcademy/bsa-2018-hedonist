@@ -72,12 +72,12 @@
                 </div>
                 <div class="place-rate__mark-count">444 marks</div>
                 <div class="place-rate__preference">
-                    <div class="likable like">
+                    <div class="likable like" @click="likePlace(place.id)">
                         <span class="fa-stack fa-2x">
                             <i class="fa fa-heart fa-stack-1x" />
                         </span>
                     </div>
-                    <div class="likable dislike">
+                    <div class="likable dislike" @click="dislikePlace(place.id)">
                         <span class="fa-stack fa-2x">
                             <i class="fa fa-heart fa-stack-1x" />
                             <i class="fa fa-bolt fa-stack-1x fa-inverse" />
@@ -90,21 +90,25 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
 
 export default {
     name: 'PlaceTopInfo',
+
     components: {
         PlacePhotoList,
         PlaceCheckinModal
     },
+
     props: {
         place: {
             type: Object,
             required: true
         }
     },
+
     data() {
         return {
             activeTab: 1,
@@ -124,9 +128,11 @@ export default {
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
         }
-    },
+    },        
 
     methods: {
+        ...mapActions('place', ['likePlace', 'dislikePlace', 'getLikedPlace']),
+
         changeTab: function(activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);

@@ -1,3 +1,4 @@
 export default {
-    places: []
+    places: [],
+    liked: 'LIKED' | 'DISLIKED' | 'NONE' 
 };
