@@ -26,6 +26,7 @@ class GetPlaceCollectionPresenter
         $placeArray['phone'] = $place->phone;
         $placeArray['website'] = $place->website;
         $placeArray['zip'] = $place->zip;
+        $placeArray['reviews'] = $place->reviews;
         $placeArray['category'] = [
             'id' => $place->category->id,
             'name' => $place->category->name

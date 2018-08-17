@@ -159,17 +159,22 @@ export default {
 
         onSignUp () {
             if (!this.$v.newUser.$invalid) {
-                this.signUp(this.newUser).then((res) => {
-                    if (res.error) {
-                        this.onError(res.error);
-                    } else {
-                        this.refreshInput();
-                        this.$router.push({name: 'LoginPage'});
-                        this.onSuccess({
-                            message: 'You have successfully registered! Now you need to login'
-                        });
-                    }
-                });
+                let self = this;
+                this.signUp(this.newUser)
+                    .then((res) => {
+                        if (res.error) {
+                            this.onError(res.error);
+                        } else {
+                            this.refreshInput();
+                            this.$router.push({name: 'LoginPage'});
+                            this.onSuccess({
+                                message: 'You have successfully registered! Now you need to login'
+                            });
+                        }
+                    })
+                    .catch(function (err) {
+                        self.onError(err.response.data);
+                    });
             } else {
                 this.onError({
                     message: 'Please, check your input data'
@@ -179,7 +184,7 @@ export default {
 
         onError (error) {
             this.$toast.open({
-                message: error.message,
+                message: error.error.message,
                 type: 'is-danger'
             });
         },

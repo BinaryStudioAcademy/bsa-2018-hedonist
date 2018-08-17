@@ -19,6 +19,7 @@
         "mapbox-gl": "^0.47.0",
         "mapbox-gl-vue": "^1.9.0",
         "v-click-outside": "^1.0.5",
+        "v-img": "^0.2.0",
         "vue": "^2.5.2",
         "vue-browser-geolocation": "^1.5.0",
         "vue-router": "^3.0.1",

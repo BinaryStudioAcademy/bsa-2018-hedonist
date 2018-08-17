@@ -8,10 +8,12 @@ import {sync} from 'vuex-router-sync';
 import Buefy from 'buefy';
 import Vuelidate from 'vuelidate';
 import vClickOutside from 'v-click-outside';
+import VueImg from 'v-img';
 
 Vue.use(Buefy);
 Vue.use(Vuelidate);
 Vue.use(vClickOutside);
+Vue.use(VueImg);
 
 sync(store, router);
 

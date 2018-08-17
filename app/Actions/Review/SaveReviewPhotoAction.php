@@ -5,6 +5,7 @@ namespace Hedonist\Actions\Review;
 use Hedonist\Entities\Review\ReviewPhoto;
 use Hedonist\Repositories\Review\ReviewPhotoRepository;
 use Hedonist\Repositories\Review\ReviewPhotoRepositoryInterface;
+use Hedonist\Services\FileNameGenerator;
 use Illuminate\Support\Facades\Storage;
 
 class SaveReviewPhotoAction
@@ -25,7 +26,8 @@ class SaveReviewPhotoAction
             $reviewPhoto = $this->reviewPhotoRepository->getById($id);
         }
         $file = $request->getImg();
-        $newFileName = time() . '.' . $file->extension();
+        $fileNameGenerator = new FileNameGenerator($file);
+        $newFileName = $fileNameGenerator->generateFileName();
         $file->storeAs('upload/review', $newFileName, 'public');
         list($width, $height) = getimagesize($file);
         $reviewPhoto->review_id = $request->getReviewId();

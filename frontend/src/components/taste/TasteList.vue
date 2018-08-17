@@ -189,4 +189,8 @@ export default {
         text-align: center;
         width: 200px;
     }
+
+    .doneButton:hover {
+        background-color: #426be6;
+    }
 </style>
