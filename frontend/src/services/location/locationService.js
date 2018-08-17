@@ -12,9 +12,9 @@ export class LocationService {
     getCityList(mapboxToken, citySearchQuery){
         return new Promise((resolve, reject) => {
             if(!citySearchQuery){
-                reject('empty query');
+                reject(new Error('empty query'));
             }else{
-                let mapboxCitiesApiUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${citySearchQuery}.json?access_token=${mapboxToken}&country=ua&autocomplete=true&language=en`;
+                let mapboxCitiesApiUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${citySearchQuery}.json?access_token=${mapboxToken}&country=ua&types=place&autocomplete=true&language=en`;
 
                 httpService.get(mapboxCitiesApiUrl)
                     .then(({ data }) => {

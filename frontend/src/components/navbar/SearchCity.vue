@@ -8,13 +8,13 @@
             :loading="findCity.isFetching"
             field="text"
             @input="loadCities"
-            @select="option => selectSearchCity(option)"
+            @select="option => this.$emit('select', option)"
         />
     </div>
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import {mapGetters} from 'vuex';
 import _ from 'lodash';
 import LocationService from '@/services/location/locationService';
 
@@ -36,9 +36,6 @@ export default {
         ...mapGetters('map', ['getMapboxToken']),
     },
     methods: {
-        ...mapActions({
-            selectSearchCity: 'search/selectSearchCity'
-        }),
         loadCities: _.debounce(function () {
             this.findCity.data = [];
             this.findCity.isFetching = true;

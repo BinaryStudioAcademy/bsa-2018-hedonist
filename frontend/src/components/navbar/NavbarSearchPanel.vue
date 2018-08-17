@@ -15,7 +15,7 @@
         </div>
         <div class="navbar-item">
             <div class="control">
-                <SearchCity />
+                <SearchCity @select="selectSearchCity" />
             </div>
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
@@ -31,7 +31,7 @@ import {mapState, mapActions} from 'vuex';
 import SearchCity from './SearchCity';
 
 export default {
-    name: 'SearchInput',
+    name: 'NavbarSearchPanel',
     data() {
         return {
             filterQuery: '',
@@ -43,6 +43,7 @@ export default {
     },
     methods: {
         ...mapActions({
+            selectSearchCity: 'search/selectSearchCity',
             loadCategoriesByQuery: 'placeCategory/loadCategories'
         }),
         onClickOutside() {
