@@ -1,7 +1,7 @@
 <template>
     <div class="navbar-start">
         <div class="navbar-item">
-            <div class="control has-icons-right">
+            <div class="control">
                 <b-autocomplete
                     v-model="filterQuery"
                     placeholder="I'm looking for..."
