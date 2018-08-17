@@ -87,9 +87,9 @@ export default {
                         context.commit('SET_PLACE_LIKED', res.data.data);
                         resolve(res);
                     }
-            }).catch(function (err) {
-                reject(err);
-            });
+                }).catch(function (err) {
+                    reject(err);
+                });
         });
     }
 };
