@@ -64,6 +64,7 @@ class GetPlaceItemPresenter
                 }, $placeResponse->getPhotos()->toArray())
                 : null,
             'rating' => $placeResponse->getRating(),
+            'placeInfo' => $placeResponse->getPlaceInfo()->toArray(),
         ];
     }
 }

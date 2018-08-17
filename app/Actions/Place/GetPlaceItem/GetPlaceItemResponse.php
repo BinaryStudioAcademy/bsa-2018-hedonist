@@ -5,6 +5,7 @@ namespace Hedonist\Actions\Place\GetPlaceItem;
 use Hedonist\Entities\Place\City;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\PlaceCategory;
+use Hedonist\Entities\Place\PlaceInfo;
 use Illuminate\Database\Eloquent\Collection;
 
 class GetPlaceItemResponse
@@ -28,6 +29,7 @@ class GetPlaceItemResponse
     private $reviews;
     private $features;
     private $photos;
+    private $placeInfo;
 
     public function __construct(
         Place $place,
@@ -37,7 +39,8 @@ class GetPlaceItemResponse
         Collection $localization,
         Collection $reviews,
         Collection $features,
-        Collection $photos
+        Collection $photos,
+        ?PlaceInfo $placeInfo
     ) {
         $this->id           = $place->id;
         $this->creator_id   = $place->creator_id;
@@ -58,6 +61,7 @@ class GetPlaceItemResponse
         $this->reviews      = $reviews;
         $this->features     = $features;
         $this->photos       = $photos;
+        $this->placeInfo    = $placeInfo;
     }
 
     public function getId(): int
@@ -153,5 +157,10 @@ class GetPlaceItemResponse
     public function getPhotos(): Collection
     {
         return $this->photos;
+    }
+
+    public function getPlaceInfo(): ?PlaceInfo
+    {
+        return $this->placeInfo;
     }
 }
