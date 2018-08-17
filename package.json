@@ -11,6 +11,7 @@
         "lint-fix": "eslint --ext .js,.vue frontend/src --fix"
     },
     "dependencies": {
+        "@mapbox/geojson-extent": "^0.3.2",
         "axios": "^0.18.0",
         "buefy": "^0.6.6",
         "css-loader": "^1.0.0",
