@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" v-if="isUserLoggedIn">
         <div class="columns">
             <div class="column is-one-third">
                 <figure class="image avatar">
@@ -98,7 +98,7 @@ export default {
             birthDay: '',
             birthMonth: '',
             birthYear: '',
-            files: []
+            files: [],
         };
     },
     created() {
@@ -109,6 +109,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+            isUserLoggedIn: 'auth/isLoggedIn',
             user: 'auth/getAuthenticatedUser'
         })
     }
