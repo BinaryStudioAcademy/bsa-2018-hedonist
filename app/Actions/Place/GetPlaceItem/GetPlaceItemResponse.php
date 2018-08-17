@@ -27,6 +27,7 @@ class GetPlaceItemResponse
     private $rating;
     private $reviews;
     private $features;
+    private $photos;
 
     public function __construct(
         Place $place,
@@ -35,7 +36,8 @@ class GetPlaceItemResponse
         ?float $rating,
         Collection $localization,
         Collection $reviews,
-        Collection $features
+        Collection $features,
+        Collection $photos
     ) {
         $this->id           = $place->id;
         $this->creator_id   = $place->creator_id;
@@ -55,6 +57,7 @@ class GetPlaceItemResponse
         $this->rating       = $rating;
         $this->reviews      = $reviews;
         $this->features     = $features;
+        $this->photos       = $photos;
     }
 
     public function getId(): int
@@ -145,5 +148,10 @@ class GetPlaceItemResponse
     public function getFeatures(): Collection
     {
         return $this->features;
+    }
+
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
     }
 }

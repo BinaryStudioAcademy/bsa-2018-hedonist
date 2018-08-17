@@ -4,7 +4,7 @@
             v-img:top-group
             class="place-photo__image" 
             :src="photo.url" 
-            alt="place image"
+            :alt="photo.description"
         >
         <div 
             v-if="photo.id === lastId" 

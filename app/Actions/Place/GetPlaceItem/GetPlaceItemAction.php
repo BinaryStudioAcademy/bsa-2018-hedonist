@@ -40,9 +40,10 @@ class GetPlaceItemAction
         $reviews = $place->reviews;
         $localization = $place->localization;
         $features = $place->features;
+        $photos = $place->photos;
 
         return new GetPlaceItemResponse(
-            $place, $category, $city, $rating, $localization, $reviews, $features
+            $place, $category, $city, $rating, $localization, $reviews, $features, $photos
         );
     }
 }

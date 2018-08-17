@@ -52,6 +52,17 @@ class GetPlaceItemPresenter
                 'id'   => $placeResponse->getCity()->id,
                 'name' => $placeResponse->getCity()->name
             ],
+            'photos' => $placeResponse->getPhotos()->isNotEmpty()
+                ? array_map(function ($photo) {
+                    return [
+                        'id'          => $photo['id'],
+                        'url'         => $photo['img_url'],
+                        'description' => $photo['description'],
+                        'width'       => $photo['width'],
+                        'height'      => $photo['height']
+                    ];
+                }, $placeResponse->getPhotos()->toArray())
+                : null,
             'rating' => $placeResponse->getRating(),
         ];
     }
