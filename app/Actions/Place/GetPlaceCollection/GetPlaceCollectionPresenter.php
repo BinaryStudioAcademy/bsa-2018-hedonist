@@ -45,12 +45,14 @@ class GetPlaceCollectionPresenter
 
     public function present(GetPlaceCollectionResponse $placeResponse): array
     {
-        $userId = $placeResponse->getUserId();
-        return $placeResponse->getPlaceCollection()->map(function($place) use ($userId) {
+        return $placeResponse->getPlaceCollection()->map(function($place) use ($placeResponse) {
             $result = $this->placePresenter->present($place);
-            $result['reviews'] = $place->reviews->map(function ($review) use ($userId) {
-                return $this->reviewPresenter->present($review, $userId);
+            $review = $placeResponse->getReviews()->first(function($item) use ($place){
+                return $place->id === $item->place_id;
             });
+            $result['review'] = $review ?
+                $this->reviewPresenter->present($review,$placeResponse->getUserId()):
+                null;
             $result['photos'] = $place->photos->map(function ($photo) {
                 return $this->photoPresenter->present($photo);
             });

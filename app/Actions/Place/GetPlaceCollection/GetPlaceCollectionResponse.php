@@ -8,11 +8,13 @@ class GetPlaceCollectionResponse
 {
     private $placeCollection;
     private $userId;
+    private $reviews;
 
-    public function __construct(Collection $places,int $userId)
+    public function __construct(Collection $places,Collection $reviews,int $userId)
     {
         $this->placeCollection = $places;
         $this->userId = $userId;
+        $this->reviews = $reviews;
     }
 
     public function getPlaceCollection(): Collection
@@ -23,5 +25,10 @@ class GetPlaceCollectionResponse
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    public function getReviews(): Collection
+    {
+        return $this->reviews;
     }
 }

@@ -27,12 +27,18 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         return Place::with(['localization'])->where(['id' => $id])->get()->first();
     }
 
-    public function getByIdWithReviews(int $id): ?Place
+    public function getByIdWithRelations(int $id): ?Place
     {
         return Place::with(
             [
+                'category',
+                'category.tags',
+                'city',
                 'localization',
-                'reviews'
+                'localization.language',
+                'likes',
+                'dislikes',
+                'ratings'
             ]
         )
             ->where(['id' => $id])
