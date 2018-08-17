@@ -16,7 +16,6 @@ use Hedonist\Entities\Review\Review;
 */
 
 $factory->define(ReviewPhoto::class, function (Faker $faker) {
-
     $width = $faker->numberBetween(200, 900);
     $height = $faker->numberBetween(200, 900);
     return [

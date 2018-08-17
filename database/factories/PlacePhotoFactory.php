@@ -6,7 +6,6 @@ use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\User\User;
 
 $factory->define(PlacePhoto::class, function (Faker $faker) {
-
     $width = $faker->numberBetween(200, 900);
     $height = $faker->numberBetween(200, 900);
     return [
