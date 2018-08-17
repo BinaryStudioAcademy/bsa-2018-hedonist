@@ -64,7 +64,7 @@ export default new Router({
                 component: UserListAddPage
             },
             {
-                path: '/user/lists',
+                path: '/my-lists',
                 name: 'UserListsPage',
                 component: UserListsPage
             },
