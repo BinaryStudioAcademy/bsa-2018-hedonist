@@ -21,7 +21,8 @@ class GetPlaceItemAction
         PlaceCategoryRepositoryInterface $placeCategoryRepository,
         CityRepositoryInterface $cityRepository,
         PlaceRatingRepositoryInterface $placeRatingRepository
-    ) {
+    )
+    {
         $this->placeRepository = $placeRepository;
         $this->placeCategoryRepository = $placeCategoryRepository;
         $this->cityRepository = $cityRepository;
@@ -35,6 +36,6 @@ class GetPlaceItemAction
             throw new PlaceDoesNotExistException;
         }
 
-        return new GetPlaceItemResponse($place,Auth::id());
+        return new GetPlaceItemResponse($place, Auth::id());
     }
 }

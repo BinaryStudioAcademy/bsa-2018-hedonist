@@ -31,8 +31,7 @@ class GetPlaceItemPresenter
         CategoryPresenter $categoryPresenter,
         CategoryTagsPresenter $tagsPresenter,
         PlacePhotoPresenter $photoPresenter
-    )
-    {
+    ) {
         $this->placePresenter = $placePresenter;
         $this->reviewPresenter = $reviewPresenter;
         $this->localizationPresenter = $localizationPresenter;
@@ -47,17 +46,17 @@ class GetPlaceItemPresenter
     {
         $place = $placeResponse->getPlace();
         $result = $this->placePresenter->present($place);
-       /* $result['reviews'] = $place->reviews->map(function ($review) use ($placeResponse) {
+        $result['reviews'] = $place->reviews->map(function ($review) use ($placeResponse) {
             return $this->reviewPresenter->present($review, $placeResponse->getUserId());
-        });*/
-        $result['photos'] = $place->photos->map(function($photo){
+        });
+        $result['photos'] = $place->photos->map(function ($photo) {
             return $this->photoPresenter->present($photo);
         });
         $result['city'] = $this->cityPresenter->present($place->city);
-        $result['features'] = $place->features->map(function($feature){
+        $result['features'] = $place->features->map(function ($feature) {
             return $this->featurePresenter->present($feature);
         });
-        $result['localization'] = $place->localization->map(function($localization){
+        $result['localization'] = $place->localization->map(function ($localization) {
             return $this->localizationPresenter->present($localization);
         });
         $result['category'] = $this->categoryPresenter->present($place->category);

@@ -27,6 +27,6 @@ class GetPlaceCollectionAction
             new GetLastReviewByPlacesIdsCriteria($places->pluck('id')->toArray())
         );
 
-        return new GetPlaceCollectionResponse($places,$reviews,Auth::id());
+        return new GetPlaceCollectionResponse($places, $reviews, Auth::id());
     }
 }

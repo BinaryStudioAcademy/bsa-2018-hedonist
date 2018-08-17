@@ -31,8 +31,7 @@ class GetPlaceCollectionPresenter
         CategoryPresenter $categoryPresenter,
         CategoryTagsPresenter $tagsPresenter,
         PlacePhotoPresenter $photoPresenter
-    )
-    {
+    ) {
         $this->placePresenter = $placePresenter;
         $this->reviewPresenter = $reviewPresenter;
         $this->localizationPresenter = $localizationPresenter;

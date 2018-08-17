@@ -10,7 +10,7 @@ class GetPlaceCollectionResponse
     private $userId;
     private $reviews;
 
-    public function __construct(Collection $places,Collection $reviews,int $userId)
+    public function __construct(Collection $places, Collection $reviews, int $userId)
     {
         $this->placeCollection = $places;
         $this->userId = $userId;

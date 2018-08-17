@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Presenters\Category\Tags;
 
-
 use Hedonist\Entities\Place\PlaceCategoryTag;
 
 class CategoryTagsPresenter

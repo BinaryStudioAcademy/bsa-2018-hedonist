@@ -18,7 +18,7 @@ class GetLastReviewByPlacesIdsCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->whereIn('place_id',$this->places)
+        return $model->whereIn('place_id', $this->places)
             ->distinct('place_id')
             ->orderByDesc('created_at');
     }
