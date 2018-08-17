@@ -2,6 +2,8 @@
 
 namespace Hedonist\Repositories\Place;
 
+use Hedonist\Entities\Place\Location;
+use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -50,6 +52,18 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
+    }
+
+    public function findByCoordinates(Location $center, float $radius): Collection
+    {
+        $places = Place::select('*', DB::raw(
+            '( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) 
+            * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(latitude)) ) ) AS distance'))
+            ->having('distance', '<=', $radius)
+            ->setBindings([$center->getLatitude(), $center->getLongitude(), $center->getLatitude()])
+            ->get();
+
+        return $places;
     }
 
     public function deleteById(int $id)
