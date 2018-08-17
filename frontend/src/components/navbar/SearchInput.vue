@@ -19,9 +19,12 @@
             </div>
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
-            <span class="icon is-large">
-                <i class="fas fa-lg fa-search" />
-            </span>
+            <button class="button">
+                <span class="icon is-large">
+                    <i class="fas fa-lg fa-search" />
+                </span>
+                <span v-if="windowWidth < 1088">Search</span>
+            </button>
         </div>
     </div>
 </template>
@@ -34,7 +37,8 @@ export default {
     data() {
         return {
             filterQuery: '',
-            isShow: false
+            isShow: false,
+            windowWidth: window.innerWidth
         };
     },
     methods: {
@@ -43,6 +47,9 @@ export default {
         },
         loadCategories() {
             this.$store.dispatch('placeCategory/loadCategories', this.filterQuery);
+        },
+        onWindowResize(event) {
+            this.windowWidth = event.currentTarget.innerWidth;
         }
     },
     created() {
@@ -53,6 +60,12 @@ export default {
         categories: function () {
             return this.searchCategories;
         }
+    },
+    mounted() {
+        window.addEventListener('resize', this.onWindowResize);
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this. onWindowResize);
     }
 };
 </script>
@@ -99,6 +112,30 @@ export default {
         a:hover {
             background: #efeff4;
             color: #4e595d;
+        }
+    }
+
+    .button {
+        color: #fff;
+        background-color: #167df0;
+        border: none;
+
+        @media screen and (max-width: 1087px) {
+            width: 88%;
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            @media screen and (max-width: 1087px) {
+                background-color: #1650f0;
+            }
+        }
+    }
+
+    .navbar-search-btn {
+        @media screen and (max-width: 1087px) {
+            text-align: center;
         }
     }
 </style>
