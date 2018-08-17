@@ -5,7 +5,7 @@ import actions from './common/actions';
 import getters from './common/getters';
 import mutations from './common/mutations';
 import auth from './modules/auth';
-import city from './modules/city';
+import search from './modules/search';
 import place from './modules/place';
 import placeCategory from './modules/place/category';
 import map from './modules/map';
@@ -22,10 +22,10 @@ export default new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
     modules: {
         auth,
-        city,
-        place,
         map,
+        place,
         placeCategory,
+        search,
         review,
         userlist
     }
