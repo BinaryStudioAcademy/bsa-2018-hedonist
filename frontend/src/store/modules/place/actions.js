@@ -24,9 +24,9 @@ export default {
     loadCurrentPlace: ({commit}, id) => {
         return httpService.get('/places/' + id)
             .then((response) => {
-                    commit('SET_CURRENT_PLACE', response.data.data);
-                    return Promise.resolve();
-                }
+                commit('SET_CURRENT_PLACE', response.data.data);
+                return Promise.resolve();
+            }
             )
             .catch((err) =>
                 Promise.reject(err)
@@ -40,8 +40,8 @@ export default {
                     context.commit('SET_PLACES', res.data.data);
                     resolve(res);
                 }).catch(function (err) {
-                reject(err);
-            });
+                    reject(err);
+                });
         });
     },
 };
