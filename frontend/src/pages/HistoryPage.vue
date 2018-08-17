@@ -54,20 +54,33 @@
 
     @media screen and (max-width: 769px) {
         .row {
-            flex-direction: column;
+            display: grid;
+            grid-template-areas: "right" "left";
 
+            .visitedplaces-wrapper {
+                grid-area: left;
+            }
             .mapbox-wrapper {
+                grid-area: right;
                 position: relative;
+                height: 500px;
 
                 #map {
                     position: absolute;
                     width: 100%;
-                    height: 500px;
                 }
             }
         }
         .column {
             flex: 100%;
+        }
+    }
+
+    @media screen and (max-width: 520px) {
+        .row {
+            .mapbox-wrapper {
+                height: 300px;
+            }
         }
     }
 </style>
