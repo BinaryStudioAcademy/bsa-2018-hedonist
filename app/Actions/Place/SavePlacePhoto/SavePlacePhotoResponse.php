@@ -1,25 +1,25 @@
 <?php
 
-namespace Hedonist\Actions\Place\SavePlaceCategory;
+namespace Hedonist\Actions\Place\SavePlacePhoto;
 
-use Hedonist\Entities\Place\PlaceCategory;
+use Hedonist\Entities\Place\PlacePhoto;
 
-class SavePlaceCategoryResponse
+class SavePlacePhotoResponse
 {
-    private $placeCategory;
+    private $placePhoto;
 
-    public function __construct(PlaceCategory $placeCategory)
+    public function __construct(PlacePhoto $placePhoto)
     {
-        $this->placeCategory = $placeCategory;
+        $this->placePhoto = $placePhoto;
     }
 
-    public function getModel(): PlaceCategory
+    public function getModel(): PlacePhoto
     {
-        return $this->placeCategory;
+        return $this->placePhoto;
     }
 
     public function toArray(): array
     {
-        return $this->placeCategory->toArray();
+        return $this->placePhoto->toArray();
     }
 }

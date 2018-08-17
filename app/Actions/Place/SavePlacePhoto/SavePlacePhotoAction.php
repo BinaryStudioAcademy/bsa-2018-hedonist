@@ -1,30 +1,44 @@
 <?php
 
-namespace Hedonist\Actions\Place\SavePlacePhoto;
+namespace Hedonist\Actions\Place;
 
-use Hedonist\Entities\Place\PlaceCategory;
-use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
+use Hedonist\Actions\Place\SavePlacePhoto\SavePlacePhotoRequest;
+use Hedonist\Actions\Place\SavePlacePhoto\SavePlacePhotoResponse;
+use Hedonist\Entities\Place\PlacePhoto;
+use Hedonist\Repositories\Place\PlacePhotoRepositoryInterface;
+use Hedonist\Services\FileNameGenerator;
+use Illuminate\Support\Facades\Storage;
 
 class SavePlacePhotoAction
 {
-    private $placeCategoryRepository;
+    private $placePhotoRepository;
 
-    public function __construct( $placeCategoryRepository)
+    public function __construct(PlacePhotoRepositoryInterface $placePhotoRepository)
     {
-        $this->placeCategoryRepository = $placeCategoryRepository;
+        $this->placePhotoRepository = $placePhotoRepository;
     }
 
-    public function execute(SavePlaceCategoryRequest $request): SavePlaceCategoryResponse
+    public function execute(SavePlacePhotoRequest $request): SavePlacePhotoResponse
     {
         $id = $request->getId();
-        if ($id) {
-            $placeCategory = $this->placeCategoryRepository->getById($id);
+        if (!$id) {
+            $placePhoto = new PlacePhoto();
         } else {
-            $placeCategory = new PlaceCategory;
+            $placePhoto = $this->placePhotoRepository->getById($id);
         }
-        $placeCategory->name = $request->getName();
-        $placeCategory = $this->placeCategoryRepository->save($placeCategory);
+        $file = $request->getImg();
+        $fileNameGenerator = new FileNameGenerator($file);
+        $newFileName = $fileNameGenerator->generateFileName();
+        $file->storeAs('upload/review', $newFileName, 'public');
+        list($width, $height) = getimagesize($file);
+        $placePhoto->place_id = $request->getPlaceId();
+        $placePhoto->creator_id = $request->getCreatorId();
+        $placePhoto->description = $request->getDescription();
+        $placePhoto->img_url = Storage::url('upload/review/' . $newFileName);
+        $placePhoto->width = $width;
+        $placePhoto->height = $height;
+        $placePhoto = $this->placePhotoRepository->save($placePhoto);
 
-        return new SavePlaceCategoryResponse($placeCategory);
+        return new SavePlacePhotoResponse($placePhoto);
     }
 }
