@@ -2,7 +2,7 @@
     <div 
         class="column is-one-third-desktop is-one-third-tablet is-square user-list-container"
         v-if="show"
-        v-bind:style="[resizeStyle]"
+        :style="[resizeStyle]"
         v-resize="onResize"
     >
         <div class="user-list-content">
