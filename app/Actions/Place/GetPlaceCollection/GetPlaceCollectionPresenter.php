@@ -2,75 +2,69 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
-use Hedonist\Entities\Dislike\Dislike;
-use Hedonist\Entities\Like\Like;
-use Hedonist\Entities\Place\Place;
-use Hedonist\Entities\Review\Review;
-use Hedonist\Entities\User\User;
+use Hedonist\Actions\Place\Presenters\Review\ReviewPresenter;
+use Hedonist\Actions\Presenters\Category\CategoryPresenter;
+use Hedonist\Actions\Presenters\Category\Tags\CategoryTagsPresenter;
+use Hedonist\Actions\Presenters\City\CityPresenter;
+use Hedonist\Actions\Presenters\Feature\FeaturePresenter;
+use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
+use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
+use Hedonist\Actions\Presenters\Place\PlacePresenter;
 
 class GetPlaceCollectionPresenter
 {
-    private static function presentAsArray(Place $place, ?int $userId): array
+    private $placePresenter;
+    private $reviewPresenter;
+    private $localizationPresenter;
+    private $cityPresenter;
+    private $featurePresenter;
+    private $categoryPresenter;
+    private $photoPresenter;
+    private $tagsPresenter;
+
+    public function __construct(
+        PlacePresenter $placePresenter,
+        ReviewPresenter $reviewPresenter,
+        LocalizationPresenter $localizationPresenter,
+        CityPresenter $cityPresenter,
+        FeaturePresenter $featurePresenter,
+        CategoryPresenter $categoryPresenter,
+        CategoryTagsPresenter $tagsPresenter,
+        PlacePhotoPresenter $photoPresenter
+    )
     {
-        $placeArray = [];
-
-
-        $placeArray['category'] = [
-            'id' => $place->category->id,
-            'name' => $place->category->name
-        ];
-
-
-        foreach ($place->localization as $localization) {
-            $placeArray['localization'][] = [
-                'language' => $localization->language->code,
-                'name' => $localization->place_name,
-                'description' => $localization->place_description
-            ];
-        }
-
-        foreach ($place->category->tags as $tag) {
-            $placeArray['category']['tags'][] = [
-                'id' => $tag->id,
-                'name' => $tag->name
-            ];
-        }
-        foreach ($place->photos as $photo) {
-            $placeArray['photos'][] = [
-                'id' => $photo->id,
-                'description' => $photo->description,
-                'img_url' => $photo->img_url,
-                'creator_id' => $photo->creator_id
-            ];
-        }
-
-        return $placeArray;
+        $this->placePresenter = $placePresenter;
+        $this->reviewPresenter = $reviewPresenter;
+        $this->localizationPresenter = $localizationPresenter;
+        $this->cityPresenter = $cityPresenter;
+        $this->featurePresenter = $featurePresenter;
+        $this->categoryPresenter = $categoryPresenter;
+        $this->tagsPresenter = $tagsPresenter;
+        $this->photoPresenter = $photoPresenter;
     }
 
-    private static function presentReview(Review $review, ?int $userId): array
+    public function present(GetPlaceCollectionResponse $placeResponse): array
     {
-        $result = [
-            'id' => $review->getKey(),
-            'description' => $review->description,
-            'user' => !is_null($review->user->info) ? [
-                'first_name' => $review->user->info->first_name,
-                'last_name' => $review->user->info->last_name,
-                'avatar_url' => $review->user->info->avatar_url,
-            ] : null,
-            'likes' => $review->likes->count(),
-            'dislikes' => $review->dislikes->count(),
-            'liked' => $review->isLiked($userId),
-            'disliked' => $review->isDisliked($userId)
-        ];
+        $userId = $placeResponse->getUserId();
+        return $placeResponse->getPlaceCollection()->map(function($place) use ($userId) {
+            $result = $this->placePresenter->present($place);
+            $result['reviews'] = $place->reviews->map(function ($review) use ($userId) {
+                return $this->reviewPresenter->present($review, $userId);
+            });
+            $result['photos'] = $place->photos->map(function ($photo) {
+                return $this->photoPresenter->present($photo);
+            });
+            $result['city'] = $this->cityPresenter->present($place->city);
+            $result['features'] = $place->features->map(function ($feature) {
+                return $this->featurePresenter->present($feature);
+            });
+            $result['localization'] = $place->localization->map(function ($localization) {
+                return $this->localizationPresenter->present($localization);
+            });
+            $result['category'] = $this->categoryPresenter->present($place->category);
+            $result['category']['tags'] = $this->tagsPresenter->present($place->category->tags);
 
-        return $result;
-    }
-
-    public static function present(GetPlaceCollectionResponse $placeResponse, ?int $userId = null): array
-    {
-        return $placeResponse->getPlaceCollection()->map(function (Place $place) use ($userId) {
-            return self::presentAsArray($place, $userId);
-        })
-            ->toArray();
+            return $result;
+        })->toArray();
     }
 }
