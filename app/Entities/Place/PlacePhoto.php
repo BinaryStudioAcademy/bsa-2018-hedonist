@@ -19,7 +19,7 @@ class PlacePhoto extends Model
         return $this->belongsTo(Place::class);
     }
 
-    public function scopePlace($q, $placeId)
+    public function scopePlace($q, int $placeId)
     {
         return $q->where('place_id', $placeId);
     }

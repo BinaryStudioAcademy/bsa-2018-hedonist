@@ -20,12 +20,8 @@ class SavePlacePhotoAction
 
     public function execute(SavePlacePhotoRequest $request): SavePlacePhotoResponse
     {
-        $id = $request->getId();
-        if (!$id) {
-            $placePhoto = new PlacePhoto();
-        } else {
-            $placePhoto = $this->placePhotoRepository->getById($id);
-        }
+        $placePhoto = new PlacePhoto();
+
         $file = $request->getImg();
         $fileNameGenerator = new FileNameGenerator($file);
         $newFileName = $fileNameGenerator->generateFileName();

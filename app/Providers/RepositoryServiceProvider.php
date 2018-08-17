@@ -11,7 +11,8 @@ use Hedonist\Repositories\User\{
     UserInfoRepository,
     UserInfoRepositoryInterface
 };
-use Hedonist\Repositories\Place\{FavouritePlaceRepository,
+use Hedonist\Repositories\Place\{
+    FavouritePlaceRepository,
     FavouritePlaceRepositoryInterface,
     PlaceCategoryRepositoryInterface,
     PlaceCategoryRepository,
@@ -24,7 +25,8 @@ use Hedonist\Repositories\Place\{FavouritePlaceRepository,
     PlaceRepository,
     PlaceRepositoryInterface,
     CheckinRepository,
-    CheckinRepositoryInterface};
+    CheckinRepositoryInterface
+};
 use Hedonist\Repositories\Dislike\{
     DislikeRepositoryInterface,
     DislikeRepository
