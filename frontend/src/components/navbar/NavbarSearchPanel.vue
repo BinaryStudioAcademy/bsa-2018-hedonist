@@ -27,10 +27,8 @@
 </template>
 
 <script>
-import {mapState, mapActions, mapGetters} from 'vuex';
+import {mapState, mapActions} from 'vuex';
 import SearchCity from './SearchCity';
-import LocationService from '@/services/location/locationService';
-import _ from 'lodash';
 
 export default {
     name: 'SearchInput',
@@ -68,12 +66,12 @@ export default {
 
 <style lang="scss" scoped>
     .show-list {
-    .input {
-        border-radius: 4px 4px 0 0;
-    }
-    .place-category-list {
-        display: block;
-    }
+        .input {
+            border-radius: 4px 4px 0 0;
+        }
+        .place-category-list {
+            display: block;
+        }
     }
 
     .place-category-list {
@@ -88,26 +86,26 @@ export default {
         box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 0;
         vertical-align: baseline;
 
-    a {
-        background: #fff;
-        cursor: pointer;
-        display: block;
-        padding: 5px 10px;
-        text-decoration: none;
-        zoom: 1;
-        color: #333;
-        min-height: 32px;
-        font-weight: 500;
-        font-size: 0.9rem;
+        a {
+            background: #fff;
+            cursor: pointer;
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            zoom: 1;
+            color: #333;
+            min-height: 32px;
+            font-weight: 500;
+            font-size: 0.9rem;
 
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-    a:hover {
-        background: #efeff4;
-        color: #4e595d;
-    }
+        a:hover {
+            background: #efeff4;
+            color: #4e595d;
+        }
     }
 </style>
