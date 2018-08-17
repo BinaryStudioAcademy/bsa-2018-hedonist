@@ -59,7 +59,7 @@ export default new Router({
                 component: PlacePage
             },
             {
-                path: '/users/lists/add',
+                path: '/my-lists/add',
                 name: 'UserListAddPage',
                 component: UserListAddPage
             },
