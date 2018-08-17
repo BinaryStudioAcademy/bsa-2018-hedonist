@@ -75,10 +75,13 @@ class PlaceTableSeeder extends Seeder
                 'language_id' => $language->id
             ]);
 
-            factory(PlacePhoto::class)->create([
-                'place_id' => $place->id,
-                'creator_id' => User::inRandomOrder()->first()->id,
-            ]);
+            $i = 0;
+            while ($i++ < 5) {
+                factory(PlacePhoto::class)->create([
+                    'place_id' => $place->id,
+                    'creator_id' => User::inRandomOrder()->first()->id,
+                ]);
+            }
         }
     }
 }
