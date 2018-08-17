@@ -1,5 +1,11 @@
 <template>
     <section class="container">
+        <div class="action-bar">
+            <router-link
+                class="button is-success"
+                :to="{ name: 'UserListAddPage'}"
+            >Create a new list</router-link>
+        </div>
         <div class="columns is-multiline centered">
             <UserListsItem 
                 v-for="(userList, index) in userLists" 
@@ -81,6 +87,13 @@ export default {
         width: 10%;
         text-align: center;
         color: grey;
+    }
+
+    .action-bar {
+        background: #f0f4f5;
+        border-bottom: 1px solid #dae4e6;
+        padding: 20px;
+        text-align: center;
     }
 
     @media  (max-width: 1223px) {
