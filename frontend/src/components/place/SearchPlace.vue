@@ -56,8 +56,8 @@ export default {
             isPlacesLoaded: false,
             map: {},
             userCoordinates: {
-                lat: '',
-                lng: ''
+                lat: 50.4547,
+                lng: 30.5238
             },
         };
     },
@@ -94,13 +94,14 @@ export default {
             });
         },
         updateMap(places) {
-            markerManager.setMarkers(...places);
+            let userMarker = this.createUserMarker();
+            markerManager.setMarkers(userMarker,...places);
         },
         createUserMarker(){
             return {
                 id           : 0,
-                latitude     : this.coordinates.lat,
-                longitude    : this.coordinates.lng,
+                latitude     : this.userCoordinates.lat,
+                longitude    : this.userCoordinates.lng,
                 localization : {
                     0: {
                         description: 'Your position',
