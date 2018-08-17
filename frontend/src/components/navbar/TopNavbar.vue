@@ -7,9 +7,23 @@
                         class="navbar-item"
                         to="/"
                     >Hedonist</router-link>
+
+                    <a 
+                        role="button" 
+                        class="navbar-burger" 
+                        aria-label="menu" 
+                        aria-expanded="false"
+                        @click="toggleMenu" 
+                        :class="{'is-active': isBurgerMenu}"
+                    >
+
+                        <span aria-hidden="true" />
+                        <span aria-hidden="true" />
+                        <span aria-hidden="true" />
+                    </a>
                 </div>
 
-                <div class="navbar-menu">
+                <div class="navbar-menu" :class="{'is-active': isBurgerMenu}">
                     <search-input v-if="isUserLoggedIn" />
                     <div
                         v-if="!isUserLoggedIn"
@@ -88,6 +102,13 @@ import SearchInput from './SearchInput';
 
 export default {
     name: 'TopNavbar',
+
+    data () {
+        return {
+            isBurgerMenu: false
+        };
+    },
+
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
@@ -101,10 +122,23 @@ export default {
         }),
 
         onLogOut () {
+            let self = this;
             this.logout()
                 .then(()=>{
                     this.$router.push({name: 'LoginPage'});
+                })
+                .catch(function (err) {
+                    self.onError(err.response.data);
                 });
+        },
+        onError (error) {
+            this.$toast.open({
+                message: error.error.message,
+                type: 'is-danger'
+            });
+        },
+        toggleMenu () {
+            this.isBurgerMenu = !this.isBurgerMenu;
         }
     },
     components: {
@@ -114,33 +148,56 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .navbar-brand-name{
+    .navbar-brand-name {
         text-transform: uppercase;
         font-weight: bold;
         letter-spacing: 0.2rem;
     }
-    .navbar-search-btn{
-        cursor:pointer;
+
+    .navbar-search-btn {
+        cursor: pointer;
     }
-    .navbar-dropdown-menu{
+
+    .navbar-dropdown-menu {
         padding-right: .75rem;
         &:after{
             border: none;
         }
     }
-    .navbar-personal-link{
+
+    .navbar-personal-link {
         text-indent: 15px;
     }
-    .navbar-avatar{
+
+    .navbar-avatar {
         margin:0 10px;
         border-radius:4px;
     }
-    .navbar-notification-btn{
-        cursor:pointer;
+
+    .navbar-notification-btn {
+        cursor: pointer;
         background: url("../../assets/icon-notifications.png") top left no-repeat;
         font-weight: bold;
         height: 24px;
         width: 27px;
         align-self: center;
+    }
+
+    .navbar-burger {
+        color: #fff;
+    }
+
+    .navbar-brand {
+        @media screen and (max-width: 1087px) {
+            width: 100%;
+        }
+    }
+
+    .navbar-menu {
+        @media screen and (max-width: 1087px) {
+           position: absolute;
+           right: 0;
+           top: 52px;
+        }
     }
 </style>

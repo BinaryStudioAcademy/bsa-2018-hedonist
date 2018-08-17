@@ -1,6 +1,7 @@
 <template>
     <div class="place-photo">
-        <img 
+        <img
+            v-img:top-group
             class="place-photo__image" 
             :src="photo.url" 
             alt="place image"
@@ -24,7 +25,7 @@ export default {
             type: Number,
             required: true
         }
-    },
+    }
 };
 </script>
 

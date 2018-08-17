@@ -7,6 +7,7 @@ use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\PlaceCategory;
 use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Localization\PlaceTranslation;
+use Hedonist\Entities\Place\PlacePhoto;
 
 class PlaceTableSeeder extends Seeder
 {
@@ -62,16 +63,21 @@ class PlaceTableSeeder extends Seeder
         ]);
 
         foreach (self::PLACE_NAMES as $placeName) {
-            $place = factory(Place::class)->create([
-                'city_id'       => City::inRandomOrder()->first()->id,
+            $place = factory(Place::class, 'LvivPlaces')->create([
+                'city_id'       => City::where('name', 'Lviv')->first()->id,
                 'creator_id'    => User::inRandomOrder()->first()->id,
-                'category_id'   => PlaceCategory::inRandomOrder()->first()->id
+                'category_id'   => PlaceCategory::inRandomOrder()->first()->id,
             ]);
 
             $placeTranslation = factory(PlaceTranslation::class)->create([
                 'place_name' => $placeName,
                 'place_id' => $place->id,
                 'language_id' => $language->id
+            ]);
+
+            factory(PlacePhoto::class)->create([
+                'place_id' => $place->id,
+                'creator_id' => User::inRandomOrder()->first()->id,
             ]);
         }
     }
