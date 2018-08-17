@@ -423,6 +423,7 @@ export default {
     methods: {
         onCloseTab: function (tagObject) {
             this.newPlace.category_tags = this.newPlace.category_tags.filter((tag) => tag.name !== tagObject.name);
+            this.selectedTag = 'v';
         }
     }
 };
