@@ -14,27 +14,12 @@ class GetPlaceCollectionPresenter
     {
         $placeArray = [];
 
-        $placeArray['id'] = $place->id;
-        $placeArray['address'] = $place->address;
-        $placeArray['city'] = $place->city;
-        $placeArray['created_at'] = $place->created_at->toDateTimeString();
-        $placeArray['dislikes'] = $place->dislikes->count();
-        $placeArray['likes'] = $place->likes->count();
-        $placeArray['rating'] = number_format(round($place->ratings->avg('rating'), 1), 1);
-        $placeArray['latitude'] = $place->latitude;
-        $placeArray['longitude'] = $place->longitude;
-        $placeArray['phone'] = $place->phone;
-        $placeArray['website'] = $place->website;
-        $placeArray['zip'] = $place->zip;
-        $placeArray['reviews'] = $place->reviews;
+
         $placeArray['category'] = [
             'id' => $place->category->id,
             'name' => $place->category->name
         ];
 
-        $placeArray['review'] = !is_null($place->reviews->first()) ?
-            self::presentReview($place->reviews->first(), $userId) :
-            null;
 
         foreach ($place->localization as $localization) {
             $placeArray['localization'][] = [
