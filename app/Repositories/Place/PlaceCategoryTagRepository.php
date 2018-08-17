@@ -31,7 +31,7 @@ class PlaceCategoryTagRepository extends BaseRepository implements PlaceCategory
         return PlaceCategoryTag::find($id);
     }
     
-    public function findByCriteria(CriteriaInterface $criteria)
+    public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
     }
