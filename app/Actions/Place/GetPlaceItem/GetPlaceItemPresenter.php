@@ -6,6 +6,24 @@ class GetPlaceItemPresenter
 {
     public static function present(GetPlaceItemResponse $placeResponse): array
     {
+        $localization = null;
+        if($placeResponse->getLocalization()->isNotEmpty()){
+            $localization = array_reduce(
+                $placeResponse->getLocalization()->toArray(),
+                function ($carry, $localizationItem) {
+                    $localizationPresenter = [
+                        'id'          => $localizationItem['id'],
+                        'name'        => $localizationItem['place_name'],
+                        'description' => $localizationItem['place_description'],
+                        'languageId'  => $localizationItem['language_id']
+                    ];
+                    $carry[$localizationItem['language']['code']] = $localizationPresenter;
+                    return $carry;
+                },
+                []
+            );
+        }
+
         return [
             'id'           => $placeResponse->getId(),
             'latitude'     => $placeResponse->getLatitude(),
@@ -17,16 +35,7 @@ class GetPlaceItemPresenter
             'creatorId'    => $placeResponse->getCreatorId(),
             'createdAt'    => $placeResponse->getCreatedAt(),
             'updatedAt'    => $placeResponse->getUpdatedAt(),
-            'localization' => $placeResponse->getLocalization()->isNotEmpty()
-                ? array_map(function ($localization) {
-                    return [
-                        'id'          => $localization['id'],
-                        'name'        => $localization['place_name'],
-                        'description' => $localization['place_description'],
-                        'languageId'  => $localization['language_id']
-                    ];
-                }, $placeResponse->getLocalization()->toArray())
-                : null,
+            'localization' => $localization,
             'reviews' => $placeResponse->getReviews()->isNotEmpty()
                 ? array_map(function ($review) {
                     return [
