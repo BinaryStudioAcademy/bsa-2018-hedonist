@@ -11,20 +11,20 @@ use Hedonist\Repositories\User\{
     UserInfoRepository,
     UserInfoRepositoryInterface
 };
-use Hedonist\Repositories\Place\{
-    FavouritePlaceRepository,
+use Hedonist\Repositories\Place\{FavouritePlaceRepository,
     FavouritePlaceRepositoryInterface,
     PlaceCategoryRepositoryInterface,
     PlaceCategoryRepository,
     PlaceFeatureRepositoryInterface,
     PlaceFeatureRepository,
+    PlacePhotoRepository,
+    PlacePhotoRepositoryInterface,
     PlaceRatingRepositoryInterface,
     PlaceRatingRepository,
     PlaceRepository,
     PlaceRepositoryInterface,
     CheckinRepository,
-    CheckinRepositoryInterface
-};
+    CheckinRepositoryInterface};
 use Hedonist\Repositories\Dislike\{
     DislikeRepositoryInterface,
     DislikeRepository
@@ -83,5 +83,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CheckinRepositoryInterface::class, CheckinRepository::class);
         $this->app->bind(ReviewPhotoRepositoryInterface::class, ReviewPhotoRepository::class);
         $this->app->bind(UserInfoRepositoryInterface::class, UserInfoRepository::class);
+        $this->app->bind(PlacePhotoRepositoryInterface::class, PlacePhotoRepository::class);
     }
 }
