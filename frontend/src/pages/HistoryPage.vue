@@ -94,7 +94,7 @@ export default {
                         'coordinates' : [checkIn.place.longitude, checkIn.place.latitude]
                     },
                     'properties' : {
-                        'title' : checkIn.place.placeName,
+                        'title' : checkIn.place.name,
                         'icon' : 'marker',
                         'marker-symbol' : i + 1
                     }
