@@ -1,4 +1,6 @@
 import MarkerGenerator from './markerGeneratorService';
+import geojsonExtent from '@mapbox/geojson-extent';
+
 
 class MarkerManagerService {
     constructor(map, parser = null) {
@@ -6,6 +8,10 @@ class MarkerManagerService {
         this._parser = parser || MarkerManagerService._getDefaultParser();
         this._markersPool = new Map();
         this._activeMarkers = new Map();
+        this._GeoJSON = {
+            'type': 'FeatureCollection',
+            'features': []
+        };
     }
 
     setMarkers(...items) {
@@ -18,6 +24,30 @@ class MarkerManagerService {
                 } else {
                     this._createMarker(item);
                 }
+                this._addGeoJsonFeature(
+                    item.lng,
+                    item.lat
+                );
+            }
+        });
+    }
+
+    fitMarkersOnMap(){
+        let extent = geojsonExtent(this._GeoJSON);
+
+        this._map.fitBounds(extent, {padding: 50});
+    }
+
+    _addGeoJsonFeature(lng,lat) {
+        this._GeoJSON.features.push({
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [
+                    lng,
+                    lat
+                ]
             }
         });
     }
@@ -48,11 +78,11 @@ class MarkerManagerService {
     static _getDefaultParser() {
         return (item) => ({
             id: item.id,
-            name: item.name,
+            name: item.localization[0].name,
             lng: item.longitude,
             lat: item.latitude,
             // TODO set place photo url
-            photoUrl: 'https://igx.4sqi.net/img/general/200x200/887035_CLhGX1rsu2-V75shOAkPWuxXLY2k4iO17hEdOlOfSWc.jpg',
+            photoUrl: item.photoUrl || 'http://via.placeholder.com/128x128',
             address: item.address
         });
     }
