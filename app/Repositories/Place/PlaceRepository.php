@@ -32,10 +32,7 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         return Place::with(
             [
                 'localization',
-                'reviews',
-                'reviews.likes',
-                'reviews.dislikes',
-                'reviews.user.info'
+                'reviews'
             ]
         )
             ->where(['id' => $id])
@@ -59,16 +56,6 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
             'likes',
             'dislikes',
             'ratings')
-            ->with(['reviews' => function ($query) {
-                $query->with([
-                    'likes',
-                    'dislikes',
-                    'user',
-                    'user.info'
-                ])
-                    ->orderByDesc('created_at')
-                    ->first();
-            }])
             ->get();
     }
 
