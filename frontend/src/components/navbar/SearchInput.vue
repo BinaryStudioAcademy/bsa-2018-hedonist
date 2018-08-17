@@ -57,6 +57,7 @@ export default {
     methods: {
         ...mapActions({
             selectSearchCity: 'city/selectSearchCity',
+            getCityList: 'city/getCityList',
             loadCategoriesByQuery: 'placeCategory/loadCategories'
         }),
         onClickOutside() {
@@ -69,11 +70,9 @@ export default {
             this.findCity.data = [];
             if(this.findCity.query) {
                 this.findCity.isFetching = true;
-                let mapboxCitiesApiUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${this.findCity.query}.json?access_token=${this.mapboxToken}&country=ua&autocomplete=true&language=en`;
-
-                httpService.get(mapboxCitiesApiUrl)
-                    .then(({ data }) => {
-                        this.findCity.data = [...data.features];
+                this.getCityList(this.findCity.query)
+                    .then((res) => {
+                        this.findCity.data = [...res];
                         this.findCity.isFetching = false;
                     }, response => {
                         this.findCity.isFetching = false;
