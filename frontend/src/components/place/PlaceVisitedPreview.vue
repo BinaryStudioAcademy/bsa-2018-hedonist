@@ -2,24 +2,24 @@
     <transition name="slide-fade">
         <article v-if="active">
             <div class="entry-media">
-                <img 
-                    class="image" 
-                    src="http://www.fraufluger.ru/files/images/story/a7ab21562ce4476d11936f0fd3c27fa6_560x416.jpg"
+                <img
+                    class="image"
+                    :src="checkIn.place.photo ? checkIn.place.photo : placePreviewMock"
                 >
             </div>
             <div class="item-description">
                 <div class="rating-wrapper">
                     <div class="rating">
-                        {{ visitedPlace.place.rating }}
+                        {{ checkIn.place.rating }}
                     </div>
                 </div>
                 <h2 class="title">
-                    <router-link :to="`/places/${visitedPlace.id}`">
-                        {{ visitedPlace.place.placeName }}
+                    <router-link :to="`/places/${checkIn.id}`">
+                        {{ checkIn.place.placeName }}
                     </router-link>
                 </h2>
-                <p>{{ visitedPlace.place.city }}</p>
-                <p>{{ visitedPlace.place.category }}</p>
+                <p>{{ checkIn.place.city }}</p>
+                <p>{{ checkIn.place.category }}</p>
 
                 <button class="saved"><i class="fa fa-bookmark" />Saved</button>
             </div>
@@ -28,15 +28,18 @@
 </template>
 
 <script>
+import imageStub from '@/assets/no-photo.png';
+
 export default {
     name: 'PlaceVisitedPreview',
     data() {
         return {
-            active: false
+            active: false,
+            placePreviewMock: imageStub
         };
     },
     props: {
-        visitedPlace: {
+        checkIn: {
             required: true,
             type: Object,
         },
@@ -65,6 +68,10 @@ export default {
     .entry-media {
         height: 300px;
         width: 600px;
+
+        img {
+            width: 100%;
+        }
     }
 
     .image {

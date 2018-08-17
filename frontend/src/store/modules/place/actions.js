@@ -45,10 +45,11 @@ export default {
         });
     },
 
-    loadCheckInPlaces: () => {
+    loadCheckInPlaces: (context) => {
         return new Promise((resolve, reject) => {
             httpService.get('/users/me/checkins')
                 .then(function (response) {
+                    context.commit('SET_CHECK_INS', response.data.data);
                     resolve(response.data.data);
                 })
                 .catch(function (err) {

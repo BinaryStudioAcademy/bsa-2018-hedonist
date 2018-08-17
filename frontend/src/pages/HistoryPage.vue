@@ -2,11 +2,11 @@
     <div class="row">
         <div v-if="isPlacesLoaded" class="column visitedplaces-wrapper">
             <div 
-                v-for="(visitedPlace,index) in visitedPlaces" 
-                :key="visitedPlace.id"
+                v-for="(checkIn, index) in checkIns"
+                :key="checkIn.id"
             >
                 <PlaceVisitedPreview 
-                    :visited-place="visitedPlace"
+                    :check-in="checkIn"
                     :timer="50 * (index+1)"
                 />
             </div>
@@ -19,7 +19,7 @@
                     :access-token="getMapboxToken"
                     :map-options="{
                         style: getMapboxStyle,
-                        center: getMapboxCenter(),
+                        center: getMapboxCenter(checkIns),
                         zoom: 0
                     }"
                     :fullscreen-control="{
@@ -33,10 +33,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions, mapState } from 'vuex';
 import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
 import Mapbox from 'mapbox-gl-vue';
-import mapActions from '../store/modules/map/actions';
 
 export default {
     name: 'HistoryPage',
@@ -46,17 +45,16 @@ export default {
     },
     data() {
         return {
-            visitedPlaces: null,
             isPlacesLoaded: false,
         };
     },
     computed: {
-        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle'])
+        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle', 'getMapboxCenter']),
+        ...mapState('place', ['checkIns'])
     },
     created() {
-        this.$store.dispatch('place/loadCheckInPlaces')
-            .then((response) => {
-                this.visitedPlaces = response;
+        this.loadCheckInPlaces()
+            .then(() => {
                 this.isPlacesLoaded = true;
             })
             .catch((err) => {
@@ -64,6 +62,7 @@ export default {
             });
     },
     methods: {
+        ...mapActions('place', ['loadCheckInPlaces']),
         mapLoaded: function (map) {
             map.addLayer({
                 'id': 'points',
@@ -86,16 +85,16 @@ export default {
         },
         generateMapFeatures: function () {
             let features = [];
-            this.visitedPlaces.forEach(function (place, i) {
+            this.checkIns.forEach(function (checkIn, i) {
 
                 let feature = {
                     'type' : 'Feature',
                     'geometry' : {
                         'type' : 'Point',
-                        'coordinates' : [place.place.longitude, place.place.latitude]
+                        'coordinates' : [checkIn.place.longitude, checkIn.place.latitude]
                     },
                     'properties' : {
-                        'title' : place.place.placeName,
+                        'title' : checkIn.place.placeName,
                         'icon' : 'marker',
                         'marker-symbol' : i + 1
                     }
@@ -106,9 +105,6 @@ export default {
 
             return features;
         },
-        getMapboxCenter: function() {
-            return mapActions.getMapboxCenter(this.visitedPlaces);
-        }
     }
 };
 

@@ -17,7 +17,7 @@ class PlacesCheckTableSeeder extends Seeder
         $places = Place::all();
 
         foreach ($users as $user) {
-            for ($i = 0; $i < 3; $i++) {
+            for ($i = 0; $i < 15; $i++) {
                 factory(\Hedonist\Entities\Place\Checkin::class)->create([
                     'user_id' => $user->id,
                     'place_id' => $places->random()->id
