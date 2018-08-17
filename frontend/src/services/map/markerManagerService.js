@@ -48,7 +48,7 @@ class MarkerManagerService {
     static _getDefaultParser() {
         return (item) => ({
             id: item.id,
-            name: item.name,
+            name: item.localization[0].name,
             lng: item.longitude,
             lat: item.latitude,
             // TODO set place photo url
