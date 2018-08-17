@@ -5,7 +5,7 @@
     >
         <div class="user-list-content">
             <div class="user-list-name">{{
-                userList.list_name
+                userList.name
             }}</div>
             <div class="user-list-places-count">{{
                 userList.places_count
@@ -13,7 +13,7 @@
             <div class="user-list-button-wrap">
                 <div 
                     class="button is-info user-list-button-show-places" 
-                    @click="open(userList.list_name)"
+                    @click="open(userList.name)"
                 >
                     Show places in the list
                 </div>
@@ -21,7 +21,7 @@
         </div>
         <figure class="image is-square image-wrap">
             <img
-                :src="userList.img_preview.url"
+                :src="userList.img_url"
             >
         </figure>
     </div>
