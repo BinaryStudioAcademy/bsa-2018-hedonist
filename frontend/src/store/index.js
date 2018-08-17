@@ -9,6 +9,8 @@ import city from './modules/city';
 import place from './modules/place';
 import placeCategory from './modules/place/category';
 import map from './modules/map';
+import review from './modules/review';
+import userlist from './modules/userList';
 
 Vue.use(Vuex);
 
@@ -23,6 +25,8 @@ export default new Vuex.Store({
         city,
         place,
         map,
-        placeCategory
+        placeCategory,
+        review,
+        userlist
     }
 });

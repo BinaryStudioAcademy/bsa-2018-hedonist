@@ -16,12 +16,13 @@ class GetPlaceCollectionPresenter
         $placeArray['created_at'] = $place->created_at->toDateTimeString();
         $placeArray['dislikes'] = $place->dislikes->count();
         $placeArray['likes'] = $place->likes->count();
-        $placeArray['rating'] = round($place->ratings->avg('rating'), 1);
+        $placeArray['rating'] = number_format(round($place->ratings->avg('rating'), 1), 1);
         $placeArray['latitude'] = $place->latitude;
         $placeArray['longitude'] = $place->longitude;
         $placeArray['phone'] = $place->phone;
         $placeArray['website'] = $place->website;
         $placeArray['zip'] = $place->zip;
+        $placeArray['reviews'] = $place->reviews;
         $placeArray['category'] = [
             'id' => $place->category->id,
             'name' => $place->category->name
@@ -37,6 +38,14 @@ class GetPlaceCollectionPresenter
             $placeArray['category']['tags'][] = [
                 'id' => $tag->id,
                 'name' => $tag->name
+            ];
+        }
+        foreach ($place->photos as $photo) {
+            $placeArray['photos'][] = [
+                'id' => $photo->id,
+                'description' => $photo->description,
+                'img_url' => $photo->img_url,
+                'creator_id' => $photo->creator_id
             ];
         }
 
