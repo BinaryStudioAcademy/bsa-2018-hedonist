@@ -1,6 +1,6 @@
 <template>
     <div class="place-top-info">
-        <PlacePhotoList />
+        <PlacePhotoList :place="place" />
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
