@@ -94,8 +94,7 @@ export default {
             });
         },
         updateMap(places) {
-            let userMarker = this.createUserMarker();
-            markerManager.setMarkers(userMarker,...places);
+            markerManager.setMarkers(...places);
         },
         createUserMarker(){
             return {
