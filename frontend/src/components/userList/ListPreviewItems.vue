@@ -1,7 +1,7 @@
 <template>
     <section class="container">
         <div class="columns is-multiline centered">
-            <UserListsItem
+            <ListPreview
                 v-for="(userList, index) in userLists"
                 :user-list="userList"
                 :key="index"
@@ -12,17 +12,17 @@
 </template>
 
 <script>
-import UserListsItem from './UserListsItem';
+import ListPreview from './ListPreview';
 
 export default {
-    name: 'UserListsList',
+    name: 'ListPreviewItems',
     data() {
         return {
             userLists: [],
         };
     },
     created() {
-        this.$store.dispatch('userlists/getUserLists', this.user.id)
+        this.$store.dispatch('userLists/getUserLists', this.user.id)
             .then((result) => {
                 this.userLists = result;
             });
@@ -32,7 +32,7 @@ export default {
             return this.$store.getters['auth/getAuthenticatedUser'];
         }
     },
-    components: {UserListsItem},
+    components: {ListPreview},
 };
 </script>
 

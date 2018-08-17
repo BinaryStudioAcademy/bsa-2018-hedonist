@@ -29,7 +29,7 @@
 
 <script>
 export default {
-    name: 'UserListsItem',
+    name: 'ListPreview',
     data() {
         return {
             show: false
