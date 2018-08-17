@@ -39,7 +39,7 @@ export default new Router({
                 component: ProfilePage,
             },
             {
-                path: '/places/list',
+                path: '/my-places',
                 name: 'PlacesList',
                 component: PlaceListPage
             },
