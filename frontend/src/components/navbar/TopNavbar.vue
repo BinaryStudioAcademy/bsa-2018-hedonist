@@ -14,7 +14,7 @@
                         aria-label="menu" 
                         aria-expanded="false"
                         @click="toggleMenu" 
-                        :class="{'is-active': isBurgerMenu}"
+                        :class="{'is-active': navIsActive}"
                     >
 
                         <span aria-hidden="true" />
@@ -23,8 +23,8 @@
                     </a>
                 </div>
 
-                <div class="navbar-menu" :class="{'is-active': isBurgerMenu}">
-                    <search-input v-if="isUserLoggedIn" />
+                <div class="navbar-menu" :class="{'is-active': navIsActive}">
+                    <NavbarSearchPanel v-if="isUserLoggedIn" />
                     <div
                         v-if="!isUserLoggedIn"
                         class="navbar-end"
@@ -98,51 +98,36 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import SearchInput from './SearchInput';
-
+import NavbarSearchPanel from './NavbarSearchPanel';
 export default {
     name: 'TopNavbar',
-
     data () {
         return {
-            isBurgerMenu: false
+            navIsActive: false
         };
     },
-
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
             user: 'auth/getAuthenticatedUser'
         })
     },
-
     methods: {
         ...mapActions({
             logout: 'auth/logout'
         }),
-
         onLogOut () {
-            let self = this;
             this.logout()
                 .then(()=>{
                     this.$router.push({name: 'LoginPage'});
-                })
-                .catch(function (err) {
-                    self.onError(err.response.data);
                 });
         },
-        onError (error) {
-            this.$toast.open({
-                message: error.error.message,
-                type: 'is-danger'
-            });
-        },
         toggleMenu () {
-            this.isBurgerMenu = !this.isBurgerMenu;
+            this.navIsActive = !this.navIsActive;
         }
     },
     components: {
-        SearchInput
+        NavbarSearchPanel
     }
 };
 </script>
@@ -153,27 +138,22 @@ export default {
         font-weight: bold;
         letter-spacing: 0.2rem;
     }
-
     .navbar-search-btn {
         cursor: pointer;
     }
-
     .navbar-dropdown-menu {
         padding-right: .75rem;
-        &:after{
-            border: none;
-        }
+    &:after{
+         border: none;
+     }
     }
-
     .navbar-personal-link {
         text-indent: 15px;
     }
-
     .navbar-avatar {
         margin:0 10px;
         border-radius:4px;
     }
-
     .navbar-notification-btn {
         cursor: pointer;
         background: url("../../assets/icon-notifications.png") top left no-repeat;
@@ -182,22 +162,19 @@ export default {
         width: 27px;
         align-self: center;
     }
-
     .navbar-burger {
         color: #fff;
     }
-
     .navbar-brand {
-        @media screen and (max-width: 1087px) {
-            width: 100%;
-        }
+    @media screen and (max-width: 1087px) {
+        width: 100%;
     }
-
+    }
     .navbar-menu {
-        @media screen and (max-width: 1087px) {
-           position: absolute;
-           right: 0;
-           top: 52px;
-        }
+    @media screen and (max-width: 1087px) {
+        position: absolute;
+        right: 0;
+        top: 52px;
+    }
     }
 </style>
