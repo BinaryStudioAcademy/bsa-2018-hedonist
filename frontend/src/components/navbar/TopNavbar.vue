@@ -4,92 +4,84 @@
             <div class="navbar-wrapper container is-flex">
                 <div class="navbar-brand navbar-brand-name">
                     <router-link
-                        class="navbar-item"
-                        to="/"
+                            class="navbar-item"
+                            to="/"
                     >Hedonist</router-link>
 
-                    <a 
-                        role="button" 
-                        class="navbar-burger" 
-                        aria-label="menu" 
-                        aria-expanded="false"
-                        @click="toggleMenu" 
-                        :class="{'is-active': isBurgerMenu}"
-                    >
+                    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false"
+                       @click="toggleMenu" :class="{'is-active': navIsActive}">
 
-                        <span aria-hidden="true" />
-                        <span aria-hidden="true" />
-                        <span aria-hidden="true" />
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
                     </a>
                 </div>
 
-                <div :class="{'is-active': isBurgerMenu}">
-                    <template v-if="isUserLoggedIn">
-                        <search-input />
-
-                        <div
+                <div class="navbar-menu" :class="{'is-active': navIsActive}">
+                    <search-input v-if="isUserLoggedIn" />
+                    <div
+                            v-if="!isUserLoggedIn"
                             class="navbar-end"
-                        >
-                            <div class="navbar-item is-paddingless">
-                                <span class="navbar-notification-btn" />
-                            </div>
-                            <div class="navbar-item has-dropdown is-hoverable">
-                                <div v-if="user" class="navbar-link navbar-dropdown-menu">
-                                    <img
+                    >
+                        <router-link
+                                class="navbar-item"
+                                to="/login"
+                        >Log In</router-link>
+                        <router-link
+                                class="navbar-item"
+                                to="/signup"
+                        >Sign Up</router-link>
+                    </div>
+
+                    <div
+                            v-if="isUserLoggedIn"
+                            class="navbar-end"
+                    >
+                        <div class="navbar-item is-paddingless">
+                            <span class="navbar-notification-btn" />
+                        </div>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <div v-if="user" class="navbar-link navbar-dropdown-menu">
+                                <img
                                         v-if="user.avatar_url"
                                         class="navbar-avatar"
                                         :src="user.avatar_url"
                                         :title="user.first_name+' '+user.last_name"
                                         :alt="user.first_name+' '+user.last_name"
-                                    >
-                                    <span v-else class="icon">
-                                        <i class="fas fa-file-image fa-lg" />
-                                    </span>
-                                    <span>{{ user.first_name }}</span>
-                                    <span class="icon">
-                                        <i class="fas fa-caret-down" />
-                                    </span>
-                                </div>
-                                <div class="navbar-dropdown">
-                                    <router-link
+                                >
+                                <span v-else class="icon">
+                                    <i class="fas fa-file-image fa-lg" />
+                                </span>
+                                <span>{{ user.first_name }}</span>
+                                <span class="icon">
+                                    <i class="fas fa-caret-down" />
+                                </span>
+                            </div>
+                            <div class="navbar-dropdown">
+                                <router-link
                                         class="navbar-item"
                                         :to="{ name: 'ProfilePage' }"
-                                    >Profile</router-link>
-                                    <router-link
+                                >Profile</router-link>
+                                <router-link
                                         class="navbar-personal-link navbar-item"
                                         :to="{ name: 'PlacesList' }"
-                                    >My places</router-link>
-                                    <router-link
+                                >My places</router-link>
+                                <router-link
                                         class="navbar-personal-link navbar-item"
                                         :to="{ name: 'UserListsPage' }"
-                                    >My lists
-                                    </router-link>
-                                    <router-link
+                                >My lists
+                                </router-link>
+                                <router-link
                                         class="navbar-personal-link navbar-item"
                                         :to="{ name: 'HistoryPage' }"
-                                    >History
-                                    </router-link>
-                                    <a
+                                >History
+                                </router-link>
+                                <a
                                         class="navbar-item"
                                         @click="onLogOut"
-                                    >Logout</a>
-                                </div>
+                                >Logout</a>
                             </div>
                         </div>
-                    </template>
-                    
-                    <div
-                        v-else
-                        class="navbar-end"
-                    >
-                        <router-link
-                            class="navbar-item"
-                            to="/login"
-                        >Log In</router-link>
-                        <router-link
-                            class="navbar-item"
-                            to="/signup"
-                        >Sign Up</router-link>
                     </div>
                 </div>
             </div>
@@ -99,54 +91,39 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import SearchInput from './SearchInput';
-
-export default {
-    name: 'TopNavbar',
-
-    data () {
-        return {
-            isBurgerMenu: false
-        };
-    },
-
-    computed: {
-        ...mapGetters({
-            isUserLoggedIn: 'auth/isLoggedIn',
-            user: 'auth/getAuthenticatedUser'
-        })
-    },
-
-    methods: {
-        ...mapActions({
-            logout: 'auth/logout'
-        }),
-
-        onLogOut () {
-            let self = this;
-            this.logout()
-                .then(()=>{
-                    this.$router.push({name: 'LoginPage'});
-                })
-                .catch(function (err) {
-                    self.onError(err.response.data);
-                });
+    import { mapActions, mapGetters } from 'vuex';
+    import SearchInput from './SearchInput';
+    export default {
+        name: 'TopNavbar',
+        data () {
+            return {
+                navIsActive: false
+            }
         },
-        onError (error) {
-            this.$toast.open({
-                message: error.error.message,
-                type: 'is-danger'
-            });
+        computed: {
+            ...mapGetters({
+                isUserLoggedIn: 'auth/isLoggedIn',
+                user: 'auth/getAuthenticatedUser'
+            })
         },
-        toggleMenu () {
-            this.isBurgerMenu = !this.isBurgerMenu;
+        methods: {
+            ...mapActions({
+                logout: 'auth/logout'
+            }),
+            onLogOut () {
+                this.logout()
+                    .then(()=>{
+                        this.$router.push({name: 'LoginPage'});
+                    });
+            },
+            toggleMenu () {
+                this.navIsActive = !this.navIsActive
+            }
+        },
+        components: {
+            SearchInput
         }
-    },
-    components: {
-        SearchInput
-    }
-};
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -155,27 +132,22 @@ export default {
         font-weight: bold;
         letter-spacing: 0.2rem;
     }
-
     .navbar-search-btn {
         cursor: pointer;
     }
-
     .navbar-dropdown-menu {
         padding-right: .75rem;
-        &:after{
-            border: none;
-        }
+    &:after{
+         border: none;
+     }
     }
-
     .navbar-personal-link {
         text-indent: 15px;
     }
-
     .navbar-avatar {
         margin:0 10px;
         border-radius:4px;
     }
-
     .navbar-notification-btn {
         cursor: pointer;
         background: url("../../assets/icon-notifications.png") top left no-repeat;
@@ -184,22 +156,19 @@ export default {
         width: 27px;
         align-self: center;
     }
-
     .navbar-burger {
         color: #fff;
     }
-
     .navbar-brand {
-        @media screen and (max-width: 1087px) {
-            width: 100%;
-        }
+    @media screen and (max-width: 1087px) {
+        width: 100%;
     }
-
+    }
     .navbar-menu {
-        @media screen and (max-width: 1087px) {
-           position: absolute;
-           right: 0;
-           top: 52px;
-        }
+    @media screen and (max-width: 1087px) {
+        position: absolute;
+        right: 0;
+        top: 52px;
+    }
     }
 </style>
