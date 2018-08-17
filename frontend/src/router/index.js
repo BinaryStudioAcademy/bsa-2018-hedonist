@@ -44,6 +44,11 @@ export default new Router({
                 component: PlaceListPage
             },
             {
+                path: '/my-tastes',
+                name: 'MyTastesPage',
+                component: MyTastesPage
+            },
+            {
                 path: '/places/add',
                 name: 'NewPlacePage',
                 component: NewPlacePage
