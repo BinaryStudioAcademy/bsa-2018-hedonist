@@ -2,8 +2,6 @@
 
 namespace Hedonist\Repositories\Review\Criterias;
 
-
-use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 

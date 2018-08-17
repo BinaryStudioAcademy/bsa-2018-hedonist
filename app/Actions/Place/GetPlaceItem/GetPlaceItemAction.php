@@ -21,8 +21,7 @@ class GetPlaceItemAction
         PlaceCategoryRepositoryInterface $placeCategoryRepository,
         CityRepositoryInterface $cityRepository,
         PlaceRatingRepositoryInterface $placeRatingRepository
-    )
-    {
+    ) {
         $this->placeRepository = $placeRepository;
         $this->placeCategoryRepository = $placeCategoryRepository;
         $this->cityRepository = $cityRepository;
