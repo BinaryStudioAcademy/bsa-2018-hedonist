@@ -55,7 +55,7 @@
                             @click="changeTab(1)"
                             :class="{ 'is-active' : activeTab === 1}"
                         >
-                            <a><span>Comments (2)</span></a>
+                            <a><span>Reviews (2)</span></a>
                         </li>
                         <li
                             @click="changeTab(2)"

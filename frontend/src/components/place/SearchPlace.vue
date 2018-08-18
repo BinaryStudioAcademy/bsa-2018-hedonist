@@ -16,10 +16,10 @@
                 :map-options="{
                     style: getMapboxStyle,
                     center: {
-                        lat: 40.7128,
-                        lng: -74.0060
+                        lat: 50.4547,
+                        lng: 30.5238
                     },
-                    zoom: 11
+                    zoom: 9
                 }"
                 :scale-control="{
                     show: true,
@@ -54,6 +54,10 @@ export default {
             isMapLoaded: false,
             isPlacesLoaded: false,
             map: {},
+            userCoordinates: {
+                lat: 50.4547,
+                lng: 30.5238
+            },
         };
     },
     created() {
@@ -62,6 +66,7 @@ export default {
                 this.isPlacesLoaded = true;
                 if(this.isMapLoaded){
                     this.updateMap(this.places);
+                    markerManager.fitMarkersOnMap();
                 }
             });
     },
@@ -70,7 +75,8 @@ export default {
             this.map = map;
             LocationService.getUserLocationData()
                 .then(coordinates => {
-                    this.jumpTo(coordinates);
+                    this.userCoordinates.lat = coordinates.lat;
+                    this.userCoordinates.lng = coordinates.lng;
                 });
         },
         mapLoaded(map) {
@@ -78,7 +84,8 @@ export default {
             this.isMapLoaded = true;
             if(this.isPlacesLoaded){
                 this.updateMap(this.places);
-            }
+                markerManager.fitMarkersOnMap();
+            };
         },
         jumpTo(coordinates) {
             this.map.jumpTo({
@@ -87,12 +94,33 @@ export default {
         },
         updateMap(places) {
             markerManager.setMarkers(...places);
+        },
+        createUserMarker(){
+            return {
+                id           : 0,
+                latitude     : this.userCoordinates.lat,
+                longitude    : this.userCoordinates.lng,
+                localization : {
+                    0: {
+                        description: 'Your position',
+                        language: 'en',
+                        name: 'Your position',
+                    }
+                },
+                photoUrl: this.user.avatar_url || 'http://via.placeholder.com/128x128',
+            };
         }
     },
     computed: {
         ...mapState('place', ['places']),
         ...mapGetters('place', ['getFilteredByName']),
-        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
+        ...mapGetters('map', [
+            'getMapboxToken',
+            'getMapboxStyle'
+        ]),
+        ...mapGetters({
+            user: 'auth/getAuthenticatedUser'
+        }),
         filteredPlaces: function () {
             let places = [];
             if (this.filterQuery) {
