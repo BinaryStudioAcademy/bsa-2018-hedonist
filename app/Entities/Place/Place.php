@@ -102,6 +102,14 @@ class Place extends Model
         $this->longitude = $location->getLongitude();
     }
 
+    public function getLocation() : Location
+    {
+        return new Location(
+            $this->longitude,
+            $this->latitude
+        );
+    }
+
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
