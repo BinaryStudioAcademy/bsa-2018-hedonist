@@ -1,12 +1,13 @@
 <template>
     <div class="row">
         <div v-if="isPlacesLoaded" class="column visitedplaces-wrapper">
-            <div 
-                v-for="(checkIn, index) in checkIns"
+            <div
+                v-for="(checkIn, index) in checkIns.byId"
                 :key="checkIn.id"
             >
-                <PlaceVisitedPreview 
+                <PlaceVisitedPreview
                     :check-in="checkIn"
+                    :check-in-place="places.byId[checkIn.placeId]"
                     :timer="50 * (index+1)"
                 />
             </div>
@@ -19,7 +20,7 @@
                     :access-token="getMapboxToken"
                     :map-options="{
                         style: getMapboxStyle,
-                        center: getMapboxCenter(checkIns),
+                        center: getMapboxCenter(places),
                         zoom: 0
                     }"
                     :fullscreen-control="{
@@ -50,7 +51,8 @@ export default {
     },
     computed: {
         ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle', 'getMapboxCenter']),
-        ...mapState('place', ['checkIns'])
+        ...mapState('user/history', ['checkIns']),
+        ...mapState('user/history', ['places'])
     },
     created() {
         this.loadCheckInPlaces()
@@ -62,7 +64,8 @@ export default {
             });
     },
     methods: {
-        ...mapActions('place', ['loadCheckInPlaces']),
+        ...mapActions('user/history', ['loadCheckInPlaces']),
+
         mapLoaded: function (map) {
             map.addLayer({
                 'id': 'points',
@@ -85,16 +88,15 @@ export default {
         },
         generateMapFeatures: function () {
             let features = [];
-            this.checkIns.forEach(function (checkIn, i) {
-
+            this.places.allIds.forEach((id, i) => {
                 let feature = {
                     'type' : 'Feature',
                     'geometry' : {
                         'type' : 'Point',
-                        'coordinates' : [checkIn.place.longitude, checkIn.place.latitude]
+                        'coordinates' : [this.places.byId[id].longitude, this.places.byId[id].latitude]
                     },
                     'properties' : {
-                        'title' : checkIn.place.name,
+                        'title' : this.places.byId[id].name,
                         'icon' : 'marker',
                         'marker-symbol' : i + 1
                     }

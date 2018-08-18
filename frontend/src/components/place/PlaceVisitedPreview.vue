@@ -4,22 +4,22 @@
             <div class="entry-media">
                 <img
                     class="image"
-                    :src="checkIn.place.photo ? checkIn.place.photo : placePreviewMock"
+                    :src="checkInPlace.photo ? checkInPlace.photo : placePreviewMock"
                 >
             </div>
             <div class="item-description">
                 <div class="rating-wrapper">
                     <div class="rating">
-                        {{ checkIn.place.rating }}
+                        {{ checkInPlace.rating }}
                     </div>
                 </div>
                 <h2 class="title">
                     <router-link :to="`/places/${checkIn.id}`">
-                        {{ checkIn.place.name }}
+                        {{ checkInPlace.name }}
                     </router-link>
                 </h2>
-                <p>{{ checkIn.place.city }}</p>
-                <p>{{ checkIn.place.category }}</p>
+                <p>{{ checkInPlace.city }}</p>
+                <p>{{ checkInPlace.category }}</p>
 
                 <button class="saved"><i class="fa fa-bookmark" />Saved</button>
             </div>
@@ -40,6 +40,10 @@ export default {
     },
     props: {
         checkIn: {
+            required: true,
+            type: Object,
+        },
+        checkInPlace: {
             required: true,
             type: Object,
         },

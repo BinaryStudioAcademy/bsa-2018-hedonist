@@ -5,16 +5,11 @@ export default {
     getMapboxToken: function() {
         return process.env.MAPBOX_TOKEN;
     },
-    getMapboxCenter: () => (checkIns) => {
-        let totalLongtitude = 0;
-        let totalLatitude = 0;
-        let count = checkIns.length;
+    getMapboxCenter: () => (places) => {
+        let totalLongitude = _.sumBy(places.allIds, (id) => places.byId[id].longitude);
+        let totalLatitude = _.sumBy(places.allIds, (id) => places.byId[id].latitude);
+        let count = places.allIds.length;
 
-        checkIns.forEach(function (checkIn) {
-            totalLongtitude += parseFloat(checkIn.place.longitude);
-            totalLatitude += parseFloat(checkIn.place.latitude);
-        });
-
-        return [totalLongtitude/count, totalLatitude/count];
+        return [ (totalLongitude / count), (totalLatitude / count) ];
     }
 };
