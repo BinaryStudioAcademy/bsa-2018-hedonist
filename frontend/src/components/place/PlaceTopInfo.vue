@@ -12,8 +12,7 @@
                     >
                 </div>
                 <div class="place-venue__prime-info">
-                    <div v-if="place.localization" class="place-venue__place-name">{{ place.localization[0].name }}</div>
-                    <div v-else class="place-venue__place-name">No localization</div>
+                    <div class="place-venue__place-name">{{ localizedName }}</div>
                     <div class="place-venue__category">{{ place.category.name }}</div>
                     <div class="place-venue__city">
                         {{ place.city.name }}, <span class="place-zip">{{ place.zip }}</span>
@@ -123,6 +122,9 @@ export default {
     computed: {
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
+        },
+        localizedName(){
+            return place.localization[0].name;
         }
     },
 

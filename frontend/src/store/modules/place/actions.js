@@ -26,8 +26,7 @@ export default {
             .then((response) => {
                 commit('SET_CURRENT_PLACE', response.data.data);
                 return Promise.resolve();
-            }
-            )
+            })
             .catch((err) =>
                 Promise.reject(err)
             );

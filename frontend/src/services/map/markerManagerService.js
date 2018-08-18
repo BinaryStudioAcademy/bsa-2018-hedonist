@@ -32,13 +32,13 @@ class MarkerManagerService {
         });
     }
 
-    fitMarkersOnMap(){
+    fitMarkersOnMap() {
         let extent = geojsonExtent(this._GeoJSON);
 
         this._map.fitBounds(extent, {padding: 50});
     }
 
-    _addGeoJsonFeature(lng,lat) {
+    _addGeoJsonFeature(lng, lat) {
         this._GeoJSON.features.push({
             'type': 'Feature',
             'properties': {},
@@ -63,14 +63,10 @@ class MarkerManagerService {
     }
 
     _createMarker(markerData) {
-        try {
-            let marker = MarkerGenerator.generateMarker(markerData);
-            marker.addTo(this._map);
-            this._activeMarkers.set(markerData.id, {marker, markerData});
-            this._markersPool.set(markerData.id, {marker, markerData});
-        }catch (e) {
-            console.log('Fix seeders pls');
-        }
+        let marker = MarkerGenerator.generateMarker(markerData);
+        marker.addTo(this._map);
+        this._activeMarkers.set(markerData.id, {marker, markerData});
+        this._markersPool.set(markerData.id, {marker, markerData});
     }
 
     _restoreMarker(markerData) {
@@ -80,7 +76,7 @@ class MarkerManagerService {
     }
 
     static _getDefaultParser() {
-        return (item) =>({
+        return (item) => ({
             id: item.id,
             name: item.localization[0].name,
             lng: item.longitude,
