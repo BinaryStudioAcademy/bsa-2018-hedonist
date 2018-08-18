@@ -19,10 +19,8 @@
             </div>
         </div>
         <div class="top-right">
-            <!--<div class="buttons">-->
-                <button class="button-green">Save</button>
-                <button class="button-grey">Delete</button>
-            <!--</div>-->
+            <button class="button-green">Save</button>
+            <button class="button-grey">Delete</button>
         </div>
         <div class="bottom-left">
             <div class="search-places">
