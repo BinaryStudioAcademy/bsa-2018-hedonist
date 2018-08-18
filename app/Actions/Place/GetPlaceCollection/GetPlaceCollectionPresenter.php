@@ -34,8 +34,7 @@ class GetPlaceCollectionPresenter
         CategoryPresenter $categoryPresenter,
         CategoryTagPresenter $tagsPresenter,
         PlacePhotoPresenter $photoPresenter
-    )
-    {
+    ) {
         $this->placePresenter = $placePresenter;
         $this->reviewPresenter = $reviewPresenter;
         $this->localizationPresenter = $localizationPresenter;
@@ -71,7 +70,7 @@ class GetPlaceCollectionPresenter
         $review = $reviews->first(function ($item) use ($place) {
             return $place->id === $item->place_id;
         });
-        if(is_null($review)){
+        if (is_null($review)) {
             return null;
         }
         $presented = $this->reviewPresenter->present($review);

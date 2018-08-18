@@ -77,10 +77,11 @@ class Review extends Model
     {
         if ($this->isLiked($userId)) {
             return LikeStatus::LIKED;
-        } else if ($this->isDisliked($userId)) {
-            return LikeStatus::DISLIKED;
-        } else {
-            return LikeStatus::NONE;
         }
+        if ($this->isDisliked($userId)) {
+            return LikeStatus::DISLIKED;
+        }
+
+        return LikeStatus::NONE;
     }
 }

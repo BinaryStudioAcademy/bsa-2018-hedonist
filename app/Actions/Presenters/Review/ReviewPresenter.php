@@ -10,7 +10,7 @@ class ReviewPresenter
 {
     use PresentsCollectionTrait;
 
-    private  $usersPresenter;
+    private $usersPresenter;
 
     public function __construct(UserPresenter $presenter)
     {
