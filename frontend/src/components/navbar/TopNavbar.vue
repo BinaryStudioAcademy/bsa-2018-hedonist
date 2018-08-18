@@ -142,14 +142,12 @@ export default {
         font-weight: bold;
         letter-spacing: 0.2rem;
     }
-    .navbar-search-btn {
-        cursor: pointer;
-    }
     .navbar-dropdown-menu {
         padding-right: .75rem;
-    &:after{
-         border: none;
-     }
+
+        &:after{
+             border: none;
+        }
     }
     .navbar-personal-link {
         text-indent: 15px;
@@ -170,15 +168,15 @@ export default {
         color: #fff;
     }
     .navbar-brand {
-    @media screen and (max-width: 1087px) {
-        width: 100%;
-    }
+        @media screen and (max-width: 1087px) {
+            width: 100%;
+        }
     }
     .navbar-menu {
-    @media screen and (max-width: 1087px) {
-        position: absolute;
-        right: 0;
-        top: 52px;
-    }
+        @media screen and (max-width: 1087px) {
+            position: absolute;
+            right: 0;
+            top: 52px;
+        }
     }
 </style>
