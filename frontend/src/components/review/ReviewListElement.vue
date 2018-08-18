@@ -44,7 +44,7 @@ export default {
     },
     computed: {
         userName(){
-            return this.review.user.first_name + ' ' + this.review.user.last_name
+            return this.review.user.first_name + ' ' + this.review.user.last_name;
         }
     }
 };
