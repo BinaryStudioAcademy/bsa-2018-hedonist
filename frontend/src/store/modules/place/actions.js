@@ -10,10 +10,10 @@ export default {
                 return Promise.reject(error);
             });
     },
-    
+
     setPlaceRating: (context, data) => {
         return httpService.post('/places/rating', data)
-            .then(response => { 
+            .then(response => {
                 return Promise.resolve(response);
             })
             .catch(error => {
@@ -21,11 +21,13 @@ export default {
             });
     },
     
-    loadCurrentPlace: ({ state, commit }, id) => {
+    loadCurrentPlace: (context, id) => {
         return new Promise((resolve, reject) => {
             httpService.get('/places/' + id)
                 .then(function (response) {
-                    resolve(response.data.data);
+                    const currentPlace = response.data.data;
+                    context.commit('SET_CURRENT_PLACE', currentPlace);
+                    resolve();
                 })
                 .catch(function (err) {
                     reject(err);
