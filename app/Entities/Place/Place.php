@@ -114,6 +114,6 @@ class Place extends Model
 
     public function localization()
     {
-        return $this->hasMany(PlaceTranslation::class)->with('language');
+        return $this->hasMany(PlaceTranslation::class);
     }
 }
