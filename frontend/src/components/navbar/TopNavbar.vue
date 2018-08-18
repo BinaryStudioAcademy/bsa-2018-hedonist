@@ -74,10 +74,6 @@
                                 >My tastes</router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'PlacesList' }"
-                                >My places</router-link>
-                                <router-link
-                                    class="navbar-personal-link navbar-item"
                                     :to="{ name: 'UserListsPage' }"
                                 >My lists
                                 </router-link>
