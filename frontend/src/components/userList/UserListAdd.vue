@@ -19,10 +19,10 @@
             </div>
         </div>
         <div class="top-right">
-            <div class="buttons">
+            <!--<div class="buttons">-->
                 <button class="button-green">Save</button>
                 <button class="button-grey">Delete</button>
-            </div>
+            <!--</div>-->
         </div>
         <div class="bottom-left">
             <div class="search-places">
@@ -129,12 +129,14 @@ export default {
         position: relative;
         display: grid;
         grid-template-areas: "top-left top-left top-right" "bottom-left bottom-left bottom-right";
+        margin-top: 40px;
     }
 
     .top-left {
         grid-area: top-left;
         padding: 20px;
         display: flex;
+        align-items: center;
 
         .photo-section {
             height: 118px;
@@ -172,16 +174,10 @@ export default {
     .top-right {
         grid-area: top-right;
         border-left: 1px solid #e8e9eb;
-        background-color: #fcfcfc;
-
-        .buttons {
-            padding: 20px;
-            background-color: #f0f4f5;
-            border-bottom: 1px solid #dae4e6;
-
-            display: flex;
-            justify-content: center;
-        }
+        background-color: #f0f4f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .bottom-left {
