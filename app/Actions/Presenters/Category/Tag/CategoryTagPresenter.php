@@ -1,11 +1,14 @@
 <?php
 
-namespace Hedonist\Actions\Presenters\Category\Tags;
+namespace Hedonist\Actions\Presenters\Category\Tag;
 
+use Hedonist\Actions\Presenters\PresentsCollectionTrait;
 use Hedonist\Entities\Place\PlaceCategoryTag;
 
-class CategoryTagsPresenter
+class CategoryTagPresenter
 {
+    use PresentsCollectionTrait;
+
     public function present(PlaceCategoryTag $tag): array
     {
         return [

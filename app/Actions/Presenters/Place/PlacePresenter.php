@@ -21,7 +21,6 @@ class PlacePresenter
             'phone' => $place->phone,
             'website' => $place->website,
             'zip' => $place->zip,
-            'reviews' => $place->reviews,
         ];
     }
 }

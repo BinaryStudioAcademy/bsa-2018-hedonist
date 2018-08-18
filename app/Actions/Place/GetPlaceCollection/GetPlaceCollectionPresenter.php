@@ -4,7 +4,7 @@ namespace Hedonist\Actions\Place\GetPlaceCollection;
 
 use Hedonist\Actions\Place\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
-use Hedonist\Actions\Presenters\Category\Tags\CategoryTagsPresenter;
+use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
 use Hedonist\Actions\Presenters\City\CityPresenter;
 use Hedonist\Actions\Presenters\Feature\FeaturePresenter;
 use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
@@ -29,9 +29,10 @@ class GetPlaceCollectionPresenter
         CityPresenter $cityPresenter,
         FeaturePresenter $featurePresenter,
         CategoryPresenter $categoryPresenter,
-        CategoryTagsPresenter $tagsPresenter,
+        CategoryTagPresenter $tagsPresenter,
         PlacePhotoPresenter $photoPresenter
-    ) {
+    )
+    {
         $this->placePresenter = $placePresenter;
         $this->reviewPresenter = $reviewPresenter;
         $this->localizationPresenter = $localizationPresenter;
@@ -50,15 +51,11 @@ class GetPlaceCollectionPresenter
                 return $place->id === $item->place_id;
             });
             $result['review'] = $review ?
-                $this->reviewPresenter->present($review, $placeResponse->getUserId()) :
+                $this->reviewPresenter->present($review) :
                 null;
-            $result['photos'] = $place->photos->map(function ($photo) {
-                return $this->photoPresenter->present($photo);
-            });
+            $result['photos'] = $this->photoPresenter->presentCollection($place->photos);
             $result['city'] = $this->cityPresenter->present($place->city);
-            $result['features'] = $place->features->map(function ($feature) {
-                return $this->featurePresenter->present($feature);
-            });
+            $result['features'] = $this->featurePresenter->presentCollection($place->features);
             $result['localization'] = $place->localization->map(function ($localization) {
                 return $this->localizationPresenter->present($localization);
             });

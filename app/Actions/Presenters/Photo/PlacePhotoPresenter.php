@@ -2,10 +2,13 @@
 
 namespace Hedonist\Actions\Presenters\Photo;
 
+use Hedonist\Actions\Presenters\PresentsCollectionTrait;
 use Hedonist\Entities\Place\PlacePhoto;
 
 class PlacePhotoPresenter
 {
+    use PresentsCollectionTrait;
+
     public function present(PlacePhoto $photo): array
     {
         return [

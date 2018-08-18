@@ -4,7 +4,7 @@ namespace Hedonist\Actions\Place\GetPlaceItem;
 
 use Hedonist\Actions\Place\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
-use Hedonist\Actions\Presenters\Category\Tags\CategoryTagsPresenter;
+use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
 use Hedonist\Actions\Presenters\City\CityPresenter;
 use Hedonist\Actions\Presenters\Feature\FeaturePresenter;
 use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
@@ -29,7 +29,7 @@ class GetPlaceItemPresenter
         CityPresenter $cityPresenter,
         FeaturePresenter $featurePresenter,
         CategoryPresenter $categoryPresenter,
-        CategoryTagsPresenter $tagsPresenter,
+        CategoryTagPresenter $tagsPresenter,
         PlacePhotoPresenter $photoPresenter
     ) {
         $this->placePresenter = $placePresenter;

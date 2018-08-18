@@ -2,18 +2,19 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
+use Hedonist\Entities\User\User;
 use Illuminate\Database\Eloquent\Collection;
 
 class GetPlaceCollectionResponse
 {
     private $placeCollection;
-    private $userId;
+    private $user;
     private $reviews;
 
-    public function __construct(Collection $places, Collection $reviews, int $userId)
+    public function __construct(Collection $places, Collection $reviews, User $user)
     {
         $this->placeCollection = $places;
-        $this->userId = $userId;
+        $this->userId = $user;
         $this->reviews = $reviews;
     }
 
@@ -22,9 +23,9 @@ class GetPlaceCollectionResponse
         return $this->placeCollection;
     }
 
-    public function getUserId(): int
+    public function getUser(): User
     {
-        return $this->userId;
+        return $this->user;
     }
 
     public function getReviews(): Collection

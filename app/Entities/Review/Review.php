@@ -4,6 +4,7 @@ namespace Hedonist\Entities\Review;
 
 use Hedonist\Entities\Dislike\Dislike;
 use Hedonist\Entities\Like\Like;
+use Hedonist\Entities\Like\LikeStatus;
 use Hedonist\Entities\Review\Scopes\ReviewRelationScope;
 use Illuminate\Database\Eloquent\Model;
 use Hedonist\Entities\User\User;
@@ -48,7 +49,7 @@ class Review extends Model
         return $this->morphMany(Dislike::class, 'dislikeable');
     }
 
-    public function isLiked(?int $userId): bool
+    private function isLiked(?int $userId): bool
     {
         if (is_null($userId)) {
             return false;
@@ -60,7 +61,7 @@ class Review extends Model
         );
     }
 
-    public function isDisliked(?int $userId): bool
+    private function isDisliked(?int $userId): bool
     {
         if (is_null($userId)) {
             return false;
@@ -70,5 +71,16 @@ class Review extends Model
                 return $dislike->user_id === $userId;
             })
         );
+    }
+
+    public function getLikedStatus(?int $userId): string
+    {
+        if ($this->isLiked($userId)) {
+            return LikeStatus::LIKED;
+        } else if ($this->isDisliked($userId)) {
+            return LikeStatus::DISLIKED;
+        } else {
+            return LikeStatus::NONE;
+        }
     }
 }

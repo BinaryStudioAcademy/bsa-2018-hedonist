@@ -3,16 +3,17 @@
 namespace Hedonist\Actions\Place\GetPlaceItem;
 
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\User\User;
 
 class GetPlaceItemResponse
 {
     private $place;
-    private $userId;
+    private $user;
 
-    public function __construct(Place $place, int $userId)
+    public function __construct(Place $place, User $user)
     {
         $this->place = $place;
-        $this->userId = $userId;
+        $this->user = $user;
     }
 
     public function getPlace(): Place
@@ -20,8 +21,8 @@ class GetPlaceItemResponse
         return $this->place;
     }
 
-    public function getUserId(): int
+    public function getUser(): User
     {
-        return $this->userId;
+        return $this->user;
     }
 }

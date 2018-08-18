@@ -27,8 +27,7 @@ class GetLikedPlaceAction
 
     public function execute(GetLikedPlaceRequest $request): GetLikedPlaceResponse
     {
-        $likeStatus = new LikeStatus();
-        $liked = $likeStatus->none();
+        $liked = LikeStatus::NONE;
         $placeId = $request->getPlaceId();
         $userId = Auth::id();
         $place = $this->placeRepository->getById($placeId);
@@ -38,11 +37,11 @@ class GetLikedPlaceAction
 
         $like = $this->likeRepository->findByUserAndPlace($userId, $placeId);
         if ($like) {
-            $liked = $likeStatus->liked();
+            $liked = LikeStatus::LIKED;
         } else {
             $dislike = $this->dislikeRepository->findByUserAndPlace($userId, $placeId);
             if ($dislike) {
-                $liked = $likeStatus->disliked();
+                $liked = LikeStatus::DISLIKED;
             }
         }
         

@@ -35,6 +35,6 @@ class GetPlaceItemAction
             throw new PlaceDoesNotExistException;
         }
 
-        return new GetPlaceItemResponse($place, Auth::id());
+        return new GetPlaceItemResponse($place, Auth::user());
     }
 }
