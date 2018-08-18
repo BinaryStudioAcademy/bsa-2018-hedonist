@@ -68,9 +68,11 @@
             </div>
             <div class="column is-one-third place-rate">
                 <div class="place-rate__mark">
-                    <span>{{ place.rating }}</span><sup>/<span>10</span></sup>
+                    <span>{{ place.rating | formatRating }}</span><sup>/<span>10</span></sup>
                 </div>
-                <div class="place-rate__mark-count">444 marks</div>
+                <div class="place-rate__mark-count">
+                    {{ place.ratingCount || 1 }} marks
+                </div>
                 <div class="place-rate__preference">
                     <div class="likable like">
                         <span class="fa-stack fa-2x">
@@ -104,6 +106,15 @@ export default {
             type: Object,
             required: true
         }
+    },
+    filters: {
+        formatRating: function(number){
+            return new Intl.NumberFormat(
+                'en-US', {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                }).format(number);
+        },
     },
     data() {
         return {

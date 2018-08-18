@@ -38,9 +38,7 @@ class PlaceRatingController extends ApiController
         $this->getRatingAction = $getRatingAction;
         $this->setRatingAction = $setRatingAction;
         $this->getPlaceRatingAvgAction = $getPlaceRateAvgAction;
-        if (Auth::check()) {
-            $this->userId = Auth::id();
-        }
+        $this->userId = Auth::id();
     }
 
     public function setRating(SetRatingHttpRequest $httpRequest) : JsonResponse
@@ -62,7 +60,9 @@ class PlaceRatingController extends ApiController
             'id' => $setPlaceRatingResponse->getId(),
             'user_id' => $setPlaceRatingResponse->getUserId(),
             'place_id' => $setPlaceRatingResponse->getPlaceId(),
-            'rating' => $setPlaceRatingResponse->getRatingValue()
+            'rating' => $setPlaceRatingResponse->getRatingValue(),
+            'rating_avg' => $setPlaceRatingResponse->getRatingAvg(),
+            'rating_count' => $setPlaceRatingResponse->getRatingCount()
         ], 201);
     }
 

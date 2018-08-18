@@ -54,4 +54,10 @@ class PlaceRatingRepository extends BaseRepository implements PlaceRatingReposit
         return PlaceRating::where('place_id', $placeId)
             ->avg('rating');
     }
+
+    public function getCount(int $placeId): ?int
+    {
+        return PlaceRating::where('place_id', $placeId)
+            ->count();
+    }
 }

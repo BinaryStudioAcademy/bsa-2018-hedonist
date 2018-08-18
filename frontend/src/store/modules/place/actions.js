@@ -12,13 +12,19 @@ export default {
     },
 
     setPlaceRating: (context, data) => {
-        return httpService.post('/places/rating', data)
-            .then(response => {
-                return Promise.resolve(response);
-            })
-            .catch(error => {
-                return Promise.reject(error);
-            });
+        return new Promise((resolve, reject) => {
+            return httpService.post('/places/rating', data)
+                .then(response => {
+                    const ratingAvg = response.data.data.rating_avg;
+                    context.commit('SET_CURRENT_PLACE_RATING_VALUE', ratingAvg);
+                    const ratingCount = response.data.data.rating_count;
+                    context.commit('SET_CURRENT_PLACE_RATING_COUNT', ratingCount);
+                    resolve();
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
     },
     
     loadCurrentPlace: (context, id) => {

@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\Place\Rate;
 
 use Hedonist\Actions\Place\Rate\Exceptions\PlaceRatingMinMaxException;
+use Hedonist\Actions\Place\Rate\Exceptions\PlaceRatingNotFoundException;
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
 use Hedonist\Entities\Place\PlaceRating;
@@ -55,11 +56,20 @@ class SetPlaceRatingAction
 
         $this->placeRating = $this->repository->save($this->placeRating);
 
+        $ratingAvg = $this->repository->getAverage($placeId);
+        throw_if(!$ratingAvg, new PlaceRatingNotFoundException('Item not found'));
+        $ratingAvg = round($ratingAvg, 1);
+
+        $ratingCount = $this->repository->getCount($placeId);
+
+
         $setPlaceRatingResponse = new SetPlaceRatingResponse(
             $this->placeRating->id,
             $this->placeRating->user_id,
             $this->placeRating->place_id,
-            $this->placeRating->rating
+            $this->placeRating->rating,
+            $ratingAvg,
+            $ratingCount
         );
 
         return $setPlaceRatingResponse;
