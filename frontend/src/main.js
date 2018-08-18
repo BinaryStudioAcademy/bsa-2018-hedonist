@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import App from './App';
 import router from './router';
@@ -9,6 +7,7 @@ import Buefy from 'buefy';
 import Vuelidate from 'vuelidate';
 import vClickOutside from 'v-click-outside';
 import VueImg from 'v-img';
+import { enableSentryErrorReporting } from './services/common/errorReportingService';
 
 Vue.use(Buefy);
 Vue.use(Vuelidate);
@@ -18,6 +17,10 @@ Vue.use(VueImg);
 sync(store, router);
 
 Vue.config.productionTip = false;
+
+if (process.env.NODE_ENV === 'production') {
+    enableSentryErrorReporting(Vue);
+}
 
 /* eslint-disable no-new */
 new Vue({
