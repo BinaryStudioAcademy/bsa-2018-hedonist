@@ -12,6 +12,8 @@ use Hedonist\Entities\UserList\UserList;
 
 class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
 {
+    const EARTH_RADIUS_IN_KM = 6371;
+
     public function model()
     {
         return Place::class;
@@ -57,10 +59,10 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     public function findByCoordinates(Location $center, float $radius): Collection
     {
         $places = Place::select('*', DB::raw(
-            '( 6371 * acos( cos( radians(?) ) * cos( radians( latitude ) ) 
+            '( ? * acos( cos( radians(?) ) * cos( radians( latitude ) ) 
             * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(latitude)) ) ) AS distance'))
             ->having('distance', '<=', $radius)
-            ->setBindings([$center->getLatitude(), $center->getLongitude(), $center->getLatitude()])
+            ->setBindings([self::EARTH_RADIUS_IN_KM, $center->getLatitude(), $center->getLongitude(), $center->getLatitude()])
             ->get();
 
         return $places;
