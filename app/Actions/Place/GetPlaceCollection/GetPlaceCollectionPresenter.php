@@ -10,6 +10,9 @@ use Hedonist\Actions\Presenters\Feature\FeaturePresenter;
 use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
 use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
 use Hedonist\Actions\Presenters\Place\PlacePresenter;
+use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\User\User;
+use Illuminate\Support\Collection;
 
 class GetPlaceCollectionPresenter
 {
@@ -45,26 +48,31 @@ class GetPlaceCollectionPresenter
 
     public function present(GetPlaceCollectionResponse $placeResponse): array
     {
-        return $placeResponse->getPlaceCollection()->map(function ($place) use ($placeResponse) {
+        return $placeResponse->getPlaceCollection()->map(function (Place $place) use ($placeResponse) {
             $result = $this->placePresenter->present($place);
-            $review = $placeResponse->getReviews()->first(function ($item) use ($place) {
-                return $place->id === $item->place_id;
-            });
-            $result['review'] = $review ?
-                $this->reviewPresenter->present($review) :
-                null;
+            $result['review'] = $this->presentReview(
+                $placeResponse->getReviews(),
+                $place,
+                $placeResponse->getUser()
+            );
             $result['photos'] = $this->photoPresenter->presentCollection($place->photos);
             $result['city'] = $this->cityPresenter->present($place->city);
             $result['features'] = $this->featurePresenter->presentCollection($place->features);
-            $result['localization'] = $place->localization->map(function ($localization) {
-                return $this->localizationPresenter->present($localization);
-            });
+            $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
             $result['category'] = $this->categoryPresenter->present($place->category);
-            $result['category']['tags'] = $place->category->tags->map(function ($tag) {
-                return $this->tagsPresenter->present($tag);
-            });
+            $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
 
             return $result;
         })->toArray();
+    }
+
+    private function presentReview(Collection $reviews, Place $place, User $user): ?array
+    {
+        $review = $reviews->first(function ($item) use ($place) {
+            return $place->id === $item->place_id;
+        });
+        $presented = $this->reviewPresenter->present($review);
+        $presented['like'] = $review->getLikedStatus($user->id);
+        return $presented;
     }
 }
