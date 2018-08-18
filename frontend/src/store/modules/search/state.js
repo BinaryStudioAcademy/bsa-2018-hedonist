@@ -1,3 +1,4 @@
 export default {
-    city: {}
+    city: {},
+    placeCategory: {},
 };

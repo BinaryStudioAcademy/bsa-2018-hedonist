@@ -7,7 +7,6 @@ import mutations from './common/mutations';
 import auth from './modules/auth';
 import search from './modules/search';
 import place from './modules/place';
-import placeCategory from './modules/place/category';
 import map from './modules/map';
 import review from './modules/review';
 import userlist from './modules/userList';
@@ -24,7 +23,6 @@ export default new Vuex.Store({
         auth,
         map,
         place,
-        placeCategory,
         search,
         review,
         userlist
