@@ -10,7 +10,6 @@ import placeCategory from './modules/place/category';
 import map from './modules/map';
 import review from './modules/review';
 import userList from './modules/userList';
-import userLists from './modules/userLists';
 
 Vue.use(Vuex);
 
@@ -26,7 +25,6 @@ export default new Vuex.Store({
         map,
         placeCategory,
         review,
-        userList,
-        userLists
+        userList
     }
 });

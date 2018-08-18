@@ -22,7 +22,7 @@ export default {
         };
     },
     created() {
-        this.$store.dispatch('userLists/getUserLists', this.user.id)
+        this.$store.dispatch('userList/getUserLists', this.user.id)
             .then((result) => {
                 this.userLists = result;
             });
