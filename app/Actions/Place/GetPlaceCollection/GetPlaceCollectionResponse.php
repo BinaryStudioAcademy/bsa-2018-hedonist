@@ -14,7 +14,7 @@ class GetPlaceCollectionResponse
     public function __construct(Collection $places, Collection $reviews, User $user)
     {
         $this->placeCollection = $places;
-        $this->userId = $user;
+        $this->user = $user;
         $this->reviews = $reviews;
     }
 

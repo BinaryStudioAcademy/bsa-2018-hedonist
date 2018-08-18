@@ -71,6 +71,9 @@ class GetPlaceCollectionPresenter
         $review = $reviews->first(function ($item) use ($place) {
             return $place->id === $item->place_id;
         });
+        if(is_null($review)){
+            return null;
+        }
         $presented = $this->reviewPresenter->present($review);
         $presented['like'] = $review->getLikedStatus($user->id);
         return $presented;

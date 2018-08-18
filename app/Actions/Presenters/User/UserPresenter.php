@@ -15,9 +15,12 @@ class UserPresenter
 
     public function present(User $user): array
     {
-        return array_merge([
+        $userData = [
             'id' => $user->id,
             'email' => $user->email,
-        ], $this->userInfoPresenter->present($user->info));
+        ];
+        $userInfo = $user->info ? $this->userInfoPresenter->present($user->info) : [];
+
+        return array_merge($userData,$userInfo);
     }
 }
