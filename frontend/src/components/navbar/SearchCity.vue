@@ -24,12 +24,9 @@ export default {
         return {
             findCity: {
                 data: [],
-                name: '',
-                selected: null,
+                query: '',
                 isFetching: false
-            },
-            filterQuery: '',
-            isShow: false
+            }
         };
     },
     computed: {

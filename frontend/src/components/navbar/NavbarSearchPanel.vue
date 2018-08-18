@@ -14,9 +14,7 @@
             </div>
         </div>
         <div class="navbar-item">
-            <div class="control">
-                <SearchCity @select="selectSearchCity" />
-            </div>
+            <SearchCity @select="selectSearchCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <span class="icon is-large">
