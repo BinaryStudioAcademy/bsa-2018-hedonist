@@ -5,7 +5,7 @@ namespace Hedonist\Repositories\Review\Criterias;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
-class GetLastReviewByPlacesIdsCriteria implements CriteriaInterface
+class GetLastReviewByPlaceIdsCriteria implements CriteriaInterface
 {
     private $places;
 

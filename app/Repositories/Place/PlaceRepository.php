@@ -42,7 +42,6 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
             ]
         )
             ->where(['id' => $id])
-            ->get()
             ->first();
     }
 

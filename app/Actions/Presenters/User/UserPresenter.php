@@ -21,6 +21,6 @@ class UserPresenter
         ];
         $userInfo = $user->info ? $this->userInfoPresenter->present($user->info) : [];
 
-        return array_merge($userData,$userInfo);
+        return array_merge($userData, $userInfo);
     }
 }

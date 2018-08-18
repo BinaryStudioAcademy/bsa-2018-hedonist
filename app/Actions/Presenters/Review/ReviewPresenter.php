@@ -17,7 +17,7 @@ class ReviewPresenter
         $this->usersPresenter = $presenter;
     }
 
-    public function present(Review $review, ?int $userId = null): array
+    public function present(Review $review): array
     {
         return [
             'created_at' => $review->created_at,

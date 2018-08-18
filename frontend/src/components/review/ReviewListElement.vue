@@ -9,7 +9,7 @@
                 </figure>
                 <div class="media-content">
                     <div class="top-line">
-                        <strong><a>{{ review.user.first_name + '' + review.user.last_name }}</a></strong>
+                        <strong><a>{{ userName }}</a></strong>
                         <small><a>21 September 2018</a></small>
                     </div>
                     <div class="content">
@@ -42,6 +42,11 @@ export default {
             required: true
         }
     },
+    computed: {
+        userName(){
+            return this.review.user.first_name + ' ' + this.review.user.last_name
+        }
+    }
 };
 </script>
 

@@ -3,7 +3,7 @@
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
-use Hedonist\Repositories\Review\Criterias\GetLastReviewByPlacesIdsCriteria;
+use Hedonist\Repositories\Review\Criterias\GetLastReviewByPlaceIdsCriteria;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,7 +24,7 @@ class GetPlaceCollectionAction
     {
         $places = $this->placeRepository->getAllWithRelations();
         $reviews = $this->reviewRepository->findByCriteria(
-            new GetLastReviewByPlacesIdsCriteria($places->pluck('id')->toArray())
+            new GetLastReviewByPlaceIdsCriteria($places->pluck('id')->toArray())
         );
 
         return new GetPlaceCollectionResponse($places, $reviews, Auth::user());

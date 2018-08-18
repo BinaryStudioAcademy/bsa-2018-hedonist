@@ -11,8 +11,8 @@
                         class="title has-text-primary"
                         v-if="place.localization[0]"
                     >
-                        <router-link :to="`/places/{$place.id}`">
-                            {{ place.localization[0].name }}
+                        <router-link :to=`/places/${place.id}`>
+                            {{ localizedName }}
                         </router-link>
                     </h3>
                     <p class="place-category">
@@ -174,6 +174,11 @@ export default {
                 position: 'is-bottom',
                 type: 'is-info'
             });
+        }
+    },
+    computed:{
+        localizedName(){
+            return this.place.localization[0].name;
         }
     },
     created() {
