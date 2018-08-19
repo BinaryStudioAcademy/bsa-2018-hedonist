@@ -64,7 +64,7 @@ class GetPlaceItemPresenter
     {
         return $reviews->map(function (Review $item) use ($user) {
             $presented = $this->reviewPresenter->present($item);
-            $presented['like'] = $item->getLikedStatus($user->id);
+            $presented['like'] = $item->getLikedStatus($user->id)->value();
             return $presented;
         })->toArray();
     }

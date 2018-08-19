@@ -74,7 +74,7 @@ class GetPlaceCollectionPresenter
             return null;
         }
         $presented = $this->reviewPresenter->present($review);
-        $presented['like'] = $review->getLikedStatus($user->id);
+        $presented['like'] = $review->getLikedStatus($user->id)->value();
         return $presented;
     }
 }

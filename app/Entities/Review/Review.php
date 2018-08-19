@@ -73,15 +73,15 @@ class Review extends Model
         );
     }
 
-    public function getLikedStatus(?int $userId): string
+    public function getLikedStatus(?int $userId): LikeStatus
     {
         if ($this->isLiked($userId)) {
-            return LikeStatus::LIKED;
+            return LikeStatus::liked();
         }
         if ($this->isDisliked($userId)) {
-            return LikeStatus::DISLIKED;
+            return LikeStatus::disliked();
         }
 
-        return LikeStatus::NONE;
+        return LikeStatus::none();
     }
 }
