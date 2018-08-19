@@ -2,8 +2,8 @@
 
 namespace Hedonist\Repositories\Place;
 
-use Hedonist\Entities\Place\PlaceCategoryTag;
 use Illuminate\Database\Eloquent\Collection;
+use Hedonist\Entities\Place\PlaceCategoryTag;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 
@@ -33,8 +33,8 @@ class PlaceCategoryTagRepository extends BaseRepository implements PlaceCategory
 
     public function findByCategory(int $categoryId): Collection
     {
-        return PlaceCategoryTag::whereHas('place_category_place_tag', function ($table) use ($categoryId) {
-            $table->where('place_category_id', $categoryId);
+        return PlaceCategoryTag::whereHas('categories', function ($query) use ($categoryId) {
+                $query->where('place_category_id', $categoryId);
         })->get();
     }
     
