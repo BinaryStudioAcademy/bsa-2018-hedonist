@@ -50,8 +50,8 @@ class PlaceCategoryTagsControllerTest extends ApiTestCase
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'place_category_id' => $category->id,
-            'place_tag_id'      => $tag->id
+            'id'    => $tag->id,
+            'name'  => $tag->name
 
         ]);
     }
