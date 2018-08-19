@@ -6,7 +6,27 @@ use Hedonist\Entities\UserList\UserList;
 
 class UserListTableSeeder extends Seeder
 {
-    const LISTS  = ['Favorite Lviv cafes','Favourite Lviv restaurants','Favourite Lviv night club'];
+    const LISTS  = [
+        [
+            'name'=>'Favorite Lviv cafes',
+            'img_url'=> 'https://therantingpanda.files.wordpress.com/2016/03/img_9130e.jpg'
+        ],[
+            'name'=>'Favourite Lviv restaurants',
+            'img_url'=> 'https://www.adelaidereview.com.au/content/uploads/2018/03/restaurant-review-lantern-by-nu-adelaide-review-5-800x566.jpg'
+        ],[
+            'name'=>'Favourite Lviv night club',
+            'img_url'=> 'https://media-cdn.tripadvisor.com/media/photo-s/07/6f/52/2e/fiction-nightclub.jpg'
+        ],[
+            'name'=>'Favorite Ukraine cafes',
+            'img_url'=> 'https://therantingpanda.files.wordpress.com/2016/03/img_9130e.jpg'
+        ],[
+            'name'=>'Favourite Ukraine restaurants',
+            'img_url'=> 'https://www.adelaidereview.com.au/content/uploads/2018/03/restaurant-review-lantern-by-nu-adelaide-review-5-800x566.jpg'
+        ],[
+            'name'=>'Favourite Kiev night club',
+            'img_url'=> 'https://media-cdn.tripadvisor.com/media/photo-s/07/6f/52/2e/fiction-nightclub.jpg'
+        ]
+    ];
 
     /**
      * Run the database seeds.
@@ -15,11 +35,17 @@ class UserListTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = factory(User::class, 3)->create();
+
+        $users = User::all();
         foreach ($users as $user) {
-            UserList::create(['user_id' => $user->id,'name' => 'Favorite Lviv cafes','img_url' => 'https://therantingpanda.files.wordpress.com/2016/03/img_9130e.jpg']);
-            UserList::create(['user_id' => $user->id,'name' => 'Favourite Lviv restaurants','img_url' => 'https://www.adelaidereview.com.au/content/uploads/2018/03/restaurant-review-lantern-by-nu-adelaide-review-5-800x566.jpg']);
-            UserList::create(['user_id' => $user->id,'name' => 'Favourite Lviv night club','img_url' => 'https://media-cdn.tripadvisor.com/media/photo-s/07/6f/52/2e/fiction-nightclub.jpg']);
+
+            foreach (self::LISTS as $list){
+                UserList::create([
+                    'user_id' => $user->id,
+                    'name' => $list['name'],
+                    'img_url' => $list['img_url'],
+                ]);
+            }
         }
     }
 }
