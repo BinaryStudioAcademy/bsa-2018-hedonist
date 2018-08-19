@@ -17,7 +17,6 @@ class MarkerManagerService {
     setMarkers(...items) {
         let markersData = items.map((item) => this._parser(item));
         this._removeMarkers(markersData);
-        // console.log(markersData);
         markersData.forEach((item) => {
             if (!this._activeMarkers.has(item.id)) {
                 if (this._markersPool.has(item.id)) {
