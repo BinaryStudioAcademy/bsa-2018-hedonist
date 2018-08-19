@@ -17,6 +17,7 @@ class MarkerManagerService {
     setMarkers(...items) {
         let markersData = items.map((item) => this._parser(item));
         this._removeMarkers(markersData);
+        // console.log(markersData);
         markersData.forEach((item) => {
             if (!this._activeMarkers.has(item.id)) {
                 if (this._markersPool.has(item.id)) {
@@ -83,7 +84,8 @@ class MarkerManagerService {
             lat: item.latitude,
             // TODO set place photo url
             photoUrl: item.photoUrl || 'http://via.placeholder.com/128x128',
-            address: item.address
+            address: item.address,
+            link: 'http://localhost:8080/places/' + item.id
         });
     }
 }

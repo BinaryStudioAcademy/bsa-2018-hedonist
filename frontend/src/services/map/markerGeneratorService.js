@@ -12,15 +12,17 @@ const createPopup = (markerData) => {
     popup.setHTML(`
         <div class="media">
             <div class="media-left">
-                <figure class="image is-48x48">
+                <figure class="image is-64x64">
                     <img src="${markerData.photoUrl}"/>
                 </figure>
             </div>
             <div class="media-content">
                 <div>
-                    <strong>
-                        ${markerData.name}
-                    </strong>
+                    <a class="has-text-black is-size-6" href="${markerData.link}">
+                        <strong>
+                            ${markerData.name}
+                        </strong>
+                    </a> 
                 </div>
                 <div>
                     ${markerData.address || ''}
