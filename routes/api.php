@@ -36,6 +36,8 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
+        Route::get('/users/self/lists', 'Api\User\UserList\UserListController@userLists')
+            ->name('user-list.lists');
         Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
             ->name('user-list.lists');
 
