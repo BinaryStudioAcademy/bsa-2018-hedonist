@@ -30,6 +30,13 @@ class PlaceCategoryTagRepository extends BaseRepository implements PlaceCategory
     {
         return PlaceCategoryTag::find($id);
     }
+
+    public function findByCategory(int $categoryId): Collection
+    {
+        return PlaceCategoryTag::whereHas('place_category_place_tag', function ($table) use ($categoryId) {
+            $table->where('place_category_id', $categoryId);
+        })->get();
+    }
     
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {

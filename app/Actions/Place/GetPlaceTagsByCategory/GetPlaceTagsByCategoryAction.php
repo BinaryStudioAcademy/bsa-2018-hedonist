@@ -16,8 +16,8 @@ class GetPlaceTagsByCategoryAction
 
     public function execute(GetPlaceTagsByCategoryRequest $request): GetPlaceTagsByCategoryResponse
     {
-        $tags = $this->categoryTagsRepository->findByCriteria(
-            new PlaceCategoryTagCriteria($request->getCategoryId())
+        $tags = $this->categoryTagsRepository->findByCategory(
+            $request->getCategoryId()
         );
 
         return new GetPlaceTagsByCategoryResponse($tags);
