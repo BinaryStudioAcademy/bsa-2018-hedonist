@@ -399,7 +399,7 @@
             },
 
             'selectedTag': function (tagObject) {
-                if (tagObject !== 'v' && !this.newPlace.category_tags.some((tag) => tag.name === tagObject.name)) {
+                if (tagObject !== 'v' && !this.isTagAdded(tagObject)) {
                     this.newPlace.category_tags.push(tagObject);
                 }
             }
@@ -416,9 +416,17 @@
         },
 
         methods: {
-            onCloseTab: function (tagObject) {
-                this.newPlace.category_tags = this.newPlace.category_tags.filter((tag) => tag.name !== tagObject.name);
+            onCloseTab: function(tagObject) {
+                this.newPlace.category_tags = this.excludeTag(tagObject);
                 this.selectedTag = 'v';
+            },
+
+            isTagAdded: function(tagObject) {
+                return this.newPlace.category_tags.some((tag) => tag.name === tagObject.name);
+            },
+
+            excludeTag: function(tagObject)  {
+                return this.newPlace.category_tags.filter((tag) => tag.name !== tagObject.name);
             }
         }
     };
