@@ -2,12 +2,12 @@
 
 namespace Hedonist\Actions\Presenters\Photo;
 
-use Hedonist\Actions\Presenters\PresentsCollectionTrait;
+use Hedonist\Actions\Presenters\PresentsCollection;
 use Hedonist\Entities\Place\PlacePhoto;
 
 class PlacePhotoPresenter
 {
-    use PresentsCollectionTrait;
+    use PresentsCollection;
 
     public function present(PlacePhoto $photo): array
     {

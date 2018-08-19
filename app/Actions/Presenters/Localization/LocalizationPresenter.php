@@ -2,12 +2,12 @@
 
 namespace Hedonist\Actions\Presenters\Localization;
 
-use Hedonist\Actions\Presenters\PresentsCollectionTrait;
+use Hedonist\Actions\Presenters\PresentsCollection;
 use Hedonist\Entities\Localization\PlaceTranslation;
 
 class LocalizationPresenter
 {
-    use PresentsCollectionTrait;
+    use PresentsCollection;
 
     public function present(PlaceTranslation $translation):array
     {

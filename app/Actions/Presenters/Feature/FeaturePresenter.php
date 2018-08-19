@@ -2,12 +2,12 @@
 
 namespace Hedonist\Actions\Presenters\Feature;
 
-use Hedonist\Actions\Presenters\PresentsCollectionTrait;
+use Hedonist\Actions\Presenters\PresentsCollection;
 use Hedonist\Entities\Place\PlaceFeature;
 
 class FeaturePresenter
 {
-    use PresentsCollectionTrait;
+    use PresentsCollection;
 
     public function present(PlaceFeature $feature):array
     {

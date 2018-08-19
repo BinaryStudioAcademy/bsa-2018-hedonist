@@ -2,12 +2,12 @@
 
 namespace Hedonist\Actions\Presenters\Category\Tag;
 
-use Hedonist\Actions\Presenters\PresentsCollectionTrait;
+use Hedonist\Actions\Presenters\PresentsCollection;
 use Hedonist\Entities\Place\PlaceCategoryTag;
 
 class CategoryTagPresenter
 {
-    use PresentsCollectionTrait;
+    use PresentsCollection;
 
     public function present(PlaceCategoryTag $tag): array
     {

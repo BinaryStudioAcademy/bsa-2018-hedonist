@@ -4,7 +4,7 @@ namespace Hedonist\Actions\Presenters;
 
 use Illuminate\Support\Collection;
 
-trait PresentsCollectionTrait
+trait PresentsCollection
 {
     public function presentCollection(Collection $collection): array
     {

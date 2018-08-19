@@ -2,13 +2,13 @@
 
 namespace Hedonist\Actions\Place\Presenters\Review;
 
-use Hedonist\Actions\Presenters\PresentsCollectionTrait;
+use Hedonist\Actions\Presenters\PresentsCollection;
 use Hedonist\Actions\Presenters\User\UserPresenter;
 use Hedonist\Entities\Review\Review;
 
 class ReviewPresenter
 {
-    use PresentsCollectionTrait;
+    use PresentsCollection;
 
     private $usersPresenter;
 
