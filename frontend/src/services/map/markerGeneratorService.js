@@ -1,3 +1,7 @@
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+Vue.use(VueRouter);
+
 const createMarker = () => {
     let element = document.createElement('div');
     element.style.backgroundImage = 'url("https://static.thenounproject.com/png/4096-200.png")';
@@ -18,6 +22,10 @@ const createPopup = (markerData) => {
             </div>
             <div class="media-content">
                 <div>
+                <router-link :to="{ name: 'PlacePage', params: { id: ${markerData.id} } }">
+                    ${markerData.name}
+                </router-link>
+<li><router-link :to="{ name: 'PlacePage', params: { id: ${markerData.id} }}">PlacePage</router-link></li>
                     <a class="has-text-black is-size-6" href="${markerData.link}">
                         <strong>
                             ${markerData.name}
