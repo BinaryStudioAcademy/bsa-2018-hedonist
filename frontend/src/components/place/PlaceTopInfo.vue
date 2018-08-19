@@ -124,7 +124,7 @@ export default {
             return this.$store.getters['auth/getAuthenticatedUser'];
         },
         localizedName(){
-            return place.localization[0].name;
+            return this.place.localization[0].name;
         }
     },
 
