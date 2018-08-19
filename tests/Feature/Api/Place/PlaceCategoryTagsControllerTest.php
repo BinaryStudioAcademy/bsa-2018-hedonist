@@ -44,7 +44,6 @@ class PlaceCategoryTagsControllerTest extends ApiTestCase
             ]
         );
 
-
         $response = $this->json('GET',
             "/api/v1/places/categories/$category->id/tags");
 
@@ -67,7 +66,6 @@ class PlaceCategoryTagsControllerTest extends ApiTestCase
             ]
         );
 
-
         $response = $this->json('GET',
             "/api/v1/places/categories/$categoryId/tags");
 
@@ -89,7 +87,6 @@ class PlaceCategoryTagsControllerTest extends ApiTestCase
                 'id' => $category->id,
             ]
         );
-
 
         $response = $this->json('GET',
             "/api/v1/places/categories/$category->id/tags");
