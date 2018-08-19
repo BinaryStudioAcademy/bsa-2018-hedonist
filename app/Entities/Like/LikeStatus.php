@@ -2,20 +2,36 @@
 
 namespace Hedonist\Entities\Like;
 
-class LikeStatus
+final class LikeStatus
 {
-    public function none(): string
+    const LIKED = 'LIKED';
+    const DISLIKED = 'DISLIKED';
+    const NONE = 'NONE';
+
+    private $status;
+
+    private function __construct(string $status)
     {
-        return 'NONE';
+        $this->status = $status;
     }
 
-    public function liked(): string
+    public function value(): string
     {
-        return 'LIKED';
+        return $this->status;
     }
 
-    public function disliked(): string
+    public static function liked(): self
     {
-        return 'DISLIKED';
+        return new self(self::LIKED);
+    }
+
+    public static function disliked(): self
+    {
+        return new self(self::DISLIKED);
+    }
+
+    public static function none(): self
+    {
+        return new self(self::NONE);
     }
 }

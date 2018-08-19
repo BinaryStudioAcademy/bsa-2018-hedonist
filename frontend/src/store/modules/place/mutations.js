@@ -5,5 +5,9 @@ export default {
 
     SET_PLACE_LIKED: (state, liked) => {
         state.liked = liked;
-    }
+    },
+    
+    SET_CURRENT_PLACE: (state, place) => {
+        state.currentPlace = place;
+    },
 };
