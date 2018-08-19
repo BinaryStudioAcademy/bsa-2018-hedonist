@@ -1,108 +1,181 @@
 <template>
-    <div 
-        class="column is-one-third-desktop is-one-third-tablet is-square user-list-container"
-        v-if="show"
-    >
-        <div class="user-list-content">
-            <div class="user-list-name">{{
-                userList.list_name
-            }}</div>
-            <div class="user-list-places-count">{{
-                userList.places_count
-            }} places saved in the list</div>
-            <div class="user-list-button-wrap">
-                <div 
-                    class="button is-info user-list-button-show-places" 
-                    @click="open(userList.list_name)"
-                >
-                    Show places in the list
+    <transition name="slide-fade">
+        <div class="container place-item" v-if="active">
+            <div class="media">
+                <figure class="media-left image is-128x128">
+                    <img :src="userList.img_url">
+                </figure>
+                <div class="media-content">
+                    <h3 class="title has-text-primary">
+                        <router-link :to="`/my-places/${userList.id}`">
+                            {{ userList.name }}
+                        </router-link>
+                    </h3>
+                    <p class="place-category">
+                        <a href="#">category</a>
+                    </p>
+                    <p class="address">
+                        address
+                    </p>
+                </div>
+                <div class="media-right rating-wrapper">
+                    <div class="rating">
+                        rating
+                    </div>
                 </div>
             </div>
+            <div class="media">
+                <div class="media-content">
+                    <b-taglist>
+                        <b-tag
+                                type="is-info"
+                        >
+                                <!--v-for="tag in place.category.tags"-->
+                                <!--:key="tag.id"-->
+                            tags
+                        </b-tag>
+                    </b-taglist>
+                </div>
+            </div>
+            <div class="media">
+                <a class="media-left">
+                    <b-taglist attached>
+                        <b-tag type="is-light">
+                            likes
+                        </b-tag>
+                        <b-tag type="is-success" @click.native="like">
+                            <span class="icon">
+                                <i class="far fa-arrow-alt-circle-up" />
+                            </span>
+                        </b-tag>
+                    </b-taglist>
+                </a>
+                <a class="media-right">
+                    <b-taglist attached>
+                        <b-tag type="is-light">
+                            dislikes
+                        </b-tag>
+                        <b-tag type="is-danger" @click.native="dislike">
+                            <span class="icon">
+                                <i class="far fa-arrow-alt-circle-down" />
+                            </span>
+                        </b-tag>
+                    </b-taglist>
+                </a>
+            </div>
         </div>
-        <figure class="image is-square image-wrap">
-            <img
-                :src="userList.img_preview.url"
-            >
-        </figure>
-    </div>
+    </transition>
 </template>
 
 <script>
-export default {
-    name: 'UserListsItem',
-    data() {
-        return {
-            show: false
-        };
-    },
-    props: {
-        userList: {
-            required: true,
-            type: Object,
+    export default {
+        name: 'UserListItem',
+        data() {
+            return {
+                active: false
+            };
         },
-        timer: {
-            required: true,
-            type: Number,
+        props: {
+            userList: {
+                required: true,
+                type: Object,
+            },
+            timer: {
+                required: true,
+                type: Number,
+            }
+        },
+        methods: {
+            like() {
+                this.$toast.open({
+                    message: 'You liked this review!',
+                    type: 'is-info',
+                    position: 'is-bottom'
+                });
+            },
+            dislike() {
+                this.$toast.open({
+                    message: 'You disliked this review',
+                    position: 'is-bottom',
+                    type: 'is-info'
+                });
+            }
+        },
+        created() {
+            setTimeout(() => {
+                this.active = true;
+            }, this.timer);
         }
-    },
-    methods: {
-        open(place_name) {
-            this.$toast.open({
-                message: 'action to open the list of places "'+place_name+'"',
-                type: 'is-danger',
-                position: 'is-top'
-            });
-        }
-    },
-    created() {
-        setTimeout(() => {
-            this.show = true;
-        }, this.timer);
-    }
-};
+    };
 </script>
 
 <style lang="scss" scoped>
-    .user-list-container {
-        position: relative;
-        max-width: 341px;
+    .place-item {
+        background: #FFF;
+        color: grey;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        padding: 10px;
     }
-    @media (max-width: 845px) {
-        .user-list-container {
-            margin-left: auto;
-            margin-right: auto;
-        }
+
+    .columns {
+        width: 100%;
+        margin: 0;
     }
-    @media (min-width: 520px) and (max-width: 845px) {
-        .user-list-container {
-            flex: none;
-            width: 50% !important;
-        }
+
+    .title {
+        margin-bottom: 0.5rem;
     }
-    .user-list-content {
-        z-index: 1;
-        position: absolute;
-        left: 0; right: 0; top: 0;
-        min-height: 100%;
-        padding: 1.5rem;
-        color: #ffffff;
-        text-shadow: 2px 2px 4px #000, -1px -1px 4px #000;
-    }
-    .user-list-name {
-        font-size: x-large;
-        font-weight: 400;
-    }
-    .user-list-button-wrap {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        padding: 1.5rem;
-    }
-    .user-list-button-show-places {
-        text-shadow: none;
-    }
-    .image-wrap {
+
+    .image > img {
         border-radius: 5px;
-        overflow: hidden;
     }
+
+    .place-category {
+        margin-bottom: 0.25rem;
+        a {
+            color: grey;
+            -webkit-transition: color 0.3s;
+            -moz-transition: color 0.3s;
+            -ms-transition: color 0.3s;
+            -o-transition: color 0.3s;
+            transition: color 0.3s;
+
+            &:hover {
+                color: black;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .address {
+        margin-bottom: 0.5rem;
+    }
+
+    .rating {
+        width: 48px;
+        height: 48px;
+        background: #00E676;
+        border-radius: 7px;
+        margin: auto;
+        line-height: 48px;
+        font-size: 1.5rem;
+        color: #FFF;
+        text-align: center;
+    }
+
+    hr {
+        color: grey;
+        border-width: 3px;
+    }
+
+    .slide-fade-enter-active {
+        transition: all 0.5s ease;
+    }
+
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateX(300px);
+        opacity: 0;
+    }
+
 </style>
