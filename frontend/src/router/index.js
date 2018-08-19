@@ -39,9 +39,14 @@ export default new Router({
                 component: ProfilePage,
             },
             {
-                path: '/places/list',
+                path: '/my-places',
                 name: 'PlacesList',
                 component: PlaceListPage
+            },
+            {
+                path: '/my-tastes',
+                name: 'MyTastesPage',
+                component: MyTastesPage
             },
             {
                 path: '/places/add',
@@ -59,12 +64,12 @@ export default new Router({
                 component: PlacePage
             },
             {
-                path: '/users/lists/add',
+                path: '/my-lists/add',
                 name: 'UserListAddPage',
                 component: UserListAddPage
             },
             {
-                path: '/user/lists',
+                path: '/my-lists',
                 name: 'UserListsPage',
                 component: UserListsPage
             },

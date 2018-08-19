@@ -70,6 +70,10 @@
                                 >Profile</router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'MyTastesPage' }"
+                                >My tastes</router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
                                     :to="{ name: 'PlacesList' }"
                                 >My places</router-link>
                                 <router-link

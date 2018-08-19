@@ -1,9 +1,9 @@
 <template>
-    <div class="container">
+    <div class="container" v-if="isUserLoggedIn">
         <div class="columns">
             <div class="column is-one-third">
                 <figure class="image avatar">
-                    <img src="http://via.placeholder.com/200x200">
+                    <img :src="user.avatar_url">
                 </figure>
                 <b-field class="file is-fullwidth">
                     <b-upload 
@@ -24,11 +24,11 @@
             </div>
             <section class="column">
                 <b-field label="First name">
-                    <b-input v-model="user.firstName" />
+                    <b-input v-model="user.first_name" />
                 </b-field>
 
                 <b-field label="Last name">
-                    <b-input v-model="user.lastName" />
+                    <b-input v-model="user.last_name" />
                 </b-field>
 
                 <b-field label="Email">
@@ -50,17 +50,17 @@
                     <b-field>
                         <b-input 
                             type="number" 
-                            v-model="user.birthDay" 
+                            v-model="birthDay"
                             placeholder="Day"
                         />
                         <b-input 
                             type="number" 
-                            v-model="user.birthMonth" 
+                            v-model="birthMonth"
                             placeholder="Month"
                         />
                         <b-input 
                             type="number" 
-                            v-model="user.birthYear" 
+                            v-model="birthYear"
                             placeholder="Year"
                         />
                     </b-field>
@@ -89,24 +89,29 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
     name: 'EditProfile',
     data() {
         return {
-            user: {
-                firstName: 'John',
-                lastName: 'Carter',
-                email: 'carter@example.com',
-                phone: '+380999999999',
-                birthDay: 11,
-                birthMonth: 11,
-                birthYear: 1990,
-                instagram: '@john',
-                twitter: '@carter',
-                facebook: ''
-            },
-            files: []
+            birthDay: '',
+            birthMonth: '',
+            birthYear: '',
+            files: [],
         };
+    },
+    created() {
+        let date = new Date(this.user.date_of_birth.date);
+        this.birthYear = date.getFullYear();
+        this.birthMonth = date.getMonth() + 1;
+        this.birthDay = date.getDate();
+    },
+    computed: {
+        ...mapGetters({
+            isUserLoggedIn: 'auth/isLoggedIn',
+            user: 'auth/getAuthenticatedUser'
+        })
     }
 };
 </script>
