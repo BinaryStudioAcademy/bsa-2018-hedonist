@@ -14,10 +14,10 @@
                                     <div class="field">
                                         <div class="control is-expanded">
                                             <input
-                                                    v-model="newPlace.name"
-                                                    class="input is-medium"
-                                                    type="text"
-                                                    placeholder="Place's name"
+                                                v-model="newPlace.name"
+                                                class="input is-medium"
+                                                type="text"
+                                                placeholder="Place's name"
                                             >
                                         </div>
                                     </div>
@@ -162,9 +162,9 @@
                                         <b-select v-model="newPlace.category">
                                             <option value="" selected disabled>Select a category</option>
                                             <option
-                                                    v-for="option in categories"
-                                                    :key="option.id"
-                                                    :value="option"
+                                                v-for="option in categories"
+                                                :key="option.id"
+                                                :value="option"
                                             >
                                                 {{ option.name }}
                                             </option>
@@ -179,9 +179,9 @@
                                             <b-select v-model="selectedTag">
                                                 <option value="v" selected disabled>Add tags</option>
                                                 <option
-                                                        v-for="option in category_tags"
-                                                        :key="option.id"
-                                                        :value="option"
+                                                    v-for="option in category_tags"
+                                                    :key="option.id"
+                                                    :value="option"
                                                 >
                                                     {{ option.name }}
                                                 </option>
@@ -197,12 +197,12 @@
                                     <div class="level-item">
                                         <b-taglist>
                                             <b-tag
-                                                    v-for="tag in newPlace.category_tags"
-                                                    :key="tag.id"
-                                                    type="is-info"
-                                                    size="is-medium"
-                                                    closable
-                                                    @close="onCloseTab(tag)"
+                                                v-for="tag in newPlace.category_tags"
+                                                :key="tag.id"
+                                                type="is-info"
+                                                size="is-medium"
+                                                closable
+                                                @close="onCloseTab(tag)"
                                             >
                                                 {{ tag.name }}
                                             </b-tag>
@@ -223,8 +223,8 @@
                                 </div>
                                 <div class="level-right">
                                     <b-switch
-                                            v-model="feature.status"
-                                            type="is-success"
+                                        v-model="feature.status"
+                                        type="is-success"
                                     />
                                 </div>
                             </div>
@@ -237,44 +237,44 @@
                         <div class="level-item">
                             <b-field>
                                 <b-checkbox-button
-                                        v-model="weekdays"
-                                        native-value="mo"
+                                    v-model="weekdays"
+                                    native-value="mo"
                                 >
                                     Monday
                                 </b-checkbox-button>
                                 <b-checkbox-button
-                                        v-model="weekdays"
-                                        native-value="tu"
+                                    v-model="weekdays"
+                                    native-value="tu"
                                 >
                                     Tuesday
                                 </b-checkbox-button>
                                 <b-checkbox-button
-                                        v-model="weekdays"
-                                        native-value="we"
+                                    v-model="weekdays"
+                                    native-value="we"
                                 >
                                     Wednesday
                                 </b-checkbox-button>
                                 <b-checkbox-button
-                                        v-model="weekdays"
-                                        native-value="th"
+                                    v-model="weekdays"
+                                    native-value="th"
                                 >
                                     Thursday
                                 </b-checkbox-button>
                                 <b-checkbox-button
-                                        v-model="weekdays"
-                                        native-value="fr"
+                                    v-model="weekdays"
+                                    native-value="fr"
                                 >
                                     Friday
                                 </b-checkbox-button>
                                 <b-checkbox-button
-                                        v-model="weekdays"
-                                        native-value="sa"
+                                    v-model="weekdays"
+                                    native-value="sa"
                                 >
                                     Saturday
                                 </b-checkbox-button>
                                 <b-checkbox-button
-                                        v-model="weekdays"
-                                        native-value="su"
+                                    v-model="weekdays"
+                                    native-value="su"
                                 >
                                     Sunday
                                 </b-checkbox-button>
@@ -307,129 +307,129 @@
 </template>
 
 <script>
-    export default {
-        name: 'NewPlacePage',
-        data() {
-            return {
-                newPlace: {
-                    name: '',
-                    category: '',
-                    category_tags: []
+export default {
+    name: 'NewPlacePage',
+    data() {
+        return {
+            newPlace: {
+                name: '',
+                category: '',
+                category_tags: []
+            },
+            categories: {},
+            selectedTag: 'v',
+            category_tags: [
+                {
+                    name: 'bar'
                 },
-                categories: {},
-                selectedTag: 'v',
-                category_tags: [
-                    {
-                        name: 'bar'
-                    },
-                    {
-                        name: 'bar1'
-                    },
-                    {
-                        name: 'bar2'
-                    },
-                    {
-                        name: 'bar3'
-                    },
-                    {
-                        name: 'bar4'
-                    }
-                ],
-                weekdays: [],
-                timeStart: new Date(),
-                timeEnd: new Date(),
-                features: [
-                    {
-                        name: 'wi-fi',
-                        status: false
-                    },
-                    {
-                        name: 'hookah',
-                        status: false
-                    },
-                    {
-                        name: 'music',
-                        status: false
-                    },
-                    {
-                        name: 'credit cards',
-                        status: false
-                    },
-                    {
-                        name: 'wheelchair accessible',
-                        status: false
-                    },
-                    {
-                        name: 'reservations',
-                        status: false
-                    },
-                    {
-                        name: 'parking',
-                        status: false
-                    },
-                    {
-                        name: 'restroom',
-                        status: false
-                    },
-                    {
-                        name: 'take-out',
-                        status: false
-                    },
-                    {
-                        name: 'delivery',
-                        status: false
-                    }
-                ]
-            };
-        },
-
-        created() {
-            this.$store.dispatch('placeCategory/getAllCategories')
-                .then((result) => {
-                    this.categories = result;
-                });
-        },
-
-        watch: {
-            'newPlace.category': function (categoryObject) {
-                if (categoryObject) {
-                    this.newPlace.category_tags = [];
-                    this.selectedTag = 'v';
+                {
+                    name: 'bar1'
+                },
+                {
+                    name: 'bar2'
+                },
+                {
+                    name: 'bar3'
+                },
+                {
+                    name: 'bar4'
                 }
-            },
-
-            'selectedTag': function (tagObject) {
-                if (tagObject !== 'v' && !this.isTagAdded(tagObject)) {
-                    this.newPlace.category_tags.push(tagObject);
+            ],
+            weekdays: [],
+            timeStart: new Date(),
+            timeEnd: new Date(),
+            features: [
+                {
+                    name: 'wi-fi',
+                    status: false
+                },
+                {
+                    name: 'hookah',
+                    status: false
+                },
+                {
+                    name: 'music',
+                    status: false
+                },
+                {
+                    name: 'credit cards',
+                    status: false
+                },
+                {
+                    name: 'wheelchair accessible',
+                    status: false
+                },
+                {
+                    name: 'reservations',
+                    status: false
+                },
+                {
+                    name: 'parking',
+                    status: false
+                },
+                {
+                    name: 'restroom',
+                    status: false
+                },
+                {
+                    name: 'take-out',
+                    status: false
+                },
+                {
+                    name: 'delivery',
+                    status: false
                 }
-            }
-        },
+            ]
+        };
+    },
 
-        computed: {
-            isCategorySelected: function () {
-                return !!this.newPlace.category;
-            },
+    created() {
+        this.$store.dispatch('placeCategory/getAllCategories')
+            .then((result) => {
+                this.categories = result;
+            });
+    },
 
-            isDaySelected: function () {
-                return !this.weekdays.length;
-            }
-        },
-
-        methods: {
-            onCloseTab: function(tagObject) {
-                this.newPlace.category_tags = this.excludeTag(tagObject);
+    watch: {
+        'newPlace.category': function (categoryObject) {
+            if (categoryObject) {
+                this.newPlace.category_tags = [];
                 this.selectedTag = 'v';
-            },
+            }
+        },
 
-            isTagAdded: function(tagObject) {
-                return this.newPlace.category_tags.some((tag) => tag.name === tagObject.name);
-            },
-
-            excludeTag: function(tagObject)  {
-                return this.newPlace.category_tags.filter((tag) => tag.name !== tagObject.name);
+        'selectedTag': function (tagObject) {
+            if (tagObject !== 'v' && !this.isTagAdded(tagObject)) {
+                this.newPlace.category_tags.push(tagObject);
             }
         }
-    };
+    },
+
+    computed: {
+        isCategorySelected: function () {
+            return !!this.newPlace.category;
+        },
+
+        isDaySelected: function () {
+            return !this.weekdays.length;
+        }
+    },
+
+    methods: {
+        onCloseTab: function(tagObject) {
+            this.newPlace.category_tags = this.excludeTag(tagObject);
+            this.selectedTag = 'v';
+        },
+
+        isTagAdded: function(tagObject) {
+            return this.newPlace.category_tags.some((tag) => tag.name === tagObject.name);
+        },
+
+        excludeTag: function(tagObject)  {
+            return this.newPlace.category_tags.filter((tag) => tag.name !== tagObject.name);
+        }
+    }
+};
 </script>
 
 <style lang="scss" scoped>
