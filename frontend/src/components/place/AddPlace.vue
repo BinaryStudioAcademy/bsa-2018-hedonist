@@ -394,10 +394,6 @@
             'newPlace.category': function (categoryObject) {
                 if (categoryObject) {
                     this.newPlace.category_tags = [];
-                    // this.$store.dispatch('placeCategoryTags/getTagsByCategoryId', categoryObject.id)
-                    //     .then((result) => {
-                    //         this.category_tags = result;
-                    //     });
                     this.selectedTag = 'v';
                 }
             },
@@ -405,7 +401,6 @@
             'selectedTag': function (tagObject) {
                 if (tagObject !== 'v' && !this.newPlace.category_tags.some((tag) => tag.name === tagObject.name)) {
                     this.newPlace.category_tags.push(tagObject);
-                    console.log(this.selectedTag.name);
                 }
             }
         },
