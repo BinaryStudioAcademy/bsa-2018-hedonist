@@ -19,7 +19,7 @@ class PlaceScope implements Scope
         ])->withCount([
             'likes',
             'dislikes',
-            'reviews'
+            'reviews',
         ]);
     }
 }
