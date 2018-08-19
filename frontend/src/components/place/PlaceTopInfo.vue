@@ -12,7 +12,7 @@
                     >
                 </div>
                 <div class="place-venue__prime-info">
-                    <div v-if="place.localization" class="place-venue__place-name">{{ place.localization.name }}</div>
+                    <div v-if="place.localization && place.localization.en" class="place-venue__place-name">{{ place.localization.en.name }}</div>
                     <div v-else class="place-venue__place-name">No localization</div>
                     <div class="place-venue__category">{{ place.category.name }}</div>
                     <div class="place-venue__city">
@@ -55,7 +55,7 @@
                             @click="changeTab(1)"
                             :class="{ 'is-active' : activeTab === 1}"
                         >
-                            <a><span>Comments (2)</span></a>
+                            <a><span>Reviews (2)</span></a>
                         </li>
                         <li
                             @click="changeTab(2)"

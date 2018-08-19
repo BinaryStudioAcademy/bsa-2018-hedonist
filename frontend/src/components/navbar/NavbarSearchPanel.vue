@@ -66,6 +66,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .navbar-search-btn{
+        cursor: pointer;
+    }
     .show-list {
         .input {
             border-radius: 4px 4px 0 0;
