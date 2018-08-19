@@ -1,13 +1,14 @@
 import httpService from '../../../services/common/httpService';
 
 export default {
-    getListsByUser: (context, userId) => {
+    getListsByUser: (context, userId = 'self') => {
         return new Promise((resolve, reject) => {
-            httpService.get('/users/'+userId+'/lists')
-                .then(function (result) {
+            let route = '/users/'+userId+'/lists';
+            httpService.get(route)
+                .then(function (response) {
                     const userLists = response.data.data;
                     context.commit('SET_USER_LISTS', userLists);
-                    resolve(result.data.data);
+                    resolve(response.data.data);
                 })
                 .catch(function (error) {
                     reject(error);
