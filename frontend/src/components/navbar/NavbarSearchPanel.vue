@@ -19,9 +19,9 @@
             </div>
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
-            <span class="icon is-large">
+            <button @click.prevent="search" class="button is-info">
                 <i class="fas fa-lg fa-search" />
-            </span>
+            </button>
         </div>
     </div>
 </template>
@@ -46,6 +46,9 @@ export default {
             selectSearchCity: 'search/selectSearchCity',
             loadCategoriesByQuery: 'placeCategory/loadCategories'
         }),
+        search() {
+            //TODO: implement search by city and category
+        },
         onClickOutside() {
             this.isShow = false;
         },
@@ -66,9 +69,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .navbar-search-btn{
-        cursor: pointer;
-    }
     .show-list {
         .input {
             border-radius: 4px 4px 0 0;

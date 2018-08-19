@@ -2,7 +2,7 @@
     <div class="control">
         <b-autocomplete
             v-model.trim="findCity.query"
-            placeholder="city..."
+            placeholder="Location"
             :data="findCity.data"
             :open-on-focus="true"
             :loading="findCity.isFetching"
