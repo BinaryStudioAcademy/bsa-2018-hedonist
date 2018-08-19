@@ -17,8 +17,7 @@ class AttachPlaceAction
     public function __construct(
         UserListRepositoryInterface $userListRepository,
         PlaceRepositoryInterface $placeRepository
-    )
-    {
+    ) {
         $this->userListRepository = $userListRepository;
         $this->placeRepository = $placeRepository;
     }
