@@ -2,66 +2,70 @@
 
 namespace Hedonist\Actions\Place\GetPlaceItem;
 
+use Hedonist\Actions\Place\Presenters\Review\ReviewPresenter;
+use Hedonist\Actions\Presenters\Category\CategoryPresenter;
+use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
+use Hedonist\Actions\Presenters\City\CityPresenter;
+use Hedonist\Actions\Presenters\Feature\FeaturePresenter;
+use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
+use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
+use Hedonist\Actions\Presenters\Place\PlacePresenter;
+use Hedonist\Entities\Review\Review;
+use Hedonist\Entities\User\User;
+use Illuminate\Support\Collection;
+
 class GetPlaceItemPresenter
 {
-    public static function present(GetPlaceItemResponse $placeResponse): array
-    {
-        $localization = null;
-        if ($placeResponse->getLocalization()->isNotEmpty()) {
-            $localization = array_reduce(
-                $placeResponse->getLocalization()->toArray(),
-                function ($carry, $localizationItem) {
-                    $localizationPresenter = [
-                        'id' => $localizationItem['id'],
-                        'name' => $localizationItem['place_name'],
-                        'description' => $localizationItem['place_description'],
-                        'languageId' => $localizationItem['language_id']
-                    ];
-                    $carry[$localizationItem['language']['code']] = $localizationPresenter;
-                    return $carry;
-                },
-                []
-            );
-        }
+    private $placePresenter;
+    private $reviewPresenter;
+    private $localizationPresenter;
+    private $cityPresenter;
+    private $featurePresenter;
+    private $categoryPresenter;
+    private $photoPresenter;
+    private $tagsPresenter;
 
-        return [
-            'id' => $placeResponse->getId(),
-            'latitude' => $placeResponse->getLatitude(),
-            'longitude' => $placeResponse->getLongitude(),
-            'zip' => $placeResponse->getZip(),
-            'address' => $placeResponse->getAddress(),
-            'phone' => $placeResponse->getPhone(),
-            'website' => $placeResponse->getWebsite(),
-            'creatorId' => $placeResponse->getCreatorId(),
-            'createdAt' => $placeResponse->getCreatedAt(),
-            'updatedAt' => $placeResponse->getUpdatedAt(),
-            'localization' => $localization,
-            'reviews' => $placeResponse->getReviews()->isNotEmpty()
-                ? array_map(function ($review) {
-                    return [
-                        'id' => $review['id'],
-                        'userId' => $review['user_id'],
-                        'description' => $review['description']
-                    ];
-                }, $placeResponse->getReviews()->toArray())
-                : null,
-            'features' => $placeResponse->getFeatures()->isNotEmpty()
-                ? array_map(function ($feature) {
-                    return [
-                        'id' => $feature['id'],
-                        'name' => $feature['name'],
-                    ];
-                }, $placeResponse->getFeatures()->toArray())
-                : null,
-            'category' => [
-                'id' => $placeResponse->getCategory()->id,
-                'name' => $placeResponse->getCategory()->name
-            ],
-            'city' => [
-                'id' => $placeResponse->getCity()->id,
-                'name' => $placeResponse->getCity()->name
-            ],
-            'rating' => $placeResponse->getRating(),
-        ];
+    public function __construct(
+        PlacePresenter $placePresenter,
+        ReviewPresenter $reviewPresenter,
+        LocalizationPresenter $localizationPresenter,
+        CityPresenter $cityPresenter,
+        FeaturePresenter $featurePresenter,
+        CategoryPresenter $categoryPresenter,
+        CategoryTagPresenter $tagsPresenter,
+        PlacePhotoPresenter $photoPresenter
+    ) {
+        $this->placePresenter = $placePresenter;
+        $this->reviewPresenter = $reviewPresenter;
+        $this->localizationPresenter = $localizationPresenter;
+        $this->cityPresenter = $cityPresenter;
+        $this->featurePresenter = $featurePresenter;
+        $this->categoryPresenter = $categoryPresenter;
+        $this->tagsPresenter = $tagsPresenter;
+        $this->photoPresenter = $photoPresenter;
+    }
+
+    public function present(GetPlaceItemResponse $placeResponse): array
+    {
+        $place = $placeResponse->getPlace();
+        $result = $this->placePresenter->present($place);
+        $result['reviews'] = $this->presentReviews($place->reviews, $placeResponse->getUser());
+        $result['photos'] = $this->photoPresenter->presentCollection($place->photos);
+        $result['city'] = $this->cityPresenter->present($place->city);
+        $result['features'] = $this->featurePresenter->presentCollection($place->features);
+        $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
+        $result['category'] = $this->categoryPresenter->present($place->category);
+        $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
+
+        return $result;
+    }
+
+    private function presentReviews(Collection $reviews, User $user): array
+    {
+        return $reviews->map(function (Review $item) use ($user) {
+            $presented = $this->reviewPresenter->present($item);
+            $presented['like'] = $item->getLikedStatus($user->id)->value();
+            return $presented;
+        })->toArray();
     }
 }
