@@ -17,7 +17,8 @@ class AttachPlaceAction
     public function __construct(
         UserListRepositoryInterface $userListRepository,
         PlaceRepositoryInterface $placeRepository
-    ) {
+    )
+    {
         $this->userListRepository = $userListRepository;
         $this->placeRepository = $placeRepository;
     }
@@ -39,7 +40,7 @@ class AttachPlaceAction
             ->getByList($request->getUserListId())
             ->find($place->id);
         if (empty($userlistPlace)) {
-            $this->userListRepository->attachPlace($userList, $place);
+            $this->userListRepository->attachPlace($userList->id, $place);
         }
         return new AttachPlaceResponse();
     }
