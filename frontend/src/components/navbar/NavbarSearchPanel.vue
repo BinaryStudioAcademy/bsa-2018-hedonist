@@ -23,7 +23,6 @@
                 <span class="icon is-large">
                     <i class="fas fa-lg fa-search" />
                 </span>
-                <span v-if="windowWidth < 1088">Search</span>
             </button>
         </div>
     </div>
@@ -38,8 +37,7 @@ export default {
     data() {
         return {
             filterQuery: '',
-            isShow: false,
-            windowWidth: window.innerWidth
+            isShow: false
         };
     },
     components: {
@@ -55,9 +53,6 @@ export default {
         },
         loadCategories() {
             this.loadCategoriesByQuery(this.filterQuery);
-        },
-        onWindowResize(event) {
-            this.windowWidth = event.currentTarget.innerWidth;
         }
     },
     created() {
@@ -68,12 +63,6 @@ export default {
         categories: function () {
             return this.searchCategories;
         }
-    },
-    mounted() {
-        window.addEventListener('resize', this.onWindowResize);
-    },
-    beforeDestroy() {
-        window.removeEventListener('resize', this. onWindowResize);
     }
 };
 </script>
@@ -130,6 +119,17 @@ export default {
 
         @media screen and (max-width: 1087px) {
             width: 88%;
+
+            .icon {
+                position: relative;
+                left: -28px;
+            }
+            
+            &:before {
+                content: 'Search';
+                position: absolute;
+                left: 75px;
+            }
         }
 
         &:hover {
