@@ -12,10 +12,12 @@
                         </router-link>
                     </h3>
                     <p class="place-category">
-                        <a href="#">category</a>
+                        <a href="#">Places saved in the list: {{ userList.places | countPlaces }}</a>
                     </p>
                     <p class="address">
-                        address
+                        Cities in the list:
+
+                        <a v-for="(city,index) in getUniqueCities" :key="index" :href="city.id">{{city.name}} </a>
                     </p>
                 </div>
                 <div class="media-right rating-wrapper">
@@ -23,45 +25,6 @@
                         rating
                     </div>
                 </div>
-            </div>
-            <div class="media">
-                <div class="media-content">
-                    <b-taglist>
-                        <b-tag
-                                type="is-info"
-                        >
-                                <!--v-for="tag in place.category.tags"-->
-                                <!--:key="tag.id"-->
-                            tags
-                        </b-tag>
-                    </b-taglist>
-                </div>
-            </div>
-            <div class="media">
-                <a class="media-left">
-                    <b-taglist attached>
-                        <b-tag type="is-light">
-                            likes
-                        </b-tag>
-                        <b-tag type="is-success" @click.native="like">
-                            <span class="icon">
-                                <i class="far fa-arrow-alt-circle-up" />
-                            </span>
-                        </b-tag>
-                    </b-taglist>
-                </a>
-                <a class="media-right">
-                    <b-taglist attached>
-                        <b-tag type="is-light">
-                            dislikes
-                        </b-tag>
-                        <b-tag type="is-danger" @click.native="dislike">
-                            <span class="icon">
-                                <i class="far fa-arrow-alt-circle-down" />
-                            </span>
-                        </b-tag>
-                    </b-taglist>
-                </a>
             </div>
         </div>
     </transition>
@@ -74,6 +37,22 @@
             return {
                 active: false
             };
+        },
+        filters: {
+            countPlaces: function (places) {
+              return places.length;
+            },
+
+        },
+        computed: {
+            getUniqueCities: function () {
+                const places = this.userList.places;
+                const cities = places.map(place => place.city);
+                return cities.filter((a, i) =>
+                    i === cities.length - 1 ||
+                    a.id !== cities[i + 1].id
+                );
+            },
         },
         props: {
             userList: {

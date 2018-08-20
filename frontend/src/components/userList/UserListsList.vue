@@ -1,5 +1,6 @@
 <template>
     <section class="container">
+        <b-loading :active.sync="isLoading" />
         <ul v-show="isLoaded">
             <li
                     v-for="(userList,index) in userLists"
@@ -21,8 +22,22 @@
     export default {
         name: 'PlaceList',
         components: {UserListsItem},
+        data() {
+            return {
+                isLoading: true,
+                filter: null,
+            };
+        },
         created() {
-            this.$store.dispatch('userList/getListsByUser');
+            this.$store
+                .dispatch('userList/getListsByUser')
+                .then(()=>{
+                    console.log(this.userLists[1].places);
+                    this.isLoading = false;
+                })
+                .catch(()=> {
+                    this.isLoading = false;
+                });
         },
         computed: {
             ...mapState('userList', [
@@ -39,13 +54,15 @@
     section {
         background: #FFF;
         padding: 0 10%;
+        min-height: calc(100vh - 59px);
+        overflow-y: scroll;
 
         ul {
             list-style: none;
 
             li {
                 display: flex;
-                margin-bottom: 5%;
+                margin-bottom: -5%;
 
                 &:last-child {
                     margin-bottom: 0;
