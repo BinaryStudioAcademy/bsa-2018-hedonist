@@ -151,6 +151,10 @@ class PlaceTableSeeder extends Seeder
                 'img_url' => $placeInfo['img_url'],
             ]);
 
+            factory(PlaceInfo::class)->create([
+                'place_id' => $place->id
+            ]);
+
             $i = 0;
             while ($i++ < 10) {
                 factory(PlacePhoto::class)->create([

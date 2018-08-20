@@ -25,9 +25,4 @@ class GetPlaceItemResponse
     {
         return $this->user;
     }
-
-    public function getPlaceInfo(): ?PlaceInfo
-    {
-        return $this->placeInfo;
-    }
 }
