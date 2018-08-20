@@ -6,7 +6,7 @@
                 v-for="(userList,index) in filteredUserLists"
                 :key="userList.id"
             >
-                <UserListsItem
+                <ListPreviewItems
                     :user-list="userList"
                     :timer="50 * (index+1)"
                 />
@@ -16,12 +16,12 @@
 </template>
 
 <script>
-import UserListsItem from './UserListsItem';
+import ListPreviewItems from './ListPreviewItems';
 import { mapState, mapGetters } from 'vuex';
 
 export default {
-    name: 'PlaceList',
-    components: {UserListsItem},
+    name: 'ListPreview',
+    components: {ListPreviewItems},
     data() {
         return {
             isLoading: true,

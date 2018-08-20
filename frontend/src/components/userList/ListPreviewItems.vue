@@ -37,7 +37,7 @@
 
 <script>
 export default {
-    name: 'UserListItem',
+    name: 'ListPreviewItems',
     data() {
         return {
             active: false

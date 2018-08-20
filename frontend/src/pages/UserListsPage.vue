@@ -1,13 +1,13 @@
 <template>
-    <UserListsList />
+    <ListPreview />
 </template>
 
 <script>
-import UserListsList from '@/components/userList/UserListsList';
+import ListPreview from '@/components/userList/ListPreview';
 export default {
     name: 'UserListsPage',
     components: {
-        UserListsList
+        ListPreview
     }
 };
 </script>
