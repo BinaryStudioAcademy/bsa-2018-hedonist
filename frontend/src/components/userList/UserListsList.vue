@@ -3,7 +3,7 @@
         <b-loading :active.sync="isLoading" />
         <ul v-show="isLoaded">
             <li
-                    v-for="(userList,index) in userLists"
+                    v-for="(userList,index) in filteredUserLists"
                     :key="userList.id"
             >
                 <UserListsItem
@@ -25,7 +25,9 @@
         data() {
             return {
                 isLoading: true,
-                filter: null,
+                filterBy: {
+                    cityId: null,
+                },
             };
         },
         created() {
@@ -45,6 +47,23 @@
             ]),
             isLoaded: function () {
                 return !!(this.userLists);
+            },
+            filteredUserLists: function () {
+                let filtered = this.userLists;
+
+                if (this.filterBy.cityId) {
+                    filtered = filtered.filter(
+                            ul => ul.places.filter(
+                                pl => pl.city_id == this.filterBy.cityId
+                            ).length > 0);
+                }
+
+                return filtered;
+            }
+        },
+        methods: {
+            setCityFilter(cityId){
+                this.filterBy.cityId = cityId;
             }
         },
     };

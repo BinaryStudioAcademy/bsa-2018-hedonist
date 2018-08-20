@@ -17,7 +17,7 @@
                     <p class="address">
                         Cities in the list:
 
-                        <a v-for="(city,index) in getUniqueCities" :key="index" :href="city.id">{{city.name}} </a>
+                        <a v-for="(city,index) in getUniqueCities" :key="index" href="#" @click="setCityFilter(city.id)">{{city.name}}<span v-show="notLast(index)">, </span> </a>
                     </p>
                 </div>
                 <div class="media-right rating-wrapper">
@@ -65,6 +65,9 @@
             }
         },
         methods: {
+            notLast: function (index) {
+                return this.getUniqueCities.length - index > 1;
+            },
             like() {
                 this.$toast.open({
                     message: 'You liked this review!',
@@ -78,6 +81,9 @@
                     position: 'is-bottom',
                     type: 'is-info'
                 });
+            },
+            setCityFilter(cityId){
+                this.$parent.setCityFilter(cityId);
             }
         },
         created() {
