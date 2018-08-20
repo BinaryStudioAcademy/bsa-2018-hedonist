@@ -62,23 +62,16 @@ class PlaceRatingRepository extends BaseRepository implements PlaceRatingReposit
             ->count();
     }
 
-    public function getAverageRating(int $placeId): ?RatingAverage
-    {
-        $rating = PlaceRating::where('place_id', $placeId)
-            ->avg('rating');
-
-        return $rating ? new RatingAverage($placeId, $rating) : null;
-    }
-
     public function getAvgByPlaceIds(array $ids): Collection
     {
         $collection = new Collection();
 
-        foreach ($ids as $id) {
-            $averageRating = $this->getAverageRating($id);
-            if ($averageRating) {
-                $collection->push($averageRating);
-            }
+        $queryRating = PlaceRating::selectRaw('AVG(rating) as rating, place_id')
+            ->whereIn('place_id', $ids)
+            ->groupBy('place_id')
+            ->get();
+        foreach ($queryRating as $rating) {
+            $collection->push(new RatingAverage($rating->rating, $rating->place_id));
         }
 
         return $collection;
