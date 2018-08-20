@@ -1,6 +1,6 @@
 <template>
     <div class="is-paddingless">
-        <nav class="navbar is-info">
+        <nav class="navbar is-info is-fixed-top">
             <div class="navbar-wrapper container is-flex">
                 <div class="navbar-brand navbar-brand-name">
                     <router-link
