@@ -69,7 +69,7 @@
                 <div class="place-rate__mark">
                     <span>{{ place.rating }}</span><sup>/<span>10</span></sup>
                 </div>
-                <div class="place-rate__mark-count">444 marks</div>
+                <div class="place-rate__mark-count">444 marks {{liked}}</div>
                 <div class="place-rate__preference">
                     <div class="likable like" @click="likePlace(place.id)">
                         <span class="fa-stack fa-2x">
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
 
@@ -121,15 +121,20 @@ export default {
             .then((result) => {
                 this.userlist = result;
             });
+
+        this.$store.dispatch('place/getLikedPlace', this.place.id);
     },
 
     computed: {
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
         },
+
         localizedName(){
             return this.place.localization[0].name;
-        }
+        },
+
+        ...mapState('place', ['liked']),
     },        
 
     methods: {
