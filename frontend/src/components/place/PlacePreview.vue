@@ -160,6 +160,9 @@ export default {
         }
     },
     computed: {
+        localizedName(){
+            return this.place.localization[0].name;
+        },
         photo: function () {
             return this.place.photos[0].img_url ? this.place.photos[0].img_url : false;
         }
@@ -178,11 +181,6 @@ export default {
                 position: 'is-bottom',
                 type: 'is-info'
             });
-        }
-    },
-    computed:{
-        localizedName(){
-            return this.place.localization[0].name;
         }
     },
     created() {
