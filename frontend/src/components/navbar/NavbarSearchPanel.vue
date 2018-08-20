@@ -115,20 +115,8 @@ export default {
     }
 
     .button {
-        color: #fff;
-        background-color: #167df0;
-        border: none;
-
         @media screen and (max-width: 1087px) {
             width: 88%;
-        }
-
-        &:hover {
-            cursor: pointer;
-
-            @media screen and (max-width: 1087px) {
-                background-color: #1650f0;
-            }
         }
 
         .button-title {
@@ -136,6 +124,14 @@ export default {
 
             @media screen and (max-width: 1087px) {
                 display: inline-block;
+            }
+        }
+
+        &:hover {
+            background-color: #167df0;
+
+            @media screen and (max-width: 1087px) {
+                background-color: #0f77ea;
             }
         }
     }
