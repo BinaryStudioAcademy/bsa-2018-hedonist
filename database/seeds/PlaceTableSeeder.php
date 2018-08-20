@@ -159,7 +159,6 @@ class PlaceTableSeeder extends Seeder
         ]);
 
         foreach (self::CITIES as $city) {
-
             $cityName = $city['name'];
             $lng = $city['coordinates']['lng'];
             $lat = $city['coordinates']['lat'];

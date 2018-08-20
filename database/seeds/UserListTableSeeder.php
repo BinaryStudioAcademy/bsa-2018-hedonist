@@ -33,7 +33,6 @@ class UserListTableSeeder extends Seeder
     {
         $users = User::all();
         foreach ($users as $user) {
-
             foreach (self::LISTS as $list) {
                 $userList = UserList::create([
                     'user_id' => $user->id,
