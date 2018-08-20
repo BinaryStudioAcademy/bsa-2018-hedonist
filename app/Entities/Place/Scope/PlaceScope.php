@@ -16,10 +16,6 @@ class PlaceScope implements Scope
             'category.tags',
             'features',
             'localization',
-        ])->withCount([
-            'likes',
-            'dislikes',
-            'reviews',
         ]);
     }
 }
