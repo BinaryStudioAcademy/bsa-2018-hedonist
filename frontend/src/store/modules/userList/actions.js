@@ -28,11 +28,9 @@ export default {
     },
 
     getUserLists: (context, userId) => {
-        return new Promise((resolve) => {
-            return httpService.get('/users/' + userId + '/lists')
-                .then((result) => {
-                    resolve(result.data.data);
-                });
-        });
+        return httpService.get('/users/' + userId + '/lists')
+            .then((result) => {
+                resolve(result.data.data);
+            });
     }
 };
