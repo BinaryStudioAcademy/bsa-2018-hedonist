@@ -23,6 +23,7 @@
                 <span class="icon is-large">
                     <i class="fas fa-lg fa-search" />
                 </span>
+                <span class="button-title">Search</span>
             </button>
         </div>
     </div>
@@ -119,17 +120,6 @@ export default {
 
         @media screen and (max-width: 1087px) {
             width: 88%;
-
-            .icon {
-                position: relative;
-                left: -28px;
-            }
-            
-            &:before {
-                content: 'Search';
-                position: absolute;
-                left: 75px;
-            }
         }
 
         &:hover {
@@ -137,6 +127,14 @@ export default {
 
             @media screen and (max-width: 1087px) {
                 background-color: #1650f0;
+            }
+        }
+
+        .button-title {
+            display: none;
+
+            @media screen and (max-width: 1087px) {
+                display: inline-block;
             }
         }
     }
