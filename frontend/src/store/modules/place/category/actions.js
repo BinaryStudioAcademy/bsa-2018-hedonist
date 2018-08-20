@@ -16,26 +16,22 @@ export default {
     },
 
     getAllCategories: () => {
-        return new Promise((resolve, reject) => {
-            httpService.get('/places/categories')
-                .then(function (result) {
-                    resolve(result.data.data);
+        return httpService.get('/places/categories')
+                .then((result) => {
+                    return Promise.resolve(result.data.data);
                 })
-                .catch(function (error) {
-                    reject(error);
+                .catch((error) => {
+                    return Promise.reject(error);
                 });
-        });
-    },
+        },
 
     getTagsByCategory: (context, categoryId) => {
-        return new Promise((resolve, reject) => {
-            httpService.get('/places/categories/' + categoryId + '/tags')
-                .then(function (result) {
-                    resolve(result.data.data);
+        return httpService.get('/places/categories/' + categoryId + '/tags')
+                .then((result) => {
+                    return Promise.resolve(result.data.data);
                 })
-                .catch(function (error) {
-                    reject(error);
+                .catch((error) => {
+                    return Promise.reject(error);
                 });
-        });
-    }
+        }
 };

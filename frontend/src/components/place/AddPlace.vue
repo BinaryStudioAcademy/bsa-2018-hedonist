@@ -376,14 +376,13 @@ export default {
 
     watch: {
         'newPlace.category': function (categoryObject) {
-            if (categoryObject) {
-                this.newPlace.category_tags = [];
-                this.$store.dispatch('placeCategory/getTagsByCategory', categoryObject.id)
-                    .then((result) => {
-                        this.category_tags = result;
-                    });
-                this.selectedTag = 'v';
-            }
+            if (_.isEmpty(categoryObject)) { return; }
+            this.newPlace.category_tags = [];
+            this.$store.dispatch('placeCategory/getTagsByCategory', categoryObject.id)
+                .then((result) => {
+                    this.category_tags = result;
+                });
+            this.selectedTag = 'v';
         },
 
         'selectedTag': function (tagObject) {
