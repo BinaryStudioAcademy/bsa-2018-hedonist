@@ -6,7 +6,7 @@
         <div class="media-content">
             <div class="review-title">
                 <a href="#" class="has-text-primary review-username">
-                    {{ this.userName(review.user.first_name, review.user.last_name) }}
+                    {{ this.userName }}
                 </a>
                 •
                 <span class="review-date">
@@ -17,7 +17,7 @@
                 {{ review.description }}
             </div>
             <LikeDislikeButton
-                :font-size="'0.7rem'"
+                font-size="0.7rem"
                 :likes="review.likes"
                 :dislikes="review.dislikes"
                 :like="review.like"
@@ -39,9 +39,9 @@ export default {
             required: true
         }
     },
-    methods: {
-        userName(firstName, lastName) {
-            return firstName + ' ' + lastName;
+    computed:{
+        userName() {
+            return this.review.user.first_name + ' ' + this.review.user.last_name;
         }
     }
 };

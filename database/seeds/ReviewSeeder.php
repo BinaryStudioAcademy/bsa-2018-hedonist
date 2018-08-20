@@ -18,8 +18,8 @@ class ReviewSeeder extends Seeder
 
         $places->map(function ($place) {
             factory(Review::class)->create([
-                'user_id' => User::all()->random()->getKey(),
-                'place_id' => $place->getKey()
+                'user_id' => User::all()->random()->id,
+                'place_id' => $place->id
             ]);
         });
     }
