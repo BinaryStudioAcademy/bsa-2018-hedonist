@@ -185,7 +185,7 @@ export default {
                 &__preference {
                     display: flex;
                     margin-left: auto;
-                    margin-right: 30px;
+                    margin-right: 10px;
                     .likable {
                         cursor: pointer;
                         &:hover {
