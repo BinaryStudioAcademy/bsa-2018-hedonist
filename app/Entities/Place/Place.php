@@ -124,9 +124,4 @@ class Place extends Model
     {
         return $this->hasMany(PlaceTranslation::class);
     }
-
-    public function avgRating()
-    {
-        return round($this->ratings->avg('rating'), 1);
-    }
 }

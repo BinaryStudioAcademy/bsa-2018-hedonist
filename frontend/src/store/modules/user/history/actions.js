@@ -56,6 +56,7 @@ const transformPlaces = (data) => {
             category: checkIn.place.category,
             createdAt: checkIn.place.createdAt,
             name: checkIn.place.name,
+            photo: checkIn.place.photo,
             rating: checkIn.place.rating
         };
     });

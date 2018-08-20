@@ -27,7 +27,13 @@ class CheckinRepository extends BaseRepository implements CheckinRepositoryInter
 
     public function getByUserId(int $id): Collection
     {
-        return Checkin::with(['place.localization', 'place.city', 'place.category'])
+        return Checkin::with([
+            'place.localization',
+            'place.city',
+            'place.category',
+            'place.ratings',
+            'place.photos'
+        ])
             ->where(['user_id' => $id])
             ->get();
     }

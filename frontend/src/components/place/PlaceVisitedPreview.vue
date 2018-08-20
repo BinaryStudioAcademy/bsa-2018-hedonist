@@ -69,15 +69,6 @@ export default {
         background-color: #FFF;
     }
 
-    .entry-media {
-        height: 300px;
-        width: 600px;
-
-        img {
-            width: 100%;
-        }
-    }
-
     .image {
         margin: 0 auto;
         max-width: 400px;

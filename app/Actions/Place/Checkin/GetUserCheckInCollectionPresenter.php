@@ -32,7 +32,8 @@ class GetUserCheckInCollectionPresenter
                 'category'  => $checkIn->place->category->name,
                 'createdAt' => $checkIn->place->created_at->toDateTimeString(),
                 'name'      => $checkIn->place->localization[0]->place_name,
-                'rating'    => number_format($checkIn->place->avgRating(), 1)
+                'photo'     => $checkIn->place->photos[0]->img_url,
+                'rating'    => number_format($checkIn->place->avgRating, 1)
             ]
         ];
     }
