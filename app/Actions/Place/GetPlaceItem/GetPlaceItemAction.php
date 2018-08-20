@@ -7,6 +7,7 @@ use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
 use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class GetPlaceItemAction
 {
@@ -29,20 +30,11 @@ class GetPlaceItemAction
 
     public function execute(GetPlaceItemRequest $getItemRequest): GetPlaceItemResponse
     {
-        $place = $this->placeRepository->getById($getItemRequest->getId());
+        $place = $this->placeRepository->getByIdWithRelations($getItemRequest->getId());
         if (!$place) {
             throw new PlaceDoesNotExistException;
         }
 
-        $category = $this->placeCategoryRepository->getById($place->category_id);
-        $city = $this->cityRepository->getById($place->city_id);
-        $rating = $this->placeRatingRepository->getAverage($place->id);
-        $reviews = $place->reviews;
-        $localization = $place->localization;
-        $features = $place->features;
-
-        return new GetPlaceItemResponse(
-            $place, $category, $city, $rating, $localization, $reviews, $features
-        );
+        return new GetPlaceItemResponse($place, Auth::user());
     }
 }

@@ -8,41 +8,50 @@
                     :open-on-focus="true"
                     :data="categories"
                     field="name"
-                    @input="loadCategories()"
+                    @input="loadCategories"
                     @select="option => selected = option"
                 />
             </div>
         </div>
         <div class="navbar-item">
-            <div class="control">
-                <input class="input" type="search" value="Lviv, UA">
-            </div>
+            <SearchCity @select="selectSearchCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
-            <span class="icon is-large">
+            <button @click.prevent="search" class="button is-info">
                 <i class="fas fa-lg fa-search" />
-            </span>
+            </button>
         </div>
     </div>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapActions} from 'vuex';
+import SearchCity from './SearchCity';
 
 export default {
-    name: 'SearchInput',
+    name: 'NavbarSearchPanel',
     data() {
         return {
             filterQuery: '',
             isShow: false
         };
     },
+    components: {
+        SearchCity
+    },
     methods: {
+        ...mapActions({
+            selectSearchCity: 'search/selectSearchCity',
+            loadCategoriesByQuery: 'placeCategory/loadCategories'
+        }),
+        search() {
+            //TODO: implement search by city and category
+        },
         onClickOutside() {
             this.isShow = false;
         },
         loadCategories() {
-            this.$store.dispatch('placeCategory/loadCategories', this.filterQuery);
+            this.loadCategoriesByQuery(this.filterQuery);
         }
     },
     created() {
