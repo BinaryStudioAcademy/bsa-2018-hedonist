@@ -26,7 +26,7 @@ export default {
     },
 
     getTagsByCategory: (context, categoryId) => {
-        return httpService.get('/places/categories/' + categoryId + '/tags')
+        return httpService.get(`/places/categories/${categoryId}/tags`)
             .then((result) => {
                 return Promise.resolve(result.data.data);
             })
