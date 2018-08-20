@@ -1,4 +1,4 @@
 export default {
     places: [],
-    currentPlace: null
+    currentPlace : null,
 };
