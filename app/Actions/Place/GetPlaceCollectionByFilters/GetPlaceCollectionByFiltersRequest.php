@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollectionByFilters;
 
-
 class GetPlaceCollectionByFiltersRequest
 {
     private $category_id;
