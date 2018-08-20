@@ -1,10 +1,6 @@
 <template>
     <div class="place-top-info">
-        <<<<<<< HEAD
-        <PlacePhotoList/>
-        =======
         <PlacePhotoList :photos="place.photos"/>
-        >>>>>>> development
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
@@ -79,7 +75,7 @@
                     <LikeDislikeButtons
                             :likes="place.likes"
                             :dislikes="place.dislikes"
-                            :like="NONE"
+                            :like="'NONE'"
                     />
                 </div>
             </div>

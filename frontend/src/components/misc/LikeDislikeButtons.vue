@@ -31,20 +31,20 @@
 <script>
     export default {
         name: "LikeDislikeButtons",
-        props:{
-            like:{
+        props: {
+            like: {
                 required: true,
                 type: String
             },
-            likes:{
+            likes: {
                 required: true,
                 type: Number
             },
-            dislikes:{
+            dislikes: {
                 required: true,
                 type: Number
             },
-            fontSize:{
+            fontSize: {
                 required: false,
                 type: String,
                 default: '1rem'
@@ -57,24 +57,33 @@
     .likable {
         cursor: pointer;
 
-        .likable-amount{
-            color:inherit;
+        .likable-amount {
+            color: inherit;
+            font-size: 1.5em;
+            font-weight: bolder;
         }
 
         & :hover {
-            color: black;
+            .fa-heart {
+                color: black;
+            }
         }
-
     }
 
-    .likable-amount{
+    .likable-amount {
         margin-right: 5px;
     }
 
     .active {
-        color: rgba(22,125,240,0.7);
-        &:hover, .likable-amount{
-            color: rgb(22,125,240);
+        color: rgba(22, 125, 240, 0.7);
+       .likable-amount {
+            color: rgb(22, 125, 240);
+        }
+
+        & :hover {
+            .fa-heart {
+                color: rgb(22, 125, 240);
+            }
         }
     }
 
