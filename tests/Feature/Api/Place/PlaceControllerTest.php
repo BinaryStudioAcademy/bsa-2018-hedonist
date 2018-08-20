@@ -188,7 +188,7 @@ class PlaceControllerTest extends ApiTestCase
         ]]);
     }
 
-    public function testGetPlaceCollectionByCategoryAndCoordinates()
+    public function testGetPlaceCollectionSearchByFilters()
     {
         $category = factory(PlaceCategory::class)->create();
         $longitude = $this->faker->randomFloat(4, 10, 50);
@@ -212,6 +212,34 @@ class PlaceControllerTest extends ApiTestCase
             $arrayContent['data'][0]['address'])
         );
         $this->assertEquals(count($arrayContent['data']), 1);
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/json');
+    }
+
+    public function testGetPlaceCollectionSearchWithoutFilters()
+    {
+        $category = factory(PlaceCategory::class)->create();
+        $longitude = $this->faker->randomFloat(4, 10, 50);
+        $latitude = $this->faker->randomFloat(4, 10, 50);
+
+        factory(Place::class)->create([
+            'longitude' => $longitude,
+            'latitude' => $latitude,
+            'category_id' => $category->id,
+        ]);
+
+        $response =  $this->actingWithToken()->json(
+            'GET',
+            "/api/v1/places/search?filter[category]=&filter[location]=&page=1"
+        );
+        $arrayContent = $response->getOriginalContent();
+
+        $this->assertTrue(isset(
+            $arrayContent['data'][0]['id'],
+            $arrayContent['data'][0]['city'],
+            $arrayContent['data'][0]['address'])
+        );
+        $this->assertEquals(count($arrayContent['data']), 2);
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
     }
