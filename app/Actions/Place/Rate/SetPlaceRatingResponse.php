@@ -4,20 +4,26 @@ namespace Hedonist\Actions\Place\Rate;
 
 class SetPlaceRatingResponse
 {
-    protected $id;
+    private $id;
 
-    protected $userId;
+    private $userId;
 
-    protected $placeId;
+    private $placeId;
 
-    protected $ratingValue;
+    private $ratingValue;
 
-    public function __construct(int $id, int $userId, int $placeId, int $ratingValue)
+    private $ratingAvg;
+
+    private $ratingCount;
+
+    public function __construct(int $id, int $userId, int $placeId, int $ratingValue, float $ratingAvg, int $ratingCount)
     {
         $this->id = $id;
         $this->userId = $userId;
         $this->placeId = $placeId;
         $this->ratingValue = $ratingValue;
+        $this->ratingAvg = $ratingAvg;
+        $this->ratingCount = $ratingCount;
     }
 
     public function getId(): int
@@ -38,5 +44,15 @@ class SetPlaceRatingResponse
     public function getRatingValue(): int
     {
         return $this->ratingValue;
+    }
+
+    public function getRatingAvg(): float
+    {
+        return $this->ratingAvg;
+    }
+
+    public function getRatingCount(): int
+    {
+        return $this->ratingCount;
     }
 }
