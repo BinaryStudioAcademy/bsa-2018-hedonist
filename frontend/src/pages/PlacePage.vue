@@ -3,7 +3,7 @@
         <b-loading :active.sync="isLoading" />
         <PlaceTopInfo 
             v-if="loaded"
-            :place="place" 
+            :place="place"
             @tabChanged="tabChanged"
         />
         <div class="main-wrapper columns">
@@ -47,18 +47,14 @@ export default {
     data() {
         return {
             isLoading: true,
-            loaded: false,
             activeTab: 1,
-            place: null
         };
     },
 
     created() {
         this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
             .then((response) => {
-                this.place = response;
                 this.isLoading = false;
-                this.loaded = true;
             })
             .catch((err) => {
                 this.isLoading = false;
@@ -72,7 +68,13 @@ export default {
     },
 
     computed: {
-        ...mapState('place', ['places'])
+        ...mapState('place', {
+            places  : 'places',
+            place   : 'currentPlace'
+        }),
+        loaded: function() {
+            return !!(this.place);
+        }
     },
 };
 </script>

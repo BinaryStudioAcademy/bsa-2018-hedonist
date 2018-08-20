@@ -1,3 +1,4 @@
 export default {
-    places: []
+    places: [],
+    currentPlace : null,
 };
