@@ -69,19 +69,15 @@
                 <div class="place-rate__mark">
                     <span>{{ place.rating }}</span><sup>/<span>10</span></sup>
                 </div>
-                <div class="place-rate__mark-count">444 marks {{liked}}</div>
+                <div class="place-rate__mark-count">444 marks</div>
                 <div class="place-rate__preference">
-                    <div class="likable like" @click="likePlace(place.id)">
-                        <span class="fa-stack fa-2x">
-                            <i class="fa fa-heart fa-stack-1x" />
-                        </span>
-                    </div>
-                    <div class="likable dislike" @click="dislikePlace(place.id)">
-                        <span class="fa-stack fa-2x">
-                            <i class="fa fa-heart fa-stack-1x" />
-                            <i class="fa fa-bolt fa-stack-1x fa-inverse" />
-                        </span>
-                    </div>
+                    <LikeDislikeButtons
+                        :likes="place.likes"
+                        :dislikes="place.dislikes"
+                        like="liked"
+                        @like="like"
+                        @dislike="dislike"
+                    />
                 </div>
             </div>
         </div>
@@ -92,13 +88,15 @@
 import { mapActions, mapState } from 'vuex';
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
+import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 
 export default {
     name: 'PlaceTopInfo',
 
     components: {
         PlacePhotoList,
-        PlaceCheckinModal
+        PlaceCheckinModal,
+        LikeDislikeButtons
     },
 
     props: {
@@ -135,14 +133,26 @@ export default {
         },
 
         ...mapState('place', ['liked']),
-    },        
+    },
 
     methods: {
-        ...mapActions('place', ['likePlace', 'dislikePlace', 'getLikedPlace']),
+        ...mapActions('place', ['getLikedPlace']),
 
         changeTab: function(activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);
+        },
+
+        like() {
+            this.$store.dispatch('place/likePlace', {
+                placeId: this.place.id
+            });
+        },
+
+        dislike() {
+            this.$store.dispatch('place/dislikePlace', {
+                placeId: this.place.id
+            });  
         },
 
         addPlaceToList: function (listId) {
