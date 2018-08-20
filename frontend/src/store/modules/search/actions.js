@@ -10,15 +10,8 @@ export default {
     },
 
     loadCategories(context, name) {
-        return new Promise((resolve, reject) => {
-            let data = {'name': name};
-            httpService.post('/places/categories/search', data)
-                .then(function (res) {
-                    resolve(res.data.data);
-                })
-                .catch(function (err) {
-                    reject(err);
-                });
-        });
+        return httpService.post('/places/categories/search', {'name': name})
+            .then( result => Promise.resolve(result.data.data))
+            .catch( error  => Promise.reject(error));
     }
 };
