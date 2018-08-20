@@ -17,7 +17,6 @@ class PlaceTagTableSeeder extends Seeder
         $places = Place::all();
 
         foreach ($places as $place) {
-
             $categoryTags = PlaceCategory::find($place->category_id)
                 ->tags()
                 ->get()
@@ -32,7 +31,6 @@ class PlaceTagTableSeeder extends Seeder
                     'placecategory_placetag_id' => $smallArrayTags,
                     'place_id' => $place->category_id
                 ]);
-
             } elseif (count($tagsArray) <= 3) {
                 $middleArrayTags = array_rand($tagsArray, rand(2, 3));
                 for ($i = 0; $i < count($middleArrayTags); $i++) {
@@ -50,7 +48,6 @@ class PlaceTagTableSeeder extends Seeder
                     ]);
                 }
             }
-
         }
     }
 }
