@@ -8,6 +8,8 @@ use Hedonist\Actions\Place\AddPlace\AddPlaceRequest;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionAction;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionPresenter;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionRequest;
+use Hedonist\Actions\Place\GetPlaceCollectionByFilters\GetPlaceCollectionByFiltersAction;
+use Hedonist\Actions\Place\GetPlaceCollectionByFilters\GetPlaceCollectionByFiltersRequest;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemAction;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemPresenter;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemRequest;
@@ -23,6 +25,7 @@ use Hedonist\Exceptions\Place\PlaceCityDoesNotExistException;
 use Hedonist\Exceptions\Place\PlaceCreatorDoesNotExistException;
 use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 use Hedonist\Http\Controllers\Api\ApiController;
+use Hedonist\Http\Requests\Place\PlaceSearchRequest;
 use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
 use Illuminate\Http\JsonResponse;
@@ -35,19 +38,22 @@ class PlaceController extends ApiController
     private $removePlaceAction;
     private $addPlaceAction;
     private $updatePlaceAction;
+    private $getPlaceCollectionByFiltersAction;
 
     public function __construct(
         GetPlaceItemAction $getPlaceItemAction,
         GetPlaceCollectionAction $getPlaceCollectionAction,
         RemovePlaceAction $removePlaceAction,
         AddPlaceAction $addPlaceAction,
-        UpdatePlaceAction $updatePlaceAction
+        UpdatePlaceAction $updatePlaceAction,
+        GetPlaceCollectionByFiltersAction $getPlaceCollectionByFiltersAction
     ) {
         $this->getPlaceItemAction = $getPlaceItemAction;
         $this->getPlaceCollectionAction = $getPlaceCollectionAction;
         $this->removePlaceAction = $removePlaceAction;
         $this->addPlaceAction = $addPlaceAction;
         $this->updatePlaceAction = $updatePlaceAction;
+        $this->getPlaceCollectionByFiltersAction = $getPlaceCollectionByFiltersAction;
     }
 
     public function getPlace(int $id, GetPlaceItemPresenter $presenter): JsonResponse
@@ -120,5 +126,22 @@ class PlaceController extends ApiController
         }
 
         return $this->successResponse(UpdatePlacePresenter::present($placeResponse), 201);
+    }
+
+    public function getPlacesByCategoryAndCoordinates(PlaceSearchRequest $request, GetPlaceCollectionPresenter $presenter): JsonResponse
+    {
+        try {
+            $placeResponse = $this->getPlaceCollectionByFiltersAction->execute(
+                new GetPlaceCollectionByFiltersRequest(
+                    $request->input('page'),
+                    $request->input('filter.category'),
+                    $request->input('filter.location')
+                )
+            );
+
+            return $this->successResponse($presenter->present($placeResponse), 200);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
     }
 }
