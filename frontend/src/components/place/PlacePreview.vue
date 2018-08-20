@@ -3,7 +3,8 @@
         <div class="container place-item" v-if="active">
             <div class="media">
                 <figure class="media-left image is-128x128">
-                    <img :src="photo">
+                    <img v-if="photo" :src="photo">
+                    <img v-else src="../../assets/placeholder_128x128.png">
                 </figure>
                 <div class="media-content">
                     <h3 class="title has-text-primary">
@@ -158,7 +159,7 @@ export default {
     },
     computed: {
         photo: function () {
-            return this.place.photos[0].img_url ? this.place.photos[0].img_url : 'http://via.placeholder.com/128x128';
+            return this.place.photos[0].img_url ? this.place.photos[0].img_url : false;
         }
     },
     methods: {
