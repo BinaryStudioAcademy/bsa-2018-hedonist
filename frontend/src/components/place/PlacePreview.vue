@@ -3,13 +3,15 @@
         <div class="container place-item" v-if="active">
             <div class="media">
                 <figure class="media-left image is-128x128">
-                    <!-- TODO set place photo url -->
-                    <img src="http://via.placeholder.com/128x128">
+                    <img v-if="photo" :src="photo">
+                    <img v-else src="../../assets/placeholder_128x128.png">
                 </figure>
                 <div class="media-content">
-                    <h3 class="title has-text-primary">
+                    <h3
+                        class="title has-text-primary"
+                    >
                         <router-link :to="`/places/${place.id}`">
-                            {{ place.localization[0].name }}
+                            {{ localizedName }}
                         </router-link>
                     </h3>
                     <p class="place-category">
@@ -155,6 +157,14 @@ export default {
         timer: {
             required: true,
             type: Number,
+        }
+    },
+    computed: {
+        localizedName(){
+            return this.place.localization[0].name;
+        },
+        photo: function () {
+            return this.place.photos[0].img_url ? this.place.photos[0].img_url : false;
         }
     },
     methods: {

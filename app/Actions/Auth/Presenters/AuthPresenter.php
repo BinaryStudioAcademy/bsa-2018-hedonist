@@ -33,7 +33,12 @@ class AuthPresenter
             'email' => $user->email,
             'first_name' => $userInfo->first_name,
             'last_name' => $userInfo->last_name,
-            'avatar_url' => $userInfo->avatar_url
+            'avatar_url' => $userInfo->avatar_url,
+            'phone' => $userInfo->phone_number,
+            'date_of_birth' => $userInfo->date_of_birth,
+            'facebook' => $userInfo->facebook_url,
+            'instagram' => $userInfo->instagram_url,
+            'twitter' => $userInfo->twitter_url,
         ];
     }
 }

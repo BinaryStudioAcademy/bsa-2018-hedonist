@@ -3,7 +3,7 @@
         <img
             v-img:top-group
             class="place-photo__image" 
-            :src="photo.url" 
+            :src="photo.img_url"
             :alt="photo.description"
         >
         <div 

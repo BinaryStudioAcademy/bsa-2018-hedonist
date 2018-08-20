@@ -4,6 +4,7 @@ namespace Hedonist\Entities\Place;
 
 use Hedonist\Entities\User\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class PlacePhoto extends Model
 {
@@ -19,7 +20,7 @@ class PlacePhoto extends Model
         return $this->belongsTo(Place::class);
     }
 
-    public function scopePlace($q, int $placeId)
+    public function scopePlace(QueryBuilder $q, int $placeId)
     {
         return $q->where('place_id', $placeId);
     }

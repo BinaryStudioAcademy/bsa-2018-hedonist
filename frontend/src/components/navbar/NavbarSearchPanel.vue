@@ -1,48 +1,60 @@
 <template>
     <div class="navbar-start">
         <div class="navbar-item">
-            <div class="control has-icons-right">
+            <div class="control">
                 <b-autocomplete
                     v-model="filterQuery"
                     placeholder="I'm looking for..."
                     :open-on-focus="true"
                     :data="categories"
                     field="name"
-                    @input="loadCategories()"
+                    @input="loadCategories"
                     @select="option => selected = option"
                 />
             </div>
         </div>
         <div class="navbar-item">
-            <div class="control">
-                <input class="input" type="search" value="Lviv, UA">
-            </div>
+            <SearchCity @select="selectSearchCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
-            <span class="icon is-large">
-                <i class="fas fa-lg fa-search" />
-            </span>
+            <button @click.prevent="search" class="button is-info">
+                <span class="icon is-large">
+                    <i class="fas fa-lg fa-search" />
+                </span>
+                <span class="button-title">Search</span>
+            </button>
         </div>
     </div>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapActions} from 'vuex';
+import SearchCity from './SearchCity';
 
 export default {
-    name: 'SearchInput',
+    name: 'NavbarSearchPanel',
     data() {
         return {
             filterQuery: '',
             isShow: false
         };
     },
+    components: {
+        SearchCity
+    },
     methods: {
+        ...mapActions({
+            selectSearchCity: 'search/selectSearchCity',
+            loadCategoriesByQuery: 'placeCategory/loadCategories'
+        }),
+        search() {
+            //TODO: implement search by city and category
+        },
         onClickOutside() {
             this.isShow = false;
         },
         loadCategories() {
-            this.$store.dispatch('placeCategory/loadCategories', this.filterQuery);
+            this.loadCategoriesByQuery(this.filterQuery);
         }
     },
     created() {
@@ -99,6 +111,34 @@ export default {
         a:hover {
             background: #efeff4;
             color: #4e595d;
+        }
+    }
+
+    .button {
+        @media screen and (max-width: 1087px) {
+            width: 88%;
+        }
+
+        .button-title {
+            display: none;
+
+            @media screen and (max-width: 1087px) {
+                display: inline-block;
+            }
+        }
+
+        &:hover {
+            background-color: #167df0;
+
+            @media screen and (max-width: 1087px) {
+                background-color: #0f77ea;
+            }
+        }
+    }
+
+    .navbar-search-btn {
+        @media screen and (max-width: 1087px) {
+            text-align: center;
         }
     }
 </style>

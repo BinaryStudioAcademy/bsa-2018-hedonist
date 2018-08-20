@@ -19,7 +19,7 @@ import MyTastesPage from '@/pages/MyTastesPage';
 Vue.use(Router);
 
 const middleware = handler => (
-    routes => routes.map(route => Object.assign({}, route, { beforeEnter: handler }))
+    routes => routes.map(route => Object.assign({}, route, {beforeEnter: handler}))
 );
 
 export default new Router({
@@ -39,9 +39,14 @@ export default new Router({
                 component: ProfilePage,
             },
             {
-                path: '/places/list',
+                path: '/my-places',
                 name: 'PlacesList',
                 component: PlaceListPage
+            },
+            {
+                path: '/my-tastes',
+                name: 'MyTastesPage',
+                component: MyTastesPage
             },
             {
                 path: '/places/add',
@@ -59,12 +64,12 @@ export default new Router({
                 component: PlacePage
             },
             {
-                path: '/users/lists/add',
+                path: '/my-lists/add',
                 name: 'UserListAddPage',
                 component: UserListAddPage
             },
             {
-                path: '/user/lists',
+                path: '/my-lists',
                 name: 'UserListsPage',
                 component: UserListsPage
             },
@@ -77,6 +82,10 @@ export default new Router({
                 path: '/history',
                 name: 'HistoryPage',
                 component: HistoryPage
+            },
+            {
+                path: '*',
+                redirect: '/'
             }
         ]),
         ...middleware(middlewares.guest(store))([
