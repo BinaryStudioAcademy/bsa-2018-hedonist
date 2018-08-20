@@ -1,6 +1,6 @@
 <template>
     <div class="place-top-info">
-        <PlacePhotoList />
+        <PlacePhotoList :photos="place.photos" />
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
@@ -60,7 +60,7 @@
                             @click="changeTab(2)"
                             :class="{ 'is-active' : activeTab === 2}"
                         >
-                            <a><span>Photos (12)</span></a>
+                            <a><span>Photos ({{ photosCount }})</span></a>
                         </li>
                     </ul>
                 </nav>
@@ -125,6 +125,9 @@ export default {
         },
         localizedName(){
             return this.place.localization[0].name;
+        },
+        photosCount() {
+            return this.place.photos.length;
         }
     },
 
