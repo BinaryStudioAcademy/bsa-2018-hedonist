@@ -17,10 +17,10 @@ class ReviewSeeder extends Seeder
         $places = Place::all();
 
         $places->map(function ($place) {
-           factory(Review::class)->create([
-               'user_id' => User::all()->random()->getKey(),
-               'place_id' => $place->getKey()
-           ]);
+            factory(Review::class)->create([
+                'user_id' => User::all()->random()->getKey(),
+                'place_id' => $place->getKey()
+            ]);
         });
 
     }

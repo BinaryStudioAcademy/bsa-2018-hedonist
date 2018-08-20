@@ -17,7 +17,7 @@
                 {{ review.description }}
             </div>
             <LikeDislikeButton
-                :font-size="'0.5rem'"
+                :font-size="'0.7rem'"
                 :likes="review.likes"
                 :dislikes="review.dislikes"
                 :like="review.like"
@@ -56,10 +56,6 @@ export default {
         color: grey;
     }
 
-    .review-text {
-        margin-bottom: 10px;
-    }
-
     .review-likes {
         align-self: flex-start;
         width: 100px;
@@ -69,4 +65,5 @@ export default {
         font-weight: bolder;
         font-size:1.2rem;
     }
+
 </style>
