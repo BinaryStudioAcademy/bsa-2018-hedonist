@@ -2,10 +2,12 @@
     <div 
         class="column is-one-third-desktop is-one-third-tablet is-square user-list-container"
         v-if="show"
+        :style="[resizeStyle]"
+        v-resize="onResize"
     >
         <div class="user-list-content">
             <div class="user-list-name">{{
-                userList.list_name
+                userList.name
             }}</div>
             <div class="user-list-places-count">{{
                 userList.places_count
@@ -13,7 +15,7 @@
             <div class="user-list-button-wrap">
                 <div 
                     class="button is-info user-list-button-show-places" 
-                    @click="open(userList.list_name)"
+                    @click="open(userList.name)"
                 >
                     Show places in the list
                 </div>
@@ -21,19 +23,26 @@
         </div>
         <figure class="image is-square image-wrap">
             <img
-                :src="userList.img_preview.url"
+                :src="userList.img_url"
             >
         </figure>
     </div>
 </template>
 
 <script>
+import resize from 'vue-resize-directive';
 export default {
-    name: 'UserListsItem',
+    name: 'ListPreview',
     data() {
         return {
-            show: false
+            show: false,
+            resizeStyle: {
+                maxHeight:'300px',
+            },
         };
+    },
+    directives: {
+        resize,
     },
     props: {
         userList: {
@@ -52,12 +61,18 @@ export default {
                 type: 'is-danger',
                 position: 'is-top'
             });
+        },
+        onResize(){
+            this.resizeStyle.maxHeight = this.$el.clientWidth + 'px';
         }
     },
     created() {
         setTimeout(() => {
             this.show = true;
         }, this.timer);
+    },
+    mounted(){
+        this.onResize();
     }
 };
 </script>

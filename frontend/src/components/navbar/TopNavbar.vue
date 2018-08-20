@@ -74,10 +74,6 @@
                                 >My tastes</router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'PlacesList' }"
-                                >My places</router-link>
-                                <router-link
-                                    class="navbar-personal-link navbar-item"
                                     :to="{ name: 'UserListsPage' }"
                                 >My lists
                                 </router-link>
@@ -175,10 +171,34 @@ export default {
     }
     }
     .navbar-menu {
-    @media screen and (max-width: 1087px) {
-        position: absolute;
-        right: 0;
-        top: 52px;
+        @media screen and (max-width: 1087px) {
+           position: absolute;
+           right: 0;
+           top: 52px;
+           width: 200px;
+        }
     }
+
+    .navbar-start {
+        @media screen and (max-width: 1087px) {
+           margin-bottom: 10%;
+        }
+    }
+
+    .navbar-dropdown-menu {
+        @media screen and (max-width: 1087px) {
+           text-align: center;
+        }
+    }
+
+    .navbar-dropdown > a {
+        @media screen and (max-width: 1087px) {
+            text-indent: 51px;
+
+            &:first-child,
+            &:last-child {
+                text-indent: 36px;
+            }
+        }
     }
 </style>

@@ -3,7 +3,7 @@ import httpService from '@/services/common/httpService';
 export default {
     checkIn: (context, data) => {
         return httpService.post('/users/me/checkins', data)
-            .then(response => { 
+            .then(response => {
                 return Promise.resolve(response);
             })
             .catch(error => {
@@ -36,6 +36,7 @@ export default {
                     resolve();
                 })
                 .catch(function (err) {
+                    console.log(err.response);
                     reject(err);
                 });
         });

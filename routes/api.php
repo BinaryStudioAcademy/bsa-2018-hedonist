@@ -131,8 +131,8 @@ Route::prefix('v1')->group(function () {
             'create', 'edit'
         ]);
 
-        Route::post('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
+        Route::get('/places/categories/{id}/tags', 'Api\Place\PlaceCategoryTagsController@getTagsByCategoryId');
 
-        /* Routes here.. */
+        Route::post('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
     });
 });
