@@ -30,7 +30,7 @@ export default {
     getUserLists: (context, userId) => {
         return httpService.get('/users/' + userId + '/lists')
             .then((result) => {
-                resolve(result.data.data);
+                return result.data.data;
             });
     }
 };
