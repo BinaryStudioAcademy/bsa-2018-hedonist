@@ -23,7 +23,7 @@ class GetUserCheckInCollectionAction
 
     private function transformCollection(Collection $checkIns): Collection
     {
-        return $checkIns->map(function($checkIn) {
+        return $checkIns->map(function ($checkIn) {
             $checkIn->place['avgRating'] = $checkIn->place->ratings->avg('rating');
             return $checkIn;
         });
