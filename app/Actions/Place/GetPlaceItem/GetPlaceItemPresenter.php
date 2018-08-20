@@ -9,6 +9,7 @@ use Hedonist\Actions\Presenters\City\CityPresenter;
 use Hedonist\Actions\Presenters\Feature\FeaturePresenter;
 use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
 use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
+use Hedonist\Actions\Presenters\Place\PlaceInfoPresenter;
 use Hedonist\Actions\Presenters\Place\PlacePresenter;
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\User\User;
@@ -24,9 +25,11 @@ class GetPlaceItemPresenter
     private $categoryPresenter;
     private $photoPresenter;
     private $tagsPresenter;
+    private $placeInfoPresenter;
 
     public function __construct(
         PlacePresenter $placePresenter,
+        PlaceInfoPresenter $placeInfoPresenter,
         ReviewPresenter $reviewPresenter,
         LocalizationPresenter $localizationPresenter,
         CityPresenter $cityPresenter,
@@ -36,6 +39,7 @@ class GetPlaceItemPresenter
         PlacePhotoPresenter $photoPresenter
     ) {
         $this->placePresenter = $placePresenter;
+        $this->placeInfoPresenter = $placeInfoPresenter;
         $this->reviewPresenter = $reviewPresenter;
         $this->localizationPresenter = $localizationPresenter;
         $this->cityPresenter = $cityPresenter;
@@ -49,6 +53,7 @@ class GetPlaceItemPresenter
     {
         $place = $placeResponse->getPlace();
         $result = $this->placePresenter->present($place);
+        $result['placeInfo'] = $this->placeInfoPresenter->present($place->placeInfo);
         $result['reviews'] = $this->presentReviews($place->reviews, $placeResponse->getUser());
         $result['photos'] = $this->photoPresenter->presentCollection($place->photos);
         $result['city'] = $this->cityPresenter->present($place->city);
