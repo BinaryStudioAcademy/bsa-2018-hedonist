@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place\Presenters\Review;
+namespace Hedonist\Actions\Presenters\Review;
 
 use Hedonist\Actions\Presenters\PresentsCollection;
 use Hedonist\Actions\Presenters\User\UserPresenter;
