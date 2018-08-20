@@ -48,8 +48,8 @@ export default {
             required: false,
             type: String,
             default: '1rem'
-        }
-    }
+        },
+    },
 };
 </script>
 

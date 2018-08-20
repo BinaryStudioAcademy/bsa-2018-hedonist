@@ -1,6 +1,6 @@
 <template>
     <div class="place-top-info">
-        <PlacePhotoList />
+        <PlacePhotoList :photos="place.photos" />
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <button 
+                <button
                     class="button is-primary"
                     @click="isCheckinModalActive = true"
                 >
@@ -35,8 +35,7 @@
                         <i class="far fa-save" />Save
                         <b-icon icon="menu-down" />
                     </button>
-
-                    <template v-for="list in userlist">
+                    <template v-for="list in userList">
                         <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}</b-dropdown-item>
                     </template>
                 </b-dropdown>
@@ -60,16 +59,18 @@
                             @click="changeTab(2)"
                             :class="{ 'is-active' : activeTab === 2}"
                         >
-                            <a><span>Photos (12)</span></a>
+                            <a><span>Photos ({{ photosCount }})</span></a>
                         </li>
                     </ul>
                 </nav>
             </div>
             <div class="column is-one-third place-rate">
                 <div class="place-rate__mark">
-                    <span>{{ place.rating }}</span><sup>/<span>10</span></sup>
+                    <span>{{ place.rating | formatRating }}</span><sup>/<span>10</span></sup>
                 </div>
-                <div class="place-rate__mark-count">444 marks</div>
+                <div class="place-rate__mark-count">
+                    {{ place.ratingCount || 1 }} marks
+                </div>
                 <div class="place-rate__preference">
                     <LikeDislikeButtons
                         :likes="place.likes"
@@ -106,39 +107,51 @@ export default {
         }
     },
 
+    filters: {
+        formatRating: function(number){
+            return new Intl.NumberFormat(
+                'en-US', {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                }).format(number);
+        },
+    },
+
     data() {
         return {
             activeTab: 1,
-            userlist: {},
+            userList: {},
             isCheckinModalActive: false
         };
     },
 
     created() {
-        this.$store.dispatch('userlist/getListsByUser', this.user.id)
+        this.$store.dispatch('userList/getListsByUser', this.user.id)
             .then((result) => {
-                this.userlist = result;
+                this.userList = result;
             });
 
         this.$store.dispatch('place/getLikedPlace', this.place.id);
     },
-
+    
     computed: {
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
         },
 
-        localizedName(){
+        localizedName() {
             return this.place.localization[0].name;
+        },
+
+        photosCount() {
+            return this.place.photos.length;
         },
 
         ...mapState('place', ['liked']),
     },
 
     methods: {
-        ...mapActions('place', ['getLikedPlace']),
-
-        changeTab: function(activeTab) {
+        changeTab: function (activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);
         },
@@ -156,7 +169,7 @@ export default {
         },
 
         addPlaceToList: function (listId) {
-            this.$store.dispatch('userlist/addPlaceToList', {
+            this.$store.dispatch('userList/addPlaceToList', {
                 listId: listId,
                 placeId: this.place.id
             });
@@ -199,7 +212,7 @@ export default {
                 &__preference {
                     display: flex;
                     margin-left: auto;
-                    margin-right: 30px;
+                    margin-right: 10px;
                     .likable {
                         cursor: pointer;
                         &:hover {
@@ -209,12 +222,13 @@ export default {
                     .fa-bolt {
                         top: -5%;
                         left: 2%;
-                        font-size:70%;
+                        font-size: 70%;
                     }
                 }
             }
         }
     }
+
     .place-venue {
         margin: 20px;
         &__logo {
@@ -256,6 +270,7 @@ export default {
             }
         }
     }
+
     @media screen and (max-width: 370px) {
         .place-venue {
             &__actions {

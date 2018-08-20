@@ -21,7 +21,7 @@
               
         <link rel="stylesheet" href="//cdn.materialdesignicons.com/2.0.46/css/materialdesignicons.min.css">
     </head>
-    <body>
+    <body class="has-navbar-fixed-top">
         <div id="app"></div>
 
         @if (config("app.env") === "production" || config("app.env") === "staging")
