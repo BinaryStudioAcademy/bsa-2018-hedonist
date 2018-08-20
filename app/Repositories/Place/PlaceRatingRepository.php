@@ -49,13 +49,13 @@ class PlaceRatingRepository extends BaseRepository implements PlaceRatingReposit
             ->first();
     }
 
-    public function getAverage(int $placeId): ?Float
+    public function getAverage(int $placeId): ?float
     {
         return PlaceRating::where('place_id', $placeId)
             ->avg('rating');
     }
 
-    public function getCount(int $placeId): ?int
+    public function getVotesCount(int $placeId): ?int
     {
         return PlaceRating::where('place_id', $placeId)
             ->count();
