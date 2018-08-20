@@ -131,7 +131,7 @@ class PlaceRatingTest extends ApiTestCase
         ]);
     }
 
-    public function test_gett_average_rating_by_place_id(): void
+    public function test_get_average_rating_by_place_id(): void
     {
         $placeId = $this->place_1_rating_1->place_id;
         $ratings = [
@@ -163,7 +163,7 @@ class PlaceRatingTest extends ApiTestCase
     public function test_set_rating_by_place_id(): void
     {
         $placeId = $this->place_2->id;
-        $rating = random_int(0, 10);
+        $rating = 5;
 
         $this->assertDatabaseMissing('place_rating', [
             'user_id' => $this->authenticatedUser->id,
@@ -190,7 +190,7 @@ class PlaceRatingTest extends ApiTestCase
             'rating' => $rating
         ]);
 
-        $ratingNew = random_int(0, 10);
+        $ratingNew = 8;
 
         $response = $this->json('POST', 'api/v1/places/rating', [
             'place_id' => $placeId,
@@ -216,8 +216,8 @@ class PlaceRatingTest extends ApiTestCase
     public function test_set_rating_validation(): void
     {
         $placeId = $this->place_1_rating_1->place_id;
-        $rating_less = random_int(-100, -1);
-        $rating_over = random_int(11, 100);
+        $rating_less = 50;
+        $rating_over = 70;
 
         $response = $this->json('POST', 'api/v1/places/rating', [
         ]);
