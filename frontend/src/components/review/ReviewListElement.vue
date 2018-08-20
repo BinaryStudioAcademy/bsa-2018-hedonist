@@ -18,12 +18,12 @@
                     <nav class="level">
                         <div class="level-left">
                             <a class="level-item">
-                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-up" /></span>
-                                <span class="is-size-6">Upvote</span>
+                                <span class="icon is-small" @click="onLikeReview"><i class="far fa-thumbs-up" /></span>
+                                <span class="is-size-6">{{ review.likes }}</span>
                             </a>
                             <a class="level-item">
-                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-down" /></span>
-                                <span class="is-size-6">Downvote</span>
+                                <span class="icon is-small" @click="onDislikeReview"><i class="far fa-thumbs-down"/></span>
+                                <span class="is-size-6">{{ review.dislikes }}</span>
                             </a>
                         </div>
                     </nav>
@@ -34,12 +34,24 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
     name: 'ReviewListElement',
     props: {
         review: {
             type: Object,
             required: true
+        }
+    },
+    methods: {
+        ...mapActions('review', ['likeReview', 'dislikeReview']),
+        onLikeReview() {
+            console.log(this.review);
+            this.likeReview(this.review.id);
+        },
+        onDislikeReview() {
+            this.dislikeReview(this.review.id);
         }
     },
     computed: {

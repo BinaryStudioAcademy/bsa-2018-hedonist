@@ -30,5 +30,29 @@ export default {
                     reject(err);
                 });
         });
+    },
+
+    likeReview: (context, id) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('reviews/' + id + '/like')
+                .then(function (res) {
+                    resolve(res.data);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+
+    dislikeReview: (context, id) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('reviews/' + id + '/dislike')
+                .then(function (res) {
+                    resolve(res.data);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
     }
 };
