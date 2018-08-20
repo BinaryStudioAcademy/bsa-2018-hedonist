@@ -18,10 +18,10 @@
                         Cities in the list:
 
                         <a
-                                v-for="(city,index) in getUniqueCities"
-                                :key="index"
-                                href="#"
-                                @click="setCityFilter(city.id)"
+                            v-for="(city,index) in getUniqueCities"
+                            :key="index"
+                            href="#"
+                            @click="setCityFilter(city.id)"
                         >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
                     </p>
                 </div>

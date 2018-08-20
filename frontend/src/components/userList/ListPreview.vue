@@ -3,12 +3,12 @@
         <b-loading :active.sync="isLoading" />
         <ul v-show="isLoaded">
             <li
-                    v-for="(userList,index) in filteredUserLists"
-                    :key="userList.id"
+                v-for="(userList,index) in filteredUserLists"
+                :key="userList.id"
             >
                 <ListPreviewItems
-                        :user-list="userList"
-                        :timer="50 * (index+1)"
+                    :user-list="userList"
+                    :timer="50 * (index+1)"
                 />
             </li>
         </ul>
