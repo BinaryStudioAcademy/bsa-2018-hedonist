@@ -7,9 +7,11 @@
                     <img src="http://via.placeholder.com/128x128">
                 </figure>
                 <div class="media-content">
-                    <h3 class="title has-text-primary">
+                    <h3
+                        class="title has-text-primary"
+                    >
                         <router-link :to="`/places/${place.id}`">
-                            {{ place.localization[0].name }}
+                            {{ localizedName }}
                         </router-link>
                     </h3>
                     <p class="place-category">
@@ -171,6 +173,11 @@ export default {
                 position: 'is-bottom',
                 type: 'is-info'
             });
+        }
+    },
+    computed:{
+        localizedName(){
+            return this.place.localization[0].name;
         }
     },
     created() {

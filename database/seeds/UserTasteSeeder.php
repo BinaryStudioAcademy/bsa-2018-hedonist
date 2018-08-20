@@ -13,9 +13,6 @@ class UserTasteSeeder extends Seeder
     public function run()
     {
         Taste::create('spicy food');
-        Taste::create('live music');
-        Taste::create('electronic music');
-        Taste::create('jazz');
         Taste::create('vegetarian food');
         Taste::create('italian food');
         Taste::create('fast food');

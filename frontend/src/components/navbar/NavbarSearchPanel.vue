@@ -14,12 +14,10 @@
             </div>
         </div>
         <div class="navbar-item">
-            <div class="control">
-                <SearchCity @select="selectSearchCity" />
-            </div>
+            <SearchCity @select="selectSearchCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
-            <button class="button">
+            <button @click.prevent="search" class="button is-info">
                 <span class="icon is-large">
                     <i class="fas fa-lg fa-search" />
                 </span>
@@ -49,6 +47,9 @@ export default {
             selectSearchCity: 'search/selectSearchCity',
             loadCategoriesByQuery: 'placeCategory/loadCategories'
         }),
+        search() {
+            //TODO: implement search by city and category
+        },
         onClickOutside() {
             this.isShow = false;
         },

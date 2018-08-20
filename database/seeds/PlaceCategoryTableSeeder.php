@@ -19,7 +19,6 @@ class PlaceCategoryTableSeeder extends Seeder
             ['name' => 'Restaurant'],
             ['name' => 'Cafeteria'],
             ['name' => 'Cafe'],
-            ['name' => 'Nightlife'],
             ['name' => 'Snacks'],
             ['name' => 'Other']
         ]);
