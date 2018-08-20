@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
-use Hedonist\Actions\Place\Presenters\Review\ReviewPresenter;
+use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
 use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
 use Hedonist\Actions\Presenters\City\CityPresenter;
