@@ -25,11 +25,6 @@
                         >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
                     </p>
                 </div>
-                <div class="media-right rating-wrapper">
-                    <div class="rating">
-                        rating
-                    </div>
-                </div>
             </div>
         </div>
     </transition>
