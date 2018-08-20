@@ -3,8 +3,8 @@
         <img
             v-img:review-group
             class="reviews-photo__image" 
-            :src="photo.url" 
-            alt="reviews image"
+            :src="photo.url"
+            :alt="photo.description"
         >
     </div>
 </template>
