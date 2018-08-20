@@ -34,7 +34,7 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
                 ->with([
                     'places',
                     'places.localization',
-                    'places.city' => function($query){
+                    'places.city' => function ($query) {
                         $query->select(['id', 'name']);
                     },
                 ])

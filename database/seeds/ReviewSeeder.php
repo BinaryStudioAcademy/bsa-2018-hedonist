@@ -5,8 +5,7 @@ use \Hedonist\Entities\Place\Place;
 use \Hedonist\Entities\User\User;
 use Hedonist\Entities\Review\Review;
 
-
-class _ReviewSeeder extends Seeder
+class ReviewSeeder extends Seeder
 {
     /**
      * Run the database seeds.
