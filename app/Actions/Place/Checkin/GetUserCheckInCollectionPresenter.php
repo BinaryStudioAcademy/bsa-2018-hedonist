@@ -12,9 +12,9 @@ class GetUserCheckInCollectionPresenter
 
         foreach ($checkInCollectionResponse->getPlaceCollection() as $checkIn) {
             $filteredRating = $checkInCollectionResponse->getRatingCollection()
-                ->where('place_id', $checkIn->place->id)
+                ->where('placeId', $checkIn->place->id)
                 ->first();
-            $rating = $filteredRating ? $filteredRating->rating : 0;
+            $rating = $filteredRating ? $filteredRating->avgRating : 0;
             $checkInsArray[] = self::presentCollectionItem($checkIn, $rating);
         }
 

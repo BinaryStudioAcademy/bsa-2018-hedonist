@@ -3,6 +3,7 @@
 namespace Hedonist\Repositories\Place;
 
 use Hedonist\Entities\Place\PlaceRating;
+use Hedonist\Entities\Place\RatingAverage;
 use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -61,11 +62,25 @@ class PlaceRatingRepository extends BaseRepository implements PlaceRatingReposit
             ->count();
     }
 
+    public function getAverageRating(int $placeId): ?RatingAverage
+    {
+        $rating = PlaceRating::where('place_id', $placeId)
+            ->avg('rating');
+
+        return $rating ? new RatingAverage($placeId, $rating) : null;
+    }
+
     public function getAvgByPlaceIds(array $ids): Collection
     {
-        return PlaceRating::selectRaw('AVG(rating) as rating, place_id')
-            ->whereIn('place_id', $ids)
-            ->groupBy('place_id')
-            ->get();
+        $collection = new Collection();
+
+        foreach ($ids as $id) {
+            $averageRating = $this->getAverageRating($id);
+            if ($averageRating) {
+                $collection->push($averageRating);
+            }
+        }
+
+        return $collection;
     }
 }

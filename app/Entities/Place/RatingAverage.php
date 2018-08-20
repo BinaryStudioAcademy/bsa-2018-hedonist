@@ -1,15 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: zyzz
- * Date: 8/20/18
- * Time: 7:33 PM
- */
 
 namespace Hedonist\Entities\Place;
 
 
 class RatingAverage
 {
+    public $placeId;
+    public $avgRating;
 
+    public function __construct(int $placeId, float $avgRating)
+    {
+        $this->placeId = $placeId;
+        $this->avgRating = $avgRating;
+    }
 }
