@@ -17,7 +17,7 @@ class PlacePhotoRequest extends JsonRequest
             'creator_id' => 'required|integer',
             'description' => 'required|string|max:255',
             'img_url' => 'required|image',
-            'place_id' => 'required|integerapp/Entities/Place/PlacePhoto.php '
+            'place_id' => 'required|integer'
         ];
     }
 }
