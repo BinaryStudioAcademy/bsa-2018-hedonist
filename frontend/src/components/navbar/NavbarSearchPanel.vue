@@ -1,7 +1,7 @@
 <template>
     <div class="navbar-start">
         <div class="navbar-item">
-            <div class="control has-icons-right">
+            <div class="control">
                 <b-autocomplete
                     v-model="filterQuery"
                     placeholder="I'm looking for..."
@@ -18,7 +18,10 @@
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
-                <i class="fas fa-lg fa-search" />
+                <span class="icon is-large">
+                    <i class="fas fa-lg fa-search" />
+                </span>
+                <span class="button-title">Search</span>
             </button>
         </div>
     </div>
@@ -108,6 +111,34 @@ export default {
         a:hover {
             background: #efeff4;
             color: #4e595d;
+        }
+    }
+
+    .button {
+        @media screen and (max-width: 1087px) {
+            width: 88%;
+        }
+
+        .button-title {
+            display: none;
+
+            @media screen and (max-width: 1087px) {
+                display: inline-block;
+            }
+        }
+
+        &:hover {
+            background-color: #167df0;
+
+            @media screen and (max-width: 1087px) {
+                background-color: #0f77ea;
+            }
+        }
+    }
+
+    .navbar-search-btn {
+        @media screen and (max-width: 1087px) {
+            text-align: center;
         }
     }
 </style>

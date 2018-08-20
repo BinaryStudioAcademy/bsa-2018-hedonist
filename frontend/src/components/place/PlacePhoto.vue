@@ -3,8 +3,8 @@
         <img
             v-img:top-group
             class="place-photo__image" 
-            :src="photo.url" 
-            alt="place image"
+            :src="photo.img_url"
+            :alt="photo.description"
         >
         <div 
             v-if="photo.id === lastId" 
