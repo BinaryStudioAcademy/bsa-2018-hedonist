@@ -34,8 +34,8 @@ export default {
                     resolve(result.data.data);
                 })
                 .catch(function (error) {
-                    reject(error)
+                    reject(error);
                 });
         });
     }
-}
+};

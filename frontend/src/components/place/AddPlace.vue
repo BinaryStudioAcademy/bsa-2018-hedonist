@@ -380,7 +380,7 @@ export default {
                 this.newPlace.category_tags = [];
                 this.$store.dispatch('placeCategory/getTagsByCategory', categoryObject.id)
                     .then((result) => {
-                        this.category_tags = result
+                        this.category_tags = result;
                     });
                 this.selectedTag = 'v';
             }
