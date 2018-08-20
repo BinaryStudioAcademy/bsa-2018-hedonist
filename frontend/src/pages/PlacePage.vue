@@ -10,18 +10,18 @@
             <div class="column is-two-thirds">
                 <div class="main">
                     <ReviewList 
-                        v-if="loaded && (activeTab === 1) && currentPlace.reviews"
-                        :place="currentPlace"
+                        v-if="loaded && (activeTab === 1) && place.reviews"
+                        :place="place"
                     />
                     <ReviewPhotoGallery 
-                        v-if="loaded && (activeTab === 2) && currentPlace.photos"
-                        :place="currentPlace"
+                        v-if="loaded && (activeTab === 2) && place.photos"
+                        :place="place"
                     />
                 </div>
             </div>
             <PlaceSidebarInfo 
                 v-if="loaded"
-                :place="currentPlace"
+                :place="place"
             />
         </div>
     </div>

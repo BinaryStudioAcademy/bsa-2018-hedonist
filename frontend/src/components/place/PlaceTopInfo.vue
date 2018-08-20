@@ -36,7 +36,7 @@
                         <b-icon icon="menu-down" />
                     </button>
 
-                    <template v-for="list in userlist">
+                    <template v-for="list in userList">
                         <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}</b-dropdown-item>
                     </template>
                 </b-dropdown>
@@ -118,15 +118,15 @@ export default {
     data() {
         return {
             activeTab: 1,
-            userlist: {},
+            userList: {},
             isCheckinModalActive: false
         };
     },
 
     created() {
-        this.$store.dispatch('userlist/getListsByUser', this.user.id)
+        this.$store.dispatch('userList/getListsByUser', this.user.id)
             .then((result) => {
-                this.userlist = result;
+                this.userList = result;
             });
     },
 
@@ -149,7 +149,7 @@ export default {
         },
 
         addPlaceToList: function (listId) {
-            this.$store.dispatch('userlist/addPlaceToList', {
+            this.$store.dispatch('userList/addPlaceToList', {
                 listId: listId,
                 placeId: this.place.id
             });
