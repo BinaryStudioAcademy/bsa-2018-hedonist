@@ -36,7 +36,6 @@ export default {
                     resolve();
                 })
                 .catch(function (err) {
-                    console.log(err.response);
                     reject(err);
                 });
         });
