@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
+use Hedonist\Entities\Place\Place;
 
 class UserListTableSeeder extends Seeder
 {
@@ -40,11 +41,19 @@ class UserListTableSeeder extends Seeder
         foreach ($users as $user) {
 
             foreach (self::LISTS as $list){
-                UserList::create([
+                $userList = UserList::create([
                     'user_id' => $user->id,
                     'name' => $list['name'],
                     'img_url' => $list['img_url'],
                 ]);
+                $userList->places()->attach(Place::inRandomOrder()->first()->id);
+                $userList->places()->attach(Place::inRandomOrder()->first()->id);
+                $userList->places()->attach(Place::inRandomOrder()->first()->id);
+                $userList->places()->attach(Place::inRandomOrder()->first()->id);
+                $userList->places()->attach(Place::inRandomOrder()->first()->id);
+                $userList->places()->attach(Place::inRandomOrder()->first()->id);
+                $userList->places()->attach(Place::inRandomOrder()->first()->id);
+                $userList->places()->attach(Place::inRandomOrder()->first()->id);
             }
         }
     }

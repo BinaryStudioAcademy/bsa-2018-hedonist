@@ -15,7 +15,7 @@ class GetUserListsCollectionAction
     public function execute(GetUserListsCollectionRequest $request): GetUserListsCollectionResponse
     {
         return new GetUserListsCollectionResponse(
-            $this->userListsRepository->findUserLists($request->getUserId())
+            $this->userListsRepository->findUserListsWithPlaces($request->getUserId())
         );
     }
 }
