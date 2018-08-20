@@ -173,7 +173,7 @@ class PlaceTableSeeder extends Seeder
             foreach (self::IMAGES as $imageUrl) {
                 factory(PlacePhoto::class)->create([
                     'place_id' => $place->id,
-                    'creator_id' => User::inRandomOrder()->unique()->id,
+                    'creator_id' => User::inRandomOrder()->first()->id,
                     'img_url' => $imageUrl
                 ]);
             }
