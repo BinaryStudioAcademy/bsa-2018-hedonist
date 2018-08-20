@@ -46,6 +46,11 @@ class Place extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function placeInfo()
+    {
+        return $this->hasOne(PlaceInfo::class);
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class);
