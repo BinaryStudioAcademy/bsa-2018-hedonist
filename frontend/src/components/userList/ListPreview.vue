@@ -16,54 +16,54 @@
 </template>
 
 <script>
-    import ListPreviewItems from './ListPreviewItems';
-    import { mapState, mapGetters } from 'vuex';
-    export default {
-        name: 'ListPreview',
-        components: {ListPreviewItems},
-        data() {
-            return {
-                isLoading: true,
-                filterBy: {
-                    cityId: null,
-                },
-            };
-        },
-        created() {
-            this.$store
-                .dispatch('userList/getListsByUser')
-                .then(()=>{
-                    console.log(this.userLists[1].places);
-                    this.isLoading = false;
-                })
-                .catch(()=> {
-                    this.isLoading = false;
-                });
-        },
-        computed: {
-            ...mapState('userList', [
-                'userLists'
-            ]),
-            isLoaded: function () {
-                return !!(this.userLists);
+import ListPreviewItems from './ListPreviewItems';
+import { mapState, mapGetters } from 'vuex';
+export default {
+    name: 'ListPreview',
+    components: {ListPreviewItems},
+    data() {
+        return {
+            isLoading: true,
+            filterBy: {
+                cityId: null,
             },
-            filteredUserLists: function () {
-                let filtered = this.userLists;
-                if (this.filterBy.cityId) {
-                    filtered = filtered.filter(
-                        ul => ul.places.filter(
-                            pl => pl.city_id == this.filterBy.cityId
-                        ).length > 0);
-                }
-                return filtered;
-            }
+        };
+    },
+    created() {
+        this.$store
+            .dispatch('userList/getListsByUser')
+            .then(()=>{
+                console.log(this.userLists[1].places);
+                this.isLoading = false;
+            })
+            .catch(()=> {
+                this.isLoading = false;
+            });
+    },
+    computed: {
+        ...mapState('userList', [
+            'userLists'
+        ]),
+        isLoaded: function () {
+            return !!(this.userLists);
         },
-        methods: {
-            setCityFilter(cityId){
-                this.filterBy.cityId = cityId;
+        filteredUserLists: function () {
+            let filtered = this.userLists;
+            if (this.filterBy.cityId) {
+                filtered = filtered.filter(
+                    ul => ul.places.filter(
+                        pl => pl.city_id == this.filterBy.cityId
+                    ).length > 0);
             }
-        },
-    };
+            return filtered;
+        }
+    },
+    methods: {
+        setCityFilter(cityId){
+            this.filterBy.cityId = cityId;
+        }
+    },
+};
 </script>
 
 <style lang="scss" scoped>
