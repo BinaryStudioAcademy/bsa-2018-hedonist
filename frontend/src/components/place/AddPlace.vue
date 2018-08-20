@@ -314,7 +314,8 @@ export default {
             newPlace: {
                 name: '',
                 category: '',
-                category_tags: []
+                category_tags: [],
+                features: []
             },
             categories: {},
             selectedTag: 'v',
