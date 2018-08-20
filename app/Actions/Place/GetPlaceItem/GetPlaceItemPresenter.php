@@ -25,6 +25,7 @@ class GetPlaceItemPresenter
     private $categoryPresenter;
     private $photoPresenter;
     private $tagsPresenter;
+    private $placeInfoPresenter;
 
     public function __construct(
         PlacePresenter $placePresenter,
