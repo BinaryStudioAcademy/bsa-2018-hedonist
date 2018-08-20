@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <button 
+                <button
                     class="button is-primary"
                     @click="isCheckinModalActive = true"
                 >
@@ -35,7 +35,6 @@
                         <i class="far fa-save" />Save
                         <b-icon icon="menu-down" />
                     </button>
-
                     <template v-for="list in userList">
                         <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}</b-dropdown-item>
                     </template>
@@ -73,17 +72,11 @@
                     {{ place.ratingCount || 1 }} marks
                 </div>
                 <div class="place-rate__preference">
-                    <div class="likable like">
-                        <span class="fa-stack fa-2x">
-                            <i class="fa fa-heart fa-stack-1x" />
-                        </span>
-                    </div>
-                    <div class="likable dislike">
-                        <span class="fa-stack fa-2x">
-                            <i class="fa fa-heart fa-stack-1x" />
-                            <i class="fa fa-bolt fa-stack-1x fa-inverse" />
-                        </span>
-                    </div>
+                    <LikeDislikeButtons
+                        :likes="place.likes"
+                        :dislikes="place.dislikes"
+                        like="NONE"
+                    />
                 </div>
             </div>
         </div>
@@ -93,12 +86,14 @@
 <script>
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
+import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 
 export default {
     name: 'PlaceTopInfo',
     components: {
         PlacePhotoList,
-        PlaceCheckinModal
+        PlaceCheckinModal,
+        LikeDislikeButtons
     },
     props: {
         place: {
@@ -122,19 +117,17 @@ export default {
             isCheckinModalActive: false
         };
     },
-
     created() {
         this.$store.dispatch('userList/getListsByUser', this.user.id)
             .then((result) => {
                 this.userList = result;
             });
     },
-
     computed: {
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
         },
-        localizedName(){
+        localizedName() {
             return this.place.localization[0].name;
         },
         photosCount() {
@@ -143,7 +136,7 @@ export default {
     },
 
     methods: {
-        changeTab: function(activeTab) {
+        changeTab: function (activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);
         },
@@ -192,7 +185,7 @@ export default {
                 &__preference {
                     display: flex;
                     margin-left: auto;
-                    margin-right: 30px;
+                    margin-right: 10px;
                     .likable {
                         cursor: pointer;
                         &:hover {
@@ -202,12 +195,13 @@ export default {
                     .fa-bolt {
                         top: -5%;
                         left: 2%;
-                        font-size:70%;
+                        font-size: 70%;
                     }
                 }
             }
         }
     }
+
     .place-venue {
         margin: 20px;
         &__logo {
@@ -249,6 +243,7 @@ export default {
             }
         }
     }
+
     @media screen and (max-width: 370px) {
         .place-venue {
             &__actions {
