@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollectionByFilters;
 
-
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionResponse;
 use Hedonist\Entities\Place\Location;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
