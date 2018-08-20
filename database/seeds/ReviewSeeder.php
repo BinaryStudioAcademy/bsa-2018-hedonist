@@ -22,6 +22,5 @@ class ReviewSeeder extends Seeder
                 'place_id' => $place->getKey()
             ]);
         });
-
     }
 }
