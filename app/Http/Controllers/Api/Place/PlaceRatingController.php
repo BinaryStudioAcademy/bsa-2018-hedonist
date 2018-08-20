@@ -21,7 +21,6 @@ use Hedonist\Actions\Place\Rate\{
     SetPlaceRatingRequest,
     GetPlaceRatingAvgRequest
 };
-use Illuminate\Support\Facades\Auth;
 
 class PlaceRatingController extends ApiController
 {
@@ -38,7 +37,6 @@ class PlaceRatingController extends ApiController
         $this->getRatingAction = $getRatingAction;
         $this->setRatingAction = $setRatingAction;
         $this->getPlaceRatingAvgAction = $getPlaceRateAvgAction;
-        $this->userId = Auth::id();
     }
 
     public function setRating(SetRatingHttpRequest $httpRequest) : JsonResponse
@@ -48,7 +46,7 @@ class PlaceRatingController extends ApiController
                 new SetPlaceRatingRequest(
                     $httpRequest->rating,
                     $httpRequest->id,
-                    $this->userId,
+                    $httpRequest->user_id,
                     $httpRequest->place_id
                 )
             );
@@ -69,12 +67,10 @@ class PlaceRatingController extends ApiController
     public function getRating(GetRatingHttpRequest $httpRequest, $id = null) : JsonResponse
     {
         try {
-            $userId = $httpRequest->user_id ? $httpRequest->user_id : $this->userId;
-
             $getPlaceRatingResponse = $this->getRatingAction->execute(
                 new GetPlaceRatingRequest(
                     $id,
-                    $userId,
+                    $httpRequest->user_id,
                     $httpRequest->place_id,
                     $httpRequest->rating
                 )

@@ -4,17 +4,17 @@ namespace Hedonist\Actions\Place\Rate;
 
 class SetPlaceRatingResponse
 {
-    protected $id;
+    private $id;
 
-    protected $userId;
+    private $userId;
 
-    protected $placeId;
+    private $placeId;
 
-    protected $ratingValue;
+    private $ratingValue;
 
-    protected $ratingAvg;
+    private $ratingAvg;
 
-    protected $ratingCount;
+    private $ratingCount;
 
     public function __construct(int $id, int $userId, int $placeId, int $ratingValue, float $ratingAvg, int $ratingCount)
     {

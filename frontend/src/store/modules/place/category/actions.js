@@ -13,5 +13,25 @@ export default {
                     reject(err);
                 });
         });
+    },
+
+    getAllCategories: () => {
+        return httpService.get('/places/categories')
+            .then((result) => {
+                return Promise.resolve(result.data.data);
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            });
+    },
+
+    getTagsByCategory: (context, categoryId) => {
+        return httpService.get(`/places/categories/${categoryId}/tags`)
+            .then((result) => {
+                return Promise.resolve(result.data.data);
+            })
+            .catch((error) => {
+                return Promise.reject(error);
+            });
     }
 };

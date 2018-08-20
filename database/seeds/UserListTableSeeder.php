@@ -29,14 +29,8 @@ class UserListTableSeeder extends Seeder
         ]
     ];
 
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    public function run() : void
     {
-
         $users = User::all();
         foreach ($users as $user) {
 

@@ -1,7 +1,7 @@
 <template>
     <div class="navbar-start">
         <div class="navbar-item">
-            <div class="control has-icons-right">
+            <div class="control">
                 <b-autocomplete
                     v-model="filterQuery"
                     placeholder="I'm looking for..."
@@ -14,14 +14,15 @@
             </div>
         </div>
         <div class="navbar-item">
-            <div class="control">
-                <SearchCity @select="selectSearchCity" />
-            </div>
+            <SearchCity @select="selectSearchCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
-            <span class="icon is-large">
-                <i class="fas fa-lg fa-search" />
-            </span>
+            <button @click.prevent="search" class="button is-info">
+                <span class="icon is-large">
+                    <i class="fas fa-lg fa-search" />
+                </span>
+                <span class="button-title">Search</span>
+            </button>
         </div>
     </div>
 </template>
@@ -46,6 +47,9 @@ export default {
             selectSearchCity: 'search/selectSearchCity',
             loadCategoriesByQuery: 'placeCategory/loadCategories'
         }),
+        search() {
+            //TODO: implement search by city and category
+        },
         onClickOutside() {
             this.isShow = false;
         },
@@ -66,9 +70,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .navbar-search-btn{
-        cursor: pointer;
-    }
     .show-list {
         .input {
             border-radius: 4px 4px 0 0;
@@ -110,6 +111,34 @@ export default {
         a:hover {
             background: #efeff4;
             color: #4e595d;
+        }
+    }
+
+    .button {
+        @media screen and (max-width: 1087px) {
+            width: 88%;
+        }
+
+        .button-title {
+            display: none;
+
+            @media screen and (max-width: 1087px) {
+                display: inline-block;
+            }
+        }
+
+        &:hover {
+            background-color: #167df0;
+
+            @media screen and (max-width: 1087px) {
+                background-color: #0f77ea;
+            }
+        }
+    }
+
+    .navbar-search-btn {
+        @media screen and (max-width: 1087px) {
+            text-align: center;
         }
     }
 </style>

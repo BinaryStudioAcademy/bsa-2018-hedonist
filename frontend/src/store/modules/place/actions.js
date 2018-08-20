@@ -30,12 +30,12 @@ export default {
     loadCurrentPlace: (context, id) => {
         return new Promise((resolve, reject) => {
             httpService.get('/places/' + id)
-                .then(function (response) {
+                .then( (response) => {
                     const currentPlace = response.data.data;
                     context.commit('SET_CURRENT_PLACE', currentPlace);
                     resolve();
                 })
-                .catch(function (err) {
+                .catch( (err) => {
                     reject(err);
                 });
         });

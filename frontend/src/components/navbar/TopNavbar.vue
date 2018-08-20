@@ -1,6 +1,6 @@
 <template>
     <div class="is-paddingless">
-        <nav class="navbar is-info">
+        <nav class="navbar is-info is-fixed-top">
             <div class="navbar-wrapper container is-flex">
                 <div class="navbar-brand navbar-brand-name">
                     <router-link
@@ -72,10 +72,6 @@
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'MyTastesPage' }"
                                 >My tastes</router-link>
-                                <router-link
-                                    class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'PlacesList' }"
-                                >My places</router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'UserListsPage' }"
@@ -175,10 +171,34 @@ export default {
     }
     }
     .navbar-menu {
-    @media screen and (max-width: 1087px) {
-        position: absolute;
-        right: 0;
-        top: 52px;
+        @media screen and (max-width: 1087px) {
+           position: absolute;
+           right: 0;
+           top: 52px;
+           width: 200px;
+        }
     }
+
+    .navbar-start {
+        @media screen and (max-width: 1087px) {
+           margin-bottom: 10%;
+        }
+    }
+
+    .navbar-dropdown-menu {
+        @media screen and (max-width: 1087px) {
+           text-align: center;
+        }
+    }
+
+    .navbar-dropdown > a {
+        @media screen and (max-width: 1087px) {
+            text-indent: 51px;
+
+            &:first-child,
+            &:last-child {
+                text-indent: 36px;
+            }
+        }
     }
 </style>

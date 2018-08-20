@@ -17,11 +17,11 @@
                     <p class="address">
                         Cities in the list:
 
-                        <a 
-                            v-for="(city,index) in getUniqueCities" 
-                            :key="index" 
-                            href="#" 
-                            @click="setCityFilter(city.id)"
+                        <a
+                                v-for="(city,index) in getUniqueCities"
+                                :key="index"
+                                href="#"
+                                @click="setCityFilter(city.id)"
                         >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
                     </p>
                 </div>
@@ -36,67 +36,66 @@
 </template>
 
 <script>
-export default {
-    name: 'ListPreviewItems',
-    data() {
-        return {
-            active: false
-        };
-    },
-    filters: {
-        countPlaces: function (places) {
-            return places.length;
+    export default {
+        name: 'ListPreviewItems',
+        data() {
+            return {
+                active: false
+            };
         },
-
-    },
-    computed: {
-        getUniqueCities: function () {
-            const places = this.userList.places;
-            const cities = places.map(place => place.city);
-            return cities.filter((a, i) =>
-                i === cities.length - 1 ||
+        filters: {
+            countPlaces: function (places) {
+                return places.length;
+            },
+        },
+        computed: {
+            getUniqueCities: function () {
+                const places = this.userList.places;
+                const cities = places.map(place => place.city);
+                return cities.filter((a, i) =>
+                    i === cities.length - 1 ||
                     a.id !== cities[i + 1].id
-            );
+                );
+            },
         },
-    },
-    props: {
-        userList: {
-            required: true,
-            type: Object,
+        props: {
+            userList: {
+                required: true,
+                type: Object,
+            },
+            timer: {
+                required: true,
+                type: Number,
+            }
         },
-        timer: {
-            required: true,
-            type: Number,
+        methods: {
+            notLast: function (index) {
+                return this.getUniqueCities.length - index > 1;
+            },
+            like() {
+                this.$toast.open({
+                    message: 'You liked this review!',
+                    type: 'is-info',
+                    position: 'is-bottom'
+                });
+            },
+            dislike() {
+                this.$toast.open({
+                    message: 'You disliked this review',
+                    position: 'is-bottom',
+                    type: 'is-info'
+                });
+            },
+            setCityFilter(cityId){
+                this.$parent.setCityFilter(cityId);
+            }
+        },
+        created() {
+            setTimeout(() => {
+                this.active = true;
+            }, this.timer);
         }
-    },
-    methods: {
-        notLast: function (index) {
-            return this.getUniqueCities.length - index > 1;
-        },
-        like() {
-            this.$toast.open({
-                message: 'You liked this review!',
-                type: 'is-info',
-                position: 'is-bottom'
-            });
-        },
-        dislike() {
-            this.$toast.open({
-                message: 'You disliked this review',
-                position: 'is-bottom',
-                type: 'is-info'
-            });
-        },
-        setCityFilter(cityId){
-            this.$parent.setCityFilter(cityId);
-        }
-    },
-    created() {
-        setTimeout(() => {
-            this.active = true;
-        }, this.timer);
-    }
-};
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -107,20 +106,16 @@ export default {
         margin-bottom: 1rem;
         padding: 10px;
     }
-
     .columns {
         width: 100%;
         margin: 0;
     }
-
     .title {
         margin-bottom: 0.5rem;
     }
-
     .image > img {
         border-radius: 5px;
     }
-
     .place-category {
         margin-bottom: 0.25rem;
         a {
@@ -130,18 +125,15 @@ export default {
             -ms-transition: color 0.3s;
             -o-transition: color 0.3s;
             transition: color 0.3s;
-
             &:hover {
                 color: black;
                 text-decoration: underline;
             }
         }
     }
-
     .address {
         margin-bottom: 0.5rem;
     }
-
     .rating {
         width: 48px;
         height: 48px;
@@ -153,19 +145,15 @@ export default {
         color: #FFF;
         text-align: center;
     }
-
     hr {
         color: grey;
         border-width: 3px;
     }
-
     .slide-fade-enter-active {
         transition: all 0.5s ease;
     }
-
     .slide-fade-enter, .slide-fade-leave-to {
         transform: translateX(300px);
         opacity: 0;
     }
-
 </style>

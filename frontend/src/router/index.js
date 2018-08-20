@@ -19,7 +19,7 @@ import MyTastesPage from '@/pages/MyTastesPage';
 Vue.use(Router);
 
 const middleware = handler => (
-    routes => routes.map(route => Object.assign({}, route, { beforeEnter: handler }))
+    routes => routes.map(route => Object.assign({}, route, {beforeEnter: handler}))
 );
 
 export default new Router({
@@ -82,6 +82,10 @@ export default new Router({
                 path: '/history',
                 name: 'HistoryPage',
                 component: HistoryPage
+            },
+            {
+                path: '*',
+                redirect: '/'
             }
         ]),
         ...middleware(middlewares.guest(store))([

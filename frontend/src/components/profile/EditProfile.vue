@@ -102,10 +102,13 @@ export default {
         };
     },
     created() {
-        let date = new Date(this.user.date_of_birth.date);
-        this.birthYear = date.getFullYear();
-        this.birthMonth = date.getMonth() + 1;
-        this.birthDay = date.getDate();
+        if (this.user.date_of_birth !== null) {
+            let date = new Date(this.user.date_of_birth.date);
+            this.birthYear = date.getFullYear();
+            this.birthMonth = date.getMonth() + 1;
+            this.birthDay = date.getDate();
+        }
+
     },
     computed: {
         ...mapGetters({
