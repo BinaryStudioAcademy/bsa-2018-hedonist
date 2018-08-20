@@ -7,9 +7,9 @@
             <SearchCity @select="selectSearchCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
-            <span class="icon is-large">
+            <button @click.prevent="search" class="button is-info">
                 <i class="fas fa-lg fa-search" />
-            </span>
+            </button>
         </div>
     </div>
 </template>
@@ -29,7 +29,10 @@ export default {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
             selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
-        })
+        }),
+        search() {
+            //TODO: implement search by city and category
+        }
     },
 };
 </script>
