@@ -154,82 +154,76 @@
                 </b-tab-item>
 
                 <b-tab-item label="Categories">
-                    <div class="columns is-centered">
-                        <div class="column is-half">
-                            <div class="level">
-                                <div class="level-item">
-                                    <b-field>
-                                        <b-select v-model="newPlace.category">
-                                            <option value="" selected disabled>Select a category</option>
-                                            <option
-                                                v-for="option in categories"
-                                                :key="option.id"
-                                                :value="option"
-                                            >
-                                                {{ option.name }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-                            </div>
-                            <template v-if="isCategorySelected">
-                                <div class="level">
-                                    <div class="level-item">
-                                        <b-field>
-                                            <b-select v-model="selectedTag">
-                                                <option value="v" selected disabled>Add tags</option>
-                                                <option
-                                                    v-for="option in category_tags"
-                                                    :key="option.id"
-                                                    :value="option"
-                                                >
-                                                    {{ option.name }}
-                                                </option>
-                                            </b-select>
-                                        </b-field>
-                                    </div>
-                                </div>
-                            </template>
-
-                            <!-- Tags field here! -->
-                            <template>
-                                <div class="level">
-                                    <div class="level-item">
-                                        <b-taglist>
-                                            <b-tag
-                                                v-for="tag in newPlace.category_tags"
-                                                :key="tag.id"
-                                                type="is-info"
-                                                size="is-medium"
-                                                closable
-                                                @close="onCloseTab(tag)"
-                                            >
-                                                {{ tag.name }}
-                                            </b-tag>
-                                        </b-taglist>
-                                    </div>
-                                </div>
-                            </template>
+                    <div class="level">
+                        <div class="level-item">
+                            <b-field>
+                                <b-select v-model="newPlace.category">
+                                    <option value="" selected disabled>Select a category</option>
+                                    <option
+                                        v-for="option in categories"
+                                        :key="option.id"
+                                        :value="option"
+                                    >
+                                        {{ option.name }}
+                                    </option>
+                                </b-select>
+                            </b-field>
                         </div>
                     </div>
+                    <template v-if="isCategorySelected">
+                        <div class="level">
+                            <div class="level-item">
+                                <b-field>
+                                    <b-select v-model="selectedTag">
+                                        <option value="v" selected disabled>Add tags</option>
+                                        <option
+                                            v-for="option in category_tags"
+                                            :key="option.id"
+                                            :value="option"
+                                        >
+                                            {{ option.name }}
+                                        </option>
+                                    </b-select>
+                                </b-field>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Tags field here! -->
+                    <template>
+                        <div class="level">
+                            <div class="level-item">
+                                <b-taglist>
+                                    <b-tag
+                                        v-for="tag in newPlace.category_tags"
+                                        :key="tag.id"
+                                        type="is-info"
+                                        size="is-medium"
+                                        closable
+                                        @close="onCloseTab(tag)"
+                                    >
+                                        {{ tag.name }}
+                                    </b-tag>
+                                </b-taglist>
+                            </div>
+                        </div>
+                    </template>
                 </b-tab-item>
 
                 <b-tab-item label="Features">
-                    <div v-for="(feature, index) in features" :key="index" class="columns is-centered is-multiline">
-                        <div class="column is-half">
-                            <div class="level">
-                                <div class="level-left">
-                                    <span class="label">{{ feature.name }}</span>
-                                </div>
-                                <div class="level-right">
-                                    <b-switch
+                    <template  v-for="(feature, index) in features">
+                        <div :key="index" class="level is-flex-mobile">
+                            <div class="level-left">
+                                <span class="label">{{ feature.name }}</span>
+                            </div>
+                            <div class="level-right">
+                                <b-switch
                                         v-model="feature.status"
                                         type="is-success"
-                                    />
-                                </div>
+                                />
                             </div>
                         </div>
-                    </div>
+                    </template>
                 </b-tab-item>
 
                 <b-tab-item label="Hours">
@@ -452,6 +446,10 @@ export default {
         h4 {
             font-weight: 500;
         }
+    }
+
+    .test {
+        width: 100%;
     }
 
 </style>
