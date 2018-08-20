@@ -216,8 +216,8 @@ class PlaceRatingTest extends ApiTestCase
     public function test_set_rating_validation(): void
     {
         $placeId = $this->place_1_rating_1->place_id;
-        $rating_less = 50;
-        $rating_over = 70;
+        $rating_less = -50;
+        $rating_over = 50;
 
         $response = $this->json('POST', 'api/v1/places/rating', [
         ]);
