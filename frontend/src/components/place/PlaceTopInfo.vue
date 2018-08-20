@@ -1,6 +1,6 @@
 <template>
     <div class="place-top-info">
-        <PlacePhotoList />
+        <PlacePhotoList :photos="place.photos" />
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
@@ -36,7 +36,7 @@
                         <b-icon icon="menu-down" />
                     </button>
 
-                    <template v-for="list in userlist">
+                    <template v-for="list in userList">
                         <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}</b-dropdown-item>
                     </template>
                 </b-dropdown>
@@ -60,16 +60,18 @@
                             @click="changeTab(2)"
                             :class="{ 'is-active' : activeTab === 2}"
                         >
-                            <a><span>Photos (12)</span></a>
+                            <a><span>Photos ({{ photosCount }})</span></a>
                         </li>
                     </ul>
                 </nav>
             </div>
             <div class="column is-one-third place-rate">
                 <div class="place-rate__mark">
-                    <span>{{ place.rating }}</span><sup>/<span>10</span></sup>
+                    <span>{{ place.rating | formatRating }}</span><sup>/<span>10</span></sup>
                 </div>
-                <div class="place-rate__mark-count">444 marks</div>
+                <div class="place-rate__mark-count">
+                    {{ place.ratingCount || 1 }} marks
+                </div>
                 <div class="place-rate__preference">
                     <div class="likable like">
                         <span class="fa-stack fa-2x">
@@ -104,18 +106,27 @@ export default {
             required: true
         }
     },
+    filters: {
+        formatRating: function(number){
+            return new Intl.NumberFormat(
+                'en-US', {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                }).format(number);
+        },
+    },
     data() {
         return {
             activeTab: 1,
-            userlist: {},
+            userList: {},
             isCheckinModalActive: false
         };
     },
 
     created() {
-        this.$store.dispatch('userlist/getListsByUser', this.user.id)
+        this.$store.dispatch('userList/getListsByUser', this.user.id)
             .then((result) => {
-                this.userlist = result;
+                this.userList = result;
             });
     },
 
@@ -125,6 +136,9 @@ export default {
         },
         localizedName(){
             return this.place.localization[0].name;
+        },
+        photosCount() {
+            return this.place.photos.length;
         }
     },
 
@@ -135,7 +149,7 @@ export default {
         },
 
         addPlaceToList: function (listId) {
-            this.$store.dispatch('userlist/addPlaceToList', {
+            this.$store.dispatch('userList/addPlaceToList', {
                 listId: listId,
                 placeId: this.place.id
             });

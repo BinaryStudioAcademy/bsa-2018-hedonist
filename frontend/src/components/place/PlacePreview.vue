@@ -3,8 +3,8 @@
         <div class="container place-item" v-if="active">
             <div class="media">
                 <figure class="media-left image is-128x128">
-                    <!-- TODO set place photo url -->
-                    <img src="http://via.placeholder.com/128x128">
+                    <img v-if="photo" :src="photo">
+                    <img v-else src="../../assets/placeholder_128x128.png">
                 </figure>
                 <div class="media-content">
                     <h3
@@ -159,6 +159,14 @@ export default {
             type: Number,
         }
     },
+    computed: {
+        localizedName(){
+            return this.place.localization[0].name;
+        },
+        photo: function () {
+            return this.place.photos[0].img_url ? this.place.photos[0].img_url : false;
+        }
+    },
     methods: {
         like() {
             this.$toast.open({
@@ -173,11 +181,6 @@ export default {
                 position: 'is-bottom',
                 type: 'is-info'
             });
-        }
-    },
-    computed:{
-        localizedName(){
-            return this.place.localization[0].name;
         }
     },
     created() {
