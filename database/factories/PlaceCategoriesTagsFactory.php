@@ -38,7 +38,6 @@ $factory->define(PlaceCategoryTag::class, function (Faker $faker) {
     ];
     
     return [
-        'name' => $faker->unique()->randomElement($tags),
-        'category_id' => $faker->numberBetween(1, 6)
+        'name' => $faker->unique()->randomElement($tags)
     ];
 });

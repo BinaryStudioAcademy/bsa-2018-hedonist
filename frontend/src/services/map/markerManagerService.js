@@ -32,13 +32,13 @@ class MarkerManagerService {
         });
     }
 
-    fitMarkersOnMap(){
+    fitMarkersOnMap() {
         let extent = geojsonExtent(this._GeoJSON);
 
         this._map.fitBounds(extent, {padding: 50});
     }
 
-    _addGeoJsonFeature(lng,lat) {
+    _addGeoJsonFeature(lng, lat) {
         this._GeoJSON.features.push({
             'type': 'Feature',
             'properties': {},

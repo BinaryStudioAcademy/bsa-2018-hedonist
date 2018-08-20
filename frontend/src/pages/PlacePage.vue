@@ -3,25 +3,25 @@
         <b-loading :active.sync="isLoading" />
         <PlaceTopInfo 
             v-if="loaded"
-            :place="place" 
+            :place="currentPlace"
             @tabChanged="tabChanged"
         />
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
                     <ReviewList 
-                        v-if="loaded && (activeTab === 1) && place.reviews"
-                        :place="place"
+                        v-if="loaded && (activeTab === 1) && currentPlace.reviews"
+                        :place="currentPlace"
                     />
                     <ReviewPhotoGallery 
-                        v-if="loaded && (activeTab === 2) && place.photos"
-                        :place="place"
+                        v-if="loaded && (activeTab === 2) && currentPlace.photos"
+                        :place="currentPlace"
                     />
                 </div>
             </div>
             <PlaceSidebarInfo 
                 v-if="loaded"
-                :place="place"
+                :place="currentPlace"
             />
         </div>
     </div>
@@ -56,7 +56,6 @@ export default {
     created() {
         this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
             .then((response) => {
-                this.place = response;
                 this.isLoading = false;
                 this.loaded = true;
             })
@@ -72,7 +71,7 @@ export default {
     },
 
     computed: {
-        ...mapState('place', ['places'])
+        ...mapState('place', ['currentPlace'])
     },
 };
 </script>

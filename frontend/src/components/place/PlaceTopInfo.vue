@@ -1,6 +1,10 @@
 <template>
     <div class="place-top-info">
+        <<<<<<< HEAD
         <PlacePhotoList/>
+        =======
+        <PlacePhotoList :photos="place.photos"/>
+        >>>>>>> development
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
@@ -12,8 +16,7 @@
                     >
                 </div>
                 <div class="place-venue__prime-info">
-                    <div v-if="place.localization" class="place-venue__place-name">{{ place.localization.name }}</div>
-                    <div v-else class="place-venue__place-name">No localization</div>
+                    <div class="place-venue__place-name">{{ localizedName }}</div>
                     <div class="place-venue__category">{{ place.category.name }}</div>
                     <div class="place-venue__city">
                         {{ place.city.name }}, <span class="place-zip">{{ place.zip }}</span>
@@ -62,7 +65,7 @@
                                 @click="changeTab(2)"
                                 :class="{ 'is-active' : activeTab === 2}"
                         >
-                            <a><span>Photos (12)</span></a>
+                            <a><span>Photos ({{ photosCount }})</span></a>
                         </li>
                     </ul>
                 </nav>
@@ -110,16 +113,15 @@
             };
         },
 
-        created() {
-            this.$store.dispatch('userlist/getListsByUser', this.user.id)
-                .then((result) => {
-                    this.userlist = result;
-                });
-        },
-
         computed: {
             user() {
                 return this.$store.getters['auth/getAuthenticatedUser'];
+            },
+            localizedName() {
+                return this.place.localization[0].name;
+            },
+            photosCount() {
+                return this.place.photos.length;
             }
         },
 
