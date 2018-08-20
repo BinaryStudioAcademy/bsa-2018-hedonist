@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\PlaceTag;
-use Illuminate\Support\Facades\DB;
+use Hedonist\Entities\Place\PlaceCategory;
 
 class PlaceTagTableSeeder extends Seeder
 {
@@ -17,15 +17,40 @@ class PlaceTagTableSeeder extends Seeder
         $places = Place::all();
 
         foreach ($places as $place) {
-            $getTagId = DB::table('place_category_place_tag')
-                ->where('place_category_id', $place->category_id)
-                ->pluck('place_tag_id')
+
+            $categoryTags = PlaceCategory::find($place->category_id)
+                ->tags()
+                ->get()
+                ->pluck('id')
                 ->toArray();
 
-            PlaceTag::create([
-                'placecategory_placetag_id' => array_random($getTagId),
-                'place_id' => $place->category_id
-            ]);
+            $tagsArray = array_flip(range(min($categoryTags), max($categoryTags)));
+
+            if (count($tagsArray) <= 2) {
+                $smallArrayTags = array_rand($tagsArray, 1);
+                PlaceTag::create([
+                    'placecategory_placetag_id' => $smallArrayTags,
+                    'place_id' => $place->category_id
+                ]);
+
+            } elseif (count($tagsArray) <= 3) {
+                $middleArrayTags = array_rand($tagsArray, rand(2, 3));
+                for ($i = 0; $i < count($middleArrayTags); $i++) {
+                    PlaceTag::create([
+                        'placecategory_placetag_id' => $middleArrayTags[$i],
+                        'place_id' => $place->category_id
+                    ]);
+                }
+            } else {
+                $bigArrayTags = array_rand($tagsArray, rand(3, 5));
+                for ($i = 0; $i < count($bigArrayTags); $i++) {
+                    PlaceTag::create([
+                        'placecategory_placetag_id' => $bigArrayTags[$i],
+                        'place_id' => $place->category_id
+                    ]);
+                }
+            }
+
         }
     }
 }
