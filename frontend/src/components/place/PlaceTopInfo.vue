@@ -1,14 +1,14 @@
 <template>
     <div class="place-top-info">
-        <PlacePhotoList :photos="place.photos"/>
+        <PlacePhotoList :photos="place.photos" />
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
                     <img
-                            src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png"
-                            data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png"
-                            width="88"
-                            height="88"
+                        src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png"
+                        data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png"
+                        width="88"
+                        height="88"
                     >
                 </div>
                 <div class="place-venue__prime-info">
@@ -21,19 +21,19 @@
             </div>
             <div class="column is-one-third place-venue__actions">
                 <button
-                        class="button is-primary"
-                        @click="isCheckinModalActive = true"
+                    class="button is-primary"
+                    @click="isCheckinModalActive = true"
                 >
-                    <i class="fas fa-check"/>Check-in
+                    <i class="fas fa-check" />Check-in
                 </button>
                 <b-modal :active.sync="isCheckinModalActive" has-modal-card>
-                    <PlaceCheckinModal :place="place"/>
+                    <PlaceCheckinModal :place="place" />
                 </b-modal>
 
                 <b-dropdown>
                     <button class="button is-success" slot="trigger">
-                        <i class="far fa-save"/>Save
-                        <b-icon icon="menu-down"/>
+                        <i class="far fa-save" />Save
+                        <b-icon icon="menu-down" />
                     </button>
 
                     <template v-for="list in userlist">
@@ -43,7 +43,7 @@
                 </b-dropdown>
 
                 <button class="button is-info">
-                    <i class="far fa-share-square"/>Share
+                    <i class="far fa-share-square" />Share
                 </button>
             </div>
         </div>
@@ -52,14 +52,14 @@
                 <nav class="sidebar-actions tabs">
                     <ul>
                         <li
-                                @click="changeTab(1)"
-                                :class="{ 'is-active' : activeTab === 1}"
+                            @click="changeTab(1)"
+                            :class="{ 'is-active' : activeTab === 1}"
                         >
                             <a><span>Reviews (2)</span></a>
                         </li>
                         <li
-                                @click="changeTab(2)"
-                                :class="{ 'is-active' : activeTab === 2}"
+                            @click="changeTab(2)"
+                            :class="{ 'is-active' : activeTab === 2}"
                         >
                             <a><span>Photos ({{ photosCount }})</span></a>
                         </li>
@@ -73,9 +73,9 @@
                 <div class="place-rate__mark-count">444 marks</div>
                 <div class="place-rate__preference">
                     <LikeDislikeButtons
-                            :likes="place.likes"
-                            :dislikes="place.dislikes"
-                            :like="'NONE'"
+                        :likes="place.likes"
+                        :dislikes="place.dislikes"
+                        :like="'NONE'"
                     />
                 </div>
             </div>
@@ -84,57 +84,57 @@
 </template>
 
 <script>
-    import PlacePhotoList from './PlacePhotoList';
-    import PlaceCheckinModal from './PlaceCheckinModal';
-    import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
+import PlacePhotoList from './PlacePhotoList';
+import PlaceCheckinModal from './PlaceCheckinModal';
+import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 
-    export default {
-        name: 'PlaceTopInfo',
-        components: {
-            PlacePhotoList,
-            PlaceCheckinModal,
-            LikeDislikeButtons
-        },
-        props: {
-            place: {
-                type: Object,
-                required: true
-            }
-        },
-        data() {
-            return {
-                activeTab: 1,
-                userlist: {},
-                isCheckinModalActive: false
-            };
-        },
-
-        computed: {
-            user() {
-                return this.$store.getters['auth/getAuthenticatedUser'];
-            },
-            localizedName() {
-                return this.place.localization[0].name;
-            },
-            photosCount() {
-                return this.place.photos.length;
-            }
-        },
-
-        methods: {
-            changeTab: function (activeTab) {
-                this.activeTab = activeTab;
-                this.$emit('tabChanged', activeTab);
-            },
-
-            addPlaceToList: function (listId) {
-                this.$store.dispatch('userlist/addPlaceToList', {
-                    listId: listId,
-                    placeId: this.place.id
-                });
-            }
+export default {
+    name: 'PlaceTopInfo',
+    components: {
+        PlacePhotoList,
+        PlaceCheckinModal,
+        LikeDislikeButtons
+    },
+    props: {
+        place: {
+            type: Object,
+            required: true
         }
-    };
+    },
+    data() {
+        return {
+            activeTab: 1,
+            userlist: {},
+            isCheckinModalActive: false
+        };
+    },
+
+    computed: {
+        user() {
+            return this.$store.getters['auth/getAuthenticatedUser'];
+        },
+        localizedName() {
+            return this.place.localization[0].name;
+        },
+        photosCount() {
+            return this.place.photos.length;
+        }
+    },
+
+    methods: {
+        changeTab: function (activeTab) {
+            this.activeTab = activeTab;
+            this.$emit('tabChanged', activeTab);
+        },
+
+        addPlaceToList: function (listId) {
+            this.$store.dispatch('userlist/addPlaceToList', {
+                listId: listId,
+                placeId: this.place.id
+            });
+        }
+    }
+};
 </script>
 
 <style lang="scss" scoped>

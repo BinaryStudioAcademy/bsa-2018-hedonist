@@ -1,7 +1,7 @@
 <template>
     <div class="media review-wrapper">
         <figure class="image is-32x32 media-left">
-            <img :src="review.user.avatar_url" class="user-avatar"/>
+            <img :src="review.user.avatar_url" class="user-avatar">
         </figure>
         <div class="media-content">
             <div class="review-title">
@@ -10,41 +10,41 @@
                 </a>
                 •
                 <span class="review-date">
-                            {{ review.created_at }}
-                        </span>
+                    {{ review.created_at }}
+                </span>
             </div>
             <div class="review-text">
-                {{review.description}}
+                {{ review.description }}
             </div>
             <LikeDislikeButton
-                    :fontSize="'0.5rem'"
-                    :likes="review.likes"
-                    :dislikes="review.dislikes"
-                    :like="review.like"
-                    class="review-likes"
+                :font-size="'0.5rem'"
+                :likes="review.likes"
+                :dislikes="review.dislikes"
+                :like="review.like"
+                class="review-likes"
             />
         </div>
     </div>
 </template>
 
 <script>
-    import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
+import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
 
-    export default {
-        name: "PlacePreviewReviewItem",
-        components: {LikeDislikeButton},
-        props: {
-            review: {
-                type: Object,
-                required: true
-            }
-        },
-        methods: {
-            userName(firstName, lastName) {
-                return firstName + ' ' + lastName;
-            }
+export default {
+    name: 'PlacePreviewReviewItem',
+    components: {LikeDislikeButton},
+    props: {
+        review: {
+            type: Object,
+            required: true
+        }
+    },
+    methods: {
+        userName(firstName, lastName) {
+            return firstName + ' ' + lastName;
         }
     }
+};
 </script>
 
 <style lang="scss" scoped>

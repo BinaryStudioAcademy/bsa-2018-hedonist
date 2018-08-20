@@ -8,7 +8,7 @@
                 </figure>
                 <div class="media-content">
                     <h3
-                            class="title has-text-primary"
+                        class="title has-text-primary"
                     >
                         <router-link :to="`/places/${place.id}`">
                             {{ localizedName }}
@@ -31,9 +31,9 @@
                 <div class="media-content">
                     <b-taglist>
                         <b-tag
-                                type="is-info"
-                                v-for="tag in place.category.tags"
-                                :key="tag.id"
+                            type="is-info"
+                            v-for="tag in place.category.tags"
+                            :key="tag.id"
                         >
                             {{ tag.name }}
                         </b-tag>
@@ -41,8 +41,8 @@
                 </div>
             </div>
             <Review
-                    v-if="place.review"
-                    :review="place.review"
+                v-if="place.review"
+                :review="place.review"
             />
         </div>
     </transition>
@@ -120,51 +120,51 @@
 </style>
 
 <script>
-    import Review from '@/components/review/PlacePreviewReviewItem'
+import Review from '@/components/review/PlacePreviewReviewItem';
 
-    export default {
-        name: 'PlacePreview',
-        components: {Review},
-        data() {
-            return {
-                active: false
-            };
+export default {
+    name: 'PlacePreview',
+    components: {Review},
+    data() {
+        return {
+            active: false
+        };
+    },
+    props: {
+        place: {
+            required: true,
+            type: Object,
         },
-        props: {
-            place: {
-                required: true,
-                type: Object,
-            },
-            timer: {
-                required: true,
-                type: Number,
-            }
-        },
-        methods: {
-            like() {
-                this.$toast.open({
-                    message: 'You liked this review!',
-                    type: 'is-info',
-                    position: 'is-bottom'
-                });
-            },
-            dislike() {
-                this.$toast.open({
-                    message: 'You disliked this review',
-                    position: 'is-bottom',
-                    type: 'is-info'
-                });
-            }
-        },
-        computed: {
-            localizedName() {
-                return this.place.localization[0].name;
-            }
-        },
-        created() {
-            setTimeout(() => {
-                this.active = true;
-            }, this.timer);
+        timer: {
+            required: true,
+            type: Number,
         }
-    };
+    },
+    methods: {
+        like() {
+            this.$toast.open({
+                message: 'You liked this review!',
+                type: 'is-info',
+                position: 'is-bottom'
+            });
+        },
+        dislike() {
+            this.$toast.open({
+                message: 'You disliked this review',
+                position: 'is-bottom',
+                type: 'is-info'
+            });
+        }
+    },
+    computed: {
+        localizedName() {
+            return this.place.localization[0].name;
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
+    }
+};
 </script>
