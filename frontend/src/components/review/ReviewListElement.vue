@@ -17,12 +17,12 @@
                     </div>
                     <nav class="level">
                         <div class="level-left">
-                            <a class="level-item">
+                            <a class="level-item" :class="{ liked: liked }">
                                 <span class="icon is-small" @click="onLikeReview"><i class="far fa-thumbs-up" /></span>
                                 <span class="is-size-6">{{ review.likes }}</span>
                             </a>
-                            <a class="level-item">
-                                <span class="icon is-small" @click="onDislikeReview"><i class="far fa-thumbs-down"/></span>
+                            <a class="level-item" :class="{ disliked: disliked }">
+                                <span class="icon is-small" @click="onDislikeReview"><i class="far fa-thumbs-down" /></span>
                                 <span class="is-size-6">{{ review.dislikes }}</span>
                             </a>
                         </div>
@@ -45,18 +45,43 @@ export default {
         }
     },
     methods: {
-        ...mapActions('review', ['likeReview', 'dislikeReview']),
+        ...mapActions('place', ['likeReview', 'dislikeReview']),
         onLikeReview() {
-            console.log(this.review);
-            this.likeReview(this.review.id);
+            this.likeReview(this.review).then((res) => {
+                this.onSuccess('You liked review');
+            }).catch((res) => {
+                this.onError('Review like error');
+            });
         },
         onDislikeReview() {
-            this.dislikeReview(this.review.id);
-        }
+            this.dislikeReview(this.review).then((res) => {
+                this.onSuccess('You disliked review');
+            }).catch((res) => {
+                this.onError('Review dislike error');
+            });
+        },
+        onError(error) {
+            this.$toast.open({
+                message: error,
+                type: 'is-danger'
+            });
+        },
+        onSuccess(success) {
+            this.$toast.open({
+                message: success,
+                type: 'is-success'
+            });
+        },
     },
     computed: {
         userName(){
             return this.review.user.first_name + ' ' + this.review.user.last_name;
+        },
+        liked() {
+            return this.review.like === 'LIKED';
+        },
+        disliked() {
+            return this.review.like === 'DISLIKED';
         }
     }
 };
@@ -82,4 +107,15 @@ export default {
         margin-right: 5px;
     }
 
+    .level-item {
+        color: #808080;
+    }
+
+    .liked {
+        color: #23d160;
+    }
+
+    .disliked {
+        color: red;
+    }
 </style>

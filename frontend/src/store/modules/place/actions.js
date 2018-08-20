@@ -52,4 +52,74 @@ export default {
                 });
         });
     },
+
+    likeReview: (context, review) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('reviews/' + review.id + '/like')
+                .then(function (res) {
+                    if (review.like === 'NONE') {
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
+                            reviewId: review.id,
+                            likeState: 'LIKED'
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
+                            reviewId: review.id,
+                            count: review.likes + 1
+                        });
+                    } else if (review.like === 'DISLIKED') {
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
+                            reviewId: review.id,
+                            likeState: 'LIKED'
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
+                            reviewId: review.id,
+                            count: review.likes + 1
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
+                            reviewId: review.id,
+                            count: review.dislikes - 1
+                        });
+                    }
+                    resolve(res.data);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+
+    dislikeReview: (context, review) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('reviews/' + review.id + '/dislike')
+                .then(function (res) {
+                    if (review.like === 'NONE') {
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
+                            reviewId: review.id,
+                            likeState: 'DISLIKED'
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
+                            reviewId: review.id,
+                            count: review.dislikes + 1
+                        });
+                    } else if (review.like === 'LIKED') {
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
+                            reviewId: review.id,
+                            likeState: 'DISLIKED'
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
+                            reviewId: review.id,
+                            count: review.likes - 1
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
+                            reviewId: review.id,
+                            count: review.dislikes + 1
+                        });
+                    }
+                    resolve(res.data);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    }
 };
