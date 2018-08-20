@@ -2,6 +2,8 @@
     <div 
         class="column is-one-third-desktop is-one-third-tablet is-square user-list-container"
         v-if="show"
+        :style="[resizeStyle]"
+        v-resize="onResize"
     >
         <div class="user-list-content">
             <div class="user-list-name">{{
@@ -28,12 +30,19 @@
 </template>
 
 <script>
+import resize from 'vue-resize-directive';
 export default {
     name: 'UserListsItem',
     data() {
         return {
-            show: false
+            show: false,
+            resizeStyle: {
+                maxHeight:'300px',
+            },
         };
+    },
+    directives: {
+        resize,
     },
     props: {
         userList: {
@@ -52,12 +61,18 @@ export default {
                 type: 'is-danger',
                 position: 'is-top'
             });
+        },
+        onResize(){
+            this.resizeStyle.maxHeight = this.$el.clientWidth + 'px';
         }
     },
     created() {
         setTimeout(() => {
             this.show = true;
         }, this.timer);
+    },
+    mounted(){
+        this.onResize();
     }
 };
 </script>

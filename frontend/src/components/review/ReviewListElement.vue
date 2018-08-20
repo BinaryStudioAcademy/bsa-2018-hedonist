@@ -4,16 +4,16 @@
             <article class="media">
                 <figure class="media-left">
                     <p class="image is-32x32">
-                        <img :src="review.user.avatar">
+                        <img :src="review.user.avatar_url">
                     </p>
                 </figure>
                 <div class="media-content">
                     <div class="top-line">
-                        <strong><a>{{ review.user.name }}</a></strong>
+                        <strong><a>{{ userName }}</a></strong>
                         <small><a>21 September 2018</a></small>
                     </div>
                     <div class="content">
-                        <p>{{ review.text }}</p>
+                        <p>{{ review.description }}</p>
                     </div>
                     <nav class="level">
                         <div class="level-left">
@@ -42,6 +42,11 @@ export default {
             required: true
         }
     },
+    computed: {
+        userName(){
+            return this.review.user.first_name + ' ' + this.review.user.last_name;
+        }
+    }
 };
 </script>
 

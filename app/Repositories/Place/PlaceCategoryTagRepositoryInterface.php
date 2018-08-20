@@ -13,6 +13,8 @@ interface PlaceCategoryTagRepositoryInterface
     public function findAll(): Collection;
     
     public function getById(int $id): ?PlaceCategoryTag;
+
+    public function findByCategory(int $categoryId): Collection;
      
     public function findByCriteria(CriteriaInterface $criteria): Collection;
     
