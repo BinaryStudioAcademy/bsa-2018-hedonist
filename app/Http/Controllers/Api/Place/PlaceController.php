@@ -16,6 +16,7 @@ use Hedonist\Actions\Place\RemovePlace\RemovePlaceRequest;
 use Hedonist\Actions\Place\UpdatePlace\UpdatePlaceAction;
 use Hedonist\Actions\Place\UpdatePlace\UpdatePlacePresenter;
 use Hedonist\Actions\Place\UpdatePlace\UpdatePlaceRequest;
+use Hedonist\Exceptions\DomainException;
 use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
 use Hedonist\Exceptions\Place\PlaceCategoryDoesNotExistException;
 use Hedonist\Exceptions\Place\PlaceCityDoesNotExistException;
@@ -25,6 +26,7 @@ use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class PlaceController extends ApiController
 {
@@ -48,7 +50,7 @@ class PlaceController extends ApiController
         $this->updatePlaceAction = $updatePlaceAction;
     }
 
-    public function getPlace(int $id): JsonResponse
+    public function getPlace(int $id, GetPlaceItemPresenter $presenter): JsonResponse
     {
         try {
             $placeResponse = $this->getPlaceItemAction->execute(new GetPlaceItemRequest($id));
@@ -56,14 +58,14 @@ class PlaceController extends ApiController
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
-        return $this->successResponse(GetPlaceItemPresenter::present($placeResponse));
+        return $this->successResponse($presenter->present($placeResponse));
     }
 
-    public function getCollection(): JsonResponse
+    public function getCollection(GetPlaceCollectionPresenter $presenter): JsonResponse
     {
         $placeResponse = $this->getPlaceCollectionAction->execute(new GetPlaceCollectionRequest());
 
-        return $this->successResponse(GetPlaceCollectionPresenter::present($placeResponse));
+        return $this->successResponse($presenter->present($placeResponse));
     }
 
     public function removePlace(int $id): JsonResponse
@@ -91,12 +93,7 @@ class PlaceController extends ApiController
                 $request->phone,
                 $request->website
             ));
-        } catch (PlaceDoesNotExistException
-                | PlaceCityDoesNotExistException
-                | PlaceCategoryDoesNotExistException
-                | PlaceLocationInvalidException
-                | PlaceCreatorDoesNotExistException $e
-        ) {
+        } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
@@ -118,12 +115,7 @@ class PlaceController extends ApiController
                 $request->phone,
                 $request->website
             ));
-        } catch (PlaceDoesNotExistException
-                | PlaceCityDoesNotExistException
-                | PlaceCategoryDoesNotExistException
-                | PlaceLocationInvalidException
-                | PlaceCreatorDoesNotExistException $e
-        ) {
+        } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
         }
 
