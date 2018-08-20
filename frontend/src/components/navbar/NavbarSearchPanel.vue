@@ -8,7 +8,10 @@
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
-                <i class="fas fa-lg fa-search" />
+                <span class="icon is-large">
+                    <i class="fas fa-lg fa-search" />
+                </span>
+                <span class="button-title">Search</span>
             </button>
         </div>
     </div>

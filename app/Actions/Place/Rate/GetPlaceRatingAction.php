@@ -5,6 +5,7 @@ namespace Hedonist\Actions\Place\Rate;
 use Hedonist\Actions\Place\Rate\Exceptions\PlaceRatingNotFoundException;
 use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
 use Hedonist\Entities\Place\PlaceRating;
+use Illuminate\Support\Facades\Auth;
 
 class GetPlaceRatingAction
 {
@@ -21,6 +22,7 @@ class GetPlaceRatingAction
     {
         $id = $request->getId();
         $userId = $request->getUserId();
+        $userId = $userId ?: Auth::id();
         $placeId = $request->getPlaceId();
 
         if ($id) {

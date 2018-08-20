@@ -9,7 +9,7 @@ import search from './modules/search';
 import place from './modules/place';
 import map from './modules/map';
 import review from './modules/review';
-import userlist from './modules/userList';
+import userList from './modules/userList';
 
 Vue.use(Vuex);
 
@@ -25,6 +25,6 @@ export default new Vuex.Store({
         place,
         search,
         review,
-        userlist
+        userList
     }
 });
