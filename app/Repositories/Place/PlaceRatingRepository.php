@@ -36,7 +36,7 @@ class PlaceRatingRepository extends BaseRepository implements PlaceRatingReposit
     {
         return $this->getByCriteria($criteria);
     }
-    
+
     public function deleteById(int $id): void
     {
         PlaceRating::destroy($id);
@@ -59,5 +59,13 @@ class PlaceRatingRepository extends BaseRepository implements PlaceRatingReposit
     {
         return PlaceRating::where('place_id', $placeId)
             ->count();
+    }
+
+    public function getAvgByPlaceIds(array $ids): Collection
+    {
+        return PlaceRating::selectRaw('AVG(rating) as rating, place_id')
+            ->whereIn('place_id', $ids)
+            ->groupBy('place_id')
+            ->get();
     }
 }

@@ -11,13 +11,16 @@ class GetUserCheckInCollectionPresenter
         $checkInsArray = [];
 
         foreach ($checkInCollectionResponse->getPlaceCollection() as $checkIn) {
-            $checkInsArray[] = self::presentCollectionItem($checkIn);
+            $filteredRating = $checkInCollectionResponse->getRatingCollection()
+                ->where('place_id', $checkIn->place->id)->first();
+            $rating = $filteredRating ? $filteredRating->rating : 0;
+            $checkInsArray[] = self::presentCollectionItem($checkIn, $rating);
         }
 
         return $checkInsArray;
     }
 
-    public static function presentCollectionItem(Checkin $checkIn)
+    public static function presentCollectionItem(Checkin $checkIn, float $rating)
     {
         return [
             'id'        => $checkIn->id,
@@ -33,7 +36,7 @@ class GetUserCheckInCollectionPresenter
                 'createdAt' => $checkIn->place->created_at->toDateTimeString(),
                 'name'      => $checkIn->place->localization[0]->place_name,
                 'photo'     => $checkIn->place->photos[0]->img_url,
-                'rating'    => number_format($checkIn->place->avgRating, 1)
+                'rating'    => number_format($rating, 1)
             ]
         ];
     }
