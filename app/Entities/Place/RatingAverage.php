@@ -2,7 +2,6 @@
 
 namespace Hedonist\Entities\Place;
 
-
 class RatingAverage
 {
     public $placeId;
