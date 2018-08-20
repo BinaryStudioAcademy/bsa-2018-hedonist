@@ -149,6 +149,14 @@ class PlaceTableSeeder extends Seeder
                 'creator_id' => User::inRandomOrder()->first()->id,
                 'img_url' => $placeInfo['img_url'],
             ]);
+
+            $i = 0;
+            while ($i++ < 10) {
+                factory(PlacePhoto::class)->create([
+                    'place_id' => $place->id,
+                    'creator_id' => User::inRandomOrder()->first()->id,
+                ]);
+            }
         }
     }
 }
