@@ -145,6 +145,10 @@ export default {
     .mapboxgl-marker {
         cursor: pointer;
     }
+
+    .mapboxgl-popup-close-button{
+        font-size: 22px;
+    }
 </style>
 
 <style lang="scss" scoped>
