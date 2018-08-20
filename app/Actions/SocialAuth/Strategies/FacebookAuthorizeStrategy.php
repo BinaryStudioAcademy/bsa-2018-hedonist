@@ -13,9 +13,12 @@ class FacebookAuthorizeStrategy extends AbstractAuthorizeStrategy
         $appUser = new UserModel([
             'email' => $user->getEmail()
         ]);
+        $appUser = $this->userRepository->save($appUser);
+        $parsedName = explode(' ', $user->getName());
         $userInfo = new UserInfo([
-            'first_name' => $user->user['first_name'],
-            'last_name' => $user->user['last_name'],
+            'user_id' => $appUser->id,
+            'first_name' => $parsedName[0],
+            'last_name' => $parsedName[1],
             'avatar_url' => $user->getAvatar()
         ]);
         $this->infoRepository->save($userInfo);

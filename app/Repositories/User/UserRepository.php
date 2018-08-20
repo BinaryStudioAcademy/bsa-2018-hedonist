@@ -72,6 +72,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                     'provider_user_id' => $token
                 ]);
             }
-        );
+        )->first();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\SocialAuth\Manager;
 
+use Hedonist\Actions\SocialAuth\Strategies\FacebookAuthorizeStrategy;
 use Hedonist\Actions\SocialAuth\Strategies\SocialAuthorizeStrategyInterface;
 use Illuminate\Support\Facades\App;
 
@@ -12,7 +13,7 @@ class SocialAuthStrategyManager implements SocialAuthStrategyManagerInterface
         switch ($provider)
         {
             case 'facebook':
-                return App::make();
+                return App::make(FacebookAuthorizeStrategy::class);
         }
     }
 }

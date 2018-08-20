@@ -30,19 +30,18 @@ abstract class AbstractAuthorizeStrategy implements SocialAuthorizeStrategyInter
         $this->socialRepository = $socialRepository;
     }
 
-    public final function authorize(SocialUser $user): string
+    final public function authorize(SocialUser $user): string
     {
         $appUser = $this->findOrCreate($user);
         return Auth::login($appUser);
     }
 
-    protected final function findOrCreate(SocialUser $socialUser): UserModel
+    final protected function findOrCreate(SocialUser $socialUser): UserModel
     {
-        $user = $this->userRepository
-            ->getUserBySocialAuthCredentials(
-                static::$provider,
-                $socialUser->getId()
-            );
+        $user = $this->userRepository->getUserBySocialAuthCredentials(
+            static::$provider,
+            $socialUser->getId()
+        );
         if ($user !== null) { //all good, user with such social data is registered
             return $user;
         } else {
@@ -50,7 +49,7 @@ abstract class AbstractAuthorizeStrategy implements SocialAuthorizeStrategyInter
         }
     }
 
-    protected final function createSocialAccount(SocialUser $user): UserModel
+    final protected function createSocialAccount(SocialUser $user): UserModel
     {
         $appUser = $this->userRepository->getByEmail($user->getEmail());
         if ($appUser !== null) { //user with such email exists,just create new social account and return user
@@ -67,7 +66,7 @@ abstract class AbstractAuthorizeStrategy implements SocialAuthorizeStrategyInter
         $socialAccount = new SocialAccount([
             'provider' => static::$provider,
             'provider_user_id' => $user->getId(),
-            'user_id' => $appUser->getKey()
+            'user_id' => $appUser->id,
         ]);
         $this->socialRepository->save($socialAccount);
     }
