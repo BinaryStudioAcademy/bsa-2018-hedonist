@@ -80,8 +80,7 @@ export default new Router({
             },
             {
                 path: '*',
-                redirect: '/',
-                hidden: true
+                redirect: '/'
             }
         ]),
         ...middleware(middlewares.guest(store))([
