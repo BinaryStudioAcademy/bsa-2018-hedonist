@@ -125,7 +125,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('userlist/getListsByUser', this.user.id)
+        this.$store.dispatch('userList/getListsByUser', this.user.id)
             .then((result) => {
                 this.userlist = result;
             });
@@ -144,7 +144,7 @@ export default {
         },
 
         addPlaceToList: function (listId) {
-            this.$store.dispatch('userlist/addPlaceToList', {
+            this.$store.dispatch('userList/addPlaceToList', {
                 listId: listId,
                 placeId: this.place.id
             });
