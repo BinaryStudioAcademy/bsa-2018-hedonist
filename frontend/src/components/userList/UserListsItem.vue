@@ -17,7 +17,12 @@
                     <p class="address">
                         Cities in the list:
 
-                        <a v-for="(city,index) in getUniqueCities" :key="index" href="#" @click="setCityFilter(city.id)">{{city.name}}<span v-show="notLast(index)">, </span> </a>
+                        <a 
+                            v-for="(city,index) in getUniqueCities" 
+                            :key="index" 
+                            href="#" 
+                            @click="setCityFilter(city.id)"
+                        >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
                     </p>
                 </div>
                 <div class="media-right rating-wrapper">
@@ -31,67 +36,67 @@
 </template>
 
 <script>
-    export default {
-        name: 'UserListItem',
-        data() {
-            return {
-                active: false
-            };
+export default {
+    name: 'UserListItem',
+    data() {
+        return {
+            active: false
+        };
+    },
+    filters: {
+        countPlaces: function (places) {
+            return places.length;
         },
-        filters: {
-            countPlaces: function (places) {
-              return places.length;
-            },
 
-        },
-        computed: {
-            getUniqueCities: function () {
-                const places = this.userList.places;
-                const cities = places.map(place => place.city);
-                return cities.filter((a, i) =>
-                    i === cities.length - 1 ||
+    },
+    computed: {
+        getUniqueCities: function () {
+            const places = this.userList.places;
+            const cities = places.map(place => place.city);
+            return cities.filter((a, i) =>
+                i === cities.length - 1 ||
                     a.id !== cities[i + 1].id
-                );
-            },
+            );
         },
-        props: {
-            userList: {
-                required: true,
-                type: Object,
-            },
-            timer: {
-                required: true,
-                type: Number,
-            }
+    },
+    props: {
+        userList: {
+            required: true,
+            type: Object,
         },
-        methods: {
-            notLast: function (index) {
-                return this.getUniqueCities.length - index > 1;
-            },
-            like() {
-                this.$toast.open({
-                    message: 'You liked this review!',
-                    type: 'is-info',
-                    position: 'is-bottom'
-                });
-            },
-            dislike() {
-                this.$toast.open({
-                    message: 'You disliked this review',
-                    position: 'is-bottom',
-                    type: 'is-info'
-                });
-            },
-            setCityFilter(cityId){
-                this.$parent.setCityFilter(cityId);
-            }
-        },
-        created() {
-            setTimeout(() => {
-                this.active = true;
-            }, this.timer);
+        timer: {
+            required: true,
+            type: Number,
         }
-    };
+    },
+    methods: {
+        notLast: function (index) {
+            return this.getUniqueCities.length - index > 1;
+        },
+        like() {
+            this.$toast.open({
+                message: 'You liked this review!',
+                type: 'is-info',
+                position: 'is-bottom'
+            });
+        },
+        dislike() {
+            this.$toast.open({
+                message: 'You disliked this review',
+                position: 'is-bottom',
+                type: 'is-info'
+            });
+        },
+        setCityFilter(cityId){
+            this.$parent.setCityFilter(cityId);
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
+    }
+};
 </script>
 
 <style lang="scss" scoped>
