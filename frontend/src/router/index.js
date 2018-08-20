@@ -75,7 +75,7 @@ export default new Router({
             },
             {
                 path: '/tastes',
-                name: 'MyTastesPage',
+                name: 'MyTastesPage2',
                 component: MyTastesPage
             },
             {
