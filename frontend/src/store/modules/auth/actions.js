@@ -112,7 +112,7 @@ export default {
         });
     },
     socialLogin: (context, data) => {
-        return httpService.post(`auth/social/${data.provider}/callback`)
+        return httpService.get(`auth/social/${data.provider}/callback?code=${data.code}`)
             .then((response) => {
                 const userData = response.data.data;
                 context.commit('USER_LOGIN', userData);

@@ -16,7 +16,11 @@
             ...mapActions('auth', ['socialLogin'])
         },
         created() {
-            console.log(this.query);
+            const data = this.$route.query;
+            data.provider = this.$route.params.provider;
+            this.socialLogin(data)
+                .then(() => {this.$router.push({name:'home'})})
+                .catch(() => {this.$router.push({name:'LoginPage'})});
         },
     }
 </script>

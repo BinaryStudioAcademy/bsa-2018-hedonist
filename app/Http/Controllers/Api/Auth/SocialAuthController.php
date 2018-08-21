@@ -35,7 +35,7 @@ class SocialAuthController extends ApiController
             return $this->successResponse(AuthPresenter::presentAuthenticateResponse($response));
         } catch(InvalidSocialProviderException $exception){
             return $this->errorResponse(AuthPresenter::presentError($exception),400);
-        } catch (\Exception $exception){
+        } catch (\DomainException $exception){
             return $this->errorResponse(AuthPresenter::presentError($exception),500);
         }
     }
