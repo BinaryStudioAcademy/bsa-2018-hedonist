@@ -5,12 +5,12 @@ class GetUserListsCollectionRequest
 {
     private $userId;
 
-    public function __construct(int $userId)
+    public function __construct(?int $userId = null)
     {
         $this->userId = $userId;
     }
 
-    public function getUserId(): int
+    public function getUserId(): ?int
     {
         return $this->userId;
     }

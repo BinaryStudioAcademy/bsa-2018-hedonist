@@ -14,7 +14,6 @@ use Hedonist\Actions\UserList\GetUserListRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\UserList\UserListRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class UserListController extends ApiController
 {
@@ -46,7 +45,6 @@ class UserListController extends ApiController
 
     public function userLists(?int $userId = null) : JsonResponse
     {
-        $userId = $userId?: Auth::id();
         $resUserLists = $this->collectionUserListsAction->execute(
             new GetUserListsCollectionRequest($userId)
         );

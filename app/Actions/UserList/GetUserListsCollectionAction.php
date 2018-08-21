@@ -2,6 +2,7 @@
 namespace Hedonist\Actions\UserList;
 
 use Hedonist\Repositories\UserList\UserListRepository;
+use Illuminate\Support\Facades\Auth;
 
 class GetUserListsCollectionAction
 {
@@ -14,8 +15,10 @@ class GetUserListsCollectionAction
 
     public function execute(GetUserListsCollectionRequest $request): GetUserListsCollectionResponse
     {
+        $userId = $request->getUserId();
+        $userId = $userId?: Auth::id();
         return new GetUserListsCollectionResponse(
-            $this->userListsRepository->findUserListsWithPlaces($request->getUserId())
+            $this->userListsRepository->findUserListsWithPlaces($userId)
         );
     }
 }
