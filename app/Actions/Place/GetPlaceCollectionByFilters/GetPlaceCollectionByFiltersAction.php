@@ -17,8 +17,8 @@ class GetPlaceCollectionByFiltersAction
 
     public function __construct(
         PlaceRepositoryInterface $placeRepository,
-        ReviewRepositoryInterface $reviewRepository)
-    {
+        ReviewRepositoryInterface $reviewRepository
+    ) {
         $this->placeRepository = $placeRepository;
         $this->reviewRepository = $reviewRepository;
     }
@@ -27,12 +27,6 @@ class GetPlaceCollectionByFiltersAction
     {
         $categoryId = $request->getCategoryId();
         $location = $request->getLocation();
-        if (!empty($location) && preg_match('/.+,.+/', $location)) {
-            $locationToArray = explode(',', $request->getLocation());
-            $longitude = $locationToArray[0];
-            $latitude = $locationToArray[1];
-            $location = new Location($longitude, $latitude);
-        }
 
         $places = $this->placeRepository->findByCriteria(
             new PlaceSearchCriteria($request->getPage(), $categoryId, $location)

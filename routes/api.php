@@ -57,7 +57,7 @@ Route::prefix('v1')->group(function () {
                 ->where('id', '[0-9]+')
                 ->name('removePlace');
 
-            Route::get('/places/search', 'PlaceController@getPlacesByCategoryAndCoordinates');
+            Route::get('/places/search', 'PlaceController@searchByFilters');
         });
 
         Route::prefix('reviews')->group(function () {

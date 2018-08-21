@@ -2,6 +2,8 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollectionByFilters;
 
+use Hedonist\Entities\Place\Location;
+
 class GetPlaceCollectionByFiltersRequest
 {
     private $category_id;
@@ -10,8 +12,17 @@ class GetPlaceCollectionByFiltersRequest
 
     public function __construct(int $page, ?int $category_id, ?string $location)
     {
-        $this->category_id = $category_id;
         $this->location = $location;
+        if (!empty($location) && preg_match('/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/', $location) == false) {
+            throw new \InvalidArgumentException('The location has an incorrect format');
+        } elseif (!empty($location) && preg_match('/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/', $location)) {
+            $locationToArray = explode(',', $location);
+            $longitude = $locationToArray[0];
+            $latitude = $locationToArray[1];
+            $this->location = new Location($longitude, $latitude);
+        }
+
+        $this->category_id = $category_id;
         $this->page = $page;
     }
 
@@ -20,7 +31,7 @@ class GetPlaceCollectionByFiltersRequest
         return $this->category_id;
     }
 
-    public function getLocation(): ?string
+    public function getLocation(): ?Location
     {
         return $this->location;
     }

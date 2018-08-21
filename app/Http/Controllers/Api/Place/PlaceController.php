@@ -128,7 +128,7 @@ class PlaceController extends ApiController
         return $this->successResponse(UpdatePlacePresenter::present($placeResponse), 201);
     }
 
-    public function getPlacesByCategoryAndCoordinates(PlaceSearchRequest $request, GetPlaceCollectionPresenter $presenter): JsonResponse
+    public function searchByFilters(PlaceSearchRequest $request, GetPlaceCollectionPresenter $presenter): JsonResponse
     {
         try {
             $placeResponse = $this->getPlaceCollectionByFiltersAction->execute(
@@ -140,7 +140,7 @@ class PlaceController extends ApiController
             );
 
             return $this->successResponse($presenter->present($placeResponse), 200);
-        } catch (\Exception $e) {
+        } catch (\DomainException $e) {
             return $this->errorResponse($e->getMessage());
         }
     }
