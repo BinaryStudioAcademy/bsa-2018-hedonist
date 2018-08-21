@@ -61,7 +61,7 @@ class GetPlaceItemPresenter
         $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
         $result['category'] = $this->categoryPresenter->present($place->category);
         $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
-        $result['myRating'] = (int)$place->ratings->where('user_id',$placeResponse->getUser()->id)->avg('rating');
+        $result['myRating'] = (int)$place->ratings->where('user_id', $placeResponse->getUser()->id)->avg('rating');
 
         return $result;
     }
