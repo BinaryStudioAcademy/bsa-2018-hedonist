@@ -22,7 +22,7 @@
                     show: true,
                     position: 'top-left'
                 }"
-                @map-init="mapInitialized"
+                @map-init="mapInitialize"
                 @map-load="mapLoaded"
             />
         </section>
@@ -69,14 +69,20 @@ export default {
     },
     methods: {
         ...mapActions('map', ['setCurrentCenter']),
+        ...mapActions('map', ['mapInitialization']),
 
-        mapInitialized(map) {
+        mapInitialize(map) {
+            if (this.mapInitialized) {
+                return;
+            }
+
             this.map = map;
             LocationService.getUserLocationData()
                 .then(coordinates => {
                     this.userCoordinates.lat = coordinates.lat;
                     this.userCoordinates.lng = coordinates.lng;
                 });
+            this.mapInitialization();
         },
         mapLoaded(map) {
             markerManager = new MarkerService(map);
@@ -109,11 +115,11 @@ export default {
                 },
                 photoUrl: this.user.avatar_url || 'http://via.placeholder.com/128x128',
             };
-        }
+        },
     },
     computed: {
         ...mapState('place', ['places']),
-        ...mapState('map', ['currentLatitude', 'currentLongitude']),
+        ...mapState('map', ['currentLatitude', 'currentLongitude', 'mapInitialized']),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters('map', [
             'getMapboxToken',

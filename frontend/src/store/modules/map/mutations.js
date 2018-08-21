@@ -3,4 +3,7 @@ export default {
         state.currentLatitude = latitude;
         state.currentLongitude = longitude;
     },
+    MAP_INIT: (state, value) => {
+        state.mapInitialized = value;
+    },
 };
