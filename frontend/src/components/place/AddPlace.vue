@@ -314,27 +314,12 @@ export default {
             newPlace: {
                 name: '',
                 category: '',
-                category_tags: []
+                category_tags: [],
+                features: []
             },
             categories: {},
             selectedTag: 'v',
-            category_tags: [
-                {
-                    name: 'bar'
-                },
-                {
-                    name: 'bar1'
-                },
-                {
-                    name: 'bar2'
-                },
-                {
-                    name: 'bar3'
-                },
-                {
-                    name: 'bar4'
-                }
-            ],
+            category_tags: [],
             weekdays: [],
             timeStart: new Date(),
             timeEnd: new Date(),
@@ -384,7 +369,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('placeCategory/getAllCategories')
+        this.$store.dispatch('сategory/getAllCategories')
             .then((result) => {
                 this.categories = result;
             });
@@ -392,10 +377,13 @@ export default {
 
     watch: {
         'newPlace.category': function (categoryObject) {
-            if (categoryObject) {
-                this.newPlace.category_tags = [];
-                this.selectedTag = 'v';
-            }
+            if (_.isEmpty(categoryObject)) { return; }
+            this.newPlace.category_tags = [];
+            this.$store.dispatch('placeCategory/getTagsByCategory', categoryObject.id)
+                .then((result) => {
+                    this.category_tags = result;
+                });
+            this.selectedTag = 'v';
         },
 
         'selectedTag': function (tagObject) {

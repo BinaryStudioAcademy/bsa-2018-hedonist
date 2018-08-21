@@ -20,7 +20,7 @@ class ReviewPresenter
     public function present(Review $review): array
     {
         return [
-            'created_at' => $review->created_at,
+            'created_at' => $review->created_at->format('Y-m-d'),
             'description' => $review->description,
             'user' => $this->usersPresenter->present($review->user),
             'likes' => $review->likes->count(),
