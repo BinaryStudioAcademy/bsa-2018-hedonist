@@ -22,11 +22,7 @@ const createPopup = (markerData) => {
             </div>
             <div class="media-content">
                 <div>
-                <router-link :to="{ name: 'PlacePage', params: { id: ${markerData.id} } }">
-                    ${markerData.name}
-                </router-link>
-<li><router-link :to="{ name: 'PlacePage', params: { id: ${markerData.id} }}">PlacePage</router-link></li>
-                    <a class="has-text-black is-size-6" href="${markerData.link}">
+                    <a class="has-text-black is-size-6" href="/places/${markerData.id}" target="_blank">
                         <strong>
                             ${markerData.name}
                         </strong>

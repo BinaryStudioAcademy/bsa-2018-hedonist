@@ -83,8 +83,7 @@ class MarkerManagerService {
             lat: item.latitude,
             // TODO set place photo url
             photoUrl: item.photoUrl || 'http://via.placeholder.com/128x128',
-            address: item.address,
-            link: 'http://localhost:8080/places/' + item.id
+            address: item.address
         });
     }
 }
