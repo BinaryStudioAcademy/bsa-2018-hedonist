@@ -71,10 +71,8 @@ export default {
     },
 
     methods: {
-        ...mapActions('place', [
-            'checkIn',
-            'setPlaceRating'
-        ]),
+        ...mapActions('place', ['setPlaceRating']),
+        ...mapActions('user/history', ['checkIn']),
 
         isSelected: function(rating) {
             if (this.place.myRating === rating) {

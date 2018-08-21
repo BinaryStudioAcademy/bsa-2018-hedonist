@@ -13,6 +13,7 @@ class PlaceCategoriesAttachTagsSeeder extends Seeder
             'Cafe-confectionery',
             'Children\'s cafe',
             'Family cafe',
+            'Internet cafe',
             'Youth cafe',
         ],
         'Cafeteria' => [
