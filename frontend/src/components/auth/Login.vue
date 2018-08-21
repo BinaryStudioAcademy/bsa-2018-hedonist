@@ -38,7 +38,7 @@
                 </button>
             </div>
         </Form>
-        <SocialIcons/>
+        <SocialIcons />
     </Container>
 </template>
 
@@ -47,7 +47,7 @@ import { mapActions } from 'vuex';
 import { required, email, minLength } from 'vuelidate/lib/validators';
 import Container from './Container';
 import Form from './Form';
-import SocialIcons from "./SocialIcons";
+import SocialIcons from './SocialIcons';
 
 export default {
     components: {

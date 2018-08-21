@@ -30,8 +30,8 @@ export default {
                     context.dispatch('fetchAuthenticatedUser');
                     resolve(res);
                 }).catch(function (err) {
-                reject(err);
-            });
+                    reject(err);
+                });
         });
     },
     logout: (context) => {
@@ -41,8 +41,8 @@ export default {
                     context.commit('USER_LOGOUT', res);
                     resolve(res);
                 }).catch(function (err) {
-                reject(err);
-            });
+                    reject(err);
+                });
         });
     },
     resetPassword: (context, user) => {
@@ -97,8 +97,8 @@ export default {
                     context.commit('SET_AUTHENTICATED_USER', res.data.data);
                     resolve(res);
                 }).catch(function (error) {
-                reject(error.response.data.error);
-            });
+                    reject(error.response.data.error);
+                });
         });
     },
     checkEmailUnique: (context, email) => {

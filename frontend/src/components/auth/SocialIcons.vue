@@ -2,29 +2,29 @@
     <div class="level is-moble social">
         <div class="level-left">
             <div class="level-item" @click="redirect('facebook')">
-                <i class="fab fa-facebook-square"></i>
+                <i class="fab fa-facebook-square" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import httpService from '@/services/common/httpService';
+import httpService from '@/services/common/httpService';
 
-    export default {
-        name: "SocialIcons",
-        methods: {
-            redirect(provider) {
-                httpService.get(`/auth/social/${provider}/redirect`)
-                    .then((response) => {
-                        window.location.replace(response.data.data.url);
-                    })
-                    .catch((error) => {
-                        this.$toast.open(error.error);
-                    });
-            }
+export default {
+    name: 'SocialIcons',
+    methods: {
+        redirect(provider) {
+            httpService.get(`/auth/social/${provider}/redirect`)
+                .then((response) => {
+                    window.location.replace(response.data.data.url);
+                })
+                .catch((error) => {
+                    this.$toast.open(error.error);
+                });
         }
     }
+};
 </script>
 
 <style lang="scss" scoped>
