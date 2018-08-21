@@ -2,12 +2,13 @@
 
 namespace Hedonist\Exceptions\Auth;
 
+use Hedonist\Exceptions\DomainException;
 use Throwable;
 
-class InvalidSocialProviderException extends \Exception
+class InvalidSocialProviderException extends DomainException
 {
-    public function __construct(string $message = "Unknown social provider", int $code = 0, Throwable $previous = null)
+    public static function create():self
     {
-        parent::__construct($message, $code, $previous);
+        return new self("Unknown social provider");
     }
 }
