@@ -111,4 +111,17 @@ export default {
             });
         });
     },
+    saveUser: (context, formData) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/users/' + formData.get('id') + '/info/', formData)
+                .then(function (res) {
+                    context.commit('SET_AUTHENTICATED_USER', res.data.data);
+                    resolve(res);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    reject(error.response.data.error);
+                });
+        });
+    },
 };

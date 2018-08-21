@@ -7,6 +7,7 @@ use Hedonist\Exceptions\User\UserInfoNotValidSocialUrlException;
 use Hedonist\Exceptions\User\UserInfoRequiredFieldsException;
 use Hedonist\Repositories\User\UserInfoRepositoryInterface as UserInfoRepository;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class SaveUserInfoAction
 {
@@ -99,8 +100,8 @@ class SaveUserInfoAction
     {
         $avatarUrl = "";
         if ($avatar !== null) {
-            $avatarUrl = $userId . '.' . $avatar->extension();
-            $avatar->storeAs('public/upload/avatar', $avatarUrl);
+            $avatar->storeAs('public/upload/avatar', $userId . '.' . $avatar->extension());
+            $avatarUrl = Storage::url('public/upload/avatar/' . $userId . '.' . $avatar->extension());
         }
         return $avatarUrl;
     }

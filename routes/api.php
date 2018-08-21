@@ -112,7 +112,7 @@ Route::prefix('v1')->group(function () {
 
         Route::get('/users/{userId}/info/', 'Api\User\UserInfoController@show')
             ->name('user.info.show');
-        Route::put('/users/{userId}/info/', 'Api\User\UserInfoController@update')
+        Route::post('/users/{userId}/info/', 'Api\User\UserInfoController@update')
             ->name('user.info.update');
 
         Route::post('/users/me/checkins', 'Api\Place\PlaceCheckinController@setCheckin')
