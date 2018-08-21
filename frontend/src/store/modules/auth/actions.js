@@ -30,8 +30,8 @@ export default {
                     context.dispatch('fetchAuthenticatedUser');
                     resolve(res);
                 }).catch(function (err) {
-                    reject(err);
-                });
+                reject(err);
+            });
         });
     },
     logout: (context) => {
@@ -41,8 +41,8 @@ export default {
                     context.commit('USER_LOGOUT', res);
                     resolve(res);
                 }).catch(function (err) {
-                    reject(err);
-                });
+                reject(err);
+            });
         });
     },
     resetPassword: (context, user) => {
@@ -53,7 +53,7 @@ export default {
                 password_confirmation: user.passwordConfirmation,
                 token: user.token
             }).then(function (res) {
-                if (res.status === 400){
+                if (res.status === 400) {
                     resolve(res.data);
                 } else {
                     resolve(res);
@@ -80,7 +80,7 @@ export default {
             httpService.post('/auth/recover', {
                 email: email
             }).then(function (res) {
-                if (res.status === 400){
+                if (res.status === 400) {
                     resolve(res.data);
                 } else {
                     resolve(res);
@@ -97,13 +97,13 @@ export default {
                     context.commit('SET_AUTHENTICATED_USER', res.data.data);
                     resolve(res);
                 }).catch(function (error) {
-                    reject(error.response.data.error);
-                });
+                reject(error.response.data.error);
+            });
         });
     },
     checkEmailUnique: (context, email) => {
         return new Promise((resolve, reject) => {
-            httpService.get('/auth/unique?email='+email
+            httpService.get('/auth/unique?email=' + email
             ).then(function (res) {
                 resolve(res.data.data);
             }).catch(function (err) {
@@ -111,4 +111,12 @@ export default {
             });
         });
     },
+    socialLogin: (context, data) => {
+        return httpService.post(`auth/social/${data.provider}/callback`)
+            .then((response) => {
+                const userData = response.data.data;
+                context.commit('USER_LOGIN', userData);
+                context.dispatch('fetchAuthenticatedUser');
+            });
+    }
 };

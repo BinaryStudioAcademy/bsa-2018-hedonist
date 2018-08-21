@@ -1,0 +1,26 @@
+<template>
+    <b-loading :active.sync="isLoading"/>
+</template>
+
+<script>
+    import {mapActions} from 'vuex';
+
+    export default {
+        name: "SocialAuthPage",
+        data() {
+            return {
+                isLoading: true
+            };
+        },
+        methods: {
+            ...mapActions('auth', ['socialLogin'])
+        },
+        created() {
+            console.log(this.query);
+        },
+    }
+</script>
+
+<style scoped>
+
+</style>
