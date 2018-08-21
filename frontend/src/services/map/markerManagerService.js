@@ -1,7 +1,7 @@
 import MarkerGenerator from './markerGeneratorService';
 import placeholderImg from '../../assets/placeholder_128x128.png';
 
-const defaultParser = (item) => ({
+export const defaultParser = (item) => ({
     id: item.id,
     name: item.localization[0].name,
     lng: item.longitude,
@@ -86,12 +86,12 @@ const mapFitter = map => (...activeMarkersObjects) => {
     map.fitBounds(parseCoordinates(...activeMarkersObjects), {padding: 100, linear: true});
 };
 
-const mapUpdater = (parser = defaultParser) => (map,shouldFit) => {
+const mapUpdater = (parser) => (map,options) => {
     const handleUpdate = setMarkers(parser)(addMarkerToMap(map), createMarker, removeMarkers);
     const fitter = mapFitter(map);
     return (...markers) => {
         const activeMap = handleUpdate(...markers);
-        if(shouldFit) {
+        if(options.shouldFit) {
             fitter(...activeMap.values());
         }
     };

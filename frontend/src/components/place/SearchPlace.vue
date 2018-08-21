@@ -39,6 +39,7 @@ import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import markerUpdater from '@/services/map/markerManagerService';
+import {defaultParser} from '@/services/map/markerManagerService';
 import placeholderImg from '../../assets/placeholder_128x128.png';
 
 export default {
@@ -76,7 +77,7 @@ export default {
                 });
         },
         mapLoaded(map) {
-            this.setActiveMarkers = markerUpdater()(map,true);
+            this.setActiveMarkers = markerUpdater(defaultParser)(map, {shouldFit: true});
             this.isMapLoaded = true;
         },
         jumpTo(coordinates) {
