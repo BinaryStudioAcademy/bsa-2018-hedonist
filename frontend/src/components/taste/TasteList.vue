@@ -1,22 +1,16 @@
 <template>
     <div class="container">
         <ul>
-            <li 
-                v-for="(taste, index) in tastes" 
-                class="taste"
-                :class="{added: taste.check, pop: taste.isAnimate, popin: !taste.isClick}" 
-                :key="taste.id"
-                :style="{ animationDelay: index * 0.02 + 's' }"
-            >
-                <div class="pill" @click="checkTaste(index)">
-                    {{ taste.name }}
-                    <i v-if="taste.check" class="fas fa-check" />
-                    <i v-else class="fas fa-plus" />
-                </div>
-            </li>
+            <b-taginput
+                    v-model="tastes"
+                    field="name"
+                    type="is-info"
+                    rounded
+                    icon="label"
+                    placeholder="Add a tag">
+            </b-taginput>
         </ul>
-        <div class="loadMore">Load more</div>
-        <button class="doneButton loggedOut">Save and register</button>
+        <button class="doneButton loggedOut">Save</button>
     </div>
 </template>
 
@@ -116,7 +110,7 @@ export default {
         background: #fff;
         position: relative;
         text-align: center;
-        padding: 20px;
+        padding: 80px 30px;
     }
 
     .taste {
@@ -161,17 +155,6 @@ export default {
         animation-name: pop;
     }
 
-    .loadMore {
-        border-radius: 100px;
-        background: #efeff4;
-        cursor: pointer;
-        display: inline-block;
-        font-size: 13px;
-        line-height: 100%;
-        margin: 15px auto;
-        padding: 7px 10px 7px 10px;
-    }
-
     .doneButton {
         font-size: 1rem;
         letter-spacing: 0;
@@ -187,7 +170,7 @@ export default {
         display: block;
         margin: 10px auto;
         text-align: center;
-        width: 200px;
+        width: 100px;
     }
 
     .doneButton:hover {
