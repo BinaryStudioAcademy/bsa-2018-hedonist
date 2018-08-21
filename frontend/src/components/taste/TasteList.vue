@@ -2,12 +2,14 @@
     <div class="container">
         <ul>
             <b-taginput
-                    v-model="tastes"
+                    v-model="selectedTastes"
                     field="name"
+                    autocomplete
+                    :data="tastes"
                     type="is-info"
                     rounded
                     icon="label"
-                    placeholder="Add a tag">
+                    placeholder="Add a taste">
             </b-taginput>
         </ul>
         <button class="doneButton loggedOut">Save</button>
@@ -15,55 +17,14 @@
 </template>
 
 <script>
+import {mapState} from 'vuex';
+
 export default {
     name: 'TasteList',
     data() {
         return {
             timeDelay: 0,
-            tastes: [
-                {
-                    id: 1,
-                    name: 'Craft beer',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                },
-                {
-                    id: 2,
-                    name: 'Ice-cream',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                },
-                {
-                    id: 3,
-                    name: 'Live-music',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                },
-                {
-                    id: 4,
-                    name: 'Sport-bar',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                },
-                {
-                    id: 5,
-                    name: 'Lunch',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                },
-                {
-                    id: 6,
-                    name: 'Sushi',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                }
-            ]
+            selectedTastes: [],
         };
     },
     methods: {
@@ -76,7 +37,13 @@ export default {
                 taste.isAnimate = false;
             }, 200);
         }
-    }
+    },
+    computed: {
+        ...mapState('taste', ['tastes'])
+    },
+    created() {
+        this.$store.dispatch('taste/fetchTastes');
+    },
 };
 </script>
 
