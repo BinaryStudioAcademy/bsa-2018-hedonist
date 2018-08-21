@@ -86,7 +86,7 @@ const mapFitter = map => (...activeMarkersObjects) => {
     map.fitBounds(parseCoordinates(...activeMarkersObjects), {padding: 100, linear: true});
 };
 
-const mapUpdater = (parser) => (map,options) => {
+const mapUpdater = parser => map => options => {
     const handleUpdate = setMarkers(parser)(addMarkerToMap(map), createMarker, removeMarkers);
     const fitter = mapFitter(map);
     return (...markers) => {

@@ -77,7 +77,7 @@ export default {
                 });
         },
         mapLoaded(map) {
-            this.setActiveMarkers = markerUpdater(defaultParser)(map, {shouldFit: true});
+            this.setActiveMarkers = markerUpdater(defaultParser)(map)({shouldFit: true});
             this.isMapLoaded = true;
         },
         jumpTo(coordinates) {
