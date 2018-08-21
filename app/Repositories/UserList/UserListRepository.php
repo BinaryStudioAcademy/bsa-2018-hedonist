@@ -23,7 +23,7 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         return UserList::find($id);
     }
 
-    public function findUserLists(int $userId) : Collection
+    public function findUserLists(int $userId): Collection
     {
         return UserList::where('user_id', $userId)->get();
     }
@@ -38,7 +38,7 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         return $this->getByCriteria($criteria);
     }
 
-    public function deleteById(int $id)
+    public function deleteById(int $id): void
     {
         $this->delete($id);
     }
@@ -48,8 +48,8 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         return UserList::class;
     }
 
-    public function attachPlace(UserList $userList, Place $place)
+    public function attachPlace(UserList $list, Place $place): void
     {
-        $this->getById($userList->id)->places()->attach($place->pluck('id'));
+        $list->places()->attach($place->id);
     }
 }
