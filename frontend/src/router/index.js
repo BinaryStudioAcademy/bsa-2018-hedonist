@@ -74,11 +74,6 @@ export default new Router({
                 component: UserListsPage
             },
             {
-                path: '/tastes',
-                name: 'MyTastesPage',
-                component: MyTastesPage
-            },
-            {
                 path: '/history',
                 name: 'HistoryPage',
                 component: HistoryPage

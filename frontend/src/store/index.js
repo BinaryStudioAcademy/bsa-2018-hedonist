@@ -12,6 +12,7 @@ import map from './modules/map';
 import review from './modules/review';
 import userList from './modules/userList';
 import taste from './modules/taste';
+import user from './modules/user';
 
 Vue.use(Vuex);
 
@@ -29,6 +30,7 @@ export default new Vuex.Store({
         search,
         review,
         userList,
-        taste
+        taste,
+        user
     }
 });

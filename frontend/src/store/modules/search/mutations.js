@@ -13,5 +13,14 @@ export default {
             id: searchPlaceCategory.id,
             name: searchPlaceCategory.name
         };
-    }
+    },
+
+    SET_CURRENT_CENTER: (state, { longitude, latitude }) => {
+        state.currentLatitude = latitude;
+        state.currentLongitude = longitude;
+    },
+
+    MAP_INIT: (state, value) => {
+        state.mapInitialized = value;
+    },
 };
