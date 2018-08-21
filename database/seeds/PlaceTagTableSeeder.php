@@ -2,9 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Hedonist\Entities\Place\Place;
-use Hedonist\Entities\Place\PlaceTag;
 use Hedonist\Entities\Place\PlaceCategory;
-use Hedonist\Entities\Place\PlaceCategoryTag;
 
 class PlaceTagTableSeeder extends Seeder
 {
