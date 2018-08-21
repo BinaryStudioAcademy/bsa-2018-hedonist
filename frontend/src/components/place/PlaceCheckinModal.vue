@@ -67,7 +67,8 @@ export default {
     },
 
     methods: {
-        ...mapActions('place', ['checkIn', 'setPlaceRating']),
+        ...mapActions('place', ['setPlaceRating']),
+        ...mapActions('user/history', ['checkIn']),
 
         onHover: function(value) {
             this.userRating = value;
