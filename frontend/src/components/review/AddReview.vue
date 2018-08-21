@@ -23,9 +23,9 @@
                                             <img :src="getPreview(photo)">
                                         </figure>
                                         <button
-                                                class="is-small"
-                                                type="button"
-                                                @click="deletePhoto(index)"
+                                            class="is-small"
+                                            type="button"
+                                            @click="deletePhoto(index)"
                                         >
                                             delete
                                         </button>
@@ -35,14 +35,15 @@
                         </div>
 
                         <div class="level">
-                            <b-upload class="level-left"
-                                    v-model="photos"
-                                    accept="image/*"
-                                    multiple
+                            <b-upload 
+                                class="level-left"
+                                v-model="photos"
+                                accept="image/*"
+                                multiple
                             >
-                                    <span class="tag is-light is-medium">
-                                        <a>Add photo</a>
-                                    </span>
+                                <span class="tag is-light is-medium">
+                                    <a>Add photo</a>
+                                </span>
                             </b-upload>
                         </div>
 
