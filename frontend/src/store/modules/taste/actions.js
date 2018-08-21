@@ -9,7 +9,7 @@ export default {
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);
-            });
+                });
         });
     },
     fetchUserTastes: (context) => {
@@ -19,19 +19,32 @@ export default {
                     context.commit('SET_USER_TASTES', res.data.data);
                     resolve(res);
                 }).catch(function (err) {
-                reject(err);
-            });
+                    reject(err);
+                });
         });
     },
-    saveUserTstes: (context) => {
+    addUserTaste: (context, taste) => {
         return new Promise((resolve, reject) => {
-            httpService.get('/tastes/my')
+            httpService.post('/tastes/my', {
+                taste_id: taste.id
+            })
                 .then(function (res) {
-                    context.commit('SET_USER_TASTES', res.data.data);
+                    context.commit('ADD_USER_TASTE', taste);
                     resolve(res);
                 }).catch(function (err) {
-                reject(err);
-            });
+                    reject(err);
+                });
+        });
+    },
+    deleteUserTaste: (context, id) => {
+        return new Promise((resolve, reject) => {
+            httpService.delete('/tastes/my/' + id)
+                .then(function (res) {
+                    context.commit('DELETE_USER_TASTE', id);
+                    resolve(res);
+                }).catch(function (err) {
+                    reject(err);
+                });
         });
     }
 };

@@ -1,48 +1,81 @@
 <template>
     <div class="container">
         <ul>
-            <b-taginput
-                    v-model="selectedTastes"
-                    field="name"
-                    autocomplete
-                    :data="tastes"
-                    type="is-info"
-                    rounded
-                    icon="label"
-                    placeholder="Add a taste">
-            </b-taginput>
+            <li
+                v-for="(taste, index) in tastes"
+                class="taste"
+                :class="{added: isChecked(taste.id), pop: isAnimated(taste.id), popin: !isClicked(taste.id)}"
+                :key="taste.id"
+                :style="{ animationDelay: index * 0.02 + 's' }"
+            >
+                <div class="pill" @click="checkTaste(taste.id)">
+                    {{ taste.name }}
+                    <i v-if="isChecked(taste.id)" class="fas fa-check" />
+                    <i v-else class="fas fa-plus" />
+                </div>
+            </li>
         </ul>
-        <button class="doneButton loggedOut">Save</button>
     </div>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
     name: 'TasteList',
     data() {
         return {
             timeDelay: 0,
-            selectedTastes: [],
+            selectedIds: [],
+            tastesData: []
         };
     },
     methods: {
-        checkTaste(index) {
-            let taste = this.tastes[index];
-            taste.check = !taste.check;
-            taste.isClick = true;
-            taste.isAnimate = true;
+        checkTaste(id) {
+            if (this.tastesData[id] === undefined) {
+                this.tastesData[id] = {
+                    check: false,
+                    isClick: false,
+                    isAnimate: false
+                };
+            }
+            let tasteData = this.tastesData[id];
+            if (this.selectedIds.includes(id)) {
+                tasteData.check = false;
+                this.$store.dispatch('taste/deleteUserTaste', id);
+                this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
+            } else {
+                tasteData.check = true;
+                this.$store.dispatch('taste/addUserTaste', this.getById(id));
+                this.selectedIds.push(id);
+            }
+            tasteData.isClick = true;
+            tasteData.isAnimate = true;
             setTimeout(function () {
-                taste.isAnimate = false;
+                tasteData.isAnimate = false;
             }, 200);
+        },
+        isChecked(id) {
+            return this.selectedIds.includes(id);
+        },
+        isAnimated(id) {
+            return this.tastesData !== undefined || this.tastesData[id].isAnimate;
+        },
+        isClicked(id) {
+            return this.tastesData !== undefined || this.tastesData[id].isClick;
         }
     },
     computed: {
-        ...mapState('taste', ['tastes'])
+        ...mapState('taste', ['tastes', 'userTastes']),
+        ...mapGetters('taste', ['getById'])
     },
     created() {
         this.$store.dispatch('taste/fetchTastes');
+        this.$store.dispatch('taste/fetchUserTastes').then(() => {
+            this.selectedIds = this.userTastes.map((taste) => {
+                return taste.id;
+            });
+        });
     },
 };
 </script>
