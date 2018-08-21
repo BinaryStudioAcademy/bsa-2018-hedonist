@@ -1,3 +1,6 @@
 export default {
-    city: {}
+    city: {},
+    currentLatitude: null,
+    currentLongitude : null,
+    mapInitialized : false,
 };

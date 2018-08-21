@@ -1,4 +1,3 @@
-
 export default {
     getMapboxCenter: function(places) {
         let totalLongtitude = 0;
@@ -11,8 +10,5 @@ export default {
         });
 
         return [totalLongtitude/count, totalLatitude/count];
-    },
-    setCurrentCenter: ({ commit }, currentCenter) => {
-        commit('SET_CURRENT_CENTER', currentCenter);
     }
 };
