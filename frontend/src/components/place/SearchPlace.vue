@@ -15,17 +15,14 @@
                 :access-token="getMapboxToken"
                 :map-options="{
                     style: getMapboxStyle,
-                    center: {
-                        lat: 50.4547,
-                        lng: 30.5238
-                    },
+                    center: currentCenter,
                     zoom: 9
                 }"
                 :scale-control="{
                     show: true,
                     position: 'top-left'
                 }"
-                @map-init="mapInitialized"
+                @map-init="mapInitialize"
                 @map-load="mapLoaded"
             />
         </section>
@@ -33,8 +30,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
-import {mapGetters} from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
@@ -65,28 +61,37 @@ export default {
         this.$store.dispatch('place/fetchPlaces')
             .then(() => {
                 this.isPlacesLoaded = true;
-                if(this.isMapLoaded){
+                if (this.isMapLoaded) {
                     this.updateMap(this.places);
                     markerManager.fitMarkersOnMap();
+                    this.setCurrentCenter(markerManager.getCurrentCenter());
                 }
             });
     },
     methods: {
-        mapInitialized(map) {
+        ...mapActions('search', ['setCurrentCenter', 'mapInitialization']),
+
+        mapInitialize(map) {
+            if (this.mapInitialized) {
+                return;
+            }
+
             this.map = map;
             LocationService.getUserLocationData()
                 .then(coordinates => {
                     this.userCoordinates.lat = coordinates.lat;
                     this.userCoordinates.lng = coordinates.lng;
                 });
+            this.mapInitialization();
         },
         mapLoaded(map) {
             markerManager = new MarkerService(map);
             this.isMapLoaded = true;
-            if(this.isPlacesLoaded){
+            if (this.isPlacesLoaded) {
                 this.updateMap(this.places);
                 markerManager.fitMarkersOnMap();
-            };
+                this.setCurrentCenter(markerManager.getCurrentCenter());
+            }
         },
         jumpTo(coordinates) {
             this.map.jumpTo({
@@ -110,10 +115,11 @@ export default {
                 },
                 photoUrl: this.user.avatar_url || placeholderImg,
             };
-        }
+        },
     },
     computed: {
         ...mapState('place', ['places']),
+        ...mapState('search', ['currentLatitude', 'currentLongitude', 'mapInitialized']),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters('map', [
             'getMapboxToken',
@@ -122,6 +128,14 @@ export default {
         ...mapGetters({
             user: 'auth/getAuthenticatedUser'
         }),
+
+        currentCenter() {
+            return {
+                lat: this.currentLatitude ? this.currentLatitude : this.userCoordinates.lat,
+                lng: this.currentLongitude ? this.currentLongitude : this.userCoordinates.lng
+            };
+        },
+
         filteredPlaces: function () {
             let places = [];
             if (this.filterQuery) {
