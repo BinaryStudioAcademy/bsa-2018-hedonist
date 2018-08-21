@@ -75,7 +75,9 @@
                     <LikeDislikeButtons
                         :likes="place.likes"
                         :dislikes="place.dislikes"
-                        like="NONE"
+                        like="liked"
+                        @like="like"
+                        @dislike="dislike"
                     />
                 </div>
             </div>
@@ -84,23 +86,27 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 
 export default {
     name: 'PlaceTopInfo',
+
     components: {
         PlacePhotoList,
         PlaceCheckinModal,
         LikeDislikeButtons
     },
+
     props: {
         place: {
             type: Object,
             required: true
         }
     },
+
     filters: {
         formatRating: function(number){
             return new Intl.NumberFormat(
@@ -110,6 +116,7 @@ export default {
                 }).format(number);
         },
     },
+
     data() {
         return {
             activeTab: 1,
@@ -117,28 +124,48 @@ export default {
             isCheckinModalActive: false
         };
     },
+
     created() {
         this.$store.dispatch('userList/getListsByUser', this.user.id)
             .then((result) => {
                 this.userList = result;
             });
+
+        this.$store.dispatch('place/getLikedPlace', this.place.id);
     },
+    
     computed: {
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
         },
+
         localizedName() {
             return this.place.localization[0].name;
         },
+
         photosCount() {
             return this.place.photos.length;
-        }
+        },
+
+        ...mapState('place', ['liked']),
     },
 
     methods: {
         changeTab: function (activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);
+        },
+
+        like() {
+            this.$store.dispatch('place/likePlace', {
+                placeId: this.place.id
+            });
+        },
+
+        dislike() {
+            this.$store.dispatch('place/dislikePlace', {
+                placeId: this.place.id
+            });  
         },
 
         addPlaceToList: function (listId) {
