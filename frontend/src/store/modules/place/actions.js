@@ -1,16 +1,7 @@
 import httpService from '@/services/common/httpService';
+import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from './state';
 
 export default {
-    checkIn: (context, data) => {
-        return httpService.post('/users/me/checkins', data)
-            .then(response => { 
-                return Promise.resolve(response);
-            })
-            .catch(error => {
-                return Promise.reject(error);
-            });
-    },
-
     setPlaceRating: (context, data) => {
         return new Promise((resolve, reject) => {
             return httpService.post('/places/rating', data)
@@ -52,4 +43,42 @@ export default {
                 });
         });
     },
+
+    likePlace: (context, placeId) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('places/' + placeId + '/like')
+                .then(function (res) {
+                    getLikedPlace(context, placeId);
+                    resolve(res);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+    
+    dislikePlace: (context, placeId) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('places/' + placeId + '/dislike')
+                .then(function (res) {
+                    getLikedPlace(context, placeId);
+                    resolve(res);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+
+    getLikedPlace: (context, placeId) => {
+        httpService.get('places/' + placeId + '/liked')
+            .then(function (res) {
+                const likeStatus = [ STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE ]
+                    .indexOf(res.data.data) === -1 ? STATUS_NONE : res.data.data;
+                context.commit('SET_PLACE_LIKED', likeStatus);
+                return Promise.resolve(res);
+            }).catch(function (err) {
+                return Promise.reject(err);
+            });
+    }
 };

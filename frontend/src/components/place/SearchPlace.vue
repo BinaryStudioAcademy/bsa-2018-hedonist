@@ -35,6 +35,7 @@ import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import MarkerService from '@/services/map/markerManagerService';
+import placeholderImg from '../../assets/placeholder_128x128.png';
 
 let markerManager = null;
 
@@ -112,7 +113,7 @@ export default {
                         name: 'Your position',
                     }
                 },
-                photoUrl: this.user.avatar_url || 'http://via.placeholder.com/128x128',
+                photoUrl: this.user.avatar_url || placeholderImg,
             };
         },
     },
