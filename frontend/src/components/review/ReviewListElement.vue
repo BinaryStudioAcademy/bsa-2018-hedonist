@@ -4,31 +4,24 @@
             <article class="media">
                 <figure class="media-left">
                     <p class="image is-32x32">
-                        <img src="https://bulma.io/images/placeholders/128x128.png">
+                        <img :src="review.user.avatar_url">
                     </p>
                 </figure>
                 <div class="media-content">
                     <div class="top-line">
-                        <strong><a>John Smith</a></strong>
+                        <strong><a>{{ userName }}</a></strong>
                         <small><a>21 September 2018</a></small>
                     </div>
                     <div class="content">
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-                        </p>
+                        <p>{{ review.description }}</p>
                     </div>
-                    <nav class="level">
-                        <div class="level-left">
-                            <a class="level-item">
-                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-up"></i></span>
-                                <span class="is-size-6">Upvote</span>
-                            </a>
-                            <a class="level-item">
-                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-down"></i></span>
-                                <span class="is-size-6">Downvote</span>
-                            </a>
-                        </div>
-                    </nav>
+                    <LikeDislikeButtons
+                        :likes="review.likes"
+                        :dislikes="review.dislikes"
+                        :like="review-like"
+                        font-size="0.5rem"
+                        class="review-like"
+                    />
                 </div>
             </article>
         </div>
@@ -36,9 +29,23 @@
 </template>
 
 <script>
-    export default {
-        name: "ReviewListElement"
+import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
+
+export default {
+    name: 'ReviewListElement',
+    components: {LikeDislikeButtons},
+    props: {
+        review: {
+            type: Object,
+            required: true
+        }
+    },
+    computed: {
+        userName() {
+            return this.review.user.first_name + ' ' + this.review.user.last_name;
+        }
     }
+};
 </script>
 
 <style scoped>
@@ -55,6 +62,10 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+    }
+
+    .review-like {
+        max-width: 80px;
     }
 
     .icon {

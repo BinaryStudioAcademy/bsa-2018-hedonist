@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 80 80" style="enable-background:new 0 0 80 80;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;stroke:#000000;stroke-miterlimit:10;}
+	.st1{fill:#8800FF;}
+	.st2{fill:#6400A2;}
+	.st3{display:none;}
+	.st4{display:inline;}
+	.st5{fill:#6400BA;}
+</style>
+<g id="rectangle">
+	<path class="st0" d="M50.5,56.5"/>
+	<path class="st0" d="M29.5,56.5"/>
+	<g>
+		<path class="st1" d="M30.3,60.5h-9.8c-7.1,0-12.9-5.8-12.9-12.9V15.4c0-7.1,5.8-12.9,12.9-12.9h39.1c7.1,0,12.9,5.8,12.9,12.9
+			v32.1c0,7.1-5.8,12.9-12.9,12.9h-9.8l-9.2,15.1L30.3,60.5z"/>
+		<g>
+			<path class="st2" d="M59.6,3C66.4,3,72,8.6,72,15.4v32.1C72,54.4,66.4,60,59.6,60H50h-0.6l-0.3,0.5l-1.5,2.4l-7.2,11.8l-4.4-6.5
+				l-5.3-7.8L30.5,60H30h-9.6C13.6,60,8,54.4,8,47.6V15.4C8,8.6,13.6,3,20.4,3H59.6 M59.6,2H20.4C13,2,7,8,7,15.4v32.1
+				C7,55,13,61,20.4,61H30c3.5,5.2,7,10.3,10.5,15.5c3.2-5.2,6.3-10.3,9.5-15.5h9.6C67,61,73,55,73,47.6V15.4C73,8,67,2,59.6,2
+				L59.6,2z"/>
+		</g>
+	</g>
+</g>
+</svg>

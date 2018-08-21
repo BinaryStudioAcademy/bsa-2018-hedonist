@@ -10,6 +10,8 @@ use Hedonist\Actions\Review\{
     GetReviewCollectionAction
 };
 use Hedonist\Actions\Review\{
+    GetReviewPhotoByReviewAction,
+    GetReviewPhotoByReviewRequest,
     GetReviewRequest,
     CreateReviewRequest,
     DeleteReviewRequest,
@@ -19,7 +21,7 @@ use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Http\Requests\Review\SaveReviewRequest;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
-use Hedonist\Exceptions\PlaceExceptions\PlaceDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 
 class ReviewController extends ApiController
 {
@@ -28,19 +30,22 @@ class ReviewController extends ApiController
     private $createReviewAction;
     private $deleteReviewAction;
     private $getReviewCollectionAction;
+    private $getReviewPhotosByReviewAction;
 
     public function __construct(
         GetReviewAction $getReviewAction,
         CreateReviewAction $createReviewAction,
         DeleteReviewAction $deleteReviewAction,
         UpdateReviewDescriptionAction $updateReviewAction,
-        GetReviewCollectionAction $getReviewCollectionAction
+        GetReviewCollectionAction $getReviewCollectionAction,
+        GetReviewPhotoByReviewAction $getReviewPhotosByReviewAction
     ) {
         $this->getReviewAction = $getReviewAction;
         $this->updateReviewAction = $updateReviewAction;
         $this->createReviewAction = $createReviewAction;
         $this->deleteReviewAction = $deleteReviewAction;
         $this->getReviewCollectionAction = $getReviewCollectionAction;
+        $this->getReviewPhotosByReviewAction = $getReviewPhotosByReviewAction;
     }
 
     public function getReview(int $id)
@@ -72,11 +77,9 @@ class ReviewController extends ApiController
                 )
             );
             return $this->successResponse($createReviewResponse->getModel()->toArray());
-        }
-        catch (UserNotFoundException $e) {
+        } catch (UserNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 400);
-        }
-        catch (PlaceDoesNotExistException $e) {
+        } catch (PlaceDoesNotExistException $e) {
             return $this->errorResponse($e->getMessage(), 400);
         }
     }
@@ -102,5 +105,15 @@ class ReviewController extends ApiController
             new DeleteReviewRequest($id)
         );
         return $this->successResponse([], 200);
+    }
+
+    public function getPhotosByReviewId(int $reviewId)
+    {
+        try {
+            $reviewPhotosByReviewResponse = $this->getReviewPhotosByReviewAction->execute(new GetReviewPhotoByReviewRequest($reviewId));
+            return $this->successResponse($reviewPhotosByReviewResponse->toArray(), 200);
+        } catch (\Exception $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
+        }
     }
 }

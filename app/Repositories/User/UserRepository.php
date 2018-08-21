@@ -74,4 +74,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             }
         )->first();
     }
+
+    public function isEmailUnique(string $email): bool
+    {
+        $user = User::where(["email" => $email])->first();
+        return $user ? false : true;
+    }
 }

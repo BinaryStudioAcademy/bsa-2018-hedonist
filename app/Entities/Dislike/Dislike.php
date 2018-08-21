@@ -19,4 +19,9 @@ class Dislike extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function dislikeable()
+    {
+        return $this->morphTo();
+    }
 }

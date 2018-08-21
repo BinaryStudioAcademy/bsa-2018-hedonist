@@ -3,95 +3,26 @@
 namespace Hedonist\Actions\Place\GetPlaceItem;
 
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\User\User;
 
 class GetPlaceItemResponse
 {
-    private $id;
-    private $creator_id;
-    private $category_id;
-    private $city_id;
-    private $longitude;
-    private $latitude;
-    private $zip;
-    private $address;
-    private $phone;
-    private $website;
-    private $createdAt;
-    private $updatedAt;
+    private $place;
+    private $user;
 
-    public function __construct(Place $place) {
-        $this->id          = $place->id;
-        $this->creator_id  = $place->creator_id;
-        $this->category_id = $place->category_id;
-        $this->city_id     = $place->city_id;
-        $this->longitude   = $place->longitude;
-        $this->latitude    = $place->latitude;
-        $this->zip         = $place->zip;
-        $this->address     = $place->address;
-        $this->phone       = $place->phone;
-        $this->website     = $place->website;
-        $this->createdAt   = $place->created_at;
-        $this->updatedAt   = $place->updated_at;
+    public function __construct(Place $place, User $user)
+    {
+        $this->place = $place;
+        $this->user = $user;
     }
 
-
-    public function getId(): int
+    public function getPlace(): Place
     {
-        return $this->id;
+        return $this->place;
     }
 
-    public function getCreatorId(): int
+    public function getUser(): User
     {
-        return $this->creator_id;
-    }
-
-    public function getCategoryId(): int
-    {
-        return $this->category_id;
-    }
-
-    public function getCityId(): int
-    {
-        return $this->city_id;
-    }
-
-    public function getLongitude(): float
-    {
-        return $this->longitude;
-    }
-
-    public function getLatitude(): float
-    {
-        return $this->latitude;
-    }
-
-    public function getZip(): int
-    {
-        return $this->zip;
-    }
-
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
-
-    public function getPhone(): string
-    {
-        return $this->phone;
-    }
-
-    public function getWebsite(): string
-    {
-        return $this->website;
-    }
-
-    public function getCreatedAt(): string
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): string
-    {
-        return $this->updatedAt;
+        return $this->user;
     }
 }

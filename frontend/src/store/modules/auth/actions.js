@@ -1,63 +1,114 @@
-import httpService from "../../../services/common/httpService";
-import StorageService from "../../../services/common/storageService";
-
+import httpService from '../../../services/common/httpService';
+import StorageService from '../../../services/common/storageService';
 
 export default {
-    login: (context, username, password) => {
-        httpService.post('/user/login', {
-            data: {username, password}
-        }).then(function (res) {
-            context.commit('USER_LOGIN', res);
-        }).catch(function (err) {
-            // TODO: Handle error
+    signUp: (context, user) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('auth/signup', {
+                email: user.email,
+                password: user.password,
+                last_name: user.lastName,
+                first_name: user.firstName
+            })
+                .then(function (res) {
+                    resolve(res);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
         });
     },
-    logout: (context, user) => {
-        httpService.post('/user/logout', {
-            data: user
-        }).then(function (res) {
-            context.commit('USER_LOGOUT', res);
-        }).catch(function (err) {
-            // TODO: Handle error
+    login: (context, user) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('auth/login', {
+                email: user.email,
+                password: user.password,
+            })
+                .then(function (res) {
+                    const userData = res.data.data;
+                    context.commit('USER_LOGIN', userData);
+                    context.dispatch('fetchAuthenticatedUser');
+                    resolve(res);
+                }).catch(function (err) {
+                    reject(err);
+                });
         });
     },
-    resetPassword: (context, email) => {
-        httpService.post('/user/resetPassword', {
-            data: email
-        }).then(function (res) {
-        }).catch(function (err) {
-            // TODO: Handle error
+    logout: (context) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/auth/logout')
+                .then(function (res) {
+                    context.commit('USER_LOGOUT', res);
+                    resolve(res);
+                }).catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+    resetPassword: (context, user) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/auth/reset', {
+                email: user.email,
+                password: user.password,
+                password_confirmation: user.passwordConfirmation,
+                token: user.token
+            }).then(function (res) {
+                if (res.status === 400){
+                    resolve(res.data);
+                } else {
+                    resolve(res);
+                }
+            }).catch(function (err) {
+                reject(err);
+            });
         });
     },
     refreshToken: (context, email) => {
-        httpService.post('/user/refreshToken', {
-            params: {email}
-        }).then(function (res) {
-            state.token = res.token;
-            StorageService.setToken(res.token);
-        }).catch(function (err) {
-            // TODO: Handle error
+        return new Promise((resolve, reject) => {
+            httpService.post('/auth/refresh', {
+                params: {email}
+            }).then(function (res) {
+                context.commit('REFRESH_TOKEN', res.data.data.access_token);
+                resolve(res);
+            }).catch(function (err) {
+                reject(err);
+            });
         });
     },
-    sendForgotEmail: (context, state) => {
-        let data = state.currentUser;
-        httpService.post('/user/forgotEmail', {
-            data: {
-                data
-            }
-        }).then(function (res) {
-        }).catch(function (err) {
-            // TODO: Handle error
+    recoverPassword: (context, email) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/auth/recover', {
+                email: email
+            }).then(function (res) {
+                if (res.status === 400){
+                    resolve(res.data);
+                } else {
+                    resolve(res);
+                }
+            }).catch(function (err) {
+                reject(err);
+            });
         });
     },
-    fetchAuthenticatedUser: (context, token) => {
-        httpService.get('/user/userInfo', {
-            params: {
-                token
-            }
-        }).then(function (res) {
-        }).catch(function (err) {
-            // TODO: Handle error
+    fetchAuthenticatedUser: (context) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/auth/me')
+                .then(function (res) {
+                    context.commit('SET_AUTHENTICATED_USER', res.data.data);
+                    resolve(res);
+                }).catch(function (error) {
+                    reject(error.response.data.error);
+                });
         });
-    }
-}
+    },
+    checkEmailUnique: (context, email) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/auth/unique?email='+email
+            ).then(function (res) {
+                resolve(res.data.data);
+            }).catch(function (err) {
+                reject(err);
+            });
+        });
+    },
+};

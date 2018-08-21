@@ -14,8 +14,7 @@ class RegisterRequest
         string $password,
         string $lastName,
         string $firstName
-    )
-    {
+    ) {
         $this->email = $email;
         $this->password = $password;
         $this->firstName = $firstName;

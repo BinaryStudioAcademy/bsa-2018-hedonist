@@ -2,11 +2,9 @@
 
 namespace tests\Feature\Api\Place;
 
-
 use Hedonist\Entities\Place\Place;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Route;
 use Tests\Feature\Api\ApiTestCase;
 
 class PlaceControllerTest extends ApiTestCase
@@ -25,7 +23,6 @@ class PlaceControllerTest extends ApiTestCase
 
     public function testGetCollection()
     {
-        $routeName = 'getPlaceCollection';
         $response =  $this->actingWithToken()->json(
             'GET',
             self::ENDPOINT
@@ -35,7 +32,7 @@ class PlaceControllerTest extends ApiTestCase
         $this->assertTrue(isset(
             $arrayContent['data'][0]['id'],
             $arrayContent['data'][0]['city'],
-            $arrayContent['data'][0]['creator'])
+            $arrayContent['data'][0]['address'])
         );
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
@@ -179,9 +176,6 @@ class PlaceControllerTest extends ApiTestCase
         /* @var \Illuminate\Foundation\Testing\TestResponse $response */
         $response->assertJsonStructure(['data' => [
             'id',
-            'creator_id',
-            'category_id',
-            'city_id',
             'longitude',
             'latitude',
             'zip',

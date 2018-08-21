@@ -3,6 +3,8 @@
 namespace Tests\Feature\Api\Like;
 
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\Like\Like;
+use Hedonist\Entities\Dislike\Dislike;
 use Hedonist\Entities\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +94,48 @@ class LikePlaceApiTest extends ApiTestCase
             'likeable_id' => $this->placeId,
             'likeable_type' => Place::class,
             'user_id' => $this->user->id
+        ]);
+    }
+
+    public function testGetLikedNone()
+    {
+        $response = $this->actingWithToken($this->user)->get("/api/v1/places/{$this->placeId}/liked");
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'liked' => 'NONE'
+        ]);
+    }
+
+    public function testGetLiked()
+    {
+        $like = factory(Like::class)->create([
+            'user_id' => $this->user->id,
+            'likeable_id' => $this->placeId,
+            'likeable_type' => Place::class
+        ]);
+
+        $response = $this->actingWithToken($this->user)->get("/api/v1/places/{$this->placeId}/liked");
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'liked' => 'LIKED'
+        ]);
+    }
+
+    public function testGetDisliked()
+    {
+        $dislike = factory(Dislike::class)->create([
+            'user_id' => $this->user->id,
+            'dislikeable_id' => $this->placeId,
+            'dislikeable_type' => Place::class
+        ]);
+
+        $response = $this->actingWithToken($this->user)->get("/api/v1/places/{$this->placeId}/liked");
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'liked' => 'DISLIKED'
         ]);
     }
 }

@@ -5,7 +5,6 @@ use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Review\Review;
 
-
 $factory->define(Review::class, function (Faker $faker) {
     return [
         'user_id' => function () {
@@ -14,6 +13,6 @@ $factory->define(Review::class, function (Faker $faker) {
         'place_id' => function () {
             return factory(Place::class)->create()->id;
         },
-        'description' => $faker->realText()
+        'description' => $faker->realText(),
     ];
 });

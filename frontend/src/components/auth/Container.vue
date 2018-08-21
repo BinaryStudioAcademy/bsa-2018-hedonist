@@ -1,20 +1,23 @@
 <template>
-  <div class="columns">
-    <div class="column is-4 is-offset-4">
-      <div class="box">
-        <h3 class="title is-4">{{ title }}</h3>
-        <slot></slot>
-      </div>
-    </div>
-  </div>  
+    <div class="columns">
+        <div class="column is-4-widescreen is-5-desktop container is-8-tablet">
+            <div class="box">
+                <h3 class="title is-4">{{ title }}</h3>
+                <slot />
+            </div>
+        </div>
+    </div>  
 </template>
 
 <script>
 export default {
-  props: [
-    'title'
-  ]
-}
+    props: {
+        title: {
+            type: String,
+            required: true
+        }
+    }
+};
 </script>
 
 <style scoped>
@@ -22,10 +25,15 @@ export default {
   box-sizing: border-box;
 }
 
+.columns {
+  padding: 40px;
+}
+
 .box {
   padding: 54px 72px;
   box-shadow: 0 10px 20px rgba(0,0,0,0.1);
   font-family: 'Roboto', Arial, serif;
+  text-align: center;
 }
 
 .title {

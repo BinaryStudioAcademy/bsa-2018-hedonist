@@ -1,21 +1,23 @@
 import axios from 'axios';
-import storageService from "./storageService";
+import storageService from './storageService';
 
 export class HttpService {
     constructor() {
         this.axios = axios.create({
-            baseURL: '/'
+            baseURL: '/api/v1/'
         });
 
-        this.axios.interceptors.request.use(config => {
+        this.axios.interceptors.request.use(
+            config => {
                 if (storageService.getToken()) {
-                    config.headers['Authorization'] = 'Bearer ' + storageService.getToken()
+                    config.headers['Authorization'] = 'Bearer ' + storageService.getToken();
                 }
                 return Promise.resolve(config);
             },
             error => {
-                Promise.reject(error);
-            });
+                return Promise.reject(error);
+            }
+        );
     }
 
     get(url, params) {

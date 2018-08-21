@@ -9,7 +9,7 @@ use Hedonist\Actions\UserTaste\AddUserTasteAction;
 use Hedonist\Actions\UserTaste\DeleteUserTasteAction;
 use Hedonist\Actions\UserTaste\AddUserTasteRequest;
 use Hedonist\Actions\UserTaste\DeleteUserTasteRequest;
-use Hedonist\Exceptions\UserTaste\TasteNotFoundException;
+use Hedonist\Exceptions\User\TasteNotFoundException;
 
 class UserTasteController extends ApiController
 {
@@ -17,26 +17,27 @@ class UserTasteController extends ApiController
     private $addUserTasteAction;
     private $deleteUserTasteAction;
 
-    public function __construct(GetUserTastesAction $getUserTastesAction,AddUserTasteAction $addUserTasteAction,DeleteUserTasteAction $deleteUserTasteAction) {
+    public function __construct(GetUserTastesAction $getUserTastesAction, AddUserTasteAction $addUserTasteAction, DeleteUserTasteAction $deleteUserTasteAction)
+    {
         $this->getUserTastesAction = $getUserTastesAction;
         $this->addUserTasteAction = $addUserTasteAction;
         $this->deleteUserTasteAction = $deleteUserTasteAction;
     }
     
-    public function getTastes() 
+    public function getTastes()
     {
         $getUserTastesResponse = $this->getUserTastesAction->execute();
         return $this->successResponse($getUserTastesResponse->getTastes());
     }
     
-    public function addTaste(Request $request) 
+    public function addTaste(Request $request)
     {
         try {
             $addUserTasteResponse = $this->addUserTasteAction->execute(
                 new AddUserTasteRequest($request['taste_id'])
             );
-            return $this->successResponse($addUserTasteResponse->getTaste(),201);
-        }catch (TasteNotFoundException $e) {
+            return $this->successResponse($addUserTasteResponse->getTaste(), 201);
+        } catch (TasteNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 404);
         }
     }
@@ -49,6 +50,5 @@ class UserTasteController extends ApiController
         } catch (TasteNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 404);
         }
-        
     }
 }

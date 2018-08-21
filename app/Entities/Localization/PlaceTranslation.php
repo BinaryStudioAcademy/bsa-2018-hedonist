@@ -3,8 +3,17 @@
 namespace Hedonist\Entities\Localization;
 
 use Hedonist\Entities\Place\Place;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class PlaceTranslation
+ *
+ * @property string $place_name
+ * @property string $place_description
+ * @property int $place_id
+ * @property int $language_id
+ */
 class PlaceTranslation extends Model
 {
     protected $table = "places_tr";
@@ -15,6 +24,15 @@ class PlaceTranslation extends Model
         "place_id",
         "language_id"
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('language', function (Builder $builder) {
+            $builder->with('language');
+        });
+    }
 
     public function place()
     {

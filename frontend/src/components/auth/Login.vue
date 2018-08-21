@@ -1,52 +1,156 @@
 <template>
-  <Container title="Login into your account">
-    <p class="subtitle">Don't have an account? 
-      <router-link class="link link-signup" to="/signup">Create New</router-link>
-    </p>
-    <Form>
-      <b-field>
-        <b-input type="email"
-          v-model="user.email"
-          placeholder="Your Email"
-          autofocus>
-        </b-input>
-      </b-field>
+    <Container title="Login into your account">
+        <p class="subtitle">Don't have an account?
+            <router-link class="link link-signup" to="/signup">Create New</router-link>
+        </p>
+        <Form>
+            <b-field :type="input.email.type">
+                <b-input
+                    v-model="user.email"
+                    placeholder="Your Email"
+                    name="email"
+                    @blur="onBlur('email')"
+                    @focus="onFocus('email')"
+                    autofocus
+                />
+            </b-field>
 
-      <b-field>
-        <b-input type="password"
-          v-model="user.password"
-          placeholder="Your Password"
-          password-reveal>
-        </b-input>
-      </b-field>
+            <b-field :type="input.password.type">
+                <b-input 
+                    type="password"
+                    v-model="user.password"
+                    placeholder="Your Password"
+                    @blur="onBlur('password')"
+                    @focus="onFocus('password')"
+                    @keyup.native.enter="onLogin"
+                    password-reveal
+                />
+            </b-field>
 
-      <div class="login-footer">
-        <router-link class="link" to="/recover">Forgot Password?</router-link>
-        <button type="button" class="button is-primary is-rounded">Login</button>
-      </div>
-    </Form>
-  </Container>
+            <div class="login-footer">
+                <router-link class="link" to="/recover">Forgot Password?</router-link>
+                <button
+                    type="button"
+                    class="button is-primary is-rounded"
+                    @click="onLogin"
+                >
+                    Login
+                </button>
+            </div>
+        </Form>
+    </Container>
 </template>
 
 <script>
-import Container from './Container'
-import Form from './Form'
+import { mapActions } from 'vuex';
+import { required, email, minLength } from 'vuelidate/lib/validators';
+import Container from './Container';
+import Form from './Form';
 
 export default {
-  components: {
-    Container,
-    Form
-  },
+    components: {
+        Container,
+        Form
+    },
 
-  data: function () {
-    return {
-      user: {
-        email: '',
-        password: ''
-      }
+    data: function () {
+        return {
+            user: {
+                email: '',
+                password: ''
+            },
+
+            input: {
+                email: {
+                    type: ''
+                },
+                password: {
+                    type: ''
+                }
+            }
+        };
+    },
+
+    methods: {
+        ...mapActions({
+            login: 'auth/login'
+        }),
+
+        onLogin () {
+            if (!this.$v.user.$invalid) {
+                this.login(this.user)
+                    .then( (res) => {
+                        this.onSuccess({
+                            message: 'Welcome!'
+                        });
+                        this.refreshInput();
+                        this.$router.push({name: 'home'});
+                    })
+                    .catch( (err) => {
+                        this.onError(err.response.data);
+                    });
+            } else {
+                this.onError({
+                    message: 'Please, check your input data'
+                });
+            }
+        },
+
+        onError (error) {
+            this.$toast.open({
+                message: 'The email or password is incorrect',
+                type: 'is-danger'
+            });
+        },
+        onSuccess (success) {
+            this.$toast.open({
+                message: success.message,
+                type: 'is-success'
+            });
+        },
+
+        onBlur (el) {
+            if (this.$v.user[el].$invalid) {
+                this.input[el].type = 'is-danger';
+            } else {
+                this.input[el].type = 'is-success';
+            }
+        },
+
+        onFocus (el) {
+            this.input[el].type = '';
+        },
+
+        refreshInput () {
+            this.user = {
+                email: '',
+                password: ''
+            },
+
+            this.input = {
+                email: {
+                    type: ''
+                },
+                password: {
+                    type: ''
+                }
+            };
+        }
+    },
+
+    validations: {
+        user: {
+            email: {
+                required,
+                email
+            },
+            password: {
+                required,
+                minLength: minLength(6)
+            }
+        }
     }
-  }
-}
+};
 </script>
 
 <style scoped>

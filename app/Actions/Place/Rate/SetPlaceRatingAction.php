@@ -3,10 +3,12 @@
 namespace Hedonist\Actions\Place\Rate;
 
 use Hedonist\Actions\Place\Rate\Exceptions\PlaceRatingMinMaxException;
+use Hedonist\Actions\Place\Rate\Exceptions\PlaceRatingNotFoundException;
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
 use Hedonist\Entities\Place\PlaceRating;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class SetPlaceRatingAction
 {
@@ -27,6 +29,7 @@ class SetPlaceRatingAction
     {
         $id = $request->getId();
         $userId = $request->getUserId();
+        $userId = $userId ?: Auth::id();
         $placeId = $request->getPlaceId();
         $ratingValue = $request->getRatingValue();
 
@@ -38,12 +41,12 @@ class SetPlaceRatingAction
         if ($id) {
             $this->placeRating = $this->repository->getById($id);
         } else {
-            $this->placeRating = $this->repository->getByPlaceUser($placeId,$userId);
+            $this->placeRating = $this->repository->getByPlaceUser($placeId, $userId);
         }
 
         throw_if(!$this->placeRepository->getById($placeId), new PlaceNotFoundException('Item not found'));
 
-        if(!$this->placeRating) {
+        if (!$this->placeRating) {
             $this->placeRating = new PlaceRating([
                 'user_id' => $userId,
                 'place_id' => $placeId,
@@ -55,11 +58,18 @@ class SetPlaceRatingAction
 
         $this->placeRating = $this->repository->save($this->placeRating);
 
+        $ratingAvg = $this->repository->getAverage($placeId);
+        throw_if(!$ratingAvg, new PlaceRatingNotFoundException('Item not found'));
+        $ratingAvg = round($ratingAvg, 1);
+        $ratingCount = $this->repository->getVotesCount($placeId);
+
         $setPlaceRatingResponse = new SetPlaceRatingResponse(
             $this->placeRating->id,
             $this->placeRating->user_id,
             $this->placeRating->place_id,
-            $this->placeRating->rating
+            $this->placeRating->rating,
+            $ratingAvg,
+            $ratingCount
         );
 
         return $setPlaceRatingResponse;

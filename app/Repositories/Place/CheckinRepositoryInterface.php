@@ -17,4 +17,5 @@ interface CheckinRepositoryInterface
 
     public function deleteById(int $id);
 
+    public function getByUserId(int $id): Collection;
 }
