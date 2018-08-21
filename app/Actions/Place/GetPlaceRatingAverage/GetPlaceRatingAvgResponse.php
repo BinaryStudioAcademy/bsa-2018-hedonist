@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place\Rate;
+namespace Hedonist\Actions\Place\GetPlaceRatingAverage;
 
 class GetPlaceRatingAvgResponse
 {

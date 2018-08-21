@@ -1,8 +1,8 @@
 <?php
 
-namespace Hedonist\Actions\Place\Rate;
+namespace Hedonist\Actions\Place\SetPlaceRating;
 
-class GetPlaceRatingRequest
+class SetPlaceRatingRequest
 {
     protected $id;
 
@@ -10,11 +10,14 @@ class GetPlaceRatingRequest
 
     protected $placeId;
 
-    public function __construct(int $id = null, int $userId = null, int $placeId = null)
+    protected $ratingValue;
+
+    public function __construct(int $ratingValue, int $id = null, int $userId = null, int $placeId = null)
     {
         $this->id = $id;
         $this->userId = $userId;
         $this->placeId = $placeId;
+        $this->ratingValue = $ratingValue;
     }
 
     public function getId(): ?int
@@ -30,5 +33,10 @@ class GetPlaceRatingRequest
     public function getPlaceId(): ?int
     {
         return $this->placeId;
+    }
+
+    public function getRatingValue(): int
+    {
+        return $this->ratingValue;
     }
 }

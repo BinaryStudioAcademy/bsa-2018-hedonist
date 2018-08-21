@@ -2,24 +2,24 @@
 
 namespace Hedonist\Http\Controllers\Api\Place;
 
+use Hedonist\Exceptions\DomainException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Illuminate\Http\JsonResponse;
-
 use Hedonist\Http\Requests\Place\Rate\{
     SetRatingHttpRequest,
     GetRatingHttpRequest
 };
-
-use Hedonist\Actions\Place\Rate\{
+use Hedonist\Actions\Place\GetPlaceRating\{
     GetPlaceRatingAction,
-    SetPlaceRatingAction,
-    GetPlaceRatingAvgAction
+    GetPlaceRatingRequest
 };
-
-use Hedonist\Actions\Place\Rate\{
-    GetPlaceRatingRequest,
-    SetPlaceRatingRequest,
-    GetPlaceRatingAvgRequest
+use Hedonist\Actions\Place\SetPlaceRating\{
+    SetPlaceRatingAction,
+    SetPlaceRatingRequest
+};
+use Hedonist\Actions\Place\GetPlaceRatingAverage\{
+    GetPlaceRatingAvgRequest,
+    GetPlaceRatingAvgAction
 };
 
 class PlaceRatingController extends ApiController
@@ -27,7 +27,6 @@ class PlaceRatingController extends ApiController
     private $getRatingAction;
     private $setRatingAction;
     private $getPlaceRatingAvgAction;
-    private $userId;
 
     public function __construct(
         GetPlaceRatingAction $getRatingAction,
@@ -46,11 +45,11 @@ class PlaceRatingController extends ApiController
                 new SetPlaceRatingRequest(
                     $httpRequest->rating,
                     $httpRequest->id,
-                    $httpRequest->user_id,
+                    null,
                     $httpRequest->place_id
                 )
             );
-        } catch (\LogicException $ex) {
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
@@ -75,7 +74,7 @@ class PlaceRatingController extends ApiController
                     $httpRequest->rating
                 )
             );
-        } catch (\LogicException $ex) {
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
@@ -95,7 +94,7 @@ class PlaceRatingController extends ApiController
                     $placeId
                 )
             );
-        } catch (\LogicException $ex) {
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 

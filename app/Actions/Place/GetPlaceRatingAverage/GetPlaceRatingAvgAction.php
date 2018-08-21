@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place\Rate;
+namespace Hedonist\Actions\Place\GetPlaceRatingAverage;
 
 use Hedonist\Actions\Place\Rate\Exceptions\PlaceRatingNotFoundException;
 use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
