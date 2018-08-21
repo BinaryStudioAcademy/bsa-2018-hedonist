@@ -2,7 +2,6 @@
 
 namespace Hedonist\Http\Controllers\Api\Auth;
 
-
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\SocialAuth\Requests\SocialRequest;
 use Hedonist\Actions\SocialAuth\SocialAuthorizeAction;

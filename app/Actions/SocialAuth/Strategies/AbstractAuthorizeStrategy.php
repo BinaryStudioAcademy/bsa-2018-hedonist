@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\SocialAuth\Strategies;
 
-
 use Hedonist\Entities\User\SocialAccount;
 use Hedonist\Repositories\User\SocialAccountRepositoryInterface;
 use Hedonist\Repositories\User\UserInfoRepositoryInterface;
@@ -17,7 +16,6 @@ abstract class AbstractAuthorizeStrategy implements SocialAuthorizeStrategyInter
     protected $userRepository;
     protected $infoRepository;
     protected $socialRepository;
-
 
     public function __construct(
         UserRepositoryInterface $userRepository,
