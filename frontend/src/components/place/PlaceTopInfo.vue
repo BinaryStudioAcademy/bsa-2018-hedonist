@@ -76,7 +76,7 @@
                     <LikeDislikeButtons
                             :likes="place.likes"
                             :dislikes="place.dislikes"
-                            like="liked"
+                            like="NONE"
                             @like="like"
                             @dislike="dislike"
                     />
