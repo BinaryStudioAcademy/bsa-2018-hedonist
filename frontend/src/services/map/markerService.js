@@ -45,7 +45,7 @@ const mapFitter = map => (...activeMarkers) => {
     map.fitBounds(parseCoordinates(...activeMarkers), {padding: 100, linear: true});
 };
 
- const getService = (map) => {
+const getService = (map) => {
     const manager = markerManager.getManager(map);
     return {
         setMarkersFromPlaces(...places){
@@ -57,7 +57,7 @@ const mapFitter = map => (...activeMarkers) => {
             mapFitter(map)(...markers);
             return markers;
         }
-    }
+    };
 };
 
- export default {getService};
+export default {getService};

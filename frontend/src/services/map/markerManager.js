@@ -1,5 +1,5 @@
 import markerGenerator from './markerGenerator';
-import placeholderImg from "../../assets/placeholder_128x128.png";
+import placeholderImg from '../../assets/placeholder_128x128.png';
 
 const parser = (item) => ({
     id: item.id,
@@ -34,7 +34,7 @@ const cacher = () => {
         const result = funcToCache(data);
         cache[data.id] = result;
         return result;
-    }
+    };
 };
 
 const wrappedCreateMarker = cacher()(createMarker);
@@ -43,7 +43,7 @@ const getManager = (map) => {
     const activeMarkers = [];
     return {
         clearMap(...markers){
-            markers.forEach((marker) => removeMarker(marker))
+            markers.forEach((marker) => removeMarker(marker));
         },
         addMarkersFromPlaces(...places){
             return places.map((item) => addMarker(map)(parser(item)));
