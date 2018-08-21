@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Hedonist\Entities\Place\PlaceRating;
 
 class PlaceRatingTableSeeder extends Seeder
 {
     public function run()
     {
-        factory(\Hedonist\Entities\Place\PlaceRating::class, 12)->create();
+        factory(PlaceRating::class, 200)->create();
     }
 }
