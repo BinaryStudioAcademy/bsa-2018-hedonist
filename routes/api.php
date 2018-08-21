@@ -32,7 +32,7 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
 
-            Route::get('/{provider}/callback', 'SocialAuthController@callback');
+            Route::post('/{provider}/callback', 'SocialAuthController@callback');
 
         });
 
