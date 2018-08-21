@@ -12,31 +12,31 @@ use Hedonist\Http\Controllers\Api\ApiController;
 
 class SocialAuthController extends ApiController
 {
-    public function redirect(string $provider,SocialRedirectAction $action)
+    public function redirect(string $provider, SocialRedirectAction $action)
     {
-        try{
+        try {
             $request = new SocialRequest($provider);
             $response = $action->execute($request);
 
             return $this->successResponse(AuthPresenter::presentSocialRedirect($response));
-        } catch(InvalidSocialProviderException $exception){
-            return $this->errorResponse(AuthPresenter::presentError($exception),400);
-        } catch (\Exception $exception){
-            return $this->errorResponse(AuthPresenter::presentError($exception),500);
+        } catch (InvalidSocialProviderException $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
+        } catch (\Exception $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 500);
         }
     }
 
-    public function callback(string $provider,SocialAuthorizeAction $action)
+    public function callback(string $provider, SocialAuthorizeAction $action)
     {
-        try{
+        try {
             $request = new SocialRequest($provider);
             $response = $action->execute($request);
 
             return $this->successResponse(AuthPresenter::presentAuthenticateResponse($response));
-        } catch(InvalidSocialProviderException $exception){
-            return $this->errorResponse(AuthPresenter::presentError($exception),400);
-        } catch (\DomainException $exception){
-            return $this->errorResponse(AuthPresenter::presentError($exception),500);
+        } catch (InvalidSocialProviderException $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
+        } catch (\DomainException $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 500);
         }
     }
 }

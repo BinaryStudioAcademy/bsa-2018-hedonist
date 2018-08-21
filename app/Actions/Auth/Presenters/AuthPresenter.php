@@ -42,7 +42,7 @@ class AuthPresenter
         ];
     }
 
-    public static  function presentSocialRedirect(SocialRedirectResponse $response)
+    public static function presentSocialRedirect(SocialRedirectResponse $response)
     {
         return ['url' => $response->getUrl()];
     }

@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('v1')->group(function () {
-
     Route::group(['prefix' => '/auth', 'namespace' => 'Api\\Auth'], function () {
         Route::post('/signup', 'AuthController@register');
 
@@ -36,11 +35,9 @@ Route::prefix('v1')->group(function () {
         Route::post('/reset-password', 'AuthController@changePassword');
 
         Route::group(['prefix' => '/social'], function () {
-
             Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
 
             Route::get('/{provider}/callback', 'SocialAuthController@callback');
-
         });
     });
 

@@ -10,8 +10,7 @@ class SocialAuthStrategyManager implements SocialAuthStrategyManagerInterface
 {
     public function getStrategy(string $provider): SocialAuthorizeStrategyInterface
     {
-        switch ($provider)
-        {
+        switch ($provider) {
             case 'facebook':
                 return App::make(FacebookAuthorizeStrategy::class);
         }

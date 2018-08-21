@@ -43,6 +43,6 @@ class SocialAccountRepository extends BaseRepository implements SocialAccountRep
 
     public function findByUser(int $userId): Collection
     {
-        return SocialAccount::where('user_id',$userId)->get();
+        return SocialAccount::where('user_id', $userId)->get();
     }
 }
