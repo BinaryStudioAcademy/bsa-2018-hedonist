@@ -38,7 +38,7 @@ const setMarkers = parser => (mapAdder, markerCreator, markerRemover) => {
                 if (poolMap.has(item.id)) {
                     const object = poolMap.get(item.id);
                     mapAdder(object.marker);
-                    activeMap.set(item.id, object)
+                    activeMap.set(item.id, object);
                 } else {
                     const object = markerCreator(item);
                     mapAdder(object.marker);
@@ -86,12 +86,14 @@ const mapFitter = map => (...activeMarkersObjects) => {
     map.fitBounds(parseCoordinates(...activeMarkersObjects), {padding: 100, linear: true});
 };
 
-const mapUpdater = (parser = defaultParser) => map => {
+const mapUpdater = (parser = defaultParser) => (map,shouldFit) => {
     const handleUpdate = setMarkers(parser)(addMarkerToMap(map), createMarker, removeMarkers);
     const fitter = mapFitter(map);
     return (...markers) => {
         const activeMap = handleUpdate(...markers);
-        fitter(...activeMap.values());
+        if(shouldFit) {
+            fitter(...activeMap.values());
+        }
     };
 };
 
