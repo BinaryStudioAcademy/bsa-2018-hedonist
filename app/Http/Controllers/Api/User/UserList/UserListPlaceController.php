@@ -9,6 +9,7 @@ use Hedonist\Actions\UserList\Places\{
 };
 use Hedonist\Http\Requests\UserList\AttachPlaceHttpRequest;
 use Illuminate\Http\JsonResponse;
+use Hedonist\Exceptions\DomainException;
 
 class UserListPlaceController extends ApiController
 {
@@ -25,7 +26,7 @@ class UserListPlaceController extends ApiController
             $response = $this->attachPlaceAction->execute(
                 new AttachPlaceRequest($listId, $httpRequest->id)
             );
-        } catch (\Exception $e) {
+        } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage(), 400);
         }
         return $this->emptyResponse(201);

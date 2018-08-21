@@ -38,7 +38,7 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         return $this->getByCriteria($criteria);
     }
 
-    public function deleteById(int $id)
+    public function deleteById(int $id): void
     {
         $this->delete($id);
     }
@@ -48,8 +48,8 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         return UserList::class;
     }
 
-    public function attachPlace(int $id, Place $place)
+    public function attachPlace(UserList $list, Place $place): void
     {
-        $this->getById($id)->places()->attach($place->id);
+        $list->places()->attach($place->id);
     }
 }

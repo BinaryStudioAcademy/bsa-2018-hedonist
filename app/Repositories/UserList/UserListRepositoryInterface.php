@@ -17,7 +17,7 @@ interface UserListRepositoryInterface
 
     public function findByCriteria(CriteriaInterface $criteria): Collection;
 
-    public function attachPlace(int $id, Place $place);
+    public function attachPlace(UserList $list, Place $place): void;
 
-    public function deleteById(int $id);
+    public function deleteById(int $id): void;
 }
