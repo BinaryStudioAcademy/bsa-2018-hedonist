@@ -12,8 +12,10 @@ class FacebookAuthorizeStrategy extends AbstractAuthorizeStrategy
 {
     protected function createUserFromSocialData(SocialUser $user): UserModel
     {
+        $password = str_random(16);
         $appUser = new UserModel([
-            'email' => $user->getEmail()
+            'email' => $user->getEmail(),
+            'password' => $password
         ]);
         $appUser = $this->userRepository->save($appUser);
         $parsedName = explode(' ', $user->getName());
@@ -24,6 +26,7 @@ class FacebookAuthorizeStrategy extends AbstractAuthorizeStrategy
             'avatar_url' => $user->getAvatar()
         ]);
         $this->infoRepository->save($userInfo);
+        $this->notifyUser($appUser, $userInfo, $password);
 
         return $this->userRepository->save($appUser);
     }
