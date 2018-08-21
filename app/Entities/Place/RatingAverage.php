@@ -22,13 +22,4 @@ class RatingAverage
     {
         return $this->avgRating;
     }
-
-    public function __get($name)
-    {
-        $getterMethod = 'get' . ucfirst($name);
-
-        if (method_exists($this, $getterMethod)) {
-            return $this->$getterMethod();
-        }
-    }
 }

@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\Place\Checkin;
 
 use Hedonist\Entities\Place\Checkin;
+use Hedonist\Entities\Place\RatingAverage;
 
 class GetUserCheckInCollectionPresenter
 {
@@ -11,10 +12,14 @@ class GetUserCheckInCollectionPresenter
         $checkInsArray = [];
 
         foreach ($checkInCollectionResponse->getPlaceCollection() as $checkIn) {
-            $filteredRating = $checkInCollectionResponse->getRatingCollection()
-                ->where('placeId', $checkIn->place->id)
-                ->first();
-            $rating = $filteredRating ? $filteredRating->avgRating : 0;
+            $filteredRating = $checkInCollectionResponse
+                ->getRatingCollection()
+                ->first(function($rating) use ($checkIn) {
+                    /* @var $rating RatingAverage */
+                    return $rating->getPlaceId() === $checkIn->place->id;
+                });
+
+            $rating = $filteredRating ? $filteredRating->getAvgRating() : 0;
             $checkInsArray[] = self::presentCollectionItem($checkIn, $rating);
         }
 
