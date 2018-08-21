@@ -20,7 +20,6 @@
         </div>
         <div class="top-right">
             <button class="button-green">Save</button>
-            <button class="button-grey">Delete</button>
         </div>
         <div class="bottom-left">
             <div class="search-places">
@@ -324,27 +323,10 @@ export default {
         padding: 0 30px;
         text-align: center;
         text-transform: none;
-        margin-right: 15px;
     }
 
     .button-green:hover {
         background: #4ca958;
-    }
-
-    .button-grey {
-        border-radius: 3px;
-        background: #efeff4;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        color: #4e595d;
-        cursor: pointer;
-        display: block;
-        font-size: 0.9rem;
-        font-weight: normal;
-        height: 30px;
-        line-height: 28px;
-        padding: 0 10px;
-        text-align: center;
-        text-transform: none;
     }
 
     .button-grey:hover {
