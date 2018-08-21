@@ -211,15 +211,15 @@
                 </b-tab-item>
 
                 <b-tab-item label="Features">
-                    <template  v-for="(feature, index) in features">
+                    <template v-for="(feature, index) in features">
                         <div :key="index" class="level is-flex-mobile">
                             <div class="level-left">
                                 <span class="label">{{ feature.name }}</span>
                             </div>
                             <div class="level-right">
                                 <b-switch
-                                        v-model="feature.status"
-                                        type="is-success"
+                                    v-model="feature.status"
+                                    type="is-success"
                                 />
                             </div>
                         </div>
@@ -229,44 +229,51 @@
                 <b-tab-item label="Hours">
                     <div class="level is-centered">
                         <div class="level-item">
-                            <b-field class="is-block-mobile level">
-                                <b-checkbox-button class="level-item"
+                            <b-field class="is-block-mobile">
+                                <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="mo"
                                 >
                                     Monday
                                 </b-checkbox-button>
-                                <b-checkbox-button class="level-item"
+                                <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="tu"
                                 >
                                     Tuesday
                                 </b-checkbox-button>
-                                <b-checkbox-button class="level-item"
+                                <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="we"
                                 >
                                     Wednesday
                                 </b-checkbox-button>
-                                <b-checkbox-button class="level-item"
+                                <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="th"
                                 >
                                     Thursday
                                 </b-checkbox-button>
-                                <b-checkbox-button class="level-item"
+                                <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="fr"
                                 >
                                     Friday
                                 </b-checkbox-button>
-                                <b-checkbox-button class="level-item"
+                                <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="sa"
                                 >
                                     Saturday
                                 </b-checkbox-button>
-                                <b-checkbox-button class="level-item"
+                                <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="su"
                                 >
@@ -446,10 +453,6 @@ export default {
         h4 {
             font-weight: 500;
         }
-    }
-
-    .test {
-        width: 100%;
     }
 
 </style>
