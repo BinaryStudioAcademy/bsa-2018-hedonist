@@ -111,7 +111,6 @@ export default {
         }
     },
     methods: {
-
         getPreview (photo) {
             return URL.createObjectURL(photo).toString();
         },
