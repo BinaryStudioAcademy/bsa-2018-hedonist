@@ -15,18 +15,15 @@
                     <div class="content">
                         <p>{{ review.description }}</p>
                     </div>
-                    <nav class="level">
-                        <div class="level-left">
-                            <a class="level-item" :class="{ liked: liked }">
-                                <span class="icon is-small" @click="onLikeReview"><i class="far fa-thumbs-up" /></span>
-                                <span class="is-size-6">{{ review.likes }}</span>
-                            </a>
-                            <a class="level-item" :class="{ disliked: disliked }">
-                                <span class="icon is-small" @click="onDislikeReview"><i class="far fa-thumbs-down" /></span>
-                                <span class="is-size-6">{{ review.dislikes }}</span>
-                            </a>
-                        </div>
-                    </nav>
+                    <LikeDislikeButtons
+                        @like="onLikeReview"
+                        @dislike="onDislikeReview"
+                        :likes="review.likes"
+                        :dislikes="review.dislikes"
+                        :like="review.like"
+                        font-size="0.5rem"
+                        class="review-like"
+                    />
                 </div>
             </article>
         </div>
@@ -35,9 +32,11 @@
 
 <script>
 import { mapActions } from 'vuex';
+import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 
 export default {
     name: 'ReviewListElement',
+    components: {LikeDislikeButtons},
     props: {
         review: {
             type: Object,
@@ -74,7 +73,7 @@ export default {
         },
     },
     computed: {
-        userName(){
+        userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
         },
         liked() {
@@ -103,19 +102,7 @@ export default {
         justify-content: space-between;
     }
 
-    .icon {
-        margin-right: 5px;
-    }
-
-    .level-item {
-        color: #808080;
-    }
-
-    .liked {
-        color: #23d160;
-    }
-
-    .disliked {
-        color: red;
+    .review-like {
+        max-width: 80px;
     }
 </style>
