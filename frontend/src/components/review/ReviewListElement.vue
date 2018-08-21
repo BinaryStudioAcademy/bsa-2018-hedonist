@@ -15,18 +15,13 @@
                     <div class="content">
                         <p>{{ review.description }}</p>
                     </div>
-                    <nav class="level">
-                        <div class="level-left">
-                            <a class="level-item">
-                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-up" /></span>
-                                <span class="is-size-6">Upvote</span>
-                            </a>
-                            <a class="level-item">
-                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-down" /></span>
-                                <span class="is-size-6">Downvote</span>
-                            </a>
-                        </div>
-                    </nav>
+                    <LikeDislikeButtons
+                        :likes="review.likes"
+                        :dislikes="review.dislikes"
+                        :like="review-like"
+                        font-size="0.5rem"
+                        class="review-like"
+                    />
                 </div>
             </article>
         </div>
@@ -34,8 +29,11 @@
 </template>
 
 <script>
+import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
+
 export default {
     name: 'ReviewListElement',
+    components: {LikeDislikeButtons},
     props: {
         review: {
             type: Object,
@@ -43,7 +41,7 @@ export default {
         }
     },
     computed: {
-        userName(){
+        userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
         }
     }
@@ -64,6 +62,10 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+    }
+
+    .review-like {
+        max-width: 80px;
     }
 
     .icon {

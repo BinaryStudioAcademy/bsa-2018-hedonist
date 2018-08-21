@@ -1,4 +1,5 @@
 import MarkerGenerator from './markerGeneratorService';
+import placeholderImg from '../../assets/placeholder_128x128.png';
 
 const defaultParser = (item) => ({
     id: item.id,
@@ -6,7 +7,7 @@ const defaultParser = (item) => ({
     lng: item.longitude,
     lat: item.latitude,
     // TODO set place photo url
-    photoUrl: item.photoUrl || 'http://via.placeholder.com/128x128',
+    photoUrl: item.photoUrl || placeholderImg,
     address: item.address
 });
 

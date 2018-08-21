@@ -154,125 +154,126 @@
                 </b-tab-item>
 
                 <b-tab-item label="Categories">
-                    <div class="columns is-centered">
-                        <div class="column is-half">
-                            <div class="level">
-                                <div class="level-item">
-                                    <b-field>
-                                        <b-select v-model="newPlace.category">
-                                            <option value="" selected disabled>Select a category</option>
-                                            <option
-                                                v-for="option in categories"
-                                                :key="option.id"
-                                                :value="option"
-                                            >
-                                                {{ option.name }}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-                            </div>
-                            <template v-if="isCategorySelected">
-                                <div class="level">
-                                    <div class="level-item">
-                                        <b-field>
-                                            <b-select v-model="selectedTag">
-                                                <option value="v" selected disabled>Add tags</option>
-                                                <option
-                                                    v-for="option in category_tags"
-                                                    :key="option.id"
-                                                    :value="option"
-                                                >
-                                                    {{ option.name }}
-                                                </option>
-                                            </b-select>
-                                        </b-field>
-                                    </div>
-                                </div>
-                            </template>
-
-                            <!-- Tags field here! -->
-                            <template>
-                                <div class="level">
-                                    <div class="level-item">
-                                        <b-taglist>
-                                            <b-tag
-                                                v-for="tag in newPlace.category_tags"
-                                                :key="tag.id"
-                                                type="is-info"
-                                                size="is-medium"
-                                                closable
-                                                @close="onCloseTab(tag)"
-                                            >
-                                                {{ tag.name }}
-                                            </b-tag>
-                                        </b-taglist>
-                                    </div>
-                                </div>
-                            </template>
+                    <div class="level">
+                        <div class="level-item">
+                            <b-field>
+                                <b-select v-model="newPlace.category">
+                                    <option value="" selected disabled>Select a category</option>
+                                    <option
+                                        v-for="option in categories"
+                                        :key="option.id"
+                                        :value="option"
+                                    >
+                                        {{ option.name }}
+                                    </option>
+                                </b-select>
+                            </b-field>
                         </div>
                     </div>
+                    <template v-if="isCategorySelected">
+                        <div class="level">
+                            <div class="level-item">
+                                <b-field>
+                                    <b-select v-model="selectedTag">
+                                        <option value="v" selected disabled>Add tags</option>
+                                        <option
+                                            v-for="option in category_tags"
+                                            :key="option.id"
+                                            :value="option"
+                                        >
+                                            {{ option.name }}
+                                        </option>
+                                    </b-select>
+                                </b-field>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Tags field here! -->
+                    <template>
+                        <div class="level">
+                            <div class="level-item">
+                                <b-taglist>
+                                    <b-tag
+                                        v-for="tag in newPlace.category_tags"
+                                        :key="tag.id"
+                                        type="is-info"
+                                        size="is-medium"
+                                        closable
+                                        @close="onCloseTab(tag)"
+                                    >
+                                        {{ tag.name }}
+                                    </b-tag>
+                                </b-taglist>
+                            </div>
+                        </div>
+                    </template>
                 </b-tab-item>
 
                 <b-tab-item label="Features">
-                    <div v-for="(feature, index) in features" :key="index" class="columns is-centered is-multiline">
-                        <div class="column is-half">
-                            <div class="level">
-                                <div class="level-left">
-                                    <span class="label">{{ feature.name }}</span>
-                                </div>
-                                <div class="level-right">
-                                    <b-switch
-                                        v-model="feature.status"
-                                        type="is-success"
-                                    />
-                                </div>
+                    <template v-for="(feature, index) in features">
+                        <div :key="index" class="level is-flex-mobile">
+                            <div class="level-left">
+                                <span class="label">{{ feature.name }}</span>
+                            </div>
+                            <div class="level-right">
+                                <b-switch
+                                    v-model="feature.status"
+                                    type="is-success"
+                                />
                             </div>
                         </div>
-                    </div>
+                    </template>
                 </b-tab-item>
 
                 <b-tab-item label="Hours">
                     <div class="level is-centered">
                         <div class="level-item">
-                            <b-field>
+                            <b-field class="is-block-mobile">
                                 <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="mo"
                                 >
                                     Monday
                                 </b-checkbox-button>
                                 <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="tu"
                                 >
                                     Tuesday
                                 </b-checkbox-button>
                                 <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="we"
                                 >
                                     Wednesday
                                 </b-checkbox-button>
                                 <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="th"
                                 >
                                     Thursday
                                 </b-checkbox-button>
                                 <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="fr"
                                 >
                                     Friday
                                 </b-checkbox-button>
                                 <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="sa"
                                 >
                                     Saturday
                                 </b-checkbox-button>
                                 <b-checkbox-button
+                                    size="is-fullwidth"
                                     v-model="weekdays"
                                     native-value="su"
                                 >
@@ -298,7 +299,7 @@
                         </div>
                     </div>
                     <div class="btn-bottom level is-centered">
-                        <div class="level-item"><a class="button is-primary is-medium" :disabled="isDaySelected">Add</a></div>
+                        <div class="level-item"><a class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
                     </div>
                 </b-tab-item>
             </b-tabs>
@@ -314,27 +315,12 @@ export default {
             newPlace: {
                 name: '',
                 category: '',
-                category_tags: []
+                category_tags: [],
+                features: []
             },
             categories: {},
             selectedTag: 'v',
-            category_tags: [
-                {
-                    name: 'bar'
-                },
-                {
-                    name: 'bar1'
-                },
-                {
-                    name: 'bar2'
-                },
-                {
-                    name: 'bar3'
-                },
-                {
-                    name: 'bar4'
-                }
-            ],
+            category_tags: [],
             weekdays: [],
             timeStart: new Date(),
             timeEnd: new Date(),
@@ -384,7 +370,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('placeCategory/getAllCategories')
+        this.$store.dispatch('category/getAllCategories')
             .then((result) => {
                 this.categories = result;
             });
@@ -392,10 +378,13 @@ export default {
 
     watch: {
         'newPlace.category': function (categoryObject) {
-            if (categoryObject) {
-                this.newPlace.category_tags = [];
-                this.selectedTag = 'v';
-            }
+            if (_.isEmpty(categoryObject)) { return; }
+            this.newPlace.category_tags = [];
+            this.$store.dispatch('category/getTagsByCategory', categoryObject.id)
+                .then((result) => {
+                    this.category_tags = result;
+                });
+            this.selectedTag = 'v';
         },
 
         'selectedTag': function (tagObject) {

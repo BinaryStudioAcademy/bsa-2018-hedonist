@@ -40,32 +40,10 @@
                     </b-taglist>
                 </div>
             </div>
-            <div class="media">
-                <a class="media-left">
-                    <b-taglist attached>
-                        <b-tag type="is-light">
-                            {{ place.likes }}
-                        </b-tag>
-                        <b-tag type="is-success" @click.native="like">
-                            <span class="icon">
-                                <i class="far fa-arrow-alt-circle-up" />
-                            </span>
-                        </b-tag>
-                    </b-taglist>
-                </a>
-                <a class="media-right">
-                    <b-taglist attached>
-                        <b-tag type="is-light">
-                            {{ place.dislikes }}
-                        </b-tag>
-                        <b-tag type="is-danger" @click.native="dislike">
-                            <span class="icon">
-                                <i class="far fa-arrow-alt-circle-down" />
-                            </span>
-                        </b-tag>
-                    </b-taglist>
-                </a>
-            </div>
+            <Review
+                v-if="place.review"
+                :review="place.review"
+            />
         </div>
     </transition>
 </template>
@@ -142,8 +120,11 @@
 </style>
 
 <script>
+import Review from '@/components/review/PlacePreviewReviewItem';
+
 export default {
     name: 'PlacePreview',
+    components: {Review},
     data() {
         return {
             active: false

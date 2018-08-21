@@ -51,14 +51,14 @@
                         {{ place.website }}
                     </a>
                 </div>
-                <template v-if="place.socials">
-                    <div class="place-sidebar__facebook">
+                <template v-if="place.placeInfo">
+                    <div class="place-sidebar__facebook" v-if="place.placeInfo.facebook">
                         <i class="place-sidebar__icon fab fa-facebook-square" />
-                        <a href="https://www.facebook.com/mamamanana.kiev">mamamanana.kiev</a>
+                        <a :href="place.placeInfo.facebook">{{ place.placeInfo.facebook }}</a>
                     </div>
-                    <div class="place-sidebar__facebook">
+                    <div class="place-sidebar__facebook" v-if="place.placeInfo.instagram">
                         <i class="place-sidebar__icon fab fa-instagram" />
-                        <a href="https://www.instagram.com/mamamanana.kiev.ua/">@mamamanana.kiev.ua</a>
+                        <a :href="place.placeInfo.instagram">{{ place.placeInfo.instagram }}</a>
                     </div>
                 </template>
             </div>

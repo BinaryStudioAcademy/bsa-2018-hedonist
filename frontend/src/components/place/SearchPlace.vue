@@ -39,6 +39,7 @@
     import Mapbox from 'mapbox-gl-vue';
     import LocationService from '@/services/location/locationService';
     import markerUpdater from '@/services/map/markerManagerService';
+    import placeholderImg from '../../assets/placeholder_128x128.png';
 
     export default {
         name: 'SearchPlace',
@@ -129,7 +130,6 @@
                 } else {
                     places = this.places;
                 }
-                return places;
             },
         }
     };
