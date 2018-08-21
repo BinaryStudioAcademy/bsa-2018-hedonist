@@ -61,6 +61,16 @@ class Place extends Model
         return $this->belongsTo(PlaceCategory::class);
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany(
+            PlaceCategoryTag::class,
+            'place_category_place_tag',
+            'place_category_id',
+            'place_tag_id'
+        );
+    }
+
     public function city()
     {
         return $this->belongsTo(City::class);
