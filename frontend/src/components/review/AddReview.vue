@@ -113,10 +113,20 @@ export default {
                     });
                 });
 
-                var newReview = {};
-                newReview.user_id = this.newReview.user_id;
-                newReview.place_id = this.newReview.place_id;
-                newReview.description = this.newReview.description;
+                let newReview = {};
+                newReview.created_at = res.data.created_at;
+                newReview.description = res.data.description;
+                newReview.dislikes = 0;
+                newReview.like = "NONE";
+                newReview.likes = 0;
+                newReview.user_id = res.data.user_id;
+                newReview.user = {
+                    avatar_url:"https://instagram.fhrk1-1.fna.fbcdn.net/vp/f9472104c184408f7e566fce7942d9b3/5BFFDA1C/t51.2885-19/s150x150/18644930_364022684000162_4610752073493905408_a.jpg",
+                    email:"vladimir.kudinov@gmail.com",
+                    first_name:"Vladimir",
+                    id:1,
+                    last_name:"Kudinov",
+                };
                 this.$emit('addNewReviewToDisplay', newReview);
 
                 this.refreshInput();
