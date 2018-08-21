@@ -229,44 +229,44 @@
                 <b-tab-item label="Hours">
                     <div class="level is-centered">
                         <div class="level-item">
-                            <b-field>
-                                <b-checkbox-button
+                            <b-field class="is-block-mobile level">
+                                <b-checkbox-button class="level-item"
                                     v-model="weekdays"
                                     native-value="mo"
                                 >
                                     Monday
                                 </b-checkbox-button>
-                                <b-checkbox-button
+                                <b-checkbox-button class="level-item"
                                     v-model="weekdays"
                                     native-value="tu"
                                 >
                                     Tuesday
                                 </b-checkbox-button>
-                                <b-checkbox-button
+                                <b-checkbox-button class="level-item"
                                     v-model="weekdays"
                                     native-value="we"
                                 >
                                     Wednesday
                                 </b-checkbox-button>
-                                <b-checkbox-button
+                                <b-checkbox-button class="level-item"
                                     v-model="weekdays"
                                     native-value="th"
                                 >
                                     Thursday
                                 </b-checkbox-button>
-                                <b-checkbox-button
+                                <b-checkbox-button class="level-item"
                                     v-model="weekdays"
                                     native-value="fr"
                                 >
                                     Friday
                                 </b-checkbox-button>
-                                <b-checkbox-button
+                                <b-checkbox-button class="level-item"
                                     v-model="weekdays"
                                     native-value="sa"
                                 >
                                     Saturday
                                 </b-checkbox-button>
-                                <b-checkbox-button
+                                <b-checkbox-button class="level-item"
                                     v-model="weekdays"
                                     native-value="su"
                                 >
@@ -280,19 +280,19 @@
                             <div class="level">
                                 <div class="level-item">
                                     <b-field label="from">
-                                        <b-timepicker v-model="timeStart" inline :disabled="isDaySelected" />
+                                        <b-timepicker v-model="timeStart" :disabled="isDaySelected" />
                                     </b-field>
                                 </div>
                                 <div class="level-item">
                                     <b-field label="to">
-                                        <b-timepicker v-model="timeEnd" inline :disabled="isDaySelected" />
+                                        <b-timepicker v-model="timeEnd" :disabled="isDaySelected" />
                                     </b-field>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="btn-bottom level is-centered">
-                        <div class="level-item"><a class="button is-primary is-medium" :disabled="isDaySelected">Add</a></div>
+                        <div class="level-item"><a class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
                     </div>
                 </b-tab-item>
             </b-tabs>
