@@ -2,26 +2,63 @@
     <transition name="slide-fade">
         <article v-if="active">
             <div class="entry-media">
-                <img 
-                    class="image" 
-                    :src="visitedPlace.place_photo.url"
+                <img
+                    class="image"
+                    :src="checkInPlace.photo ? checkInPlace.photo : placePreviewMock"
                 >
             </div>
             <div class="item-description">
                 <div class="rating-wrapper">
                     <div class="rating">
-                        {{ visitedPlace.ratings.rating }}
+                        {{ checkInPlace.rating }}
                     </div>
                 </div>
-                <h2 class="title">{{ index }}.{{ visitedPlace.places_tr.place_name }}</h2>
-                <p>{{ cityAddress }}</p>
-                <p>{{ visitedPlace.categories.name }} - Tips and feedback: {{ reviewCount }}</p>
+                <h2 class="title">
+                    <router-link :to="`/places/${checkIn.id}`">
+                        {{ checkInPlace.name }}
+                    </router-link>
+                </h2>
+                <p>{{ checkInPlace.city }}</p>
+                <p>{{ checkInPlace.category }}</p>
 
                 <button class="saved"><i class="fa fa-bookmark" />Saved</button>
             </div>
         </article>
     </transition>
 </template>
+
+<script>
+import imageStub from '@/assets/no-photo.png';
+
+export default {
+    name: 'PlaceVisitedPreview',
+    data() {
+        return {
+            active: false,
+            placePreviewMock: imageStub
+        };
+    },
+    props: {
+        checkIn: {
+            required: true,
+            type: Object,
+        },
+        checkInPlace: {
+            required: true,
+            type: Object,
+        },
+        timer: {
+            required: true,
+            type: Number
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
+    }
+};
+</script>
 
 <style lang="scss" scoped>
 
@@ -30,11 +67,6 @@
         text-align: left;
         width: 600px;
         background-color: #FFF;
-    }
-
-    .entry-media {
-        height: 300px;
-        width: 600px;
     }
 
     .image {
@@ -103,41 +135,3 @@
         }
     }
 </style>
-
-<script>
-export default {
-    name: 'PlaceVisitedPreview',
-    data() {
-        return {
-            active: false
-        };
-    },
-    props: {
-        visitedPlace: {
-            required: true,
-            type: Object,
-        },
-        index: {
-            required: true,
-            type: Number
-        },
-        timer: {
-            required: true,
-            type: Number
-        }
-    },
-    computed: {
-        cityAddress: function() {
-            return this.visitedPlace.address + ', ' + this.visitedPlace.cities.name;
-        },
-        reviewCount: function() {
-            return this.visitedPlace.reviews.length || 0;
-        }
-    },
-    created() {
-        setTimeout(() => {
-            this.active = true;
-        }, this.timer);
-    }
-};
-</script>
