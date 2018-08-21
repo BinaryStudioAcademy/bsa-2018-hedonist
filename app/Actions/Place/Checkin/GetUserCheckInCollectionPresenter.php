@@ -14,8 +14,7 @@ class GetUserCheckInCollectionPresenter
         foreach ($checkInCollectionResponse->getPlaceCollection() as $checkIn) {
             $filteredRating = $checkInCollectionResponse
                 ->getRatingCollection()
-                ->first(function ($rating) use ($checkIn) {
-                    /* @var $rating RatingAverage */
+                ->first(function (RatingAverage $rating) use ($checkIn) {
                     return $rating->getPlaceId() === $checkIn->place->id;
                 });
 
