@@ -52,6 +52,11 @@ class Place extends Model
         parent::boot();
 
         static::addGlobalScope(new PlaceScope);
+    } 
+
+    public function placeInfo()
+    {
+        return $this->hasOne(PlaceInfo::class);
     }
 
     public function creator()
