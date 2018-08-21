@@ -33,7 +33,6 @@ export default {
         this.$store
             .dispatch('userList/getListsByUser')
             .then(()=>{
-                console.log(this.userLists[1].places);
                 this.isLoading = false;
             })
             .catch(()=> {
