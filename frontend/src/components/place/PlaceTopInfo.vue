@@ -157,15 +157,11 @@ export default {
         },
 
         like() {
-            this.$store.dispatch('place/likePlace', {
-                placeId: this.place.id
-            });
+            this.$store.dispatch('place/likePlace', this.place.id);
         },
 
         dislike() {
-            this.$store.dispatch('place/dislikePlace', {
-                placeId: this.place.id
-            });  
+            this.$store.dispatch('place/dislikePlace', this.place.id);  
         },
 
         addPlaceToList: function (listId) {
