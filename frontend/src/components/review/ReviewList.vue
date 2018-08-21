@@ -27,6 +27,7 @@
         <div class="add-review-wrp">
             <AddReview
                 :place-id="place.id"
+                v-on:addNewReviewToDisplay="displayNewReview"
             />
         </div>
         <div class="reviews-section-wrp">
@@ -95,6 +96,10 @@ export default {
                     this.isActive[item] = false;
                 }
             }
+        },
+
+        displayNewReview(newReview) {
+            this.place.reviews.push(newReview);
         }
     }
 };

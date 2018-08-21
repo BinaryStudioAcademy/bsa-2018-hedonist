@@ -112,6 +112,13 @@ export default {
                         img: item
                     });
                 });
+
+                var newReview = {};
+                newReview.user_id = this.newReview.user_id;
+                newReview.place_id = this.newReview.place_id;
+                newReview.description = this.newReview.description;
+                this.$emit('addNewReviewToDisplay', newReview);
+
                 this.refreshInput();
                 this.onSuccess({
                     message: 'Your review has been added'
