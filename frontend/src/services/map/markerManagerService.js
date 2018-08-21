@@ -1,91 +1,97 @@
 import MarkerGenerator from './markerGeneratorService';
-import geojsonExtent from '@mapbox/geojson-extent';
 
+const defaultParser = (item) => ({
+    id: item.id,
+    name: item.localization[0].name,
+    lng: item.longitude,
+    lat: item.latitude,
+    // TODO set place photo url
+    photoUrl: item.photoUrl || 'http://via.placeholder.com/128x128',
+    address: item.address
+});
 
-class MarkerManagerService {
-    constructor(map, parser = null) {
-        this._map = map;
-        this._parser = parser || MarkerManagerService._getDefaultParser();
-        this._markersPool = new Map();
-        this._activeMarkers = new Map();
-        this._GeoJSON = {
-            'type': 'FeatureCollection',
-            'features': []
-        };
-    }
-
-    setMarkers(...items) {
-        let markersData = items.map((item) => this._parser(item));
-        this._removeMarkers(markersData);
-        markersData.forEach((item) => {
-            if (!this._activeMarkers.has(item.id)) {
-                if (this._markersPool.has(item.id)) {
-                    this._restoreMarker(item);
-                } else {
-                    this._createMarker(item);
-                }
-                this._addGeoJsonFeature(
-                    item.lng,
-                    item.lat
-                );
-            }
-        });
-    }
-
-    fitMarkersOnMap() {
-        let extent = geojsonExtent(this._GeoJSON);
-
-        this._map.fitBounds(extent, {padding: 50});
-    }
-
-    _addGeoJsonFeature(lng, lat) {
-        this._GeoJSON.features.push({
-            'type': 'Feature',
-            'properties': {},
-            'geometry': {
-                'type': 'Point',
-                'coordinates': [
-                    lng,
-                    lat
-                ]
-            }
-        });
-    }
-
-    _removeMarkers(markerData) {
-        for (let markerId of this._activeMarkers.keys()) {
-            if (!markerData.find((item) => item.id === markerId)) {
-                let object = this._activeMarkers.get(markerId);
-                object.marker.remove();
-                this._activeMarkers.delete(markerId);
-            }
+const removeMarkers = (activeMap, ...markers) => {
+    for (let markerId of activeMap.keys()) {
+        if (!markers.find((item) => item.id === markerId)) {
+            let object = activeMap.get(markerId);
+            object.marker.remove();
+            activeMap.delete(markerId);
         }
     }
+};
 
-    _createMarker(markerData) {
-        let marker = MarkerGenerator.generateMarker(markerData);
-        marker.addTo(this._map);
-        this._activeMarkers.set(markerData.id, {marker, markerData});
-        this._markersPool.set(markerData.id, {marker, markerData});
-    }
+const addMarkerToMap = map => marker => {
+    marker.addTo(map);
+};
 
-    _restoreMarker(markerData) {
-        let object = this._markersPool.get(markerData.id);
-        object.marker.addTo(this._map);
-        this._activeMarkers.set(markerData.id, object.marker);
-    }
+const createMarker = markerData => ({markerData, marker: MarkerGenerator.generateMarker(markerData)});
 
-    static _getDefaultParser() {
-        return (item) => ({
-            id: item.id,
-            name: item.localization[0].name,
-            lng: item.longitude,
-            lat: item.latitude,
-            // TODO set place photo url
-            photoUrl: item.photoUrl || 'http://via.placeholder.com/128x128',
-            address: item.address
+const setMarkers = parser => (mapAdder, markerCreator, markerRemover) => {
+    const poolMap = new Map();
+    const activeMap = new Map();
+    return (...markers) => {
+        let markersData = markers.map((item) => parser(item));
+        markerRemover(activeMap, ...markersData);
+        markersData.forEach((item) => {
+            if (!activeMap.has(item.id)) {
+                if (poolMap.has(item.id)) {
+                    const object = poolMap.get(item.id);
+                    mapAdder(object.marker);
+                    activeMap.set(item.id, object)
+                } else {
+                    const object = markerCreator(item);
+                    mapAdder(object.marker);
+                    activeMap.set(item.id, object);
+                    poolMap.set(item.id, object);
+                }
+            }
         });
-    }
-}
+        return activeMap;
+    };
+};
 
-export default MarkerManagerService;
+const createSquare = (coordsObject) => {
+    const lngDelta = Math.abs(coordsObject.maxLng - coordsObject.minLng);
+    const latDelta = Math.abs(coordsObject.maxLat - coordsObject.minLat);
+    const globalDelta = lngDelta - latDelta;
+    if (globalDelta > 0) {
+        coordsObject.minLat -= globalDelta / 2;
+        coordsObject.maxLat -= globalDelta / 2;
+    }
+    if (globalDelta < 0) {
+        coordsObject.minLng += globalDelta / 2;
+        coordsObject.maxLng += globalDelta / 2;
+    }
+    return coordsObject;
+};
+
+const parseCoordinates = (...markers) => {
+    const coords = markers.reduce((previous, current) => {
+        const item = {};
+        item.maxLat = previous.maxLat > current.markerData.lat ? previous.maxLat : current.markerData.lat;
+        item.minLat = previous.minLat < current.markerData.lat ? previous.minLat : current.markerData.lat;
+        item.maxLng = previous.maxLng > current.markerData.lng ? previous.maxLng : current.markerData.lng;
+        item.minLng = previous.minLng < current.markerData.lat ? previous.minLng : current.markerData.lng;
+        return item;
+    });
+    const squareCoords = createSquare(coords);
+    return [
+        [squareCoords.minLng, squareCoords.minLat],
+        [squareCoords.maxLng, squareCoords.maxLat]
+    ];
+};
+
+const mapFitter = map => (...activeMarkersObjects) => {
+    map.fitBounds(parseCoordinates(...activeMarkersObjects), {padding: 100, linear: true});
+};
+
+const mapUpdater = (parser = defaultParser) => map => {
+    const handleUpdate = setMarkers(parser)(addMarkerToMap(map), createMarker, removeMarkers);
+    const fitter = mapFitter(map);
+    return (...markers) => {
+        const activeMap = handleUpdate(...markers);
+        fitter(...activeMap.values());
+    };
+};
+
+export default mapUpdater;
