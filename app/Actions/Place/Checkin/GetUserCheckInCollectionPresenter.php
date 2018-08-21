@@ -17,7 +17,6 @@ class GetUserCheckInCollectionPresenter
                 ->first(function (RatingAverage $rating) use ($checkIn) {
                     return $rating->getPlaceId() === $checkIn->place->id;
                 });
-
             $rating = $filteredRating ? $filteredRating->getAvgRating() : 0;
             $checkInsArray[] = self::presentCollectionItem($checkIn, $rating);
         }
