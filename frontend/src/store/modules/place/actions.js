@@ -49,7 +49,6 @@ export default {
             .then( (res) => {
                 const likeStatus = [ STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE ]
                     .indexOf(res.data.data.liked) === -1 ? STATUS_NONE : res.data.data.liked;
-                alert(res.data.data.liked);
                 context.commit('SET_PLACE_LIKED', likeStatus);
                 return Promise.resolve(res);
             }).catch( (err) => {
