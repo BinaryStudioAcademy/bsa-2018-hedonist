@@ -10,7 +10,6 @@
                 />
             </template>
         </section>
-
         <section class="column mapbox-wrapper right-side">
             <mapbox
                 :access-token="getMapboxToken"
@@ -40,6 +39,7 @@ import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import MarkerService from '@/services/map/markerManagerService';
+import placeholderImg from '../../assets/placeholder_128x128.png';
 
 let markerManager = null;
 
@@ -108,7 +108,7 @@ export default {
                         name: 'Your position',
                     }
                 },
-                photoUrl: this.user.avatar_url || 'http://via.placeholder.com/128x128',
+                photoUrl: this.user.avatar_url || placeholderImg,
             };
         }
     },
@@ -186,14 +186,6 @@ export default {
             left: 0;
             width: 100%;
             height: 500px;
-        }
-
-        .left-side {
-            order: 2;
-        }
-
-        .right-side {
-            order: 1
         }
     }
 

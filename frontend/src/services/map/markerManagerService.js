@@ -1,5 +1,6 @@
 import MarkerGenerator from './markerGeneratorService';
 import geojsonExtent from '@mapbox/geojson-extent';
+import placeholderImg from '../../assets/placeholder_128x128.png';
 
 
 class MarkerManagerService {
@@ -32,13 +33,13 @@ class MarkerManagerService {
         });
     }
 
-    fitMarkersOnMap(){
+    fitMarkersOnMap() {
         let extent = geojsonExtent(this._GeoJSON);
 
         this._map.fitBounds(extent, {padding: 50});
     }
 
-    _addGeoJsonFeature(lng,lat) {
+    _addGeoJsonFeature(lng, lat) {
         this._GeoJSON.features.push({
             'type': 'Feature',
             'properties': {},
@@ -81,8 +82,7 @@ class MarkerManagerService {
             name: item.localization[0].name,
             lng: item.longitude,
             lat: item.latitude,
-            // TODO set place photo url
-            photoUrl: item.photoUrl || 'http://via.placeholder.com/128x128',
+            photoUrl: item.photoUrl || placeholderImg,
             address: item.address
         });
     }

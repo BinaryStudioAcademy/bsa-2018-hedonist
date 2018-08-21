@@ -13,6 +13,6 @@ $factory->define(Review::class, function (Faker $faker) {
         'place_id' => function () {
             return factory(Place::class)->create()->id;
         },
-        'description' => $faker->realText()
+        'description' => $faker->realText(),
     ];
 });

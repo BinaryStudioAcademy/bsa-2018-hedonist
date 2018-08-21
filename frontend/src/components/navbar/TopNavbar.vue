@@ -1,6 +1,6 @@
 <template>
     <div class="is-paddingless">
-        <nav class="navbar is-info">
+        <nav class="navbar is-info is-fixed-top">
             <div class="navbar-wrapper container is-flex">
                 <div class="navbar-brand navbar-brand-name">
                     <router-link
@@ -74,10 +74,6 @@
                                 >My tastes</router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'PlacesList' }"
-                                >My places</router-link>
-                                <router-link
-                                    class="navbar-personal-link navbar-item"
                                     :to="{ name: 'UserListsPage' }"
                                 >My lists
                                 </router-link>
@@ -142,14 +138,12 @@ export default {
         font-weight: bold;
         letter-spacing: 0.2rem;
     }
-    .navbar-search-btn {
-        cursor: pointer;
-    }
     .navbar-dropdown-menu {
         padding-right: .75rem;
-    &:after{
-         border: none;
-     }
+
+        &:after{
+             border: none;
+        }
     }
     .navbar-personal-link {
         text-indent: 15px;
@@ -170,15 +164,39 @@ export default {
         color: #fff;
     }
     .navbar-brand {
-    @media screen and (max-width: 1087px) {
-        width: 100%;
-    }
+        @media screen and (max-width: 1087px) {
+            width: 100%;
+        }
     }
     .navbar-menu {
-    @media screen and (max-width: 1087px) {
-        position: absolute;
-        right: 0;
-        top: 52px;
+        @media screen and (max-width: 1087px) {
+           position: absolute;
+           right: 0;
+           top: 52px;
+           width: 200px;
+        }
     }
+
+    .navbar-start {
+        @media screen and (max-width: 1087px) {
+           margin-bottom: 10%;
+        }
+    }
+
+    .navbar-dropdown-menu {
+        @media screen and (max-width: 1087px) {
+           text-align: center;
+        }
+    }
+
+    .navbar-dropdown > a {
+        @media screen and (max-width: 1087px) {
+            text-indent: 51px;
+
+            &:first-child,
+            &:last-child {
+                text-indent: 36px;
+            }
+        }
     }
 </style>

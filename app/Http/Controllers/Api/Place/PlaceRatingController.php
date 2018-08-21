@@ -21,7 +21,6 @@ use Hedonist\Actions\Place\Rate\{
     SetPlaceRatingRequest,
     GetPlaceRatingAvgRequest
 };
-use Illuminate\Support\Facades\Auth;
 
 class PlaceRatingController extends ApiController
 {
@@ -38,9 +37,6 @@ class PlaceRatingController extends ApiController
         $this->getRatingAction = $getRatingAction;
         $this->setRatingAction = $setRatingAction;
         $this->getPlaceRatingAvgAction = $getPlaceRateAvgAction;
-        if (Auth::check()) {
-            $this->userId = Auth::id();
-        }
     }
 
     public function setRating(SetRatingHttpRequest $httpRequest) : JsonResponse
@@ -50,7 +46,7 @@ class PlaceRatingController extends ApiController
                 new SetPlaceRatingRequest(
                     $httpRequest->rating,
                     $httpRequest->id,
-                    $this->userId,
+                    $httpRequest->user_id,
                     $httpRequest->place_id
                 )
             );
@@ -62,19 +58,19 @@ class PlaceRatingController extends ApiController
             'id' => $setPlaceRatingResponse->getId(),
             'user_id' => $setPlaceRatingResponse->getUserId(),
             'place_id' => $setPlaceRatingResponse->getPlaceId(),
-            'rating' => $setPlaceRatingResponse->getRatingValue()
+            'rating' => $setPlaceRatingResponse->getRatingValue(),
+            'rating_avg' => $setPlaceRatingResponse->getRatingAvg(),
+            'rating_count' => $setPlaceRatingResponse->getRatingCount()
         ], 201);
     }
 
     public function getRating(GetRatingHttpRequest $httpRequest, $id = null) : JsonResponse
     {
         try {
-            $userId = $httpRequest->user_id ? $httpRequest->user_id : $this->userId;
-
             $getPlaceRatingResponse = $this->getRatingAction->execute(
                 new GetPlaceRatingRequest(
                     $id,
-                    $userId,
+                    $httpRequest->user_id,
                     $httpRequest->place_id,
                     $httpRequest->rating
                 )
