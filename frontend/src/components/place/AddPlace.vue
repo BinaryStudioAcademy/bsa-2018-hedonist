@@ -369,7 +369,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('сategory/getAllCategories')
+        this.$store.dispatch('category/getAllCategories')
             .then((result) => {
                 this.categories = result;
             });
@@ -379,7 +379,7 @@ export default {
         'newPlace.category': function (categoryObject) {
             if (_.isEmpty(categoryObject)) { return; }
             this.newPlace.category_tags = [];
-            this.$store.dispatch('placeCategory/getTagsByCategory', categoryObject.id)
+            this.$store.dispatch('category/getTagsByCategory', categoryObject.id)
                 .then((result) => {
                     this.category_tags = result;
                 });
