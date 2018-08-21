@@ -369,7 +369,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('placeCategory/getAllCategories')
+        this.$store.dispatch('сategory/getAllCategories')
             .then((result) => {
                 this.categories = result;
             });
