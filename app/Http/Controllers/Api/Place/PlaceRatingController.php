@@ -60,36 +60,20 @@ class PlaceRatingController extends ApiController
             'id' => $setPlaceRatingResponse->getId(),
             'user_id' => $setPlaceRatingResponse->getUserId(),
             'place_id' => $setPlaceRatingResponse->getPlaceId(),
-            'rating' => $setPlaceRatingResponse->getRatingValue(),
+            'my_rating' => $setPlaceRatingResponse->getRatingValue(),
             'rating_avg' => $getPlaceRatingAvgResponse->getRatingAvgValue(),
             'rating_count' => $getPlaceRatingAvgResponse->getRatingVotesCount()
-        ], 201);
-    }
-
-    public function getRating(GetRatingHttpRequest $httpRequest, $id = null) : JsonResponse
-    {
-        try {
-            $getPlaceRatingResponse = $this->getRatingAction->execute(
-                new GetPlaceRatingRequest(
-                    $httpRequest->place_id,
-                    $httpRequest->user_id
-                )
-            );
-        } catch (DomainException $ex) {
-            return $this->errorResponse($ex->getMessage(), 400);
-        }
-
-        return $this->successResponse([
-            'id' => $getPlaceRatingResponse->getId(),
-            'user_id' => $getPlaceRatingResponse->getUserId(),
-            'place_id' => $getPlaceRatingResponse->getPlaceId(),
-            'rating' => $getPlaceRatingResponse->getRatingValue()
         ], 201);
     }
 
     public function getPlaceRatingAvg($placeId) : JsonResponse
     {
         try {
+            $getPlaceMyRating = $this->getRatingAction->execute(
+                new GetPlaceRatingRequest(
+                    $placeId
+                )
+            );
             $getPlaceRatingAvgResponse = $this->getPlaceRatingAvgAction->execute(
                 new GetPlaceRatingAvgRequest(
                     $placeId
@@ -101,8 +85,9 @@ class PlaceRatingController extends ApiController
 
         return $this->successResponse([
             'place_id' => $getPlaceRatingAvgResponse->getPlaceId(),
-            'rating' => $getPlaceRatingAvgResponse->getRatingAvgValue(),
-            'rating_count' => $getPlaceRatingAvgResponse->getRatingVotesCount()
+            'rating_avg' => $getPlaceRatingAvgResponse->getRatingAvgValue(),
+            'rating_count' => $getPlaceRatingAvgResponse->getRatingVotesCount(),
+            'my_rating' => $getPlaceMyRating->getRatingValue()
         ], 201);
     }
 }

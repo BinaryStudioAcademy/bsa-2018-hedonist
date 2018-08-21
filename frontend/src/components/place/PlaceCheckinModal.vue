@@ -11,12 +11,14 @@
                         :key="index + 1"
                         :value="index + 1"
                         :icon="icon"
+                        :selected="isSelected(index + 1)"
                         @onHover="onHover"
+                        @onOut="onOut"
                         @onSelect="onSelect"
                     />
                 </div>
 
-                <span class="rating">{{ userRating }}/10</span>
+                <span class="rating">{{ userRating || place.myRating || 0 }}/10</span>
             </section>
             <footer class="modal-card-foot">
                 <button class="button" type="button" @click="$parent.close()">Close</button>
@@ -26,7 +28,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import Smiley from '../misc/Smiley';
 
 export default {
@@ -63,14 +65,30 @@ export default {
     },
 
     computed: {
-        ...mapGetters('auth', ['getAuthenticatedUser'])
+        ...mapGetters('auth', [
+            'getAuthenticatedUser'
+        ]),
     },
 
     methods: {
-        ...mapActions('place', ['checkIn', 'setPlaceRating']),
+        ...mapActions('place', [
+            'checkIn',
+            'setPlaceRating'
+        ]),
+
+        isSelected: function(rating) {
+            if (this.place.myRating === rating) {
+                return 'chosenRating';
+            }
+            return '';
+        },
 
         onHover: function(value) {
             this.userRating = value;
+        },
+
+        onOut: function(value) {
+            this.userRating = this.place.myRating;
         },
 
         onSelect: function(value) {
