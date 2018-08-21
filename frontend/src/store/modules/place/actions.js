@@ -44,40 +44,35 @@ export default {
         });
     },
 
+    getLikedPlace: (context, placeId) => {
+        httpService.get('places/' + placeId + '/liked')
+            .then( (res) => {
+                const likeStatus = [ STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE ]
+                    .indexOf(res.data.data.liked) === -1 ? STATUS_NONE : res.data.data.liked;
+                alert(res.data.data.liked);
+                context.commit('SET_PLACE_LIKED', likeStatus);
+                return Promise.resolve(res);
+            }).catch( (err) => {
+                return Promise.reject(err);
+            });
+    },
+
     likePlace: (context, placeId) => {
-        return new Promise((resolve, reject) => {
-            httpService.post('places/' + placeId + '/like')
-                .then(function (res) {
-                    getLikedPlace(context, placeId);
-                    resolve(res);
-                })
-                .catch(function (err) {
-                    reject(err);
-                });
-        });
+        httpService.post('places/' + placeId + '/like')
+            .then( (res) => {
+                return Promise.resolve(res);
+            })
+            .catch( (err) => {
+                return Promise.reject(err);
+            });
     },
     
     dislikePlace: (context, placeId) => {
-        return new Promise((resolve, reject) => {
-            httpService.post('places/' + placeId + '/dislike')
-                .then(function (res) {
-                    getLikedPlace(context, placeId);
-                    resolve(res);
-                })
-                .catch(function (err) {
-                    reject(err);
-                });
-        });
-    },
-
-    getLikedPlace: (context, placeId) => {
-        httpService.get('places/' + placeId + '/liked')
-            .then(function (res) {
-                const likeStatus = [ STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE ]
-                    .indexOf(res.data.data) === -1 ? STATUS_NONE : res.data.data;
-                context.commit('SET_PLACE_LIKED', likeStatus);
+        httpService.post('places/' + placeId + '/dislike')
+            .then( (res) => {
                 return Promise.resolve(res);
-            }).catch(function (err) {
+            })
+            .catch( (err) => {
                 return Promise.reject(err);
             });
     }

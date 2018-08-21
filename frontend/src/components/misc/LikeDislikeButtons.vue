@@ -3,7 +3,7 @@
         <div
             class="likable like level-item"
             @click="$emit('like')"
-            :class="{active: like === 'LIKED'}"
+            :class="{active: liked === 'LIKED'}"
         >
             <span class="likable-amount">
                 {{ likes }}
@@ -15,7 +15,7 @@
         <div
             class="likable dislike level-item"
             @click="$emit('dislike')"
-            :class="{active: like === 'DISLIKED'}"
+            :class="{active: liked === 'DISLIKED'}"
         >
             <span class="likable-amount">
                 {{ dislikes }}
@@ -32,7 +32,7 @@
 export default {
     name: 'LikeDislikeButtons',
     props: {
-        like: {
+        liked: {
             required: true,
             type: String
         },

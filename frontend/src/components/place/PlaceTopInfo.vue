@@ -75,7 +75,7 @@
                     <LikeDislikeButtons
                         :likes="place.likes"
                         :dislikes="place.dislikes"
-                        like="liked"
+                        :liked="liked"
                         @like="like"
                         @dislike="dislike"
                     />
@@ -158,10 +158,12 @@ export default {
 
         like() {
             this.$store.dispatch('place/likePlace', this.place.id);
+            this.$store.dispatch('place/getLikedPlace', this.place.id);
         },
 
         dislike() {
             this.$store.dispatch('place/dislikePlace', this.place.id);  
+            this.$store.dispatch('place/getLikedPlace', this.place.id);
         },
 
         addPlaceToList: function (listId) {
