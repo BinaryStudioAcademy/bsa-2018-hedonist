@@ -1,10 +1,8 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
+const bgImage = require('@/assets/marker.png');
 
 const createMarker = () => {
     let element = document.createElement('div');
-    element.style.backgroundImage = 'url("https://static.thenounproject.com/png/4096-200.png")';
+    element.style.backgroundImage = bgImage;
     element.style.width = '200px';
     element.style.height = '200px';
 
