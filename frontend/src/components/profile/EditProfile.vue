@@ -24,7 +24,7 @@
             </div>
             <section class="column">
                 <b-field label="First name">
-                    <b-input v-model="user.first_name" />
+                    <b-input v-model="user.first_name" disabled />
                 </b-field>
 
                 <b-field label="Last name">
