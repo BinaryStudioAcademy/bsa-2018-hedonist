@@ -280,12 +280,12 @@
                             <div class="level">
                                 <div class="level-item">
                                     <b-field label="from">
-                                        <b-timepicker v-model="timeStart" :disabled="isDaySelected" />
+                                        <b-timepicker v-model="timeStart" inline :disabled="isDaySelected" />
                                     </b-field>
                                 </div>
                                 <div class="level-item">
                                     <b-field label="to">
-                                        <b-timepicker v-model="timeEnd" :disabled="isDaySelected" />
+                                        <b-timepicker v-model="timeEnd" inline :disabled="isDaySelected" />
                                     </b-field>
                                 </div>
                             </div>
