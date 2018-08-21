@@ -39,7 +39,7 @@ class GetUserCheckInCollectionPresenter
                 'category'     => $checkIn->place->category->name,
                 'createdAt'    => $checkIn->place->created_at->toDateTimeString(),
                 'localization' => $checkIn->place->localization->isNotEmpty()
-                    ? $checkIn->place->localization->map(function($localization) {
+                    ? $checkIn->place->localization->map(function ($localization) {
                         return [
                             'id'   => $localization->id,
                             'name' => $localization->place_name,
