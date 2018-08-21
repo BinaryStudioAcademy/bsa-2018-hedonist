@@ -72,7 +72,7 @@ export default {
         this.$store.dispatch('taste/fetchTastes');
         this.$store.dispatch('taste/fetchUserTastes').then(() => {
             this.selectedIds = Object.keys(this.userTastes.byId);
-            this.selectedIds.forEach((item, i) => { this.selectedIds[i] = parseInt(item) });
+            this.selectedIds.forEach((item, i) => { this.selectedIds[i] = parseInt(item); });
         });
     },
 };
