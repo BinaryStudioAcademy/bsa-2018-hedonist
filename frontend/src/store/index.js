@@ -11,6 +11,7 @@ import place from './modules/place';
 import map from './modules/map';
 import review from './modules/review';
 import userList from './modules/userList';
+import taste from './modules/taste';
 
 Vue.use(Vuex);
 
@@ -27,6 +28,7 @@ export default new Vuex.Store({
         place,
         search,
         review,
-        userList
+        userList,
+        taste
     }
 });
