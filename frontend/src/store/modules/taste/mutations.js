@@ -1,20 +1,17 @@
 export default {
     SET_TASTES: (state, tastes) => {
-        state.tastes = tastes;
+        state.tastes = Object.assign({}, tastes);
     },
 
     SET_USER_TASTES: (state, tastes) => {
-        state.userTastes = tastes;
+        state.userTastes = Object.assign({}, tastes);
     },
 
     ADD_USER_TASTE: (state, taste) => {
-        let result = state.userTastes.find((obj) => { return obj.id === taste.id; });
-        if (!result) {
-            state.userTastes.push(taste);
-        }
+        state.userTastes.byId[taste.id] = taste;
     },
 
     DELETE_USER_TASTE: (state, id) => {
-        state.userTastes = state.userTastes.filter((obj) => { return obj.id !== id; });
+        delete state.userTastes[id];
     }
 };

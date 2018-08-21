@@ -2,7 +2,7 @@
     <div class="container">
         <ul>
             <li
-                v-for="(taste, index) in tastes"
+                v-for="(taste, index) in tastes.byId"
                 class="taste"
                 :class="{added: isChecked(taste.id), pop: isAnimated(taste.id), popin: !isClicked(taste.id)}"
                 :key="taste.id"
@@ -46,7 +46,7 @@ export default {
                 this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
             } else {
                 tasteData.check = true;
-                this.$store.dispatch('taste/addUserTaste', this.getById(id));
+                this.$store.dispatch('taste/addUserTaste', this.tastes.byId[id]);
                 this.selectedIds.push(id);
             }
             tasteData.isClick = true;
@@ -66,15 +66,13 @@ export default {
         }
     },
     computed: {
-        ...mapState('taste', ['tastes', 'userTastes']),
-        ...mapGetters('taste', ['getById'])
+        ...mapState('taste', ['tastes', 'userTastes'])
     },
     created() {
         this.$store.dispatch('taste/fetchTastes');
         this.$store.dispatch('taste/fetchUserTastes').then(() => {
-            this.selectedIds = this.userTastes.map((taste) => {
-                return taste.id;
-            });
+            this.selectedIds = Object.keys(this.userTastes.byId);
+            this.selectedIds.forEach((item, i) => { this.selectedIds[i] = parseInt(item) });
         });
     },
 };

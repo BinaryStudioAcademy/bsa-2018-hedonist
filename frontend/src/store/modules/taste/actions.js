@@ -1,11 +1,13 @@
 import httpService from '@/services/common/httpService';
+import normalizerService from '@/services/common/normalizerService';
 
 export default {
     fetchTastes: (context) => {
         return new Promise((resolve, reject) => {
             httpService.get('/tastes')
                 .then(function (res) {
-                    context.commit('SET_TASTES', res.data.data);
+                    let transformedTastes = normalizerService.normalize(res.data);
+                    context.commit('SET_TASTES', transformedTastes);
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);
@@ -16,7 +18,8 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.get('/tastes/my')
                 .then(function (res) {
-                    context.commit('SET_USER_TASTES', res.data.data);
+                    let transformedUserTastes = normalizerService.normalize(res.data);
+                    context.commit('SET_USER_TASTES', transformedUserTastes);
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);
