@@ -36,7 +36,7 @@ export default {
     },
     methods: {
         onClick() {
-            this.$emit('madeTabPhotosActive');
+            this.$emit('showAllPhotos');
         }
     }
 };

@@ -15,7 +15,7 @@
                     :key="photo.id"
                     :photo="photo"
                     :last-id="photos.length"
-                    @madeTabPhotosActive="madeTabPhotosActive"
+                    @showAllPhotos="showAllPhotos"
                 />
             </li>
         </ul>
@@ -57,8 +57,8 @@ export default {
             this.photoList.scrollLeft -= this.imageOffset * this.imageSlideNumber;
         },
 
-        madeTabPhotosActive: function() {
-            this.$emit('madeTabPhotosActive');
+        showAllPhotos: function() {
+            this.$emit('showAllPhotos');
         }
     },
 };
