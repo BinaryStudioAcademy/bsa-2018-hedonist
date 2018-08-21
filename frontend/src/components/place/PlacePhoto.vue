@@ -9,7 +9,7 @@
         <div 
             v-if="photo.id === lastId" 
             class="place-photo__show-all"
-        ><a href="#">Show all</a></div>
+        ><a href="#" v-scroll-to="'.main'" @click="onClick">Show all</a></div>
     </div>
 </template>
 
@@ -24,6 +24,11 @@ export default {
         lastId: {
             type: Number,
             required: true
+        }
+    },
+    methods: {
+        onClick() {
+            this.$emit('madeTabPhotosActive');
         }
     }
 };
