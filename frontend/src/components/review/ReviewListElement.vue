@@ -75,12 +75,6 @@ export default {
     computed: {
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
-        },
-        liked() {
-            return this.review.like === 'LIKED';
-        },
-        disliked() {
-            return this.review.like === 'DISLIKED';
         }
     }
 };

@@ -58,19 +58,19 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.post('reviews/' + review.id + '/like')
                 .then(function (res) {
-                    if (review.like === 'NONE') {
+                    if (review.like === STATUS_NONE) {
                         context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
                             reviewId: review.id,
-                            likeState: 'LIKED'
+                            likeState: STATUS_LIKED
                         });
                         context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
                             reviewId: review.id,
                             count: review.likes + 1
                         });
-                    } else if (review.like === 'DISLIKED') {
+                    } else if (review.like === STATUS_DISLIKED) {
                         context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
                             reviewId: review.id,
-                            likeState: 'LIKED'
+                            likeState: STATUS_LIKED
                         });
                         context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
                             reviewId: review.id,
@@ -93,19 +93,19 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.post('reviews/' + review.id + '/dislike')
                 .then(function (res) {
-                    if (review.like === 'NONE') {
+                    if (review.like === STATUS_NONE) {
                         context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
                             reviewId: review.id,
-                            likeState: 'DISLIKED'
+                            likeState: STATUS_DISLIKED
                         });
                         context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
                             reviewId: review.id,
                             count: review.dislikes + 1
                         });
-                    } else if (review.like === 'LIKED') {
+                    } else if (review.like === STATUS_LIKED) {
                         context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
                             reviewId: review.id,
-                            likeState: 'DISLIKED'
+                            likeState: STATUS_DISLIKED
                         });
                         context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
                             reviewId: review.id,
