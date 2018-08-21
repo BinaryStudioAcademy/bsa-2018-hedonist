@@ -97,13 +97,14 @@ export default {
                 place_id: null,
                 description: ''
             },
-            photos: null,
+            photos: [],
         };
     },
     computed: {
         isPhotos() {
             return !_.isEmpty(this.photos);
         },
+
         ...mapGetters('auth', ['hasToken', 'getAuthenticatedUser']),
         userId: function () {
             return this.getAuthenticatedUser.id;
@@ -160,9 +161,6 @@ export default {
         },
         deletePhoto(index) {
             this.photos.splice(index, 1);
-            if (_.isEmpty(this.photos)) {
-                this.photos = null;
-            }
         }
     }
 };
