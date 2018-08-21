@@ -4,22 +4,14 @@ namespace Hedonist\Actions\Place\GetPlaceRating;
 
 class GetPlaceRatingRequest
 {
-    protected $id;
-
     protected $userId;
 
     protected $placeId;
 
-    public function __construct(int $id = null, int $userId = null, int $placeId = null)
+    public function __construct(int $placeId, int $userId = null)
     {
-        $this->id = $id;
         $this->userId = $userId;
         $this->placeId = $placeId;
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getUserId(): ?int
@@ -27,7 +19,7 @@ class GetPlaceRatingRequest
         return $this->userId;
     }
 
-    public function getPlaceId(): ?int
+    public function getPlaceId(): int
     {
         return $this->placeId;
     }

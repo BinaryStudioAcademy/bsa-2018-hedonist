@@ -55,23 +55,12 @@ class SetPlaceRatingAction
 
         $placeRating = $this->repository->save($placeRating);
 
-        $ratingAvg = $this->repository->getAverage($placeId);
-        throw_if(
-            $ratingAvg === null,
-            new PlaceRatingNotFoundException('Item not found')
-        );
-        $ratingAvg = round($ratingAvg, 1);
-        $ratingCount = $this->repository->getVotesCount($placeId);
-
         $setPlaceRatingResponse = new SetPlaceRatingResponse(
             $placeRating->id,
             $placeRating->user_id,
             $placeRating->place_id,
-            $placeRating->rating,
-            $ratingAvg,
-            $ratingCount
+            $placeRating->rating
         );
-
         return $setPlaceRatingResponse;
     }
 }

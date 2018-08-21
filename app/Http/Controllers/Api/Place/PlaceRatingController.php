@@ -44,8 +44,11 @@ class PlaceRatingController extends ApiController
             $setPlaceRatingResponse = $this->setRatingAction->execute(
                 new SetPlaceRatingRequest(
                     $httpRequest->rating,
-                    $httpRequest->id,
-                    null,
+                    $httpRequest->place_id
+                )
+            );
+            $getPlaceRatingAvgResponse = $this->getPlaceRatingAvgAction->execute(
+                new GetPlaceRatingAvgRequest(
                     $httpRequest->place_id
                 )
             );
@@ -58,8 +61,8 @@ class PlaceRatingController extends ApiController
             'user_id' => $setPlaceRatingResponse->getUserId(),
             'place_id' => $setPlaceRatingResponse->getPlaceId(),
             'rating' => $setPlaceRatingResponse->getRatingValue(),
-            'rating_avg' => $setPlaceRatingResponse->getRatingAvg(),
-            'rating_count' => $setPlaceRatingResponse->getRatingCount()
+            'rating_avg' => $getPlaceRatingAvgResponse->getRatingAvgValue(),
+            'rating_count' => $getPlaceRatingAvgResponse->getRatingVotesCount()
         ], 201);
     }
 
@@ -68,10 +71,8 @@ class PlaceRatingController extends ApiController
         try {
             $getPlaceRatingResponse = $this->getRatingAction->execute(
                 new GetPlaceRatingRequest(
-                    $id,
-                    $httpRequest->user_id,
                     $httpRequest->place_id,
-                    $httpRequest->rating
+                    $httpRequest->user_id
                 )
             );
         } catch (DomainException $ex) {
@@ -100,7 +101,8 @@ class PlaceRatingController extends ApiController
 
         return $this->successResponse([
             'place_id' => $getPlaceRatingAvgResponse->getPlaceId(),
-            'rating' => $getPlaceRatingAvgResponse->getRatingAvgValue()
+            'rating' => $getPlaceRatingAvgResponse->getRatingAvgValue(),
+            'rating_count' => $getPlaceRatingAvgResponse->getRatingVotesCount()
         ], 201);
     }
 }
