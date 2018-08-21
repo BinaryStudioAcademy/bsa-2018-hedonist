@@ -71,7 +71,7 @@ class PlaceRatingRepository extends BaseRepository implements PlaceRatingReposit
             ->groupBy('place_id')
             ->get();
         foreach ($queryRating as $rating) {
-            $collection->push(new RatingAverage($rating->rating, $rating->place_id));
+            $collection->push(new RatingAverage($rating->place_id, $rating->rating));
         }
 
         return $collection;

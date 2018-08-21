@@ -92,8 +92,8 @@ export default {
         generateMapFeatures: function () {
             let features = [];
             this.places.allIds.forEach((id, i) => {
-                let place = this.getPlaceById(id);
-                let feature = {
+                const place = this.getPlaceById(id);
+                const feature = {
                     'type' : 'Feature',
                     'geometry' : {
                         'type' : 'Point',
