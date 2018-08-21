@@ -15,7 +15,7 @@
                 </div>
                 <h2 class="title">
                     <router-link :to="`/places/${checkIn.id}`">
-                        {{ checkInPlace.name }}
+                        {{ checkInPlace.localization[0].name }}
                     </router-link>
                 </h2>
                 <p>{{ checkInPlace.city }}</p>

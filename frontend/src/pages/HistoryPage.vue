@@ -13,20 +13,27 @@
             </div>
         </div>
 
-        <div v-if="isPlacesLoaded" class="column mapbox-wrapper">
+        <div v-if="mapInitialized" class="column mapbox-wrapper">
             <section id="map">
                 <mapbox
-                    @map-load="mapLoaded"
                     :access-token="getMapboxToken"
                     :map-options="{
                         style: getMapboxStyle,
-                        center: getMapboxCenter(places.byId, places.allIds),
-                        zoom: 15
+                        center: {
+                            lat: currentLatitude,
+                            lng: currentLongitude
+                        },
+                        zoom: 12
                     }"
                     :fullscreen-control="{
                         show: true,
                         position: 'bottom-right'
                     }"
+                    :scale-control="{
+                        show: true,
+                        position: 'top-left'
+                    }"
+                    @map-init="mapInitialize"
                 />
             </section>
         </div>
@@ -36,6 +43,8 @@
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex';
 import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
+import LocationService from '@/services/location/locationService';
+import MarkerService from '@/services/map/markerManagerService';
 import Mapbox from 'mapbox-gl-vue';
 
 export default {
@@ -47,69 +56,70 @@ export default {
     data() {
         return {
             isPlacesLoaded: false,
+            markerManager: null,
+            userCoordinates: {
+                lat: null,
+                lng: null
+            },
         };
     },
     computed: {
-        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle', 'getMapboxCenter']),
-        ...mapGetters('user/history', ['getCheckInById']),
-        ...mapGetters('user/history', ['getPlaceById']),
-        ...mapGetters('user/history', ['getPlaceByCheckInId']),
-        ...mapState('user/history', ['checkIns']),
-        ...mapState('user/history', ['places']),
+        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
+        ...mapGetters('user/history', [
+            'getCheckInById',
+            'getMapboxCenter',
+            'getPlaceById',
+            'getPlaceByCheckInId',
+            'placeList'
+        ]),
+        ...mapState('user/history', [
+            'checkIns', 'places', 'currentLatitude', 'currentLongitude', 'mapInitialized'
+        ]),
     },
     created() {
-        this.loadCheckInPlaces()
-            .then(() => {
-                this.isPlacesLoaded = true;
+        this.loadUserCoords()
+            .then((coords) => {
+                this.setCurrentMapCenter(coords);
+                this.mapInitialization();
             })
-            .catch((err) => {
-                this.isPlacesLoaded = true;
+            .then(() => {
+                this.loadCheckInPlaces()
+                    .then(() => {
+                        this.isPlacesLoaded = true;
+                        this.setCurrentMapCenter(
+                            this.getMapboxCenter(this.places.byId, this.places.allIds)
+                        );
+                        this.updateMap(this.placeList);
+                        this.markerManager.fitMarkersOnMap();
+                    })
+                    .catch((err) => {
+                        this.isPlacesLoaded = true;
+                    });
             });
     },
     methods: {
-        ...mapActions('user/history', ['loadCheckInPlaces']),
+        ...mapActions('user/history', [
+            'loadCheckInPlaces', 'setCurrentMapCenter', 'mapInitialization'
+        ]),
 
-        mapLoaded: function (map) {
-            map.addLayer({
-                'id': 'points',
-                'type': 'symbol',
-                'source': {
-                    'type': 'geojson',
-                    'data': {
-                        'type': 'FeatureCollection',
-                        'features': this.generateMapFeatures()
-                    }
-                },
-                'layout': {
-                    'icon-image': '{icon}-15',
-                    'text-field': '{title}',
-                    'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-                    'text-offset': [0, 0.6],
-                    'text-anchor': 'top'
-                }
-            });
+        mapInitialize(map) {
+            this.markerManager = new MarkerService(map);
         },
-        generateMapFeatures: function () {
-            let features = [];
-            this.places.allIds.forEach((id, i) => {
-                const place = this.getPlaceById(id);
-                const feature = {
-                    'type' : 'Feature',
-                    'geometry' : {
-                        'type' : 'Point',
-                        'coordinates' : [place.longitude, place.latitude]
-                    },
-                    'properties' : {
-                        'title' : place.name,
-                        'icon' : 'marker',
-                        'marker-symbol' : i + 1
-                    }
-                };
-
-                features.push(feature);
+        updateMap(places) {
+            this.markerManager.setMarkers(places);
+        },
+        loadUserCoords() {
+            return new Promise((resolve, reject) => {
+                LocationService.getUserLocationData()
+                    .then(coordinates => {
+                        this.userCoordinates.lat = coordinates.lat;
+                        this.userCoordinates.lng = coordinates.lng;
+                        resolve({
+                            latitude: coordinates.lat,
+                            longitude: coordinates.lng
+                        });
+                    });
             });
-
-            return features;
         },
     }
 };

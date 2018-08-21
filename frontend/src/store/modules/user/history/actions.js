@@ -25,6 +25,14 @@ export default {
                     reject(err);
                 });
         });
+    },
+
+    setCurrentMapCenter: ({ commit }, currentCenter) => {
+        commit('SET_CURRENT_MAP_CENTER', currentCenter);
+    },
+
+    mapInitialization: ({ commit }) => {
+        commit('MAP_INIT', true);
     }
 };
 
@@ -55,7 +63,12 @@ const transformPlaces = (data) => {
             city: checkIn.place.city,
             category: checkIn.place.category,
             createdAt: checkIn.place.createdAt,
-            name: checkIn.place.name,
+            localization: checkIn.place.localization.map((localization) => {
+                return {
+                    id: localization.id,
+                    name: localization.name,
+                };
+            }),
             photo: checkIn.place.photo,
             rating: checkIn.place.rating
         };
