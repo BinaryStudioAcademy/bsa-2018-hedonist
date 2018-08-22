@@ -39,4 +39,10 @@ return [
         'key' => env('LOGGLY_KEY'),
         'tag' => 'BsaHedonist_' . strtolower(env('APP_ENV')),
     ],
+
+    'facebook' => [
+        'client_id' => env('FACEBOOK_CLIENT_ID', ''),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET', ''),
+        'redirect' => env('FACEBOOK_REDIRECT', ''),
+    ],
 ];

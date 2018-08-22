@@ -53,7 +53,7 @@ export default {
                 password_confirmation: user.passwordConfirmation,
                 token: user.token
             }).then(function (res) {
-                if (res.status === 400){
+                if (res.status === 400) {
                     resolve(res.data);
                 } else {
                     resolve(res);
@@ -80,7 +80,7 @@ export default {
             httpService.post('/auth/recover', {
                 email: email
             }).then(function (res) {
-                if (res.status === 400){
+                if (res.status === 400) {
                     resolve(res.data);
                 } else {
                     resolve(res);
@@ -103,7 +103,7 @@ export default {
     },
     checkEmailUnique: (context, email) => {
         return new Promise((resolve, reject) => {
-            httpService.get('/auth/unique?email='+email
+            httpService.get('/auth/unique?email=' + email
             ).then(function (res) {
                 resolve(res.data.data);
             }).catch(function (err) {
@@ -111,4 +111,16 @@ export default {
             });
         });
     },
+    socialLogin: (context, data) => {
+        return httpService.get(`auth/social/${data.provider}/callback?code=${data.code}`)
+            .then((response) => {
+                const userData = response.data.data;
+                context.commit('USER_LOGIN', userData);
+                context.dispatch('fetchAuthenticatedUser');
+            });
+    },
+    socialRedirect(context,provider) {
+        return httpService.get(`/auth/social/${provider}/redirect`)
+            .then((response) => response.data.data.url);
+    }
 };

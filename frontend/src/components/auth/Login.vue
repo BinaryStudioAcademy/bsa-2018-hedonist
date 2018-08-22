@@ -38,6 +38,7 @@
                 </button>
             </div>
         </Form>
+        <SocialIcons />
     </Container>
 </template>
 
@@ -46,9 +47,11 @@ import { mapActions } from 'vuex';
 import { required, email, minLength } from 'vuelidate/lib/validators';
 import Container from './Container';
 import Form from './Form';
+import SocialIcons from './SocialIcons';
 
 export default {
     components: {
+        SocialIcons,
         Container,
         Form
     },
@@ -125,8 +128,7 @@ export default {
             this.user = {
                 email: '',
                 password: ''
-            },
-
+            };
             this.input = {
                 email: {
                     type: ''
