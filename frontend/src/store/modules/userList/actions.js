@@ -5,7 +5,8 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.get(`/users/${userId}/lists`)
                 .then(function (result) {
-                    resolve(result.data.data);
+                    const userList = result.data.data;
+                    resolve(userList);
                 })
                 .catch(function (error) {
                     reject(error);
