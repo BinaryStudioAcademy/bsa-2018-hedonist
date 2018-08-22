@@ -29,31 +29,33 @@
                 :place-id="place.id"
             />
         </div>
-        <div class="reviews-section-wrp">
-            <div class="reviews-section-header">
-                <div class="filter-area">
-                    <ul>
-                        <li class="sort-word">Sort by:</li>
-                        <li 
-                            @click="onSortFilter('popular')" 
-                            :class="{ active: isActive.popular }"
-                        ><a>Popular</a></li>
-                        <li 
-                            @click="onSortFilter('recent')" 
-                            :class="{ active: isActive.recent }"
-                        ><a>Recent</a></li>
-                    </ul>
+        <template v-if="isReviewsExist">
+            <div class="reviews-section-wrp">
+                <div class="reviews-section-header">
+                    <div class="filter-area">
+                        <ul>
+                            <li class="sort-word">Sort by:</li>
+                            <li
+                                @click="onSortFilter('popular')"
+                                :class="{ active: isActive.popular }"
+                            ><a>Popular</a></li>
+                            <li
+                                @click="onSortFilter('recent')"
+                                :class="{ active: isActive.recent }"
+                            ><a>Recent</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="reviews-section-list">
+                    <template v-for="(review, index) in place.reviews">
+                        <Review
+                            :key="index"
+                            :review="review"
+                        />
+                    </template>
                 </div>
             </div>
-            <div class="reviews-section-list">
-                <template v-for="(review, index) in place.reviews">
-                    <Review 
-                        :key="index"
-                        :review="review"
-                    />
-                </template>
-            </div>
-        </div>
+        </template>
     </div>
 </template>
 
@@ -81,6 +83,12 @@ export default {
                 recent: false
             }
         };
+    },
+
+    computed: {
+        isReviewsExist() {
+            return !_.isEmpty(this.place.reviews);
+        }
     },
 
     methods: {
