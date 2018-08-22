@@ -31,7 +31,7 @@ export default {
     },
     created() {
         this.$store
-            .dispatch('userList/getListsByUser')
+            .dispatch('userList/getListsByUser', this.Auth.id)
             .then(()=>{
                 this.isLoading = false;
             })
@@ -43,6 +43,9 @@ export default {
         ...mapState('userList', [
             'userLists'
         ]),
+        ...mapGetters('auth', {
+            Auth: 'getAuthenticatedUser'
+        }),
         isLoaded: function () {
             return !!(this.userLists);
         },

@@ -1,7 +1,7 @@
 import httpService from '../../../services/common/httpService';
 
 export default {
-    getListsByUser: (context, userId = 'self') => {
+    getListsByUser: (context, userId) => {
         return new Promise((resolve, reject) => {
             let route = '/users/'+userId+'/lists';
             httpService.get(route)
