@@ -30,11 +30,11 @@ class SaveReviewPhotoAction
         $file = $request->getImg();
         $fileNameGenerator = new FileNameGenerator($file);
         $newFileName = $fileNameGenerator->generateFileName();
-        Storage::putFileAs(self::FILE_STORAGE, $file, $newFileName);
+        Storage::disk('public')->putFileAs(self::FILE_STORAGE, $file, $newFileName);
         list($width, $height) = getimagesize($file);
         $reviewPhoto->review_id = $request->getReviewId();
         $reviewPhoto->description = $request->getDescription();
-        $reviewPhoto->img_url = Storage::url(self::FILE_STORAGE . $newFileName);
+        $reviewPhoto->img_url = Storage::disk('public')->url(self::FILE_STORAGE . $newFileName);
         $reviewPhoto->width = $width;
         $reviewPhoto->height = $height;
         $reviewPhoto = $this->reviewPhotoRepository->save($reviewPhoto);

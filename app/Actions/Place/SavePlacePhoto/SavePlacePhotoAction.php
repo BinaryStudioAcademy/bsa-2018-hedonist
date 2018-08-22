@@ -27,12 +27,12 @@ class SavePlacePhotoAction
         $file = $request->getImg();
         $fileNameGenerator = new FileNameGenerator($file);
         $newFileName = $fileNameGenerator->generateFileName();
-        Storage::putFileAs(self::FILE_STORAGE, $file, $newFileName);
+        Storage::disk('public')->putFileAs(self::FILE_STORAGE, $file, $newFileName);
         list($width, $height) = getimagesize($file);
         $placePhoto->place_id = $request->getPlaceId();
         $placePhoto->creator_id = $request->getCreatorId();
         $placePhoto->description = $request->getDescription();
-        $placePhoto->img_url = Storage::url(self::FILE_STORAGE . $newFileName);
+        $placePhoto->img_url = Storage::disk('public')->url(self::FILE_STORAGE . $newFileName);
         $placePhoto->width = $width;
         $placePhoto->height = $height;
         $placePhoto = $this->placePhotoRepository->save($placePhoto);
