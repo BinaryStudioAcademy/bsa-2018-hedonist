@@ -64,10 +64,9 @@ export default {
         };
     },
     computed: {
-        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle']),
+        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle', 'getMapboxCenter']),
         ...mapGetters('user/history', [
-            'getCheckInById',
-            'getMapboxCenter',
+            'getCheckInById', ,
             'getPlaceById',
             'getPlaceByCheckInId',
             'placeList'
