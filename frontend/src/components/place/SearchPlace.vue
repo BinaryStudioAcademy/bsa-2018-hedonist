@@ -35,7 +35,7 @@ import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import MarkerService from '@/services/map/markerManagerService';
-import placeholderImg from '../../assets/placeholder_128x128.png';
+import placeholderImg from '@/assets/placeholder_128x128.png';
 
 let markerManager = null;
 

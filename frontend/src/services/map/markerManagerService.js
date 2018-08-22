@@ -1,6 +1,6 @@
 import MarkerGenerator from './markerGeneratorService';
 import geojsonExtent from '@mapbox/geojson-extent';
-import placeholderImg from '../../assets/placeholder_128x128.png';
+import placeholderImg from '@/assets/placeholder_128x128.png';
 
 
 class MarkerManagerService {
