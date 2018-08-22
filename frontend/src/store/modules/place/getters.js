@@ -13,7 +13,7 @@ export default {
         });
     },
 
-    getLiked: state => {
+    getLikedStatus: state => {
         return state.liked;
     },
 

@@ -1,5 +1,4 @@
 import httpService from '@/services/common/httpService';
-import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from './state';
 
 export default {
     setPlaceRating: (context, data) => {
@@ -45,11 +44,9 @@ export default {
     },
 
     getLikedPlace: (context, placeId) => {
-        httpService.get('places/' + placeId + '/liked')
+        httpService.get(`places/${placeId}/liked`)
             .then( (res) => {
-                const likeStatus = [ STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE ]
-                    .indexOf(res.data.data.liked) === -1 ? STATUS_NONE : res.data.data.liked;
-                context.commit('SET_PLACE_LIKED', likeStatus);
+                context.commit('SET_PLACE_LIKED', res.data.data.liked);
                 return Promise.resolve(res);
             }).catch( (err) => {
                 return Promise.reject(err);
@@ -57,7 +54,7 @@ export default {
     },
 
     likePlace: (context, placeId) => {
-        httpService.post('places/' + placeId + '/like')
+        httpService.post(`places/${placeId}/like`)
             .then( (res) => {
                 context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
                 context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
@@ -69,7 +66,7 @@ export default {
     },
     
     dislikePlace: (context, placeId) => {
-        httpService.post('places/' + placeId + '/dislike')
+        httpService.post(`places/${placeId}/dislike`)
             .then( (res) => {
                 context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
                 context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
