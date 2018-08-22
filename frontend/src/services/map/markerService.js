@@ -41,20 +41,21 @@ const parseCoordinates = (...markers) => {
     ];
 };
 
-const mapFitter = map => (...activeMarkers) => {
+const mapFitter = (map,...activeMarkers) => {
     map.fitBounds(parseCoordinates(...activeMarkers), {padding: 100, linear: true});
 };
 
 const getService = (map) => {
-    const manager = markerManager.getManager(map);
+    let activeMarkers = [];
     return {
         setMarkersFromPlaces(...places){
-            manager.clearMap();
-            return manager.addMarkersFromPlaces(...places);
+            markerManager.clearMap(activeMarkers);
+            activeMarkers = markerManager.addMarkersFromPlaces(...places);
+            return activeMarkers;
         },
         setMarkersFromPlacesAndFit(...places){
             const markers = this.setMarkersFromPlaces(...places);
-            mapFitter(map)(...markers);
+            mapFitter(map, ...markers);
             return markers;
         }
     };

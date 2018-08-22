@@ -39,16 +39,11 @@ const cacher = () => {
 
 const wrappedCreateMarker = cacher()(createMarker);
 
-const getManager = (map) => {
-    const activeMarkers = [];
-    return {
-        clearMap(...markers){
-            markers.forEach((marker) => removeMarker(marker));
-        },
-        addMarkersFromPlaces(...places){
-            return places.map((item) => addMarker(map)(parser(item)));
-        }
-    };
+export default {
+    clearMap(...markers) {
+        markers.forEach((marker) => removeMarker(marker));
+    },
+    addMarkersFromPlaces(map,...places) {
+        return places.map((item) => addMarker(map)(parser(item)));
+    }
 };
-
-export default {getManager};
