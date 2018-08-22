@@ -46,16 +46,17 @@ export default {
         ...mapGetters('auth', {
             Auth: 'getAuthenticatedUser'
         }),
+        ...mapGetters('userList', {
+            getFilteredByCity: 'getFilteredByCity'
+        }),
         isLoaded: function () {
             return !!(this.userLists);
         },
         filteredUserLists: function () {
             let filtered = this.userLists;
-            if (this.filterBy.cityId) {
-                filtered = filtered.filter(
-                    ul => ul.places.filter(
-                        pl => pl.city_id == this.filterBy.cityId
-                    ).length > 0);
+            let cityId = this.filterBy.cityId;
+            if (cityId) {
+                filtered = this.getFilteredByCity(filtered, cityId)
             }
             return filtered;
         }

@@ -18,7 +18,7 @@
                         Cities in the list:
 
                         <a
-                            v-for="(city,index) in getUniqueCities"
+                            v-for="(city,index) in uniqueCities"
                             :key="index"
                             href="#"
                             @click="setCityFilter(city.id)"
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
     name: 'ListPreviewItems',
     data() {
@@ -44,13 +45,11 @@ export default {
         },
     },
     computed: {
-        getUniqueCities: function () {
-            const places = this.userList.places;
-            const cities = places.map(place => place.city);
-            return cities.filter((a, i) =>
-                i === cities.length - 1 ||
-                a.id !== cities[i + 1].id
-            );
+        ...mapGetters('userList', {
+            getUniqueCities : 'getUniqueCities'
+        }),
+        uniqueCities: function () {
+            return this.getUniqueCities(this.userList);
         },
     },
     props: {
@@ -64,8 +63,8 @@ export default {
         }
     },
     methods: {
-        notLast: function (index) {
-            return this.getUniqueCities.length - index > 1;
+        notLast(index) {
+            return this.uniqueCities.length - index > 1;
         },
         like() {
             this.$toast.open({
