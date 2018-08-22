@@ -17,7 +17,7 @@
                 class="error"
                 v-if="!$v.newUser.firstName.required && !focus.firstName"
             >
-                {{ $t('validation.required',{field:$t('inputs.auth.first_name.field_name')})}}</div>
+                {{ $t('validation.required',{field:$t('inputs.auth.first_name.field_name')}) }}</div>
             <div 
                 class="error"
                 v-if="!$v.newUser.firstName.alpha && !focus.firstName"
@@ -41,7 +41,7 @@
                 class="error"
                 v-if="!$v.newUser.lastName.required && !focus.lastName"
             >
-                {{ $t('validation.required',{field:$t('inputs.auth.last_name.field_name')})}}</div>
+                {{ $t('validation.required',{field:$t('inputs.auth.last_name.field_name')}) }}</div>
             <div 
                 class="error"
                 v-if="!$v.newUser.lastName.alpha && !focus.lastName"
@@ -66,7 +66,7 @@
                 class="error"
                 v-if="!$v.newUser.email.required && !focus.email"
             >
-                {{ $t("validation.required",{field:$t("inputs.auth.email.field_name")})}}</div>
+                {{ $t("validation.required",{field:$t("inputs.auth.email.field_name")}) }}</div>
             <div 
                 class="error"
                 v-if="!$v.newUser.email.email && !focus.email"
@@ -100,12 +100,12 @@
                 class="error"
                 v-if="!$v.newUser.password.required && !focus.password"
             >
-                {{ $t('validation.required',{field:$t('inputs.auth.password.field_name')})}}</div>
+                {{ $t('validation.required',{field:$t('inputs.auth.password.field_name')}) }}</div>
             <div 
                 class="error"
                 v-if="!$v.newUser.password.minLength && !focus.password"
             >
-                {{ $t('validation.min_length',{min: 6})}}</div>
+                {{ $t('validation.min_length',{min: 6}) }}</div>
 
             <button
                 type="button"
