@@ -1,14 +1,13 @@
 <?php
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Repositories\UserList\UserListRepository;
-use Illuminate\Support\Facades\Auth;
+use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 
 class GetUserListsCollectionAction
 {
     private $userListsRepository;
 
-    public function __construct(UserListRepository $userListsRepository)
+    public function __construct(UserListRepositoryInterface $userListsRepository)
     {
         $this->userListsRepository = $userListsRepository;
     }

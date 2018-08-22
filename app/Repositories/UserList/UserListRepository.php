@@ -30,15 +30,9 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
 
     public function findUserListsWithPlaces(int $userId) : Collection
     {
-        return UserList::where('user_id', $userId)
-                ->with([
-                    'places',
-                    'places.localization',
-                    'places.city' => function ($query) {
-                        $query->select(['id', 'name']);
-                    },
-                ])
-                ->get();
+        return UserList::with('places')
+            ->where('user_id', $userId)
+            ->get();
     }
 
     public function findAll(): Collection
