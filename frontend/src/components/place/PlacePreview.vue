@@ -14,6 +14,7 @@
                             {{ localizedName }}
                         </router-link>
                     </h3>
+                    <p class="place-city"><strong>{{ place.city.name }}</strong></p>
                     <p class="place-category">
                         <a href="#">{{ place.category.name }}</a>
                     </p>
