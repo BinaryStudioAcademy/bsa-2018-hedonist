@@ -12,13 +12,18 @@ class PlaceRatingTableSeeder extends Seeder
         $users = User::all();
         $places = Place::all();
 
+        $items = [];
+
         foreach ($users as $user) {
             foreach ($places as $place) {
-                factory(PlaceRating::class)->create([
+                $items[] = [
                     'user_id' => $user->id,
-                    'place_id' => $place->id
-                ]);
+                    'place_id' => $place->id,
+                    'rating' => factory(PlaceRating::class)->make()->rating
+                ];
             }
         }
+
+        PlaceRating::query()->insert($items);
     }
 }
