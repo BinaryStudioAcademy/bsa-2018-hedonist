@@ -86,7 +86,7 @@ export default {
             if(this.isPlacesLoaded){
                 this.updateMap(this.places);
                 markerManager.fitMarkersOnMap();
-            };
+            }
         },
         jumpTo(coordinates) {
             this.map.jumpTo({
