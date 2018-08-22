@@ -49,29 +49,6 @@ class PlaceRatingTest extends ApiTestCase
         $this->place_2 = factory(Place::class)->create();
     }
 
-    public function test_get_rating_by_id(): void
-    {
-        $id = $this->place_1_rating_1->id;
-        $rating = $this->place_1_rating_1->rating;
-
-        $response = $this->json('GET', "api/v1/places/rating/$id", [
-        ]);
-
-        $response->assertStatus(201);
-        $response->assertJsonFragment([
-            'id' => $id,
-            'rating' => $rating
-        ]);
-
-        $response = $this->json('GET', 'api/v1/places/rating/999', [
-        ]);
-        $response->assertStatus(400);
-        $response->assertJsonFragment([
-            'httpStatus' => 400,
-            'message' => 'Item not found',
-        ]);
-    }
-
     public function test_get_rating_by_place_id_only(): void
     {
         $id = $this->place_1_rating_1->id;
@@ -250,7 +227,7 @@ class PlaceRatingTest extends ApiTestCase
         $response->assertJsonFragment([
             'error' => [
                 'httpStatus' => 400,
-                'message' => 'Rating value must be between 0 and 10'
+                'message' => 'Rating value must be between 1 and 10'
             ]
         ]);
 
@@ -261,7 +238,7 @@ class PlaceRatingTest extends ApiTestCase
         $response->assertJsonFragment([
             'error' => [
                 'httpStatus' => 400,
-                'message' => 'Rating value must be between 0 and 10'
+                'message' => 'Rating value must be between 1 and 10'
             ]
         ]);
     }

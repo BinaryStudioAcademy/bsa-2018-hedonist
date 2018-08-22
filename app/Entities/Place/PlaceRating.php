@@ -22,6 +22,10 @@ class PlaceRating extends Model
 
     protected $fillable = ['user_id', 'place_id', 'rating'];
 
+    const MIN = 1;
+
+    const MAX = 10;
+
     public function user()
     {
         return $this->belongsTo(User::class);
