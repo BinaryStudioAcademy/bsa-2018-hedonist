@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {STATUS_LIKED, STATUS_DISLIKED} from '@/store/modules/place/state';
+import {STATUS_LIKED, STATUS_DISLIKED} from '@/services/api/codes';
 
 export default {
     name: 'LikeDislikeButtons',

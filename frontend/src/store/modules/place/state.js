@@ -1,6 +1,4 @@
-export const STATUS_LIKED = 'LIKED';
-export const STATUS_DISLIKED = 'DISLIKED';
-export const STATUS_NONE = 'NONE';
+import STATUS_NONE from '@/services/api/codes';
 
 export default {
     places: [],
