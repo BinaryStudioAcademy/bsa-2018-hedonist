@@ -7,24 +7,14 @@ use Hedonist\Entities\Place\{
 };
 use Hedonist\Entities\User\User;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
 $factory->define(PlaceRating::class, function (Faker $faker) {
     return [
         'user_id' => function () {
-            return User::inRandomOrder()->first()->id;
+            return factory(User::class)->create()->id;
         },
 
         'place_id' => function () {
-            return Place::inRandomOrder()->first()->id;
+            return factory(Place::class)->create()->id;
         },
 
         'rating' => $faker->biasedNumberBetween(1, 10)
