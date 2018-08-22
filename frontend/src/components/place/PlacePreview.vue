@@ -153,10 +153,7 @@ export default {
             return this.place.localization[0].name;
         },
         hasPhotos() {
-            if (this.place.photos !== undefined && this.place.photos.length) {
-                return true;
-            }
-            return false;
+            return this.place.photos !== undefined && this.place.photos.length;
         }
     },
     methods: {
