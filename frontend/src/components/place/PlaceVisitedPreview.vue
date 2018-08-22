@@ -4,7 +4,7 @@
             <div class="entry-media">
                 <img
                     class="image"
-                    :src="getPlacePhoto"
+                    :src="placePhoto"
                 >
             </div>
             <div class="item-description">
@@ -15,7 +15,7 @@
                 </div>
                 <h2 class="title">
                     <router-link :to="`/places/${checkIn.id}`">
-                        {{ getPlaceName }}
+                        {{ placeName }}
                     </router-link>
                 </h2>
                 <p>{{ checkInPlace.city.name }}</p>
@@ -58,10 +58,10 @@ export default {
         }, this.timer);
     },
     computed: {
-        getPlaceName() {
+        placeName() {
             return this.checkInPlace.localization[0].name;
         },
-        getPlacePhoto() {
+        placePhoto() {
             return this.checkInPlace.photos[0].imgUrl || this.placePreviewMock;
         },
     }
