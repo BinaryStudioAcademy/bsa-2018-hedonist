@@ -60,8 +60,14 @@ const transformPlaces = (data) => {
             longitude: checkIn.place.longitude,
             zip: checkIn.place.zip,
             address: checkIn.place.address,
-            city: checkIn.place.city,
-            category: checkIn.place.category,
+            city: {
+                id: checkIn.place.city.id,
+                name: checkIn.place.city.name
+            },
+            category: {
+                id: checkIn.place.category.id,
+                name: checkIn.place.category.name
+            },
             createdAt: checkIn.place.createdAt,
             localization: checkIn.place.localization.map((localization) => {
                 return {
@@ -69,7 +75,14 @@ const transformPlaces = (data) => {
                     name: localization.name,
                 };
             }),
-            photo: checkIn.place.photo,
+            photos: checkIn.place.photos.map((photo) => {
+                return {
+                    id: photo.id,
+                    description: photo.description,
+                    imgUrl: photo['img_url'],
+                    creatorId: photo['creator_id'],
+                };
+            }),
             rating: checkIn.place.rating
         };
     });

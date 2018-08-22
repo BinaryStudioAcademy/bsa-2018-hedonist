@@ -125,13 +125,14 @@ export default {
 
 </script>
 
-<style lang="scss" scoped>
-
+<style>
     .mapboxgl-ctrl-top-left,
     .mapboxgl-ctrl-top-right {
-        top: 50px;
+        top: 20px;
     }
+</style>
 
+<style lang="scss" scoped>
     .row {
         display: flex;
     }
@@ -143,7 +144,7 @@ export default {
     #map {
         text-align: justify;
         position: fixed;
-        top: 0;
+        top: 87px;
         bottom: 0;
         right: 0;
         width: 50%;

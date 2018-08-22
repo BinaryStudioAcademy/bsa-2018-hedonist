@@ -4,7 +4,7 @@
             <div class="entry-media">
                 <img
                     class="image"
-                    :src="checkInPlace.photo ? checkInPlace.photo : placePreviewMock"
+                    :src="getPlacePhoto"
                 >
             </div>
             <div class="item-description">
@@ -18,8 +18,8 @@
                         {{ getPlaceName }}
                     </router-link>
                 </h2>
-                <p>{{ checkInPlace.city }}</p>
-                <p>{{ checkInPlace.category }}</p>
+                <p>{{ checkInPlace.city.name }}</p>
+                <p>{{ checkInPlace.category.name }}</p>
 
                 <button class="saved"><i class="fa fa-bookmark" />Saved</button>
             </div>
@@ -60,7 +60,10 @@ export default {
     computed: {
         getPlaceName() {
             return this.checkInPlace.localization[0].name;
-        }
+        },
+        getPlacePhoto() {
+            return this.checkInPlace.photos[0].imgUrl || this.placePreviewMock;
+        },
     }
 };
 </script>
