@@ -166,7 +166,6 @@ export default {
         },
 
         updateLikesDislikes() {
-            this.$store.dispatch('place/getLikedPlace', this.place.id);
             if (this.likes) {
                 this.place.likes = this.likes;
             }

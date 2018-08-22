@@ -58,6 +58,7 @@ export default {
             .then( (res) => {
                 context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
                 context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
+                context.commit('SET_PLACE_LIKED', res.data.data.status);
                 return Promise.resolve(res);
             })
             .catch( (err) => {
@@ -70,6 +71,7 @@ export default {
             .then( (res) => {
                 context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
                 context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
+                context.commit('SET_PLACE_LIKED', res.data.data.status);
                 return Promise.resolve(res);
             })
             .catch( (err) => {
