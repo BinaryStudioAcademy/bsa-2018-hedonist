@@ -38,26 +38,18 @@ export default {
     name: 'ReviewListElement',
     components: {LikeDislikeButtons},
     props: {
-        reviewId: {
-            type: Number,
+        review: {
+            type: Object,
             required: true
         }
-    },
-    data() {
-        return {
-            review: null
-        };
-    },
-    created() {
-        this.review = this.currentPlaceReviews.byId[this.reviewId];
     },
     methods: {
         ...mapActions('place', ['likeReview', 'dislikeReview']),
         onLikeReview() {
-            this.likeReview(this.reviewId);
+            this.likeReview(this.review.id);
         },
         onDislikeReview() {
-            this.dislikeReview(this.reviewId);
+            this.dislikeReview(this.review.id);
         }
     },
     computed: {

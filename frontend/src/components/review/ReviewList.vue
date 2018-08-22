@@ -49,7 +49,7 @@
                 <template v-for="review in currentPlaceReviews.byId">
                     <Review 
                         :key="review.id" 
-                        :review-id="review.id"
+                        :review="review"
                     />
                 </template>
             </div>
