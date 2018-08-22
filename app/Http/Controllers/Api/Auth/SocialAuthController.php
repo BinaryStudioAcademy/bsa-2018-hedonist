@@ -25,7 +25,7 @@ class SocialAuthController extends ApiController
         }
     }
 
-    public function callback(string $provider, SocialAuthorizeAction $action)
+    public function oauthCallback(string $provider, SocialAuthorizeAction $action)
     {
         try {
             $request = new SocialRequest($provider);

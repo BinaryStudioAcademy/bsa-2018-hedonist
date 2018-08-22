@@ -37,7 +37,7 @@ Route::prefix('v1')->group(function () {
         Route::group(['prefix' => '/social'], function () {
             Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
 
-            Route::get('/{provider}/callback', 'SocialAuthController@callback');
+            Route::get('/{provider}/callback', 'SocialAuthController@oauthCallback');
         });
     });
 
