@@ -21,7 +21,7 @@ class PlaceRatingTableSeeder extends Seeder
                 $items[] = [
                     'user_id' => $user->id,
                     'place_id' => $place->id,
-                    'rating' => $faker->randomFloat(0, 1, 10)
+                    'rating' => random_int(1, 10)
                 ];
             }
         }

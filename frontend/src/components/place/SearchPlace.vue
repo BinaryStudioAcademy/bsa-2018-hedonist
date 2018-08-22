@@ -35,7 +35,7 @@ import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import MarkerService from '@/services/map/markerManagerService';
-import placeholderImg from '../../assets/placeholder_128x128.png';
+import placeholderImg from '@/assets/placeholder_128x128.png';
 
 let markerManager = null;
 
@@ -99,9 +99,9 @@ export default {
             });
         },
         updateMap(places) {
-            markerManager.setMarkers(...places);
+            markerManager.setMarkers(places);
         },
-        createUserMarker(){
+        createUserMarker() {
             return {
                 id           : 0,
                 latitude     : this.userCoordinates.lat,
