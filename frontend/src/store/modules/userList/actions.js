@@ -3,9 +3,10 @@ import httpService from '../../../services/common/httpService';
 export default {
     getListsByUser: (context, userId) => {
         return new Promise((resolve, reject) => {
-            httpService.get('/user-list')
+            httpService.get(`/users/${userId}/lists`)
                 .then(function (result) {
-                    resolve(result.data.data.filter(list => list.user_id === userId));
+                    const userList = result.data.data;
+                    resolve(userList);
                 })
                 .catch(function (error) {
                     reject(error);
