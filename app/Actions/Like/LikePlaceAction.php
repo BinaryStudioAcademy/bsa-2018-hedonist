@@ -50,7 +50,7 @@ class LikePlaceAction
         $place = $this->placeRepository->getByIdWithRelations($request->getPlaceId());
         if (!$place) {
             throw new PlaceNotFoundException;
-        }   
+        }
         
         return new LikePlaceResponse($place->likes->count(), $place->dislikes->count());
     }
