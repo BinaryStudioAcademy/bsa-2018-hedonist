@@ -8,7 +8,7 @@
                         height="25" 
                         width="25"
                     >
-                    <span>{{ place.reviews.length }} Reviews</span>
+                    <span>{{ reviews.length }} Reviews</span>
                 </div>
                 <div class="review-title-search">
                     <div class="control has-icons-left">
