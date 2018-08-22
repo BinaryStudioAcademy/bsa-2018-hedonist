@@ -114,6 +114,7 @@ Route::prefix('v1')->group(function () {
             ->name('user.info.show');
         Route::post('/users/{userId}/info/', 'Api\User\UserInfoController@update')
             ->name('user.info.update');
+        Route::post('/users/{userId}/info/delete-avatar', 'Api\User\UserInfoController@deleteAvatar');
 
         Route::post('/users/me/checkins', 'Api\Place\PlaceCheckinController@setCheckin')
             ->name('user.me.checkin');

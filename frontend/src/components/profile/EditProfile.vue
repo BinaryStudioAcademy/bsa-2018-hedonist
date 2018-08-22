@@ -3,7 +3,7 @@
         <div class="columns">
             <div class="column is-one-third">
                 <figure class="image avatar">
-                    <img :src="avatarUrl">
+                    <img :src="user.avatar_url">
                 </figure>
                 <b-field class="file is-fullwidth">
                     <b-upload
@@ -24,7 +24,8 @@
                 </a>
             </div>
             <section class="column">
-                <b-field label="First name">
+                <b-field label="First name"
+                >
                     <b-input v-model="user.first_name" />
                 </b-field>
 
@@ -97,23 +98,28 @@ export default {
     name: 'EditProfile',
     data() {
         return {
-            avatarUrl: '',
             birthDay: '',
             birthMonth: '',
             birthYear: '',
             files: [],
+            user: {
+                id: null,
+                date_of_birth: null,
+                avatar_url: null,
+                email: null,
+                first_name: null,
+                last_name: null,
+                phone_number: null,
+                instagram_url: null,
+                facebook_url: null,
+                twitter_url: null,
+            }
         };
     },
     created() {
-        // this.user.id = this.authUser.id;
-        // this.user.date_of_birth = this.authUser.date_of_birth;
-        // this.user.email = this.authUser.email;
-        // this.user.first_name = this.authUser.first_name;
-        // this.user.last_name = this.authUser.last_name;
-        // this.user.phone_number = this.authUser.phone;
-        // this.user.instagram_url = this.authUser.instagram;
-        // this.user.facebook_url = this.authUser.facebook;
-        // this.user.twitter_url = this.authUser.twitter;
+        for (let key in this.authUser) {
+            this.user[key] = this.authUser[key];
+        }
 
         if (this.user.date_of_birth !== null) {
             let date = new Date(this.user.date_of_birth.date);
@@ -121,17 +127,17 @@ export default {
             this.birthMonth = date.getMonth() + 1;
             this.birthDay = date.getDate();
         }
-        this.avatarUrl = this.user.avatar_url;
     },
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
-            user: 'auth/getAuthenticatedUser'
+            authUser: 'auth/getAuthenticatedUser'
         })
     },
     methods: {
         ...mapActions({
-            saveUser: 'auth/saveUser'
+            saveUser: 'auth/saveUser',
+            deleteUserAvatar: 'auth/deleteUserAvatar'
         }),
         saveData() {
             const formData = new FormData();
@@ -152,17 +158,32 @@ export default {
                 formData.append('avatar_url', file, file.name);
             }
 
-            this.saveUser(formData);
+            this.saveUser(formData)
+                .then(() => {
+                    this.onSuccess({
+                        message: 'Data successfully changed'
+                    });
+                });
         },
         onFileChange() {
             if (this.files && this.files.length) {
-                this.avatarUrl = URL.createObjectURL(this.files[0]);
+                this.user.avatar_url = URL.createObjectURL(this.files[0]);
             }
         },
         deleteAvatar() {
-            this.files = [];
-            this.avatarUrl = '';
-        }
+            this.deleteUserAvatar(this.user.id)
+                .then(() => {
+                    this.files = [];
+                    this.user.avatar_url = null;
+                });
+
+        },
+        onSuccess (success) {
+            this.$toast.open({
+                message: success.message,
+                type: 'is-success'
+            });
+        },
     }
 };
 </script>
