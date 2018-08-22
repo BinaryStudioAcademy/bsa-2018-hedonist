@@ -27,7 +27,6 @@
         <div class="add-review-wrp">
             <AddReview
                 :place-id="place.id"
-                v-on:addNewReviewToDisplay="displayNewReview"
             />
         </div>
         <div class="reviews-section-wrp">
@@ -47,7 +46,7 @@
                 </div>
             </div>
             <div class="reviews-section-list">
-                <template v-for="review in place.reviews">
+                <template v-for="review in reviews">
                     <Review 
                         :key="review.id" 
                         :review="review"
@@ -61,6 +60,7 @@
 <script>
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
+import reviewState from '../../store/modules/review/state';
 
 export default {
     components: {
@@ -84,7 +84,15 @@ export default {
         };
     },
 
+    mounted() {
+        reviewState.reviews = this.place.reviews;
+    },
+
+
     computed: {
+        reviews() {
+            return reviewState.reviews;
+        }
     },
 
     methods: {
@@ -96,10 +104,6 @@ export default {
                     this.isActive[item] = false;
                 }
             }
-        },
-
-        displayNewReview(newReview) {
-            this.place.reviews.push(newReview);
         }
     }
 };

@@ -1,4 +1,6 @@
 import httpService from '../../../services/common/httpService';
+import reviewState from './state';
+import normalizer from '../../../services/common/normalizerService';
 
 export default {
     addReview: (context, review) => {
@@ -9,7 +11,9 @@ export default {
                 description: review.description
             })
                 .then(function (res) {
-                    resolve(res.data);
+                    let newReview = normalizer.normalize(res, reviewState.review);
+                    context.commit('ADD_REVIEW', newReview);
+                    resolve(res);
                 })
                 .catch(function (err) {
                     reject(err);
