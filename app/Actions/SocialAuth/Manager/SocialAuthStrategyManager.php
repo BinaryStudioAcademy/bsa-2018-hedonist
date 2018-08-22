@@ -12,7 +12,7 @@ class SocialAuthStrategyManager implements SocialAuthStrategyManagerInterface
     public function getStrategy(string $provider): SocialAuthorizeStrategyInterface
     {
         switch ($provider) {
-            case self::FACEBOOK;
+            case self::FACEBOOK:
                 return App::make(FacebookAuthorizeStrategy::class);
             default:
                 throw InvalidSocialProviderException::create();
