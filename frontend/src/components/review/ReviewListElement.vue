@@ -15,6 +15,11 @@
                     <div class="content">
                         <p>{{ review.description }}</p>
                     </div>
+
+                    <div class="image">
+                        <img src="https://igx.4sqi.net/img/general/558x200/495199272_ccmT2ssi29nXeHqQNS2lR7aZzinX8DoU0pvVsEQjWII.jpg" />
+                    </div>
+
                     <LikeDislikeButtons
                         :likes="review.likes"
                         :dislikes="review.dislikes"
@@ -70,6 +75,10 @@ export default {
 
     .icon {
         margin-right: 5px;
+    }
+
+    .test {
+        background: ;
     }
 
 </style>
