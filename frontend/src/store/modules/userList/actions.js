@@ -5,12 +5,12 @@ export default {
         return new Promise((resolve, reject) => {
             let route = '/users/'+userId+'/lists';
             httpService.get(route)
-                .then(function (response) {
+                .then( (response) => {
                     const userLists = response.data.data;
                     context.commit('SET_USER_LISTS', userLists);
                     resolve(response.data.data);
                 })
-                .catch(function (error) {
+                .catch( (error) => {
                     reject(error);
                 });
         });
@@ -21,11 +21,11 @@ export default {
             httpService.post('/user-lists/' + payload.listId + '/attach-place', {
                 id: payload.placeId
             })
-                .then(function (result) {
+                .then( (result) => {
                     context.dispatch('getListsByUser');
                     resolve(result);
                 })
-                .catch(function (error) {
+                .catch( (error) => {
                     reject(error);
                 });
         });
@@ -33,7 +33,7 @@ export default {
 
     getUserLists: (context, userId) => {
         return httpService.get('/users/' + userId + '/lists')
-            .then((result) => {
+            .then( (result) => {
                 return result.data.data;
             });
     }

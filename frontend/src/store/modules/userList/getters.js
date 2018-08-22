@@ -7,7 +7,7 @@ export default {
     getById: state => id => {
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve(state.userLists.find(function (userLists) { return userLists.id === parseInt(id); }));
+                resolve(state.userLists.find( (userLists) => { return userLists.id === parseInt(id); }));
             }, 500);
         });
     }
