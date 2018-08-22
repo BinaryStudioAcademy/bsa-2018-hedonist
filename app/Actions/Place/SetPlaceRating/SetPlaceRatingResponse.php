@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place\Rate;
+namespace Hedonist\Actions\Place\SetPlaceRating;
 
 class SetPlaceRatingResponse
 {
@@ -12,18 +12,12 @@ class SetPlaceRatingResponse
 
     private $ratingValue;
 
-    private $ratingAvg;
-
-    private $ratingCount;
-
-    public function __construct(int $id, int $userId, int $placeId, int $ratingValue, float $ratingAvg, int $ratingCount)
+    public function __construct(int $id, int $userId, int $placeId, int $ratingValue)
     {
         $this->id = $id;
         $this->userId = $userId;
         $this->placeId = $placeId;
         $this->ratingValue = $ratingValue;
-        $this->ratingAvg = $ratingAvg;
-        $this->ratingCount = $ratingCount;
     }
 
     public function getId(): int
@@ -44,15 +38,5 @@ class SetPlaceRatingResponse
     public function getRatingValue(): int
     {
         return $this->ratingValue;
-    }
-
-    public function getRatingAvg(): float
-    {
-        return $this->ratingAvg;
-    }
-
-    public function getRatingCount(): int
-    {
-        return $this->ratingCount;
     }
 }
