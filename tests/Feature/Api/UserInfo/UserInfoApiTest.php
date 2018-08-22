@@ -6,6 +6,7 @@ use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\UserInfo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\Feature\Api\ApiTestCase;
 
 class UserInfoApiTest extends ApiTestCase
@@ -54,9 +55,10 @@ class UserInfoApiTest extends ApiTestCase
             'phone_number' => "380123456789",
             'avatar_url' => $this->avatar
         ];
-        $avatarUrl = $userInfo->user_id . "." . $this->avatar->extension();
+        $avatarUrl = Storage::url('public/upload/avatar/' . $userInfo->user_id . "." . $this->avatar->extension());
 
-        $response = $this->json('PUT', "/api/v1/users/$userInfo->user_id/info", $data);
+        $response = $this->json('POST', "/api/v1/users/$userInfo->user_id/info", $data);
+        $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
 
         $response->assertJsonFragment([
@@ -86,7 +88,8 @@ class UserInfoApiTest extends ApiTestCase
             'facebook_url' => "https://twitter.com",
         ];
 
-        $response = $this->json('PUT', "/api/v1/users/$userInfo->user_id/info", $data);
+        $response = $this->json('POST', "/api/v1/users/$userInfo->user_id/info", $data);
+        $response->assertHeader('Content-Type', 'application/json');
 
         $response->assertStatus(400);
     }
@@ -105,9 +108,10 @@ class UserInfoApiTest extends ApiTestCase
             'facebook_url' => "https://www.facebook.com/profile.php?id=123456789012345",
             'instagram_url' => "https://www.instagram.com/12345/"
         ];
-        $avatarUrl = $user->id . "." . $this->avatar->extension();
+        $avatarUrl = Storage::url('public/upload/avatar/' . $user->id . "." . $this->avatar->extension());
 
-        $response = $this->json('PUT', "/api/v1/users/$user->id/info", $data);
+        $response = $this->json('POST', "/api/v1/users/$user->id/info", $data);
+        $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
 
         $response->assertJsonFragment([
@@ -144,7 +148,8 @@ class UserInfoApiTest extends ApiTestCase
             'twitter_url' => "https://twitter.com/12345"
         ];
 
-        $response = $this->json('PUT', "/api/v1/users/$user->id/info", $data);
+        $response = $this->json('POST', "/api/v1/users/$user->id/info", $data);
+        $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(400);
     }
 
