@@ -6,4 +6,5 @@ export default {
     places: [],
     liked: STATUS_NONE,
     currentPlace: null,
+    currentPlaceReviews: null
 };

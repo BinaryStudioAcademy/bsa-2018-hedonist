@@ -31,48 +31,37 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 
 export default {
     name: 'ReviewListElement',
     components: {LikeDislikeButtons},
     props: {
-        review: {
-            type: Object,
+        reviewId: {
+            type: Number,
             required: true
         }
+    },
+    data() {
+        return {
+            review: null
+        }
+    },
+    created() {
+        this.review = this.currentPlaceReviews.byId[this.reviewId];
     },
     methods: {
         ...mapActions('place', ['likeReview', 'dislikeReview']),
         onLikeReview() {
-            this.likeReview(this.review).then((res) => {
-                this.onSuccess('You liked review');
-            }).catch((res) => {
-                this.onError('Review like error');
-            });
+            this.likeReview(this.reviewId);
         },
         onDislikeReview() {
-            this.dislikeReview(this.review).then((res) => {
-                this.onSuccess('You disliked review');
-            }).catch((res) => {
-                this.onError('Review dislike error');
-            });
-        },
-        onError(error) {
-            this.$toast.open({
-                message: error,
-                type: 'is-danger'
-            });
-        },
-        onSuccess(success) {
-            this.$toast.open({
-                message: success,
-                type: 'is-success'
-            });
-        },
+            this.dislikeReview(this.reviewId);
+        }
     },
     computed: {
+        ...mapState('place', ['currentPlaceReviews']),
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
         }
