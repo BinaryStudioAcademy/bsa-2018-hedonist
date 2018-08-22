@@ -55,7 +55,7 @@ export default {
             let filtered = this.userLists;
             let cityId = this.filterBy.cityId;
             if (cityId) {
-                filtered = this.getFilteredByCity(filtered, cityId)
+                filtered = this.getFilteredByCity(filtered, cityId);
             }
             return filtered;
         }

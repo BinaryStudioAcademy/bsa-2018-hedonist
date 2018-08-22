@@ -7,7 +7,7 @@ export default {
     getById: state => id => {
         return state.userLists.find( (userLists) => {
             return userLists.id === parseInt(id); }
-            );
+        );
     },
     getUniqueCities: (state, getters) => userList => {
         const places = userList.places;

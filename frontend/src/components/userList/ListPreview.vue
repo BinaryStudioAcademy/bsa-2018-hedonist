@@ -18,10 +18,10 @@
                         <p class="address">
                             Cities in the list:
                             <a
-                                    v-for="(city,index) in uniqueCities"
-                                    :key="index"
-                                    href="#"
-                                    @click="setCityFilter(city.id)"
+                                v-for="(city,index) in uniqueCities"
+                                :key="index"
+                                href="#"
+                                @click="setCityFilter(city.id)"
                             >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
                         </p>
                     </div>
@@ -32,65 +32,65 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
-    export default {
-        name: 'ListPreview',
-        data() {
-            return {
-                active: false
-            };
+import { mapGetters } from 'vuex';
+export default {
+    name: 'ListPreview',
+    data() {
+        return {
+            active: false
+        };
+    },
+    filters: {
+        countPlaces: function (places) {
+            return places.length;
         },
-        filters: {
-            countPlaces: function (places) {
-                return places.length;
-            },
+    },
+    computed: {
+        ...mapGetters('userList', {
+            getUniqueCities : 'getUniqueCities'
+        }),
+        uniqueCities: function () {
+            return this.getUniqueCities(this.userList);
         },
-        computed: {
-            ...mapGetters('userList', {
-                getUniqueCities : 'getUniqueCities'
-            }),
-            uniqueCities: function () {
-                return this.getUniqueCities(this.userList);
-            },
+    },
+    props: {
+        userList: {
+            required: true,
+            type: Object,
         },
-        props: {
-            userList: {
-                required: true,
-                type: Object,
-            },
-            timer: {
-                required: true,
-                type: Number,
-            }
-        },
-        methods: {
-            notLast(index) {
-                return this.uniqueCities.length - index > 1;
-            },
-            like() {
-                this.$toast.open({
-                    message: 'You liked this review!',
-                    type: 'is-info',
-                    position: 'is-bottom'
-                });
-            },
-            dislike() {
-                this.$toast.open({
-                    message: 'You disliked this review',
-                    position: 'is-bottom',
-                    type: 'is-info'
-                });
-            },
-            setCityFilter(cityId){
-                this.$parent.setCityFilter(cityId);
-            }
-        },
-        created() {
-            setTimeout(() => {
-                this.active = true;
-            }, this.timer);
+        timer: {
+            required: true,
+            type: Number,
         }
-    };
+    },
+    methods: {
+        notLast(index) {
+            return this.uniqueCities.length - index > 1;
+        },
+        like() {
+            this.$toast.open({
+                message: 'You liked this review!',
+                type: 'is-info',
+                position: 'is-bottom'
+            });
+        },
+        dislike() {
+            this.$toast.open({
+                message: 'You disliked this review',
+                position: 'is-bottom',
+                type: 'is-info'
+            });
+        },
+        setCityFilter(cityId){
+            this.$parent.setCityFilter(cityId);
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
+    }
+};
 </script>
 
 <style lang="scss" scoped>
