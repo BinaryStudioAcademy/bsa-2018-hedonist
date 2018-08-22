@@ -59,9 +59,6 @@
                                     <i class="fas fa-file-image fa-lg" />
                                 </span>
                                 <span>{{ user.first_name }}</span>
-                                <span class="icon">
-                                    <i class="fas fa-caret-down" />
-                                </span>
                             </div>
                             <div class="navbar-dropdown">
                                 <router-link
@@ -184,19 +181,31 @@ export default {
     }
 
     .navbar-dropdown-menu {
+        padding-right: 20px;
+
         @media screen and (max-width: 1087px) {
            text-align: center;
+        }
+
+        &:after {
+            content: '\f0d7';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 5px;
+            display: inline-block;
+            transform: rotate(0deg);
+
+            @media screen and (max-width: 1087px) {
+                display: none;
+            }
         }
     }
 
     .navbar-dropdown > a {
         @media screen and (max-width: 1087px) {
-            text-indent: 51px;
-
-            &:first-child,
-            &:last-child {
-                text-indent: 36px;
-            }
+            text-indent: 36px;
         }
     }
 </style>

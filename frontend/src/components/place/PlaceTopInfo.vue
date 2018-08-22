@@ -86,7 +86,7 @@
                     <LikeDislikeButtons
                         :likes="place.likes"
                         :dislikes="place.dislikes"
-                        like="liked"
+                        :status="liked"
                         @like="like"
                         @dislike="dislike"
                     />
@@ -97,7 +97,6 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
@@ -158,11 +157,23 @@ export default {
             return this.place.photos.length;
         },
 
+        liked() {
+            return this.$store.getters['place/getLikedStatus'];
+        },
+
+        likes() {
+            return this.$store.getters['place/getLikes'];
+        },
+
+        dislikes() {
+            return this.$store.getters['place/getDislikes'];
+        },
+        
         pageLink() {
             return location.href;
         },
 
-        ...mapState('place', ['liked']),
+        ...mapState('place', ['liked'])
     },
 
     methods: {
@@ -171,16 +182,24 @@ export default {
             this.$emit('tabChanged', activeTab);
         },
 
+        updateLikesDislikes() {
+            this.$store.dispatch('place/getLikedPlace', this.place.id);
+            if (this.likes) {
+                this.place.likes = this.likes;
+            }
+            if (this.dislikes) {
+                this.place.dislikes = this.dislikes;
+            }
+        },
+
         like() {
-            this.$store.dispatch('place/likePlace', {
-                placeId: this.place.id
-            });
+            this.$store.dispatch('place/likePlace', this.place.id);
+            this.updateLikesDislikes();
         },
 
         dislike() {
-            this.$store.dispatch('place/dislikePlace', {
-                placeId: this.place.id
-            });  
+            this.$store.dispatch('place/dislikePlace', this.place.id);
+            this.updateLikesDislikes();
         },
 
         addPlaceToList: function (listId) {

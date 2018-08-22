@@ -4,7 +4,7 @@
             <router-link
                 class="button is-success"
                 :to="{ name: 'NewPlacePage'}"
-            >Create a new place page</router-link>
+            >Add place</router-link>
         </div>
         <ul>
             <li
