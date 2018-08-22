@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place\Rate\Exceptions;
+namespace Hedonist\Exceptions\Place;
 
 use Hedonist\Exceptions\DomainException;
 
