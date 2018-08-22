@@ -3,8 +3,7 @@
         <div class="container place-item" v-if="active">
             <div class="media">
                 <figure class="media-left image is-128x128">
-                    <img v-if="photo" :src="photo">
-                    <img v-else src="../../assets/placeholder_128x128.png">
+                    <img :src="photo">
                 </figure>
                 <div class="media-content">
                     <h3
@@ -121,6 +120,7 @@
 
 <script>
 import Review from '@/components/review/PlacePreviewReviewItem';
+import imagePlaceholder from '@/assets/placeholder_128x128.png';
 
 export default {
     name: 'PlacePreview',
@@ -145,7 +145,8 @@ export default {
             return this.place.localization[0].name;
         },
         photo: function () {
-            return this.place.photos[0].img_url ? this.place.photos[0].img_url : false;
+            if(this.place.photos[0]) return this.place.photos[0].img_url;
+            return imagePlaceholder;
         }
     },
     methods: {
