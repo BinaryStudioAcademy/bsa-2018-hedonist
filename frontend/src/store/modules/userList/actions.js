@@ -1,4 +1,5 @@
 import httpService from '../../../services/common/httpService';
+import normalizerService from '../../../services/common/normalizerService';
 
 export default {
     getListsByUser: (context, userId) => {
@@ -8,7 +9,7 @@ export default {
                 .then( (response) => {
                     const userLists = response.data.data;
                     context.commit('SET_USER_LISTS', userLists);
-                    resolve(response.data.data);
+                    resolve(userLists);
                 })
                 .catch( (error) => {
                     reject(error);

@@ -1,32 +1,33 @@
 <template>
     <transition name="slide-fade">
-        <div class="container place-item" v-if="active">
-            <div class="media">
-                <figure class="media-left image is-128x128">
-                    <img :src="userList.img_url">
-                </figure>
-                <div class="media-content">
-                    <h3 class="title has-text-primary">
-                        <router-link :to="`/my-places/${userList.id}`">
-                            {{ userList.name }}
-                        </router-link>
-                    </h3>
-                    <p class="place-category">
-                        <a href="#">Places saved in the list: {{ userList.places | countPlaces }}</a>
-                    </p>
-                    <p class="address">
-                        Cities in the list:
-
-                        <a
-                            v-for="(city,index) in uniqueCities"
-                            :key="index"
-                            href="#"
-                            @click="setCityFilter(city.id)"
-                        >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
-                    </p>
+        <li>
+            <div class="container place-item" v-if="active">
+                <div class="media">
+                    <figure class="media-left image is-128x128">
+                        <img :src="userList.img_url">
+                    </figure>
+                    <div class="media-content">
+                        <h3 class="title has-text-primary">
+                            <router-link :to="`/my-places/${userList.id}`">
+                                {{ userList.name }}
+                            </router-link>
+                        </h3>
+                        <p class="place-category">
+                            <a href="#">Places saved in the list: {{ userList.places | countPlaces }}</a>
+                        </p>
+                        <p class="address">
+                            Cities in the list:
+                            <a
+                                v-for="(city,index) in uniqueCities"
+                                :key="index"
+                                href="#"
+                                @click="setCityFilter(city.id)"
+                            >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </li>
     </transition>
 </template>
 

@@ -2,15 +2,12 @@
     <section class="container">
         <b-loading :active.sync="isLoading" />
         <ul v-show="isLoaded">
-            <li
+            <ListPreviewItems
                 v-for="(userList,index) in filteredUserLists"
                 :key="userList.id"
-            >
-                <ListPreviewItems
-                    :user-list="userList"
-                    :timer="50 * (index+1)"
-                />
-            </li>
+                :user-list="userList"
+                :timer="50 * (index+1)"
+            />
         </ul>
     </section>
 </template>
