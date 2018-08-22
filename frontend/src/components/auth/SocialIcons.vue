@@ -17,8 +17,8 @@ export default {
         ...mapActions('auth',['socialRedirect']),
         redirect(provider){
             this.socialRedirect(provider)
-                .then((redirectUri) => {window.location.replace(redirectUri)})
-                .catch((error) => {this.$toast.open(error)});
+                .then((redirectUri) => {window.location.replace(redirectUri);})
+                .catch((error) => {this.$toast.open(error);});
         }
     }
 };
