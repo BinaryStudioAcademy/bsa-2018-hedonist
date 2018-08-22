@@ -89,13 +89,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="control navbar-item">
-                        <div class="select">
-                            <select v-model="language" @change="changeLang">
-                                <option value="en" class="lang-item lang-item_en">English</option>
-                                <option value="ua" class="lang-item lang-item_ua">Українська</option>
-                            </select>
-                        </div>
+                    <div class="navbar-item">
+                        <LanguageSelector />
                     </div>
                 </div>
             </div>
@@ -107,12 +102,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
+import LanguageSelector from './LanguageSelector';
+
 export default {
     name: 'TopNavbar',
     data () {
         return {
-            navIsActive: false,
-            language: this.$i18n.locale()
+            navIsActive: false
         };
     },
     computed: {
@@ -133,13 +129,11 @@ export default {
         },
         toggleMenu () {
             this.navIsActive = !this.navIsActive;
-        },
-        changeLang () {
-            this.$i18n.set(this.language);
         }
     },
     components: {
-        NavbarSearchPanel
+        NavbarSearchPanel,
+        LanguageSelector
     }
 };
 </script>
