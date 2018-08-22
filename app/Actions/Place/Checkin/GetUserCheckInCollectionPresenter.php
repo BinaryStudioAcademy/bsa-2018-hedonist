@@ -3,7 +3,6 @@
 namespace Hedonist\Actions\Place\Checkin;
 
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
-use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
 use Hedonist\Actions\Presenters\City\CityPresenter;
 use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
 use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
