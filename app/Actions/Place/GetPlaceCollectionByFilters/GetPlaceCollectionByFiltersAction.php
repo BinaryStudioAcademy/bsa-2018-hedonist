@@ -27,6 +27,9 @@ class GetPlaceCollectionByFiltersAction
     {
         $categoryId = $request->getCategoryId();
         $location = $request->getLocation();
+        if ($location) {
+            $location = Location::fromString($location);
+        }
 
         $places = $this->placeRepository->findByCriteria(
             new PlaceSearchCriteria($request->getPage(), $categoryId, $location)

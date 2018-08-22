@@ -2,8 +2,6 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollectionByFilters;
 
-use Hedonist\Entities\Place\Location;
-
 class GetPlaceCollectionByFiltersRequest
 {
     private $category_id;
@@ -12,7 +10,7 @@ class GetPlaceCollectionByFiltersRequest
 
     public function __construct(int $page, ?int $category_id, ?string $location)
     {
-        $this->location = Location::fromString($location);
+        $this->location = $location;
         $this->category_id = $category_id;
         $this->page = $page;
     }
@@ -22,7 +20,7 @@ class GetPlaceCollectionByFiltersRequest
         return $this->category_id;
     }
 
-    public function getLocation(): ?Location
+    public function getLocation(): ?string
     {
         return $this->location;
     }
