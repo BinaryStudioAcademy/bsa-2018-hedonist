@@ -4,6 +4,6 @@ export const STATUS_NONE = 'NONE';
 
 export default {
     places: [],
-    liked: STATUS_NONE,
     currentPlace: null,
+    liked: STATUS_NONE
 };

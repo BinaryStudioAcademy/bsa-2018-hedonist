@@ -59,6 +59,8 @@ export default {
     likePlace: (context, placeId) => {
         httpService.post('places/' + placeId + '/like')
             .then( (res) => {
+                context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
+                context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
                 return Promise.resolve(res);
             })
             .catch( (err) => {
@@ -69,6 +71,8 @@ export default {
     dislikePlace: (context, placeId) => {
         httpService.post('places/' + placeId + '/dislike')
             .then( (res) => {
+                context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
+                context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
                 return Promise.resolve(res);
             })
             .catch( (err) => {

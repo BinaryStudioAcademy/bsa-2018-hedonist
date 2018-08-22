@@ -147,7 +147,15 @@ export default {
             return this.place.photos.length;
         },
 
-        ...mapState('place', ['liked']),
+        likes() {
+            return this.$store.getters['place/getLikes'];
+        },
+
+        dislikes() {
+            return this.$store.getters['place/getDislikes'];
+        },
+
+        ...mapState('place', ['liked'])
     },
 
     methods: {
@@ -159,11 +167,23 @@ export default {
         like() {
             this.$store.dispatch('place/likePlace', this.place.id);
             this.$store.dispatch('place/getLikedPlace', this.place.id);
+            if (this.likes) {
+                this.place.likes = this.likes;
+            }
+            if (this.dislikes) {
+                this.place.dislikes = this.dislikes;
+            }
         },
 
         dislike() {
-            this.$store.dispatch('place/dislikePlace', this.place.id);  
+            this.$store.dispatch('place/dislikePlace', this.place.id);
             this.$store.dispatch('place/getLikedPlace', this.place.id);
+            if (this.likes) {
+                this.place.likes = this.likes;
+            }
+            if (this.dislikes) {
+                this.place.dislikes = this.dislikes;
+            }
         },
 
         addPlaceToList: function (listId) {

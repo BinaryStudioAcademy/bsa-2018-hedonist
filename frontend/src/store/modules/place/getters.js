@@ -4,11 +4,24 @@ export default {
             place => place.localization[0].name.toLowerCase().indexOf(name.toLowerCase()) > -1
         );
     },
+
     getById: state => id => {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(state.places.find(function (place) { return place.id === parseInt(id); }));
             }, 500);
         });
+    },
+
+    getLiked: state => {
+        return state.liked;
+    },
+
+    getLikes: state => {
+        return state.currentPlace.likes;
+    },
+
+    getDislikes: state => {
+        return state.currentPlace.dislikes;
     }
 };
