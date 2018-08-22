@@ -40,9 +40,20 @@
                     </template>
                 </b-dropdown>
 
-                <button class="button is-info">
-                    <i class="far fa-share-square" />Share
-                </button>
+
+                <b-dropdown>
+                    <button class="button is-primary" slot="trigger">
+                        <i class="far fa-share-square" />Share
+                        <b-icon icon="menu-down" />
+                    </button>
+
+                    <b-dropdown-item has-link>
+                        <a :href="'https://www.facebook.com/sharer/sharer.php?u=' + pageLink" target="_blank">
+                            <i class="fab fa-facebook-square" />
+                            Share on Facebook
+                        </a>
+                    </b-dropdown-item>
+                </b-dropdown>
             </div>
         </div>
         <div class="place-top-info__sidebar columns">
@@ -145,6 +156,12 @@ export default {
 
         photosCount() {
             return this.place.photos.length;
+        },
+
+        pageLink() {
+            const a = document.createElement('a');
+            a.href = this.$router.resolve(location).href;
+            return a.protocol + '//' + a.host  + a.pathname + a.search + a.hash;
         },
 
         ...mapState('place', ['liked']),
