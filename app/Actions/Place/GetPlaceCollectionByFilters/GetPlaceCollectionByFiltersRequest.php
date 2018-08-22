@@ -12,16 +12,7 @@ class GetPlaceCollectionByFiltersRequest
 
     public function __construct(int $page, ?int $category_id, ?string $location)
     {
-        $this->location = $location;
-        if (!empty($location) && preg_match('/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/', $location) == false) {
-            throw new \InvalidArgumentException('The location has an incorrect format');
-        } elseif (!empty($location) && preg_match('/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/', $location)) {
-            $locationToArray = explode(',', $location);
-            $longitude = $locationToArray[0];
-            $latitude = $locationToArray[1];
-            $this->location = new Location($longitude, $latitude);
-        }
-
+        $this->location = Location::fromString($location);
         $this->category_id = $category_id;
         $this->page = $page;
     }

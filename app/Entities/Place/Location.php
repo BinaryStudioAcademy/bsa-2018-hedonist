@@ -10,6 +10,9 @@ class Location
     const MIN_LATITUDE = -90;
     const MAX_LATITUDE = 90;
 
+    const EARTH_RADIUS_IN_KM = 6371;
+    const RADIUS = 30;
+
     private $longitude;
     private $latitude;
 
@@ -35,5 +38,18 @@ class Location
     public function getLatitude(): float
     {
         return $this->latitude;
+    }
+
+    public static function fromString(?string $location): ?self
+    {
+        if (!empty($location) && preg_match('/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/', $location) == false) {
+            throw new \InvalidArgumentException('The location has an incorrect format');
+        } elseif (!empty($location) && preg_match('/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/', $location)) {
+            $locationToArray = explode(',', $location);
+            $longitude = $locationToArray[0];
+            $latitude = $locationToArray[1];
+            return new self($longitude, $latitude);
+        }
+        return null;
     }
 }

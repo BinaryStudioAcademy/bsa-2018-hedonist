@@ -13,9 +13,7 @@ class PlaceSearchCriteria implements CriteriaInterface
     private $categoryId;
     private $center;
 
-    const EARTH_RADIUS_IN_KM = 6371;
     const LIMIT = 10;
-    const RADIUS = 30;
 
     public function __construct(int $page, ?int $categoryId, ?Location $center)
     {
@@ -30,8 +28,8 @@ class PlaceSearchCriteria implements CriteriaInterface
             $model = $model->select('*', DB::raw(
                 '( ? * acos( cos( radians(?) ) * cos( radians( latitude ) ) 
             * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(latitude)) ) ) AS distance'))
-                ->having('distance', '<=', self::RADIUS)
-                ->setBindings([self::EARTH_RADIUS_IN_KM, $this->center->getLatitude(), $this->center->getLongitude(), $this->center->getLatitude()]);
+                ->having('distance', '<=', Location::RADIUS)
+                ->setBindings([Location::EARTH_RADIUS_IN_KM, $this->center->getLatitude(), $this->center->getLongitude(), $this->center->getLatitude()]);
         }
         if (!empty($this->categoryId)) {
             $model = $model->where('category_id', $this->categoryId);
