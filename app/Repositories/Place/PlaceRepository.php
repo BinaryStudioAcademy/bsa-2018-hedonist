@@ -85,13 +85,13 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         return $places;
     }
 
-    public function deleteById(int $id)
+    public function deleteById(int $id): void
     {
         $this->delete($id);
     }
 
-    public function getByList(int $listId)
+    public function getByList(int $listId): Collection
     {
-        return UserList::find($listId)->places();
+        return UserList::find($listId)->places()->get();
     }
 }

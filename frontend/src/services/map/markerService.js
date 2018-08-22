@@ -1,5 +1,5 @@
 import markerGenerator from './markerGenerator';
-import placeholderImg from '../../assets/placeholder_128x128.png';
+import placeholderImg from '@/assets/placeholder_128x128.png';
 
 const parser = (item) => ({
     id: item.id,

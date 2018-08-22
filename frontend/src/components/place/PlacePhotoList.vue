@@ -15,6 +15,7 @@
                     :key="photo.id"
                     :photo="photo"
                     :last-id="photos.length"
+                    @showAllPhotos="showAllPhotos"
                 />
             </li>
         </ul>
@@ -54,6 +55,10 @@ export default {
 
         toLeft: function() {
             this.photoList.scrollLeft -= this.imageOffset * this.imageSlideNumber;
+        },
+
+        showAllPhotos: function() {
+            this.$emit('showAllPhotos');
         }
     },
 };
