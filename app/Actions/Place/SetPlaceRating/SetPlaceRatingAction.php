@@ -61,6 +61,7 @@ class SetPlaceRatingAction
             $placeRating->place_id,
             $placeRating->rating
         );
+        
         return $setPlaceRatingResponse;
     }
 }

@@ -59,8 +59,6 @@ class PlaceRatingTest extends ApiTestCase
             'place_id' => $placeId
         ]);
 
-//        dd($response);
-
         $response->assertStatus(201);
         $response->assertJsonFragment([
             'id' => $id,
