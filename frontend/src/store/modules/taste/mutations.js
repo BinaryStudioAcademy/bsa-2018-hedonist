@@ -1,17 +1,17 @@
 export default {
     SET_TASTES: (state, tastes) => {
-        state.tastes = Object.assign({}, tastes);
+        state.allTastes = Object.assign({}, tastes);
     },
 
-    SET_USER_TASTES: (state, tastes) => {
-        state.userTastes = Object.assign({}, tastes);
+    SET_MY_TASTES: (state, tastes) => {
+        state.myTastes = Object.assign({}, tastes);
     },
 
-    ADD_USER_TASTE: (state, taste) => {
-        state.userTastes.byId[taste.id] = taste;
+    ADD_MY_TASTE: (state, taste) => {
+        state.myTastes.byId[taste.id] = taste;
     },
 
-    DELETE_USER_TASTE: (state, id) => {
-        delete state.userTastes[id];
+    DELETE_MY_TASTE: (state, id) => {
+        delete state.myTastes[id];
     }
 };

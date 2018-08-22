@@ -2,7 +2,7 @@
     <div class="container">
         <ul>
             <li
-                v-for="(taste, index) in tastes.byId"
+                v-for="(taste, index) in allTastes.byId"
                 class="taste"
                 :class="{added: isChecked(taste.id), pop: isAnimated(taste.id), popin: !isClicked(taste.id)}"
                 :key="taste.id"
@@ -41,19 +41,25 @@ export default {
             }
             let tasteData = this.tastesData[id];
             if (this.selectedIds.includes(id)) {
-                tasteData.check = false;
-                this.$store.dispatch('taste/deleteUserTaste', id);
-                this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
+                this.deleteTaste(id);
             } else {
-                tasteData.check = true;
-                this.$store.dispatch('taste/addUserTaste', this.tastes.byId[id]);
-                this.selectedIds.push(id);
+                this.addTaste(id);
             }
             tasteData.isClick = true;
             tasteData.isAnimate = true;
             setTimeout(function () {
                 tasteData.isAnimate = false;
             }, 200);
+        },
+        deleteTaste(id) {
+            this.tastesData[id].check = false;
+            this.$store.dispatch('taste/deleteMyTaste', id);
+            this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
+        },
+        addTaste(id) {
+            this.tastesData[id].check = true;
+            this.$store.dispatch('taste/addMyTaste', this.allTastes.byId[id]);
+            this.selectedIds.push(id);
         },
         isChecked(id) {
             return this.selectedIds.includes(id);
@@ -66,12 +72,13 @@ export default {
         }
     },
     computed: {
-        ...mapState('taste', ['tastes', 'userTastes'])
+        ...mapState('taste', ['allTastes', 'myTastes']),
+        ...mapGetters('taste', ['getMyTastesIds'])
     },
     created() {
         this.$store.dispatch('taste/fetchTastes');
-        this.$store.dispatch('taste/fetchUserTastes').then(() => {
-            this.selectedIds = Object.keys(this.userTastes.byId);
+        this.$store.dispatch('taste/fetchMyTastes').then(() => {
+            this.selectedIds = this.getMyTastesIds;
             this.selectedIds.forEach((item, i) => { this.selectedIds[i] = parseInt(item); });
         });
     },

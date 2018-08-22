@@ -14,36 +14,36 @@ export default {
                 });
         });
     },
-    fetchUserTastes: (context) => {
+    fetchMyTastes: (context) => {
         return new Promise((resolve, reject) => {
             httpService.get('/tastes/my')
                 .then(function (res) {
                     let transformedUserTastes = normalizerService.normalize(res.data);
-                    context.commit('SET_USER_TASTES', transformedUserTastes);
+                    context.commit('SET_MY_TASTES', transformedUserTastes);
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);
                 });
         });
     },
-    addUserTaste: (context, taste) => {
+    addMyTaste: (context, taste) => {
         return new Promise((resolve, reject) => {
             httpService.post('/tastes/my', {
                 taste_id: taste.id
             })
                 .then(function (res) {
-                    context.commit('ADD_USER_TASTE', taste);
+                    context.commit('ADD_MY_TASTE', taste);
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);
                 });
         });
     },
-    deleteUserTaste: (context, id) => {
+    deleteMyTaste: (context, id) => {
         return new Promise((resolve, reject) => {
             httpService.delete('/tastes/my/' + id)
                 .then(function (res) {
-                    context.commit('DELETE_USER_TASTE', id);
+                    context.commit('DELETE_MY_TASTE', id);
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);
