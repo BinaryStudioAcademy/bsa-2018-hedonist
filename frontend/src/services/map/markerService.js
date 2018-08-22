@@ -1,64 +1,49 @@
-import  markerManager from './markerManager';
+import markerGenerator from './markerGenerator';
+import placeholderImg from '../../assets/placeholder_128x128.png';
 
-const createSquare = (coordsObject) => {
-    const lngDelta = Math.abs(coordsObject.maxLng - coordsObject.minLng);
-    const latDelta = Math.abs(coordsObject.maxLat - coordsObject.minLat);
-    const halfDelta = (lngDelta - latDelta) / 2;
-    const squareCoord = {};
-    if (halfDelta > 0) {
-        squareCoord.minLat = coordsObject.minLat - halfDelta;
-        squareCoord.maxLat = coordsObject.maxLat - halfDelta;
-        squareCoord.minLng = coordsObject.minLng;
-        squareCoord.maxLng = coordsObject.maxLng;
-    } else if (halfDelta < 0) {
-        squareCoord.minLng = coordsObject.minLng + halfDelta;
-        squareCoord.maxLng = coordsObject.maxLng + halfDelta;
-        squareCoord.minLat = coordsObject.minLat;
-        squareCoord.maxLat = coordsObject.maxLat;
-    } else {
-        squareCoord.minLng = coordsObject.minLng;
-        squareCoord.maxLng = coordsObject.maxLng;
-        squareCoord.minLat = coordsObject.minLat;
-        squareCoord.maxLat = coordsObject.maxLat;
-    }
-    return squareCoord;
+const parser = (item) => ({
+    id: item.id,
+    name: item.localization[0].name,
+    lng: item.longitude,
+    lat: item.latitude,
+    // TODO set place photo url
+    photoUrl: item.photoUrl || placeholderImg,
+    address: item.address
+});
+
+const removeMarker = (marker) => {
+    marker.remove();
 };
 
-const parseCoordinates = (...markers) => {
-    const coords = markers.reduce((previous, current) => {
-        const item = {};
-        const currentCoords = current.getLngLat();
-        item.maxLat = previous.maxLat > currentCoords.lat ? previous.maxLat : currentCoords.lat;
-        item.minLat = previous.minLat < currentCoords.lat ? previous.minLat : currentCoords.lat;
-        item.maxLng = previous.maxLng > currentCoords.lng ? previous.maxLng : currentCoords.lng;
-        item.minLng = previous.minLng < currentCoords.lng ? previous.minLng : currentCoords.lng;
-        return item;
-    });
-    const squareCoords = createSquare(coords);
-    return [
-        [squareCoords.minLng, squareCoords.minLat],
-        [squareCoords.maxLng, squareCoords.maxLat]
-    ];
+const addMarker = (map) => (markerData) => {
+    const marker = wrappedCreateMarker(markerData);
+    marker.addTo(map);
+    return marker;
 };
 
-const mapFitter = (map,...activeMarkers) => {
-    map.fitBounds(parseCoordinates(...activeMarkers), {padding: 100, linear: true});
+const createMarker = (markerData) => {
+    return markerGenerator.generateDefaultMarker(markerData);
 };
 
-const getService = (map) => {
-    let activeMarkers = [];
-    return {
-        setMarkersFromPlaces(...places){
-            markerManager.clearMap(activeMarkers);
-            activeMarkers = markerManager.addMarkersFromPlaces(...places);
-            return activeMarkers;
-        },
-        setMarkersFromPlacesAndFit(...places){
-            const markers = this.setMarkersFromPlaces(...places);
-            mapFitter(map, ...markers);
-            return markers;
+const cacher = () => {
+    const cache = {};
+    return (funcToCache) => (data) => {
+        if (cache[data.id] !== undefined) {
+            return cache[data.id];
         }
+        const result = funcToCache(data);
+        cache[data.id] = result;
+        return result;
     };
 };
 
-export default {getService};
+const wrappedCreateMarker = cacher()(createMarker);
+
+export default {
+    clearMap(...markers) {
+        markers.forEach((marker) => removeMarker(marker));
+    },
+    addMarkersFromPlaces(map,...places) {
+        return places.map((item) => addMarker(map)(parser(item)));
+    }
+};

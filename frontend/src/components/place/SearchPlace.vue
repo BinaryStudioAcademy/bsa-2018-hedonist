@@ -38,7 +38,7 @@ import {mapGetters} from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
-import markerService from '@/services/map/markerService';
+import markerService from '@/services/map/markerManager';
 import placeholderImg from '../../assets/placeholder_128x128.png';
 
 export default {
@@ -102,6 +102,8 @@ export default {
         updateMap() {
             if (this.isMapLoaded && this.isPlacesLoaded) {
                 this.markerService.setMarkersFromPlacesAndFit(...this.places);
+                setTimeout(() => {this.markerService.setMarkersFromPlacesAndFit(...this.places.splice(0,3))},3*1000);
+                //setTimeout(() => {this.markerService.setMarkersFromPlacesAndFit(...this.places)},6*1000);
             }
         },
     },
