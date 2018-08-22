@@ -18,7 +18,7 @@
 
                     <template v-if="isImageAttached">
                         <div class="image is-3by1">
-                            <img class="review-photo" :src="reviewImageUrl" />
+                            <img class="review-photo" :src="reviewImageUrl">
                         </div>
                     </template>
 
@@ -52,7 +52,7 @@ export default {
     data() {
         return {
             reviewImageUrl: ''
-        }
+        };
     },
 
     computed: {
@@ -75,7 +75,7 @@ export default {
                 })
                 .catch(() => {
                     this.reviewImageUrl = '';
-                })
+                });
         }
     }
 };
