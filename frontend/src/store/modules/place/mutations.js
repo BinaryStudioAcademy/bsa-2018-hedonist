@@ -26,4 +26,20 @@ export default {
     SET_CURRENT_PLACE_RATING_COUNT: (state, ratingCount) => {
         state.currentPlace.ratingCount = ratingCount;
     },
+
+    SET_CURRENT_PLACE_REVIEWS: (state, reviews) => {
+        state.currentPlaceReviews = reviews;
+    },
+
+    SET_CURRENT_PLACE_REVIEW_LIKE_STATE: (state, { reviewId, likeState }) => {
+        state.currentPlaceReviews.byId[reviewId].like = likeState;
+    },
+
+    SET_CURRENT_PLACE_REVIEW_LIKE_COUNT: (state, { reviewId, count }) => {
+        state.currentPlaceReviews.byId[reviewId].likes = count;
+    },
+
+    SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT: (state, { reviewId, count }) => {
+        state.currentPlaceReviews.byId[reviewId].dislikes = count;
+    }
 };
