@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 
 class SavePlacePhotoAction
 {
+    const FILE_STORAGE = 'upload/photo/';
+
     private $placePhotoRepository;
 
     public function __construct(PlacePhotoRepositoryInterface $placePhotoRepository)
@@ -25,12 +27,12 @@ class SavePlacePhotoAction
         $file = $request->getImg();
         $fileNameGenerator = new FileNameGenerator($file);
         $newFileName = $fileNameGenerator->generateFileName();
-        $file->storeAs('upload/review', $newFileName, 'public');
+        Storage::putFileAs(self::FILE_STORAGE, $file, $newFileName, 'public');
         list($width, $height) = getimagesize($file);
         $placePhoto->place_id = $request->getPlaceId();
         $placePhoto->creator_id = $request->getCreatorId();
         $placePhoto->description = $request->getDescription();
-        $placePhoto->img_url = Storage::url('upload/review/' . $newFileName);
+        $placePhoto->img_url = Storage::url(self::FILE_STORAGE . $newFileName);
         $placePhoto->width = $width;
         $placePhoto->height = $height;
         $placePhoto = $this->placePhotoRepository->save($placePhoto);
