@@ -16,9 +16,11 @@
                         <p>{{ review.description }}</p>
                     </div>
 
-                    <div class="image">
-                        <img :src="reviewImage" />
-                    </div>
+                    <template v-if="isImageAttached">
+                        <div class="image is-3by1">
+                            <img class="review-photo" :src="reviewImageUrl" />
+                        </div>
+                    </template>
 
                     <LikeDislikeButtons
                         :likes="review.likes"
@@ -58,13 +60,10 @@ export default {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
         },
 
-        reviewImage() {
+        isImageAttached() {
             this.getReviewImage();
-            console.log('Image src: ' + this.reviewImageUrl);
-            return this.reviewImageUrl;
+            return !_.isEmpty(this.reviewImageUrl);
         }
-
-
     },
 
     methods: {
@@ -72,10 +71,7 @@ export default {
         getReviewImage: function() {
             this.getReviewPhoto(this.review.id)
                 .then((result) => {
-                    // this.reviewImageUrl = '/storage/app/public/upload/review/1534852163_680800804.png';
                     this.reviewImageUrl = result;
-                    console.log("Image url = " + result);
-                    // this.reviewImageUrl = "https://igx.4sqi.net/img/general/558x200/495199272_ccmT2ssi29nXeHqQNS2lR7aZzinX8DoU0pvVsEQjWII.jpg";
                 })
                 .catch(() => {
                     this.reviewImageUrl = '';
@@ -99,6 +95,11 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+    }
+
+    /* for fill in the div without shrink */
+    .review-photo {
+        object-fit: cover;
     }
 
     .review-like {
