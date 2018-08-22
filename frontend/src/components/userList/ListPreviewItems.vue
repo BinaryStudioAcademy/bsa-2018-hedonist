@@ -115,10 +115,6 @@ export default {
         margin-bottom: 0.25rem;
         a {
             color: grey;
-            -webkit-transition: color 0.3s;
-            -moz-transition: color 0.3s;
-            -ms-transition: color 0.3s;
-            -o-transition: color 0.3s;
             transition: color 0.3s;
             &:hover {
                 color: black;
