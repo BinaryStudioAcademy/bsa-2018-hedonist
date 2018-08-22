@@ -1,12 +1,22 @@
 <template>
     <aside class="column is-one-third">
         <div class="place-sidebar">
-            <div class="map-box">
-                <img 
-                    src="https://image.ibb.co/isC2MU/Screenshot_from_2018_08_09_00_25_38.png" 
-                    alt="mapbox"
-                >
-            </div>
+            <section class="map-box">
+                <mapbox
+                    :access-token="getMapboxToken"
+                    :map-options="{
+                        style: getMapboxStyle,
+                        center: currentCenter,
+                        zoom: 9
+                    }"
+                    :scale-control="{
+                        show: true,
+                        position: 'top-left'
+                    }"
+                    @map-init="mapInitialize"
+                    @map-load="mapLoaded"
+                />
+            </section>
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
                     <i class="place-sidebar__icon far fa-compass" />
@@ -82,16 +92,133 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapActions } from 'vuex';
+import Mapbox from 'mapbox-gl-vue';
+import LocationService from '@/services/location/locationService';
+import MarkerService from '@/services/map/markerManagerService';
+import placeholderImg from '../../assets/placeholder_128x128.png';
+
+let markerManager = null;
+
 export default {
     name: 'PlaceSidebarInfo',
+
+    data() {
+        return {
+            isMapLoaded: false,
+            map: {},
+            userCoordinates: {
+                lat: 50.4547,
+                lng: 30.5238
+            },
+        };
+    },
+
+    components: {
+        Mapbox
+    },
+
     props: {
         place: {
             type: Object,
             required: true
         }
     },
+
+    created() {
+        if (this.isMapLoaded) {
+            this.updateMap(this.place);
+            markerManager.fitMarkersOnMap();
+            this.setCurrentCenter(markerManager.getCurrentCenter());
+        }
+    },
+
+    methods: {
+        ...mapActions('place', ['setCurrentCenter', 'mapInitialization']),
+
+        mapInitialize(map) {
+            if (this.mapInitialized) {
+                return;
+            }
+
+            this.map = map;
+            LocationService.getUserLocationData()
+                .then(coordinates => {
+                    this.userCoordinates.lat = coordinates.lat;
+                    this.userCoordinates.lng = coordinates.lng;
+                });
+            this.mapInitialization();
+        },
+
+        mapLoaded(map) {
+            markerManager = new MarkerService(map);
+            this.isMapLoaded = true;
+            this.updateMap(this.place);
+            markerManager.fitMarkersOnMap();
+            this.setCurrentCenter(markerManager.getCurrentCenter());
+        },
+
+        jumpTo(coordinates) {
+            this.map.jumpTo({
+                center: coordinates,
+            });
+        },
+
+        updateMap(place) {
+            markerManager.setMarkers(place);
+        },
+        
+        createUserMarker(){
+            return {
+                id           : 0,
+                latitude     : this.userCoordinates.lat,
+                longitude    : this.userCoordinates.lng,
+                localization : {
+                    0: {
+                        description: 'Your position',
+                        language: 'en',
+                        name: 'Your position',
+                    }
+                },
+                photoUrl: this.user.avatar_url || placeholderImg,
+            };
+        }
+    },
+
+    computed: {
+        ...mapState('place', ['currentLatitude', 'currentLongitude', 'mapInitialized']),
+        ...mapGetters('map', [
+            'getMapboxToken',
+            'getMapboxStyle'
+        ]),
+        ...mapGetters({
+            user: 'auth/getAuthenticatedUser'
+        }),
+
+        currentCenter() {
+            return {
+                lat: this.currentLatitude ? this.currentLatitude : this.userCoordinates.lat,
+                lng: this.currentLongitude ? this.currentLongitude : this.userCoordinates.lng
+            };
+        }
+    }
 };
 </script>
+
+<style>
+    .mapboxgl-canvas {
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    .mapboxgl-marker {
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup-close-button{
+        font-size: 22px;
+    }
+</style>
 
 <style lang="scss" scoped>
 
@@ -104,6 +231,16 @@ export default {
         img {
             width: 100%;
         }
+    }
+
+    #map {
+        text-align: justify;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        height: 200px;
+        right: 0;
+        width: 100%;
     }
 
     &__info {

@@ -75,5 +75,13 @@ export default {
             .catch( (err) => {
                 return Promise.reject(err);
             });
+    },
+
+    setCurrentCenter: ({ commit }, currentCenter) => {
+        commit('SET_CURRENT_CENTER', currentCenter);
+    },
+
+    mapInitialization: ({ commit }) => {
+        commit('MAP_INIT', true);
     }
 };

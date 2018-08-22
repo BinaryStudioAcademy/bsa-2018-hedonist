@@ -26,4 +26,13 @@ export default {
     SET_CURRENT_PLACE_RATING_COUNT: (state, ratingCount) => {
         state.currentPlace.ratingCount = ratingCount;
     },
+
+    SET_CURRENT_CENTER: (state, { longitude, latitude }) => {
+        state.currentLatitude = latitude;
+        state.currentLongitude = longitude;
+    },
+
+    MAP_INIT: (state, value) => {
+        state.mapInitialized = value;
+    },
 };
