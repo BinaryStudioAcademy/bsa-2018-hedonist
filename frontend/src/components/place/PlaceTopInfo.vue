@@ -1,6 +1,6 @@
 <template>
     <div class="place-top-info">
-        <PlacePhotoList :photos="place.photos" />
+        <PlacePhotoList :photos="place.photos" @showAllPhotos="changeTab(2)" />
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">

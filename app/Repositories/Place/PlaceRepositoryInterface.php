@@ -23,5 +23,7 @@ interface PlaceRepositoryInterface
 
     public function findByCoordinates(Location $center, float $radius): Collection;
 
-    public function deleteById(int $id);
+    public function getByList(int $listId): Collection;
+
+    public function deleteById(int $id): void;
 }

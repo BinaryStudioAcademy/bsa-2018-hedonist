@@ -39,7 +39,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
             ->name('user-list.lists');
 
-        Route::resource('user-list', 'Api\User\UserList\UserListController')->except([
+        Route::resource('user-lists', 'Api\User\UserList\UserListController')->except([
             'create', 'edit'
         ]);
 
