@@ -89,6 +89,7 @@
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
+import { STATUS_NONE } from '@/services/api/codes';
 
 export default {
     name: 'PlaceTopInfo',
