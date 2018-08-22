@@ -89,6 +89,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="control navbar-item">
+                        <div class="select">
+                            <select v-model="language" @change="changeLang">
+                                <option value="en" class="lang-item lang-item_en">English</option>
+                                <option value="ua" class="lang-item lang-item_ua">Українська</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -103,7 +111,8 @@ export default {
     name: 'TopNavbar',
     data () {
         return {
-            navIsActive: false
+            navIsActive: false,
+            language: this.$i18n.locale()
         };
     },
     computed: {
@@ -124,6 +133,9 @@ export default {
         },
         toggleMenu () {
             this.navIsActive = !this.navIsActive;
+        },
+        changeLang () {
+            this.$i18n.set(this.language);
         }
     },
     components: {
@@ -199,4 +211,5 @@ export default {
             }
         }
     }
+
 </style>

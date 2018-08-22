@@ -1,14 +1,14 @@
 <template>
-    <Container title="Create new account">
+    <Container :title="$t('signup_page.title')">
         <Form>
             <b-field
-                label="First name"
+                :label="$t('inputs.auth.first_name.field_name')"
                 :type="type('firstName')"
             >
                 <b-input
                     name="firstName"
                     v-model="newUser.firstName"
-                    placeholder="Your first name"
+                    :placeholder="$t('inputs.auth.first_name.placeholder')"
                     @blur="onBlur('firstName')"
                     @focus="onFocus('firstName')"
                 />
@@ -17,21 +17,22 @@
                 class="error"
                 v-if="!$v.newUser.firstName.required && !focus.firstName"
             >
-                First name is required.</div>
+                {{ $t('validation.required',{field:$t('inputs.auth.first_name.field_name')})}}</div>
             <div 
                 class="error"
                 v-if="!$v.newUser.firstName.alpha && !focus.firstName"
             >
-                Only letters are allowed</div>
+                {{ $t('validation.letters_only') }}
+            </div>
 
             <b-field
-                label="Last name"
+                :label="$t('inputs.auth.last_name.field_name')"
                 :type="type('lastName')"
             >
                 <b-input
                     name="lastName"
                     v-model="newUser.lastName"
-                    placeholder="Your last name"
+                    :placeholder="$t('inputs.auth.last_name.placeholder')"
                     @blur="onBlur('lastName')"
                     @focus="onFocus('lastName')"
                 />
@@ -40,21 +41,22 @@
                 class="error"
                 v-if="!$v.newUser.lastName.required && !focus.lastName"
             >
-                Last name is required.</div>
+                {{ $t('validation.required',{field:$t('inputs.auth.last_name.field_name')})}}</div>
             <div 
                 class="error"
                 v-if="!$v.newUser.lastName.alpha && !focus.lastName"
             >
-                Only letters are allowed</div>
+                {{ $t('validation.letters_only') }}
+            </div>
 
             <b-field
-                label="Email"
+                :label="$t('inputs.auth.email.field_name')"
                 :type="type('email')"
             >
 
                 <b-input
                     v-model="newUser.email"
-                    placeholder="Your Email"
+                    :placeholder="$t('inputs.auth.email.placeholder')"
                     name="email"
                     @blur="onBlur('email')"
                     @focus="onFocus('email')"
@@ -64,22 +66,22 @@
                 class="error"
                 v-if="!$v.newUser.email.required && !focus.email"
             >
-                Email is required.</div>
+                {{ $t("validation.required",{field:$t("inputs.auth.email.field_name")})}}</div>
             <div 
                 class="error"
                 v-if="!$v.newUser.email.email && !focus.email"
             >
-                Wrong email format</div>
+                {{ $t('validation.wrong_email_format') }}</div>
             <div 
                 class="error"
                 v-if="!$v.newUser.email.isUnique && !focus.email"
             >
-                This email is already registered.</div>
-
-            <label class="label">
-                Password <span class="grayed">(at least 6 characters)</span>
-            </label>
-
+                {{ $t('validation.email_exists') }}</div>
+            <div class="field">
+                <label class="label">
+                    {{ $t('inputs.auth.password.field_name') }} <span class="grayed">{{ $t('inputs.auth.password.description') }}</span>
+                </label>
+            </div>
             <b-field
                 :type="type('password')"
             >
@@ -87,7 +89,7 @@
                 <b-input 
                     type="password"
                     v-model="newUser.password"
-                    placeholder="Your Password"
+                    :placeholder="$t('inputs.auth.password.placeholder')"
                     @blur="onBlur('password')"
                     @focus="onFocus('password')"
                     @keyup.native.enter="onSignUp"
@@ -98,19 +100,19 @@
                 class="error"
                 v-if="!$v.newUser.password.required && !focus.password"
             >
-                Password is required.</div>
+                {{ $t('validation.required',{field:$t('inputs.auth.password.field_name')})}}</div>
             <div 
                 class="error"
                 v-if="!$v.newUser.password.minLength && !focus.password"
             >
-                Should be 6 symbols at least </div>
+                {{ $t('validation.min_length',{min: 6})}}</div>
 
             <button
                 type="button"
                 class="button is-primary is-rounded button-wide"
                 @click="onSignUp"
             >
-                Create
+                {{ $t('signup_page.buttons.submit') }}
             </button>
         </Form>
     </Container>
