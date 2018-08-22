@@ -19,7 +19,7 @@ class PlaceRatingTableSeeder extends Seeder
                 $items[] = [
                     'user_id' => $user->id,
                     'place_id' => $place->id,
-                    'rating' => factory(PlaceRating::class)->make()->rating
+                    'rating' => random_int(1, 10)
                 ];
             }
         }
