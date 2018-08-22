@@ -46,7 +46,7 @@ export default {
     data() {
         return {
             review: null
-        }
+        };
     },
     created() {
         this.review = this.currentPlaceReviews.byId[this.reviewId];
