@@ -171,9 +171,7 @@ export default {
         
         pageLink() {
             return location.href;
-        },
-
-        ...mapState('place', ['liked'])
+        }
     },
 
     methods: {
