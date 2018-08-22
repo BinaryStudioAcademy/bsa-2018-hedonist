@@ -18,13 +18,16 @@ class PlaceCheckinController extends ApiController
 {
     private $setCheckinAction;
     private $getUserCheckInCollectionAction;
+    private $checkInCollectionPresenter;
 
     public function __construct(
         SetCheckinAction $setCheckinAction,
-        GetUserCheckInCollectionAction $getUserCheckInCollectionAction
+        GetUserCheckInCollectionAction $getUserCheckInCollectionAction,
+        GetUserCheckInCollectionPresenter $checkInCollectionPresenter
     ) {
         $this->setCheckinAction = $setCheckinAction;
         $this->getUserCheckInCollectionAction = $getUserCheckInCollectionAction;
+        $this->checkInCollectionPresenter = $checkInCollectionPresenter;
     }
     
     public function setCheckin(SetCheckinHttpRequest $httpRequest) : JsonResponse
@@ -52,6 +55,6 @@ class PlaceCheckinController extends ApiController
         $response = $this->getUserCheckInCollectionAction
             ->execute(new GetUserCheckInCollectionRequest(Auth::id()));
 
-        return $this->successResponse(GetUserCheckInCollectionPresenter::present($response));
+        return $this->successResponse($this->checkInCollectionPresenter->present($response));
     }
 }

@@ -99,9 +99,9 @@ export default {
             });
         },
         updateMap(places) {
-            markerManager.setMarkers(...places);
+            markerManager.setMarkers(places);
         },
-        createUserMarker(){
+        createUserMarker() {
             return {
                 id           : 0,
                 latitude     : this.userCoordinates.lat,

@@ -19,7 +19,7 @@ class MarkerManagerService {
         };
     }
 
-    setMarkers(...items) {
+    setMarkers(items) {
         let markersData = items.map((item) => this._parser(item));
         this._removeMarkers(markersData);
         markersData.forEach((item) => {
