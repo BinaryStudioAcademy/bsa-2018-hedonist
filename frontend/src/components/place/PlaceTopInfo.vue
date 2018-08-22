@@ -159,9 +159,7 @@ export default {
         },
 
         pageLink() {
-            const a = document.createElement('a');
-            a.href = this.$router.resolve(location).href;
-            return a.protocol + '//' + a.host  + a.pathname + a.search + a.hash;
+            return location.href;
         },
 
         ...mapState('place', ['liked']),
