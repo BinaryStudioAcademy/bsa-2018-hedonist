@@ -118,5 +118,9 @@ export default {
                 context.commit('USER_LOGIN', userData);
                 context.dispatch('fetchAuthenticatedUser');
             });
+    },
+    socialRedirect(context,provider) {
+        return httpService.get(`/auth/social/${provider}/redirect`)
+            .then((response) => response.data.data.url);
     }
 };

@@ -4,7 +4,7 @@ namespace Hedonist\Repositories\User;
 
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\Taste;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;

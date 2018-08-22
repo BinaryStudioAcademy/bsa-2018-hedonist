@@ -9,19 +9,16 @@
 </template>
 
 <script>
-import httpService from '@/services/common/httpService';
+import {mapActions} from 'vuex';
 
 export default {
     name: 'SocialIcons',
     methods: {
-        redirect(provider) {
-            httpService.get(`/auth/social/${provider}/redirect`)
-                .then((response) => {
-                    window.location.replace(response.data.data.url);
-                })
-                .catch((error) => {
-                    this.$toast.open(error.error);
-                });
+        ...mapActions('auth',['socialRedirect']),
+        redirect(provider){
+            this.socialRedirect(provider)
+                .then((redirectUri) => {window.location.replace(redirectUri)})
+                .catch((error) => {this.$toast.open(error)});
         }
     }
 };
