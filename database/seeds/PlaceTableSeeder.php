@@ -194,7 +194,7 @@ class PlaceTableSeeder extends Seeder
                 ]);
 
                 factory(PlaceTranslation::class)->create([
-                    'place_name' => $placeInfo['name'] . ' ' . $cityName,
+                    'place_name' => $placeInfo['name'],
                     'place_id' => $place->id,
                     'language_id' => $language->id
                 ]);
