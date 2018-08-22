@@ -2,16 +2,6 @@ import httpService from '@/services/common/httpService';
 import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from './state';
 
 export default {
-    checkIn: (context, data) => {
-        return httpService.post('/users/me/checkins', data)
-            .then(response => { 
-                return Promise.resolve(response);
-            })
-            .catch(error => {
-                return Promise.reject(error);
-            });
-    },
-
     setPlaceRating: (context, data) => {
         return new Promise((resolve, reject) => {
             return httpService.post('/places/rating', data)
