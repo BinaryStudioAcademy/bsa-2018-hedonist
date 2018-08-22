@@ -3,10 +3,13 @@
 namespace Hedonist\Actions\SocialAuth\Strategies;
 
 use Hedonist\Entities\User\SocialAccount;
+use Hedonist\Entities\User\UserInfo;
+use Hedonist\Events\Auth\SocialRegistrationEvent;
 use Hedonist\Repositories\User\SocialAccountRepositoryInterface;
 use Hedonist\Repositories\User\UserInfoRepositoryInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Laravel\Socialite\Contracts\User as SocialUser;
 use Hedonist\Entities\User\User as UserModel;
 
@@ -21,19 +24,21 @@ abstract class AbstractAuthorizeStrategy implements SocialAuthorizeStrategyInter
         UserRepositoryInterface $userRepository,
         UserInfoRepositoryInterface $infoRepository,
         SocialAccountRepositoryInterface $socialRepository
-    ) {
+    )
+    {
         $this->userRepository = $userRepository;
         $this->infoRepository = $infoRepository;
         $this->socialRepository = $socialRepository;
     }
 
-    final public function authorize(SocialUser $user): string
+    public function authorize(SocialUser $user): string
     {
         $appUser = $this->findOrCreate($user);
+
         return Auth::login($appUser);
     }
 
-    final protected function findOrCreate(SocialUser $socialUser): UserModel
+    protected function findOrCreate(SocialUser $socialUser): UserModel
     {
         $user = $this->userRepository->getUserBySocialAuthCredentials(
             static::$provider,
@@ -41,12 +46,12 @@ abstract class AbstractAuthorizeStrategy implements SocialAuthorizeStrategyInter
         );
         if ($user !== null) { //all good, user with such social data is registered
             return $user;
-        } else {
-            return $this->createSocialAccount($socialUser);
         }
+
+        return $this->createSocialAccount($socialUser);
     }
 
-    final protected function createSocialAccount(SocialUser $user): UserModel
+    protected function createSocialAccount(SocialUser $user): UserModel
     {
         $appUser = $this->userRepository->getByEmail($user->getEmail());
         if ($appUser !== null) { //user with such email exists,just create new social account and return user
@@ -55,10 +60,11 @@ abstract class AbstractAuthorizeStrategy implements SocialAuthorizeStrategyInter
             $appUser = $this->createUserFromSocialData($user);
             $this->createSocialData($appUser, $user);
         }
+
         return $appUser;
     }
 
-    private function createSocialData(UserModel $appUser, SocialUser $user)
+    protected function createSocialData(UserModel $appUser, SocialUser $user)
     {
         $socialAccount = new SocialAccount([
             'provider' => static::$provider,
@@ -69,4 +75,9 @@ abstract class AbstractAuthorizeStrategy implements SocialAuthorizeStrategyInter
     }
 
     abstract protected function createUserFromSocialData(SocialUser $user): UserModel;
+
+    protected function notifyUser(UserModel $user, UserInfo $info, string $password)
+    {
+        Event::dispatch(new SocialRegistrationEvent($user, $info, $password));
+    }
 }

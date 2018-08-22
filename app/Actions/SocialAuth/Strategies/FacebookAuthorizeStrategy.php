@@ -4,15 +4,13 @@ namespace Hedonist\Actions\SocialAuth\Strategies;
 
 use Hedonist\Entities\User\User as UserModel;
 use Hedonist\Entities\User\UserInfo;
-use Hedonist\Events\Auth\SocialRegistrationEvent;
-use Illuminate\Support\Facades\Event;
 use Laravel\Socialite\Contracts\User as SocialUser;
 
 class FacebookAuthorizeStrategy extends AbstractAuthorizeStrategy
 {
     protected function createUserFromSocialData(SocialUser $user): UserModel
     {
-        $password = str_random(16);
+        $password = str_random(self::PASSWORD_LENGTH);
         $appUser = new UserModel([
             'email' => $user->getEmail(),
             'password' => $password
@@ -29,10 +27,5 @@ class FacebookAuthorizeStrategy extends AbstractAuthorizeStrategy
         $this->notifyUser($appUser, $userInfo, $password);
 
         return $this->userRepository->save($appUser);
-    }
-
-    private function notifyUser(UserModel $user, UserInfo $info, string $password)
-    {
-        Event::dispatch(new SocialRegistrationEvent($user, $info, $password));
     }
 }

@@ -4,6 +4,7 @@ namespace Hedonist\Repositories\User;
 
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\Taste;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -66,7 +67,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return User::whereHas(
             'socialAccounts',
-            function ($query) use ($provider, $token) {
+            function (Builder $query) use ($provider, $token) {
                 $query->where([
                     'provider' => $provider,
                     'provider_user_id' => $token
