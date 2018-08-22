@@ -15,30 +15,38 @@
                     <div class="content-wrapper">
                         <b-input v-model="newReview.description" maxlength="500" type="textarea" />
 
-                        <b-taglist>
-                            <b-tag 
-                                v-for="(file, index) in photos"
-                                :key="index"
-                                type="is-primary"
-                            >
-                                {{ file.name }}
-                                <button 
-                                    class="delete is-small"
-                                    type="button"
-                                    @click="deletePhoto(index)"
-                                />
-                            </b-tag>
+                        <div v-if="isPhotos" class="review-preview-wrp">
+                            <template v-for="(photo, index) in photos">
+                                <div :key="index">
+                                    <div class="photo">
+                                        <figure class="image is-square is-48x48">
+                                            <img :src="getPreview(photo)">
+                                        </figure>
+                                        <button
+                                            class="is-small"
+                                            type="button"
+                                            @click="deletePhoto(index)"
+                                        >
+                                            delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
 
+                        <div class="level">
                             <b-upload 
+                                class="level-left"
                                 v-model="photos"
                                 accept="image/*"
                                 multiple
                             >
-                                <span class="tag is-light">
+                                <span class="tag is-light is-medium">
                                     <a>Add photo</a>
                                 </span>
                             </b-upload>
-                        </b-taglist>
+                        </div>
+
                     </div>
                 </b-field>
 
@@ -89,16 +97,24 @@ export default {
                 place_id: null,
                 description: ''
             },
-            photos: []
+            photos: [],
         };
     },
     computed: {
+        isPhotos() {
+            return !_.isEmpty(this.photos);
+        },
+
         ...mapGetters('auth', ['hasToken', 'getAuthenticatedUser']),
         userId: function () {
             return this.getAuthenticatedUser.id;
         }
     },
     methods: {
+        getPreview (photo) {
+            return URL.createObjectURL(photo).toString();
+        },
+
         ...mapActions('review', ['addReview', 'addReviewPhoto']),
         onAddReview () {
             this.newReview.user_id = this.userId;
@@ -149,9 +165,23 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .add-review {
         padding: 15px;
         align-items: center;
+    }
+
+    .review-preview-wrp {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+
+        .photo {
+            margin: 0 15px 10px 0;
+
+            img {
+                border: 1px solid grey;
+            }
+        }
     }
 </style>

@@ -13,6 +13,10 @@ class MarkerManagerService {
             'type': 'FeatureCollection',
             'features': []
         };
+        this.lastMarkerCoords = {
+            latitude: null,
+            longitude: null
+        };
     }
 
     setMarkers(...items) {
@@ -29,8 +33,14 @@ class MarkerManagerService {
                     item.lng,
                     item.lat
                 );
+                this.lastMarkerCoords.latitude = item.lat;
+                this.lastMarkerCoords.longitude = item.lng;
             }
         });
+    }
+
+    getCurrentCenter() {
+        return this.lastMarkerCoords;
     }
 
     fitMarkersOnMap() {
