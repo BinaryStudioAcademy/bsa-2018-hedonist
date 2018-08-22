@@ -15,6 +15,7 @@ import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
 import MyTastesPage from '@/pages/MyTastesPage';
+import SocialAuthPage from '@/pages/SocialAuthPage';
 
 Vue.use(Router);
 

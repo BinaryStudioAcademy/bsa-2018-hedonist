@@ -125,8 +125,7 @@ export default {
             this.user = {
                 email: '',
                 password: ''
-            },
-
+            };
             this.input = {
                 email: {
                     type: ''
