@@ -44,7 +44,8 @@ class LikeController extends ApiController
 
         return $this->successResponse([
             'likes' => $response->getLikes(),
-            'dislikes' => $response->getDislikes()
+            'dislikes' => $response->getDislikes(),
+            'status' => $response->getLikedStatus()
         ], 200);
     }
 

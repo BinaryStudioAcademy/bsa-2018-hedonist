@@ -10,6 +10,7 @@ use Hedonist\Repositories\Like\LikeRepository;
 use Hedonist\Repositories\Dislike\DislikeRepository;
 use Hedonist\Repositories\Place\PlaceRepository;
 use Illuminate\Support\Facades\Auth;
+use Hedonist\Entities\Like\LikeStatus;
 
 class DislikePlaceAction
 {
@@ -51,7 +52,23 @@ class DislikePlaceAction
         if (!$place) {
             throw new PlaceNotFoundException;
         }
+
+        $liked = LikeStatus::none();
+        $userId = Auth::id();
+        $like = $this->likeRepository->findByUserAndPlace($userId, $request->getPlaceId());
+        if ($like) {
+            $liked = LikeStatus::liked();
+        } else {
+            $dislike = $this->dislikeRepository->findByUserAndPlace($userId, $request->getPlaceId());
+            if ($dislike) {
+                $liked = LikeStatus::disliked();
+            }
+        }
         
-        return new DislikePlaceResponse($place->likes->count(), $place->dislikes->count());
+        return new DislikePlaceResponse(
+            $place->likes->count(),
+            $place->dislikes->count(),
+            $liked->value()
+        );
     }
 }
