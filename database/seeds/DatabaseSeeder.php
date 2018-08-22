@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PlacesCheckTableSeeder::class);
         $this->call(ReviewSeeder::class);
         $this->call(ReviewLikeDislikeSeeder::class);
+        $this->call(PlaceRatingTableSeeder::class);
         $this->call(PlacesAttachFeaturesTableSeeder::class);
     }
 }
