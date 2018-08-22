@@ -110,12 +110,6 @@ export default new Router({
                 name: 'RecoverPasswordPage',
                 component: RecoverPasswordPage
             },
-
-            {
-                path: '/auth/social/:provider',
-                name: 'SocialAuthPage',
-                component: SocialAuthPage
-            },
         ])
     ]
 });
