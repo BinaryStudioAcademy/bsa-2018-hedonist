@@ -28,6 +28,9 @@ export default {
                     let transformedCurrentPlaceReviews = normalizerService.normalize({
                         data: currentPlace.reviews
                     });
+                    transformedCurrentPlaceReviews.allIds = [];
+                    for (let k in transformedCurrentPlaceReviews.byId)
+                        transformedCurrentPlaceReviews.allIds.push(parseInt(k));
                     context.commit('SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews);
                     resolve();
                 })
