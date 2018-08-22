@@ -9,11 +9,13 @@ import Buefy from 'buefy';
 import Vuelidate from 'vuelidate';
 import vClickOutside from 'v-click-outside';
 import VueImg from 'v-img';
+import VueScrollTo from 'vue-scrollto';
 
 Vue.use(Buefy);
 Vue.use(Vuelidate);
 Vue.use(vClickOutside);
 Vue.use(VueImg);
+Vue.use(VueScrollTo);
 
 sync(store, router);
 

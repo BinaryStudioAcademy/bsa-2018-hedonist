@@ -39,7 +39,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
             ->name('user-list.lists');
 
-        Route::resource('user-list', 'Api\User\UserList\UserListController')->except([
+        Route::resource('user-lists', 'Api\User\UserList\UserListController')->except([
             'create', 'edit'
         ]);
 
@@ -119,6 +119,8 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/users/me/checkins', 'Api\Place\PlaceCheckinController@setCheckin')
             ->name('user.me.checkin');
+        Route::get('/users/me/checkins', 'Api\Place\PlaceCheckinController@getUserCheckInCollection')
+            ->name('user.me.getUserCheckins');
 
         Route::post('/places/rating', 'Api\Place\PlaceRatingController@setRating')
             ->name('place.rating.setPlaceRating');

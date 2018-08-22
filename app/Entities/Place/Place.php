@@ -10,6 +10,7 @@ use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Hedonist\Entities\Place\Scope\PlaceScope;
 
 /**
  * Class Place
@@ -46,6 +47,13 @@ class Place extends Model
 
     protected $dates = ['deleted_at'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new PlaceScope);
+    }
+
     public function placeInfo()
     {
         return $this->hasOne(PlaceInfo::class);
@@ -59,6 +67,16 @@ class Place extends Model
     public function category()
     {
         return $this->belongsTo(PlaceCategory::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(
+            PlaceCategoryTag::class,
+            'place_tag',
+            'place_id',
+            'tag_id'
+        );
     }
 
     public function city()
