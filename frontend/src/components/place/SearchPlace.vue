@@ -102,8 +102,6 @@ export default {
         updateMap() {
             if (this.isMapLoaded && this.isPlacesLoaded) {
                 this.markerService.setMarkersFromPlacesAndFit(...this.places);
-                setTimeout(() => {this.markerService.setMarkersFromPlacesAndFit(...this.places.splice(0,3))},3*1000);
-                //setTimeout(() => {this.markerService.setMarkersFromPlacesAndFit(...this.places)},6*1000);
             }
         },
     },
