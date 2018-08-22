@@ -16,7 +16,6 @@ class GetUserListsCollectionAction
     public function execute(GetUserListsCollectionRequest $request): GetUserListsCollectionResponse
     {
         $userId = $request->getUserId();
-        $userId = $userId?: Auth::id();
         return new GetUserListsCollectionResponse(
             $this->userListsRepository->findUserListsWithPlaces($userId)
         );
