@@ -4,8 +4,7 @@ import normalizerService from '../../../services/common/normalizerService';
 export default {
     getListsByUser: (context, userId) => {
         return new Promise((resolve, reject) => {
-            let route = '/users/'+userId+'/lists';
-            httpService.get(route)
+            httpService.get(`/users/${userId}/lists`)
                 .then( (response) => {
                     const userLists = response.data.data;
                     context.commit('SET_USER_LISTS', userLists);

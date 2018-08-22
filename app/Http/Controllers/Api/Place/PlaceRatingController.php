@@ -2,24 +2,24 @@
 
 namespace Hedonist\Http\Controllers\Api\Place;
 
+use Hedonist\Exceptions\DomainException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Illuminate\Http\JsonResponse;
-
 use Hedonist\Http\Requests\Place\Rate\{
     SetRatingHttpRequest,
     GetRatingHttpRequest
 };
-
-use Hedonist\Actions\Place\Rate\{
+use Hedonist\Actions\Place\GetPlaceRating\{
     GetPlaceRatingAction,
-    SetPlaceRatingAction,
-    GetPlaceRatingAvgAction
+    GetPlaceRatingRequest
 };
-
-use Hedonist\Actions\Place\Rate\{
-    GetPlaceRatingRequest,
-    SetPlaceRatingRequest,
-    GetPlaceRatingAvgRequest
+use Hedonist\Actions\Place\SetPlaceRating\{
+    SetPlaceRatingAction,
+    SetPlaceRatingRequest
+};
+use Hedonist\Actions\Place\GetPlaceRatingAverage\{
+    GetPlaceRatingAvgRequest,
+    GetPlaceRatingAvgAction
 };
 
 class PlaceRatingController extends ApiController
@@ -27,7 +27,6 @@ class PlaceRatingController extends ApiController
     private $getRatingAction;
     private $setRatingAction;
     private $getPlaceRatingAvgAction;
-    private $userId;
 
     public function __construct(
         GetPlaceRatingAction $getRatingAction,
@@ -45,12 +44,15 @@ class PlaceRatingController extends ApiController
             $setPlaceRatingResponse = $this->setRatingAction->execute(
                 new SetPlaceRatingRequest(
                     $httpRequest->rating,
-                    $httpRequest->id,
-                    $httpRequest->user_id,
                     $httpRequest->place_id
                 )
             );
-        } catch (\LogicException $ex) {
+            $getPlaceRatingAvgResponse = $this->getPlaceRatingAvgAction->execute(
+                new GetPlaceRatingAvgRequest(
+                    $httpRequest->place_id
+                )
+            );
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
@@ -59,8 +61,8 @@ class PlaceRatingController extends ApiController
             'user_id' => $setPlaceRatingResponse->getUserId(),
             'place_id' => $setPlaceRatingResponse->getPlaceId(),
             'rating' => $setPlaceRatingResponse->getRatingValue(),
-            'rating_avg' => $setPlaceRatingResponse->getRatingAvg(),
-            'rating_count' => $setPlaceRatingResponse->getRatingCount()
+            'rating_avg' => $getPlaceRatingAvgResponse->getRatingAvgValue(),
+            'rating_count' => $getPlaceRatingAvgResponse->getRatingVotesCount()
         ], 201);
     }
 
@@ -69,13 +71,11 @@ class PlaceRatingController extends ApiController
         try {
             $getPlaceRatingResponse = $this->getRatingAction->execute(
                 new GetPlaceRatingRequest(
-                    $id,
-                    $httpRequest->user_id,
                     $httpRequest->place_id,
-                    $httpRequest->rating
+                    $httpRequest->user_id
                 )
             );
-        } catch (\LogicException $ex) {
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
@@ -95,13 +95,14 @@ class PlaceRatingController extends ApiController
                     $placeId
                 )
             );
-        } catch (\LogicException $ex) {
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
         return $this->successResponse([
             'place_id' => $getPlaceRatingAvgResponse->getPlaceId(),
-            'rating' => $getPlaceRatingAvgResponse->getRatingAvgValue()
+            'rating' => $getPlaceRatingAvgResponse->getRatingAvgValue(),
+            'rating_count' => $getPlaceRatingAvgResponse->getRatingVotesCount()
         ], 201);
     }
 }

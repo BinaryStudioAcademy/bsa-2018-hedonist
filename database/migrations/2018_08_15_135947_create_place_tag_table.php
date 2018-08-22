@@ -15,12 +15,12 @@ class CreatePlaceTagTable extends Migration
     {
         Schema::create('place_tag', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('placecategory_placetag_id');
+            $table->unsignedInteger('tag_id');
             $table->unsignedInteger('place_id');
 
-            $table->foreign('placecategory_placetag_id')
+            $table->foreign('tag_id')
                 ->references('id')
-                ->on('place_category_place_tag')
+                ->on('place_categories_tags')
                 ->onDelete('cascade');
 
             $table->foreign('place_id')

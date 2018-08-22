@@ -13,5 +13,13 @@ export default {
         return httpService.post('/places/categories/search', {'name': name})
             .then( result => Promise.resolve(result.data.data))
             .catch( error  => Promise.reject(error));
+    },
+
+    setCurrentCenter: ({ commit }, currentCenter) => {
+        commit('SET_CURRENT_CENTER', currentCenter);
+    },
+
+    mapInitialization: ({ commit }) => {
+        commit('MAP_INIT', true);
     }
 };
