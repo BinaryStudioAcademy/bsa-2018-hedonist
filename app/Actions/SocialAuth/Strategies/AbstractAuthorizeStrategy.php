@@ -24,8 +24,7 @@ abstract class AbstractAuthorizeStrategy implements SocialAuthorizeStrategyInter
         UserRepositoryInterface $userRepository,
         UserInfoRepositoryInterface $infoRepository,
         SocialAccountRepositoryInterface $socialRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->infoRepository = $infoRepository;
         $this->socialRepository = $socialRepository;
