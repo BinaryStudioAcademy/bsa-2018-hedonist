@@ -25,7 +25,7 @@
                     <LikeDislikeButtons
                         :likes="review.likes"
                         :dislikes="review.dislikes"
-                        :like="review.like"
+                        :status="review.like"
                         font-size="0.5rem"
                         class="review-like"
                     />
