@@ -13,6 +13,8 @@ class Location
     const EARTH_RADIUS_IN_KM = 6371;
     const RADIUS = 30;
 
+    const FROM_STRING_PATTERN = '/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/';
+
     private $longitude;
     private $latitude;
 
@@ -40,16 +42,15 @@ class Location
         return $this->latitude;
     }
 
-    public static function fromString(?string $location): ?self
+    public static function fromString(string $location): self
     {
-        if (!empty($location) && preg_match('/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/', $location) == false) {
+        if (preg_match(self::FROM_STRING_PATTERN, $location) == false) {
             throw new \InvalidArgumentException('The location has an incorrect format');
-        } elseif (!empty($location) && preg_match('/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/', $location)) {
-            $locationToArray = explode(',', $location);
-            $longitude = $locationToArray[0];
-            $latitude = $locationToArray[1];
-            return new self($longitude, $latitude);
         }
-        return null;
+        $locationToArray = explode(',', $location);
+        $longitude = $locationToArray[0];
+        $latitude = $locationToArray[1];
+
+        return new self($longitude, $latitude);
     }
 }
