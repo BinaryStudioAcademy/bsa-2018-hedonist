@@ -83,9 +83,6 @@ export default {
         };
     },
 
-    computed: {
-    },
-
     methods: {
         onSortFilter(name) {
             for (let item in this.isActive) {
