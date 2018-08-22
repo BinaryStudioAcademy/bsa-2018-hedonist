@@ -58,9 +58,9 @@ class UserListTableSeeder extends Seeder
                 ]);
 
                 $cityId = $list['city'] ? City::where('name', $list['city'])->pluck('id')->first() : null;
-                $placeQuantity = $faker->randomFloat(0,10,20);
+                $placeQuantity = $faker->randomFloat(0, 10, 20);
                 $places = $cityId ?
-                    Place::where('city_id',$cityId)->inRandomOrder()->take($placeQuantity)->get() :
+                    Place::where('city_id', $cityId)->inRandomOrder()->take($placeQuantity)->get() :
                     Place::inRandomOrder()->take($placeQuantity)->get();
                 $userList->places()->attach($places->pluck('id')->all());
             }

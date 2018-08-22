@@ -1,150 +1,88 @@
 <template>
-    <transition name="slide-fade">
-        <li>
-            <div class="container place-item" v-if="active">
-                <div class="media">
-                    <figure class="media-left image is-128x128">
-                        <img :src="userList.img_url">
-                    </figure>
-                    <div class="media-content">
-                        <h3 class="title has-text-primary">
-                            <router-link :to="`/my-places/${userList.id}`">
-                                {{ userList.name }}
-                            </router-link>
-                        </h3>
-                        <p class="place-category">
-                            <a href="#">Places saved in the list: {{ userList.places | countPlaces }}</a>
-                        </p>
-                        <p class="address">
-                            Cities in the list:
-                            <a
-                                v-for="(city,index) in uniqueCities"
-                                :key="index"
-                                href="#"
-                                @click="setCityFilter(city.id)"
-                            >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </transition>
+    <section class="container">
+        <b-loading :active.sync="isLoading" />
+        <ul v-show="isLoaded">
+            <ListPreview
+                v-for="(userList,index) in filteredUserLists"
+                :key="userList.id"
+                :user-list="userList"
+                :timer="50 * (index+1)"
+            />
+        </ul>
+    </section>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import ListPreview from './ListPreview';
+import { mapState, mapGetters } from 'vuex';
 export default {
     name: 'ListPreviewItems',
+    components: {
+        ListPreview
+    },
     data() {
         return {
-            active: false
+            isLoading: true,
+            filterBy: {
+                cityId: null,
+            },
         };
     },
-    filters: {
-        countPlaces: function (places) {
-            return places.length;
-        },
+    created() {
+        this.$store
+            .dispatch('userList/getListsByUser', this.Auth.id)
+            .then(()=>{
+                this.isLoading = false;
+            })
+            .catch(()=> {
+                this.isLoading = false;
+            });
     },
     computed: {
-        ...mapGetters('userList', {
-            getUniqueCities : 'getUniqueCities'
+        ...mapState('userList', [
+            'userLists'
+        ]),
+        ...mapGetters('auth', {
+            Auth: 'getAuthenticatedUser'
         }),
-        uniqueCities: function () {
-            return this.getUniqueCities(this.userList);
+        ...mapGetters('userList', {
+            getFilteredByCity: 'getFilteredByCity'
+        }),
+        isLoaded: function () {
+            return !!(this.userLists);
         },
-    },
-    props: {
-        userList: {
-            required: true,
-            type: Object,
-        },
-        timer: {
-            required: true,
-            type: Number,
+        filteredUserLists: function () {
+            let filtered = this.userLists;
+            let cityId = this.filterBy.cityId;
+            if (cityId) {
+                filtered = this.getFilteredByCity(filtered, cityId)
+            }
+            return filtered;
         }
     },
     methods: {
-        notLast(index) {
-            return this.uniqueCities.length - index > 1;
-        },
-        like() {
-            this.$toast.open({
-                message: 'You liked this review!',
-                type: 'is-info',
-                position: 'is-bottom'
-            });
-        },
-        dislike() {
-            this.$toast.open({
-                message: 'You disliked this review',
-                position: 'is-bottom',
-                type: 'is-info'
-            });
-        },
         setCityFilter(cityId){
-            this.$parent.setCityFilter(cityId);
+            this.filterBy.cityId = cityId;
         }
     },
-    created() {
-        setTimeout(() => {
-            this.active = true;
-        }, this.timer);
-    }
 };
 </script>
 
 <style lang="scss" scoped>
-    .place-item {
+    section {
         background: #FFF;
-        color: grey;
-        max-width: 100%;
-        margin-bottom: 1rem;
-        padding: 10px;
-    }
-    .columns {
-        width: 100%;
-        margin: 0;
-    }
-    .title {
-        margin-bottom: 0.5rem;
-    }
-    .image > img {
-        border-radius: 5px;
-    }
-    .place-category {
-        margin-bottom: 0.25rem;
-        a {
-            color: grey;
-            transition: color 0.3s;
-            &:hover {
-                color: black;
-                text-decoration: underline;
+        padding: 0 10%;
+        min-height: calc(100vh - 59px);
+        overflow-y: scroll;
+        ul {
+            list-style: none;
+            li {
+                display: flex;
+                margin-bottom: -5%;
+                &:last-child {
+                    margin-bottom: 0;
+                }
             }
         }
-    }
-    .address {
-        margin-bottom: 0.5rem;
-    }
-    .rating {
-        width: 48px;
-        height: 48px;
-        background: #00E676;
-        border-radius: 7px;
-        margin: auto;
-        line-height: 48px;
-        font-size: 1.5rem;
-        color: #FFF;
-        text-align: center;
-    }
-    hr {
-        color: grey;
-        border-width: 3px;
-    }
-    .slide-fade-enter-active {
-        transition: all 0.5s ease;
-    }
-    .slide-fade-enter, .slide-fade-leave-to {
-        transform: translateX(300px);
-        opacity: 0;
     }
 </style>
