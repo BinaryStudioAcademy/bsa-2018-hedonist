@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Hedonist\Entities\Place\PlaceRating;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\Place;
+use Faker\Factory as Faker;
 
 class PlaceRatingTableSeeder extends Seeder
 {
@@ -11,6 +12,7 @@ class PlaceRatingTableSeeder extends Seeder
     {
         $users = User::all();
         $places = Place::all();
+        $faker = Faker::create();
 
         $items = [];
 

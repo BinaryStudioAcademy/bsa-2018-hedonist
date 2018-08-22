@@ -1,86 +1,88 @@
 <template>
     <section class="container">
-        <div class="columns is-multiline centered">
+        <b-loading :active.sync="isLoading" />
+        <ul v-show="isLoaded">
             <ListPreview
-                v-for="(userList, index) in userLists"
+                v-for="(userList,index) in filteredUserLists"
+                :key="userList.id"
                 :user-list="userList"
-                :key="index"
-                :timer="300 * (index+1)"
+                :timer="50 * (index+1)"
             />
-        </div>
+        </ul>
     </section>
 </template>
 
 <script>
 import ListPreview from './ListPreview';
-
+import { mapState, mapGetters } from 'vuex';
 export default {
     name: 'ListPreviewItems',
+    components: {
+        ListPreview
+    },
     data() {
         return {
-            userLists: [],
+            isLoading: true,
+            filterBy: {
+                cityId: null,
+            },
         };
     },
     created() {
-        this.$store.dispatch('userList/getUserLists', this.user.id)
-            .then((result) => {
-                this.userLists = result;
+        this.$store
+            .dispatch('userList/getListsByUser', this.Auth.id)
+            .then(()=>{
+                this.isLoading = false;
+            })
+            .catch(()=> {
+                this.isLoading = false;
             });
     },
     computed: {
-        user() {
-            return this.$store.getters['auth/getAuthenticatedUser'];
+        ...mapState('userList', [
+            'userLists'
+        ]),
+        ...mapGetters('auth', {
+            Auth: 'getAuthenticatedUser'
+        }),
+        ...mapGetters('userList', {
+            getFilteredByCity: 'getFilteredByCity'
+        }),
+        isLoaded: function () {
+            return !!(this.userLists);
+        },
+        filteredUserLists: function () {
+            let filtered = this.userLists;
+            let cityId = this.filterBy.cityId;
+            if (cityId) {
+                filtered = this.getFilteredByCity(filtered, cityId);
+            }
+            return filtered;
         }
     },
-    components: {ListPreview},
+    methods: {
+        setCityFilter(cityId){
+            this.filterBy.cityId = cityId;
+        }
+    },
 };
 </script>
 
 <style lang="scss" scoped>
     section {
         background: #FFF;
-        min-height: calc(100vh - 42px);
-    }
-
-    li {
-        padding-left: 1rem;
-        display: flex;
-    }
-
-    ul {
-        list-style: none;
-    }
-
-    .index {
-        width: 10%;
-        text-align: center;
-        color: grey;
-    }
-
-    @media (max-width: 1223px) {
-        .columns {
-            padding-top: 2.5rem;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
+        padding: 0 10%;
+        min-height: calc(100vh - 59px);
+        overflow-y: scroll;
+        ul {
+            list-style: none;
+            li {
+                display: flex;
+                margin-bottom: -5%;
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
         }
     }
-
-    @media (min-width: 1224px) {
-        .columns {
-            padding-top: 2.5rem;
-            padding-left: calc((100% - 300px * 3) / 2);
-            padding-right: calc((100% - 300px * 3) / 2);
-        }
-    }
-
-    @media (min-width: 520px) and (max-width: 845px) {
-
-        .columns.is-multiline {
-            -ms-flex-wrap: wrap;
-            flex-wrap: wrap;
-            display: flex;
-            height: 100vh;
-        }
-    }
-
 </style>
