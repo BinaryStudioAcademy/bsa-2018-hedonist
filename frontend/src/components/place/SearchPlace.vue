@@ -99,7 +99,7 @@ export default {
                         name: 'Your position',
                     }
                 },
-                photoUrl: this.user.avatar_url || 'http://via.placeholder.com/128x128',
+                photoUrl: this.user.avatar_url || placeholderImg,
             };
         },
         updateMap() {
