@@ -104,7 +104,7 @@ class SaveUserInfoAction
         $avatarUrl = "";
         if ($avatar !== null) {
             $newFileName = (new FileNameGenerator($avatar))->generateFileName();
-            Storage::disk()->putFileAs(self::FILE_STORAGE, $avatar, $newFileName);
+            Storage::disk()->putFileAs(self::FILE_STORAGE, $avatar, $newFileName, 'public');
             $avatarUrl = Storage::url('upload/avatar/' . $newFileName);
         }
         return $avatarUrl;

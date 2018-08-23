@@ -85,10 +85,12 @@ class UserInfoController extends ApiController
         ]);
     }
 
-    public function deleteAvatar(int $userId)
+    public function deleteAvatar(int $userId): JsonResponse
     {
         try {
             $this->deleteAvatarAction->execute(new DeleteAvatarRequest($userId));
+
+            return $this->emptyResponse();
         } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }

@@ -171,7 +171,7 @@ export default {
                 formData.append('avatar_url', file, file.name);
             }
 
-            this.updateProfile({'formData': formData, 'userId': this.user.id})
+            this.updateProfile({formData: formData, userId: this.user.id})
                 .then(() => {
                     this.onSuccess({
                         message: 'Data successfully changed'
