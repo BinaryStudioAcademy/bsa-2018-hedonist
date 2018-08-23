@@ -42,6 +42,20 @@
                     />
                 </b-field>
 
+                <b-field label="Old password">
+                    <b-input
+                        type="password"
+                        password-reveal
+                    />
+                </b-field>
+
+                <b-field label="New password">
+                    <b-input
+                        type="password"
+                        password-reveal
+                    />
+                </b-field>
+
                 <b-field label="Phone">
                     <b-input v-model="user.phone" />
                 </b-field>

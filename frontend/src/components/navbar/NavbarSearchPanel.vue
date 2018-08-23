@@ -40,6 +40,39 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
 
+<style lang="scss">
+    .navbar__search-autocomplete input{
+        padding-right: 2.25em;
+    }
+</style>
+
+<style lang="scss" scoped>
+.button {
+    @media screen and (max-width: 1087px) {
+        width: 88%;
+    }
+
+    .button-title {
+        display: none;
+
+        @media screen and (max-width: 1087px) {
+            display: inline-block;
+        }
+    }
+
+    &:hover {
+        background-color: #167df0;
+
+        @media screen and (max-width: 1087px) {
+            background-color: #0f77ea;
+        }
+    }
+}
+
+.navbar-search-btn {
+    @media screen and (max-width: 1087px) {
+        text-align: center;
+    }
+}
 </style>

@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 
 class SaveUserInfoAction
 {
+    const FILE_STORAGE = 'upload/avatar/';
+
     private $userInfoRepository;
 
     public function __construct(UserInfoRepository $userInfoRepository)
@@ -102,8 +104,11 @@ class SaveUserInfoAction
         $avatarUrl = "";
         if ($avatar !== null) {
             $newFileName = (new FileNameGenerator($avatar))->generateFileName();
-            Storage::disk()->putFileAs('upload/avatar', $avatar, $newFileName);
+            Storage::disk()->putFileAs(self::FILE_STORAGE, $avatar, $newFileName);
             $avatarUrl = Storage::url('upload/avatar/' . $newFileName);
+
+            // $avatarUrl = $userId . '.' . $avatar->extension();
+            // Storage::disk()->putFileAs(self::FILE_STORAGE, $avatar, $avatar->getFilename());
         }
         return $avatarUrl;
     }
