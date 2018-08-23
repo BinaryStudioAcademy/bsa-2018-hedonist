@@ -44,7 +44,7 @@
 import { mapGetters, mapActions, mapState } from 'vuex';
 import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
 import LocationService from '@/services/location/locationService';
-import MarkerManager from '@/services/map/markerManager';
+import markerManager from '@/services/map/markerManager';
 import Mapbox from 'mapbox-gl-vue';
 
 export default {
@@ -101,7 +101,7 @@ export default {
         ]),
 
         mapInitialize(map) {
-            this.markerManager = new MarkerManager.getService(map);
+            this.markerManager = markerManager.getService(map);
         },
         updateMap(places) {
             this.markerManager.setMarkersFromPlacesAndFit(...places);
