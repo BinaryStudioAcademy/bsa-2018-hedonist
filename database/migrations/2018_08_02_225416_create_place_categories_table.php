@@ -19,7 +19,7 @@ class CreatePlaceCategoriesTable extends Migration
         Schema::create('place_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->string('logo')->nullable();
+            $table->text('description');
             $table->softDeletes();
         });
     }
