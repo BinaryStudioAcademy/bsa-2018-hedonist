@@ -35,7 +35,7 @@ import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import markerService from '@/services/map/markerManager';
-import placeholderImg from '../../assets/placeholder_128x128.png';
+import placeholderImg from '@/assets/placeholder_128x128.png';
 
 export default {
     name: 'SearchPlace',
@@ -87,6 +87,12 @@ export default {
                 center: coordinates,
             });
         },
+<<<<<<< HEAD
+=======
+        updateMap(places) {
+            markerManager.setMarkers(places);
+        },
+>>>>>>> development
         createUserMarker() {
             return {
                 id: 0,
@@ -160,6 +166,10 @@ export default {
 
     .mapboxgl-popup-close-button{
         font-size: 22px;
+    }
+
+    .link-place:hover{
+        text-decoration: underline;
     }
 </style>
 

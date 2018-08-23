@@ -1,0 +1,65 @@
+{
+  "login_page": {
+    "title": "Login into your account",
+    "register": {
+      "title": "Don't have an account?",
+      "link": "Create new"
+    },
+    "forgot": {
+      "link": "Forgot Password?"
+    },
+    "buttons": {
+      "submit": "Login"
+    }
+  },
+  "recover_page": {
+    "title": "Recover your password",
+    "buttons": {
+      "submit": "Recover"
+    }
+  },
+  "signup_page": {
+    "title": "Create new account",
+    "buttons": {
+      "submit": "Create"
+    }
+  },
+  "reset_page": {
+    "title": "Reset your password",
+    "buttons": {
+      "submit": "Reset"
+    }
+  },
+  "inputs": {
+    "auth": {
+      "first_name": {
+        "field_name": "First name",
+        "placeholder": "Your First name"
+      },
+      "last_name": {
+        "field_name": "Last name",
+        "placeholder": "Your Last name"
+      },
+      "email": {
+        "field_name": "Email",
+        "placeholder": "Your Email"
+      },
+      "password": {
+        "field_name": "Password",
+        "placeholder": "Your Password",
+        "description": "(at least 6 characters)"
+      },
+      "new_password": {
+        "field_name": "Confirm new password",
+        "placeholder": "New password"
+      }
+    }
+  },
+  "validation": {
+    "required": "{field} is required",
+    "wrong_email_format": "Wrong email format",
+    "letters_only": "Only letters are allowed",
+    "min_length": "Should be {min} symbols at least",
+    "email_exists": "This email is already registered."
+  }
+}

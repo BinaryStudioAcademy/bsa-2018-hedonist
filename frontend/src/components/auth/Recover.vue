@@ -1,14 +1,14 @@
 <template>
-    <Container title="Recover your password">
+    <Container :title="$t('recover_page.title')">
         <Form>
             <b-field
-                label="Email"
+                :label="$t('inputs.auth.email.field_name')"
                 :type="input.email.type"
             >
 
                 <b-input
                     v-model="user.email"
-                    placeholder="Your Email"
+                    :placeholder="$t('inputs.auth.email.placeholder')"
                     name="email"
                     @blur="onBlur"
                     @focus="onFocus"
@@ -22,7 +22,7 @@
                 @click="onRecover"
                 @keyup.enter="onRecover"
             >
-                Recover
+                {{ $t("recover_page.buttons.submit") }}
             </button>
         </Form>
     </Container>

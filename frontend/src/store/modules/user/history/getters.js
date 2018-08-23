@@ -11,4 +11,13 @@ export default {
         let placeId = state.checkIns.byId[id].placeId;
         return state.places.byId[placeId];
     },
+
+    placeList: (state) => {
+        let placeArray = [];
+        for (let id of state.places.allIds) {
+            placeArray.push(state.places.byId[id]);
+        }
+
+        return placeArray;
+    }
 };
