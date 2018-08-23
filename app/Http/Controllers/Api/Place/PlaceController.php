@@ -140,7 +140,7 @@ class PlaceController extends ApiController
             );
 
             return $this->successResponse($presenter->present($placeResponse), 200);
-        } catch (DomainException | \InvalidArgumentException $e) {
+        } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage());
         }
     }

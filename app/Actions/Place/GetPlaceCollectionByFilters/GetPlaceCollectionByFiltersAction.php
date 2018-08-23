@@ -4,6 +4,7 @@ namespace Hedonist\Actions\Place\GetPlaceCollectionByFilters;
 
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionResponse;
 use Hedonist\Entities\Place\Location;
+use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceSearchCriteria;
 use Hedonist\Repositories\Review\Criterias\GetLastReviewByPlaceIdsCriteria;
@@ -28,7 +29,11 @@ class GetPlaceCollectionByFiltersAction
         $categoryId = $request->getCategoryId();
         $location = $request->getLocation();
         if ($location) {
-            $location = Location::fromString($location);
+            try {
+                $location = Location::fromString($location);
+            } catch (\InvalidArgumentException $e) {
+                throw new PlaceLocationInvalidException($e->getMessage());
+            }
         }
 
         $places = $this->placeRepository->findByCriteria(
