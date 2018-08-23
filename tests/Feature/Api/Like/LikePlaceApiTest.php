@@ -103,7 +103,7 @@ class LikePlaceApiTest extends ApiTestCase
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'status' => 'NONE'
+            'likeStatus' => 'NONE'
         ]);
     }
 
@@ -119,7 +119,7 @@ class LikePlaceApiTest extends ApiTestCase
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'status' => 'LIKED'
+            'likeStatus' => 'LIKED'
         ]);
     }
 
@@ -135,7 +135,7 @@ class LikePlaceApiTest extends ApiTestCase
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'status' => 'DISLIKED'
+            'likeStatus' => 'DISLIKED'
         ]);
     }
 }
