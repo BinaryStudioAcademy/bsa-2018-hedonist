@@ -6,6 +6,7 @@
             :data="findPlaceCategory.data"
             :open-on-focus="true"
             :loading="findPlaceCategory.isFetching"
+            class="navbar__search-autocomplete"
             field="name"
             @input="loadCategories"
             @select="option => this.$emit('select', option)"

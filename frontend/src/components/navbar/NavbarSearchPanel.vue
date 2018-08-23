@@ -40,6 +40,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="scss">
+    .navbar__search-autocomplete input{
+        padding-right: 2.25em;
+    }
 </style>
