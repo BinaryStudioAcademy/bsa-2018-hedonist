@@ -15,6 +15,7 @@ use Hedonist\Actions\Like\{
 };
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
+use Hedonist\Exceptions\DomainException;
 use Hedonist\Http\Controllers\Api\ApiController;
 
 class DislikeController extends ApiController
