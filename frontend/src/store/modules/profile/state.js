@@ -11,4 +11,4 @@ export default {
         facebook_url: null,
         twitter_url: null,
     }
-}
+};

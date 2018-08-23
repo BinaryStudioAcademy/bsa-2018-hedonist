@@ -214,11 +214,11 @@ export default {
                     .catch((data) => {
                         let message = '';
                         if (data.error !== undefined) {
-                            message = data.error.message
+                            message = data.error.message;
                         } else if (data.errors !== undefined) {
                             for (let error in data.errors) {
                                 data.errors[error].forEach(function(item) {
-                                    message += item + "<br>";
+                                    message += item + '<br>';
                                 });
                             }
                         }
@@ -226,7 +226,7 @@ export default {
                             message: message
                         });
                         return false;
-                    })
+                    });
             } else {
                 this.saveProfileInfo();
             }
