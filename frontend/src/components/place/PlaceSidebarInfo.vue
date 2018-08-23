@@ -1,13 +1,13 @@
 <template>
     <aside class="column is-one-third">
         <div class="place-sidebar">
-            <section class="map-box">
+            <div class="map-box">
                 <mapbox
                     :access-token="getMapboxToken"
                     :map-options="{
                         style: getMapboxStyle,
                         center: currentCenter,
-                        zoom: 9
+                        zoom: 11
                     }"
                     :scale-control="{
                         show: true,
@@ -16,7 +16,7 @@
                     @map-init="mapInitialize"
                     @map-load="mapLoaded"
                 />
-            </section>
+            </div>
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
                     <i class="place-sidebar__icon far fa-compass" />
@@ -126,14 +126,14 @@ export default {
 
     created() {
         if (this.isMapLoaded) {
-            this.updateMap(this.place);
+            alert('isMapLoaded');
+            this.updateMap();
             markerManager.fitMarkersOnMap();
-            this.setCurrentCenter(markerManager.getCurrentCenter());
         }
     },
 
     methods: {
-        ...mapActions('place', ['setCurrentCenter', 'mapInitialization']),
+        ...mapActions('place', ['mapInitialization']),
 
         mapInitialize(map) {
             if (this.mapInitialized) {
@@ -160,9 +160,9 @@ export default {
             });
         },
 
-        updateMap(place) {
+        updateMap() {
             if (this.isMapLoaded) {
-                this.markerManager.setMarkersFromPlacesAndFit(...this.place);
+                this.markerManager.setMarkersFromPlacesAndFit(this.place);
             }
         },
         
@@ -183,8 +183,13 @@ export default {
         }
     },
 
+    watch: {
+        isMapLoaded: function (oldVal, newVal) {
+            this.updateMap();
+        },
+    },
+
     computed: {
-        ...mapState('place', ['currentLatitude', 'currentLongitude', 'mapInitialized']),
         ...mapGetters('map', [
             'getMapboxToken',
             'getMapboxStyle'
@@ -195,8 +200,8 @@ export default {
 
         currentCenter() {
             return {
-                lat: this.currentLatitude ? this.currentLatitude : this.userCoordinates.lat,
-                lng: this.currentLongitude ? this.currentLongitude : this.userCoordinates.lng
+                lat: this.place.latitude ? this.place.latitude : this.userCoordinates.lat,
+                lng: this.place.longitude ? this.place.longitude : this.userCoordinates.lng
             };
         }
     }
