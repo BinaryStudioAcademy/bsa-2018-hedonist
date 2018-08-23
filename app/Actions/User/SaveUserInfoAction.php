@@ -106,9 +106,6 @@ class SaveUserInfoAction
             $newFileName = (new FileNameGenerator($avatar))->generateFileName();
             Storage::disk()->putFileAs(self::FILE_STORAGE, $avatar, $newFileName);
             $avatarUrl = Storage::url('upload/avatar/' . $newFileName);
-
-            // $avatarUrl = $userId . '.' . $avatar->extension();
-            // Storage::disk()->putFileAs(self::FILE_STORAGE, $avatar, $avatar->getFilename());
         }
         return $avatarUrl;
     }

@@ -22,7 +22,6 @@ class DeleteAvatarAction
             throw UserNotFoundException::create();
         }
         // TODO to fix the deletion of files by url
-        Storage::disk()->delete($userInfo->avatar_url);
         $userInfo->avatar_url = '';
         $this->userInfoRepository->save($userInfo);
     }
