@@ -16,31 +16,31 @@ class PlaceCategoryTableSeeder extends Seeder
         PlaceCategory::query()->insert([
             [
                 'name' => 'Bar',
-                'logo' => 'https://irs1.4sqi.net/img/general/cap/120/dialpad_drinks_20180129.png'
+                'logo' => '/upload/category_icon/bar.png'
             ],
             [
                 'name' => 'Beer',
-                'logo' => 'https://cdn.icon-icons.com/icons2/1315/PNG/512/if-beergermanyoktoberfestnationeurope-2596560_86604.png'
+                'logo' => '/upload/category_icon/beer.png'
             ],
             [
                 'name' => 'Restaurant',
-                'logo' => 'https://irs1.4sqi.net/img/general/cap/120/dialpad_food_20180129.png'
+                'logo' => '/upload/category_icon/restaurant.png'
             ],
             [
                 'name' => 'Cafeteria',
-                'logo' => 'https://static.thenounproject.com/png/77211-200.png'
+                'logo' => '/upload/category_icon/cafeteria.png'
             ],
             [
                 'name' => 'Cafe',
-                'logo' => 'https://irs1.4sqi.net/img/general/cap/120/dialpad_coffee_20180129.png'
+                'logo' => '/upload/category_icon/cafe.png'
             ],
             [
                 'name' => 'Snacks',
-                'logo' => 'https://irs1.4sqi.net/img/general/cap/120/dialpad_breakfast_20180129.png'
+                'logo' => '/upload/category_icon/snaks.png'
             ],
             [
                 'name' => 'Other',
-                'logo' => 'https://irs1.4sqi.net/img/general/cap/120/dialpad_trendingthismonth_20180129.png'
+                'logo' => '/upload/category_icon/other.png'
             ]
         ]);
     }
