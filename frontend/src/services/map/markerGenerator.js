@@ -36,17 +36,14 @@ const createPopup = (markerData) => {
     return popup;
 };
 
-const generator = {
-    generateMarker(markerData) {
-        let element = createMarker();
-        let marker = new mapboxgl.Marker();
-        let popup = createPopup(markerData);
-        marker.setPopup(popup);
-        marker.setLngLat([markerData.lng, markerData.lat]);
-
-        return marker;
-    }
+const generate = (markerData) => {
+    let element = createMarker();
+    let marker = new mapboxgl.Marker();
+    let popup = createPopup(markerData);
+    marker.setPopup(popup);
+    marker.setLngLat([markerData.lng, markerData.lat]);
+    return marker;
 };
 
-export default generator;
+export default {generateDefaultMarker: generate};
 
