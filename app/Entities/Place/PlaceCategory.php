@@ -18,7 +18,7 @@ class PlaceCategory extends Model
 
     protected $table = 'place_categories';
 
-    protected $fillable = ['name','description'];
+    protected $fillable = ['name','logo'];
 
     protected $dates = ['deleted_at'];
 

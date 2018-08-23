@@ -13,7 +13,7 @@
 
             <template slot-scope="props">
                 <div class="search-block">
-                    <img :src="props.option.description">
+                    <img :src="props.option.logo">
                     <span>{{ props.option.name }}</span>
                 </div>
 
