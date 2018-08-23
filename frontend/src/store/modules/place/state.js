@@ -1,4 +1,4 @@
-import STATUS_NONE from '@/services/api/codes';
+import {STATUS_NONE} from '@/services/api/codes';
 
 export default {
     places: [],

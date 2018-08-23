@@ -76,11 +76,7 @@
                     <LikeDislikeButtons
                         :likes="place.likes"
                         :dislikes="place.dislikes"
-<<<<<<< HEAD
-                        :like="liked"
-=======
                         :status="liked"
->>>>>>> development
                         @like="like"
                         @dislike="dislike"
                     />
