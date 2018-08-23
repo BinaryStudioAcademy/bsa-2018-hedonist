@@ -15,17 +15,15 @@ class DeleteAvatarAction
         $this->userInfoRepository = $userInfoRepository;
     }
 
-    public function execute(DeleteAvatarRequest $request): DeleteAvatarResponse
+    public function execute(DeleteAvatarRequest $request): void
     {
         $userInfo = $this->userInfoRepository->getByUserId($request->getUserId());
         if (!$userInfo) {
             throw UserNotFoundException::create();
         }
-        $filePath = str_replace('/storage/', '', $userInfo->avatar_url);
-        Storage::disk('public')->delete($filePath);
+        // TODO to fix the deletion of files by url
+        Storage::disk()->delete($userInfo->avatar_url);
         $userInfo->avatar_url = '';
-        $userInfo = $this->userInfoRepository->save($userInfo);
-
-        return new DeleteAvatarResponse($userInfo);
+        $this->userInfoRepository->save($userInfo);
     }
 }

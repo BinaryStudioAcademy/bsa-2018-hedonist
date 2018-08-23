@@ -19,5 +19,8 @@ export default {
     REFRESH_TOKEN: (state, token) => {
         state.token = token;
         StorageService.setToken(token);
+    },
+    SET_USER_AVATAR: (state, user_avatar_url) => {
+        state.currentUser.avatar_url = user_avatar_url;
     }
 };

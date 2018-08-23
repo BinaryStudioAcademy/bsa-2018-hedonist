@@ -111,9 +111,9 @@ export default {
             });
         });
     },
-    saveUser: (context, formData) => {
+    updateProfile: (context, data) => {
         return new Promise((resolve, reject) => {
-            httpService.post('/users/' + formData.get('id') + '/info', formData)
+            httpService.post('/users/' + data.userId + '/profile', data.formData)
                 .then(function (res) {
                     context.commit('SET_AUTHENTICATED_USER', res.data.data);
                     resolve(res);
@@ -126,9 +126,8 @@ export default {
     },
     deleteUserAvatar: (context, userId) => {
         return new Promise((resolve, reject) => {
-            httpService.post('/users/' + userId + '/info/delete-avatar')
+            httpService.delete('/users/' + userId + '/profile/avatar')
                 .then(function (res) {
-                    context.commit('SET_AUTHENTICATED_USER', res.data.data);
                     resolve(res);
                 })
                 .catch(function (error) {
@@ -136,5 +135,8 @@ export default {
                     reject(error.response.data.error);
                 });
         });
+    },
+    setUserAvatar: (context, user_avatar_url) => {
+        context.commit('SET_USER_AVATAR', user_avatar_url);
     },
 };

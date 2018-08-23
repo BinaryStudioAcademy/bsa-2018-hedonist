@@ -11,6 +11,7 @@ use Hedonist\Actions\User\SaveUserInfoRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\User\UserInfoHttpRequest;
 use Illuminate\Http\JsonResponse;
+use Hedonist\Exceptions\DomainException;
 
 class UserInfoController extends ApiController
 {
@@ -34,7 +35,7 @@ class UserInfoController extends ApiController
             $response = $this->getUserInfoAction->execute(
                 new GetUserInfoRequest($userId)
             );
-        } catch (\Exception $ex) {
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
@@ -67,7 +68,7 @@ class UserInfoController extends ApiController
                     $httpRequest->twitter_url
                 )
             );
-        } catch (\Exception $ex) {
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
@@ -84,26 +85,12 @@ class UserInfoController extends ApiController
         ]);
     }
 
-    public function deleteAvatar(int $userId): JsonResponse
+    public function deleteAvatar(int $userId)
     {
         try {
-            $response = $this->deleteAvatarAction->execute(
-                new DeleteAvatarRequest($userId)
-            );
-        } catch (\Exception $ex) {
+            $this->deleteAvatarAction->execute(new DeleteAvatarRequest($userId));
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
-
-        return $this->successResponse([
-            'user_id' => $response->getUserId(),
-            'first_name' => $response->getFirstName(),
-            'last_name' => $response->getLastName(),
-            'date_of_birth' => $response->getDateOfBirth(),
-            'phone_number' => $response->getPhoneNumber(),
-            'avatar_url' => $response->getAvatarUrl(),
-            'facebook_url' => $response->getFacebookUrl(),
-            'instagram_url' => $response->getInstagramUrl(),
-            'twitter_url' => $response->getTwitterUrl(),
-        ]);
     }
 }

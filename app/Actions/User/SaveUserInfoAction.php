@@ -6,6 +6,7 @@ use Hedonist\Entities\User\UserInfo;
 use Hedonist\Exceptions\User\UserInfoNotValidSocialUrlException;
 use Hedonist\Exceptions\User\UserInfoRequiredFieldsException;
 use Hedonist\Repositories\User\UserInfoRepositoryInterface as UserInfoRepository;
+use Hedonist\Services\FileNameGenerator;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -88,7 +89,7 @@ class SaveUserInfoAction
         }
 
         if ($userHasNotInfo || !empty($avatar)) {
-            $userInfo->avatar_url = $this->storeAvatar($userInfo->user_id, $avatar);
+            $userInfo->avatar_url = $this->storeAvatar($avatar);
         }
 
         $userInfo = $this->userInfoRepository->save($userInfo);
@@ -96,12 +97,13 @@ class SaveUserInfoAction
         return new SaveUserInfoResponse($userInfo);
     }
 
-    private function storeAvatar(int $userId, ?UploadedFile $avatar): string
+    private function storeAvatar(?UploadedFile $avatar): string
     {
         $avatarUrl = "";
         if ($avatar !== null) {
-            Storage::putFileAs('public/upload/avatar', $avatar, $userId . '.' . $avatar->extension());
-            $avatarUrl = Storage::url('public/upload/avatar/' . $userId . '.' . $avatar->extension());
+            $newFileName = (new FileNameGenerator($avatar))->generateFileName();
+            Storage::disk()->putFileAs('upload/avatar', $avatar, $newFileName);
+            $avatarUrl = Storage::url('upload/avatar/' . $newFileName);
         }
         return $avatarUrl;
     }

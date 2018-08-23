@@ -118,9 +118,7 @@ export default {
         };
     },
     created() {
-        for (let key in this.authUser) {
-            this.user[key] = this.authUser[key];
-        }
+        this.user = Object.assign({}, this.authUser);
 
         if (this.user.date_of_birth !== null) {
             let date = new Date(this.user.date_of_birth.date);
@@ -137,12 +135,12 @@ export default {
     },
     methods: {
         ...mapActions({
-            saveUser: 'auth/saveUser',
-            deleteUserAvatar: 'auth/deleteUserAvatar'
+            updateProfile: 'auth/updateProfile',
+            deleteUserAvatar: 'auth/deleteUserAvatar',
+            setUserAvatar: 'auth/setUserAvatar'
         }),
         saveData() {
             const formData = new FormData();
-            formData.append('id', this.user.id);
             formData.append('first_name', this.user.first_name);
             formData.append('last_name', this.user.last_name);
             formData.append('phone_number', this.user.phone);
@@ -159,7 +157,7 @@ export default {
                 formData.append('avatar_url', file, file.name);
             }
 
-            this.saveUser(formData)
+            this.updateProfile({'formData': formData, 'userId': this.user.id})
                 .then(() => {
                     this.onSuccess({
                         message: 'Data successfully changed'
@@ -176,8 +174,8 @@ export default {
                 .then(() => {
                     this.files = [];
                     this.user.avatar_url = null;
+                    this.setUserAvatar(null);
                 });
-
         },
         onSuccess (success) {
             this.$toast.open({
