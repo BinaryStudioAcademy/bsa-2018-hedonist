@@ -6,5 +6,7 @@ export default {
     liked: STATUS_NONE,
     mapInitialized : false,
     currentLatitude: null,
-    currentLongitude : null
+    currentLongitude : null,
+    currentPlaceReviews: null,
+    liked: STATUS_NONE
 };
