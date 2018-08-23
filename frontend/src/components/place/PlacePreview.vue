@@ -12,7 +12,7 @@
                     >
                 </figure>
                 <figure v-else class="media-left image is-128x128">
-                    <img src="../../assets/placeholder_128x128.png">
+                    <img :src="notFoundPhoto">
                 </figure>
                 <div class="media-content">
                     <h3
@@ -22,6 +22,7 @@
                             {{ localizedName }}
                         </router-link>
                     </h3>
+                    <p class="place-city"><strong>{{ place.city.name }}</strong></p>
                     <p class="place-category">
                         <a href="#">{{ place.category.name }}</a>
                     </p>
@@ -129,6 +130,7 @@
 
 <script>
 import Review from '@/components/review/PlacePreviewReviewItem';
+import imagePlaceholder from '@/assets/placeholder_128x128.png';
 
 export default {
     name: 'PlacePreview',
@@ -154,6 +156,9 @@ export default {
         },
         hasPhotos() {
             return this.place.photos !== undefined && this.place.photos.length;
+        },
+        notFoundPhoto() {
+            return imagePlaceholder;
         }
     },
     methods: {

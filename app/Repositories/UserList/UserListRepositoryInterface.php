@@ -13,11 +13,17 @@ interface UserListRepositoryInterface
 
     public function getById(int $id): ?UserList;
 
+    public function findUserLists(int $userId) : Collection;
+
+    public function findUserListsWithPlaces(int $userId) : Collection;
+
     public function findAll(): Collection;
 
     public function findByCriteria(CriteriaInterface $criteria): Collection;
 
-    public function attachPlace(UserList $list, Place $place): void;
+    public function deleteById(int $id);
 
-    public function deleteById(int $id): void;
+    public function model();
+
+    public function attachPlace(UserList $userList, Place $place);
 }

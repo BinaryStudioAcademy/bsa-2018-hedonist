@@ -22,13 +22,9 @@
                                         <figure class="image is-square is-48x48">
                                             <img :src="getPreview(photo)">
                                         </figure>
-                                        <button
-                                            class="is-small"
-                                            type="button"
-                                            @click="deletePhoto(index)"
-                                        >
-                                            delete
-                                        </button>
+                                        <span class="tag is-small is-white" @click="deletePhoto(index)">
+                                            <a>delete</a>
+                                        </span>
                                     </div>
                                 </div>
                             </template>
@@ -180,7 +176,7 @@ export default {
             margin: 0 15px 10px 0;
 
             img {
-                border: 1px solid grey;
+                border: 1px solid #4e595d;
             }
         }
     }

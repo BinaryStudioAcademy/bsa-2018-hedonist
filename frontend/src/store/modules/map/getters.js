@@ -10,6 +10,9 @@ export default {
         const totalLatitude = _.sumBy(placeIds, (id) => placeItems[id].latitude);
         const count = placeIds.length;
 
-        return [ (totalLongitude / count), (totalLatitude / count) ];
-    }
+        return {
+            longitude: (totalLongitude / count),
+            latitude: (totalLatitude / count)
+        };
+    },
 };

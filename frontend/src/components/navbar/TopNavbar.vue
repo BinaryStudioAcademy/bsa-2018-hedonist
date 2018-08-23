@@ -86,6 +86,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="navbar-item">
+                        <LanguageSelector />
+                    </div>
                 </div>
             </div>
         </nav>
@@ -96,6 +99,8 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
+import LanguageSelector from './LanguageSelector';
+
 export default {
     name: 'TopNavbar',
     data () {
@@ -124,7 +129,8 @@ export default {
         }
     },
     components: {
-        NavbarSearchPanel
+        NavbarSearchPanel,
+        LanguageSelector
     }
 };
 </script>
@@ -208,4 +214,5 @@ export default {
             text-indent: 36px;
         }
     }
+
 </style>

@@ -1,48 +1,57 @@
 <template>
-    <div 
-        class="column is-one-third-desktop is-one-third-tablet is-square user-list-container"
-        v-if="show"
-        :style="[resizeStyle]"
-        v-resize="onResize"
-    >
-        <div class="user-list-content">
-            <div class="user-list-name">{{
-                userList.name
-            }}</div>
-            <div class="user-list-places-count">{{
-                userList.places_count
-            }} places saved in the list</div>
-            <div class="user-list-button-wrap">
-                <div 
-                    class="button is-info user-list-button-show-places" 
-                    @click="open(userList.name)"
-                >
-                    Show places in the list
+    <transition name="slide-fade">
+        <li>
+            <div class="container place-item" v-if="active">
+                <div class="media">
+                    <figure class="media-left image is-128x128">
+                        <img :src="userList.img_url">
+                    </figure>
+                    <div class="media-content">
+                        <h3 class="title has-text-primary">
+                            <router-link :to="`/my-places/${userList.id}`">
+                                {{ userList.name }}
+                            </router-link>
+                        </h3>
+                        <p class="place-category">
+                            <a href="#">Places saved in the list: {{ userList.places | countPlaces }}</a>
+                        </p>
+                        <p class="address">
+                            Cities in the list:
+                            <a
+                                v-for="(city,index) in uniqueCities"
+                                :key="index"
+                                href="#"
+                                @click="setCityFilter(city.id)"
+                            >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <figure class="image is-square image-wrap">
-            <img
-                :src="userList.img_url"
-            >
-        </figure>
-    </div>
+        </li>
+    </transition>
 </template>
 
 <script>
-import resize from 'vue-resize-directive';
+import { mapGetters } from 'vuex';
 export default {
     name: 'ListPreview',
     data() {
         return {
-            show: false,
-            resizeStyle: {
-                maxHeight:'300px',
-            },
+            active: false
         };
     },
-    directives: {
-        resize,
+    filters: {
+        countPlaces: function (places) {
+            return places.length;
+        },
+    },
+    computed: {
+        ...mapGetters('userList', {
+            getUniqueCities : 'getUniqueCities'
+        }),
+        uniqueCities: function () {
+            return this.getUniqueCities(this.userList);
+        },
     },
     props: {
         userList: {
@@ -55,69 +64,87 @@ export default {
         }
     },
     methods: {
-        open(place_name) {
+        notLast(index) {
+            return this.uniqueCities.length - index > 1;
+        },
+        like() {
             this.$toast.open({
-                message: 'action to open the list of places "'+place_name+'"',
-                type: 'is-danger',
-                position: 'is-top'
+                message: 'You liked this review!',
+                type: 'is-info',
+                position: 'is-bottom'
             });
         },
-        onResize(){
-            this.resizeStyle.maxHeight = this.$el.clientWidth + 'px';
+        dislike() {
+            this.$toast.open({
+                message: 'You disliked this review',
+                position: 'is-bottom',
+                type: 'is-info'
+            });
+        },
+        setCityFilter(cityId){
+            this.$parent.setCityFilter(cityId);
         }
     },
     created() {
         setTimeout(() => {
-            this.show = true;
+            this.active = true;
         }, this.timer);
-    },
-    mounted(){
-        this.onResize();
     }
 };
 </script>
 
 <style lang="scss" scoped>
-    .user-list-container {
-        position: relative;
-        max-width: 341px;
+    .place-item {
+        background: #FFF;
+        color: grey;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        padding: 10px;
     }
-    @media (max-width: 845px) {
-        .user-list-container {
-            margin-left: auto;
-            margin-right: auto;
-        }
+    .columns {
+        width: 100%;
+        margin: 0;
     }
-    @media (min-width: 520px) and (max-width: 845px) {
-        .user-list-container {
-            flex: none;
-            width: 50% !important;
-        }
+    .title {
+        margin-bottom: 0.5rem;
     }
-    .user-list-content {
-        z-index: 1;
-        position: absolute;
-        left: 0; right: 0; top: 0;
-        min-height: 100%;
-        padding: 1.5rem;
-        color: #ffffff;
-        text-shadow: 2px 2px 4px #000, -1px -1px 4px #000;
-    }
-    .user-list-name {
-        font-size: x-large;
-        font-weight: 400;
-    }
-    .user-list-button-wrap {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        padding: 1.5rem;
-    }
-    .user-list-button-show-places {
-        text-shadow: none;
-    }
-    .image-wrap {
+    .image > img {
         border-radius: 5px;
-        overflow: hidden;
+    }
+    .place-category {
+        margin-bottom: 0.25rem;
+        a {
+            color: grey;
+            transition: color 0.3s;
+            &:hover {
+                color: black;
+                text-decoration: underline;
+            }
+        }
+    }
+    .address {
+        margin-bottom: 0.5rem;
+    }
+    .rating {
+        width: 48px;
+        height: 48px;
+        background: #00E676;
+        border-radius: 7px;
+        margin: auto;
+        line-height: 48px;
+        font-size: 1.5rem;
+        color: #FFF;
+        text-align: center;
+    }
+    hr {
+        color: grey;
+        border-width: 3px;
+    }
+    .slide-fade-enter-active {
+        transition: all 0.5s ease;
+    }
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateX(300px);
+        opacity: 0;
     }
 </style>
