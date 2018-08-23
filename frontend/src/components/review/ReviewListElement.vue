@@ -57,13 +57,16 @@ export default {
         };
     },
 
+    created() {
+        this.getReviewImage();
+    },
+
     computed: {
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
         },
 
         isImageAttached() {
-            this.getReviewImage();
             return !_.isEmpty(this.reviewImageUrl);
         }
     },
