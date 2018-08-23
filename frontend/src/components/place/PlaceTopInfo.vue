@@ -5,8 +5,7 @@
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
                     <img
-                        src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png"
-                        data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png"
+                        :src="placeMarker"
                         width="88"
                         height="88"
                     >
@@ -101,6 +100,8 @@
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
+import defaultMarker from '@/assets/default_marker.png';
+
 
 export default {
     name: 'PlaceTopInfo',
@@ -172,6 +173,10 @@ export default {
         
         pageLink() {
             return location.href;
+        },
+
+        placeMarker() {
+            return defaultMarker;
         }
     },
 
