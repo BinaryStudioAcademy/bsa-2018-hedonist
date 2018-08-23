@@ -41,5 +41,23 @@ export default {
 
     SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT: (state, { reviewId, count }) => {
         state.currentPlaceReviews.byId[reviewId].dislikes = count;
+    },
+
+    SET_PLACE_REVIEW_LIKE_STATE: (state, { placeId, likeState }) => {
+        state.places.find( (place) => { 
+            return place.id === parseInt(placeId); 
+        }).review.like = likeState;
+    },
+
+    SET_PLACE_REVIEW_LIKE_COUNT: (state, { placeId, count }) => {
+        state.places.find( (place) => { 
+            return place.id === parseInt(placeId); 
+        }).review.likes = count;
+    },
+
+    SET_PLACE_REVIEW_DISLIKE_COUNT: (state, { placeId, count }) => {
+        state.places.find( (place) => { 
+            return place.id === parseInt(placeId); 
+        }).review.dislikes = count;
     }
 };

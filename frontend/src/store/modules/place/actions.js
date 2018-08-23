@@ -143,6 +143,96 @@ export default {
         });
     },
 
+    likePlaceReview: (context, data) => {
+        httpService.post(`reviews/${data.id}/like`)
+            .then( (res) => {
+                let review = context.state.places.find( (place) => { 
+                    return place.id === parseInt(data.placeId); 
+                }).review;
+                if (review.like === STATUS_NONE) {
+                    context.commit('SET_PLACE_REVIEW_LIKE_STATE', {
+                        placeId: data.placeId,
+                        likeState: STATUS_LIKED
+                    });
+                    context.commit('SET_PLACE_REVIEW_LIKE_COUNT', {
+                        placeId: data.placeId,
+                        count: review.likes + 1
+                    });
+                } else if (review.like === STATUS_LIKED) {
+                    context.commit('SET_PLACE_REVIEW_LIKE_STATE', {
+                        placeId: data.placeId,
+                        likeState: STATUS_NONE
+                    });
+                    context.commit('SET_PLACE_REVIEW_LIKE_COUNT', {
+                        placeId: data.placeId,
+                        count: review.likes - 1
+                    });
+                } else if (review.like === STATUS_DISLIKED) {
+                    context.commit('SET_PLACE_REVIEW_LIKE_STATE', {
+                        placeId: data.placeId,
+                        likeState: STATUS_LIKED
+                    });
+                    context.commit('SET_PLACE_REVIEW_LIKE_COUNT', {
+                        placeId: data.placeId,
+                        count: review.likes + 1
+                    });
+                    context.commit('SET_PLACE_REVIEW_DISLIKE_COUNT', {
+                        placeId: data.placeId,
+                        count: review.dislikes - 1
+                    });
+                }
+                return Promise.resolve(res);
+            })
+            .catch( (err) => {
+                return Promise.resolve(err);
+            });
+    },
+
+    dislikePlaceReview: (context, data) => {
+        httpService.post(`reviews/${data.id}/dislike`)
+            .then( (res) => {
+                let review = context.state.places.find( (place) => { 
+                    return place.id === parseInt(data.placeId); 
+                }).review;
+                if (review.like === STATUS_NONE) {
+                    context.commit('SET_PLACE_REVIEW_LIKE_STATE', {
+                        placeId: data.placeId,
+                        likeState: STATUS_DISLIKED
+                    });
+                    context.commit('SET_PLACE_REVIEW_DISLIKE_COUNT', {
+                        placeId: data.placeId,
+                        count: review.dislikes + 1
+                    });
+                } else if (review.like === STATUS_LIKED) {
+                    context.commit('SET_PLACE_REVIEW_LIKE_STATE', {
+                        placeId: data.placeId,
+                        likeState: STATUS_DISLIKED
+                    });
+                    context.commit('SET_PLACE_REVIEW_LIKE_COUNT', {
+                        placeId: data.placeId,
+                        count: review.likes - 1
+                    });
+                    context.commit('SET_PLACE_REVIEW_DISLIKE_COUNT', {
+                        placeId: data.placeId,
+                        count: review.dislikes + 1
+                    });
+                } else if (review.like === STATUS_DISLIKED) {
+                    context.commit('SET_PLACE_REVIEW_LIKE_STATE', {
+                        placeId: data.placeId,
+                        likeState: STATUS_NONE
+                    });
+                    context.commit('SET_PLACE_REVIEW_DISLIKE_COUNT', {
+                        placeId: data.placeId,
+                        count: review.dislikes - 1
+                    });
+                }
+                return Promise.resolve(res);
+            })
+            .catch( (err) => {
+                return Promise.resolve(err);
+            });
+    },
+
     getLikedPlace: (context, placeId) => {
         httpService.get(`places/${placeId}/liked`)
             .then( (res) => {
