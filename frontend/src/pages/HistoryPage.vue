@@ -93,8 +93,7 @@ export default {
                     .catch((err) => {
                         this.isPlacesLoaded = true;
                     });
-            })
-            .catch((error) => console.dir(error));
+            });
     },
     methods: {
         ...mapActions('user/history', [
