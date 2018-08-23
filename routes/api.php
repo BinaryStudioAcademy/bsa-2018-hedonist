@@ -33,6 +33,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/me', 'AuthController@me')->middleware('custom.jwt.auth');
 
         Route::post('/reset-password', 'AuthController@changePassword');
+
+        Route::group(['prefix' => '/social'], function () {
+            Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
+
+            Route::get('/{provider}/callback', 'SocialAuthController@oauthCallback');
+        });
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {

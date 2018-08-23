@@ -1,0 +1,65 @@
+{
+  "login_page": {
+    "title": "Увійдіть до свого акаунту",
+    "register": {
+      "title": "Ще не має акаунту?",
+      "link": "Створити"
+    },
+    "forgot": {
+      "link": "Забули пароль?"
+    },
+    "buttons": {
+      "submit": "Увійти"
+    }
+  },
+  "recover_page": {
+    "title": "Відновити ваш пароль",
+    "buttons": {
+      "submit": "Відновити"
+    }
+  },
+  "signup_page": {
+    "title": "Створити новий акаунт",
+    "buttons": {
+      "submit": "Зареєструватися"
+    }
+  },
+  "reset_page": {
+    "title": "Скинути ваш пароль",
+    "buttons": {
+      "submit": "Скинути"
+    }
+  },
+  "inputs": {
+    "auth": {
+      "first_name": {
+        "field_name": "Ім’я",
+        "placeholder": "Ваше Ім’я"
+      },
+      "last_name": {
+        "field_name": "Прізвище",
+        "placeholder": "Ваше Прізвище"
+      },
+      "email": {
+        "field_name": "Email",
+        "placeholder": "Ваш Email"
+      },
+      "password": {
+        "field_name": "Пароль",
+        "placeholder": "Ваш Пароль",
+        "description": "(мінімум 6 символів)"
+      },
+      "new_password": {
+        "field_name": "Підтвердіть новий пароль",
+        "placeholder": "Новий пароль"
+      }
+    }
+  },
+  "validation": {
+    "required": "{field} - обов’язкове поле",
+    "wrong_email_format": "Неправильний формат email",
+    "letters_only": "Допускаються тільки букви",
+    "min_length": "Повинно бути не менше ніж {min} символів",
+    "email_exists": "Користувач з таким email вже існує."
+  }
+}

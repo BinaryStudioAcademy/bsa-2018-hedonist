@@ -5,6 +5,7 @@ namespace Hedonist\Http\Controllers\Api\Like;
 use Hedonist\Actions\Like\{
     LikePlaceAction,
     LikePlaceRequest,
+    LikePlaceResponse,
     GetLikedPlaceAction,
     GetLikedPlaceRequest,
     GetLikedPlaceResponse,
@@ -40,7 +41,11 @@ class LikeController extends ApiController
         } catch (PlaceNotFoundException $exception) {
             return $this->errorResponse('Place not found', 404);
         }
-        return $this->successResponse([], 200);
+
+        return $this->successResponse([
+            'likes' => $response->getLikes(),
+            'dislikes' => $response->getDislikes()
+        ], 200);
     }
 
     public function getLikedPlace(int $id)
@@ -52,6 +57,7 @@ class LikeController extends ApiController
         } catch (PlaceNotFoundException $exception) {
             return $this->errorResponse('Place not found', 404);
         }
+
         return $this->successResponse(['liked' => $getLikedPlaceResponse->getLiked()], 200);
     }
 
@@ -64,6 +70,7 @@ class LikeController extends ApiController
         } catch (ReviewNotFoundException $exception) {
             return $this->errorResponse('Review not found', 404);
         }
+        
         return $this->successResponse([], 200);
     }
 }
