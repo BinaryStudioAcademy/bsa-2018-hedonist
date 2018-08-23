@@ -2,59 +2,67 @@
     <div class="level is-mobile" :style="{fontSize}">
         <div class="level-left">
             <div
-                class="likable like level-item"
-                @click="$emit('like')"
-                :class="{active: like === likeStatus.STATUS_LIKED}"
+                    class="likable like level-item"
+                    @click="$emit('like')"
+                    :class="{active: status === statusLiked}"
             >
-                <span class="likable-amount">
-                    {{ likes }}
-                </span>
+            <span class="likable-amount">
+                {{ likes }}
+            </span>
                 <span class="fa-stack fa-2x">
-                    <i class="fa fa-heart fa-stack-1x" />
-                </span>
+                <i class="fa fa-heart fa-stack-1x"/>
+            </span>
             </div>
             <div
-                class="likable dislike level-item"
-                @click="$emit('dislike')"
-                :class="{active: like === likeStatus.STATUS_DISLIKED}"
+                    class="likable dislike level-item"
+                    @click="$emit('dislike')"
+                    :class="{active: status === statusDisliked}"
             >
-                <span class="likable-amount">
-                    {{ dislikes }}
-                </span>
+            <span class="likable-amount">
+                {{ dislikes }}
+            </span>
                 <span class="fa-stack fa-2x">
-                    <i class="fa fa-heart fa-stack-1x" />
-                    <i class="fa fa-bolt fa-stack-1x fa-inverse" />
-                </span>
+                <i class="fa fa-heart fa-stack-1x"/>
+                <i class="fa fa-bolt fa-stack-1x fa-inverse"/>
+            </span>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import {likeStatus} from '@/store/modules/place/state';
+    import {STATUS_LIKED, STATUS_DISLIKED} from '@/services/api/codes';
 
-export default {
-    name: 'LikeDislikeButtons',
-    props: {
-        like: {
-            required: true,
-            type: String
+    export default {
+        name: 'LikeDislikeButtons',
+
+        data: function () {
+            return {
+                statusLiked: STATUS_LIKED,
+                statusDisliked: STATUS_DISLIKED
+            };
         },
-        likes: {
-            required: true,
-            type: Number
-        },
-        dislikes: {
-            required: true,
-            type: Number
-        },
-        fontSize: {
-            required: false,
-            type: String,
-            default: '1rem'
-        },
-    },
-};
+
+        props: {
+            status: {
+                required: true,
+                type: String
+            },
+            likes: {
+                required: true,
+                type: Number
+            },
+            dislikes: {
+                required: true,
+                type: Number
+            },
+            fontSize: {
+                required: false,
+                type: String,
+                default: '1rem'
+            },
+        }
+    };
 </script>
 
 <style lang="scss" scoped>

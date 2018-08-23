@@ -9,4 +9,7 @@ export default {
         id: null,
         name: ''
     },
+    currentLatitude: null,
+    currentLongitude : null,
+    mapInitialized : false,
 };

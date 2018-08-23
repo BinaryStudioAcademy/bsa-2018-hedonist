@@ -62,16 +62,18 @@
                     </div>
                 </template>
             </div>
-            <template v-if="place.features">
-                <div
-                    v-for="feature in place.features"
-                    :key="feature.id"
-                    class="place-sidebar__features"
-                >
+            <template v-if="place.features.length > 0">
+                <div class="place-sidebar__features">
                     <h2 class="feature-title">Features</h2>
-                    <div class="feature">
-                        <div class="feature-name">{{ feature.name }}</div>
-                        <div class="feature-info"><i class="fas fa-check" /></div>
+                    <div
+                        v-for="feature in place.features"
+                        :key="feature.id"
+                        class="place-sidebar__feature-list"
+                    >
+                        <div class="feature">
+                            <div class="feature-name">{{ feature.name }}</div>
+                            <div class="feature-info"><i class="fas fa-check" /></div>
+                        </div>
                     </div>
                 </div>
             </template>
