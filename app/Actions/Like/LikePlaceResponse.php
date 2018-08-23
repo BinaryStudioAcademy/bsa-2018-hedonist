@@ -15,7 +15,7 @@ class LikePlaceResponse
         $this->likedStatus = $likedStatus;
     }
 
-    public function getLikes(): int 
+    public function getLikes(): int
     {
         return $this->likes;
     }
