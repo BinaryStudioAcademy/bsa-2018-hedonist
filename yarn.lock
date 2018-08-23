@@ -6754,6 +6754,10 @@ vuelidate@^0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.4.tgz#5a0e54be09ac0192f1aa3387d74b92e0945bf8aa"
 
+vuex-i18n@^1.10.5:
+  version "1.10.5"
+  resolved "https://registry.yarnpkg.com/vuex-i18n/-/vuex-i18n-1.10.5.tgz#635ea2204e0aa3f8fd512f0fab7f6b994d3f666c"
+
 vuex-router-sync@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/vuex-router-sync/-/vuex-router-sync-5.0.0.tgz#1a225c17a1dd9e2f74af0a1b2c62072e9492b305"

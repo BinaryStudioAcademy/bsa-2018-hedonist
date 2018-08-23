@@ -12,6 +12,7 @@ class LocalizationPresenter
     public function present(PlaceTranslation $translation):array
     {
         return [
+            'id' => $translation->id,
             'name' => $translation->place_name,
             'description' => $translation->place_description,
             'language' =>  $translation->language->code
