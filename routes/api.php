@@ -142,6 +142,5 @@ Route::prefix('v1')->group(function () {
         ]);
 
         Route::get('/places/categories/{id}/tags', 'Api\Place\PlaceCategoryTagsController@getTagsByCategoryId');
-
     });
 });
