@@ -1,12 +1,18 @@
 <template>
     <section class="container">
+        <div class="action-bar">
+            <router-link
+                class="button is-success"
+                :to="{ name: 'NewPlacePage'}"
+            >Add place</router-link>
+        </div>
         <ul>
-            <li 
-                v-for="(place,index) in places" 
+            <li
+                v-for="(place,index) in places"
                 :key="place.id"
             >
                 <PlacePreview
-                    :place="place" 
+                    :place="place"
                     :timer="50 * (index+1)"
                 />
             </li>
@@ -30,6 +36,11 @@
                     margin-bottom: 0;
                 }
             }
+        }
+
+        .action-bar {
+            padding: 20px 0;
+            text-align: right;
         }
     }
 </style>

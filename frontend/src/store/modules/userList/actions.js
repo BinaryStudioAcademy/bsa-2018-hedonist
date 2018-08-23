@@ -1,13 +1,16 @@
 import httpService from '../../../services/common/httpService';
+import normalizerService from '../../../services/common/normalizerService';
 
 export default {
     getListsByUser: (context, userId) => {
         return new Promise((resolve, reject) => {
-            httpService.get('/user-list')
-                .then(function (result) {
-                    resolve(result.data.data.filter(list => list.user_id === userId));
+            httpService.get(`/users/${userId}/lists`)
+                .then( (response) => {
+                    const userLists = response.data.data;
+                    context.commit('SET_USER_LISTS', userLists);
+                    resolve(userLists);
                 })
-                .catch(function (error) {
+                .catch( (error) => {
                     reject(error);
                 });
         });
@@ -18,12 +21,20 @@ export default {
             httpService.post('/user-lists/' + payload.listId + '/attach-place', {
                 id: payload.placeId
             })
-                .then(function (result) {
+                .then( (result) => {
+                    context.dispatch('getListsByUser');
                     resolve(result);
                 })
-                .catch(function (error) {
+                .catch( (error) => {
                     reject(error);
                 });
         });
+    },
+
+    getUserLists: (context, userId) => {
+        return httpService.get('/users/' + userId + '/lists')
+            .then( (result) => {
+                return result.data.data;
+            });
     }
 };

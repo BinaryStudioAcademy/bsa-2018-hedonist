@@ -1,6 +1,6 @@
 <template>
     <div class="place-top-info">
-        <PlacePhotoList />
+        <PlacePhotoList :photos="place.photos" @showAllPhotos="changeTab(2)" />
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
@@ -12,8 +12,7 @@
                     >
                 </div>
                 <div class="place-venue__prime-info">
-                    <div v-if="place.localization" class="place-venue__place-name">{{ place.localization.name }}</div>
-                    <div v-else class="place-venue__place-name">No localization</div>
+                    <div class="place-venue__place-name">{{ localizedName }}</div>
                     <div class="place-venue__category">{{ place.category.name }}</div>
                     <div class="place-venue__city">
                         {{ place.city.name }}, <span class="place-zip">{{ place.zip }}</span>
@@ -21,7 +20,7 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <button 
+                <button
                     class="button is-primary"
                     @click="isCheckinModalActive = true"
                 >
@@ -36,15 +35,25 @@
                         <i class="far fa-save" />Save
                         <b-icon icon="menu-down" />
                     </button>
-
-                    <template v-for="list in userlist">
+                    <template v-for="list in userList">
                         <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}</b-dropdown-item>
                     </template>
                 </b-dropdown>
 
-                <button class="button is-info">
-                    <i class="far fa-share-square" />Share
-                </button>
+
+                <b-dropdown>
+                    <button class="button is-primary" slot="trigger">
+                        <i class="far fa-share-square" />Share
+                        <b-icon icon="menu-down" />
+                    </button>
+
+                    <b-dropdown-item has-link>
+                        <a :href="'https://www.facebook.com/sharer/sharer.php?u=' + pageLink" target="_blank">
+                            <i class="fab fa-facebook-square" />
+                            Share on Facebook
+                        </a>
+                    </b-dropdown-item>
+                </b-dropdown>
             </div>
         </div>
         <div class="place-top-info__sidebar columns">
@@ -61,28 +70,26 @@
                             @click="changeTab(2)"
                             :class="{ 'is-active' : activeTab === 2}"
                         >
-                            <a><span>Photos (12)</span></a>
+                            <a><span>Photos ({{ photosCount }})</span></a>
                         </li>
                     </ul>
                 </nav>
             </div>
             <div class="column is-one-third place-rate">
                 <div class="place-rate__mark">
-                    <span>{{ place.rating }}</span><sup>/<span>10</span></sup>
+                    <span>{{ place.rating | formatRating }}</span><sup>/<span>10</span></sup>
                 </div>
-                <div class="place-rate__mark-count">444 marks</div>
+                <div class="place-rate__mark-count">
+                    {{ place.ratingCount || 1 }} marks
+                </div>
                 <div class="place-rate__preference">
-                    <div class="likable like">
-                        <span class="fa-stack fa-2x">
-                            <i class="fa fa-heart fa-stack-1x" />
-                        </span>
-                    </div>
-                    <div class="likable dislike">
-                        <span class="fa-stack fa-2x">
-                            <i class="fa fa-heart fa-stack-1x" />
-                            <i class="fa fa-bolt fa-stack-1x fa-inverse" />
-                        </span>
-                    </div>
+                    <LikeDislikeButtons
+                        :likes="place.likes"
+                        :dislikes="place.dislikes"
+                        :status="liked"
+                        @like="like"
+                        @dislike="dislike"
+                    />
                 </div>
             </div>
         </div>
@@ -92,48 +99,109 @@
 <script>
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
+import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 
 export default {
     name: 'PlaceTopInfo',
+
     components: {
         PlacePhotoList,
-        PlaceCheckinModal
+        PlaceCheckinModal,
+        LikeDislikeButtons
     },
+
     props: {
         place: {
             type: Object,
             required: true
         }
     },
+
+    filters: {
+        formatRating: function(number){
+            return new Intl.NumberFormat(
+                'en-US', {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                }).format(number);
+        },
+    },
+
     data() {
         return {
             activeTab: 1,
-            userlist: {},
+            userList: {},
             isCheckinModalActive: false
         };
     },
 
     created() {
-        this.$store.dispatch('userlist/getListsByUser', this.user.id)
+        this.$store.dispatch('userList/getListsByUser', this.user.id)
             .then((result) => {
-                this.userlist = result;
+                this.userList = result;
             });
-    },
 
+        this.$store.dispatch('place/getLikedPlace', this.place.id);
+    },
+    
     computed: {
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
+        },
+
+        localizedName() {
+            return this.place.localization[0].name;
+        },
+
+        photosCount() {
+            return this.place.photos.length;
+        },
+
+        liked() {
+            return this.$store.getters['place/getLikedStatus'];
+        },
+
+        likes() {
+            return this.$store.getters['place/getLikes'];
+        },
+
+        dislikes() {
+            return this.$store.getters['place/getDislikes'];
+        },
+        
+        pageLink() {
+            return location.href;
         }
     },
 
     methods: {
-        changeTab: function(activeTab) {
+        changeTab: function (activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);
         },
 
+        updateLikesDislikes() {
+            this.$store.dispatch('place/getLikedPlace', this.place.id);
+            if (this.likes) {
+                this.place.likes = this.likes;
+            }
+            if (this.dislikes) {
+                this.place.dislikes = this.dislikes;
+            }
+        },
+
+        like() {
+            this.$store.dispatch('place/likePlace', this.place.id);
+            this.updateLikesDislikes();
+        },
+
+        dislike() {
+            this.$store.dispatch('place/dislikePlace', this.place.id);
+            this.updateLikesDislikes();
+        },
+
         addPlaceToList: function (listId) {
-            this.$store.dispatch('userlist/addPlaceToList', {
+            this.$store.dispatch('userList/addPlaceToList', {
                 listId: listId,
                 placeId: this.place.id
             });
@@ -176,7 +244,7 @@ export default {
                 &__preference {
                     display: flex;
                     margin-left: auto;
-                    margin-right: 30px;
+                    margin-right: 10px;
                     .likable {
                         cursor: pointer;
                         &:hover {
@@ -186,12 +254,13 @@ export default {
                     .fa-bolt {
                         top: -5%;
                         left: 2%;
-                        font-size:70%;
+                        font-size: 70%;
                     }
                 }
             }
         }
     }
+
     .place-venue {
         margin: 20px;
         &__logo {
@@ -233,6 +302,7 @@ export default {
             }
         }
     }
+
     @media screen and (max-width: 370px) {
         .place-venue {
             &__actions {

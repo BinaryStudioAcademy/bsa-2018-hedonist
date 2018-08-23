@@ -2,11 +2,12 @@
     <div class="control">
         <b-autocomplete
             v-model.trim="findCity.query"
-            placeholder="city..."
+            placeholder="Location"
             :data="findCity.data"
             :open-on-focus="true"
             :loading="findCity.isFetching"
             field="text"
+            class="navbar__search-autocomplete"
             @input="loadCities"
             @select="option => this.$emit('select', option)"
         />
@@ -24,12 +25,9 @@ export default {
         return {
             findCity: {
                 data: [],
-                name: '',
-                selected: null,
+                query: '',
                 isFetching: false
-            },
-            filterQuery: '',
-            isShow: false
+            }
         };
     },
     computed: {

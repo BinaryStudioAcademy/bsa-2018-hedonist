@@ -3,13 +3,21 @@
         <img
             v-img:top-group
             class="place-photo__image" 
-            :src="photo.url" 
-            alt="place image"
+            :src="photo.img_url"
+            :alt="photo.description"
         >
         <div 
             v-if="photo.id === lastId" 
             class="place-photo__show-all"
-        ><a href="#">Show all</a></div>
+        >
+            <a 
+                href="#"
+                v-scroll-to="'.main'"
+                @click="onClick"
+            >
+                Show all
+            </a>
+        </div>
     </div>
 </template>
 
@@ -24,6 +32,11 @@ export default {
         lastId: {
             type: Number,
             required: true
+        }
+    },
+    methods: {
+        onClick() {
+            this.$emit('showAllPhotos');
         }
     }
 };

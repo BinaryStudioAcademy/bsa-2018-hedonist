@@ -15,11 +15,12 @@ import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
 import MyTastesPage from '@/pages/MyTastesPage';
+import SocialAuthPage from '@/pages/SocialAuthPage';
 
 Vue.use(Router);
 
 const middleware = handler => (
-    routes => routes.map(route => Object.assign({}, route, { beforeEnter: handler }))
+    routes => routes.map(route => Object.assign({}, route, {beforeEnter: handler}))
 );
 
 export default new Router({
@@ -77,6 +78,10 @@ export default new Router({
                 path: '/history',
                 name: 'HistoryPage',
                 component: HistoryPage
+            },
+            {
+                path: '*',
+                redirect: '/'
             }
         ]),
         ...middleware(middlewares.guest(store))([
@@ -99,6 +104,12 @@ export default new Router({
                 path: '/recover',
                 name: 'RecoverPasswordPage',
                 component: RecoverPasswordPage
+            },
+
+            {
+                path: '/auth/social/:provider',
+                name: 'SocialAuthPage',
+                component: SocialAuthPage
             },
         ])
     ]

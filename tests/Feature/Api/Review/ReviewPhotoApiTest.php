@@ -24,7 +24,7 @@ class ReviewPhotoApiTest extends ApiTestCase
 
     public function test_review_photo_add()
     {
-        Storage::fake('public');
+        Storage::fake();
         $file = UploadedFile::fake()->image('review.jpg');
         $review = factory(Review::class)->create();
         $response = $this->json('POST', '/api/v1/reviews/photos', [
@@ -42,13 +42,13 @@ class ReviewPhotoApiTest extends ApiTestCase
             'img_url' => $data['data']['img_url'],
         ]);
         $arr = explode('/', $data['data']['img_url']);
-        Storage::disk('public')->assertExists('upload/review/' . end($arr));
+        Storage::disk()->assertExists('upload/review/' . end($arr));
     }
 
     public function test_delete_review_photo()
     {
         $file = UploadedFile::fake()->image('review.jpg');
-        Storage::disk('public')->put('upload/review', $file);
+        Storage::disk()->put('upload/review', $file);
         $review = factory(Review::class)->create();
         $reviewPhoto = new ReviewPhoto();
         $reviewPhoto->review_id = $review->id;
@@ -57,6 +57,6 @@ class ReviewPhotoApiTest extends ApiTestCase
         $reviewPhoto->save();
 
         $this->json('DELETE', "/api/v1/reviews/photos/" . $reviewPhoto->id);
-        Storage::disk('public')->assertMissing('upload/review/' . $file->hashName());
+        Storage::disk()->assertMissing('upload/review/' . $file->hashName());
     }
 }

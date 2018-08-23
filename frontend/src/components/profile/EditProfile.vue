@@ -39,6 +39,20 @@
                     />
                 </b-field>
 
+                <b-field label="Old password">
+                    <b-input
+                        type="password"
+                        password-reveal
+                    />
+                </b-field>
+
+                <b-field label="New password">
+                    <b-input
+                        type="password"
+                        password-reveal
+                    />
+                </b-field>
+
                 <b-field label="Phone">
                     <b-input v-model="user.phone" />
                 </b-field>
@@ -102,10 +116,13 @@ export default {
         };
     },
     created() {
-        let date = new Date(this.user.date_of_birth.date);
-        this.birthYear = date.getFullYear();
-        this.birthMonth = date.getMonth() + 1;
-        this.birthDay = date.getDate();
+        if (this.user.date_of_birth !== null) {
+            let date = new Date(this.user.date_of_birth.date);
+            this.birthYear = date.getFullYear();
+            this.birthMonth = date.getMonth() + 1;
+            this.birthDay = date.getDate();
+        }
+
     },
     computed: {
         ...mapGetters({

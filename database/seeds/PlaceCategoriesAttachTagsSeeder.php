@@ -42,21 +42,12 @@ class PlaceCategoriesAttachTagsSeeder extends Seeder
             'Steak House',
         ],
         'Bar' => [
-            'Lounge bar',
             'Milk bar',
-            'Video Bar',
             'Cocktail bar',
-            'Karaoke bar',
-            'Sports bar',
             'Whiskey bar',
             'Wine bar',
             'Sushi Bar',
             'Piano Bar',
-        ],
-        'Nightlife' => [
-            'Hookah',
-            'Strip club',
-            'Night club',
         ],
         'Snacks' => [
             'Snack bar with burgers',
@@ -69,10 +60,6 @@ class PlaceCategoriesAttachTagsSeeder extends Seeder
             'Sweet shop',
             'Chocolate shop',
             'Confectionery',
-            'Park',
-            'Cinema',
-            'Theater',
-            'Book Shop',
         ],
 
     ];
