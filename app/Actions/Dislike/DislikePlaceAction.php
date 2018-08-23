@@ -46,12 +46,7 @@ class DislikePlaceAction
         } else {
             $this->dislikeRepository->deleteById($dislike->id);
         }
-
-        $place = $this->placeRepository->getByIdWithRelations($request->getPlaceId());
-        if (!$place) {
-            throw new PlaceNotFoundException;
-        }
         
-        return new DislikePlaceResponse($place->likes->count(), $place->dislikes->count());
+        return new DislikePlaceResponse();
     }
 }
