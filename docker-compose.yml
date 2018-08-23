@@ -22,8 +22,6 @@ services:
       volumes:
         - .:/application
         - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-        - ./docker/nginx/key.pem:/etc/nginx/conf.d/key.pem
-        - ./docker/nginx/cert.pem:/etc/nginx/conf.d/cert.pem
 
     php-fpm:
       build: docker/php-fpm

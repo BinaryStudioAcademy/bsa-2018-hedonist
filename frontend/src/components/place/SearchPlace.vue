@@ -34,10 +34,8 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
-import MarkerService from '@/services/map/markerManagerService';
+import markerManager from '@/services/map/markerManager';
 import placeholderImg from '@/assets/placeholder_128x128.png';
-
-let markerManager = null;
 
 export default {
     name: 'SearchPlace',
@@ -55,17 +53,13 @@ export default {
                 lat: 50.4547,
                 lng: 30.5238
             },
+            markerManager: null,
         };
     },
     created() {
         this.$store.dispatch('place/fetchPlaces')
             .then(() => {
                 this.isPlacesLoaded = true;
-                if (this.isMapLoaded) {
-                    this.updateMap(this.places);
-                    markerManager.fitMarkersOnMap();
-                    this.setCurrentCenter(markerManager.getCurrentCenter());
-                }
             });
     },
     methods: {
@@ -85,28 +79,20 @@ export default {
             this.mapInitialization();
         },
         mapLoaded(map) {
-            markerManager = new MarkerService(map);
+            this.markerManager = markerManager.getService(map);
             this.isMapLoaded = true;
-            if (this.isPlacesLoaded) {
-                this.updateMap(this.places);
-                markerManager.fitMarkersOnMap();
-                this.setCurrentCenter(markerManager.getCurrentCenter());
-            }
         },
         jumpTo(coordinates) {
             this.map.jumpTo({
                 center: coordinates,
             });
         },
-        updateMap(places) {
-            markerManager.setMarkers(places);
-        },
         createUserMarker() {
             return {
-                id           : 0,
-                latitude     : this.userCoordinates.lat,
-                longitude    : this.userCoordinates.lng,
-                localization : {
+                id: 0,
+                latitude: this.userCoordinates.lat,
+                longitude: this.userCoordinates.lng,
+                localization: {
                     0: {
                         description: 'Your position',
                         language: 'en',
@@ -116,6 +102,19 @@ export default {
                 photoUrl: this.user.avatar_url || placeholderImg,
             };
         },
+        updateMap() {
+            if (this.isMapLoaded && this.isPlacesLoaded) {
+                this.markerManager.setMarkersFromPlacesAndFit(...this.places);
+            }
+        },
+    },
+    watch: {
+        isMapLoaded: function (oldVal, newVal) {
+            this.updateMap();
+        },
+        isPlacesLoaded: function (oldVal, newVal) {
+            this.updateMap();
+        }
     },
     computed: {
         ...mapState('place', ['places']),
@@ -143,7 +142,6 @@ export default {
             } else {
                 places = this.places;
             }
-
             return places;
         },
     }

@@ -1,5 +1,3 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import App from './App';
 import router from './router';
@@ -11,6 +9,7 @@ import vClickOutside from 'v-click-outside';
 import VueImg from 'v-img';
 import VueScrollTo from 'vue-scrollto';
 import vuexI18n from 'vuex-i18n';
+import { enableSentryErrorReporting } from './services/common/errorReportingService';
 
 import translationEn from './localization/en.json';
 import translationsUa from './localization/ua.json';
@@ -32,6 +31,10 @@ Vue.i18n.set('en');
 sync(store, router);
 
 Vue.config.productionTip = false;
+
+if (process.env.NODE_ENV === 'production') {
+    enableSentryErrorReporting(Vue);
+}
 
 /* eslint-disable no-new */
 new Vue({
