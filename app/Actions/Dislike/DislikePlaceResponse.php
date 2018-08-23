@@ -15,17 +15,17 @@ class DislikePlaceResponse
         $this->likedStatus = $likedStatus;
     }
 
-    public function getLikes()
+    public function getLikes(): int
     {
         return $this->likes;
     }
 
-    public function getDislikes()
+    public function getDislikes(): int
     {
         return $this->dislikes;
     }
     
-    public function getLikedStatus()
+    public function getLikedStatus(): string
     {
         return $this->likedStatus;
     }
