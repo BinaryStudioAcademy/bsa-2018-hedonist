@@ -49,8 +49,8 @@
                 <div class="reviews-section-list">
                     <template v-for="review in currentPlaceReviews.byId">
                         <Review
-                                :key="review.id"
-                                :review="review"
+                            :key="review.id"
+                            :review="review"
                         />
                     </template>
                 </div>
