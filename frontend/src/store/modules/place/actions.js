@@ -142,10 +142,11 @@ export default {
                 });
         });
     },
+
     getLikedPlace: (context, placeId) => {
         httpService.get(`places/${placeId}/liked`)
             .then( (res) => {
-                context.commit('SET_PLACE_LIKED', res.data.data.liked);
+                context.commit('SET_PLACE_LIKED', res.data.data.status);
                 return Promise.resolve(res);
             }).catch( (err) => {
                 return Promise.reject(err);

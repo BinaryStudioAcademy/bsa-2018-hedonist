@@ -35,8 +35,21 @@ class LikeController extends ApiController
     public function likePlace(int $id)
     {
         try {
-            $response = $this->likePlaceAction->execute(
+            $this->likePlaceAction->execute(
                 new LikePlaceRequest($id)
+            );
+        } catch (PlaceNotFoundException $exception) {
+            return $this->errorResponse('Place not found', 404);
+        }
+
+        return $this->getLikedPlace($id);
+    }
+
+    public function getLikedPlace(int $id)
+    {
+        try {
+            $response = $this->getLikedPlaceAction->execute(
+                new GetLikedPlaceRequest($id)
             );
         } catch (PlaceNotFoundException $exception) {
             return $this->errorResponse('Place not found', 404);
@@ -47,19 +60,6 @@ class LikeController extends ApiController
             'dislikes' => $response->getDislikes(),
             'status' => $response->getLikedStatus()
         ], 200);
-    }
-
-    public function getLikedPlace(int $id)
-    {
-        try {
-            $getLikedPlaceResponse = $this->getLikedPlaceAction->execute(
-                new GetLikedPlaceRequest($id)
-            );
-        } catch (PlaceNotFoundException $exception) {
-            return $this->errorResponse('Place not found', 404);
-        }
-
-        return $this->successResponse(['liked' => $getLikedPlaceResponse->getLiked()], 200);
     }
 
     public function likeReview(int $id)

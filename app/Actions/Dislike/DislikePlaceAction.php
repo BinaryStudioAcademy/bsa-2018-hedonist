@@ -47,28 +47,7 @@ class DislikePlaceAction
         } else {
             $this->dislikeRepository->deleteById($dislike->id);
         }
-
-        $place = $this->placeRepository->getByIdWithRelations($request->getPlaceId());
-        if (!$place) {
-            throw new PlaceNotFoundException;
-        }
-
-        $liked = LikeStatus::none();
-        $userId = Auth::id();
-        $like = $this->likeRepository->findByUserAndPlace($userId, $request->getPlaceId());
-        if ($like) {
-            $liked = LikeStatus::liked();
-        } else {
-            $dislike = $this->dislikeRepository->findByUserAndPlace($userId, $request->getPlaceId());
-            if ($dislike) {
-                $liked = LikeStatus::disliked();
-            }
-        }
         
-        return new DislikePlaceResponse(
-            $place->likes->count(),
-            $place->dislikes->count(),
-            $liked->value()
-        );
+        return new DislikePlaceResponse();
     }
 }
