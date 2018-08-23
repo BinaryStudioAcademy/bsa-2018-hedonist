@@ -4,7 +4,7 @@
             <div
                 class="likable like level-item"
                 @click="$emit('like')"
-                :class="{active: like === 'LIKED'}"
+                :class="{active: like === likeStatus.STATUS_LIKED}"
             >
                 <span class="likable-amount">
                     {{ likes }}
@@ -16,7 +16,7 @@
             <div
                 class="likable dislike level-item"
                 @click="$emit('dislike')"
-                :class="{active: like === 'DISLIKED'}"
+                :class="{active: like === likeStatus.STATUS_DISLIKED}"
             >
                 <span class="likable-amount">
                     {{ dislikes }}
@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import {likeStatus} from '@/store/modules/place/state';
+
 export default {
     name: 'LikeDislikeButtons',
     props: {
