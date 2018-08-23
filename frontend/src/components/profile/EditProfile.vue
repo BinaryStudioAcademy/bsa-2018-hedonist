@@ -211,11 +211,20 @@ export default {
                     .then(() => {
                         this.saveProfileInfo();
                     })
-                    .catch((error) => {
-                        console.log(error);
-                        // this.onError({
-                        //     message: error.message
-                        // });
+                    .catch((data) => {
+                        let message = '';
+                        if (data.error !== undefined) {
+                            message = data.error.message
+                        } else if (data.errors !== undefined) {
+                            for (let error in data.errors) {
+                                data.errors[error].forEach(function(item) {
+                                    message += item + "<br>";
+                                });
+                            }
+                        }
+                        this.onError({
+                            message: message
+                        });
                         return false;
                     })
             } else {

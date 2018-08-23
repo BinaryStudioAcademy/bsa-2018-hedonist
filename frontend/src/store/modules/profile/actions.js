@@ -61,7 +61,7 @@ export default {
                     resolve(res);
                 })
                 .catch(function (error) {
-                    reject(error.response.data.error);
+                    reject(error.response.data);
                 });
         });
     }
