@@ -135,12 +135,13 @@ Route::prefix('v1')->group(function () {
         Route::get('/places/rating/{id}', 'Api\Place\PlaceRatingController@getRating')
             ->name('place.rating.getPlaceRating');
 
+        Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
+
         Route::resource('/places/categories', 'Api\Place\PlaceCategoryController')->except([
             'create', 'edit'
         ]);
 
         Route::get('/places/categories/{id}/tags', 'Api\Place\PlaceCategoryTagsController@getTagsByCategoryId');
 
-        Route::post('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
     });
 });
