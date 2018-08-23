@@ -9,11 +9,25 @@ import Buefy from 'buefy';
 import Vuelidate from 'vuelidate';
 import vClickOutside from 'v-click-outside';
 import VueImg from 'v-img';
+import VueScrollTo from 'vue-scrollto';
+import vuexI18n from 'vuex-i18n';
+
+import translationEn from './localization/en.json';
+import translationsUa from './localization/ua.json';
+import translationsRu from './localization/ru.json';
 
 Vue.use(Buefy);
 Vue.use(Vuelidate);
 Vue.use(vClickOutside);
 Vue.use(VueImg);
+Vue.use(VueScrollTo);
+Vue.use(vuexI18n.plugin, store);
+
+Vue.i18n.add('en', translationEn);
+Vue.i18n.add('ua', translationsUa);
+Vue.i18n.add('ru', translationsRu);
+
+Vue.i18n.set('en');
 
 sync(store, router);
 

@@ -9,19 +9,48 @@ use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Localization\PlaceTranslation;
 use Hedonist\Entities\Place\PlacePhoto;
 use Hedonist\Entities\Place\PlaceInfo;
+use Faker\Factory as Faker;
 
 class PlaceTableSeeder extends Seeder
 {
-    private const CITY_NAMES = [
-        "Kiev",
-        "Lviv",
-        "Dnipro",
-        "Kharkiv",
-        "Khmelnytskyi",
-        "Cherkasy",
-        "Chernivtsi",
-        "Chernihiv",
-        "Odessa"
+    private const CITIES = [
+        [
+            'name' => 'Kiev',
+            'coordinates' => ['lat' => 50.4547, 'lng' => 30.5238],
+            'radius' => 0.06,
+        ], [
+            'name' => 'Lviv',
+            'coordinates' => ['lat' => 49.8397, 'lng' => 24.0297],
+            'radius' => 0.03,
+        ], [
+            'name' => 'Dnipro',
+            'coordinates' => ['lat' => 48.4647, 'lng' => 35.0462],
+            'radius' => 0.03,
+        ], [
+            'name' => 'Kharkiv',
+            'coordinates' => ['lat' => 49.9935, 'lng' => 36.2304],
+            'radius' => 0.04,
+        ], [
+            'name' => 'Khmelnytskyi',
+            'coordinates' => ['lat' => 49.4230, 'lng' => 26.9871],
+            'radius' => 0.02,
+        ], [
+            'name' => 'Cherkasy',
+            'coordinates' => ['lat' => 49.4444, 'lng' => 32.0598],
+            'radius' => 0.02,
+        ], [
+            'name' => 'Chernivtsi',
+            'coordinates' => ['lat' => 48.2921, 'lng' => 25.9358],
+            'radius' => 0.02,
+        ], [
+            'name' => 'Chernihiv',
+            'coordinates' => ['lat' => 51.4982, 'lng' => 31.2893],
+            'radius' => 0.03,
+        ], [
+            'name' => 'Odessa',
+            'coordinates' => ['lat' => 46.4825, 'lng' => 30.7233],
+            'radius' => 0.02,
+        ]
     ];
 
     private const PLACES = [
@@ -120,18 +149,18 @@ class PlaceTableSeeder extends Seeder
     ];
 
     const IMAGES = [
-        'https://igx.4sqi.net/img/general/200x200/887035_CLhGX1rsu2-V75shOAkPWuxXLY2k4iO17hEdOlOfSWc.jpg',
-        'https://igx.4sqi.net/img/general/200x200/26166006_NbsG6630seaUu5oBMHF1nJN5faMbAJBB-U_fftfgLQ0.jpg',
-        'https://igx.4sqi.net/img/general/200x200/14194563_V7QcNe7QxElooKfHflch-zJsOky6c58iNIMq5_gqf2g.jpg',
-        'https://igx.4sqi.net/img/general/200x200/30460270_jXczXSrGxp69jx5_iU-NXRoxXfZl1OKMqrbSRL5IOh4.jpg',
-        'https://igx.4sqi.net/img/general/200x200/49523061_7l_R5LyP657g624USxZ_oomdQ3QkqJyI0OvSdKGQLsY.jpg',
-        'https://igx.4sqi.net/img/general/200x200/43170088_MOsT6vDk8CrgoM8hMPQ2Ex1OLGUR3SBJJP8CKK317_s.jpg',
-        'https://igx.4sqi.net/img/general/200x200/5131275_W0cHIwqqMi95dCIhgAiTdDFBySZL4xsS93Prjxv8GJM.jpg',
-        'https://igx.4sqi.net/img/general/200x200/83196834_6Jkr24BOV5h52EMvb8cy9oeP5IdcZdSfmNzazYBEz_g.jpg',
-        'https://igx.4sqi.net/img/general/200x200/81501175_U8dlSYQ2mFeWzRszG5Pu57VRW2CdwypUC3ofR8dnT1I.jpg',
-        'https://igx.4sqi.net/img/general/200x200/127740585_BCMwhYAAZ8lyVb5wdDXytxSRSPdBkjaYY6pFRO6yW-g.jpg',
-        'https://igx.4sqi.net/img/general/200x200/105415509_EgiwmKD9QYjKut0p9Fuj4FmUM3qJIX2LFsORO3R9P58.jpg',
-        'https://igx.4sqi.net/img/general/200x200/91146561_OPnRUeFJtkM8ZNTdkK4VhAnY99eqHtzGqY9EykWU22A.jpg'
+        'https://igx.4sqi.net/img/general/width960/887035_CLhGX1rsu2-V75shOAkPWuxXLY2k4iO17hEdOlOfSWc.jpg',
+        'https://igx.4sqi.net/img/general/width960/26166006_NbsG6630seaUu5oBMHF1nJN5faMbAJBB-U_fftfgLQ0.jpg',
+        'https://igx.4sqi.net/img/general/width960/14194563_V7QcNe7QxElooKfHflch-zJsOky6c58iNIMq5_gqf2g.jpg',
+        'https://igx.4sqi.net/img/general/width960/30460270_jXczXSrGxp69jx5_iU-NXRoxXfZl1OKMqrbSRL5IOh4.jpg',
+        'https://igx.4sqi.net/img/general/width960/49523061_7l_R5LyP657g624USxZ_oomdQ3QkqJyI0OvSdKGQLsY.jpg',
+        'https://igx.4sqi.net/img/general/width960/43170088_MOsT6vDk8CrgoM8hMPQ2Ex1OLGUR3SBJJP8CKK317_s.jpg',
+        'https://igx.4sqi.net/img/general/width960/5131275_W0cHIwqqMi95dCIhgAiTdDFBySZL4xsS93Prjxv8GJM.jpg',
+        'https://igx.4sqi.net/img/general/width960/83196834_6Jkr24BOV5h52EMvb8cy9oeP5IdcZdSfmNzazYBEz_g.jpg',
+        'https://igx.4sqi.net/img/general/width960/81501175_U8dlSYQ2mFeWzRszG5Pu57VRW2CdwypUC3ofR8dnT1I.jpg',
+        'https://igx.4sqi.net/img/general/width960/127740585_BCMwhYAAZ8lyVb5wdDXytxSRSPdBkjaYY6pFRO6yW-g.jpg',
+        'https://igx.4sqi.net/img/general/width960/105415509_EgiwmKD9QYjKut0p9Fuj4FmUM3qJIX2LFsORO3R9P58.jpg',
+        'https://igx.4sqi.net/img/general/width960/91146561_OPnRUeFJtkM8ZNTdkK4VhAnY99eqHtzGqY9EykWU22A.jpg'
     ];
 
     /**
@@ -141,40 +170,45 @@ class PlaceTableSeeder extends Seeder
      */
     public function run()
     {
+        $faker = Faker::create();
+
         $language = factory(Language::class)->create([
             'code' => 'en',
             'active' => true,
             'default' => true,
         ]);
 
-        foreach (self::PLACES as $placeInfo) {
-            $place = factory(Place::class, 'LvivPlaces')->create([
-                'city_id'       => City::where('name', 'Lviv')->first()->id,
-                'creator_id'    => User::inRandomOrder()->first()->id,
-                'category_id'   => PlaceCategory::inRandomOrder()->first()->id,
-            ]);
+        foreach (self::CITIES as $city) {
+            $cityName = $city['name'];
+            $lng = $city['coordinates']['lng'];
+            $lat = $city['coordinates']['lat'];
+            $radius = $city['radius'];
 
-            factory(PlaceTranslation::class)->create([
-                'place_name' => $placeInfo['name'],
-                'place_id' => $place->id,
-                'language_id' => $language->id
-            ]);
-
-            factory(PlacePhoto::class)->create([
-                'place_id' => $place->id,
-                'creator_id' => User::inRandomOrder()->first()->id,
-                'img_url' => $placeInfo['img_url'],
-            ]);
-
-            factory(PlaceInfo::class)->create([
-                'place_id' => $place->id
-            ]);
-
-            foreach (self::IMAGES as $imageUrl) {
-                factory(PlacePhoto::class)->create([
-                    'place_id' => $place->id,
+            foreach (self::PLACES as $placeInfo) {
+                $place = factory(Place::class)->create([
+                    'city_id' => City::where('name', $cityName)->first()->id,
                     'creator_id' => User::inRandomOrder()->first()->id,
-                    'img_url' => $imageUrl
+                    'category_id' => PlaceCategory::inRandomOrder()->first()->id,
+                    'longitude' => $faker->unique()->randomFloat(6, $lng - $radius, $lng + $radius),
+                    'latitude' => $faker->unique()->randomFloat(6, $lat - $radius, $lat + $radius),
+                ]);
+
+                factory(PlaceTranslation::class)->create([
+                    'place_name' => $placeInfo['name'],
+                    'place_id' => $place->id,
+                    'language_id' => $language->id
+                ]);
+
+                foreach (self::IMAGES as $imageUrl) {
+                    factory(PlacePhoto::class)->create([
+                        'place_id' => $place->id,
+                        'creator_id' => User::inRandomOrder()->first()->id,
+                        'img_url' => $imageUrl
+                    ]);
+                }
+
+                factory(PlaceInfo::class)->create([
+                    'place_id' => $place->id
                 ]);
             }
         }

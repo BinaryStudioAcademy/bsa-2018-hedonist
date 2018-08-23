@@ -1,6 +1,6 @@
 import MarkerGenerator from './markerGeneratorService';
 import geojsonExtent from '@mapbox/geojson-extent';
-import placeholderImg from '../../assets/placeholder_128x128.png';
+import placeholderImg from '@/assets/placeholder_128x128.png';
 
 
 class MarkerManagerService {
@@ -13,9 +13,13 @@ class MarkerManagerService {
             'type': 'FeatureCollection',
             'features': []
         };
+        this.lastMarkerCoords = {
+            latitude: null,
+            longitude: null
+        };
     }
 
-    setMarkers(...items) {
+    setMarkers(items) {
         let markersData = items.map((item) => this._parser(item));
         this._removeMarkers(markersData);
         markersData.forEach((item) => {
@@ -29,8 +33,14 @@ class MarkerManagerService {
                     item.lng,
                     item.lat
                 );
+                this.lastMarkerCoords.latitude = item.lat;
+                this.lastMarkerCoords.longitude = item.lng;
             }
         });
+    }
+
+    getCurrentCenter() {
+        return this.lastMarkerCoords;
     }
 
     fitMarkersOnMap() {

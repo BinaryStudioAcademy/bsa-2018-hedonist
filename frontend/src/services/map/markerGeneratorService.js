@@ -1,6 +1,8 @@
+const bgImage = require('@/assets/marker.png');
+
 const createMarker = () => {
     let element = document.createElement('div');
-    element.style.backgroundImage = 'url("https://static.thenounproject.com/png/4096-200.png")';
+    element.style.backgroundImage = bgImage;
     element.style.width = '200px';
     element.style.height = '200px';
 
@@ -12,15 +14,17 @@ const createPopup = (markerData) => {
     popup.setHTML(`
         <div class="media">
             <div class="media-left">
-                <figure class="image is-48x48">
+                <figure class="image is-64x64">
                     <img src="${markerData.photoUrl}"/>
                 </figure>
             </div>
             <div class="media-content">
                 <div>
-                    <strong>
-                        ${markerData.name}
-                    </strong>
+                    <a class="link-place has-text-black is-size-6" href="/places/${markerData.id}" target="_blank">
+                        <strong>
+                            ${markerData.name}
+                        </strong>
+                    </a> 
                 </div>
                 <div>
                     ${markerData.address || ''}

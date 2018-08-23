@@ -33,13 +33,19 @@ Route::prefix('v1')->group(function () {
         Route::get('/me', 'AuthController@me')->middleware('custom.jwt.auth');
 
         Route::post('/reset-password', 'AuthController@changePassword');
+
+        Route::group(['prefix' => '/social'], function () {
+            Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
+
+            Route::get('/{provider}/callback', 'SocialAuthController@oauthCallback');
+        });
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
         Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
             ->name('user-list.lists');
 
-        Route::resource('user-list', 'Api\User\UserList\UserListController')->except([
+        Route::resource('user-lists', 'Api\User\UserList\UserListController')->except([
             'create', 'edit'
         ]);
 

@@ -1,13 +1,13 @@
 <template>
-    <Container title="Login into your account">
-        <p class="subtitle">Don't have an account?
-            <router-link class="link link-signup" to="/signup">Create New</router-link>
+    <Container :title="$t('login_page.title')">
+        <p class="subtitle">{{ $t('login_page.register.title') }}
+            <router-link class="link link-signup" to="/signup">{{ $t('login_page.register.link') }}</router-link>
         </p>
         <Form>
             <b-field :type="input.email.type">
                 <b-input
                     v-model="user.email"
-                    placeholder="Your Email"
+                    :placeholder="$t('inputs.auth.email.placeholder')"
                     name="email"
                     @blur="onBlur('email')"
                     @focus="onFocus('email')"
@@ -19,7 +19,7 @@
                 <b-input 
                     type="password"
                     v-model="user.password"
-                    placeholder="Your Password"
+                    :placeholder="$t('inputs.auth.password.placeholder')"
                     @blur="onBlur('password')"
                     @focus="onFocus('password')"
                     @keyup.native.enter="onLogin"
@@ -28,16 +28,17 @@
             </b-field>
 
             <div class="login-footer">
-                <router-link class="link" to="/recover">Forgot Password?</router-link>
+                <router-link class="link" to="/recover">{{ $t('login_page.forgot.link') }}</router-link>
                 <button
                     type="button"
                     class="button is-primary is-rounded"
                     @click="onLogin"
                 >
-                    Login
+                    {{ $t('login_page.buttons.submit') }}
                 </button>
             </div>
         </Form>
+        <SocialIcons />
     </Container>
 </template>
 
@@ -46,9 +47,11 @@ import { mapActions } from 'vuex';
 import { required, email, minLength } from 'vuelidate/lib/validators';
 import Container from './Container';
 import Form from './Form';
+import SocialIcons from './SocialIcons';
 
 export default {
     components: {
+        SocialIcons,
         Container,
         Form
     },
@@ -125,8 +128,7 @@ export default {
             this.user = {
                 email: '',
                 password: ''
-            },
-
+            };
             this.input = {
                 email: {
                     type: ''
