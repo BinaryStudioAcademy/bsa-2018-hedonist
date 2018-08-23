@@ -5,8 +5,7 @@
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
                     <img
-                        src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png"
-                        data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png"
+                        :src="placeMarker"
                         width="88"
                         height="88"
                     >
@@ -78,7 +77,13 @@
             </div>
             <div class="column is-one-third place-rate">
                 <div class="place-rate__mark">
-                    <span>{{ place.rating | formatRating }}</span><sup>/<span>10</span></sup>
+                    <span class="place-rate__mark-value">
+                        {{ place.rating | formatRating }}
+                    </span>
+                    <sup>
+                        /
+                        <span>10</span>
+                    </sup>
                 </div>
                 <div class="place-rate__mark-count">
                     {{ place.ratingCount || 1 }} marks
@@ -102,6 +107,8 @@ import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 import { STATUS_NONE } from '@/services/api/codes';
+import defaultMarker from '@/assets/default_marker.png';
+
 
 export default {
     name: 'PlaceTopInfo',
@@ -173,6 +180,10 @@ export default {
         
         pageLink() {
             return location.href;
+        },
+
+        placeMarker() {
+            return defaultMarker;
         }
     },
 
@@ -238,6 +249,9 @@ export default {
                     color: white;
                     background-color: #00B551;
                     padding: 4px;
+                }
+                &__mark-value {
+                   margin:0 5px;
                 }
                 &__mark-count {
                     margin-left: 10px;

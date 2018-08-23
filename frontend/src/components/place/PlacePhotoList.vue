@@ -42,7 +42,7 @@ export default {
             photoList: null,
             imageOffset: null,
             imageSlideNumber: 2,
-            maxImages: 12
+            maxImages: 11
         };
     },
     mounted() {
