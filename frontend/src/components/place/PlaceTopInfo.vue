@@ -36,7 +36,8 @@
                         <b-icon icon="menu-down" />
                     </button>
                     <template v-for="list in userList">
-                        <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}</b-dropdown-item>
+                        <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}
+                        </b-dropdown-item>
                     </template>
                 </b-dropdown>
 
@@ -57,7 +58,7 @@
             </div>
         </div>
         <div class="place-top-info__sidebar columns">
-            <div class="column is-two-thirds">
+            <div class="column is-two-third">
                 <nav class="sidebar-actions tabs">
                     <ul>
                         <li
@@ -119,7 +120,7 @@ export default {
     },
 
     filters: {
-        formatRating: function(number){
+        formatRating: function (number) {
             return new Intl.NumberFormat(
                 'en-US', {
                     minimumFractionDigits: 1,
@@ -144,7 +145,7 @@ export default {
 
         this.$store.dispatch('place/getLikedPlace', this.place.id);
     },
-    
+
     computed: {
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
@@ -228,10 +229,11 @@ export default {
                 display: none;
             }
             .place-rate {
-                padding-left: 50px;
                 display: flex;
                 align-items: center;
                 &__mark {
+                    margin-left: auto;
+                    margin-right: 5px;
                     border-radius: 3px;
                     color: white;
                     background-color: #00B551;
@@ -289,6 +291,32 @@ export default {
                 i {
                     margin-right: 5px;
                     font-size: 25px;
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: 769px) and (max-width: 1005px) {
+        .place-top-info {
+            &__sidebar {
+                .place-rate {
+                    &__mark-count{
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 769px) {
+        .place-top-info {
+            &__sidebar {
+                .place-rate {
+                    &__mark {
+                        margin-left: 20px;
+                        margin-right: 5px;
+                        border-radius: 3px;
+                    }
                 }
             }
         }

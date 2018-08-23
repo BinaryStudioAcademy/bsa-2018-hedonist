@@ -2,12 +2,12 @@
     <div class="place-photo">
         <img
             v-img:top-group
-            class="place-photo__image" 
-            :src="photo.img_url"
+            class="place-photo__image"
+            :src="photo['img_url']"
             :alt="photo.description"
         >
         <div 
-            v-if="photo.id === lastId" 
+            v-if="lastPhoto"
             class="place-photo__show-all"
         >
             <a 
@@ -29,8 +29,8 @@ export default {
             type: Object,
             required: true
         },
-        lastId: {
-            type: Number,
+        lastPhoto: {
+            type: Boolean,
             required: true
         }
     },
@@ -52,12 +52,10 @@ export default {
     position: relative;
 
     &__image {
-        position:absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        margin: auto;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
     }
 
     &__show-all {
