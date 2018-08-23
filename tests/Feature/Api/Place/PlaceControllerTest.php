@@ -205,12 +205,20 @@ class PlaceControllerTest extends ApiTestCase
             "/api/v1/places/search?filter[category]=$category->id&filter[location]=$longitude,$latitude&page=1"
         );
         $arrayContent = $response->getOriginalContent();
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'longitude',
+                    'latitude',
+                    'zip',
+                    'address',
+                    'phone',
+                    'website'
+                ]
+            ]
+        ]);
 
-        $this->assertTrue(isset(
-            $arrayContent['data'][0]['id'],
-            $arrayContent['data'][0]['city'],
-            $arrayContent['data'][0]['address'])
-        );
         $this->assertEquals(count($arrayContent['data']), 1);
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
@@ -233,12 +241,20 @@ class PlaceControllerTest extends ApiTestCase
             "/api/v1/places/search?filter[category]=&filter[location]=&page=1"
         );
         $arrayContent = $response->getOriginalContent();
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'longitude',
+                    'latitude',
+                    'zip',
+                    'address',
+                    'phone',
+                    'website'
+                ]
+            ]
+        ]);
 
-        $this->assertTrue(isset(
-            $arrayContent['data'][0]['id'],
-            $arrayContent['data'][0]['city'],
-            $arrayContent['data'][0]['address'])
-        );
         $this->assertEquals(count($arrayContent['data']), 2);
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
