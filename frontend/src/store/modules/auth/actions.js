@@ -111,9 +111,6 @@ export default {
             });
         });
     },
-    setUserAvatar: (context, user_avatar_url) => {
-        context.commit('SET_USER_AVATAR', user_avatar_url);
-    },
     socialLogin: (context, data) => {
         return httpService.get(`auth/social/${data.provider}/callback?code=${data.code}`)
             .then((response) => {
@@ -125,30 +122,5 @@ export default {
     socialRedirect(context,provider) {
         return httpService.get(`/auth/social/${provider}/redirect`)
             .then((response) => response.data.data.url);
-    },
-    updateProfile: (context, data) => {
-        return new Promise((resolve, reject) => {
-            httpService.post('/users/' + data.userId + '/profile', data.formData)
-                .then(function (res) {
-                    context.commit('SET_AUTHENTICATED_USER', res.data.data);
-                    resolve(res);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    reject(error.response.data.error);
-                });
-        });
-    },
-    deleteUserAvatar: (context, userId) => {
-        return new Promise((resolve, reject) => {
-            httpService.delete('/users/' + userId + '/profile/avatar')
-                .then(function (res) {
-                    resolve(res);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    reject(error.response.data.error);
-                });
-        });
     }
 };
