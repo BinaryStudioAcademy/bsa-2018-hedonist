@@ -46,12 +46,7 @@ class LikePlaceAction
         } else {
             $this->likeRepository->deleteById($like->id);
         }
-
-        $place = $this->placeRepository->getByIdWithRelations($request->getPlaceId());
-        if (!$place) {
-            throw new PlaceNotFoundException;
-        }
         
-        return new LikePlaceResponse($place->likes->count(), $place->dislikes->count());
+        return new LikePlaceResponse();
     }
 }

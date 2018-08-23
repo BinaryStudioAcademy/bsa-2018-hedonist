@@ -5,8 +5,7 @@
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
                     <img
-                        src="https://ss3.4sqi.net/img/categories_v2/food/caucasian_88.png"
-                        data-retina-url="https://ss3.4sqi.net/img/categories_v2/food/caucasian_512.png"
+                        :src="placeMarker"
                         width="88"
                         height="88"
                     >
@@ -36,7 +35,8 @@
                         <b-icon icon="menu-down" />
                     </button>
                     <template v-for="list in userList">
-                        <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}</b-dropdown-item>
+                        <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}
+                        </b-dropdown-item>
                     </template>
                 </b-dropdown>
 
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="place-top-info__sidebar columns">
-            <div class="column is-two-thirds">
+            <div class="column is-two-third">
                 <nav class="sidebar-actions tabs">
                     <ul>
                         <li
@@ -77,7 +77,13 @@
             </div>
             <div class="column is-one-third place-rate">
                 <div class="place-rate__mark">
-                    <span>{{ place.rating | formatRating }}</span><sup>/<span>10</span></sup>
+                    <span class="place-rate__mark-value">
+                        {{ place.rating | formatRating }}
+                    </span>
+                    <sup>
+                        /
+                        <span>10</span>
+                    </sup>
                 </div>
                 <div class="place-rate__mark-count">
                     {{ place.ratingCount || 1 }} marks
@@ -100,6 +106,9 @@
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
+import { STATUS_NONE } from '@/services/api/codes';
+import defaultMarker from '@/assets/default_marker.png';
+
 
 export default {
     name: 'PlaceTopInfo',
@@ -118,7 +127,7 @@ export default {
     },
 
     filters: {
-        formatRating: function(number){
+        formatRating: function (number) {
             return new Intl.NumberFormat(
                 'en-US', {
                     minimumFractionDigits: 1,
@@ -143,7 +152,7 @@ export default {
 
         this.$store.dispatch('place/getLikedPlace', this.place.id);
     },
-    
+
     computed: {
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
@@ -171,6 +180,10 @@ export default {
         
         pageLink() {
             return location.href;
+        },
+
+        placeMarker() {
+            return defaultMarker;
         }
     },
 
@@ -181,7 +194,6 @@ export default {
         },
 
         updateLikesDislikes() {
-            this.$store.dispatch('place/getLikedPlace', this.place.id);
             if (this.likes) {
                 this.place.likes = this.likes;
             }
@@ -228,14 +240,18 @@ export default {
                 display: none;
             }
             .place-rate {
-                padding-left: 50px;
                 display: flex;
                 align-items: center;
                 &__mark {
+                    margin-left: auto;
+                    margin-right: 5px;
                     border-radius: 3px;
                     color: white;
                     background-color: #00B551;
                     padding: 4px;
+                }
+                &__mark-value {
+                   margin:0 5px;
                 }
                 &__mark-count {
                     margin-left: 10px;
@@ -289,6 +305,32 @@ export default {
                 i {
                     margin-right: 5px;
                     font-size: 25px;
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: 769px) and (max-width: 1005px) {
+        .place-top-info {
+            &__sidebar {
+                .place-rate {
+                    &__mark-count{
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 769px) {
+        .place-top-info {
+            &__sidebar {
+                .place-rate {
+                    &__mark {
+                        margin-left: 20px;
+                        margin-right: 5px;
+                        border-radius: 3px;
+                    }
                 }
             }
         }

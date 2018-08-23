@@ -20,7 +20,7 @@
                 font-size="0.7rem"
                 :likes="review.likes"
                 :dislikes="review.dislikes"
-                :like="review.like"
+                :status="review.like"
                 class="review-likes"
             />
         </div>

@@ -44,7 +44,7 @@
 import { mapGetters, mapActions, mapState } from 'vuex';
 import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
 import LocationService from '@/services/location/locationService';
-import MarkerService from '@/services/map/markerManagerService';
+import markerManager from '@/services/map/markerManager';
 import Mapbox from 'mapbox-gl-vue';
 
 export default {
@@ -66,7 +66,7 @@ export default {
     computed: {
         ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle', 'getMapboxCenter']),
         ...mapGetters('user/history', [
-            'getCheckInById', ,
+            'getCheckInById',
             'getPlaceById',
             'getPlaceByCheckInId',
             'placeList'
@@ -89,7 +89,6 @@ export default {
                             this.getMapboxCenter(this.places.byId, this.places.allIds)
                         );
                         this.updateMap(this.placeList);
-                        this.markerManager.fitMarkersOnMap();
                     })
                     .catch((err) => {
                         this.isPlacesLoaded = true;
@@ -102,10 +101,10 @@ export default {
         ]),
 
         mapInitialize(map) {
-            this.markerManager = new MarkerService(map);
+            this.markerManager = markerManager.getService(map);
         },
         updateMap(places) {
-            this.markerManager.setMarkers(places);
+            this.markerManager.setMarkersFromPlacesAndFit(...places);
         },
         loadUserCoords() {
             return new Promise((resolve, reject) => {

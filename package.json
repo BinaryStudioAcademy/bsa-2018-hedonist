@@ -19,6 +19,7 @@
         "lodash": "^4.17.4",
         "mapbox-gl": "^0.47.0",
         "mapbox-gl-vue": "^1.9.0",
+        "raven-js": "^3.26.4",
         "v-click-outside": "^1.0.5",
         "v-img": "^0.2.0",
         "vue": "^2.5.2",
