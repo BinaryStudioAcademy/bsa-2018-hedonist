@@ -149,6 +149,10 @@ export default {
     .mapboxgl-popup-close-button{
         font-size: 22px;
     }
+
+    .link-place:hover{
+        text-decoration: underline;
+    }
 </style>
 
 <style lang="scss" scoped>
