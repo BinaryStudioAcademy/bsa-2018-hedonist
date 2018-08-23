@@ -77,7 +77,7 @@ export default {
                 day: 'numeric',
                 weekday: 'long',
             };
-            return date.toLocaleString("en-US", options)
+            return date.toLocaleString('en-US', options);
         }
     },
 
