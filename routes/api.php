@@ -62,6 +62,8 @@ Route::prefix('v1')->group(function () {
             Route::delete('places/{id}', 'PlaceController@removePlace')
                 ->where('id', '[0-9]+')
                 ->name('removePlace');
+
+            Route::get('/places/search', 'PlaceController@searchByFilters');
         });
 
         Route::prefix('reviews')->group(function () {
