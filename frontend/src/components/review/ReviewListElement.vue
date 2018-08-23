@@ -15,6 +15,13 @@
                     <div class="content">
                         <p>{{ review.description }}</p>
                     </div>
+
+                    <template v-if="isImageAttached">
+                        <div class="image is-3by1">
+                            <img class="review-photo" :src="reviewImageUrl">
+                        </div>
+                    </template>
+
                     <LikeDislikeButtons
                         @like="onLikeReview"
                         @dislike="onDislikeReview"
@@ -31,7 +38,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 
 export default {
@@ -43,19 +50,46 @@ export default {
             required: true
         }
     },
+
+    data() {
+        return {
+            reviewImageUrl: ''
+        };
+    },
+
+    created() {
+        this.getReviewImage();
+    },
+
+    computed: {
+        userName() {
+            return this.review.user.first_name + ' ' + this.review.user.last_name;
+        },
+
+        isImageAttached() {
+            return !_.isEmpty(this.reviewImageUrl);
+        }
+    },
+
     methods: {
+        ...mapActions('review', ['getReviewPhoto']),
+        getReviewImage: function() {
+            this.getReviewPhoto(this.review.id)
+                .then((result) => {
+                    this.reviewImageUrl = result;
+                })
+                .catch(() => {
+                    this.reviewImageUrl = '';
+                });
+        },
+
         ...mapActions('place', ['likeReview', 'dislikeReview']),
         onLikeReview() {
             this.likeReview(this.review.id);
         },
+
         onDislikeReview() {
             this.dislikeReview(this.review.id);
-        }
-    },
-    computed: {
-        ...mapState('place', ['currentPlaceReviews']),
-        userName() {
-            return this.review.user.first_name + ' ' + this.review.user.last_name;
         }
     }
 };
@@ -75,6 +109,11 @@ export default {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+    }
+
+    /* for fill in the div without shrink */
+    .review-photo {
+        object-fit: cover;
     }
 
     .review-like {

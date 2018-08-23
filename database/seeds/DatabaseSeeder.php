@@ -25,5 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ReviewLikeDislikeSeeder::class);
         $this->call(PlaceRatingTableSeeder::class);
         $this->call(PlacesAttachFeaturesTableSeeder::class);
+        $this->call(UserTasteSeeder::class);
     }
 }
