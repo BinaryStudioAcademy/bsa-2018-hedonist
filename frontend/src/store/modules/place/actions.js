@@ -153,16 +153,12 @@ export default {
             });
     },
 
-    updateLikedStatus: (context, res) => {
-        context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
-        context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
-        context.commit('SET_PLACE_LIKED', res.data.data.likeStatus);
-    },
-
     likePlace: (context, placeId) => {
         httpService.post(`places/${placeId}/like`)
             .then( (res) => {
-                this.updateLikedStatus(context, res);
+                context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
+                context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
+                context.commit('SET_PLACE_LIKED', res.data.data.likeStatus);
                 return Promise.resolve(res);
             })
             .catch( (err) => {
@@ -173,7 +169,9 @@ export default {
     dislikePlace: (context, placeId) => {
         httpService.post(`places/${placeId}/dislike`)
             .then( (res) => {
-                this.updateLikedStatus(context, res);
+                context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
+                context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
+                context.commit('SET_PLACE_LIKED', res.data.data.likeStatus);
                 return Promise.resolve(res);
             })
             .catch( (err) => {
