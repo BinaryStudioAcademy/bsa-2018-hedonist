@@ -20,7 +20,7 @@ const createPopup = (markerData) => {
             </div>
             <div class="media-content">
                 <div>
-                    <a class="has-text-black is-size-6" href="/places/${markerData.id}" target="_blank">
+                    <a class="link-place has-text-black is-size-6" href="/places/${markerData.id}" target="_blank">
                         <strong>
                             ${markerData.name}
                         </strong>

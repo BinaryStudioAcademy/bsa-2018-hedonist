@@ -23,6 +23,8 @@
                     </template>
 
                     <LikeDislikeButtons
+                        @like="onLikeReview"
+                        @dislike="onDislikeReview"
                         :likes="review.likes"
                         :dislikes="review.dislikes"
                         :status="review.like"
@@ -76,6 +78,15 @@ export default {
                 .catch(() => {
                     this.reviewImageUrl = '';
                 });
+        },
+
+        ...mapActions('place', ['likeReview', 'dislikeReview']),
+        onLikeReview() {
+            this.likeReview(this.review.id);
+        },
+
+        onDislikeReview() {
+            this.dislikeReview(this.review.id);
         }
     }
 };
@@ -105,9 +116,4 @@ export default {
     .review-like {
         max-width: 80px;
     }
-
-    .icon {
-        margin-right: 5px;
-    }
-
 </style>

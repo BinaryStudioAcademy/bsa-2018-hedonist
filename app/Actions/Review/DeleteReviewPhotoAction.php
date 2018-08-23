@@ -23,7 +23,7 @@ class DeleteReviewPhotoAction
             throw new ReviewPhotoExistsException('Review photo not found.');
         }
         $arr = explode('/', $reviewPhoto->img_url);
-        Storage::disk('public')->delete('upload/review/' . end($arr));
+        Storage::disk()->delete('upload/review/' . end($arr));
         $this->reviewPhotoRepository->deleteById($id);
     }
 }

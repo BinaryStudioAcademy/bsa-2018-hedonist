@@ -25,6 +25,14 @@ export default {
                     reject(err);
                 });
         });
+    },
+
+    setCurrentMapCenter: ({ commit }, currentCenter) => {
+        commit('SET_CURRENT_MAP_CENTER', currentCenter);
+    },
+
+    mapInitialization: ({ commit }) => {
+        commit('MAP_INIT', true);
     }
 };
 
@@ -52,11 +60,29 @@ const transformPlaces = (data) => {
             longitude: checkIn.place.longitude,
             zip: checkIn.place.zip,
             address: checkIn.place.address,
-            city: checkIn.place.city,
-            category: checkIn.place.category,
+            city: {
+                id: checkIn.place.city.id,
+                name: checkIn.place.city.name
+            },
+            category: {
+                id: checkIn.place.category.id,
+                name: checkIn.place.category.name
+            },
             createdAt: checkIn.place.createdAt,
-            name: checkIn.place.name,
-            photo: checkIn.place.photo,
+            localization: checkIn.place.localization.map((localization) => {
+                return {
+                    id: localization.id,
+                    name: localization.name,
+                };
+            }),
+            photos: checkIn.place.photos.map((photo) => {
+                return {
+                    id: photo.id,
+                    description: photo.description,
+                    imgUrl: photo['img_url'],
+                    creatorId: photo['creator_id'],
+                };
+            }),
             rating: checkIn.place.rating
         };
     });

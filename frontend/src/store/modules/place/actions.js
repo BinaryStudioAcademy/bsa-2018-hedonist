@@ -1,4 +1,6 @@
 import httpService from '@/services/common/httpService';
+import normalizerService from '@/services/common/normalizerService';
+import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
 export default {
     setPlaceRating: (context, data) => {
@@ -23,6 +25,13 @@ export default {
                 .then( (response) => {
                     const currentPlace = response.data.data;
                     context.commit('SET_CURRENT_PLACE', currentPlace);
+                    let transformedCurrentPlaceReviews = normalizerService.normalize({
+                        data: currentPlace.reviews
+                    });
+                    transformedCurrentPlaceReviews.allIds = [];
+                    for (let k in transformedCurrentPlaceReviews.byId)
+                        transformedCurrentPlaceReviews.allIds.push(parseInt(k));
+                    context.commit('SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews);
                     resolve();
                 })
                 .catch( (err) => {
@@ -43,6 +52,96 @@ export default {
         });
     },
 
+    likeReview: (context, id) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('reviews/' + id + '/like')
+                .then(function (res) {
+                    let review = context.state.currentPlaceReviews.byId[id];
+
+                    if (review.like === STATUS_NONE) {
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
+                            reviewId: id,
+                            likeState: STATUS_LIKED
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
+                            reviewId: id,
+                            count: review.likes + 1
+                        });
+                    } else if (review.like === STATUS_LIKED) {
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
+                            reviewId: id,
+                            likeState: STATUS_NONE
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
+                            reviewId: id,
+                            count: review.likes - 1
+                        });
+                    } else if (review.like === STATUS_DISLIKED) {
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
+                            reviewId: id,
+                            likeState: STATUS_LIKED
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
+                            reviewId: id,
+                            count: review.likes + 1
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
+                            reviewId: id,
+                            count: review.dislikes - 1
+                        });
+                    }
+                    resolve(res.data);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+
+    dislikeReview: (context, id) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('reviews/' + id + '/dislike')
+                .then(function (res) {
+                    let review = context.state.currentPlaceReviews.byId[id];
+                    if (review.like === STATUS_NONE) {
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
+                            reviewId: id,
+                            likeState: STATUS_DISLIKED
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
+                            reviewId: id,
+                            count: review.dislikes + 1
+                        });
+                    } else if (review.like === STATUS_LIKED) {
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
+                            reviewId: id,
+                            likeState: STATUS_DISLIKED
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
+                            reviewId: id,
+                            count: review.likes - 1
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
+                            reviewId: id,
+                            count: review.dislikes + 1
+                        });
+                    } else if (review.like === STATUS_DISLIKED) {
+                        context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
+                            reviewId: id,
+                            likeState: STATUS_NONE
+                        });
+                        context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
+                            reviewId: id,
+                            count: review.dislikes - 1
+                        });
+                    }
+                    resolve(res.data);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
     getLikedPlace: (context, placeId) => {
         httpService.get(`places/${placeId}/liked`)
             .then( (res) => {

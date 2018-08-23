@@ -1,6 +1,6 @@
 import MarkerGenerator from './markerGeneratorService';
 import geojsonExtent from '@mapbox/geojson-extent';
-import placeholderImg from '../../assets/placeholder_128x128.png';
+import placeholderImg from '@/assets/placeholder_128x128.png';
 
 
 class MarkerManagerService {
@@ -19,7 +19,7 @@ class MarkerManagerService {
         };
     }
 
-    setMarkers(...items) {
+    setMarkers(items) {
         let markersData = items.map((item) => this._parser(item));
         this._removeMarkers(markersData);
         markersData.forEach((item) => {
