@@ -95,10 +95,8 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
-import MarkerService from '@/services/map/markerManagerService';
+import markerManager from '@/services/map/markerManager';
 import placeholderImg from '../../assets/placeholder_128x128.png';
-
-let markerManager = null;
 
 export default {
     name: 'PlaceSidebarInfo',
@@ -111,6 +109,7 @@ export default {
                 lat: 50.4547,
                 lng: 30.5238
             },
+            markerManager: null,
         };
     },
 
@@ -151,11 +150,8 @@ export default {
         },
 
         mapLoaded(map) {
-            markerManager = new MarkerService(map);
+            this.markerManager = markerManager.getService(map);
             this.isMapLoaded = true;
-            this.updateMap(this.place);
-            markerManager.fitMarkersOnMap();
-            this.setCurrentCenter(markerManager.getCurrentCenter());
         },
 
         jumpTo(coordinates) {
@@ -165,7 +161,9 @@ export default {
         },
 
         updateMap(place) {
-            markerManager.setMarkers(place);
+            if (this.isMapLoaded) {
+                this.markerManager.setMarkersFromPlacesAndFit(...this.place);
+            }
         },
         
         createUserMarker(){
