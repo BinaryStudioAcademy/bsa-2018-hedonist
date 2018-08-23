@@ -27,7 +27,7 @@ class SavePlacePhotoAction
         $file = $request->getImg();
         $fileNameGenerator = new FileNameGenerator($file);
         $newFileName = $fileNameGenerator->generateFileName();
-        Storage::disk()->putFileAs(self::FILE_STORAGE, $file, $newFileName);
+        Storage::disk()->putFileAs(self::FILE_STORAGE, $file, $newFileName, 'public');
         list($width, $height) = getimagesize($file);
         $placePhoto->place_id = $request->getPlaceId();
         $placePhoto->creator_id = $request->getCreatorId();
