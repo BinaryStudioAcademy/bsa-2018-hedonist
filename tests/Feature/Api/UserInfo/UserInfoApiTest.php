@@ -150,4 +150,16 @@ class UserInfoApiTest extends ApiTestCase
     {
         $this->json('GET', "/api/v1/user/9999/profile")->assertStatus(404);
     }
+
+    public function test_delete_user_avatar_url()
+    {
+        $userInfo = factory(UserInfo::class)->create();
+        $data = [
+            'id' => $userInfo->id,
+            'user_id' => $userInfo->user_id,
+            'avatar_url' => '',
+        ];
+        $this->json('DELETE', "/api/v1/users/$userInfo->user_id/profile/avatar");
+        $this->assertDatabaseHas('user_info', $data);
+    }
 }
