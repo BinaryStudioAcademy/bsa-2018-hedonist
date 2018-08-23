@@ -103,7 +103,7 @@ class SaveUserInfoAction
         $avatarUrl = "";
         if ($avatar !== null) {
             $avatarUrl = $userId . '.' . $avatar->extension();
-            Storage::disk()->putFileAs(self::FILE_STORAGE, $avatar, $avatar->getFilename());
+            Storage::disk()->putFileAs(self::FILE_STORAGE, $avatar, $avatar->getFilename(), 'public');
         }
         return $avatarUrl;
     }
