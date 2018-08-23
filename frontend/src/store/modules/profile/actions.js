@@ -53,5 +53,16 @@ export default {
     },
     updateUserAvatar: (context, avatarUrl) => {
         context.commit('SET_USER_AVATAR', avatarUrl);
+    },
+    updatePassword: (context, passwords) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/auth/reset-password', passwords)
+                .then(function (res) {
+                    resolve(res);
+                })
+                .catch(function (error) {
+                    reject(error.response.data.error);
+                });
+        });
     }
 }

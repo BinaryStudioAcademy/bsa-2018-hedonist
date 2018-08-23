@@ -45,6 +45,7 @@
                 <b-field label="Old password">
                     <b-input
                         type="password"
+                        v-model="oldPassword"
                         password-reveal
                     />
                 </b-field>
@@ -52,6 +53,7 @@
                 <b-field label="New password">
                     <b-input
                         type="password"
+                        v-model="newPassword"
                         password-reveal
                     />
                 </b-field>
@@ -117,6 +119,8 @@ export default {
             birthMonth: '',
             birthYear: '',
             files: [],
+            oldPassword: '',
+            newPassword: '',
         };
     },
     created() {
@@ -199,8 +203,26 @@ export default {
             updateTwitter: 'profile/updateTwitter',
             updateDateOfBirth: 'profile/updateDateOfBirth',
             updateUserAvatar: 'profile/updateUserAvatar',
+            updatePassword: 'profile/updatePassword',
         }),
         saveData() {
+            if (this.oldPassword !== '' && this.newPassword !== '') {
+                this.updatePassword({old_password: this.oldPassword, new_password: this.newPassword})
+                    .then(() => {
+                        this.saveProfileInfo();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        // this.onError({
+                        //     message: error.message
+                        // });
+                        return false;
+                    })
+            } else {
+                this.saveProfileInfo();
+            }
+        },
+        saveProfileInfo() {
             const formData = new FormData();
             formData.append('first_name', this.user.first_name);
             formData.append('last_name', this.user.last_name);
@@ -239,6 +261,12 @@ export default {
             this.$toast.open({
                 message: success.message,
                 type: 'is-success'
+            });
+        },
+        onError (error) {
+            this.$toast.open({
+                message: error.message,
+                type: 'is-danger'
             });
         },
     }
