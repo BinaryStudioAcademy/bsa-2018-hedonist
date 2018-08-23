@@ -3,8 +3,8 @@
 namespace Hedonist\Actions\Auth\Presenters;
 
 use Hedonist\Actions\Auth\Responses\AuthenticateResponseInterface;
+use Hedonist\Actions\SocialAuth\Responses\SocialRedirectResponse;
 use Hedonist\Actions\Auth\Responses\GetUserResponse;
-use Hedonist\Entities\User\User;
 
 class AuthPresenter
 {
@@ -40,5 +40,10 @@ class AuthPresenter
             'instagram' => $userInfo->instagram_url,
             'twitter' => $userInfo->twitter_url,
         ];
+    }
+
+    public static function presentSocialRedirect(SocialRedirectResponse $response)
+    {
+        return ['url' => $response->getUrl()];
     }
 }

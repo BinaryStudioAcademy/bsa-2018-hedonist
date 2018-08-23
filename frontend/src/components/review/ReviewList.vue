@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="reviews-section-list">
-                <template v-for="review in place.reviews">
+                <template v-for="review in currentPlaceReviews.byId">
                     <Review 
                         :key="review.id" 
                         :review="review"
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
 
@@ -84,6 +85,7 @@ export default {
     },
 
     computed: {
+        ...mapState('place', ['currentPlaceReviews']),
     },
 
     methods: {
