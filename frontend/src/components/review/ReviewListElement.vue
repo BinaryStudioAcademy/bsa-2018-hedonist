@@ -10,7 +10,7 @@
                 <div class="media-content">
                     <div class="top-line">
                         <strong><a>{{ userName }}</a></strong>
-                        <small><a>21 September 2018</a></small>
+                        <small>{{ date }}</small>
                     </div>
                     <div class="content">
                         <p>{{ review.description }}</p>
@@ -68,6 +68,17 @@ export default {
 
         isImageAttached() {
             return !_.isEmpty(this.reviewImageUrl);
+        },
+        date() {
+            const date = new Date(this.review['created_at']);
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long',
+            };
+
+            return date.toLocaleString("en-US", options)
         }
     },
 
