@@ -87,12 +87,6 @@ export default {
                 center: coordinates,
             });
         },
-<<<<<<< HEAD
-=======
-        updateMap(places) {
-            markerManager.setMarkers(places);
-        },
->>>>>>> development
         createUserMarker() {
             return {
                 id: 0,
