@@ -2,8 +2,17 @@
     <transition name="slide-fade">
         <div class="container place-item" v-if="active">
             <div class="media">
-                <figure class="media-left image is-128x128">
-                    <img :src="photo">
+                <figure v-if="hasPhotos" class="media-left image is-128x128">
+                    <img 
+                        v-for="(photo, index) in place.photos"
+                        v-img="{group: place.id}"
+                        v-show="index === 0"
+                        :src="photo.img_url"
+                        :key="photo.id"
+                    >
+                </figure>
+                <figure v-else class="media-left image is-128x128">
+                    <img :src="notFoundPhoto">
                 </figure>
                 <div class="media-content">
                     <h3
@@ -145,8 +154,10 @@ export default {
         localizedName(){
             return this.place.localization[0].name;
         },
-        photo: function () {
-            if(this.place.photos[0]) return this.place.photos[0].img_url;
+        hasPhotos() {
+            return this.place.photos !== undefined && this.place.photos.length;
+        },
+        notFoundPhoto() {
             return imagePlaceholder;
         }
     },

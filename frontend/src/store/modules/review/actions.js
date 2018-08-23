@@ -16,6 +16,7 @@ export default {
                 });
         });
     },
+
     addReviewPhoto: (context, photo) => {
         return new Promise((resolve, reject) => {
             const formData = new FormData();
@@ -28,6 +29,18 @@ export default {
                 })
                 .catch(function (err) {
                     reject(err);
+                });
+        });
+    },
+
+    getReviewPhoto: (context, reviewId) => {
+        return new Promise((resolve, reject) => {
+            httpService.get(`reviews/${reviewId}/photos`)
+                .then((result) => {
+                    resolve(result.data.data[0].img_url);
+                })
+                .catch(() => {
+                    reject();
                 });
         });
     }
