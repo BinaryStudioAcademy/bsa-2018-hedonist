@@ -126,7 +126,6 @@ export default {
 
     created() {
         if (this.isMapLoaded) {
-            alert('isMapLoaded');
             this.updateMap();
             markerManager.fitMarkersOnMap();
         }
