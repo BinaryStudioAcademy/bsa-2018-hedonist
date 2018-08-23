@@ -53,11 +53,7 @@ export default {
                 password_confirmation: user.passwordConfirmation,
                 token: user.token
             }).then(function (res) {
-                if (res.status === 400) {
-                    resolve(res.data);
-                } else {
-                    resolve(res);
-                }
+                resolve(res);
             }).catch(function (err) {
                 reject(err);
             });
@@ -80,11 +76,7 @@ export default {
             httpService.post('/auth/recover', {
                 email: email
             }).then(function (res) {
-                if (res.status === 400) {
-                    resolve(res.data);
-                } else {
-                    resolve(res);
-                }
+                resolve(res);
             }).catch(function (err) {
                 reject(err);
             });
