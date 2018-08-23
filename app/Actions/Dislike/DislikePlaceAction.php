@@ -10,7 +10,6 @@ use Hedonist\Repositories\Like\LikeRepository;
 use Hedonist\Repositories\Dislike\DislikeRepository;
 use Hedonist\Repositories\Place\PlaceRepository;
 use Illuminate\Support\Facades\Auth;
-use Hedonist\Entities\Like\LikeStatus;
 
 class DislikePlaceAction
 {
