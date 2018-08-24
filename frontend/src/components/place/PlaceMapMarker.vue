@@ -10,7 +10,6 @@
             show: true,
             position: 'top-left'
         }"
-        @map-init="mapInitialize"
         @map-load="mapLoaded"
     />
 </template>
@@ -23,14 +22,6 @@ import markerManager from '@/services/map/markerManager';
 export default {
     name: 'PlaceMapMarker',
 
-    data() {
-        return {
-            isMapLoaded: false,
-            map: {},
-            markerManager: null,
-        };
-    },
-
     props: {
         place: {
             type: Object,
@@ -42,40 +33,10 @@ export default {
         Mapbox
     },
 
-    created() {
-        if (this.isMapLoaded) {
-            this.updateMap();
-            markerManager.fitMarkersOnMap();
-        }
-    },
-
     methods: {
-        ...mapActions('place', ['mapInitialization']),
-
-        mapInitialize(map) {
-            if (this.mapInitialized) {
-                return;
-            }
-            this.map = map;
-            this.mapInitialization();
-        },
-
         mapLoaded(map) {
-            this.markerManager = markerManager.getService(map);
-            this.isMapLoaded = true;
-        },
-
-        updateMap() {
-            if (this.isMapLoaded) {
-                this.markerManager.setMarkersFromPlacesAndFit(this.place);
-            }
+            markerManager.getService(map).setMarkersFromPlacesAndFit(this.place);
         }
-    },
-
-    watch: {
-        isMapLoaded: function (oldVal, newVal) {
-            this.updateMap();
-        },
     },
 
     computed: {

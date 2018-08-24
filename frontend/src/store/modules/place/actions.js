@@ -177,9 +177,5 @@ export default {
             .catch( (err) => {
                 return Promise.reject(err);
             });
-    },
-
-    mapInitialization: ({ commit }) => {
-        commit('MAP_INIT', true);
     }
 };
