@@ -86,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="navbar-item">
+                    <div class="navbar-item navbar-lang">
                         <LanguageSelector />
                     </div>
                 </div>
@@ -213,6 +213,10 @@ export default {
         @media screen and (max-width: 1087px) {
             text-indent: 36px;
         }
+    }
+
+    .navbar-lang {
+        margin-left: 7px;
     }
 
 </style>
