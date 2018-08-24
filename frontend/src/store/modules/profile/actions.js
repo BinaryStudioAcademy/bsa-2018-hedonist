@@ -30,7 +30,7 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.delete('/users/' + userId + '/profile/avatar')
                 .then((res) => {
-                    context.commit('DELETE_USER_AVATAR', res.data.data);
+                    context.commit('DELETE_USER_AVATAR');
                     resolve(res);
                 })
                 .catch((error) => {
