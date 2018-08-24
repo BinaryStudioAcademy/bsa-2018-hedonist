@@ -41,10 +41,14 @@ export default {
         }),
         search() {
             let location = this.location;
+            let category = this.category;
             if (location !== '') {
                 location = this.location.center[0] + ',' + this.location.center[1];
             }
-            this.$router.push({ path: 'search', query: { category: this.category.id, location: location, page: 1 }})
+            if (this.category.id !== undefined) {
+                category = this.category.id;
+            }
+            this.$router.push({ path: 'search', query: { category: category, location: location, page: 1 }})
         }
     },
 };
