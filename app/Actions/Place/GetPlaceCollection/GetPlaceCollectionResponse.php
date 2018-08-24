@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
-use Hedonist\Entities\User\User;
+use Illuminate\Contracts\Auth\Authenticatable as User;
 use Illuminate\Database\Eloquent\Collection;
 
 class GetPlaceCollectionResponse
