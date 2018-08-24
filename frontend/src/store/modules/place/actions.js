@@ -60,8 +60,6 @@ export default {
                     for (let k in normalizeUsers.byId)
                         normalizeUsers.allIds.push(parseInt(k));
 
-                    // TODO: delete duplicate
-                    context.commit('SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews);
                     context.commit('review/SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews, { root: true });
                     context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsers, { root: true });
                     resolve();

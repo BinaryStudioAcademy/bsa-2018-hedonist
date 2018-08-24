@@ -27,8 +27,4 @@ export default {
         state.currentPlace.ratingCount = ratingCount;
     },
 
-    SET_CURRENT_PLACE_REVIEWS: (state, reviews) => {
-        state.currentPlaceReviews = reviews;
-    },
-
 };
