@@ -28,14 +28,5 @@ export default {
         },
         allIds: [ 1, 2 ]
     },
-    users: {
-        byId: {
-            1: {
-                first_name: "Ivan",
-                last_name: "Ivanov",
-                avatar_url: ""
-            }
-        },
-        allIds: [ 1 ]
-    }
+    users: []
 };

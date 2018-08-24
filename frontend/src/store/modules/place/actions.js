@@ -32,6 +32,18 @@ export default {
                     for (let k in transformedCurrentPlaceReviews.byId)
                         transformedCurrentPlaceReviews.allIds.push(parseInt(k));
                     context.commit('SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews);
+
+                    let users = { byId: [], allIds: [] };
+                    for (let key in transformedCurrentPlaceReviews.byId) {
+                        if (!transformedCurrentPlaceReviews.byId.hasOwnProperty(key)) continue;
+
+                        let userId = transformedCurrentPlaceReviews.byId[key].user.id;
+                        if (! users.allIds.includes(userId)) {
+                            users.byId.push(transformedCurrentPlaceReviews.byId[key].user);
+                            users.allIds.push(userId);
+                        }
+                    }
+                    context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', users, { root: true });
                     resolve();
                 })
                 .catch( (err) => {
