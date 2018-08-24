@@ -29,35 +29,38 @@
                 :place-id="place.id"
             />
         </div>
-        <div class="reviews-section-wrp">
-            <div class="reviews-section-header">
-                <div class="filter-area">
-                    <ul>
-                        <li class="sort-word">Sort by:</li>
-                        <li 
-                            @click="onSortFilter('popular')" 
-                            :class="{ active: isActive.popular }"
-                        ><a>Popular</a></li>
-                        <li 
-                            @click="onSortFilter('recent')" 
-                            :class="{ active: isActive.recent }"
-                        ><a>Recent</a></li>
-                    </ul>
+        <template v-if="isReviewsExist">
+            <div class="reviews-section-wrp">
+                <div class="reviews-section-header">
+                    <div class="filter-area">
+                        <ul>
+                            <li class="sort-word">Sort by:</li>
+                            <li
+                                @click="onSortFilter('popular')"
+                                :class="{ active: isActive.popular }"
+                            ><a>Popular</a></li>
+                            <li
+                                @click="onSortFilter('recent')"
+                                :class="{ active: isActive.recent }"
+                            ><a>Recent</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="reviews-section-list">
+                    <template v-for="review in currentPlaceReviews.byId">
+                        <Review
+                            :key="review.id"
+                            :review="review"
+                        />
+                    </template>
                 </div>
             </div>
-            <div class="reviews-section-list">
-                <template v-for="review in reviews">
-                    <Review 
-                        :key="review.id" 
-                        :review="review"
-                    />
-                </template>
-            </div>
-        </div>
+        </template>
     </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
 import reviewState from '../../store/modules/review/state';
@@ -90,8 +93,10 @@ export default {
 
 
     computed: {
-        reviews() {
-            return reviewState.reviews;
+        ...mapState('place', ['currentPlaceReviews']),
+
+        isReviewsExist() {
+            return !_.isEmpty(this.place.reviews);
         }
     },
 

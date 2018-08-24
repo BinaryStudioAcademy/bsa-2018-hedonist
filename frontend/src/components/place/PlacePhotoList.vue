@@ -8,13 +8,14 @@
             class="photo-slider__list"
         >
             <li
-                v-for="photo in photos"
+                v-for="(photo, i) in photos.slice(0, maxImages)"
                 :key="photo.id"
             >
                 <PlacePhoto
                     :key="photo.id"
                     :photo="photo"
-                    :last-id="photos.length"
+                    :last-photo="(i + 1) === maxImages && photos.length > maxImages"
+                    @showAllPhotos="showAllPhotos"
                 />
             </li>
         </ul>
@@ -40,7 +41,8 @@ export default {
         return {
             photoList: null,
             imageOffset: null,
-            imageSlideNumber: 2
+            imageSlideNumber: 2,
+            maxImages: 11
         };
     },
     mounted() {
@@ -54,6 +56,10 @@ export default {
 
         toLeft: function() {
             this.photoList.scrollLeft -= this.imageOffset * this.imageSlideNumber;
+        },
+
+        showAllPhotos: function() {
+            this.$emit('showAllPhotos');
         }
     },
 };

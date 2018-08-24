@@ -33,13 +33,19 @@ Route::prefix('v1')->group(function () {
         Route::get('/me', 'AuthController@me')->middleware('custom.jwt.auth');
 
         Route::post('/reset-password', 'AuthController@changePassword');
+
+        Route::group(['prefix' => '/social'], function () {
+            Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
+
+            Route::get('/{provider}/callback', 'SocialAuthController@oauthCallback');
+        });
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
         Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
             ->name('user-list.lists');
 
-        Route::resource('user-list', 'Api\User\UserList\UserListController')->except([
+        Route::resource('user-lists', 'Api\User\UserList\UserListController')->except([
             'create', 'edit'
         ]);
 
@@ -56,6 +62,8 @@ Route::prefix('v1')->group(function () {
             Route::delete('places/{id}', 'PlaceController@removePlace')
                 ->where('id', '[0-9]+')
                 ->name('removePlace');
+
+            Route::get('/places/search', 'PlaceController@searchByFilters');
         });
 
         Route::prefix('reviews')->group(function () {
@@ -117,6 +125,8 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/users/me/checkins', 'Api\Place\PlaceCheckinController@setCheckin')
             ->name('user.me.checkin');
+        Route::get('/users/me/checkins', 'Api\Place\PlaceCheckinController@getUserCheckInCollection')
+            ->name('user.me.getUserCheckins');
 
         Route::post('/places/rating', 'Api\Place\PlaceRatingController@setRating')
             ->name('place.rating.setPlaceRating');
@@ -127,12 +137,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/places/rating/{id}', 'Api\Place\PlaceRatingController@getRating')
             ->name('place.rating.getPlaceRating');
 
+        Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
+
         Route::resource('/places/categories', 'Api\Place\PlaceCategoryController')->except([
             'create', 'edit'
         ]);
 
         Route::get('/places/categories/{id}/tags', 'Api\Place\PlaceCategoryTagsController@getTagsByCategoryId');
-
-        Route::post('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
     });
 });

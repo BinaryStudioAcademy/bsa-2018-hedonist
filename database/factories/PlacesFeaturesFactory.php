@@ -15,18 +15,18 @@ use Hedonist\Entities\Place\PlaceFeature;
 */
 $factory->define(PlaceFeature::class, function (Faker $faker) {
     $array = [
-            'wi-fi',
-            'music',
-            'credit cards',
-            'hookah',
-            'outdoor seating',
-            'wheelchair accessible',
-            'reservations',
-            'parking',
-            'restroom',
-            'take-out',
-            'delivery',
-            'live music'
+            'Wi-fi',
+            'Music',
+            'Credit cards',
+            'Hookah',
+            'Outdoor seating',
+            'Wheelchair accessible',
+            'Reservations',
+            'Parking',
+            'Restroom',
+            'Take-out',
+            'Delivery',
+            'Live music'
     ];
 
     return [

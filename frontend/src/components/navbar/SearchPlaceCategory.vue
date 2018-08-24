@@ -6,10 +6,20 @@
             :data="findPlaceCategory.data"
             :open-on-focus="true"
             :loading="findPlaceCategory.isFetching"
+            class="navbar__search-autocomplete"
             field="name"
             @input="loadCategories"
             @select="option => this.$emit('select', option)"
-        />
+        >
+
+            <template slot-scope="props">
+                <div class="search-block">
+                    <img :src="props.option.logo">
+                    <span>{{ props.option.name }}</span>
+                </div>
+
+            </template>
+        </b-autocomplete>
     </div>
 </template>
 
@@ -56,3 +66,14 @@ export default {
     }
 };
 </script>
+
+<style>
+    .search-block{
+        display: flex;
+        align-items: center;
+    }
+
+    .search-block img{
+        margin-right: 5px;
+    }
+</style>

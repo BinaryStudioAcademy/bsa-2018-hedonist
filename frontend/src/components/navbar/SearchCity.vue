@@ -7,6 +7,7 @@
             :open-on-focus="true"
             :loading="findCity.isFetching"
             field="text"
+            class="navbar__search-autocomplete"
             @input="loadCities"
             @select="option => this.$emit('select', option)"
         />

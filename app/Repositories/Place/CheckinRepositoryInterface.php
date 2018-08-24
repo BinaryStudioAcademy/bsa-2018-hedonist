@@ -16,4 +16,6 @@ interface CheckinRepositoryInterface
     public function findByCriteria(CriteriaInterface $criteria) : Collection;
 
     public function deleteById(int $id);
+
+    public function getByUserId(int $id): Collection;
 }

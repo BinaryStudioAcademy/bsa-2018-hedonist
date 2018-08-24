@@ -46,7 +46,7 @@ class DislikePlaceAction
         } else {
             $this->dislikeRepository->deleteById($dislike->id);
         }
-
+        
         return new DislikePlaceResponse();
     }
 }
