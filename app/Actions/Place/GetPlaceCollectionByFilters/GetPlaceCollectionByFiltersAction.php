@@ -28,7 +28,7 @@ class GetPlaceCollectionByFiltersAction
     {
         $categoryId = $request->getCategoryId();
         $location = $request->getLocation();
-        $page = $request->getPage() ? : 1;
+        $page = $request->getPage() ? : $request::DEFAULT_PAGE;
 
         if ($location) {
             try {

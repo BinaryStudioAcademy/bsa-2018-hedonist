@@ -7,6 +7,7 @@ class GetPlaceCollectionByFiltersRequest
     private $category_id;
     private $location;
     private $page;
+    public const DEFAULT_PAGE = 1;
 
     public function __construct(?int $page, ?int $category_id, ?string $location)
     {
