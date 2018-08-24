@@ -42,6 +42,18 @@ export default {
     SET_CURRENT_PLACE_REVIEWS_USERS: (state, users) => {
         state.users = users;
     },
+
+    SET_CURRENT_PLACE_REVIEW_LIKE_STATE: (state, { reviewId, likeState }) => {
+        state.reviews.byId[reviewId].like = likeState;
+    },
+
+    SET_CURRENT_PLACE_REVIEW_LIKE_COUNT: (state, { reviewId, count }) => {
+        state.reviews.byId[reviewId].likes = count;
+    },
+
+    SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT: (state, { reviewId, count }) => {
+        state.reviews.byId[reviewId].dislikes = count;
+    }
 };
 
 
