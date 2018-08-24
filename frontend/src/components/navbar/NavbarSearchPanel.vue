@@ -1,10 +1,10 @@
 <template>
     <div class="navbar-start">
         <div class="navbar-item">
-            <SearchPlaceCategory @select="selectSearchPlaceCategory" v-on:select="category = $event" />
+            <SearchPlaceCategory @select="category = $event" />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="selectSearchCity" v-on:select="location = $event" />
+            <SearchCity @select="location = $event" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
@@ -26,9 +26,9 @@ export default {
     name: 'NavbarSearchPanel',
     data() {
         return {
-            category: '',
-            location: '',
-        }
+            category: null,
+            location: null,
+        };
     },
     components: {
         SearchCity,
@@ -40,12 +40,12 @@ export default {
             selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
         }),
         search() {
-            let location = this.location;
-            let category = this.category;
-            if (location !== '') {
+            let location = '';
+            let category = '';
+            if (this.location !== null) {
                 location = this.location.center[0] + ',' + this.location.center[1];
             }
-            if (this.category.id !== undefined) {
+            if (this.category !== null) {
                 category = this.category.id;
             }
             this.$router.push({
