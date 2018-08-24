@@ -42,9 +42,13 @@ export default {
         review.user_id = user.id;
     },
 
+    SET_CURRENT_PLACE_REVIEWS: (state, reviews) => {
+        state.reviews = reviews;
+    },
+
     SET_CURRENT_PLACE_REVIEWS_USERS: (state, users) => {
         state.users = users;
-    }
+    },
 };
 
 

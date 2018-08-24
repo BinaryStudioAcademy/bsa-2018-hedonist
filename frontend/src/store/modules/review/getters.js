@@ -1,5 +1,5 @@
 export default {
-    reviews: state => {
+    getAllReviews: state => {
         return state.reviews.allIds.map(id => {
             const review = state.reviews.byId[id];
 
