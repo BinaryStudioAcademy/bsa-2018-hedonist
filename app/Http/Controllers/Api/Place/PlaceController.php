@@ -51,7 +51,7 @@ class PlaceController extends ApiController
         RemovePlaceAction $removePlaceAction,
         AddPlaceAction $addPlaceAction,
         UpdatePlaceAction $updatePlaceAction,
-        GetPlaceRatingAction $getPlaceRatingAction
+        GetPlaceRatingAction $getPlaceRatingAction,
         GetPlaceCollectionByFiltersAction $getPlaceCollectionByFiltersAction
     ) {
         $this->getPlaceItemAction = $getPlaceItemAction;
