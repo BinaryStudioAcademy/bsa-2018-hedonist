@@ -2,7 +2,7 @@
     <aside class="column is-one-third">
         <div class="place-sidebar">
             <div class="map-box">
-                <PlaceMapMarker :place="place"  />    
+                <PlaceMapMarker :place="place" />
             </div>
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
