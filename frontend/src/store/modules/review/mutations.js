@@ -1,5 +1,5 @@
 import normalizer from '../../../services/common/normalizerService';
-import { STATUS_NONE } from '../place/state.js'
+import { STATUS_NONE } from '@/services/api/codes';
 
 export default {
     ADD_USER: (state, user) => {
