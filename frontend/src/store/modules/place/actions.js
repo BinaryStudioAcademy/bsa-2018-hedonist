@@ -25,13 +25,22 @@ export default {
                 .then( (response) => {
                     const currentPlace = response.data.data;
                     context.commit('SET_CURRENT_PLACE', currentPlace);
-                    let transformedCurrentPlaceReviews = normalizerService.normalize({
-                        data: currentPlace.reviews
+                    currentPlace.reviews.forEach(function(review) { review.user_id = review.user.id; });
+                    let transformedCurrentPlaceReviews = normalizerService.normalize({ data: currentPlace.reviews }, {
+                        created_at: '',
+                        description: '',
+                        dislikes: 0,
+                        like: 'NONE',
+                        likes: 0,
+                        user_id: 0
                     });
                     transformedCurrentPlaceReviews.allIds = [];
                     for (let k in transformedCurrentPlaceReviews.byId)
                         transformedCurrentPlaceReviews.allIds.push(parseInt(k));
+
+                    // TODO: delete duplicate
                     context.commit('SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews);
+                    context.commit('review/SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews, { root: true });
 
                     let users = { byId: [], allIds: [] };
                     for (let key in transformedCurrentPlaceReviews.byId) {
@@ -42,6 +51,7 @@ export default {
                             users.byId.push(transformedCurrentPlaceReviews.byId[key].user);
                             users.allIds.push(userId);
                         }
+                        delete transformedCurrentPlaceReviews.byId[key].user;
                     }
                     context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', users, { root: true });
                     resolve();
