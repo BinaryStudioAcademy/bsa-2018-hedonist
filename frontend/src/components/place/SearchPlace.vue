@@ -57,7 +57,18 @@ export default {
         };
     },
     created() {
-        this.$store.dispatch('place/fetchPlaces')
+        let filters = {category: '', location: '', page: 1};
+        if (this.$route.query.category !== undefined) {
+            filters.category = this.$route.query.category;
+        }
+        if (this.$route.query.location !== undefined) {
+            filters.location = this.$route.query.location;
+        }
+        if (this.$route.query.page !== undefined) {
+            filters.page = this.$route.query.page;
+        }
+
+        this.$store.dispatch('place/fetchPlaces', filters)
             .then(() => {
                 this.isPlacesLoaded = true;
             });

@@ -40,10 +40,11 @@ export default {
         });
     },
 
-    fetchPlaces: (context) => {
+    fetchPlaces: (context, filters) => {
         return new Promise((resolve, reject) => {
-            httpService.get('/places')
+            httpService.get('/places/search?filter[category]=' + filters.category + '&filter[location]=' + filters.location + '&page=' + filters.page)
                 .then(function (res) {
+                    console.log(res);
                     context.commit('SET_PLACES', res.data.data);
                     resolve(res);
                 }).catch(function (err) {
