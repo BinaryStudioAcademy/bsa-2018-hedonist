@@ -75,7 +75,7 @@ export default {
             place   : 'currentPlace'
         }),
         loaded: function() {
-            return !!(this.place);
+            return !!(this.place) && !(this.isLoading);
         }
     },
 };
