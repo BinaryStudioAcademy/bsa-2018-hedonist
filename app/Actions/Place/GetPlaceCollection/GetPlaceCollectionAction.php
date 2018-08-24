@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
+use Hedonist\Repositories\Place\Criterias\PaginationCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\Review\Criterias\GetLastReviewByPlaceIdsCriteria;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
@@ -24,7 +25,10 @@ class GetPlaceCollectionAction
     {
         $limit = $request->getLimit() ?: 20;
         $offset = $request->getPage() ? ($request->getPage() - 1) * $limit : 0;
-        $places = $this->placeRepository->getAllWithRelations($offset, $limit);
+        $places = $this->placeRepository->findByCriteria(
+            new PaginationCriteria($limit, $offset)
+        );
+
         $reviews = $this->reviewRepository->findByCriteria(
             new GetLastReviewByPlaceIdsCriteria($places->pluck('id')->toArray())
         );

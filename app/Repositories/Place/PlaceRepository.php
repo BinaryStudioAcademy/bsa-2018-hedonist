@@ -54,7 +54,7 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         return Place::all();
     }
 
-    public function getAllWithRelations(int $offset, int $limit): Collection
+    public function getAllWithRelations(): Collection
     {
         return Place::with(
             'category',
@@ -65,8 +65,6 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
             'likes',
             'dislikes',
             'ratings')
-            ->offset($offset)
-            ->limit($limit)
             ->get();
     }
 
