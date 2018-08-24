@@ -11,8 +11,16 @@ export default {
                 description: review.description
             })
                 .then(function (res) {
-                    let newReview = normalizer.normalize(res, reviewState.review);
-                    context.commit('ADD_REVIEW', newReview);
+                    // {
+                    //     data: Object.assign({}, context.rootState.auth.currentUser)
+                    // }
+                    context.commit('ADD_USER', {
+                        data: res.data.data.user
+                    });
+                    const review = Object.assign({}, res.data.data);
+                    review.user_id = user.id;
+                    delete review.user;
+                    context.commit('ADD_REVIEW', res.data);
                     resolve(res);
                 })
                 .catch(function (err) {

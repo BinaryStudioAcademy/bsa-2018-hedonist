@@ -61,6 +61,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
 import reviewState from '../../store/modules/review/state';
@@ -87,13 +88,9 @@ export default {
         };
     },
 
-    mounted() {
-        reviewState.reviews = this.place.reviews;
-    },
-
-
     computed: {
         ...mapState('place', ['currentPlaceReviews']),
+        ...mapGetters('review', [ 'reviews' ]),
 
         isReviewsExist() {
             return !_.isEmpty(this.place.reviews);
