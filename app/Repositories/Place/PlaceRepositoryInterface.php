@@ -19,7 +19,7 @@ interface PlaceRepositoryInterface
 
     public function findByCriteria(CriteriaInterface $criteria): Collection;
 
-    public function getAllWithRelations(): Collection;
+    public function getAllWithRelations(int $offset, int $limit): Collection;
 
     public function findByCoordinates(Location $center, float $radius): Collection;
 

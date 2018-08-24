@@ -22,7 +22,9 @@ class GetPlaceCollectionAction
 
     public function execute(GetPlaceCollectionRequest $request): GetPlaceCollectionResponse
     {
-        $places = $this->placeRepository->getAllWithRelations();
+        $limit = $request->getLimit() ?: 20;
+        $offset = $request->getPage() ? ($request->getPage() - 1) * $limit : 0;
+        $places = $this->placeRepository->getAllWithRelations($offset, $limit);
         $reviews = $this->reviewRepository->findByCriteria(
             new GetLastReviewByPlaceIdsCriteria($places->pluck('id')->toArray())
         );
