@@ -11,6 +11,9 @@ use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionRequest;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemAction;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemPresenter;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemRequest;
+use Hedonist\Actions\Place\GetPlaceRating\GetPlaceRatingAction;
+use Hedonist\Actions\Place\GetPlaceRating\GetPlaceRatingRequest;
+use Hedonist\Actions\Place\GetPlaceRating\GetPlaceRatingResponse;
 use Hedonist\Actions\Place\RemovePlace\RemovePlaceAction;
 use Hedonist\Actions\Place\RemovePlace\RemovePlaceRequest;
 use Hedonist\Actions\Place\UpdatePlace\UpdatePlaceAction;
@@ -22,6 +25,7 @@ use Hedonist\Exceptions\Place\PlaceCategoryDoesNotExistException;
 use Hedonist\Exceptions\Place\PlaceCityDoesNotExistException;
 use Hedonist\Exceptions\Place\PlaceCreatorDoesNotExistException;
 use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceRatingNotFoundException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
@@ -35,30 +39,42 @@ class PlaceController extends ApiController
     private $removePlaceAction;
     private $addPlaceAction;
     private $updatePlaceAction;
+    private $getPlaceRatingAction;
 
     public function __construct(
         GetPlaceItemAction $getPlaceItemAction,
         GetPlaceCollectionAction $getPlaceCollectionAction,
         RemovePlaceAction $removePlaceAction,
         AddPlaceAction $addPlaceAction,
-        UpdatePlaceAction $updatePlaceAction
+        UpdatePlaceAction $updatePlaceAction,
+        GetPlaceRatingAction $getPlaceRatingAction
     ) {
         $this->getPlaceItemAction = $getPlaceItemAction;
         $this->getPlaceCollectionAction = $getPlaceCollectionAction;
         $this->removePlaceAction = $removePlaceAction;
         $this->addPlaceAction = $addPlaceAction;
         $this->updatePlaceAction = $updatePlaceAction;
+        $this->getPlaceRatingAction = $getPlaceRatingAction;
     }
 
     public function getPlace(int $id, GetPlaceItemPresenter $presenter): JsonResponse
     {
         try {
             $placeResponse = $this->getPlaceItemAction->execute(new GetPlaceItemRequest($id));
+            $placeRatingResponse = $this->getPlaceRatingAction->execute(
+                new GetPlaceRatingRequest($id)
+            );
+
         } catch (PlaceDoesNotExistException $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
+        } catch (PlaceRatingNotFoundException $e) {
+            $placeRatingResponse = new GetPlaceRatingResponse(0, 0, 0, 0);
         }
 
-        return $this->successResponse($presenter->present($placeResponse));
+        return $this->successResponse($presenter->present(
+            $placeResponse,
+            $placeRatingResponse
+        ));
     }
 
     public function getCollection(GetPlaceCollectionPresenter $presenter): JsonResponse

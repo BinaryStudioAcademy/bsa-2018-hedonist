@@ -20,7 +20,7 @@ class CreatePlaceRatingTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('place_id');
-            $table->unsignedInteger('rating');
+            $table->unsignedDecimal('rating', 8, 2);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('place_id')->references('id')->on('places');
         });

@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Place\GetPlaceItem;
 
+use Hedonist\Actions\Place\GetPlaceRating\GetPlaceRatingResponse;
 use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
 use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
@@ -49,7 +50,7 @@ class GetPlaceItemPresenter
         $this->photoPresenter = $photoPresenter;
     }
 
-    public function present(GetPlaceItemResponse $placeResponse): array
+    public function present(GetPlaceItemResponse $placeResponse, GetPlaceRatingResponse $placeRatingResponse): array
     {
         $place = $placeResponse->getPlace();
         $result = $this->placePresenter->present($place);
@@ -61,7 +62,7 @@ class GetPlaceItemPresenter
         $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
         $result['category'] = $this->categoryPresenter->present($place->category);
         $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
-        $result['myRating'] = (int)$place->ratings->where('user_id', $placeResponse->getUser()->id)->avg('rating');
+        $result['myRating'] = $placeRatingResponse->getRatingValue();
 
         return $result;
     }
