@@ -4,6 +4,7 @@ namespace Tests\Feature\Repository\Place;
 
 use Hedonist\Entities\Place\Location;
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\Place\PlaceCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -20,9 +21,12 @@ class PlaceRepositoryTest extends TestCase
         parent::setUp();
 
         $this->placeRepository = app(\Hedonist\Repositories\Place\PlaceRepository::class);
+        $category = PlaceCategory::first() ?: factory(PlaceCategory::class)->create();
+
         factory(Place::class, 10)->create([
             'longitude' => $this->faker->randomFloat(4, 10, 50),
             'latitude' => $this->faker->randomFloat(4, 10, 50),
+            'category_id' => $category->id,
         ]);
     }
 
@@ -35,7 +39,11 @@ class PlaceRepositoryTest extends TestCase
 
     public function testFindByCoordinates()
     {
-        $place = factory(Place::class)->create();
+        $category = PlaceCategory::first() ?: factory(PlaceCategory::class)->create();
+        $place = factory(Place::class)->create([
+            'category_id' => $category->id
+        ]);
+
         $location = new Location($place->longitude, $place->latitude);
         $result = $this->placeRepository->findByCoordinates($location, 50);
 
