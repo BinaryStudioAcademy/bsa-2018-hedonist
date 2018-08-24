@@ -243,6 +243,7 @@ export default {
         max-width: 700px;
         text-align: left;
         padding: 40px;
+        background: #fff;
     }
 
     .avatar {
