@@ -119,10 +119,10 @@ class SaveUserInfoAction
     {
         $newFileName = (new FileNameGenerator($avatar))->generateFileName();
         Storage::disk()->putFileAs(self::FILE_STORAGE, $avatar, $newFileName, 'public');
-        return Storage::url('upload/avatar/' . $newFileName);
+        return Storage::url(self::FILE_STORAGE . $newFileName);
     }
 
-    private function validatePassword(User $user, $oldPassword): void
+    private function validatePassword(User $user, string $oldPassword): void
     {
         if (!Hash::check($oldPassword, $user->getAuthPassword())) {
             throw new PasswordsDosentMatchException();

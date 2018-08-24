@@ -37,7 +37,7 @@
                 <b-field label="Email">
                     <b-input 
                         type="email"
-                        v-model="user.email"
+                        v-model="authUser.email"
                         disabled
                     />
                 </b-field>
@@ -45,7 +45,7 @@
                 <b-field label="Old password">
                     <b-input
                         type="password"
-                        v-model.trim="user.oldPassword"
+                        v-model.trim="oldPassword"
                         password-reveal
                     />
                 </b-field>
@@ -53,7 +53,7 @@
                 <b-field label="New password">
                     <b-input
                         type="password"
-                        v-model.trim="user.newPassword"
+                        v-model.trim="newPassword"
                         password-reveal
                     />
                 </b-field>
@@ -117,32 +117,23 @@ export default {
             birthDay: '',
             birthMonth: '',
             birthYear: '',
+            oldPassword: '',
+            newPassword: '',
             files: [],
             user: {
-                id: null,
                 date_of_birth: '',
                 avatar_url: '',
-                email: '',
                 first_name: '',
                 last_name: '',
                 phone_number: '',
                 instagram_url: '',
                 facebook_url: '',
                 twitter_url: '',
-                oldPassword: '',
-                newPassword: '',
             }
         };
     },
     created() {
-        Object.assign(this.user, this.authUser);
-
-        if (this.user.date_of_birth !== null) {
-            let date = new Date(this.user.date_of_birth.date);
-            this.birthYear = date.getFullYear();
-            this.birthMonth = date.getMonth() + 1;
-            this.birthDay = date.getDate();
-        }
+        this.setProfileUser();
     },
     computed: {
         ...mapGetters({
@@ -153,30 +144,24 @@ export default {
     methods: {
         ...mapActions({
             updateProfile: 'profile/updateProfile',
-            deleteUserAvatar: 'profile/deleteUserAvatar'
+            deleteUserAvatar: 'profile/deleteUserAvatar',
+            fetchProfileUser: 'profile/fetchProfileUser'
         }),
+        setProfileUser() {
+            this.fetchProfileUser(this.authUser.id)
+                .then((profileUser) => {
+                    this.user = Object.assign({}, profileUser);
+                    if (this.user.date_of_birth !== null) {
+                        let date = new Date(this.user.date_of_birth);
+                        this.birthYear = date.getFullYear();
+                        this.birthMonth = date.getMonth() + 1;
+                        this.birthDay = date.getDate();
+                    }
+                });
+        },
         saveData() {
-            const formData = new FormData();
-            formData.append('first_name', this.user.first_name);
-            formData.append('last_name', this.user.last_name);
-            formData.append('phone_number', this.user.phone_number);
-            formData.append('instagram_url', this.user.instagram_url);
-            formData.append('facebook_url', this.user.facebook_url);
-            formData.append('twitter_url', this.user.twitter_url);
-
-            if (this.birthYear && this.birthMonth && this.birthDay) {
-                this.user.date_of_birth = this.birthYear + '/' + ('0' + this.birthMonth).slice(-2) + '/' + ('0' + this.birthDay).slice(-2);
-                formData.append('date_of_birth', this.user.date_of_birth);
-            }
-            if (this.files && this.files.length) {
-                let file = this.files[0];
-                formData.append('avatar', file, file.name);
-            }
-            if (this.oldPassword !== '' && this.newPassword !== '') {
-                formData.append('old_password', this.user.oldPassword);
-                formData.append('new_password', this.user.newPassword);
-            }
-            this.updateProfile({formData: formData, userId: this.user.id})
+            let formData = this.createFormData();
+            this.updateProfile({formData: formData, userId: this.authUser.id})
                 .then((data) => {
                     this.user.avatar_url = data.avatar_url;
                     this.onSuccess({
@@ -193,7 +178,7 @@ export default {
             }
         },
         deleteAvatar() {
-            this.deleteUserAvatar(this.user.id)
+            this.deleteUserAvatar(this.authUser.id)
                 .then(() => {
                     this.user.avatar_url = null;
                     this.files = [];
@@ -225,7 +210,29 @@ export default {
             this.onError({
                 message: message
             });
-            return false;
+        },
+        createFormData() {
+            let formData = new FormData();
+            formData.append('first_name', this.user.first_name);
+            formData.append('last_name', this.user.last_name);
+            formData.append('phone_number', this.user.phone_number);
+            formData.append('instagram_url', this.user.instagram_url);
+            formData.append('facebook_url', this.user.facebook_url);
+            formData.append('twitter_url', this.user.twitter_url);
+
+            if (this.birthYear && this.birthMonth && this.birthDay) {
+                this.user.date_of_birth = this.birthYear + '/' + ('0' + this.birthMonth).slice(-2) + '/' + ('0' + this.birthDay).slice(-2);
+                formData.append('date_of_birth', this.user.date_of_birth);
+            }
+            if (this.files && this.files.length) {
+                let file = this.files[0];
+                formData.append('avatar', file, file.name);
+            }
+            if (this.oldPassword !== '' && this.newPassword !== '') {
+                formData.append('old_password', this.oldPassword);
+                formData.append('new_password', this.newPassword);
+            }
+            return formData;
         }
     }
 };
