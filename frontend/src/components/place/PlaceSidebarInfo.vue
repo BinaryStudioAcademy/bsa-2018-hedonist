@@ -2,20 +2,7 @@
     <aside class="column is-one-third">
         <div class="place-sidebar">
             <div class="map-box">
-                <mapbox
-                    :access-token="getMapboxToken"
-                    :map-options="{
-                        style: getMapboxStyle,
-                        center: currentCenter,
-                        zoom: 11
-                    }"
-                    :scale-control="{
-                        show: true,
-                        position: 'top-left'
-                    }"
-                    @map-init="mapInitialize"
-                    @map-load="mapLoaded"
-                />
+                <PlaceMapMarker :place="place"  />    
             </div>
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
@@ -92,29 +79,13 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
-import Mapbox from 'mapbox-gl-vue';
-import LocationService from '@/services/location/locationService';
-import markerManager from '@/services/map/markerManager';
-import placeholderImg from '../../assets/placeholder_128x128.png';
+import PlaceMapMarker from './PlaceMapMarker';
 
 export default {
     name: 'PlaceSidebarInfo',
 
-    data() {
-        return {
-            isMapLoaded: false,
-            map: {},
-            userCoordinates: {
-                lat: 50.4547,
-                lng: 30.5238
-            },
-            markerManager: null,
-        };
-    },
-
     components: {
-        Mapbox
+        PlaceMapMarker
     },
 
     props: {
@@ -122,105 +93,9 @@ export default {
             type: Object,
             required: true
         }
-    },
-
-    created() {
-        if (this.isMapLoaded) {
-            this.updateMap();
-            markerManager.fitMarkersOnMap();
-        }
-    },
-
-    methods: {
-        ...mapActions('place', ['mapInitialization']),
-
-        mapInitialize(map) {
-            if (this.mapInitialized) {
-                return;
-            }
-
-            this.map = map;
-            LocationService.getUserLocationData()
-                .then(coordinates => {
-                    this.userCoordinates.lat = coordinates.lat;
-                    this.userCoordinates.lng = coordinates.lng;
-                });
-            this.mapInitialization();
-        },
-
-        mapLoaded(map) {
-            this.markerManager = markerManager.getService(map);
-            this.isMapLoaded = true;
-        },
-
-        jumpTo(coordinates) {
-            this.map.jumpTo({
-                center: coordinates,
-            });
-        },
-
-        updateMap() {
-            if (this.isMapLoaded) {
-                this.markerManager.setMarkersFromPlacesAndFit(this.place);
-            }
-        },
-        
-        createUserMarker(){
-            return {
-                id           : 0,
-                latitude     : this.userCoordinates.lat,
-                longitude    : this.userCoordinates.lng,
-                localization : {
-                    0: {
-                        description: 'Your position',
-                        language: 'en',
-                        name: 'Your position',
-                    }
-                },
-                photoUrl: this.user.avatar_url || placeholderImg,
-            };
-        }
-    },
-
-    watch: {
-        isMapLoaded: function (oldVal, newVal) {
-            this.updateMap();
-        },
-    },
-
-    computed: {
-        ...mapGetters('map', [
-            'getMapboxToken',
-            'getMapboxStyle'
-        ]),
-        ...mapGetters({
-            user: 'auth/getAuthenticatedUser'
-        }),
-
-        currentCenter() {
-            return {
-                lat: this.place.latitude ? this.place.latitude : this.userCoordinates.lat,
-                lng: this.place.longitude ? this.place.longitude : this.userCoordinates.lng
-            };
-        }
     }
 };
 </script>
-
-<style>
-    .mapboxgl-canvas {
-        top: 0 !important;
-        left: 0 !important;
-    }
-
-    .mapboxgl-marker {
-        cursor: pointer;
-    }
-
-    .mapboxgl-popup-close-button{
-        font-size: 22px;
-    }
-</style>
 
 <style lang="scss" scoped>
 
@@ -233,16 +108,6 @@ export default {
         img {
             width: 100%;
         }
-    }
-
-    #map {
-        text-align: justify;
-        position: sticky;
-        position: -webkit-sticky;
-        top: 0;
-        height: 200px;
-        right: 0;
-        width: 100%;
     }
 
     &__info {
