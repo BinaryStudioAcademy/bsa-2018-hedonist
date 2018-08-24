@@ -1,6 +1,4 @@
 import httpService from '../../../services/common/httpService';
-import reviewState from './state';
-import normalizer from '../../../services/common/normalizerService';
 
 export default {
     addReview: (context, review) => {
@@ -11,16 +9,11 @@ export default {
                 description: review.description
             })
                 .then(function (res) {
-                    // {
-                    //     data: Object.assign({}, context.rootState.auth.currentUser)
-                    // }
                     context.commit('ADD_USER', {
-                        data: res.data.data.user
+                        data: context.rootState.auth.currentUser
                     });
                     const review = Object.assign({}, res.data.data);
-                    review.user_id = user.id;
-                    delete review.user;
-                    context.commit('ADD_REVIEW', res.data);
+                    context.commit('ADD_REVIEW', review);
                     resolve(res);
                 })
                 .catch(function (err) {

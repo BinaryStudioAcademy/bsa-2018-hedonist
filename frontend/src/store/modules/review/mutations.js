@@ -3,6 +3,7 @@ import { STATUS_NONE } from '@/services/api/codes';
 
 export default {
     ADD_USER: (state, user) => {
+        // TODO: check if user already exists
         const newUser = normalizer.normalize(user, {
             first_name: "",
             last_name: "",
@@ -13,12 +14,12 @@ export default {
             state.users.byId,
             newUser.byId
         );
-        state.users.allIds.unshift(user.data.id);
+        state.users.allIds.push(user.data.id);
     },
 
     ADD_REVIEW: (state, review) => {
-
-        const newReview = normalizer.normalize(review, {
+        // TODO: normalizer doesn't delete new fields
+        const newReview = normalizer.normalize( { data: review }, {
             created_at: '',
             description: '',
             dislikes: 0,
@@ -31,15 +32,7 @@ export default {
             state.reviews.byId,
             newReview.byId
         );
-        state.reviews.allIds.unshift(review.data.id);
-    },
-
-    ADD_REVIEW_1: (state, response) => {
-
-        const user = Object.assign({}, response.data.data.user);
-        const review = response.data.data;
-        delete review.user;
-        review.user_id = user.id;
+        state.reviews.allIds.push(review.id);
     },
 
     SET_CURRENT_PLACE_REVIEWS: (state, reviews) => {
