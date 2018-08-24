@@ -48,7 +48,14 @@ export default {
             if (this.category.id !== undefined) {
                 category = this.category.id;
             }
-            this.$router.push({ path: 'search', query: { category: category, location: location, page: 1 }})
+            this.$router.push({
+                path: 'search',
+                query: {
+                    category: category,
+                    location: location,
+                    page: 1
+                }
+            });
         }
     },
 };

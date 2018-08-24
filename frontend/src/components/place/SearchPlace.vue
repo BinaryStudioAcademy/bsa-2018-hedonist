@@ -57,18 +57,7 @@ export default {
         };
     },
     created() {
-        let filters = {category: '', location: '', page: 1};
-        if (this.$route.query.category !== undefined) {
-            filters.category = this.$route.query.category;
-        }
-        if (this.$route.query.location !== undefined) {
-            filters.location = this.$route.query.location;
-        }
-        if (this.$route.query.page !== undefined) {
-            filters.page = this.$route.query.page;
-        }
-
-        this.$store.dispatch('place/fetchPlaces', filters)
+        this.$store.dispatch('place/fetchPlaces')
             .then(() => {
                 this.isPlacesLoaded = true;
             });
@@ -125,6 +114,12 @@ export default {
         },
         isPlacesLoaded: function (oldVal, newVal) {
             this.updateMap();
+        },
+        '$route' (to, from) {
+            this.$store.dispatch('place/fetchPlaces', to.query)
+                .then(() => {
+                    this.isPlacesLoaded = true;
+                });
         }
     },
     computed: {
