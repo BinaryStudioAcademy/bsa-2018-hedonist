@@ -5,19 +5,19 @@
                 <template>
                     <span :class="['language-item__icon', currentLangClass]"></span>
                 </template>
-                <b-icon icon="menu-down"></b-icon>
+                <b-icon icon="menu-down" />
             </button>
 
             <b-dropdown-item class="language-item" value="en">
-                <span class="language-item__icon language-item__icon_en"></span>
+                <span class="language-item__icon language-item__icon_en" />
             </b-dropdown-item>
 
             <b-dropdown-item class="language-item" value="ua">
-                <span class="language-item__icon language-item__icon_ua"></span>
+                <span class="language-item__icon language-item__icon_ua" />
             </b-dropdown-item>
 
             <b-dropdown-item class="language-item" value="ru">
-                <span class="language-item__icon language-item__icon_ru"></span>
+                <span class="language-item__icon language-item__icon_ru" />
             </b-dropdown-item>
         </b-dropdown>
     </div>
@@ -38,7 +38,7 @@ export default {
     },
     computed: {
         currentLangClass() {
-            return "language-item__icon_"+this.language;
+            return 'language-item__icon_' + this.language;
         }
     }
 };
