@@ -38,22 +38,34 @@ export default {
                     for (let k in transformedCurrentPlaceReviews.byId)
                         transformedCurrentPlaceReviews.allIds.push(parseInt(k));
 
-                    // TODO: delete duplicate
-                    context.commit('SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews);
-                    context.commit('review/SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews, { root: true });
-
-                    let users = { byId: [], allIds: [] };
+                    let allIds = [];
+                    let piff = [];
                     for (let key in transformedCurrentPlaceReviews.byId) {
                         if (!transformedCurrentPlaceReviews.byId.hasOwnProperty(key)) continue;
-
                         let userId = transformedCurrentPlaceReviews.byId[key].user.id;
-                        if (! users.allIds.includes(userId)) {
-                            users.byId.push(transformedCurrentPlaceReviews.byId[key].user);
-                            users.allIds.push(userId);
+                        let tempUser = transformedCurrentPlaceReviews.byId[key].user;
+                        if (! allIds.includes(userId)) {
+                            piff.push(tempUser);
+                            allIds.push(userId);
                         }
                         delete transformedCurrentPlaceReviews.byId[key].user;
                     }
-                    context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', users, { root: true });
+
+                    let normalizeUsers = normalizerService.normalize({ data:piff }, {
+                        avatar_url: '',
+                        email: '',
+                        first_name: '',
+                        id: 0,
+                        last_name: ''
+                    });
+                    normalizeUsers.allIds = [];
+                    for (let k in normalizeUsers.byId)
+                        normalizeUsers.allIds.push(parseInt(k));
+
+                    // TODO: delete duplicate
+                    context.commit('SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews);
+                    context.commit('review/SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews, { root: true });
+                    context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsers, { root: true });
                     resolve();
                 })
                 .catch( (err) => {
