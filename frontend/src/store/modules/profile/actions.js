@@ -9,7 +9,6 @@ export default {
                     resolve(res.data.data);
                 })
                 .catch(function (error) {
-                    console.log(error);
                     reject(error.response.data.error);
                 });
         });
