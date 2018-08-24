@@ -20,7 +20,7 @@ const createPopup = (markerData) => {
             </div>
             <div class="media-content">
                 <div>
-                    <a class="has-text-black is-size-6" href="/places/${markerData.id}" target="_blank">
+                    <a class="link-place has-text-black is-size-6" href="/places/${markerData.id}" target="_blank">
                         <strong>
                             ${markerData.name}
                         </strong>
@@ -36,17 +36,14 @@ const createPopup = (markerData) => {
     return popup;
 };
 
-const generator = {
-    generateMarker(markerData) {
-        let element = createMarker();
-        let marker = new mapboxgl.Marker();
-        let popup = createPopup(markerData);
-        marker.setPopup(popup);
-        marker.setLngLat([markerData.lng, markerData.lat]);
-
-        return marker;
-    }
+const generate = (markerData) => {
+    let element = createMarker();
+    let marker = new mapboxgl.Marker();
+    let popup = createPopup(markerData);
+    marker.setPopup(popup);
+    marker.setLngLat([markerData.lng, markerData.lat]);
+    return marker;
 };
 
-export default generator;
+export default {generateDefaultMarker: generate};
 

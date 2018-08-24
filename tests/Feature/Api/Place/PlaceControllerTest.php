@@ -3,13 +3,16 @@
 namespace tests\Feature\Api\Place;
 
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\Place\PlaceCategory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\Feature\Api\ApiTestCase;
 
 class PlaceControllerTest extends ApiTestCase
 {
     use DatabaseTransactions;
+    use WithFaker;
 
     private $place;
     const ENDPOINT = '/api/v1/places';
@@ -183,5 +186,77 @@ class PlaceControllerTest extends ApiTestCase
             'phone',
             'website'
         ]]);
+    }
+
+    public function testGetPlaceCollectionSearchByFilters()
+    {
+        $category = factory(PlaceCategory::class)->create();
+        $longitude = $this->faker->randomFloat(4, 10, 50);
+        $latitude = $this->faker->randomFloat(4, 10, 50);
+
+        factory(Place::class)->create([
+            'longitude' => $longitude,
+            'latitude' => $latitude,
+            'category_id' => $category->id,
+        ]);
+
+        $response =  $this->actingWithToken()->json(
+            'GET',
+            "/api/v1/places/search?filter[category]=$category->id&filter[location]=$longitude,$latitude&page=1"
+        );
+        $arrayContent = $response->getOriginalContent();
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'longitude',
+                    'latitude',
+                    'zip',
+                    'address',
+                    'phone',
+                    'website'
+                ]
+            ]
+        ]);
+
+        $this->assertEquals(count($arrayContent['data']), 1);
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/json');
+    }
+
+    public function testGetPlaceCollectionSearchWithoutFilters()
+    {
+        $category = factory(PlaceCategory::class)->create();
+        $longitude = $this->faker->randomFloat(4, 10, 50);
+        $latitude = $this->faker->randomFloat(4, 10, 50);
+
+        factory(Place::class)->create([
+            'longitude' => $longitude,
+            'latitude' => $latitude,
+            'category_id' => $category->id,
+        ]);
+
+        $response =  $this->actingWithToken()->json(
+            'GET',
+            "/api/v1/places/search?filter[category]=&filter[location]=&page=1"
+        );
+        $arrayContent = $response->getOriginalContent();
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'longitude',
+                    'latitude',
+                    'zip',
+                    'address',
+                    'phone',
+                    'website'
+                ]
+            ]
+        ]);
+
+        $this->assertEquals(count($arrayContent['data']), 2);
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/json');
     }
 }

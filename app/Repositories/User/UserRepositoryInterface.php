@@ -18,7 +18,7 @@ interface UserRepositoryInterface extends RepositoryInterface
 
     public function getByEmail(string $email): ?User;
 
-    public function findByCriteria(CriteriaInterface $criteria):Collection;
+    public function findByCriteria(CriteriaInterface $criteria): Collection;
 
     public function deleteById(int $id): void;
 
@@ -27,4 +27,6 @@ interface UserRepositoryInterface extends RepositoryInterface
     public function deleteTaste(User $user, Taste $taste): void;
 
     public function setTastes(User $user, Collection $tastes): void;
+
+    public function getUserBySocialAuthCredentials(string $provider, string $token): ?User;
 }

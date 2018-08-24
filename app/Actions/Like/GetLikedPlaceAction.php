@@ -30,7 +30,7 @@ class GetLikedPlaceAction
         $liked = LikeStatus::none();
         $placeId = $request->getPlaceId();
         $userId = Auth::id();
-        $place = $this->placeRepository->getById($placeId);
+        $place = $this->placeRepository->getByIdWithRelations($request->getPlaceId());
         if ($place === null) {
             throw new PlaceNotFoundException();
         }
@@ -45,6 +45,10 @@ class GetLikedPlaceAction
             }
         }
         
-        return new GetLikedPlaceResponse($liked->value());
+        return new GetLikedPlaceResponse(
+            $place->likes->count(),
+            $place->dislikes->count(),
+            $liked->value()
+        );
     }
 }

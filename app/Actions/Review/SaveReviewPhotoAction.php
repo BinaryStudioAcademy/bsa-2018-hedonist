@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 
 class SaveReviewPhotoAction
 {
+    const FILE_STORAGE = 'upload/review/';
+
     private $reviewPhotoRepository;
 
     public function __construct(ReviewPhotoRepositoryInterface $reviewPhotoRepository)
@@ -28,11 +30,11 @@ class SaveReviewPhotoAction
         $file = $request->getImg();
         $fileNameGenerator = new FileNameGenerator($file);
         $newFileName = $fileNameGenerator->generateFileName();
-        $file->storeAs('upload/review', $newFileName, 'public');
+        Storage::disk()->putFileAs(self::FILE_STORAGE, $file, $newFileName, 'public');
         list($width, $height) = getimagesize($file);
         $reviewPhoto->review_id = $request->getReviewId();
         $reviewPhoto->description = $request->getDescription();
-        $reviewPhoto->img_url = Storage::url('upload/review/' . $newFileName);
+        $reviewPhoto->img_url = Storage::disk()->url(self::FILE_STORAGE . $newFileName);
         $reviewPhoto->width = $width;
         $reviewPhoto->height = $height;
         $reviewPhoto = $this->reviewPhotoRepository->save($reviewPhoto);

@@ -6,12 +6,14 @@ use Hedonist\Entities\Place\Place;
 
 class PlacePresenter
 {
+    private $presentation = [];
+
     public function present(Place $place)
     {
-        return [
+        return array_merge(
+            [
             'id' => $place->id,
             'address' => $place->address,
-            'city' => $place->city,
             'created_at' => $place->created_at->toDateTimeString(),
             'dislikes' => $place->dislikes->count(),
             'likes' => $place->likes->count(),
@@ -22,6 +24,14 @@ class PlacePresenter
             'phone' => $place->phone,
             'website' => $place->website,
             'zip' => $place->zip,
-        ];
+            ],
+            $this->presentation
+        );
+    }
+
+    public function withRating(float $rating): self
+    {
+        $this->presentation['rating'] = number_format($rating, 1);
+        return $this;
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="place-view container">
-        <b-loading :active.sync="isLoading" />
+        <Preloader :active="isLoading" />
         <PlaceTopInfo 
             v-if="loaded"
             :place="place"
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import Preloader from '@/components/misc/Preloader';
 import PlaceTopInfo from '@/components/place/PlaceTopInfo';
 import ReviewList from '@/components/review/ReviewList';
 import ReviewPhotoGallery from '@/components/review/ReviewPhotoGallery';
@@ -41,7 +42,8 @@ export default {
         PlaceTopInfo,
         ReviewList,
         ReviewPhotoGallery,
-        PlaceSidebarInfo
+        PlaceSidebarInfo,
+        Preloader
     },
 
     data() {
@@ -73,7 +75,7 @@ export default {
             place   : 'currentPlace'
         }),
         loaded: function() {
-            return !!(this.place);
+            return !!(this.place) && !(this.isLoading);
         }
     },
 };

@@ -33,6 +33,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/me', 'AuthController@me')->middleware('custom.jwt.auth');
 
         Route::post('/reset-password', 'AuthController@changePassword');
+
+        Route::group(['prefix' => '/social'], function () {
+            Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
+
+            Route::get('/{provider}/callback', 'SocialAuthController@oauthCallback');
+        });
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
@@ -56,6 +62,8 @@ Route::prefix('v1')->group(function () {
             Route::delete('places/{id}', 'PlaceController@removePlace')
                 ->where('id', '[0-9]+')
                 ->name('removePlace');
+
+            Route::get('/places/search', 'PlaceController@searchByFilters');
         });
 
         Route::prefix('reviews')->group(function () {
@@ -122,13 +130,19 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/places/rating', 'Api\Place\PlaceRatingController@setRating')
             ->name('place.rating.setPlaceRating');
+      
+        Route::get('/places/rating/byPlaceUser', 'Api\Place\PlaceRatingController@getRating')
+            ->name('place.rating.getPlaceRatingByPlaceUser');
+
+        Route::get('/places/rating/{id}', 'Api\Place\PlaceRatingController@getRating')
+            ->name('place.rating.getPlaceRating');
+
+        Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 
         Route::resource('/places/categories', 'Api\Place\PlaceCategoryController')->except([
             'create', 'edit'
         ]);
 
         Route::get('/places/categories/{id}/tags', 'Api\Place\PlaceCategoryTagsController@getTagsByCategoryId');
-
-        Route::post('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
     });
 });

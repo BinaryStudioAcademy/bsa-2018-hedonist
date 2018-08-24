@@ -15,5 +15,12 @@ export default {
             },
             allIds: Object.keys(checkIns)
         };
-    }
+    },
+    SET_CURRENT_MAP_CENTER: (state, { longitude, latitude }) => {
+        state.currentLongitude = longitude;
+        state.currentLatitude = latitude;
+    },
+    MAP_INIT: (state, value) => {
+        state.mapInitialized = value;
+    },
 };

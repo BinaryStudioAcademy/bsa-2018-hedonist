@@ -3,7 +3,7 @@
 namespace Tests\Feature\Api\Like;
 
 use Hedonist\Entities\Place\Place;
-use Hedonist\Entities\Like\Like;
+use Hedonist\Entities\Like\{ Like, LikeStatus };
 use Hedonist\Entities\Dislike\Dislike;
 use Hedonist\Entities\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -103,7 +103,7 @@ class LikePlaceApiTest extends ApiTestCase
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'liked' => 'NONE'
+            'likeStatus' => LikeStatus::none()->value()
         ]);
     }
 
@@ -119,7 +119,7 @@ class LikePlaceApiTest extends ApiTestCase
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'liked' => 'LIKED'
+            'likeStatus' => LikeStatus::liked()->value()
         ]);
     }
 
@@ -135,7 +135,7 @@ class LikePlaceApiTest extends ApiTestCase
 
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'liked' => 'DISLIKED'
+            'likeStatus' => LikeStatus::disliked()->value()
         ]);
     }
 }

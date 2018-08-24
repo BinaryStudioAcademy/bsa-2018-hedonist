@@ -5,6 +5,7 @@ namespace Hedonist\Http\Controllers\Api\Like;
 use Hedonist\Actions\Like\{
     LikePlaceAction,
     LikePlaceRequest,
+    LikePlaceResponse,
     GetLikedPlaceAction,
     GetLikedPlaceRequest,
     GetLikedPlaceResponse,
@@ -13,6 +14,7 @@ use Hedonist\Actions\Like\{
 };
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
+use Hedonist\Exceptions\DomainException;
 use Hedonist\Http\Controllers\Api\ApiController;
 
 class LikeController extends ApiController
@@ -34,25 +36,40 @@ class LikeController extends ApiController
     public function likePlace(int $id)
     {
         try {
-            $response = $this->likePlaceAction->execute(
+            $this->likePlaceAction->execute(
                 new LikePlaceRequest($id)
+            );
+            $placeResponse = $this->getLikedPlaceAction->execute(
+                new GetLikedPlaceRequest($id)
             );
         } catch (PlaceNotFoundException $exception) {
             return $this->errorResponse('Place not found', 404);
+        } catch (DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
         }
-        return $this->successResponse([], 200);
+
+        return $this->successResponse([
+            'likes' => $placeResponse->getLikes(),
+            'dislikes' => $placeResponse->getDislikes(),
+            'likeStatus' => $placeResponse->getLikedStatus()
+        ], 200);
     }
 
     public function getLikedPlace(int $id)
     {
         try {
-            $getLikedPlaceResponse = $this->getLikedPlaceAction->execute(
+            $response = $this->getLikedPlaceAction->execute(
                 new GetLikedPlaceRequest($id)
             );
         } catch (PlaceNotFoundException $exception) {
             return $this->errorResponse('Place not found', 404);
         }
-        return $this->successResponse(['liked' => $getLikedPlaceResponse->getLiked()], 200);
+
+        return $this->successResponse([
+            'likes' => $response->getLikes(),
+            'dislikes' => $response->getDislikes(),
+            'likeStatus' => $response->getLikedStatus()
+        ], 200);
     }
 
     public function likeReview(int $id)
@@ -64,6 +81,7 @@ class LikeController extends ApiController
         } catch (ReviewNotFoundException $exception) {
             return $this->errorResponse('Review not found', 404);
         }
+        
         return $this->successResponse([], 200);
     }
 }

@@ -10,15 +10,24 @@
                 <div class="media-content">
                     <div class="top-line">
                         <strong><a>{{ userName }}</a></strong>
-                        <small><a>21 September 2018</a></small>
+                        <small>{{ date }}</small>
                     </div>
                     <div class="content">
                         <p>{{ review.description }}</p>
                     </div>
+
+                    <template v-if="isImageAttached">
+                        <div class="image is-3by1">
+                            <img class="review-photo" :src="reviewImageUrl">
+                        </div>
+                    </template>
+
                     <LikeDislikeButtons
+                        @like="onLikeReview"
+                        @dislike="onDislikeReview"
                         :likes="review.likes"
                         :dislikes="review.dislikes"
-                        :like="review-like"
+                        :status="review.like"
                         font-size="0.5rem"
                         class="review-like"
                     />
@@ -29,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 
 export default {
@@ -40,9 +50,56 @@ export default {
             required: true
         }
     },
+
+    data() {
+        return {
+            reviewImageUrl: ''
+        };
+    },
+
+    created() {
+        this.getReviewImage();
+    },
+
     computed: {
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
+        },
+
+        isImageAttached() {
+            return !_.isEmpty(this.reviewImageUrl);
+        },
+        date() {
+            const date = new Date(this.review['created_at']);
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long',
+            };
+            return date.toLocaleString('en-US', options);
+        }
+    },
+
+    methods: {
+        ...mapActions('review', ['getReviewPhoto']),
+        getReviewImage: function() {
+            this.getReviewPhoto(this.review.id)
+                .then((result) => {
+                    this.reviewImageUrl = result;
+                })
+                .catch(() => {
+                    this.reviewImageUrl = '';
+                });
+        },
+
+        ...mapActions('place', ['likeReview', 'dislikeReview']),
+        onLikeReview() {
+            this.likeReview(this.review.id);
+        },
+
+        onDislikeReview() {
+            this.dislikeReview(this.review.id);
         }
     }
 };
@@ -64,12 +121,12 @@ export default {
         justify-content: space-between;
     }
 
+    /* for fill in the div without shrink */
+    .review-photo {
+        object-fit: cover;
+    }
+
     .review-like {
         max-width: 80px;
     }
-
-    .icon {
-        margin-right: 5px;
-    }
-
 </style>
