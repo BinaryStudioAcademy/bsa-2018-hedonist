@@ -67,6 +67,10 @@
                                 >Profile</router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'NewPlacePage' }"
+                                >Add place</router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
                                     :to="{ name: 'MyTastesPage' }"
                                 >My tastes</router-link>
                                 <router-link
