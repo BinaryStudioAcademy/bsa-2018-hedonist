@@ -26,7 +26,7 @@ class PlaceTagRepository extends BaseRepository implements PlaceTagRepositoryInt
         return PlaceTag::place($placeId)->get();
     }
 
-    public function findByCriteria(CriteriaInterface $criteria)
+    public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
     }
