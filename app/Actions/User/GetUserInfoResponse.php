@@ -47,31 +47,34 @@ class GetUserInfoResponse
 
     public function getDateOfBirth(): string
     {
-        return $this->dateOfBirth->format('Y/m/d');
+        if ($this->dateOfBirth !== null) {
+            return $this->dateOfBirth->format('Y/m/d');
+        }
+        return "";
     }
 
     public function getPhoneNumber(): string
     {
-        return $this->phoneNumber;
+        return (string)$this->phoneNumber;
     }
 
     public function getAvatarUrl(): string
     {
-        return $this->avatarUrl;
+        return (string)$this->avatarUrl;
     }
 
     public function getFacebookUrl(): string
     {
-        return $this->facebookUrl;
+        return (string)$this->facebookUrl;
     }
 
     public function getInstagramUrl(): string
     {
-        return $this->instagramUrl;
+        return (string)$this->instagramUrl;
     }
 
     public function getTwitterUrl(): string
     {
-        return $this->twitterUrl;
+        return (string)$this->twitterUrl;
     }
 }
