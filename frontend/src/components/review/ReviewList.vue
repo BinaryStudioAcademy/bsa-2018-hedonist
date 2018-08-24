@@ -8,7 +8,7 @@
                         height="25" 
                         width="25"
                     >
-                    <!--<span>{{ reviews.length }} Reviews</span>-->
+                    <span>{{ getAllReviews.length }} Reviews</span>
                 </div>
                 <div class="review-title-search">
                     <div class="control has-icons-left">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="reviews-section-list">
-                    <template v-for="review in getAllReviews.byId">
+                    <template v-for="review in getAllReviews">
                         <Review
                             :key="review.id"
                             :review="review"
