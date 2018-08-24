@@ -1,6 +1,5 @@
 import httpService from '@/services/common/httpService';
 import normalizerService from '@/services/common/normalizerService';
-import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
 export default {
     setPlaceRating: (context, data) => {

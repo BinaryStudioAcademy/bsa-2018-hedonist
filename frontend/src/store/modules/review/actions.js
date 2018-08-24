@@ -1,4 +1,5 @@
 import httpService from '../../../services/common/httpService';
+import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
 export default {
     addReview: (context, review) => {
@@ -54,7 +55,7 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.post('reviews/' + id + '/like')
                 .then(function (res) {
-                    let review = context.state.currentPlaceReviews.byId[id];
+                    let review = context.state.reviews.byId[id];
 
                     if (review.like === STATUS_NONE) {
                         context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
@@ -100,7 +101,7 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.post('reviews/' + id + '/dislike')
                 .then(function (res) {
-                    let review = context.state.currentPlaceReviews.byId[id];
+                    let review = context.state.reviews.byId[id];
                     if (review.like === STATUS_NONE) {
                         context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_STATE', {
                             reviewId: id,
