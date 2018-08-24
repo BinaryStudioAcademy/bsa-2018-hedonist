@@ -40,9 +40,9 @@ export default {
         });
     },
 
-    fetchPlaces: (context, filters = {category: '', location: '', page: 1}) => {
+    fetchPlaces: (context, queryUrl) => {
         return new Promise((resolve, reject) => {
-            httpService.get('/places/search?filter[category]=' + filters.category + '&filter[location]=' + filters.location + '&page=' + filters.page)
+            httpService.get('/places/search' + queryUrl)
                 .then(function (res) {
                     context.commit('SET_PLACES', res.data.data);
                     resolve(res);
