@@ -3,7 +3,7 @@
         <b-dropdown v-model="language" @input="changeLang" class="language-menu">
             <button class="button current-language" type="button" slot="trigger">
                 <template>
-                    <span :class="['language-item__icon', currentLangClass]"></span>
+                    <span :class="['language-item__icon', currentLangClass]" />
                 </template>
                 <b-icon icon="menu-down" />
             </button>
