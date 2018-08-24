@@ -67,6 +67,10 @@
                                 >Profile</router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'NewPlacePage' }"
+                                >Add place</router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
                                     :to="{ name: 'MyTastesPage' }"
                                 >My tastes</router-link>
                                 <router-link
@@ -86,7 +90,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="navbar-item">
+                    <div class="navbar-item navbar-lang">
                         <LanguageSelector />
                     </div>
                 </div>
@@ -213,6 +217,10 @@ export default {
         @media screen and (max-width: 1087px) {
             text-indent: 36px;
         }
+    }
+
+    .navbar-lang {
+        margin-left: 7px;
     }
 
 </style>
