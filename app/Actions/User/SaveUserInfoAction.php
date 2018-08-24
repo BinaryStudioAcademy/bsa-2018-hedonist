@@ -2,12 +2,17 @@
 
 namespace Hedonist\Actions\User;
 
+use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\UserInfo;
+use Hedonist\Exceptions\Auth\PasswordsDosentMatchException;
 use Hedonist\Exceptions\User\UserInfoNotValidSocialUrlException;
 use Hedonist\Exceptions\User\UserInfoRequiredFieldsException;
-use Hedonist\Repositories\User\UserInfoRepositoryInterface as UserInfoRepository;
+use Hedonist\Repositories\User\UserInfoRepositoryInterface;
+use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Services\FileNameGenerator;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class SaveUserInfoAction
@@ -15,14 +20,25 @@ class SaveUserInfoAction
     const FILE_STORAGE = 'upload/avatar/';
 
     private $userInfoRepository;
+    private $userRepository;
 
-    public function __construct(UserInfoRepository $userInfoRepository)
-    {
+    public function __construct(
+        UserInfoRepositoryInterface $userInfoRepository,
+        UserRepositoryInterface $userRepository
+    ) {
         $this->userInfoRepository = $userInfoRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function execute(SaveUserInfoRequest $userInfoRequest): SaveUserInfoResponse
     {
+        if ($userInfoRequest->getOldPassword() && $userInfoRequest->getNewPassword()) {
+            $user = Auth::user();
+            $this->validatePassword($user, $userInfoRequest->getOldPassword());
+            $user->password = Hash::make($userInfoRequest->getNewPassword());
+            $this->userRepository->save($user);
+        }
+
         $userInfo = $this->userInfoRepository->getByUserId($userInfoRequest->getUserId());
         $userHasNotInfo = !$userInfo;
         if ($userHasNotInfo) {
@@ -99,10 +115,17 @@ class SaveUserInfoAction
         return new SaveUserInfoResponse($userInfo);
     }
 
-    private function storeAvatar(?UploadedFile $avatar): string
+    private function storeAvatar(UploadedFile $avatar): string
     {
         $newFileName = (new FileNameGenerator($avatar))->generateFileName();
         Storage::disk()->putFileAs(self::FILE_STORAGE, $avatar, $newFileName, 'public');
         return Storage::url('upload/avatar/' . $newFileName);
+    }
+
+    private function validatePassword(User $user, $oldPassword): void
+    {
+        if (!Hash::check($oldPassword, $user->getAuthPassword())) {
+            throw new PasswordsDosentMatchException();
+        }
     }
 }

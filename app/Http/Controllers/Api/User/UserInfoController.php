@@ -62,10 +62,12 @@ class UserInfoController extends ApiController
                     $httpRequest->last_name,
                     $httpRequest->date_of_birth,
                     $httpRequest->phone_number,
-                    $httpRequest->file('avatar_url'),
+                    $httpRequest->file('avatar'),
                     $httpRequest->facebook_url,
                     $httpRequest->instagram_url,
-                    $httpRequest->twitter_url
+                    $httpRequest->twitter_url,
+                    $httpRequest->old_password,
+                    $httpRequest->new_password
                 )
             );
         } catch (DomainException $ex) {

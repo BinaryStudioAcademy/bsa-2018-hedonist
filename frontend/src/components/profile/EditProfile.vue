@@ -27,11 +27,11 @@
                 <b-field 
                     label="First name"
                 >
-                    <b-input v-model="firstName" />
+                    <b-input v-model.trim="user.first_name" />
                 </b-field>
 
                 <b-field label="Last name">
-                    <b-input v-model="lastName" />
+                    <b-input v-model.trim="user.last_name" />
                 </b-field>
 
                 <b-field label="Email">
@@ -45,7 +45,7 @@
                 <b-field label="Old password">
                     <b-input
                         type="password"
-                        v-model="oldPassword"
+                        v-model.trim="user.oldPassword"
                         password-reveal
                     />
                 </b-field>
@@ -53,13 +53,13 @@
                 <b-field label="New password">
                     <b-input
                         type="password"
-                        v-model="newPassword"
+                        v-model.trim="user.newPassword"
                         password-reveal
                     />
                 </b-field>
 
                 <b-field label="Phone">
-                    <b-input v-model="phone" />
+                    <b-input v-model.trim="user.phone_number" />
                 </b-field>
 
                 <b-field 
@@ -69,32 +69,32 @@
                     <b-field>
                         <b-input 
                             type="number" 
-                            v-model="birthDay"
+                            v-model.trim="birthDay"
                             placeholder="Day"
                         />
                         <b-input 
                             type="number" 
-                            v-model="birthMonth"
+                            v-model.trim="birthMonth"
                             placeholder="Month"
                         />
                         <b-input 
                             type="number" 
-                            v-model="birthYear"
+                            v-model.trim="birthYear"
                             placeholder="Year"
                         />
                     </b-field>
                 </b-field>
 
                 <b-field label="Instagram">
-                    <b-input v-model="instagram" />
+                    <b-input v-model.trim="user.instagram_url" />
                 </b-field>
 
                 <b-field label="Twitter">
-                    <b-input v-model="twitter" />
+                    <b-input v-model.trim="user.twitter_url" />
                 </b-field>
 
                 <b-field label="Facebook">
-                    <b-input v-model="facebook" />
+                    <b-input v-model.trim="user.facebook_url" />
                 </b-field>
                 <div class="buttons is-right">
                     <a class="button is-primary" @click="saveData">
@@ -108,8 +108,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     name: 'EditProfile',
@@ -119,12 +118,24 @@ export default {
             birthMonth: '',
             birthYear: '',
             files: [],
-            oldPassword: '',
-            newPassword: '',
+            user: {
+                id: null,
+                date_of_birth: '',
+                avatar_url: '',
+                email: '',
+                first_name: '',
+                last_name: '',
+                phone_number: '',
+                instagram_url: '',
+                facebook_url: '',
+                twitter_url: '',
+                oldPassword: '',
+                newPassword: '',
+            }
         };
     },
     created() {
-        this.setUser(Object.assign({}, this.authUser));
+        Object.assign(this.user, this.authUser);
 
         if (this.user.date_of_birth !== null) {
             let date = new Date(this.user.date_of_birth.date);
@@ -136,102 +147,15 @@ export default {
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
-            authUser: 'auth/getAuthenticatedUser',
-            user: 'profile/getUser'
+            authUser: 'auth/getAuthenticatedUser'
         }),
-        firstName: {
-            get () {
-                return this.user.first_name;
-            },
-            set (value) {
-                this.updateFirstName(value);
-            }
-        },
-        lastName: {
-            get () {
-                return this.user.last_name;
-            },
-            set (value) {
-                this.updateLastName(value);
-            }
-        },
-        phone: {
-            get () {
-                return this.user.phone_number;
-            },
-            set (value) {
-                this.updatePhone(value);
-            }
-        },
-        facebook: {
-            get () {
-                return this.user.facebook_url;
-            },
-            set (value) {
-                this.updateFacebook(value);
-            }
-        },
-        instagram: {
-            get () {
-                return this.user.instagram_url;
-            },
-            set (value) {
-                this.updateInstagram(value);
-            }
-        },
-        twitter: {
-            get () {
-                return this.user.twitter_url;
-            },
-            set (value) {
-                this.updateTwitter(value);
-            }
-        }
     },
     methods: {
         ...mapActions({
             updateProfile: 'profile/updateProfile',
-            deleteUserAvatar: 'profile/deleteUserAvatar',
-            setUserAvatar: 'profile/setUserAvatar',
-            setUser: 'profile/setUser',
-
-            updateFirstName: 'profile/updateFirstName',
-            updateLastName: 'profile/updateLastName',
-            updatePhone: 'profile/updatePhone',
-            updateFacebook: 'profile/updateFacebook',
-            updateInstagram: 'profile/updateInstagram',
-            updateTwitter: 'profile/updateTwitter',
-            updateDateOfBirth: 'profile/updateDateOfBirth',
-            updateUserAvatar: 'profile/updateUserAvatar',
-            updatePassword: 'profile/updatePassword',
+            deleteUserAvatar: 'profile/deleteUserAvatar'
         }),
         saveData() {
-            if (this.oldPassword !== '' && this.newPassword !== '') {
-                this.updatePassword({old_password: this.oldPassword, new_password: this.newPassword})
-                    .then(() => {
-                        this.saveProfileInfo();
-                    })
-                    .catch((data) => {
-                        let message = '';
-                        if (data.error !== undefined) {
-                            message = data.error.message;
-                        } else if (data.errors !== undefined) {
-                            for (let error in data.errors) {
-                                data.errors[error].forEach(function(item) {
-                                    message += item + '<br>';
-                                });
-                            }
-                        }
-                        this.onError({
-                            message: message
-                        });
-                        return false;
-                    });
-            } else {
-                this.saveProfileInfo();
-            }
-        },
-        saveProfileInfo() {
             const formData = new FormData();
             formData.append('first_name', this.user.first_name);
             formData.append('last_name', this.user.last_name);
@@ -241,28 +165,37 @@ export default {
             formData.append('twitter_url', this.user.twitter_url);
 
             if (this.birthYear && this.birthMonth && this.birthDay) {
-                this.updateDateOfBirth(this.birthYear + '/' + ('0' + this.birthMonth).slice(-2) + '/' + ('0' + this.birthDay).slice(-2));
+                this.user.date_of_birth = this.birthYear + '/' + ('0' + this.birthMonth).slice(-2) + '/' + ('0' + this.birthDay).slice(-2);
                 formData.append('date_of_birth', this.user.date_of_birth);
             }
             if (this.files && this.files.length) {
                 let file = this.files[0];
-                formData.append('avatar_url', file, file.name);
+                formData.append('avatar', file, file.name);
+            }
+            if (this.oldPassword !== '' && this.newPassword !== '') {
+                formData.append('old_password', this.user.oldPassword);
+                formData.append('new_password', this.user.newPassword);
             }
             this.updateProfile({formData: formData, userId: this.user.id})
-                .then(() => {
+                .then((data) => {
+                    this.user.avatar_url = data.avatar_url;
                     this.onSuccess({
                         message: 'Data successfully changed'
                     });
+                })
+                .catch((data) => {
+                    this.errorHandler(data);
                 });
         },
         onFileChange() {
             if (this.files && this.files.length) {
-                this.updateUserAvatar(URL.createObjectURL(this.files[0]));
+                this.user.avatar_url = URL.createObjectURL(this.files[0]);
             }
         },
         deleteAvatar() {
             this.deleteUserAvatar(this.user.id)
                 .then(() => {
+                    this.user.avatar_url = null;
                     this.files = [];
                 });
         },
@@ -278,6 +211,22 @@ export default {
                 type: 'is-danger'
             });
         },
+        errorHandler (data) {
+            let message = '';
+            if (data.error !== undefined) {
+                message = data.error.message;
+            } else if (data.errors !== undefined) {
+                for (let error in data.errors) {
+                    data.errors[error].forEach(function(item) {
+                        message += item + '<br>';
+                    });
+                }
+            }
+            this.onError({
+                message: message
+            });
+            return false;
+        }
     }
 };
 </script>

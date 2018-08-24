@@ -82,7 +82,7 @@ class UserInfoApiTest extends ApiTestCase
             'first_name' => "test_first_name",
             'date_of_birth' => '1970/04/12',
             'phone_number' => "380123456789",
-            'avatar_url' => $this->avatar,
+            'avatar' => $this->avatar,
             'facebook_url' => "https://twitter.com",
         ];
 
@@ -102,7 +102,7 @@ class UserInfoApiTest extends ApiTestCase
             'last_name' => "test_last_name",
             'date_of_birth' => '1970/04/12',
             'phone_number' => "380123456789",
-            'avatar_url' => $this->avatar,
+            'avatar' => $this->avatar,
             'facebook_url' => "https://www.facebook.com/profile.php?id=123456789012345",
             'instagram_url' => "https://www.instagram.com/12345/"
         ];
@@ -135,7 +135,7 @@ class UserInfoApiTest extends ApiTestCase
             'first_name' => "test_first_name",
             'date_of_birth' => '1970/04/12',
             'phone_number' => "380123456789",
-            'avatar_url' => $this->avatar,
+            'avatar' => $this->avatar,
             'facebook_url' => "https://www.facebook.com/profile.php?id=123456789012345",
             'instagram_url' => "https://www.instagram.com/12345/",
             'twitter_url' => "https://twitter.com/12345"
@@ -146,7 +146,7 @@ class UserInfoApiTest extends ApiTestCase
         $response->assertStatus(400);
     }
 
-    public function test_get_user_list_not_found()
+    public function test_get_user_info_not_found()
     {
         $this->json('GET', "/api/v1/user/9999/profile")->assertStatus(404);
     }
