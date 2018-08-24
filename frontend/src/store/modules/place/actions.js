@@ -47,6 +47,7 @@ export default {
                     context.commit('SET_PLACES', res.data.data);
                     resolve(res);
                 }).catch(function (err) {
+                    console.log(err.response);
                     reject(err);
                 });
         });

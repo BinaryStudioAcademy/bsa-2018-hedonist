@@ -29,6 +29,7 @@ use Hedonist\Http\Requests\Place\PlaceSearchRequest;
 use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PlaceController extends ApiController
@@ -67,10 +68,11 @@ class PlaceController extends ApiController
         return $this->successResponse($presenter->present($placeResponse));
     }
 
-    public function getCollection(GetPlaceCollectionPresenter $presenter): JsonResponse
+    public function getCollection(Request $request, GetPlaceCollectionPresenter $presenter): JsonResponse
     {
-        $placeResponse = $this->getPlaceCollectionAction->execute(new GetPlaceCollectionRequest());
-
+        $placeResponse = $this->getPlaceCollectionByFiltersAction->execute(
+            new GetPlaceCollectionByFiltersRequest($request->input('page'),null, null)
+        );
         return $this->successResponse($presenter->present($placeResponse));
     }
 

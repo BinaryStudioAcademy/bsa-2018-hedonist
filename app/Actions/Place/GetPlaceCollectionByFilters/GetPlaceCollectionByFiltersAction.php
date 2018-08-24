@@ -28,6 +28,8 @@ class GetPlaceCollectionByFiltersAction
     {
         $categoryId = $request->getCategoryId();
         $location = $request->getLocation();
+        $page = $request->getPage() ? : 1;
+
         if ($location) {
             try {
                 $location = Location::fromString($location);
@@ -37,7 +39,7 @@ class GetPlaceCollectionByFiltersAction
         }
 
         $places = $this->placeRepository->findByCriteria(
-            new PlaceSearchCriteria($request->getPage(), $categoryId, $location)
+            new PlaceSearchCriteria($page, $categoryId, $location)
         );
 
         $reviews = $this->reviewRepository->findByCriteria(
