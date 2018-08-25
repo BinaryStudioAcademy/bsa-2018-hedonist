@@ -237,6 +237,13 @@ export default {
     .navbar-lang {
         position:absolute;
         right:0px;
+
+        @media screen and (max-width: 1087px) {
+            height: 60px;
+            position:static;
+            padding: 0;
+            overflow: hidden;
+        }
     }
 
 </style>
