@@ -16,10 +16,10 @@
                         <span class="place-country">Украина</span>
                     </div>
                 </div>
-                <div v-if="place.tags" class="place-sidebar__tags">
+                <div v-if="place.category.tags" class="place-sidebar__tags">
                     <i class="place-sidebar__icon fas fa-info-circle" />
                     <span 
-                        v-for="tag in place.tags" 
+                        v-for="tag in place.category.tags"
                         class="tag"
                         :key="tag.id"
                     >
@@ -167,8 +167,12 @@ export default {
     }
 
     &__tags {
+        line-height: 30px;
+
         .tag {
             margin-right: 5px;
+            color: white;
+            background-color: #167df0;
             cursor: pointer;
         }
     }
