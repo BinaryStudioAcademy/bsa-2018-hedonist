@@ -31,20 +31,17 @@ class UserInfoApiTest extends ApiTestCase
         $response = $this->json('GET', "/api/v1/users/$userInfo->user_id/profile");
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
-        $response->assertJsonFragment([
-            "data" =>
-                [
-                    "user_id" => $userInfo->user_id,
-                    "first_name" => $userInfo->first_name,
-                    "last_name" => $userInfo->last_name,
-                    "date_of_birth" => $userInfo->date_of_birth->format('Y/m/d'),
-                    "phone_number" => $userInfo->phone_number,
-                    "avatar_url" => $userInfo->avatar_url,
-                    "facebook_url" => $userInfo->facebook_url,
-                    "instagram_url" => $userInfo->instagram_url,
-                    "twitter_url" => $userInfo->twitter_url,
-                ]
-        ]);
+
+        $result = $response->getOriginalContent();
+        $this->assertEquals($userInfo->user_id, $result['data']['user_id']);
+        $this->assertEquals($userInfo->first_name, $result['data']['first_name']);
+        $this->assertEquals($userInfo->last_name, $result['data']['last_name']);
+        $this->assertEquals($userInfo->date_of_birth->format('Y/m/d'), $result['data']['date_of_birth']->format('Y/m/d'));
+        $this->assertEquals($userInfo->phone_number, $result['data']['phone_number']);
+        $this->assertEquals($userInfo->avatar_url, $result['data']['avatar_url']);
+        $this->assertEquals($userInfo->facebook_url, $result['data']['facebook_url']);
+        $this->assertEquals($userInfo->instagram_url, $result['data']['instagram_url']);
+        $this->assertEquals($userInfo->twitter_url, $result['data']['twitter_url']);
     }
 
     public function test_update_user_info()
@@ -52,27 +49,23 @@ class UserInfoApiTest extends ApiTestCase
         $userInfo = factory(UserInfo::class)->create();
         $data = [
             'first_name' => "test_first_name",
-            'date_of_birth' => '1970/04/12',
+            'date_of_birth' => '1970/04/13',
             'phone_number' => "380123456789"
         ];
         $response = $this->json('POST', "/api/v1/users/$userInfo->user_id/profile", $data);
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
 
-        $response->assertJsonFragment([
-            "data" =>
-                [
-                    "user_id" => $userInfo->user_id,
-                    "first_name" => $data['first_name'],
-                    "last_name" => $userInfo->last_name,
-                    "date_of_birth" => $data['date_of_birth'],
-                    "phone_number" => $data['phone_number'],
-                    "avatar_url" => $userInfo->avatar_url,
-                    "facebook_url" => $userInfo->facebook_url,
-                    "instagram_url" => $userInfo->instagram_url,
-                    "twitter_url" => $userInfo->twitter_url,
-                ]
-        ]);
+        $result = $response->getOriginalContent();
+        $this->assertEquals($userInfo->user_id, $result['data']['user_id']);
+        $this->assertEquals($data['first_name'], $result['data']['first_name']);
+        $this->assertEquals($userInfo->last_name, $result['data']['last_name']);
+        $this->assertEquals($data['date_of_birth'], $result['data']['date_of_birth']->format('Y/m/d'));
+        $this->assertEquals($data['phone_number'], $result['data']['phone_number']);
+        $this->assertEquals($userInfo->avatar_url, $result['data']['avatar_url']);
+        $this->assertEquals($userInfo->facebook_url, $result['data']['facebook_url']);
+        $this->assertEquals($userInfo->instagram_url, $result['data']['instagram_url']);
+        $this->assertEquals($userInfo->twitter_url, $result['data']['twitter_url']);
     }
 
     public function test_update_invalid_social()
@@ -100,7 +93,7 @@ class UserInfoApiTest extends ApiTestCase
             'user_id' => $user->id,
             'first_name' => "test_first_name",
             'last_name' => "test_last_name",
-            'date_of_birth' => '1970/04/12',
+            'date_of_birth' => '1970/04/13',
             'phone_number' => "380123456789",
             'avatar' => $this->avatar,
             'facebook_url' => "https://www.facebook.com/profile.php?id=123456789012345",
@@ -110,20 +103,16 @@ class UserInfoApiTest extends ApiTestCase
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
 
-        $response->assertJsonFragment([
-            "data" =>
-                [
-                    "user_id" => $user->id,
-                    "first_name" => $data['first_name'],
-                    "last_name" => $data['last_name'],
-                    "date_of_birth" => $data['date_of_birth'],
-                    "phone_number" => $data['phone_number'],
-                    "avatar_url" => $user->info->avatar_url,
-                    "facebook_url" => $data['facebook_url'],
-                    "instagram_url" => $data['instagram_url'],
-                    "twitter_url" => "",
-                ]
-        ]);
+        $result = $response->getOriginalContent();
+        $this->assertEquals($user->id, $result['data']['user_id']);
+        $this->assertEquals($data['first_name'], $result['data']['first_name']);
+        $this->assertEquals($data['last_name'], $result['data']['last_name']);
+        $this->assertEquals($data['date_of_birth'], $result['data']['date_of_birth']->format('Y/m/d'));
+        $this->assertEquals($data['phone_number'], $result['data']['phone_number']);
+        $this->assertEquals($user->info->avatar_url, $result['data']['avatar_url']);
+        $this->assertEquals($data['facebook_url'], $result['data']['facebook_url']);
+        $this->assertEquals($data['instagram_url'], $result['data']['instagram_url']);
+        $this->assertEquals("", $result['data']['twitter_url']);
     }
 
     public function test_create_user_info_without_required_field()
