@@ -429,6 +429,7 @@ export default {
 
     .main-wrp {
         margin: auto;
+        max-width: 960px;
     }
 
     .label {
