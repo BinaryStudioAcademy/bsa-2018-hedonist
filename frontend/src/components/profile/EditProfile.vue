@@ -94,7 +94,7 @@
                 </b-field>
 
                 <b-field label="Facebook">
-                    <b-input type="text" v-model.trim="user.facebook_url" />
+                    <b-input v-model.trim="user.facebook_url" />
                 </b-field>
                 <div class="buttons is-right">
                     <a class="button is-primary" @click="saveData">
