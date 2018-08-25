@@ -50,7 +50,7 @@ class GetPlaceItemPresenter
         $this->photoPresenter = $photoPresenter;
     }
 
-    public function present(GetPlaceItemResponse $placeResponse, GetPlaceRatingResponse $placeRatingResponse): array
+    public function present(GetPlaceItemResponse $placeResponse): array
     {
         $place = $placeResponse->getPlace();
         $result = $this->placePresenter->present($place);
@@ -62,7 +62,14 @@ class GetPlaceItemPresenter
         $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
         $result['category'] = $this->categoryPresenter->present($place->category);
         $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
-        $result['myRating'] = $placeRatingResponse->getRatingValue();
+
+        return $result;
+    }
+
+    public function presentWithUserRating(GetPlaceItemResponse $placeResponse, ?float $userRating): array
+    {
+        $result = $this->present($placeResponse);
+        $result['myRating'] = $userRating;
 
         return $result;
     }

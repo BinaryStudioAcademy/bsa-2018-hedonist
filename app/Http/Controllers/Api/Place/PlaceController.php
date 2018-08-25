@@ -73,12 +73,12 @@ class PlaceController extends ApiController
         } catch (PlaceDoesNotExistException $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
         } catch (PlaceRatingNotFoundException $e) {
-            $placeRatingResponse = new GetPlaceRatingResponse(0, 0, 0, 0);
+            $placeRatingResponse = null;
         }
 
-        return $this->successResponse($presenter->present(
+        return $this->successResponse($presenter->presentWithUserRating(
             $placeResponse,
-            $placeRatingResponse
+            $placeRatingResponse ? $placeRatingResponse->getRatingValue() : null
         ));
     }
 
