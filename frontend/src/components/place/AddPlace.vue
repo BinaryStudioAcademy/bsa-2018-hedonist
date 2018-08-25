@@ -144,11 +144,13 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </b-tab-item>
 
-                        <div class="map-part column">
-                            <div class="map-box">
-                                <img src="https://a.tiles.mapbox.com/v3/foursquare.qhb8olxr/16/38326/22101.png" alt="mapbox">
-                            </div>
+                <b-tab-item label="Location">
+                    <div class="map-part column">
+                        <div class="map-box">
+                            <img src="https://a.tiles.mapbox.com/v3/foursquare.qhb8olxr/16/38326/22101.png" alt="mapbox">
                         </div>
                     </div>
                 </b-tab-item>
