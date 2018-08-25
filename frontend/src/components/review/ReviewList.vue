@@ -8,7 +8,7 @@
                         height="25" 
                         width="25"
                     >
-                    <span>{{ getAllReviews.length }} Reviews</span>
+                    <span>{{ getReviewsCount }} Reviews</span>
                 </div>
                 <div class="review-title-search">
                     <div class="control has-icons-left">
@@ -87,7 +87,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters('review', [ 'getAllReviews' ]),
+        ...mapGetters('review', [ 'getAllReviews', 'getReviewsCount' ]),
 
         isReviewsExist() {
             return !_.isEmpty(this.place.reviews);

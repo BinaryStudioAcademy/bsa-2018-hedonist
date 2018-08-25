@@ -7,5 +7,8 @@ export default {
                 user: state.users.byId[review.user_id]
             })
         });
+    },
+    getReviewsCount: state => {
+        return state.reviews.allIds.length;
     }
 };
