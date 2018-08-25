@@ -1,7 +1,7 @@
 import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
-function findReviewById (state, reviewId) {
-    return state.places.find( (place) => { 
+function findReviewById (places, reviewId) {
+    return places.find( (place) => { 
         return place.review.id === parseInt(reviewId); 
     }).review;
 };
@@ -56,7 +56,7 @@ export default {
     },
     
     UPDATE_REVIEW_LIKED_STATE: (state, reviewId) => {
-        let review = findReviewById(state, reviewId);
+        let review = findReviewById(state.places, reviewId);
 
         if (review.like === STATUS_NONE) {
             review.like = STATUS_LIKED;
@@ -72,8 +72,8 @@ export default {
     },
 
     UPDATE_REVIEW_DISLIKED_STATE: (state, reviewId) => {
-        let review = findReviewById(state, reviewId);
-        
+        let review = findReviewById(state.places, reviewId);
+
         if (review.like === STATUS_NONE) {
             review.like = STATUS_DISLIKED;
             review.dislikes++;
