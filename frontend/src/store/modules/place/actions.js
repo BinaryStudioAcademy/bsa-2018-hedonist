@@ -27,13 +27,11 @@ export default {
                     const currentPlace = response.data.data;
                     context.commit('SET_CURRENT_PLACE', currentPlace);
 
-                    let normalizeReviews = context.dispatch('normalizeReviews', currentPlace.reviews);
-                    context.commit('review/SET_CURRENT_PLACE_REVIEWS', normalizeReviews, { root: true });
+                    let normalizeReviewsObj = this.normalizeUsers(context, currentPlace.reviews);
+                    context.commit('review/SET_CURRENT_PLACE_REVIEWS', normalizeReviewsObj, { root: true });
 
-                    console.log('------------------');
-                    
-                    let normalizeUsers = this.dispatch('normalizeUsers', normalizeReviews);
-                    context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsers, { root: true });
+                    let normalizeUsersObj = this.normalizeUsers(normalizeReviewsObj);
+                    context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsersObj, { root: true });
 
                     resolve();
                 })
