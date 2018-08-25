@@ -378,7 +378,18 @@
                     <div class="buttons is-centered">
                         <span @click="onCancel()" class="button is-danger">Cancel</span>
                         <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab = activeTab" class="button is-success">Next</span>
+                        <span @click="activeTab++" class="button is-success">Next</span>
+                    </div>
+                </b-tab-item>
+
+                <b-tab-item label="Add place" :disabled="activeTab !== 5">
+                    <div class="box">
+                        <h1>Do you really want to add new place <strong>"{{ newPlace.localization.en.name }}"?</strong></h1>
+                        <div class="buttons is-right">
+                            <span @click="onAdd()" class="button is-medium is-success">Add</span>
+                            <span @click="activeTab--" class="button is-warning">Previous</span>
+                            <span @click="onCancel()" class="button is-danger">Cancel</span>
+                        </div>
                     </div>
                 </b-tab-item>
             </b-tabs>
@@ -516,6 +527,10 @@ export default {
         onCloseTab: function(tagObject) {
             this.newPlace.tags = this.excludeTag(tagObject);
             this.selectedTag = '';
+        },
+
+        onAdd() {
+            console.log(this.newPlace);
         },
 
         onCancel() {
