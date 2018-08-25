@@ -40,7 +40,8 @@ export default {
         });
     },
 
-    fetchPlaces: (context, queryUrl) => {
+    fetchPlaces: (context, filters = {category: '', location: '', page: 1}) => {
+        let queryUrl = createSearchQueryUrl(filters);
         return new Promise((resolve, reject) => {
             httpService.get('/places/search' + queryUrl)
                 .then(function (res) {
@@ -178,4 +179,10 @@ export default {
                 return Promise.reject(err);
             });
     }
+};
+
+const createSearchQueryUrl = (filters) => {
+    return '?filter[category]=' + filters.category
+        + '&filter[location]=' + filters.location
+        + '&page=' + filters.page;
 };

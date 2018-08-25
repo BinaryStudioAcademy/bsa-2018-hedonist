@@ -57,7 +57,7 @@ export default {
         };
     },
     created() {
-        this.$store.dispatch('place/fetchPlaces', this.createSearchQueryUrl())
+        this.$store.dispatch('place/fetchPlaces')
             .then(() => {
                 this.isPlacesLoaded = true;
             });
@@ -107,11 +107,6 @@ export default {
                 this.markerManager.setMarkersFromPlacesAndFit(...this.places);
             }
         },
-        createSearchQueryUrl(filters = {category: '', location: '', page: 1}) {
-            return '?filter[category]=' + filters.category
-                + '&filter[location]=' + filters.location
-                + '&page=' + filters.page;
-        }
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {
@@ -121,8 +116,7 @@ export default {
             this.updateMap();
         },
         '$route' (to, from) {
-            let queryUrl = this.createSearchQueryUrl(to.query);
-            this.$store.dispatch('place/fetchPlaces', queryUrl)
+            this.$store.dispatch('place/fetchPlaces', to.query)
                 .then(() => {
                     this.isPlacesLoaded = true;
                 });
