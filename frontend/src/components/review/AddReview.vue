@@ -124,7 +124,6 @@ export default {
                         img: item
                     });
                 });
-
                 this.refreshInput();
                 this.onSuccess({
                     message: 'Your review has been added'
