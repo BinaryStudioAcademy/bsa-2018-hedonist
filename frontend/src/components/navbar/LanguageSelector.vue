@@ -1,6 +1,12 @@
 <template>
     <div class="control">
-        <b-dropdown v-model="language" mobile-modal="false" hoverable @input="changeLang" class="language-menu">
+        <b-dropdown
+            v-model="language"
+            mobile-modal="false"
+            hoverable
+            @input="changeLang"
+            class="language-menu"
+        >
             <button class="button current-language" type="button" slot="trigger">
                 <template>
                     <span :class="['language-item__icon', currentLangClass]" />
