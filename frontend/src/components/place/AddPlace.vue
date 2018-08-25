@@ -2,160 +2,175 @@
     <div class="section">
         <div class="container main-wrp">
 
-            <b-tabs position="is-centered" class="block">
-                <b-tab-item label="General">
-                    <div class="columns">
-                        <div class="main-part column is-two-thirds">
-                            <div class="field is-horizontal">
-                                <div class="field-label is-medium">
-                                    <label class="label">Name</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control is-expanded">
-                                            <input
-                                                v-model="newPlace.name"
-                                                class="input is-medium"
-                                                type="text"
-                                                placeholder="Place's name"
-                                            >
-                                        </div>
-                                    </div>
+            <b-tabs v-model="activeTab" position="is-centered" class="block">
+                <b-tab-item label="General" :disabled="activeTab !== 0">
+                    <div class="field is-horizontal">
+                        <div class="field-label is-medium">
+                            <label class="label">Name</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control is-expanded">
+                                    <input
+                                        v-model="newPlace.name"
+                                        class="input is-medium"
+                                        type="text"
+                                        placeholder="Place's name"
+                                    >
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="section-divider">
-                                <h4>Address and Location</h4>
+                    <div class="section-divider">
+                        <h4>Address and Location</h4>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">City</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="Place's city">
+                                </p>
                             </div>
-
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">City</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <p class="control is-expanded">
-                                            <input class="input" type="text" placeholder="Place's city">
-                                        </p>
-                                    </div>
-                                    <div class="field-label is-normal">
-                                        <label class="label">Zip</label>
-                                    </div>
-                                    <div class="field">
-                                        <p class="control is-expanded">
-                                            <input class="input" type="text" placeholder="Place's postal code">
-                                        </p>
-                                    </div>
-                                </div>
+                            <div class="field-label is-normal">
+                                <label class="label">Zip</label>
                             </div>
-
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">Address</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control is-expanded">
-                                            <input class="input" type="text" placeholder="Place's address">
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="Place's postal code">
+                                </p>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="section-divider">
-                                <h4>Contact and Other Info</h4>
-                            </div>
-
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">Phone</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <p class="control is-expanded">
-                                            <input class="input" type="tel" placeholder="Place's phone">
-                                        </p>
-                                    </div>
-                                    <div class="field-label is-normal">
-                                        <label class="label">Facebook</label>
-                                    </div>
-                                    <div class="field">
-                                        <p class="control is-expanded">
-                                            <input class="input" type="text" placeholder="Place's facebook">
-                                        </p>
-                                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Address</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control is-expanded">
+                                    <input class="input" type="text" placeholder="Place's address">
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">Website</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <p class="control is-expanded">
-                                            <input class="input" type="text" placeholder="Place's website">
-                                        </p>
-                                    </div>
-                                    <div class="field-label is-normal">
-                                        <label class="label">Instagram</label>
-                                    </div>
-                                    <div class="field">
-                                        <p class="control is-expanded">
-                                            <input class="input" type="text" placeholder="Place's instagram">
-                                        </p>
-                                    </div>
+                    <div class="section-divider">
+                        <h4>Contact and Other Info</h4>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Phone</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="tel" placeholder="Place's phone">
+                                </p>
+                            </div>
+                            <div class="field-label is-normal">
+                                <label class="label">Twitter</label>
+                            </div>
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="Place's twitter">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Facebook</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="Place's facebook">
+                                </p>
+                            </div>
+                            <div class="field-label is-normal">
+                                <label class="label">Instagram</label>
+                            </div>
+                            <div class="field">
+                                <p class="control is-expanded">
+                                    <input class="input" type="text" placeholder="Place's instagram">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Website</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control is-expanded">
+                                    <input class="input" type="text" placeholder="Place's website">
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">Menu link</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control is-expanded">
-                                            <input class="input" type="text" placeholder="Place's menu">
-                                        </div>
-                                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Menu link</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control is-expanded">
+                                    <input class="input" type="text" placeholder="Place's menu">
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">Description</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <div class="control">
-                                            <textarea class="textarea" placeholder="Place's description.." />
-                                        </div>
-                                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Description</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    <textarea class="textarea" placeholder="Place's description.." />
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="field is-horizontal">
-                                <div class="field-label" />
-                                <div class="field-body">
-                                    <div class="buttons is-centered">
-                                        <span class="button is-primary">Save place</span>
-                                        <span class="button is-danger">Cancel</span>
-                                    </div>
-                                </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label" />
+                        <div class="field-body">
+                            <div class="buttons is-centered">
+                                <span @click="onCancel()" class="button is-danger">Cancel</span>
+                                <span @click="activeTab++" class="button is-success">Next</span>
                             </div>
                         </div>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Location">
+                <b-tab-item label="Location" :disabled="activeTab !== 1">
                     <div class="map-part column">
                         <div class="map-box">
                             <img src="https://a.tiles.mapbox.com/v3/foursquare.qhb8olxr/16/38326/22101.png" alt="mapbox">
                         </div>
                     </div>
+
+                    <div class="buttons is-centered">
+                        <span @click="onCancel()" class="button is-danger">Cancel</span>
+                        <span @click="activeTab--" class="button is-warning">Previous</span>
+                        <span @click="activeTab++" class="button is-success">Next</span>
+                    </div>
                 </b-tab-item>
 
-                <b-tab-item label="Categories">
+                <b-tab-item label="Categories" :disabled="activeTab !== 2">
                     <div class="level">
                         <div class="level-item">
                             <b-field>
@@ -210,9 +225,15 @@
                             </div>
                         </div>
                     </template>
+
+                    <div class="buttons is-centered">
+                        <span @click="onCancel()" class="button is-danger">Cancel</span>
+                        <span @click="activeTab--" class="button is-warning">Previous</span>
+                        <span @click="activeTab++" class="button is-success">Next</span>
+                    </div>
                 </b-tab-item>
 
-                <b-tab-item label="Features">
+                <b-tab-item label="Features" :disabled="activeTab !== 3">
                     <template v-for="(feature, index) in features">
                         <div :key="index" class="level is-flex-mobile">
                             <div class="level-left">
@@ -226,9 +247,15 @@
                             </div>
                         </div>
                     </template>
+
+                    <div class="buttons is-centered">
+                        <span @click="onCancel()" class="button is-danger">Cancel</span>
+                        <span @click="activeTab--" class="button is-warning">Previous</span>
+                        <span @click="activeTab++" class="button is-success">Next</span>
+                    </div>
                 </b-tab-item>
 
-                <b-tab-item label="Hours">
+                <b-tab-item label="Hours" :disabled="activeTab !== 4">
                     <div class="level is-centered">
                         <div class="level-item">
                             <b-field class="is-block-mobile">
@@ -303,6 +330,12 @@
                     <div class="btn-bottom level is-centered">
                         <div class="level-item"><a class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
                     </div>
+
+                    <div class="buttons is-centered">
+                        <span @click="onCancel()" class="button is-danger">Cancel</span>
+                        <span @click="activeTab--" class="button is-warning">Previous</span>
+                        <span @click="activeTab = activeTab" class="button is-success">Next</span>
+                    </div>
                 </b-tab-item>
             </b-tabs>
         </div>
@@ -314,6 +347,9 @@ export default {
     name: 'NewPlacePage',
     data() {
         return {
+            activeTab: 0,
+
+
             newPlace: {
                 name: '',
                 category: '',
@@ -407,6 +443,11 @@ export default {
     },
 
     methods: {
+        onCancel() {
+            this.newPlace = {};
+            this.$router.push({ name: 'home' });
+        },
+
         onCloseTab: function(tagObject) {
             this.newPlace.category_tags = this.excludeTag(tagObject);
             this.selectedTag = 'v';
@@ -434,6 +475,18 @@ export default {
         max-width: 960px;
     }
 
+    .section-divider {
+        margin: 30px 0 20px 30px;
+        border-bottom: 1px solid #50595D;
+
+        h4 {
+            font-weight: 500;
+        }
+    }
+
+
+    /**/
+
     .label {
         color: #50595D;
     }
@@ -447,15 +500,6 @@ export default {
     /* timepicker needs */
     .btn-bottom {
         height: 200px;
-    }
-
-    .section-divider {
-        margin: 30px 0 20px 30px;
-        border-bottom: 1px solid #50595D;
-
-        h4 {
-            font-weight: 500;
-        }
     }
 
 </style>
