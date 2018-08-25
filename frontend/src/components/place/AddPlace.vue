@@ -32,17 +32,22 @@
                         </div>
                         <div class="field-body">
                             <div class="field">
-                                <p class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Place's city">
-                                </p>
+                                <div class="control is-expanded">
+                                    <SearchCity @select="selectCity = $event" />
+                                </div>
                             </div>
-                            <div class="field-label is-normal">
-                                <label class="label">Zip</label>
-                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">Zip</label>
+                        </div>
+                        <div class="field-body">
                             <div class="field">
-                                <p class="control is-expanded">
+                                <div class="control is-expanded">
                                     <input class="input" type="text" placeholder="Place's postal code">
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -145,14 +150,9 @@
                         </div>
                     </div>
 
-                    <div class="field is-horizontal">
-                        <div class="field-label" />
-                        <div class="field-body">
-                            <div class="buttons is-centered">
-                                <span @click="onCancel()" class="button is-danger">Cancel</span>
-                                <span @click="activeTab++" class="button is-success">Next</span>
-                            </div>
-                        </div>
+                    <div class="buttons is-centered">
+                        <span @click="onCancel()" class="button is-danger">Cancel</span>
+                        <span @click="activeTab++" class="button is-success">Next</span>
                     </div>
                 </b-tab-item>
 
@@ -343,8 +343,14 @@
 </template>
 
 <script>
+import SearchCity from '../navbar/SearchCity';
+
 export default {
     name: 'NewPlacePage',
+    components: {
+        SearchCity
+    },
+
     data() {
         return {
             activeTab: 0,
@@ -358,6 +364,7 @@ export default {
             },
             categories: {},
             selectedTag: 'v',
+            selectCity: '',
             category_tags: [],
             weekdays: [],
             timeStart: new Date(),
@@ -443,11 +450,6 @@ export default {
     },
 
     methods: {
-        onCancel() {
-            this.newPlace = {};
-            this.$router.push({ name: 'home' });
-        },
-
         onCloseTab: function(tagObject) {
             this.newPlace.category_tags = this.excludeTag(tagObject);
             this.selectedTag = 'v';
@@ -459,6 +461,12 @@ export default {
 
         excludeTag: function(tagObject)  {
             return this.newPlace.category_tags.filter((tag) => tag.name !== tagObject.name);
+        },
+
+
+        onCancel() {
+            this.newPlace = {};
+            this.$router.push({ name: 'home' });
         }
     }
 };
