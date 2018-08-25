@@ -63,7 +63,7 @@ export default {
             });
     },
     methods: {
-        ...mapActions('search', ['setCurrentCenter', 'mapInitialization']),
+        ...mapActions('search', ['setCurrentPosition', 'mapInitialization']),
 
         mapInitialize(map) {
             if (this.mapInitialized) {
@@ -75,6 +75,10 @@ export default {
                 .then(coordinates => {
                     this.userCoordinates.lat = coordinates.lat;
                     this.userCoordinates.lng = coordinates.lng;
+                    this.setCurrentPosition({
+                        latitude: coordinates.lat,
+                        longitude: coordinates.lng
+                    });
                 });
             this.mapInitialization();
         },
@@ -124,7 +128,7 @@ export default {
     },
     computed: {
         ...mapState('place', ['places']),
-        ...mapState('search', ['currentLatitude', 'currentLongitude', 'mapInitialized']),
+        ...mapState('search', ['currentPosition', 'mapInitialized']),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters('map', [
             'getMapboxToken',
@@ -136,8 +140,8 @@ export default {
 
         currentCenter() {
             return {
-                lat: this.currentLatitude ? this.currentLatitude : this.userCoordinates.lat,
-                lng: this.currentLongitude ? this.currentLongitude : this.userCoordinates.lng
+                lat: this.currentPosition.latitude ? this.currentPosition.latitude : this.userCoordinates.lat,
+                lng: this.currentPosition.longitude ? this.currentPosition.longitude : this.userCoordinates.lng
             };
         },
 
