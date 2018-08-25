@@ -152,7 +152,7 @@ export default {
                 .then((profileUser) => {
                     this.user = Object.assign({}, profileUser);
                     if (this.user.date_of_birth !== null) {
-                        let date = new Date(this.user.date_of_birth);
+                        let date = new Date(this.user.date_of_birth.date);
                         this.birthYear = date.getFullYear();
                         this.birthMonth = date.getMonth() + 1;
                         this.birthDay = date.getDate();
@@ -213,12 +213,12 @@ export default {
         },
         createFormData() {
             let formData = new FormData();
-            formData.append('first_name', this.user.first_name);
-            formData.append('last_name', this.user.last_name);
-            formData.append('phone_number', this.user.phone_number);
-            formData.append('instagram_url', this.user.instagram_url);
-            formData.append('facebook_url', this.user.facebook_url);
-            formData.append('twitter_url', this.user.twitter_url);
+            formData.append('first_name', this.convertNullToEmptyString(this.user.first_name));
+            formData.append('last_name', this.convertNullToEmptyString(this.user.last_name));
+            formData.append('phone_number', this.convertNullToEmptyString(this.user.phone_number));
+            formData.append('instagram_url', this.convertNullToEmptyString(this.user.instagram_url));
+            formData.append('facebook_url', this.convertNullToEmptyString(this.user.facebook_url));
+            formData.append('twitter_url', this.convertNullToEmptyString(this.user.twitter_url));
 
             if (this.birthYear && this.birthMonth && this.birthDay) {
                 this.user.date_of_birth = this.birthYear + '/' + ('0' + this.birthMonth).slice(-2) + '/' + ('0' + this.birthDay).slice(-2);
@@ -229,10 +229,13 @@ export default {
                 formData.append('avatar', file, file.name);
             }
             if (this.oldPassword !== '' && this.newPassword !== '') {
-                formData.append('old_password', this.oldPassword);
-                formData.append('new_password', this.newPassword);
+                formData.append('old_password', this.convertNullToEmptyString(this.oldPassword));
+                formData.append('new_password', this.convertNullToEmptyString(this.newPassword));
             }
             return formData;
+        },
+        convertNullToEmptyString(value) {
+            return value == null ? '' : value;
         }
     }
 };
