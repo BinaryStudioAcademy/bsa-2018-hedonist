@@ -3,7 +3,9 @@ import { STATUS_NONE } from '@/services/api/codes';
 
 export default {
     ADD_USER: (state, user) => {
-        // TODO: check if user already exists
+        if (state.users.allIds.includes(user.data.id)) {
+            return;
+        }
         const newUser = normalizer.normalize(user, {
             first_name: "",
             last_name: "",
