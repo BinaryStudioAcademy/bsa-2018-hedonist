@@ -26,34 +26,9 @@ export default {
                 .then( (response) => {
                     const currentPlace = response.data.data;
                     context.commit('SET_CURRENT_PLACE', currentPlace);
-                    currentPlace.reviews.forEach(function(review) { review.user_id = review.user.id; });
-                    let transformedCurrentPlaceReviews = normalizerService.normalize({ data: currentPlace.reviews }, state.getReviewSchema());
-                    transformedCurrentPlaceReviews.allIds = [];
-                    for (let k in transformedCurrentPlaceReviews.byId)
-                        transformedCurrentPlaceReviews.allIds.push(parseInt(k));
-
-                    let allUserIds = [];
-                    let users = [];
-                    for (let key in transformedCurrentPlaceReviews.byId) {
-                        if (!transformedCurrentPlaceReviews.byId.hasOwnProperty(key)) continue;
-                        let userId = transformedCurrentPlaceReviews.byId[key].user.id;
-                        if (! allUserIds.includes(userId)) {
-                            users.push(transformedCurrentPlaceReviews.byId[key].user);
-                            allUserIds.push(userId);
-                        }
-                        delete transformedCurrentPlaceReviews.byId[key].user;
-                    }
-
-                    let normalizeUsers = normalizerService.normalize({ data:users }, {
-                        first_name: '',
-                        last_name: '',
-                        avatar_url: ''
-                    });
-                    normalizeUsers.allIds = [];
-                    for (let k in normalizeUsers.byId)
-                        normalizeUsers.allIds.push(parseInt(k));
-
-                    context.commit('review/SET_CURRENT_PLACE_REVIEWS', transformedCurrentPlaceReviews, { root: true });
+                    let normalizeReviews = context.dispatch('normalizeReviews', currentPlace.reviews);
+                    context.commit('review/SET_CURRENT_PLACE_REVIEWS', normalizeReviews, { root: true });
+                    let normalizeUsers = context.dispatch('normalizeUsers', normalizeReviews);
                     context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsers, { root: true });
                     resolve();
                 })
@@ -110,6 +85,40 @@ export default {
             .catch( (err) => {
                 return Promise.reject(err);
             });
+    },
+
+    normalizeUsers: (context, reviews) => {
+        let allUserIds = [];
+        let users = [];
+        for (let key in reviews.byId) {
+            if (!reviews.byId.hasOwnProperty(key)) continue;
+            let userId = reviews.byId[key].user.id;
+            if (! allUserIds.includes(userId)) {
+                users.push(reviews.byId[key].user);
+                allUserIds.push(userId);
+            }
+        }
+
+        let normalizeUsers = normalizerService.normalize({ data:users }, {
+            first_name: '',
+            last_name: '',
+            avatar_url: ''
+        });
+        normalizeUsers.allIds = [];
+        for (let k in normalizeUsers.byId)
+            normalizeUsers.allIds.push(parseInt(k));
+
+        return normalizeUsers;
+    },
+
+    normalizeReviews: (context, reviews) => {
+        reviews.forEach(function(review) { review.user_id = review.user.id; });
+        let transformedCurrentPlaceReviews = normalizerService.normalize({ data: reviews }, context.rootState.review.state.getReviewSchema());
+        transformedCurrentPlaceReviews.allIds = [];
+        for (let k in transformedCurrentPlaceReviews.byId)
+            transformedCurrentPlaceReviews.allIds.push(parseInt(k));
+
+        return transformedCurrentPlaceReviews;
     }
 };
 
