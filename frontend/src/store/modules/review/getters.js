@@ -5,7 +5,7 @@ export default {
 
             return Object.assign({}, review, {
                 user: state.users.byId[review.user_id]
-            })
+            });
         });
     },
     getReviewsCount: state => {

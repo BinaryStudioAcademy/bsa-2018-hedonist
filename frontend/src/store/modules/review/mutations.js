@@ -7,9 +7,9 @@ export default {
             return;
         }
         const newUser = normalizer.normalize(user, {
-            first_name: "",
-            last_name: "",
-            avatar_url: ""
+            first_name: '',
+            last_name: '',
+            avatar_url: ''
         });
         state.users.byId = Object.assign(
             {},

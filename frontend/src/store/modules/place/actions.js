@@ -51,9 +51,9 @@ export default {
                     }
 
                     let normalizeUsers = normalizerService.normalize({ data:piff }, {
-                        first_name: "",
-                        last_name: "",
-                        avatar_url: ""
+                        first_name: '',
+                        last_name: '',
+                        avatar_url: ''
                     });
                     normalizeUsers.allIds = [];
                     for (let k in normalizeUsers.byId)
