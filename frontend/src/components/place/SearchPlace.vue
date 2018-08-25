@@ -57,7 +57,7 @@ export default {
         };
     },
     created() {
-        this.$store.dispatch('place/fetchPlaces')
+        this.$store.dispatch('place/fetchPlaces', this.$route.query)
             .then(() => {
                 this.isPlacesLoaded = true;
             });

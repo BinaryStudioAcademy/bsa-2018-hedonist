@@ -42,7 +42,7 @@ export default {
         });
     },
 
-    fetchPlaces: (context, filters = {category: '', location: '', page: 1}) => {
+    fetchPlaces: (context, filters) => {
         let queryUrl = createSearchQueryUrl(filters);
         return new Promise((resolve, reject) => {
             httpService.get('/places/search' + queryUrl)
@@ -184,7 +184,11 @@ export default {
 };
 
 const createSearchQueryUrl = (filters) => {
-    return '?filter[category]=' + filters.category
-        + '&filter[location]=' + filters.location
-        + '&page=' + filters.page;
+    let category = filters.category !== undefined ? filters.category : '';
+    let location = filters.location !== undefined ? filters.location : '';
+    let page = filters.page !== undefined ? filters.page : 1;
+
+    return '?filter[category]=' + category
+        + '&filter[location]=' + location
+        + '&page=' + page;
 };
