@@ -1,10 +1,10 @@
 <template>
     <div class="navbar-start">
         <div class="navbar-item">
-            <SearchPlaceCategory @select="selectSearchPlaceCategory" />
+            <SearchPlaceCategory @select="category = $event" />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="selectSearchCity" />
+            <SearchCity @select="location = $event" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
@@ -24,6 +24,12 @@ import SearchPlaceCategory from './SearchPlaceCategory';
 
 export default {
     name: 'NavbarSearchPanel',
+    data() {
+        return {
+            category: null,
+            location: null,
+        };
+    },
     components: {
         SearchCity,
         SearchPlaceCategory
@@ -34,7 +40,22 @@ export default {
             selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
         }),
         search() {
-            //TODO: implement search by city and category
+            let location = '';
+            let category = '';
+            if (this.location !== null) {
+                location = this.location.center[0] + ',' + this.location.center[1];
+            }
+            if (this.category !== null) {
+                category = this.category.id;
+            }
+            this.$router.push({
+                path: 'search',
+                query: {
+                    category: category,
+                    location: location,
+                    page: 1
+                }
+            });
         }
     },
 };

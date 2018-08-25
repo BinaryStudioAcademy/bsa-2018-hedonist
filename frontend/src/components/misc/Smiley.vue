@@ -1,12 +1,14 @@
 <template>
     <i
-        :class="[ 'far', 'fa-2x', icon ]"
+        :class="['far', 'fa-2x', icon, selected]"
         @mouseover="$emit('onHover', value)"
+        @mouseout="$emit('onOut', value)"
         @click="$emit('onSelect', value)"
     />    
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
     name: 'Smiley',
 
@@ -19,8 +21,13 @@ export default {
         icon: {
             type: String,
             required: true
-        }
-    }
+        },
+
+        selected: {
+            type: String,
+            required: true
+        },
+    },
 };
 </script>
 

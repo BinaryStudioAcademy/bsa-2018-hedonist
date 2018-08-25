@@ -114,6 +114,12 @@ export default {
         },
         isPlacesLoaded: function (oldVal, newVal) {
             this.updateMap();
+        },
+        '$route' (to, from) {
+            this.$store.dispatch('place/fetchPlaces', to.query)
+                .then(() => {
+                    this.isPlacesLoaded = true;
+                });
         }
     },
     computed: {

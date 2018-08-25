@@ -1,6 +1,12 @@
 <template>
     <div class="control">
-        <b-dropdown v-model="language" @input="changeLang" class="language-menu">
+        <b-dropdown
+            v-model="language"
+            mobile-modal="false"
+            hoverable
+            @input="changeLang"
+            class="language-menu"
+        >
             <button class="button current-language" type="button" slot="trigger">
                 <template>
                     <span :class="['language-item__icon', currentLangClass]" />
@@ -50,12 +56,32 @@ export default {
         .dropdown-content {
             width: 60px;
             background: #ededed;
+
+            @media screen and (max-width: 1087px) {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                border: none;
+                box-shadow: none;
+                padding: 0 20px;
+            }
+        }
+        .dropdown-menu {
+            @media screen and (max-width: 1087px) {
+                display: block;
+                background: #ededed;
+                padding: 0;
+            }
         }
         .current-language {
             background: #ededed;
 
             &:active, &:focus {
                 border-color: #d2d2d2;
+            }
+
+            @media screen and (max-width: 1087px) {
+                display: none;
             }
         }
         .language-item {
@@ -87,6 +113,10 @@ export default {
                 &_ua {
                      background-position: -10px -50px;
                 }
+            }
+
+            @media screen and (max-width: 1087px) {
+                padding: 10px;
             }
         }
     }

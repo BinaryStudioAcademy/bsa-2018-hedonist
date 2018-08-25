@@ -86,7 +86,7 @@
                     </sup>
                 </div>
                 <div class="place-rate__mark-count">
-                    {{ place.ratingCount || 1 }} marks
+                    {{ place.ratingCount || 'No' }} marks
                 </div>
                 <div class="place-rate__preference">
                     <LikeDislikeButtons
