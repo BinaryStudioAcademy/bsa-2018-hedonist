@@ -8,7 +8,7 @@
                         height="25" 
                         width="25"
                     >
-                    <span>21 Reviews</span>
+                    <span>{{ reviewsCount }} Review(s)</span>
                 </div>
                 <div class="review-title-search">
                     <div class="control has-icons-left">
@@ -91,7 +91,10 @@ export default {
 
         isReviewsExist() {
             return !_.isEmpty(this.place.reviews);
-        }
+        },
+        reviewsCount() {
+            return this.place.reviews.length;
+        },
     },
 
     methods: {
