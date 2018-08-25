@@ -49,11 +49,7 @@ class GetPlaceCollectionPresenter
     {
         return $placeResponse->getPlaceCollection()->map(function (Place $place) use ($placeResponse) {
             $result = $this->placePresenter->present($place);
-            $result['review'] = $this->presentReview(
-                $placeResponse->getReviews(),
-                $place,
-                $placeResponse->getUser()
-            );
+            $result['review'] = $this->presentReview($place->reviews, $placeResponse->getUser());
             $result['photos'] = $this->photoPresenter->presentCollection($place->photos);
             $result['city'] = $this->cityPresenter->present($place->city);
             $result['features'] = $this->featurePresenter->presentCollection($place->features);
@@ -65,16 +61,12 @@ class GetPlaceCollectionPresenter
         })->toArray();
     }
 
-    private function presentReview(Collection $reviews, Place $place, User $user): ?array
+    private function presentReview(Collection $reviews, User $user): ?array
     {
-        $review = $reviews->first(function ($item) use ($place) {
-            return $place->id === $item->place_id;
-        });
-        if (is_null($review)) {
-            return null;
-        }
+        $review = $reviews->first();
         $presented = $this->reviewPresenter->present($review);
         $presented['like'] = $review->getLikedStatus($user->id)->value();
+
         return $presented;
     }
 }

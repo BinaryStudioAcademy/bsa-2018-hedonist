@@ -5,9 +5,10 @@ namespace Hedonist\Actions\Place\GetPlaceCollectionByFilters;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionResponse;
 use Hedonist\Entities\Place\Location;
 use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
+use Hedonist\Repositories\Place\Criterias\AllPlacePhotosCriteria;
+use Hedonist\Repositories\Place\Criterias\LastReviewForPlaceCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceSearchCriteria;
-use Hedonist\Repositories\Review\Criterias\GetLastReviewByPlaceIdsCriteria;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,14 +39,12 @@ class GetPlaceCollectionByFiltersAction
             }
         }
 
-        $places = $this->placeRepository->findByCriteria(
-            new PlaceSearchCriteria($page, $categoryId, $location)
+        $places = $this->placeRepository->findCollectionByCriterias(
+            new PlaceSearchCriteria($page, $categoryId, $location),
+            new AllPlacePhotosCriteria(),
+            new LastReviewForPlaceCriteria()
         );
 
-        $reviews = $this->reviewRepository->findByCriteria(
-            new GetLastReviewByPlaceIdsCriteria($places->pluck('id')->toArray())
-        );
-
-        return new GetPlaceCollectionResponse($places, $reviews, Auth::user());
+        return new GetPlaceCollectionResponse($places, Auth::user());
     }
 }

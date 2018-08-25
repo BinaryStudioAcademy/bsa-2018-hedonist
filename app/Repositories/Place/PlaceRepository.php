@@ -96,4 +96,13 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     {
         return UserList::find($listId)->places()->get();
     }
+
+    public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection
+    {
+        foreach ($criterias as $criteria){
+            $this->pushCriteria($criteria);
+        }
+
+        return $this->get();
+    }
 }
