@@ -12,7 +12,7 @@
                             <div class="field">
                                 <div class="control is-expanded">
                                     <input
-                                        v-model="newPlace.name"
+                                        v-model="newPlace.localization.en.name"
                                         class="input is-medium"
                                         type="text"
                                         placeholder="Place's name"
@@ -33,7 +33,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control is-expanded">
-                                    <SearchCity @select="selectCity = $event" />
+                                    <SearchCity @select="newPlace.city = $event" />
                                 </div>
                             </div>
                         </div>
@@ -46,7 +46,12 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Place's postal code">
+                                    <input
+                                        v-model="newPlace.zip"
+                                        class="input"
+                                        type="text"
+                                        placeholder="Place's postal code"
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -59,7 +64,12 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Place's address">
+                                    <input
+                                        v-model="newPlace.address"
+                                        class="input"
+                                        type="text"
+                                        placeholder="Place's address"
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -76,7 +86,12 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded">
-                                    <input class="input" type="tel" placeholder="Place's phone">
+                                    <input
+                                        v-model="newPlace.phone"
+                                        class="input"
+                                        type="tel"
+                                        placeholder="Place's phone"
+                                    >
                                 </p>
                             </div>
                             <div class="field-label is-normal">
@@ -84,7 +99,12 @@
                             </div>
                             <div class="field">
                                 <p class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Place's twitter">
+                                    <input
+                                         v-model="newPlace.twitter"
+                                         class="input"
+                                         type="text"
+                                         placeholder="Place's twitter"
+                                    >
                                 </p>
                             </div>
                         </div>
@@ -97,7 +117,12 @@
                         <div class="field-body">
                             <div class="field">
                                 <p class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Place's facebook">
+                                    <input
+                                        v-model="newPlace.facebook"
+                                        class="input"
+                                        type="text"
+                                        placeholder="Place's facebook"
+                                    >
                                 </p>
                             </div>
                             <div class="field-label is-normal">
@@ -105,7 +130,12 @@
                             </div>
                             <div class="field">
                                 <p class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Place's instagram">
+                                    <input
+                                        v-model="newPlace.instagram"
+                                        class="input"
+                                        type="text"
+                                        placeholder="Place's instagram"
+                                    >
                                 </p>
                             </div>
                         </div>
@@ -118,7 +148,12 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Place's website">
+                                    <input
+                                        v-model="newPlace.website"
+                                        class="input"
+                                        type="text"
+                                        placeholder="Place's website"
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -131,7 +166,12 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Place's menu">
+                                    <input
+                                        v-model="newPlace.menu"
+                                        class="input"
+                                        type="text"
+                                        placeholder="Place's menu"
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -144,7 +184,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <textarea class="textarea" placeholder="Place's description.." />
+                                    <textarea v-model="newPlace.localization.en.description" class="textarea" placeholder="Place's description.." />
                                 </div>
                             </div>
                         </div>
@@ -357,14 +397,26 @@ export default {
 
 
             newPlace: {
-                name: '',
+                localization: {
+                    en: {
+                        name: '',
+                        description: ''
+                    }
+                },
+                zip: '',
+                city: {},
+                address: '',
                 category: '',
-                category_tags: [],
-                features: []
+                tags: [],
+                features: [],
+                menu: '',
+                phone: '',
+                twitter: '',
+                facebook: '',
+                instagram: ''
             },
             categories: {},
             selectedTag: 'v',
-            selectCity: '',
             category_tags: [],
             weekdays: [],
             timeStart: new Date(),
