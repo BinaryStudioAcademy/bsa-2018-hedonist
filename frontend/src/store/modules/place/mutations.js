@@ -57,7 +57,6 @@ export default {
     
     UPDATE_REVIEW_LIKED_STATE: (state, reviewId) => {
         let review = findReviewById(state, reviewId);
-        
         if (review.like === STATUS_NONE) {
             review.like = STATUS_LIKED;
             review.likes++;
@@ -73,7 +72,6 @@ export default {
 
     UPDATE_REVIEW_DISLIKED_STATE: (state, reviewId) => {
         let review = findReviewById(state, reviewId);
-
         if (review.like === STATUS_NONE) {
             review.like = STATUS_DISLIKED;
             review.dislikes++;
