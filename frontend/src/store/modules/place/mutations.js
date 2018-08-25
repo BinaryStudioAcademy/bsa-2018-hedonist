@@ -1,3 +1,11 @@
+import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
+
+function findReviewById (state, reviewId) {
+    return state.places.find( (place) => { 
+        return place.review.id === parseInt(reviewId); 
+    }).review;
+};
+
 export default {
     SET_PLACES: (state, places) => {
         state.places = places;
@@ -42,22 +50,34 @@ export default {
     SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT: (state, { reviewId, count }) => {
         state.currentPlaceReviews.byId[reviewId].dislikes = count;
     },
-
-    SET_PLACE_REVIEW_LIKE_STATE: (state, { placeId, likeState }) => {
-        state.places.find( (place) => { 
-            return place.id === parseInt(placeId); 
-        }).review.like = likeState;
+    
+    UPDATE_REVIEW_LIKED_STATE: (state, reviewId) => {
+        let review = findReviewById(state, reviewId);
+        if (review.like === STATUS_NONE) {
+            review.like = STATUS_LIKED;
+            review.likes++;
+        } else if (review.like === STATUS_LIKED) {
+            review.like = STATUS_NONE;
+            review.likes--;
+        } else if (review.like === STATUS_DISLIKED) {
+            review.like = STATUS_LIKED;
+            review.likes++;
+            review.dislikes--;
+        }  
     },
 
-    SET_PLACE_REVIEW_LIKE_COUNT: (state, { placeId, count }) => {
-        state.places.find( (place) => { 
-            return place.id === parseInt(placeId); 
-        }).review.likes = count;
-    },
-
-    SET_PLACE_REVIEW_DISLIKE_COUNT: (state, { placeId, count }) => {
-        state.places.find( (place) => { 
-            return place.id === parseInt(placeId); 
-        }).review.dislikes = count;
+    UPDATE_REVIEW_DISLIKED_STATE: (state, reviewId) => {
+        let review = findReviewById(state, reviewId);
+        if (review.like === STATUS_NONE) {
+            review.like = STATUS_DISLIKED;
+            review.dislikes++;
+        } else if (review.like === STATUS_DISLIKED) {
+            review.like = STATUS_NONE;
+            review.dislikes--;
+        } else if (review.like === STATUS_LIKED) {
+            review.like = STATUS_DISLIKED;
+            review.dislikes++;
+            review.likes--;
+        }  
     }
 };

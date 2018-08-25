@@ -52,7 +52,6 @@
             <Review
                 v-if="place.review"
                 :review="place.review"
-                :place-id="place.id"
             />
         </div>
     </transition>

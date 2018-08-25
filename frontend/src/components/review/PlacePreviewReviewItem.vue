@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
 
 export default {
@@ -40,10 +40,6 @@ export default {
         review: {
             type: Object,
             required: true
-        },
-        placeId: {
-            type: Number,
-            required: true
         }
     },
     computed:{
@@ -52,18 +48,24 @@ export default {
         }
     },
     methods: {
-        ...mapActions('place', ['likePlaceReview', 'dislikePlaceReview']),
+        ...mapActions('review', ['likeReview', 'dislikeReview']),
+        ...mapMutations('place', {
+            updateReviewLiked: 'UPDATE_REVIEW_LIKED_STATE',
+            updateReviewDisliked: 'UPDATE_REVIEW_DISLIKED_STATE'
+        }),
+
         onLikeReview() {
-            this.likePlaceReview({
-                id: this.review.id,
-                placeId: this.placeId
-            });
+            this.likeReview(this.review.id)
+                .then(() => {
+                    this.updateReviewLiked(this.review.id);
+                });
         },
+
         onDislikeReview() {
-            this.dislikePlaceReview({
-                id: this.review.id,
-                placeId: this.placeId
-            });
+            this.dislikeReview(this.review.id)
+                .then(() => {
+                    this.updateReviewDisliked(this.review.id);
+                });
         }
     }
 };
