@@ -3,6 +3,7 @@
 namespace tests\Feature\Api\Place;
 
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\Place\PlaceCategory;
 use Hedonist\Entities\Place\PlaceRating;
 use Hedonist\Entities\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -32,7 +33,12 @@ class PlaceRatingTest extends ApiTestCase
         $this->authenticatedUser = factory(User::class)->create();
         $this->actingWithToken($this->authenticatedUser);
 
-        $this->place_1 = factory(Place::class)->create();
+        $category = PlaceCategory::first() ?: factory(PlaceCategory::class)->create();
+
+        $this->place_1 = factory(Place::class)->create([
+            'category_id' => $category->id
+        ]);
+
         $this->place_1_rating_1 = factory(PlaceRating::class)->create([
             'user_id' => $this->authenticatedUser->id,
             'place_id' => $this->place_1->id,
@@ -46,7 +52,9 @@ class PlaceRatingTest extends ApiTestCase
             'place_id' => $this->place_1->id,
         ]);
 
-        $this->place_2 = factory(Place::class)->create();
+        $this->place_2 = factory(Place::class)->create([
+            'category_id' => $category->id
+        ]);
     }
 
     public function test_get_rating_by_place_id_only(): void
