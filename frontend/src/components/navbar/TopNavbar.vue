@@ -175,6 +175,9 @@ export default {
             width: 100%;
         }
     }
+    .navbar-wrapper {
+        position: static;
+    }
     .navbar-menu {
         @media screen and (max-width: 1087px) {
            position: absolute;
@@ -187,6 +190,18 @@ export default {
     .navbar-start {
         @media screen and (max-width: 1087px) {
            margin-bottom: 10%;
+        }
+    }
+
+    .navbar-end {
+        padding-right:0;
+
+        @media screen and (max-width: 1600px) {
+            padding-right:50px;
+        }
+
+        @media screen and (max-width: 1087px) {
+            padding-right:0;
         }
     }
 
@@ -220,7 +235,15 @@ export default {
     }
 
     .navbar-lang {
-        margin-left: 7px;
+        position:absolute;
+        right:0px;
+
+        @media screen and (max-width: 1087px) {
+            height: 60px;
+            position:static;
+            padding: 0;
+            overflow: hidden;
+        }
     }
 
 </style>
