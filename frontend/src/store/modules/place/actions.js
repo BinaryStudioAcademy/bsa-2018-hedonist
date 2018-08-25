@@ -26,10 +26,15 @@ export default {
                 .then( (response) => {
                     const currentPlace = response.data.data;
                     context.commit('SET_CURRENT_PLACE', currentPlace);
+
                     let normalizeReviews = context.dispatch('normalizeReviews', currentPlace.reviews);
                     context.commit('review/SET_CURRENT_PLACE_REVIEWS', normalizeReviews, { root: true });
-                    let normalizeUsers = context.dispatch('normalizeUsers', normalizeReviews);
+
+                    console.log('------------------');
+                    
+                    let normalizeUsers = this.dispatch('normalizeUsers', normalizeReviews);
                     context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsers, { root: true });
+
                     resolve();
                 })
                 .catch( (err) => {
@@ -114,6 +119,7 @@ export default {
     normalizeReviews: (context, reviews) => {
         reviews.forEach(function(review) { review.user_id = review.user.id; });
         let transformedCurrentPlaceReviews = normalizerService.normalize({ data: reviews }, context.rootState.review.state.getReviewSchema());
+
         transformedCurrentPlaceReviews.allIds = [];
         for (let k in transformedCurrentPlaceReviews.byId)
             transformedCurrentPlaceReviews.allIds.push(parseInt(k));
