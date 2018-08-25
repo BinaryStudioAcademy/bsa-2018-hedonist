@@ -51,7 +51,7 @@ export default {
                 return Promise.resolve(res);
             })
             .catch( (err) => {
-                return Promise.resolve(err);
+                return Promise.reject(err);
             });
     },
 
@@ -61,7 +61,7 @@ export default {
                 return Promise.resolve(res);
             })
             .catch( (err) => {
-                return Promise.resolve(err);
+                return Promise.reject(err);
             });
     }
 };
