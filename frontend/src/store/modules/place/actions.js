@@ -11,6 +11,8 @@ export default {
                     context.commit('SET_CURRENT_PLACE_RATING_VALUE', ratingAvg);
                     const ratingCount = response.data.data.rating_count;
                     context.commit('SET_CURRENT_PLACE_RATING_COUNT', ratingCount);
+                    const myRating = response.data.data.my_rating;
+                    context.commit('SET_CURRENT_PLACE_MY_RATING', myRating);
                     resolve();
                 })
                 .catch(error => {
@@ -18,7 +20,7 @@ export default {
                 });
         });
     },
-    
+
     loadCurrentPlace: (context, id) => {
         return new Promise((resolve, reject) => {
             httpService.get('/places/' + id)
