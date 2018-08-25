@@ -232,7 +232,7 @@
                             <div class="level-item">
                                 <b-field>
                                     <b-select v-model="selectedTag">
-                                        <option value="v" selected disabled>Add tags</option>
+                                        <option value="" selected disabled>Add tags</option>
                                         <option
                                             v-for="option in category_tags"
                                             :key="option.id"
@@ -252,7 +252,7 @@
                             <div class="level-item">
                                 <b-taglist>
                                     <b-tag
-                                        v-for="tag in newPlace.category_tags"
+                                        v-for="tag in newPlace.tags"
                                         :key="tag.id"
                                         type="is-info"
                                         size="is-medium"
@@ -416,7 +416,7 @@ export default {
                 instagram: ''
             },
             categories: {},
-            selectedTag: 'v',
+            selectedTag: '',
             category_tags: [],
             weekdays: [],
             timeStart: new Date(),
@@ -476,17 +476,17 @@ export default {
     watch: {
         'newPlace.category': function (categoryObject) {
             if (_.isEmpty(categoryObject)) { return; }
-            this.newPlace.category_tags = [];
+            this.newPlace.tags = [];
             this.$store.dispatch('category/getTagsByCategory', categoryObject.id)
                 .then((result) => {
                     this.category_tags = result;
                 });
-            this.selectedTag = 'v';
+            this.selectedTag = '';
         },
 
         'selectedTag': function (tagObject) {
-            if (tagObject !== 'v' && !this.isTagAdded(tagObject)) {
-                this.newPlace.category_tags.push(tagObject);
+            if (tagObject !== '' && !this.isTagAdded(tagObject)) {
+                this.newPlace.tags.push(tagObject);
             }
         }
     },
@@ -502,19 +502,17 @@ export default {
     },
 
     methods: {
-        onCloseTab: function(tagObject) {
-            this.newPlace.category_tags = this.excludeTag(tagObject);
-            this.selectedTag = 'v';
-        },
 
         isTagAdded: function(tagObject) {
-            return this.newPlace.category_tags.some((tag) => tag.name === tagObject.name);
+            return this.newPlace.tags.some((tag) => tag.name === tagObject.name);
         },
-
         excludeTag: function(tagObject)  {
-            return this.newPlace.category_tags.filter((tag) => tag.name !== tagObject.name);
+            return this.newPlace.tags.filter((tag) => tag.name !== tagObject.name);
         },
-
+        onCloseTab: function(tagObject) {
+            this.newPlace.tags = this.excludeTag(tagObject);
+            this.selectedTag = '';
+        },
 
         onCancel() {
             this.newPlace = {};
