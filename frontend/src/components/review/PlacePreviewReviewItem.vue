@@ -56,14 +56,14 @@ export default {
 
         onLikeReview() {
             this.likeReview(this.review.id)
-                .then(() => {
+                .then( () => {
                     this.updateReviewLiked(this.review.id);
                 });
         },
 
         onDislikeReview() {
             this.dislikeReview(this.review.id)
-                .then(() => {
+                .then( () => {
                     this.updateReviewDisliked(this.review.id);
                 });
         }
