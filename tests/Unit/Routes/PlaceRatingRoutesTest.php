@@ -25,25 +25,4 @@ class PlaceRatingRoutesTest extends TestCase
             route($routeName, ['id' => $itemIndex])
         );
     }
-
-    public function testGetRate() : void
-    {
-        $routeName = 'place.rating.getPlaceRating';
-        $itemIndex = 1;
-        $this->assertTrue(Route::has($routeName));
-        $this->assertEquals(
-            URL::to('/').'/api/v1/places/rating/'. $itemIndex,
-            route($routeName, ['id' => $itemIndex])
-        );
-    }
-
-    public function testGetSingleRateByPlace() : void
-    {
-        $routeName = 'place.rating.getPlaceRatingByPlaceUser';
-        $this->assertTrue(Route::has($routeName));
-        $this->assertEquals(
-            URL::to('/').'/api/v1/places/rating/byPlaceUser',
-            route($routeName)
-        );
-    }
 }

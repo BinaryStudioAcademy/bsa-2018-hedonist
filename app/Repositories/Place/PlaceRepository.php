@@ -64,7 +64,8 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
             'localization.language',
             'likes',
             'dislikes',
-            'ratings')
+            'ratings',
+            'photos')
             ->get();
     }
 

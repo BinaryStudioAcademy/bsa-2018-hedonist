@@ -2,6 +2,8 @@
 
 namespace Hedonist\Http\Controllers\Api\User;
 
+use Hedonist\Actions\User\DeleteAvatarAction;
+use Hedonist\Actions\User\DeleteAvatarRequest;
 use Hedonist\Actions\User\GetUserInfoAction;
 use Hedonist\Actions\User\GetUserInfoRequest;
 use Hedonist\Actions\User\SaveUserInfoAction;
@@ -9,18 +11,22 @@ use Hedonist\Actions\User\SaveUserInfoRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\User\UserInfoHttpRequest;
 use Illuminate\Http\JsonResponse;
+use Hedonist\Exceptions\DomainException;
 
 class UserInfoController extends ApiController
 {
     private $saveUserInfoAction;
     private $getUserInfoAction;
+    private $deleteAvatarAction;
 
     public function __construct(
         SaveUserInfoAction $saveUserInfoAction,
-        GetUserInfoAction $getUserInfoAction
+        GetUserInfoAction $getUserInfoAction,
+        DeleteAvatarAction $deleteAvatarAction
     ) {
         $this->saveUserInfoAction = $saveUserInfoAction;
         $this->getUserInfoAction = $getUserInfoAction;
+        $this->deleteAvatarAction = $deleteAvatarAction;
     }
 
     public function show(int $userId): JsonResponse
@@ -29,7 +35,7 @@ class UserInfoController extends ApiController
             $response = $this->getUserInfoAction->execute(
                 new GetUserInfoRequest($userId)
             );
-        } catch (\Exception $ex) {
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
@@ -56,13 +62,15 @@ class UserInfoController extends ApiController
                     $httpRequest->last_name,
                     $httpRequest->date_of_birth,
                     $httpRequest->phone_number,
-                    $httpRequest->file('avatar_url'),
+                    $httpRequest->file('avatar'),
                     $httpRequest->facebook_url,
                     $httpRequest->instagram_url,
-                    $httpRequest->twitter_url
+                    $httpRequest->twitter_url,
+                    $httpRequest->old_password,
+                    $httpRequest->new_password
                 )
             );
-        } catch (\Exception $ex) {
+        } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
@@ -77,5 +85,16 @@ class UserInfoController extends ApiController
             'instagram_url' => $response->getInstagramUrl(),
             'twitter_url' => $response->getTwitterUrl(),
         ]);
+    }
+
+    public function deleteAvatar(int $userId): JsonResponse
+    {
+        try {
+            $this->deleteAvatarAction->execute(new DeleteAvatarRequest($userId));
+
+            return $this->emptyResponse();
+        } catch (DomainException $ex) {
+            return $this->errorResponse($ex->getMessage(), 400);
+        }
     }
 }

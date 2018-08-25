@@ -118,10 +118,11 @@ Route::prefix('v1')->group(function () {
         Route::delete('/places/features/{id}', 'Api\Place\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
 
-        Route::get('/users/{userId}/info/', 'Api\User\UserInfoController@show')
+        Route::get('/users/{userId}/profile', 'Api\User\UserInfoController@show')
             ->name('user.info.show');
-        Route::put('/users/{userId}/info/', 'Api\User\UserInfoController@update')
+        Route::post('/users/{userId}/profile', 'Api\User\UserInfoController@update')
             ->name('user.info.update');
+        Route::delete('/users/{userId}/profile/avatar', 'Api\User\UserInfoController@deleteAvatar');
 
         Route::post('/users/me/checkins', 'Api\Place\PlaceCheckinController@setCheckin')
             ->name('user.me.checkin');
@@ -130,12 +131,6 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/places/rating', 'Api\Place\PlaceRatingController@setRating')
             ->name('place.rating.setPlaceRating');
-
-        Route::get('/places/rating/byPlaceUser', 'Api\Place\PlaceRatingController@getRating')
-            ->name('place.rating.getPlaceRatingByPlaceUser');
-
-        Route::get('/places/rating/{id}', 'Api\Place\PlaceRatingController@getRating')
-            ->name('place.rating.getPlaceRating');
 
         Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 

@@ -27,4 +27,8 @@ export default {
         state.currentPlace.ratingCount = ratingCount;
     },
 
+    SET_CURRENT_PLACE_MY_RATING: (state, myRating) => {
+        state.currentPlace.myRating = myRating;
+    },
+
 };

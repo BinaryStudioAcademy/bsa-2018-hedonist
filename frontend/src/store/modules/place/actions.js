@@ -10,6 +10,8 @@ export default {
                     context.commit('SET_CURRENT_PLACE_RATING_VALUE', ratingAvg);
                     const ratingCount = response.data.data.rating_count;
                     context.commit('SET_CURRENT_PLACE_RATING_COUNT', ratingCount);
+                    const myRating = response.data.data.my_rating;
+                    context.commit('SET_CURRENT_PLACE_MY_RATING', myRating);
                     resolve();
                 })
                 .catch(error => {
@@ -17,7 +19,7 @@ export default {
                 });
         });
     },
-    
+
     loadCurrentPlace: (context, id) => {
         return new Promise((resolve, reject) => {
             httpService.get('/places/' + id)
@@ -68,9 +70,10 @@ export default {
         });
     },
 
-    fetchPlaces: (context) => {
+    fetchPlaces: (context, filters) => {
+        let queryUrl = createSearchQueryUrl(filters);
         return new Promise((resolve, reject) => {
-            httpService.get('/places')
+            httpService.get('/places/search' + queryUrl)
                 .then(function (res) {
                     context.commit('SET_PLACES', res.data.data);
                     resolve(res);
@@ -115,4 +118,14 @@ export default {
                 return Promise.reject(err);
             });
     }
+};
+
+const createSearchQueryUrl = (filters) => {
+    let category = filters.category !== undefined ? filters.category : '';
+    let location = filters.location !== undefined ? filters.location : '';
+    let page = filters.page !== undefined ? filters.page : 1;
+
+    return '?filter[category]=' + category
+        + '&filter[location]=' + location
+        + '&page=' + page;
 };
