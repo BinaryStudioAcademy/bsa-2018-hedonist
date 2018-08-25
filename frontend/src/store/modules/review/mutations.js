@@ -20,7 +20,6 @@ export default {
     },
 
     ADD_REVIEW: (state, review) => {
-        // TODO: normalizer doesn't delete new fields
         const newReview = normalizer.normalize( { data: review }, {
             created_at: '',
             description: '',
