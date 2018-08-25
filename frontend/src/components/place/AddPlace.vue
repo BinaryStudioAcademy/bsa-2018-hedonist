@@ -274,19 +274,23 @@
                 </b-tab-item>
 
                 <b-tab-item label="Features" :disabled="activeTab !== 3">
-                    <template v-for="(feature, index) in features">
-                        <div :key="index" class="level is-flex-mobile">
-                            <div class="level-left">
-                                <span class="label">{{ feature.name }}</span>
-                            </div>
-                            <div class="level-right">
-                                <b-switch
-                                    v-model="feature.status"
-                                    type="is-success"
-                                />
-                            </div>
+                    <div class="columns is-centered">
+                        <div class="column is-half">
+                            <template v-for="(feature, index) in features">
+                                <div :key="index" class="level is-flex-mobile">
+                                    <div class="level-left">
+                                        <span class="label">{{ feature.name }}</span>
+                                    </div>
+                                    <div class="level-right">
+                                        <b-switch
+                                                v-model="feature.status"
+                                                type="is-success"
+                                        />
+                                    </div>
+                                </div>
+                            </template>
                         </div>
-                    </template>
+                    </div>
 
                     <div class="buttons is-centered">
                         <span @click="onCancel()" class="button is-danger">Cancel</span>
