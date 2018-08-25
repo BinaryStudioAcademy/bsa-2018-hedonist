@@ -37,20 +37,19 @@ export default {
                     for (let k in transformedCurrentPlaceReviews.byId)
                         transformedCurrentPlaceReviews.allIds.push(parseInt(k));
 
-                    let allIds = [];
-                    let piff = [];
+                    let allUserIds = [];
+                    let users = [];
                     for (let key in transformedCurrentPlaceReviews.byId) {
                         if (!transformedCurrentPlaceReviews.byId.hasOwnProperty(key)) continue;
                         let userId = transformedCurrentPlaceReviews.byId[key].user.id;
-                        let tempUser = transformedCurrentPlaceReviews.byId[key].user;
-                        if (! allIds.includes(userId)) {
-                            piff.push(tempUser);
-                            allIds.push(userId);
+                        if (! allUserIds.includes(userId)) {
+                            users.push(transformedCurrentPlaceReviews.byId[key].user);
+                            allUserIds.push(userId);
                         }
                         delete transformedCurrentPlaceReviews.byId[key].user;
                     }
 
-                    let normalizeUsers = normalizerService.normalize({ data:piff }, {
+                    let normalizeUsers = normalizerService.normalize({ data:users }, {
                         first_name: '',
                         last_name: '',
                         avatar_url: ''
