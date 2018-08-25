@@ -16,6 +16,8 @@ class SaveUserInfoRequest
     private $facebookUrl;
     private $instagramUrl;
     private $twitterUrl;
+    private $oldPassword;
+    private $newPassword;
 
     public function __construct(
         int $userId,
@@ -26,7 +28,9 @@ class SaveUserInfoRequest
         ?UploadedFile $avatar = null,
         ?string $facebookUrl = "",
         ?string $instagramUrl = "",
-        ?string $twitterUrl = ""
+        ?string $twitterUrl = "",
+        ?string $oldPassword = null,
+        ?string $newPassword = null
     ) {
         $this->userId = $userId;
         $this->firstName = $firstName;
@@ -37,6 +41,8 @@ class SaveUserInfoRequest
         $this->instagramUrl = $instagramUrl;
         $this->twitterUrl = $twitterUrl;
         $this->avatar = $avatar;
+        $this->oldPassword = $oldPassword;
+        $this->newPassword = $newPassword;
     }
 
     public function getUserId(): int
@@ -86,5 +92,15 @@ class SaveUserInfoRequest
     public function getTwitterUrl(): ?string
     {
         return $this->twitterUrl;
+    }
+
+    public function getOldPassword(): ?string
+    {
+        return $this->oldPassword;
+    }
+
+    public function getNewPassword(): ?string
+    {
+        return $this->newPassword;
     }
 }

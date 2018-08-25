@@ -2,10 +2,7 @@
     <aside class="column is-one-third">
         <div class="place-sidebar">
             <div class="map-box">
-                <img 
-                    src="https://image.ibb.co/isC2MU/Screenshot_from_2018_08_09_00_25_38.png" 
-                    alt="mapbox"
-                >
+                <PlaceMapMarker :place="place" />
             </div>
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
@@ -82,14 +79,21 @@
 </template>
 
 <script>
+import PlaceMapMarker from './PlaceMapMarker';
+
 export default {
     name: 'PlaceSidebarInfo',
+
+    components: {
+        PlaceMapMarker
+    },
+
     props: {
         place: {
             type: Object,
             required: true
         }
-    },
+    }
 };
 </script>
 

@@ -35,8 +35,11 @@ class PlaceRepositoryTest extends TestCase
 
     public function testFindByCoordinates()
     {
-        $place = factory(Place::class)->create();
-        $location = new Location($place->longitude, $place->latitude);
+        $place = factory(Place::class)->create([
+            'latitude' => 49.8258,
+            'longitude' => 24.0335,
+        ]);
+        $location = new Location(24, 50);
         $result = $this->placeRepository->findByCoordinates($location, 50);
 
         $ids = [];

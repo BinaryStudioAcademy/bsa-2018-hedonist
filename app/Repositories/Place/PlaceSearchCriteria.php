@@ -13,7 +13,7 @@ class PlaceSearchCriteria implements CriteriaInterface
     private $categoryId;
     private $center;
 
-    const LIMIT = 10;
+    const LIMIT = 30;
 
     public function __construct(int $page, ?int $categoryId, ?Location $center)
     {
