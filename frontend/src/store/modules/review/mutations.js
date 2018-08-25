@@ -20,14 +20,7 @@ export default {
     },
 
     ADD_REVIEW: (state, review) => {
-        const newReview = normalizer.normalize( { data: review }, {
-            created_at: '',
-            description: '',
-            dislikes: 0,
-            like: STATUS_NONE,
-            likes: 0,
-            user_id: null
-        });
+        const newReview = normalizer.normalize( { data: review }, state.getReviewSchema());
         state.reviews.byId = Object.assign(
             {},
             state.reviews.byId,

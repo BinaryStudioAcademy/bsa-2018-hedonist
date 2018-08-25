@@ -27,14 +27,7 @@ export default {
                     const currentPlace = response.data.data;
                     context.commit('SET_CURRENT_PLACE', currentPlace);
                     currentPlace.reviews.forEach(function(review) { review.user_id = review.user.id; });
-                    let transformedCurrentPlaceReviews = normalizerService.normalize({ data: currentPlace.reviews }, {
-                        created_at: '',
-                        description: '',
-                        dislikes: 0,
-                        like: 'NONE',
-                        likes: 0,
-                        user_id: 0
-                    });
+                    let transformedCurrentPlaceReviews = normalizerService.normalize({ data: currentPlace.reviews }, state.getReviewSchema());
                     transformedCurrentPlaceReviews.allIds = [];
                     for (let k in transformedCurrentPlaceReviews.byId)
                         transformedCurrentPlaceReviews.allIds.push(parseInt(k));
