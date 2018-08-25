@@ -7,12 +7,12 @@
                     height="25" 
                     width="25"
                 >
-                <span>321 Photos</span>
+                <span>{{ photosCount }} Photos</span>
             </div>
         </div>
         <ul class="reviews-photo-list">
             <li 
-                v-for="photo in photos" 
+                v-for="photo in place.photos"
                 :key="photo.id"
             >
                 <ReviewPhoto 
@@ -41,23 +41,11 @@ export default {
         }
     },
 
-    data() {
-        return {
-            photos: [
-                {id: 1, url: 'https://goo.gl/Ch8Ke9'},
-                {id: 2, url: 'https://goo.gl/x3AmSY'},
-                {id: 3, url: 'https://goo.gl/WfviVp'},
-                {id: 4, url: 'https://goo.gl/QwdfPG'},
-                {id: 5, url: 'https://goo.gl/TAVDcL'},
-                {id: 6, url: 'https://goo.gl/f7zX7n'},
-                {id: 7, url: 'https://goo.gl/LYwf2U'},
-                {id: 8, url: 'https://goo.gl/mjRgka'},
-                {id: 9, url: 'https://goo.gl/jbeku1'},
-                {id: 10, url: 'https://goo.gl/K6Zjgc'},
-                {id: 11, url: 'https://goo.gl/5KJYTS'},
-            ]
-        };
-    },
+    computed: {
+        photosCount() {
+            return this.place.photos.length;
+        },
+    }
 };   
 </script>
 
