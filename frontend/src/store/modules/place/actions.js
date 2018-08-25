@@ -11,6 +11,8 @@ export default {
                     context.commit('SET_CURRENT_PLACE_RATING_VALUE', ratingAvg);
                     const ratingCount = response.data.data.rating_count;
                     context.commit('SET_CURRENT_PLACE_RATING_COUNT', ratingCount);
+                    const myRating = response.data.data.my_rating;
+                    context.commit('SET_CURRENT_PLACE_MY_RATING', myRating);
                     resolve();
                 })
                 .catch(error => {
@@ -18,7 +20,7 @@ export default {
                 });
         });
     },
-    
+
     loadCurrentPlace: (context, id) => {
         return new Promise((resolve, reject) => {
             httpService.get('/places/' + id)
@@ -40,9 +42,10 @@ export default {
         });
     },
 
-    fetchPlaces: (context) => {
+    fetchPlaces: (context, filters = {category: '', location: '', page: 1}) => {
+        let queryUrl = createSearchQueryUrl(filters);
         return new Promise((resolve, reject) => {
-            httpService.get('/places')
+            httpService.get('/places/search' + queryUrl)
                 .then(function (res) {
                     context.commit('SET_PLACES', res.data.data);
                     resolve(res);
@@ -142,10 +145,11 @@ export default {
                 });
         });
     },
+
     getLikedPlace: (context, placeId) => {
         httpService.get(`places/${placeId}/liked`)
             .then( (res) => {
-                context.commit('SET_PLACE_LIKED', res.data.data.liked);
+                context.commit('SET_PLACE_LIKED', res.data.data.likeStatus);
                 return Promise.resolve(res);
             }).catch( (err) => {
                 return Promise.reject(err);
@@ -157,6 +161,7 @@ export default {
             .then( (res) => {
                 context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
                 context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
+                context.commit('SET_PLACE_LIKED', res.data.data.likeStatus);
                 return Promise.resolve(res);
             })
             .catch( (err) => {
@@ -169,10 +174,17 @@ export default {
             .then( (res) => {
                 context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
                 context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
+                context.commit('SET_PLACE_LIKED', res.data.data.likeStatus);
                 return Promise.resolve(res);
             })
             .catch( (err) => {
                 return Promise.reject(err);
             });
     }
+};
+
+const createSearchQueryUrl = (filters) => {
+    return '?filter[category]=' + filters.category
+        + '&filter[location]=' + filters.location
+        + '&page=' + filters.page;
 };

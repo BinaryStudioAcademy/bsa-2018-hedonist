@@ -4,15 +4,29 @@ namespace Hedonist\Actions\Like;
 
 class GetLikedPlaceResponse
 {
-    private $liked;
+    private $likes;
+    private $dislikes;
+    private $likedStatus;
 
-    public function __construct(string $liked)
+    public function __construct(int $likes, int $dislikes, string $likedStatus)
     {
-        $this->liked = $liked;
+        $this->likes = $likes;
+        $this->dislikes = $dislikes;
+        $this->likedStatus = $likedStatus;
     }
 
-    public function getLiked()
+    public function getLikes(): int
     {
-        return $this->liked;
+        return $this->likes;
+    }
+
+    public function getDislikes(): int
+    {
+        return $this->dislikes;
+    }
+    
+    public function getLikedStatus(): string
+    {
+        return $this->likedStatus;
     }
 }

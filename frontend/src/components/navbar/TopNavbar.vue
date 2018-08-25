@@ -67,6 +67,10 @@
                                 >Profile</router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'NewPlacePage' }"
+                                >Add place</router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
                                     :to="{ name: 'MyTastesPage' }"
                                 >My tastes</router-link>
                                 <router-link
@@ -86,7 +90,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="navbar-item">
+                    <div class="navbar-item navbar-lang">
                         <LanguageSelector />
                     </div>
                 </div>
@@ -171,6 +175,9 @@ export default {
             width: 100%;
         }
     }
+    .navbar-wrapper {
+        position: static;
+    }
     .navbar-menu {
         @media screen and (max-width: 1087px) {
            position: absolute;
@@ -183,6 +190,18 @@ export default {
     .navbar-start {
         @media screen and (max-width: 1087px) {
            margin-bottom: 10%;
+        }
+    }
+
+    .navbar-end {
+        padding-right:0;
+
+        @media screen and (max-width: 1600px) {
+            padding-right:50px;
+        }
+
+        @media screen and (max-width: 1087px) {
+            padding-right:0;
         }
     }
 
@@ -212,6 +231,18 @@ export default {
     .navbar-dropdown > a {
         @media screen and (max-width: 1087px) {
             text-indent: 36px;
+        }
+    }
+
+    .navbar-lang {
+        position:absolute;
+        right:0px;
+
+        @media screen and (max-width: 1087px) {
+            height: 60px;
+            position:static;
+            padding: 0;
+            overflow: hidden;
         }
     }
 

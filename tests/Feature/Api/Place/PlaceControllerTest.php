@@ -191,12 +191,12 @@ class PlaceControllerTest extends ApiTestCase
     public function testGetPlaceCollectionSearchByFilters()
     {
         $category = factory(PlaceCategory::class)->create();
-        $longitude = $this->faker->randomFloat(4, 10, 50);
-        $latitude = $this->faker->randomFloat(4, 10, 50);
+        $longitude = 24;
+        $latitude = 50;
 
         factory(Place::class)->create([
-            'longitude' => $longitude,
-            'latitude' => $latitude,
+            'latitude' => 49.8258,
+            'longitude' => 24.0335,
             'category_id' => $category->id,
         ]);
 
@@ -227,12 +227,10 @@ class PlaceControllerTest extends ApiTestCase
     public function testGetPlaceCollectionSearchWithoutFilters()
     {
         $category = factory(PlaceCategory::class)->create();
-        $longitude = $this->faker->randomFloat(4, 10, 50);
-        $latitude = $this->faker->randomFloat(4, 10, 50);
 
         factory(Place::class)->create([
-            'longitude' => $longitude,
-            'latitude' => $latitude,
+            'latitude' => 49.8258,
+            'longitude' => 24.0335,
             'category_id' => $category->id,
         ]);
 

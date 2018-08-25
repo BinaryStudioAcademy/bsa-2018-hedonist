@@ -18,6 +18,7 @@ class PlacePresenter
             'dislikes' => $place->dislikes->count(),
             'likes' => $place->likes->count(),
             'rating' => number_format(round($place->ratings->avg('rating'), 1), 1),
+            'ratingCount' => $place->ratings->count(),
             'latitude' => $place->latitude,
             'longitude' => $place->longitude,
             'phone' => $place->phone,

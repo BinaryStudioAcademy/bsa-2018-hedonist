@@ -65,7 +65,8 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
             'likes',
             'photos',
             'dislikes',
-            'ratings')
+            'ratings',
+            'photos')
             ->get();
     }
 

@@ -86,7 +86,7 @@
                     </sup>
                 </div>
                 <div class="place-rate__mark-count">
-                    {{ place.ratingCount || 1 }} marks
+                    {{ place.ratingCount || 'No' }} marks
                 </div>
                 <div class="place-rate__preference">
                     <LikeDislikeButtons
@@ -106,6 +106,7 @@
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
+import { STATUS_NONE } from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
 
 
@@ -193,7 +194,6 @@ export default {
         },
 
         updateLikesDislikes() {
-            this.$store.dispatch('place/getLikedPlace', this.place.id);
             if (this.likes) {
                 this.place.likes = this.likes;
             }
