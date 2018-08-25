@@ -21,7 +21,6 @@ class ReviewPresenter
     {
         return [
             'id' => $review->id,
-            'place_id' => $review->place_id,
             'created_at' => $review->created_at->format('Y-m-d'),
             'description' => $review->description,
             'user' => $this->usersPresenter->present($review->user),
