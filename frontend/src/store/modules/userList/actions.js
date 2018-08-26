@@ -8,71 +8,51 @@ export default {
                 .then( (response) => {
                     const userLists = response.data.data;
                     context.commit('SET_USER_LISTS', userLists);
+
                     let normalizedUserLists = normalizerService.normalize(response.data);
-                    normalizedUserLists.allIds = [];
-
-                    let normalizedPlaces = {
-                        byId: {},
-                        allIds: []
-                    };
-
-                    let normalizedCities = {
-                        byId: {},
-                        allIds: []
-                    };
-
-                    let normalizedCategories = {
-                        byId: {},
-                        allIds: []
-                    };
+                    normalizedUserLists = normalizerService.updateAllIds(normalizedUserLists);
+                    let normalizedPlaces = {};
+                    let normalizedCities = {};
+                    let normalizedCategories = {};
 
                     for (let userList in normalizedUserLists.byId){
-                        let userListId = parseInt(userList);
-                        normalizedUserLists.allIds.push(userListId);
+                        let id = parseInt(userList);
 
                         let normalizedPlacesOfOneList = normalizerService.normalize({
-                            data : normalizedUserLists.byId[userListId].places
+                            data : normalizedUserLists.byId[id].places
                         });
 
-                        normalizedPlacesOfOneList.allIds = [];
-                        for (let place in normalizedPlacesOfOneList.byId){
-                            let placeId = parseInt(place);
-                            normalizedPlacesOfOneList.allIds.push(placeId);
-                            normalizedPlaces.byId[placeId] = normalizedPlacesOfOneList.byId[placeId];
-                        }
-                        normalizedUserLists.byId[userListId].places = normalizedPlacesOfOneList.allIds;
+                        normalizedPlaces = normalizerService.updateNormalizedData(
+                            normalizedPlaces,
+                            normalizedPlacesOfOneList
+                        );
+
+                        normalizedUserLists.byId[id].places =
+                            normalizerService.updateAllIds(normalizedPlacesOfOneList).allIds;
                     }
+                    normalizedPlaces = normalizerService.updateAllIds(normalizedPlaces);
 
                     for (let place in normalizedPlaces.byId){
-                        let placeId = parseInt(place);
-                        normalizedPlaces.allIds.push(placeId);
+                        let id = parseInt(place);
 
-                        let normalizedCityOfOnePlace = normalizerService.normalize({
-                            data : normalizedPlaces.byId[placeId].city
-                        });
-                        for (let city in normalizedCityOfOnePlace.byId){
-                            let cityId = parseInt(city);
-                            normalizedCities.byId[cityId] = normalizedCityOfOnePlace.byId[cityId];
-                        }
-                        delete normalizedPlaces.byId[placeId].city;
+                        normalizedCities = normalizerService.updateNormalizedData(
+                            normalizedCities,
+                            normalizerService.normalize({
+                                data : normalizedPlaces.byId[id].city
+                            })
+                        );
+                        delete normalizedPlaces.byId[id].city;
 
-                        let normalizedCategoryOfOnePlace = normalizerService.normalize({
-                            data : normalizedPlaces.byId[placeId].category
-                        });
-                        for (let category in normalizedCategoryOfOnePlace.byId){
-                            let categoryId = parseInt(category);
-                            normalizedCategories.byId[categoryId] = normalizedCategoryOfOnePlace.byId[categoryId];
-                        }
-                        delete normalizedPlaces.byId[placeId].category;
+                        normalizedCategories = normalizerService.updateNormalizedData(
+                            normalizedCategories,
+                            normalizerService.normalize({
+                                data : normalizedPlaces.byId[id].category
+                            })
+                        );
+                        delete normalizedPlaces.byId[id].category;
                     }
-
-                    for (let city in normalizedCities.byId){
-                        normalizedCities.allIds.push(parseInt(city));
-                    }
-
-                    for (let category in normalizedCategories.byId){
-                        normalizedCategories.allIds.push(parseInt(category));
-                    }
+                    normalizedCities = normalizerService.updateAllIds(normalizedCities);
+                    normalizedCategories = normalizerService.updateAllIds(normalizedCategories);
 
                     context.commit('SET_NORMALIZED_USER_LISTS', normalizedUserLists);
                     context.commit('SET_NORMALIZED_PLACES', normalizedPlaces);
@@ -100,7 +80,5 @@ export default {
                     reject(error);
                 });
         });
-    },
-
-
+    }
 };
