@@ -1,5 +1,6 @@
 <template>
     <div class="navbar-start">
+        <Preloader :active="isLoading" />
         <div class="navbar-item">
             <SearchPlaceCategory @select="category = $event" />
         </div>
@@ -21,6 +22,7 @@
 import {mapActions} from 'vuex';
 import SearchCity from './SearchCity';
 import SearchPlaceCategory from './SearchPlaceCategory';
+import Preloader from '@/components/misc/Preloader';
 
 export default {
     name: 'NavbarSearchPanel',
@@ -28,11 +30,14 @@ export default {
         return {
             category: null,
             location: null,
+            isLoading: false,
+            timeLoading: 2000
         };
     },
     components: {
         SearchCity,
-        SearchPlaceCategory
+        SearchPlaceCategory,
+        Preloader
     },
     methods: {
         ...mapActions({
@@ -40,6 +45,7 @@ export default {
             selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
         }),
         search() {
+            this.isLoading = true;
             let location = '';
             let category = '';
             if (this.location !== null) {
@@ -48,14 +54,17 @@ export default {
             if (this.category !== null) {
                 category = this.category.id;
             }
-            this.$router.push({
-                path: 'search',
-                query: {
-                    category: category,
-                    location: location,
-                    page: 1
-                }
-            });
+            setTimeout(() => {
+                this.$router.push({
+                    path: 'search',
+                    query: {
+                        category: category,
+                        location: location,
+                        page: 1
+                    }
+                });
+                this.isLoading = false;
+            }, this.timeLoading);
         }
     },
 };
