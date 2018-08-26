@@ -52,10 +52,6 @@ export default {
             isMapLoaded: false,
             isPlacesLoaded: false,
             map: {},
-            userCoordinates: {
-                lat: 50.4547,
-                lng: 30.5238
-            },
             markerManager: null,
         };
     },
@@ -66,7 +62,7 @@ export default {
             });
     },
     methods: {
-        ...mapActions('search', ['setCurrentCenter', 'mapInitialization']),
+        ...mapActions('search', ['setCurrentPosition', 'mapInitialization']),
 
         mapInitialize(map) {
             if (this.mapInitialized) {
@@ -76,8 +72,10 @@ export default {
             this.map = map;
             LocationService.getUserLocationData()
                 .then(coordinates => {
-                    this.userCoordinates.lat = coordinates.lat;
-                    this.userCoordinates.lng = coordinates.lng;
+                    this.setCurrentPosition({
+                        latitude: coordinates.lat,
+                        longitude: coordinates.lng
+                    });
                 });
             this.mapInitialization();
         },
@@ -93,8 +91,8 @@ export default {
         createUserMarker() {
             return {
                 id: 0,
-                latitude: this.userCoordinates.lat,
-                longitude: this.userCoordinates.lng,
+                latitude: this.currentPosition.latitude,
+                longitude: this.currentPosition.longitude,
                 localization: {
                     0: {
                         description: 'Your position',
@@ -127,7 +125,7 @@ export default {
     },
     computed: {
         ...mapState('place', ['places']),
-        ...mapState('search', ['currentLatitude', 'currentLongitude', 'mapInitialized']),
+        ...mapState('search', ['currentPosition', 'mapInitialized']),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters('map', [
             'getMapboxToken',
@@ -139,8 +137,8 @@ export default {
 
         currentCenter() {
             return {
-                lat: this.currentLatitude ? this.currentLatitude : this.userCoordinates.lat,
-                lng: this.currentLongitude ? this.currentLongitude : this.userCoordinates.lng
+                lat: this.currentPosition.latitude,
+                lng: this.currentPosition.longitude
             };
         },
 

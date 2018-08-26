@@ -15,8 +15,8 @@ export default {
             .catch( error  => Promise.reject(error));
     },
 
-    setCurrentCenter: ({ commit }, currentCenter) => {
-        commit('SET_CURRENT_CENTER', currentCenter);
+    setCurrentPosition: ({ commit }, currentPosition) => {
+        commit('SET_CURRENT_POSITION', currentPosition);
     },
 
     mapInitialization: ({ commit }) => {
