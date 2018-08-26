@@ -18,10 +18,10 @@ export default {
     },
 
     getLikes: state => {
-        return state.currentPlace.likes;
+        return state.currentPlace && state.currentPlace.likes;
     },
 
     getDislikes: state => {
-        return state.currentPlace.dislikes;
+        return state.currentPlace && state.currentPlace.dislikes;
     }
 };
