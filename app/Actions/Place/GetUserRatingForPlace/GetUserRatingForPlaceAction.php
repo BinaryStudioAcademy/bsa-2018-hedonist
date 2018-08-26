@@ -1,12 +1,12 @@
 <?php
 
-namespace Hedonist\Actions\Place\GetPlaceRating;
+namespace Hedonist\Actions\Place\GetUserRatingForPlace;
 
 use Hedonist\Exceptions\Place\PlaceRatingNotFoundException;
 use Hedonist\Repositories\Place\PlaceRatingRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
-class GetPlaceRatingAction
+class GetUserRatingForPlaceAction
 {
     protected $repository;
 
@@ -15,7 +15,7 @@ class GetPlaceRatingAction
         $this->repository = $repository;
     }
 
-    public function execute(GetPlaceRatingRequest $request): GetPlaceRatingResponse
+    public function execute(GetUserRatingForPlaceRequest $request): GetUserRatingForPlaceResponse
     {
         $userId = $request->getUserId();
         $userId = $userId ?: Auth::id();
@@ -27,7 +27,7 @@ class GetPlaceRatingAction
             $placeRating === null,
             new PlaceRatingNotFoundException('Item not found')
         );
-        $response = new GetPlaceRatingResponse(
+        $response = new GetUserRatingForPlaceResponse(
             $placeRating->id,
             $placeRating->user_id,
             $placeRating->place_id,
