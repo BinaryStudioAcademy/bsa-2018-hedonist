@@ -1,6 +1,6 @@
 <template>
-    <div class="row">
-        <div v-if="isPlacesLoaded" class="column visitedplaces-wrapper">
+    <section class="columns">
+        <section v-if="isPlacesLoaded" class="column is-half">
             <div
                 v-for="(checkInId, index) in checkIns.allIds"
                 :key="checkInId"
@@ -11,9 +11,9 @@
                     :timer="50 * (index+1)"
                 />
             </div>
-        </div>
+        </section>
 
-        <div v-if="mapInitialized" class="column mapbox-wrapper">
+        <section v-if="mapInitialized" class="column mapbox-wrapper right-side">
             <section id="map">
                 <mapbox
                     :access-token="getMapboxToken"
@@ -36,12 +36,12 @@
                     @map-init="mapInitialize"
                 />
             </section>
-        </div>
-    </div>
+        </section>
+    </section>
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex';
+import {mapGetters, mapActions, mapState} from 'vuex';
 import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
 import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
@@ -125,59 +125,66 @@ export default {
 </script>
 
 <style>
-    .mapboxgl-ctrl-top-left,
-    .mapboxgl-ctrl-top-right {
-        top: 20px;
+    .mapboxgl-canvas {
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    .mapboxgl-marker {
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup-close-button{
+        font-size: 22px;
+    }
+
+    .link-place:hover{
+        text-decoration: underline;
     }
 </style>
 
 <style lang="scss" scoped>
-    .row {
-        display: flex;
-    }
 
-    .column {
-        flex: 50%;
+    .columns {
+        padding: 10px;
     }
 
     #map {
         text-align: justify;
-        position: fixed;
-        top: 87px;
-        bottom: 0;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 3.75rem;
+        height: 100vh;
         right: 0;
-        width: 50%;
+        width: 100%;
     }
 
     @media screen and (max-width: 769px) {
-        .row {
+        .columns {
             display: grid;
             grid-template-areas: "right" "left";
 
-            .visitedplaces-wrapper {
+            .is-half {
                 grid-area: left;
             }
-            .mapbox-wrapper {
+            .right-side {
                 grid-area: right;
-                position: relative;
-                height: 500px;
-
-                #map {
-                    position: absolute;
-                    width: 100%;
-                }
             }
         }
-        .column {
-            flex: 100%;
+        #map {
+            text-align: justify;
+            vertical-align: top;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 500px;
         }
     }
 
     @media screen and (max-width: 520px) {
-        .row {
-            .mapbox-wrapper {
-                height: 300px;
-            }
+        #map {
+            height: 300px;
         }
     }
 </style>

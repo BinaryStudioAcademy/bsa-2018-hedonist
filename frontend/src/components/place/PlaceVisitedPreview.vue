@@ -73,10 +73,9 @@ export default {
 <style lang="scss" scoped>
 
     article {
-        margin: 1.5rem auto;
+        margin-bottom: 10px;
         padding: 10px;
         text-align: left;
-        width: 600px;
         background-color: #FFF;
     }
 
