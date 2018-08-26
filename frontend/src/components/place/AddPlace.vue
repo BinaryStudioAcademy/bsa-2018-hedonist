@@ -197,9 +197,24 @@
                 </b-tab-item>
 
                 <b-tab-item label="Location" :disabled="activeTab !== 1">
-                    <div class="map-part column">
-                        <div class="map-box">
-                            <img src="https://a.tiles.mapbox.com/v3/foursquare.qhb8olxr/16/38326/22101.png" alt="mapbox">
+                    <div class="columns is-centered">
+                        <div class="map-wrp">
+                            <mapbox
+                                :access-token="getMapboxToken"
+                                :map-options="{
+                                    style: getMapboxStyle,
+                                    center: {
+                                        lat: 50.4501,
+                                        lng: 30.5241
+                                    },
+                                    zoom: 5
+                                }"
+                                :scale-control="{
+                                    show: true,
+                                    position: 'top-left'
+                                }"
+                                @map-load="mapLoaded"
+                            />
                         </div>
                     </div>
 
@@ -398,19 +413,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import Mapbox from 'mapbox-gl-vue';
 import SearchCity from '../navbar/SearchCity';
 
 export default {
     name: 'NewPlacePage',
     components: {
+        Mapbox,
         SearchCity
     },
 
     data() {
         return {
             activeTab: 0,
-
-
             newPlace: {
                 localization: {
                     en: {
@@ -419,8 +435,9 @@ export default {
                     }
                 },
                 zip: '',
-                city: {},
+                city: '',
                 address: '',
+                location: {},
                 category: '',
                 tags: [],
                 features: [],
@@ -507,16 +524,32 @@ export default {
     },
 
     computed: {
-        isCategorySelected: function () {
+        ...mapGetters('map', [
+            'getMapboxToken',
+            'getMapboxStyle'
+        ]),
+
+        isCategorySelected: function() {
             return !!this.newPlace.category;
         },
 
-        isDaySelected: function () {
+        isDaySelected: function() {
             return !this.weekdays.length;
         }
     },
 
     methods: {
+        mapLoaded(map) {
+            let marker = new mapboxgl.Marker({
+                draggable: true
+            })
+                .setLngLat([30.5241, 50.4501])
+                .addTo(map);
+
+            marker.on('dragend', () => {
+                this.newPlace.location = marker.getLngLat();
+            })
+        },
 
         isTagAdded: function(tagObject) {
             return this.newPlace.tags.some((tag) => tag.name === tagObject.name);
@@ -552,6 +585,7 @@ export default {
         max-width: 960px;
     }
 
+    /* General tab */
     .section-divider {
         margin: 30px 0 20px 30px;
         border-bottom: 1px solid #50595D;
@@ -561,17 +595,15 @@ export default {
         }
     }
 
-
-    /**/
-
-    .label {
-        color: #50595D;
+    /* Location tab */
+    .map-wrp {
+        width: 100%;
+        height: 600px;
     }
 
-    .map-box {
-        img {
-            width: 100%;
-        }
+    #map {
+        width: 100%;
+        height: 100%;
     }
 
     /* timepicker needs */
@@ -579,4 +611,11 @@ export default {
         height: 200px;
     }
 
+</style>
+
+<style>
+    .mapboxgl-canvas {
+        top: 0 !important;
+        left: 0 !important;
+    }
 </style>
