@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+        <Preloader :active="isLoading" />
         <div v-if="isPlacesLoaded" class="column visitedplaces-wrapper">
             <div
                 v-for="(checkInId, index) in checkIns.allIds"
@@ -42,6 +43,7 @@
 
 <script>
 import { mapGetters, mapActions, mapState } from 'vuex';
+import Preloader from '@/components/misc/Preloader';
 import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
 import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
@@ -51,11 +53,13 @@ import mapSettingsService from '@/services/map/mapSettingsService';
 export default {
     name: 'HistoryPage',
     components: {
+        Preloader,
         PlaceVisitedPreview,
         Mapbox
     },
     data() {
         return {
+            isLoading: true,
             isPlacesLoaded: false,
             markerManager: null,
             userCoordinates: {
@@ -91,9 +95,11 @@ export default {
                             mapSettingsService.getMapboxCenter(this.places.byId, this.places.allIds)
                         );
                         this.updateMap(this.placeList);
+                        this.isLoading = false;
                     })
                     .catch((err) => {
                         this.isPlacesLoaded = true;
+                        this.isLoading = false;
                     });
             });
     },
