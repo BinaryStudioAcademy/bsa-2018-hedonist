@@ -253,6 +253,7 @@ export default {
                     color: white;
                     background-color: #00B551;
                     padding: 4px;
+                    white-space: nowrap;
                 }
                 &__mark-value {
                    margin:0 5px;
