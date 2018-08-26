@@ -1,7 +1,5 @@
 <template>
     <div class="filter-controls">
-        <h5 class="title is-5">Фильтры:</h5>
-
         <ul>
             <li 
                 v-for="(filterPlace, index) in filterPlaces" 
@@ -98,15 +96,6 @@ export default {
     .filter-controls {
         background: #f8f8f8;
         padding: 5px 15px;
-
-        h5 {
-            color: #6e6e6e;
-            display: inline-block;
-            font-size: 11px;
-            float: left;
-            margin: 15px 5px 0 0;
-            text-shadow: 0 1px 0 #fff;
-        }
 
         ul {
             display: inline-block;
