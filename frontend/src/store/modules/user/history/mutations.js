@@ -11,9 +11,9 @@ export default {
     SET_CHECK_INS: (state, checkIns) => {
         state.checkIns = {
             byId: {
-                ...checkIns
+                ...checkIns.items
             },
-            allIds: Object.keys(checkIns)
+            allIds: checkIns.ids
         };
     },
     SET_CURRENT_MAP_CENTER: (state, { longitude, latitude }) => {

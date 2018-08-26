@@ -2,7 +2,7 @@
     <div class="control">
         <b-dropdown
             v-model="language"
-            mobile-modal="false"
+            :mobile-modal="false"
             hoverable
             @input="changeLang"
             class="language-menu"

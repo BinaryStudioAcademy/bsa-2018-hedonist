@@ -11,7 +11,7 @@ use Hedonist\Entities\User\User;
  *
  * @property int $id
  * @property int $user_id
- * @property int place_id
+ * @property int $place_id
  * @property float $rating
  */
 class PlaceRating extends Model
