@@ -19,42 +19,41 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
-import SearchCity from './SearchCity';
-import SearchPlaceCategory from './SearchPlaceCategory';
-import Preloader from '@/components/misc/Preloader';
+    import {mapActions} from 'vuex';
+    import SearchCity from './SearchCity';
+    import SearchPlaceCategory from './SearchPlaceCategory';
+    import Preloader from '@/components/misc/Preloader';
 
-export default {
-    name: 'NavbarSearchPanel',
-    data() {
-        return {
-            category: null,
-            location: null,
-            isLoading: false,
-            timeLoading: 2000
-        };
-    },
-    components: {
-        SearchCity,
-        SearchPlaceCategory,
-        Preloader
-    },
-    methods: {
-        ...mapActions({
-            selectSearchCity: 'search/selectSearchCity',
-            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
-        }),
-        search() {
-            this.isLoading = true;
-            let location = '';
-            let category = '';
-            if (this.location !== null) {
-                location = this.location.center[0] + ',' + this.location.center[1];
-            }
-            if (this.category !== null) {
-                category = this.category.id;
-            }
-            setTimeout(() => {
+    export default {
+        name: 'NavbarSearchPanel',
+        data() {
+            return {
+                category: null,
+                location: null,
+                isLoading: false,
+                timeLoading: 2000
+            };
+        },
+        components: {
+            SearchCity,
+            SearchPlaceCategory,
+            Preloader
+        },
+        methods: {
+            ...mapActions({
+                selectSearchCity: 'search/selectSearchCity',
+                selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
+            }),
+            search() {
+                this.isLoading = true;
+                let location = '';
+                let category = '';
+                if (this.location !== null) {
+                    location = this.location.center[0] + ',' + this.location.center[1];
+                }
+                if (this.category !== null) {
+                    category = this.category.id;
+                }
                 this.$router.push({
                     path: 'search',
                     query: {
@@ -63,11 +62,12 @@ export default {
                         page: 1
                     }
                 });
-                this.isLoading = false;
-            }, this.timeLoading);
-        }
-    },
-};
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, this.timeLoading);
+            }
+        },
+    };
 </script>
 
 
@@ -78,31 +78,31 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-.button {
-    @media screen and (max-width: 1087px) {
-        width: 88%;
-    }
-
-    .button-title {
-        display: none;
-
+    .button {
         @media screen and (max-width: 1087px) {
-            display: inline-block;
+            width: 88%;
+        }
+
+        .button-title {
+            display: none;
+
+            @media screen and (max-width: 1087px) {
+                display: inline-block;
+            }
+        }
+
+        &:hover {
+            background-color: #167df0;
+
+            @media screen and (max-width: 1087px) {
+                background-color: #0f77ea;
+            }
         }
     }
 
-    &:hover {
-        background-color: #167df0;
-
+    .navbar-search-btn {
         @media screen and (max-width: 1087px) {
-            background-color: #0f77ea;
+            text-align: center;
         }
     }
-}
-
-.navbar-search-btn {
-    @media screen and (max-width: 1087px) {
-        text-align: center;
-    }
-}
 </style>
