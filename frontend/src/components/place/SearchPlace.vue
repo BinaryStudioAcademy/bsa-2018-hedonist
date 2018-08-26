@@ -189,7 +189,7 @@ export default {
         text-align: justify;
         position: sticky;
         position: -webkit-sticky;
-        top: 0;
+        top: 3.75rem;
         height: 100vh;
         right: 0;
         width: 100%;
