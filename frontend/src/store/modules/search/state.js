@@ -1,3 +1,5 @@
+import { KIEV_LATITUDE, KIEV_LONGITUDE } from '@/services/location/positions';
+
 export default {
     city: {
         name: '',
@@ -10,8 +12,8 @@ export default {
         name: ''
     },
     currentPosition: {
-        latitude: 50.4547,
-        longitude: 30.5238
+        latitude: KIEV_LATITUDE,
+        longitude: KIEV_LONGITUDE
     },
     mapInitialized : false,
 };
