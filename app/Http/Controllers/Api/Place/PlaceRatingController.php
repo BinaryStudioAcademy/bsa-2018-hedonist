@@ -38,18 +38,18 @@ class PlaceRatingController extends ApiController
         $this->getPlaceRatingAvgAction = $getPlaceRateAvgAction;
     }
 
-    public function setRating(SetRatingHttpRequest $httpRequest) : JsonResponse
+    public function setRating(int $id, SetRatingHttpRequest $httpRequest) : JsonResponse
     {
         try {
             $setPlaceRatingResponse = $this->setRatingAction->execute(
                 new SetPlaceRatingRequest(
                     $httpRequest->rating,
-                    $httpRequest->place_id
+                    $id
                 )
             );
             $getPlaceRatingAvgResponse = $this->getPlaceRatingAvgAction->execute(
                 new GetPlaceRatingAvgRequest(
-                    $httpRequest->place_id
+                    $id
                 )
             );
         } catch (DomainException $ex) {
