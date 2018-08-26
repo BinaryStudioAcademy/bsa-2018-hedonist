@@ -259,7 +259,6 @@ export default {
                    margin:0 5px;
                 }
                 &__mark-count {
-                    margin-left: 10px;
                     font-style: italic;
                     white-space: nowrap;
                     padding: 0 10px;
