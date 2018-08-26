@@ -253,13 +253,15 @@ export default {
                     color: white;
                     background-color: #00B551;
                     padding: 4px;
+                    white-space: nowrap;
                 }
                 &__mark-value {
                    margin:0 5px;
                 }
                 &__mark-count {
-                    margin-left: 10px;
                     font-style: italic;
+                    white-space: nowrap;
+                    padding: 0 10px;
                 }
                 &__preference {
                     display: flex;
