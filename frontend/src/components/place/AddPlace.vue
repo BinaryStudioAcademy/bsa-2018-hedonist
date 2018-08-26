@@ -198,9 +198,9 @@
                 <b-tab-item label="Location" :disabled="activeTab !== 1">
                     <div class="map-wrp">
                         <mapbox
-                            :access-token="getMapboxToken"
+                            :access-token="mapboxToken"
                             :map-options="{
-                                style: getMapboxStyle,
+                                style: mapboxStyle,
                                 center: {
                                     lat: 50.4501,
                                     lng: 30.5241
@@ -411,9 +411,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Mapbox from 'mapbox-gl-vue';
 import SearchCity from '../navbar/SearchCity';
+import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     name: 'NewPlacePage',
@@ -424,6 +424,8 @@ export default {
 
     data() {
         return {
+            mapboxToken: mapSettingsService.getMapboxToken(),
+            mapboxStyle: mapSettingsService.getMapboxStyle(),
             activeTab: 0,
             newPlace: {
                 localization: {
@@ -522,11 +524,6 @@ export default {
     },
 
     computed: {
-        ...mapGetters('map', [
-            'getMapboxToken',
-            'getMapboxStyle'
-        ]),
-
         isCategorySelected: function() {
             return !!this.newPlace.category;
         },

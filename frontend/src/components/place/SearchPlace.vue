@@ -13,9 +13,9 @@
         </section>
         <section class="column mapbox-wrapper right-side">
             <mapbox
-                :access-token="getMapboxToken"
+                :access-token="mapboxToken"
                 :map-options="{
-                    style: getMapboxStyle,
+                    style: mapboxStyle,
                     center: currentCenter,
                     zoom: 9
                 }"
@@ -38,6 +38,7 @@ import SearchFilterPlace from './SearchFilterPlace';
 import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
 import placeholderImg from '@/assets/placeholder_128x128.png';
+import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     name: 'SearchPlace',
@@ -53,6 +54,8 @@ export default {
             isPlacesLoaded: false,
             map: {},
             markerManager: null,
+            mapboxToken: mapSettingsService.getMapboxToken(),
+            mapboxStyle: mapSettingsService.getMapboxStyle()
         };
     },
     created() {
@@ -127,10 +130,6 @@ export default {
         ...mapState('place', ['places']),
         ...mapState('search', ['currentPosition', 'mapInitialized']),
         ...mapGetters('place', ['getFilteredByName']),
-        ...mapGetters('map', [
-            'getMapboxToken',
-            'getMapboxStyle'
-        ]),
         ...mapGetters({
             user: 'auth/getAuthenticatedUser'
         }),

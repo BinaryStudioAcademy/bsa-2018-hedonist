@@ -1,8 +1,8 @@
 <template>
     <mapbox
-        :access-token="getMapboxToken"
+        :access-token="mapboxToken"
         :map-options="{
-            style: getMapboxStyle,
+            style: mapboxStyle,
             center: currentCenter,
             zoom: 11
         }"
@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
 import Mapbox from 'mapbox-gl-vue';
 import markerManager from '@/services/map/markerManager';
+import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     name: 'PlaceMapMarker',
@@ -26,6 +26,13 @@ export default {
         place: {
             type: Object,
             required: true
+        }
+    },
+
+    data() {
+        return {
+            mapboxToken: mapSettingsService.getMapboxToken(),
+            mapboxStyle: mapSettingsService.getMapboxStyle()
         }
     },
 
@@ -40,11 +47,6 @@ export default {
     },
 
     computed: {
-        ...mapGetters('map', [
-            'getMapboxToken',
-            'getMapboxStyle'
-        ]),
-
         currentCenter() {
             return {
                 lat: this.place.latitude,
