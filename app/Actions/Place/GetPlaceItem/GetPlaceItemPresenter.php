@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\Place\GetPlaceItem;
 
-use Hedonist\Actions\Place\GetPlaceRating\GetPlaceRatingResponse;
+use Hedonist\Actions\Place\GetUserRatingForPlace\GetUserRatingForPlaceResponse;
 use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
 use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
