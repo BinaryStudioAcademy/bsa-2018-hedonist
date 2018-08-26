@@ -100,10 +100,10 @@
                             <div class="field">
                                 <p class="control is-expanded">
                                     <input
-                                         v-model="newPlace.twitter"
-                                         class="input"
-                                         type="text"
-                                         placeholder="Place's twitter"
+                                        v-model="newPlace.twitter"
+                                        class="input"
+                                        type="text"
+                                        placeholder="Place's twitter"
                                     >
                                 </p>
                             </div>
@@ -298,8 +298,8 @@
                                     </div>
                                     <div class="level-right">
                                         <b-switch
-                                                v-model="feature.status"
-                                                type="is-success"
+                                            v-model="feature.status"
+                                            type="is-success"
                                         />
                                     </div>
                                 </div>
@@ -548,7 +548,7 @@ export default {
 
             marker.on('dragend', () => {
                 this.newPlace.location = marker.getLngLat();
-            })
+            });
         },
 
         isTagAdded: function(tagObject) {
@@ -611,11 +611,4 @@ export default {
         height: 200px;
     }
 
-</style>
-
-<style>
-    .mapboxgl-canvas {
-        top: 0 !important;
-        left: 0 !important;
-    }
 </style>
