@@ -43,5 +43,25 @@ export default {
                     reject();
                 });
         });
+    },
+
+    likeReview: (context, id) => {
+        httpService.post(`reviews/${id}/like`)
+            .then( (res) => {
+                return Promise.resolve(res);
+            })
+            .catch( (err) => {
+                return Promise.reject(err);
+            });
+    },
+
+    dislikeReview: (context, id) => {
+        httpService.post(`reviews/${id}/dislike`)
+            .then( (res) => {
+                return Promise.resolve(res);
+            })
+            .catch( (err) => {
+                return Promise.reject(err);
+            });
     }
 };
