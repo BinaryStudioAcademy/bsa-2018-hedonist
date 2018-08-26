@@ -10,8 +10,8 @@ export default {
         name: ''
     },
     currentPosition: {
-        latitude: null,
-        longitude: null
+        latitude: 50.4547,
+        longitude: 30.5238
     },
     mapInitialized : false,
 };
