@@ -89,6 +89,9 @@ Route::prefix('v1')->group(function () {
         Route::post('/places/{id}/dislike', 'Api\Like\DislikeController@dislikePlace')->name('place.dislike');
         Route::get('/places/{id}/liked', 'Api\Like\LikeController@getLikedPlace')->name('place.liked');
 
+        Route::post('/places/{id}/ratings', 'Api\Place\PlaceRatingController@setRating')
+            ->name('place.rating.setPlaceRating');
+
         Route::get('/places/{id}/ratings/avg', 'Api\Place\PlaceRatingController@getPlaceRatingAvg')
             ->name('place.rating.getPlaceRatingAvg');
 
@@ -128,9 +131,6 @@ Route::prefix('v1')->group(function () {
             ->name('user.me.checkin');
         Route::get('/users/me/checkins', 'Api\Place\PlaceCheckinController@getUserCheckInCollection')
             ->name('user.me.getUserCheckins');
-
-        Route::post('/places/ratings', 'Api\Place\PlaceRatingController@setRating')
-            ->name('place.rating.setPlaceRating');
 
         Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 

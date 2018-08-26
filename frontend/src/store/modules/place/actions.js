@@ -3,9 +3,11 @@ import normalizerService from '@/services/common/normalizerService';
 import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
 export default {
-    setPlaceRating: (context, data) => {
+    setPlaceRating: (context, { placeId, rating }) => {
         return new Promise((resolve, reject) => {
-            return httpService.post('/places/ratings', data)
+            return httpService.post('/places/' + placeId + '/ratings', {
+                rating: rating
+            })
                 .then(response => {
                     const ratingAvg = response.data.data.rating_avg;
                     context.commit('SET_CURRENT_PLACE_RATING_VALUE', ratingAvg);

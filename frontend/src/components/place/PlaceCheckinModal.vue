@@ -104,9 +104,8 @@ export default {
                 });
 
             this.setPlaceRating({
-                place_id: this.place.id,
-                rating: value,
-                user_id: this.getAuthenticatedUser.id
+                placeId: this.place.id,
+                rating: value
             })
                 .then(() => {
                     this.$toast.open({
