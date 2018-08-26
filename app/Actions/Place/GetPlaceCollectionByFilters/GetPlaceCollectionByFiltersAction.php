@@ -22,8 +22,7 @@ class GetPlaceCollectionByFiltersAction
     public function __construct(
         PlaceRepositoryInterface $placeRepository,
         ReviewRepositoryInterface $reviewRepository
-    )
-    {
+    ) {
         $this->placeRepository = $placeRepository;
         $this->reviewRepository = $reviewRepository;
     }

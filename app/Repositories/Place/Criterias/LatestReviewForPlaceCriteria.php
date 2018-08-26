@@ -10,7 +10,7 @@ class LatestReviewForPlaceCriteria implements CriteriaInterface
 {
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->with(['reviews' => function(HasMany $builder){
+        return $model->with(['reviews' => function (HasMany $builder) {
             $builder->orderByDesc('created_at')->first();
         }]);
     }

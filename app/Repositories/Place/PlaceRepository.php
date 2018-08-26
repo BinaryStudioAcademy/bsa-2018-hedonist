@@ -99,7 +99,7 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
 
     public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection
     {
-        foreach ($criterias as $criteria){
+        foreach ($criterias as $criteria) {
             $this->pushCriteria($criteria);
         }
 
