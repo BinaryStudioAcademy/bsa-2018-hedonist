@@ -191,65 +191,45 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="onCancel()" class="button is-danger">Cancel</span>
                         <span @click="activeTab++" class="button is-success">Next</span>
                     </div>
                 </b-tab-item>
 
                 <b-tab-item label="Location" :disabled="activeTab !== 1">
-                    <div class="columns is-centered">
-                        <div class="map-wrp">
-                            <mapbox
-                                :access-token="getMapboxToken"
-                                :map-options="{
-                                    style: getMapboxStyle,
-                                    center: {
-                                        lat: 50.4501,
-                                        lng: 30.5241
-                                    },
-                                    zoom: 5
-                                }"
-                                :scale-control="{
-                                    show: true,
-                                    position: 'top-left'
-                                }"
-                                @map-load="mapLoaded"
-                            />
-                        </div>
+                    <div class="map-wrp">
+                        <mapbox
+                            :access-token="getMapboxToken"
+                            :map-options="{
+                                style: getMapboxStyle,
+                                center: {
+                                    lat: 50.4501,
+                                    lng: 30.5241
+                                },
+                                zoom: 5
+                            }"
+                            :scale-control="{
+                                show: true,
+                                position: 'top-left'
+                            }"
+                            @map-load="mapLoaded"
+                        />
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="onCancel()" class="button is-danger">Cancel</span>
                         <span @click="activeTab--" class="button is-warning">Previous</span>
                         <span @click="activeTab++" class="button is-success">Next</span>
                     </div>
                 </b-tab-item>
 
                 <b-tab-item label="Categories" :disabled="activeTab !== 2">
-                    <div class="level">
-                        <div class="level-item">
-                            <b-field>
-                                <b-select v-model="newPlace.category">
-                                    <option value="" selected disabled>Select a category</option>
-                                    <option
-                                        v-for="option in categories"
-                                        :key="option.id"
-                                        :value="option"
-                                    >
-                                        {{ option.name }}
-                                    </option>
-                                </b-select>
-                            </b-field>
-                        </div>
-                    </div>
-                    <template v-if="isCategorySelected">
+                    <div class="tab-wrp">
                         <div class="level">
                             <div class="level-item">
                                 <b-field>
-                                    <b-select v-model="selectedTag">
-                                        <option value="" selected disabled>Add tags</option>
+                                    <b-select v-model="newPlace.category">
+                                        <option value="" selected disabled>Select a category</option>
                                         <option
-                                            v-for="option in category_tags"
+                                            v-for="option in categories"
                                             :key="option.id"
                                             :value="option"
                                         >
@@ -259,30 +239,47 @@
                                 </b-field>
                             </div>
                         </div>
-                    </template>
-
-                    <!-- Tags field here! -->
-                    <template>
-                        <div class="level">
-                            <div class="level-item">
-                                <b-taglist>
-                                    <b-tag
-                                        v-for="tag in newPlace.tags"
-                                        :key="tag.id"
-                                        type="is-info"
-                                        size="is-medium"
-                                        closable
-                                        @close="onCloseTab(tag)"
-                                    >
-                                        {{ tag.name }}
-                                    </b-tag>
-                                </b-taglist>
+                        <template v-if="isCategorySelected">
+                            <div class="level">
+                                <div class="level-item">
+                                    <b-field>
+                                        <b-select v-model="selectedTag">
+                                            <option value="" selected disabled>Add tags</option>
+                                            <option
+                                                v-for="option in category_tags"
+                                                :key="option.id"
+                                                :value="option"
+                                            >
+                                                {{ option.name }}
+                                            </option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
                             </div>
-                        </div>
-                    </template>
+                        </template>
+
+                        <!-- Tags field here! -->
+                        <template>
+                            <div class="level">
+                                <div class="level-item">
+                                    <b-taglist>
+                                        <b-tag
+                                            v-for="tag in newPlace.tags"
+                                            :key="tag.id"
+                                            type="is-info"
+                                            size="is-medium"
+                                            closable
+                                            @close="onCloseTab(tag)"
+                                        >
+                                            {{ tag.name }}
+                                        </b-tag>
+                                    </b-taglist>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
 
                     <div class="buttons is-centered">
-                        <span @click="onCancel()" class="button is-danger">Cancel</span>
                         <span @click="activeTab--" class="button is-warning">Previous</span>
                         <span @click="activeTab++" class="button is-success">Next</span>
                     </div>
@@ -308,14 +305,14 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="onCancel()" class="button is-danger">Cancel</span>
                         <span @click="activeTab--" class="button is-warning">Previous</span>
                         <span @click="activeTab++" class="button is-success">Next</span>
                     </div>
                 </b-tab-item>
 
                 <b-tab-item label="Hours" :disabled="activeTab !== 4">
-                    <div class="level is-centered">
+                    <div class="tab-wrp">
+                        <div class="level is-centered">
                         <div class="level-item">
                             <b-field class="is-block-mobile">
                                 <b-checkbox-button
@@ -370,8 +367,8 @@
                             </b-field>
                         </div>
                     </div>
-                    <div class="columns is-centered">
-                        <div class="column is-half">
+                        <div class="columns is-centered">
+                            <div class="column is-half">
                             <div class="level">
                                 <div class="level-item">
                                     <b-field label="from">
@@ -385,13 +382,14 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
                     </div>
-                    <div class="btn-bottom level is-centered">
+
+                    <div class="level is-centered">
                         <div class="level-item"><a class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="onCancel()" class="button is-danger">Cancel</span>
                         <span @click="activeTab--" class="button is-warning">Previous</span>
                         <span @click="activeTab++" class="button is-success">Next</span>
                     </div>
@@ -585,6 +583,10 @@ export default {
         max-width: 960px;
     }
 
+    .tab-wrp {
+        min-height: 400px;
+    }
+
     /* General tab */
     .section-divider {
         margin: 30px 0 20px 30px;
@@ -604,11 +606,6 @@ export default {
     #map {
         width: 100%;
         height: 100%;
-    }
-
-    /* timepicker needs */
-    .btn-bottom {
-        height: 200px;
     }
 
 </style>
