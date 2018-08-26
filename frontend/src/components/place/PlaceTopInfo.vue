@@ -261,6 +261,8 @@ export default {
                 &__mark-count {
                     margin-left: 10px;
                     font-style: italic;
+                    white-space: nowrap;
+                    padding: 0 10px;
                 }
                 &__preference {
                     display: flex;
