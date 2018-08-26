@@ -29,12 +29,5 @@ export default {
                     reject(error);
                 });
         });
-    },
-
-    getUserLists: (context, userId) => {
-        return httpService.get('/users/' + userId + '/lists')
-            .then( (result) => {
-                return result.data.data;
-            });
     }
 };
