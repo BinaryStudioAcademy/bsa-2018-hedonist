@@ -5,7 +5,7 @@ import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 export default {
     setPlaceRating: (context, data) => {
         return new Promise((resolve, reject) => {
-            return httpService.post('/places/rating', data)
+            return httpService.post('/places/ratings', data)
                 .then(response => {
                     const ratingAvg = response.data.data.rating_avg;
                     context.commit('SET_CURRENT_PLACE_RATING_VALUE', ratingAvg);
