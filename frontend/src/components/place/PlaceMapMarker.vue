@@ -33,7 +33,7 @@ export default {
         return {
             mapboxToken: mapSettingsService.getMapboxToken(),
             mapboxStyle: mapSettingsService.getMapboxStyle()
-        }
+        };
     },
 
     components: {
