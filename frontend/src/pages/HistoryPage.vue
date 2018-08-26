@@ -16,9 +16,9 @@
         <section v-if="mapInitialized" class="column mapbox-wrapper right-side">
             <section id="map">
                 <mapbox
-                    :access-token="getMapboxToken"
+                    :access-token="mapboxToken"
                     :map-options="{
-                        style: getMapboxStyle,
+                        style: mapboxStyle,
                         center: {
                             lat: currentLatitude,
                             lng: currentLongitude
@@ -46,6 +46,7 @@ import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
 import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
 import Mapbox from 'mapbox-gl-vue';
+import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     name: 'HistoryPage',
@@ -61,10 +62,11 @@ export default {
                 lat: null,
                 lng: null
             },
+            mapboxToken: mapSettingsService.getMapboxToken(),
+            mapboxStyle: mapSettingsService.getMapboxStyle()
         };
     },
     computed: {
-        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle', 'getMapboxCenter']),
         ...mapGetters('user/history', [
             'getCheckInById',
             'getPlaceById',
@@ -86,7 +88,7 @@ export default {
                     .then(() => {
                         this.isPlacesLoaded = true;
                         this.setCurrentMapCenter(
-                            this.getMapboxCenter(this.places.byId, this.places.allIds)
+                            mapSettingsService.getMapboxCenter(this.places.byId, this.places.allIds)
                         );
                         this.updateMap(this.placeList);
                     })

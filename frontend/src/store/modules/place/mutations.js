@@ -1,3 +1,11 @@
+import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
+
+function findReviewById (places, reviewId) {
+    return places.find( (place) => { 
+        return place.review.id === parseInt(reviewId); 
+    }).review;
+};
+
 export default {
     SET_PLACES: (state, places) => {
         state.places = places;
@@ -45,5 +53,37 @@ export default {
 
     SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT: (state, { reviewId, count }) => {
         state.currentPlaceReviews.byId[reviewId].dislikes = count;
+    },
+    
+    UPDATE_REVIEW_LIKED_STATE: (state, reviewId) => {
+        let review = findReviewById(state.places, reviewId);
+
+        if (review.like === STATUS_NONE) {
+            review.like = STATUS_LIKED;
+            review.likes++;
+        } else if (review.like === STATUS_LIKED) {
+            review.like = STATUS_NONE;
+            review.likes--;
+        } else if (review.like === STATUS_DISLIKED) {
+            review.like = STATUS_LIKED;
+            review.likes++;
+            review.dislikes--;
+        }  
+    },
+
+    UPDATE_REVIEW_DISLIKED_STATE: (state, reviewId) => {
+        let review = findReviewById(state.places, reviewId);
+
+        if (review.like === STATUS_NONE) {
+            review.like = STATUS_DISLIKED;
+            review.dislikes++;
+        } else if (review.like === STATUS_DISLIKED) {
+            review.like = STATUS_NONE;
+            review.dislikes--;
+        } else if (review.like === STATUS_LIKED) {
+            review.like = STATUS_DISLIKED;
+            review.dislikes++;
+            review.likes--;
+        }  
     }
 };

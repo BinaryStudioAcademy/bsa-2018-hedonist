@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
 import _ from 'lodash';
 import LocationService from '@/services/location/locationService';
+import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     name: 'SearchCity',
@@ -30,14 +30,11 @@ export default {
             }
         };
     },
-    computed: {
-        ...mapGetters('map', ['getMapboxToken']),
-    },
     methods: {
         loadCities: _.debounce(function () {
             this.findCity.data = [];
             this.findCity.isFetching = true;
-            LocationService.getCityList(this.getMapboxToken,this.findCity.query)
+            LocationService.getCityList(mapSettingsService.getMapboxToken(), this.findCity.query)
                 .then( res => {
                     this.findCity.data = res;
                     this.findCity.isFetching = false;
