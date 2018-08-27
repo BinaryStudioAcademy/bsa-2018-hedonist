@@ -8,7 +8,7 @@ class GetReviewUsersDislikedResponse
 {
     private $users;
 
-    public function __construct(Array $users)
+    public function __construct(array $users)
     {
         $this->users = $users;
     }
