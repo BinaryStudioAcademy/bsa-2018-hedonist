@@ -19,5 +19,6 @@ yarn-error.log
 .elasticdata
 /public/mix-manifest.json
 /public/dist
+.redisdata
 
 .phpunit.result.cache
