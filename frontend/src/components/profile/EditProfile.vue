@@ -59,11 +59,11 @@
                 </b-field>
 
                 <b-field
-                        label="Phone"
-                        :type="isPhoneInvalid ? 'is-danger' : ''"
-                        :message="isPhoneInvalid ?
-                            'Please, enter a valid phone, e.g. +380950000000 or 380950000000':
-                            ''"
+                    label="Phone"
+                    :type="isPhoneInvalid ? 'is-danger' : ''"
+                    :message="isPhoneInvalid ?
+                        'Please, enter a valid phone, e.g. +380950000000 or 380950000000':
+                    ''"
                 >
                     <b-input
                         v-model.trim="user.phone_number"
