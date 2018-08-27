@@ -58,8 +58,8 @@ export default {
         ...mapActions('review', [
             'likeReviewSearch',
             'dislikeReviewSearch',
-            'getReviewLikedUsers',
-            'getReviewDislikedUsers'
+            'getUsersWhoLikedReview',
+            'getUsersWhoDislikedReview'
         ]),
         ...mapMutations('place', {
             updateReviewLikedState: 'UPDATE_REVIEW_LIKED_STATE',
@@ -82,7 +82,7 @@ export default {
 
         onLikedUsersReview() {
             if (this.review.likes) {
-                this.getReviewLikedUsers(this.review.id)
+                this.getUsersWhoLikedReview(this.review.id)
                     .then( () => {
                         alert(JSON.stringify(this.reviewLikedUsers));
                     });
@@ -91,7 +91,7 @@ export default {
 
         onDislikedUsersReview() {
             if (this.review.dislikes) {
-                this.getReviewDislikedUsers(this.review.id)
+                this.getUsersWhoDislikedReview(this.review.id)
                     .then( () => {
                         alert(JSON.stringify(this.reviewDislikedUsers));
                     });

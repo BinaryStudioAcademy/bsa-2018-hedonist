@@ -12,12 +12,12 @@ export default {
         state.reviews.allIds.push(review.id);
     },
 
-    SET_REVIEW_LIKED_USERS: (state, users) => {
-        state.reviewLikedUsers = users;
+    SET_USERS_WHO_LIKED_REVIEW: (state, users) => {
+        state.usersWhoLikedReview = users;
     },
 
-    SET_REVIEW_DISLIKED_USERS: (state, users) => {
-        state.reviewDislikedUsers = users;
+    SET_USERS_WHO_DISLIKED_REVIEW: (state, users) => {
+        state.usersWhoDislikedReview = users;
     },
 
     SET_CURRENT_PLACE_REVIEWS: (state, reviews) => {

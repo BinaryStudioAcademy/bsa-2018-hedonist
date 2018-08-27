@@ -11,6 +11,6 @@ export default {
     },
     reviews: {},
     users: {},
-    reviewLikedUsers: [],
-    reviewDislikedUsers: []
+    usersWhoLikedReview: [],
+    usersWhoDislikedReview: []
 };

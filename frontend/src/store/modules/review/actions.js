@@ -71,10 +71,10 @@ export default {
             });
     },
 
-    getReviewLikedUsers: (context, id) => {
+    getUsersWhoLikedReview: (context, id) => {
         httpService.get(`reviews/${id}/users-liked`)
             .then( (res) => {
-                context.commit('SET_REVIEW_LIKED_USERS', res.data.data);
+                context.commit('SET_USERS_WHO_LIKED_REVIEW', res.data.data);
                 return Promise.resolve(res);
             })
             .catch( (err) => {
@@ -82,17 +82,17 @@ export default {
             });
     },
 
-    getReviewDislikedUsers: (context, id) => {
+    getUsersWhoDislikedReview: (context, id) => {
         httpService.get(`reviews/${id}/users-disliked`)
             .then( (res) => {
-                context.commit('SET_REVIEW_DISLIKED_USERS', res.data.data);
+                context.commit('SET_USERS_WHO_DISLIKED_REVIEW', res.data.data);
                 return Promise.resolve(res);
             })
             .catch( (err) => {
                 return Promise.reject(err);
             });
     },
-    
+
     likeReview: (context, id) => {
         return new Promise((resolve, reject) => {
             httpService.post('reviews/' + id + '/like')
