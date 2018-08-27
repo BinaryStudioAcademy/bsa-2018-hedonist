@@ -10,7 +10,7 @@ export default {
                 description: review.description
             })
                 .then(function (res) {
-                    context.commit('userList/ADD_REVIEW_USER', {
+                    context.commit('ADD_REVIEW_USER', {
                         data: context.rootState.auth.currentUser
                     });
                     const review = Object.assign({}, res.data.data);

@@ -4,7 +4,7 @@ export default {
             const review = state.reviews.byId[id];
 
             return Object.assign({}, review, {
-                user: rootState.userList.normalizeReviewUsers.byId[review.user_id]
+                user: state.users.byId[review.user_id]
             });
         });
     },
