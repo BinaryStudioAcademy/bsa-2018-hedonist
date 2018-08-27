@@ -17,8 +17,10 @@ yarn-error.log
 
 .mysqldata
 .elasticdata
+.redis
+.queue
+
 /public/mix-manifest.json
 /public/dist
-.redisdata
 
 .phpunit.result.cache
