@@ -83,18 +83,18 @@ export default {
         onLikedUsersReview() {
             if (this.review.likes) {
                 this.getReviewLikedUsers(this.review.id)
-                .then( () => {
-                    alert(JSON.stringify(this.reviewLikedUsers));
-                });
+                    .then( () => {
+                        alert(JSON.stringify(this.reviewLikedUsers));
+                    });
             }
         },
 
         onDislikedUsersReview() {
             if (this.review.dislikes) {
                 this.getReviewDislikedUsers(this.review.id)
-                .then( () => {
-                    alert(JSON.stringify(this.reviewDislikedUsers));
-                });
+                    .then( () => {
+                        alert(JSON.stringify(this.reviewDislikedUsers));
+                    });
             }
         }
     }

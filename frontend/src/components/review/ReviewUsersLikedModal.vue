@@ -2,10 +2,10 @@
     <form @submit.prevent>
         <div class="modal-card" style="width: auto">
             <header class="modal-card-head">
-                <p class="modal-card-title">Rate place</p>
+                <p class="modal-card-title">Likes or dislikes</p>
             </header>
             <section class="modal-card-body">
-                
+                <p>Users</p>
             </section>
             <footer class="modal-card-foot">
                 <button class="button" type="button" @click="$parent.close()">Close</button>
