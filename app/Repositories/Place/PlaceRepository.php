@@ -4,6 +4,7 @@ namespace Hedonist\Repositories\Place;
 
 use Hedonist\Entities\Place\Location;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -63,10 +64,10 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
             'localization',
             'localization.language',
             'likes',
+            'photos',
             'dislikes',
-            'ratings',
-            'photos')
-            ->get();
+            'ratings'
+        )->get();
     }
 
     public function findByCriteria(CriteriaInterface $criteria): Collection
@@ -94,5 +95,14 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     public function getByList(int $listId): Collection
     {
         return UserList::find($listId)->places()->get();
+    }
+
+    public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection
+    {
+        foreach ($criterias as $criteria) {
+            $this->pushCriteria($criteria);
+        }
+
+        return $this->all();
     }
 }

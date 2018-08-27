@@ -10,23 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class GetPlaceCollectionAction
 {
     private $placeRepository;
-    private $reviewRepository;
 
-    public function __construct(
-        PlaceRepositoryInterface $placeRepository,
-        ReviewRepositoryInterface $reviewRepository)
+    public function __construct(PlaceRepositoryInterface $placeRepository)
     {
         $this->placeRepository = $placeRepository;
-        $this->reviewRepository = $reviewRepository;
     }
 
     public function execute(GetPlaceCollectionRequest $request): GetPlaceCollectionResponse
     {
         $places = $this->placeRepository->getAllWithRelations();
-        $reviews = $this->reviewRepository->findByCriteria(
-            new GetLastReviewByPlaceIdsCriteria($places->pluck('id')->toArray())
-        );
 
-        return new GetPlaceCollectionResponse($places, $reviews, Auth::user());
+        return new GetPlaceCollectionResponse($places, Auth::user());
     }
 }
