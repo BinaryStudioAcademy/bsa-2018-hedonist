@@ -4,7 +4,6 @@ namespace Hedonist\Repositories\Place;
 
 use Hedonist\Entities\Place\Location;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
