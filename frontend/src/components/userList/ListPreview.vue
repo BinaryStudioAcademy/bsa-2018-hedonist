@@ -101,6 +101,7 @@ export default {
         color: grey;
         max-width: 100%;
         margin-bottom: 1rem;
+        margin-left: 0;
         padding: 10px;
     }
     .columns {
