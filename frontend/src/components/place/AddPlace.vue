@@ -385,8 +385,10 @@
                         </div>
                     </div>
 
+
+
                     <div class="level is-centered">
-                        <div class="level-item"><a class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
+                        <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
                     </div>
 
                     <div class="buttons is-centered">
@@ -446,7 +448,37 @@ export default {
                 phone: '',
                 twitter: '',
                 facebook: '',
-                instagram: ''
+                instagram: '',
+                worktime: {
+                    'mo': {
+                        start:  '10',
+                        end:    '21'
+                    },
+                    'tu': {
+                        start:  '10',
+                        end:    '21'
+                    },
+                    'we': {
+                        start:  '10',
+                        end:    '21'
+                    },
+                    'th': {
+                        start:  '10',
+                        end:    '21'
+                    },
+                    'fr': {
+                        start:  '10',
+                        end:    '21'
+                    },
+                    'sa': {
+                        start:  '10',
+                        end:    '21'
+                    },
+                    'su': {
+                        start:  '10',
+                        end:    '21'
+                    },
+                }
             },
             allCategories: [],
             allFeatures: [],
@@ -454,8 +486,8 @@ export default {
             category_tags: [],
 
             weekdays: [],
-            timeStart: new Date(),
-            timeEnd: new Date(),
+            timeStart: new Date(0,0,0,10),
+            timeEnd: new Date(0,0,0,21)
         };
     },
 
@@ -535,6 +567,13 @@ export default {
             } else {
                 this.newPlace.features.splice(index, 1);
             }
+        },
+
+        onWorkTimeAdd() {
+            this.weekdays.forEach((item) => {
+                this.newPlace.worktime[item].start = this.timeStart.getHours();
+                this.newPlace.worktime[item].end = this.timeEnd.getHours();
+            });
         },
 
         onAdd() {
