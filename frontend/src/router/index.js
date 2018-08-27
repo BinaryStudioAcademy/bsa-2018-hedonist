@@ -6,7 +6,7 @@ import NewPlacePage from '@/pages/NewPlacePage';
 import UserListsPage from '@/pages/UserListsPage';
 import PlaceListPage from  '@/pages/PlaceListPage';
 import HistoryPage from '@/pages/HistoryPage';
-import SeachPlacePage from  '@/pages/SeachPlacePage';
+import SearchPlacePage from  '@/pages/SearchPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
 import UserListAddPage from '@/pages/UserListAddPage';
@@ -56,8 +56,8 @@ export default new Router({
             },
             {
                 path: '/search',
-                name: 'SeachPlacePage',
-                component: SeachPlacePage
+                name: 'SearchPlacePage',
+                component: SearchPlacePage
             },
             {
                 path: '/places/:id',

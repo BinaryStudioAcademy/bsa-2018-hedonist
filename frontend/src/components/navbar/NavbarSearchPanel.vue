@@ -49,7 +49,7 @@ export default {
                 category = this.category.id;
             }
             this.$router.push({
-                path: 'search',
+                name: 'SearchPlacePage',
                 query: {
                     category: category,
                     location: location,
