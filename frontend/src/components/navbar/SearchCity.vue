@@ -18,7 +18,7 @@
                     @click="findByCurrentLocation"
                     :class="{'enabled': locationEnabled}"
                 >
-                    <b-icon pack="fas" icon="location-arrow"></b-icon>
+                    <b-icon pack="fas" icon="location-arrow" />
                 </button>
             </p>
         </b-field>
