@@ -51,7 +51,7 @@ export default {
         });
     },
 
-    /*likeReviewSearch: (context, id) => {
+    likeReviewSearch: (context, id) => {
         httpService.post(`reviews/${id}/like`)
             .then( (res) => {
                 return Promise.resolve(res);
@@ -69,7 +69,7 @@ export default {
             .catch((err) => {
                 return Promise.reject(err);
             });
-    },*/
+    },
 
     likeReview: (context, id) => {
         return new Promise((resolve, reject) => {

@@ -48,21 +48,21 @@ export default {
         }
     },
     methods: {
-        ...mapActions('review', ['likeReview', 'dislikeReview']),
-        ...mapMutations('review', {
+        ...mapActions('review', ['likeReviewSearch', 'dislikeReviewSearch']),
+        ...mapMutations('place', {
             updateReviewLikedState: 'UPDATE_REVIEW_LIKED_STATE',
             updateReviewDislikedState: 'UPDATE_REVIEW_DISLIKED_STATE'
         }),
 
         onLikeReview() {
-            this.likeReview(this.review.id)
+            this.likeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewLikedState(this.review.id);
                 });
         },
 
         onDislikeReview() {
-            this.dislikeReview(this.review.id)
+            this.dislikeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewDislikedState(this.review.id);
                 });
