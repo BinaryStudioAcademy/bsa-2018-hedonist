@@ -29,10 +29,10 @@ export default {
                     const currentPlace = response.data.data;
                     context.commit('SET_CURRENT_PLACE', currentPlace);
 
-                    let normalizeReviewsObj = context.dispatch('review/normalizeReviews', currentPlace.reviews, { root: true });
+                    let normalizeReviewsObj = normalizeReviews(context, currentPlace.reviews);
                     context.commit('review/SET_CURRENT_PLACE_REVIEWS', normalizeReviewsObj, { root: true });
 
-                    let normalizeUsersObj = context.dispatch('userList/normalizeUsers', normalizeReviewsObj, { root: true });
+                    let normalizeUsersObj = normalizeUsers(normalizeReviewsObj);
                     context.commit('userList/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsersObj, { root: true });
 
                     resolve();
@@ -103,3 +103,36 @@ const createSearchQueryUrl = (filters) => {
         + '&filter[location]=' + location
         + '&page=' + page;
 };
+
+function normalizeReviews(context, reviews) {
+    reviews.forEach(function(review) { review.user_id = review.user.id; });
+    let transformedCurrentPlaceReviews = normalizerService.normalize({ data: reviews }, context.rootState.review.getReviewSchema());
+    transformedCurrentPlaceReviews.allIds = [];
+    for (let k in transformedCurrentPlaceReviews.byId)
+        transformedCurrentPlaceReviews.allIds.push(parseInt(k));
+    return transformedCurrentPlaceReviews;
+}
+
+function normalizeUsers(reviews) {
+    let allUserIds = [];
+    let users = [];
+    for (let key in reviews.byId) {
+        if (!reviews.byId.hasOwnProperty(key)) continue;
+        let userId = reviews.byId[key].user.id;
+        if (! allUserIds.includes(userId)) {
+            users.push(reviews.byId[key].user);
+            allUserIds.push(userId);
+        }
+    }
+
+    let normalizeUsers = normalizerService.normalize({ data:users }, {
+        first_name: '',
+        last_name: '',
+        avatar_url: ''
+    });
+    normalizeUsers.allIds = [];
+    for (let k in normalizeUsers.byId)
+        normalizeUsers.allIds.push(parseInt(k));
+
+    return normalizeUsers;
+}
