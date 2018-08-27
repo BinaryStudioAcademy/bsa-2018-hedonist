@@ -81,7 +81,7 @@
                                 <router-link
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'HistoryPage' }"
-                                >History
+                                >Checkins
                                 </router-link>
                                 <a
                                     class="navbar-item"
