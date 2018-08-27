@@ -51,10 +51,10 @@ export default {
                     normalizedCities = normalizerService.updateAllIds(normalizedCities);
                     normalizedCategories = normalizerService.updateAllIds(normalizedCategories);
 
-                    context.commit('SET_NORMALIZED_USER_LISTS', normalizedUserLists);
-                    context.commit('SET_NORMALIZED_PLACES', normalizedPlaces);
-                    context.commit('SET_NORMALIZED_CITIES', normalizedCities);
-                    context.commit('SET_NORMALIZED_CATEGORIES', normalizedCategories);
+                    context.commit('SET_USER_LISTS', normalizedUserLists);
+                    context.commit('SET_PLACES', normalizedPlaces);
+                    context.commit('SET_CITIES', normalizedCities);
+                    context.commit('SET_CATEGORIES', normalizedCategories);
 
                     resolve();
                 })

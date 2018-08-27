@@ -14,25 +14,25 @@ export default {
     },
 
     getById: state => id => {
-        return state.userListsNormalized.byId[id];
+        return state.userLists.byId[id];
     },
 
-    getUniqueCitiesNormalized: (state, getters) => userList => {
+    getUniqueCities: (state, getters) => userList => {
         let cities = {};
         userList.places
-            .map(id => state.placesNormalized.byId[id].city_id)
+            .map(id => state.places.byId[id].city_id)
             .forEach((id) => {
-                cities[id] = state.citiesNormalized.byId[id]
+                cities[id] = state.cities.byId[id]
             });
         return cities;
     },
 
-    getFilteredNormalizedByCity: (state, getters) => (userLists, cityId) => {
+    getFilteredByCity: (state, getters) => (userLists, cityId) => {
         let filtered = {};
         Object.keys(userLists).forEach( (key) => {
             let userList = userLists[key];
             let cities = Object.keys(
-                getters.getUniqueCitiesNormalized(userList)
+                getters.getUniqueCities(userList)
             ).filter(
                 id => parseInt(id) === cityId
             );
@@ -42,6 +42,6 @@ export default {
     },
 
     getPlaceById: (state, getters) => (id) => {
-        return state.placesNormalized.byId[id];
+        return state.places.byId[id];
     }
 };

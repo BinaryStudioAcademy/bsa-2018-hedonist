@@ -1,6 +1,6 @@
 export default {
-    userListsNormalized : null,
-    placesNormalized : null,
-    citiesNormalized : null,
-    categoriesNormalized : null,
+    userLists : null,
+    places : null,
+    cities : null,
+    categories : null,
 };

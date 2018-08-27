@@ -49,7 +49,7 @@ export default {
     },
     computed: {
         ...mapGetters('userList', {
-            getUniqueCities : 'getUniqueCitiesNormalized'
+            getUniqueCities : 'getUniqueCities'
         }),
         uniqueCities: function () {
             return this.getUniqueCities(this.userList);

@@ -2,16 +2,13 @@ export default {
     SET_USER_LISTS: (state, userLists) => {
         state.userLists = userLists;
     },
-    SET_NORMALIZED_USER_LISTS: (state, userLists) => {
-        state.userListsNormalized = userLists;
+    SET_PLACES: (state, places) => {
+        state.places = places;
     },
-    SET_NORMALIZED_PLACES: (state, places) => {
-        state.placesNormalized = places;
+    SET_CITIES: (state, cities) => {
+        state.cities = cities;
     },
-    SET_NORMALIZED_CITIES: (state, cities) => {
-        state.citiesNormalized = cities;
-    },
-    SET_NORMALIZED_CATEGORIES: (state, categories) => {
-        state.categoriesNormalized = categories;
+    SET_CATEGORIES: (state, categories) => {
+        state.categories = categories;
     },
 };
