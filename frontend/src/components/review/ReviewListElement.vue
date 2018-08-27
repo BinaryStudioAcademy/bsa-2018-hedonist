@@ -93,7 +93,7 @@ export default {
                 });
         },
 
-        ...mapActions('place', ['likeReview', 'dislikeReview']),
+        ...mapActions('review', ['likeReview', 'dislikeReview']),
         onLikeReview() {
             this.likeReview(this.review.id);
         },

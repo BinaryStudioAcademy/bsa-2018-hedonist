@@ -543,6 +543,10 @@ export default {
         }
     },
 
+    updated() {
+        window.dispatchEvent(new Event('resize'));
+    },
+
     computed: {
         ...mapGetters('auth', ['getAuthenticatedUser']),
         user() {
