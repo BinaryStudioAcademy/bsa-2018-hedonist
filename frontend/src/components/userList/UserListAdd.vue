@@ -1,27 +1,41 @@
 <template>
     <div class="container">
-        <div class="top-left">
-            <div class="photo-section">
-                <div>
-                    <img
-                        class="list-page-image"
-                        src=""
-                        alt=""
-                    >
+        <form
+            class="form"
+            @submit.prevent
+            novalidate="true"
+        >
+            <div class="top-left">
+                <div class="image-upload">
+                    <div class="image-wrapper">
+                        <img :src="userList.image || imageStub">
+                    </div>
+                    <div class="field">
+                        <div class="file is-primary">
+                            <label class="file-label width100">
+                                <input @change="previewImage" class="file-input" type="file" name="photo">
+                                <span class="file-cta width100">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">
+                                      Load a preview
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="selector-button flatButton">Photo ▾</div>
+                <div class="name-desc-section">
+                    <label class="label" for="list-title">Title</label>
+                    <input id="list-title" type="text" class="text" name="title">
+                    <div class="top-right">
+                        <button class="button-green" @click="onSave">Save</button>
+                        <button class="button-grey">Delete</button>
+                    </div>
+                </div>
             </div>
-            <div class="name-desc-section">
-                <input
-                    type="text"
-                    class="text"
-                >
-            </div>
-        </div>
-        <div class="top-right">
-            <button class="button-green">Save</button>
-            <button class="button-grey">Delete</button>
-        </div>
+        </form>
         <div class="bottom-left">
             <div class="search-places">
                 <input
@@ -35,7 +49,7 @@
                     v-show="displayList"
                     v-click-outside="onClickOutside"
                 >
-                    <li>
+                    <li v-for="place in places">
                         <a href="#">
                             <img
                                 height="32"
@@ -45,23 +59,7 @@
                                 alt="place image"
                             >
                             <div class="search-places__list__details">
-                                <div class="search-places__list__name">Yankee Stadium</div>
-                                <div class="search-places__list__description">1 E 161st St (btwn Jerome & Rivera Ave)
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img
-                                height="32"
-                                width="32"
-                                class="search-places__list__img"
-                                src="https://ss3.4sqi.net/img/categories_v2/arts_entertainment/stadium_baseball_bg_32.png"
-                                alt="place image"
-                            >
-                            <div class="search-places__list__details">
-                                <div class="search-places__list__name">Yankee Stadium</div>
+                                <div class="search-places__list__name">{{ place.localization[0].name }}</div>
                                 <div class="search-places__list__description">1 E 161st St (btwn Jerome & Rivera Ave)
                                 </div>
                             </div>
@@ -86,6 +84,8 @@
                         show: true,
                         position: 'top-left'
                     }"
+                    @map-init="mapInitialize"
+                    @map-load="mapLoaded"
                 />
             </div>
         </div>
@@ -93,7 +93,10 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import Mapbox from 'mapbox-gl-vue';
+import markerManager from '@/services/map/markerManager';
+import imageStub from '@/assets/no-photo.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
@@ -105,27 +108,145 @@ export default {
         return {
             displayList: false,
             mapboxToken: mapSettingsService.getMapboxToken(),
-            mapboxStyle: mapSettingsService.getMapboxStyle()
+            mapboxStyle: mapSettingsService.getMapboxStyle(),
+            userList: {
+                title: null,
+                image: null
+            },
+            errors: null,
+            places: null,
+            imageStub: imageStub,
+            availableImageTypes: [
+                'image/jpeg',
+                'image/jpg',
+                'image/png',
+            ]
         };
     },
+    created() {
+        this.fetchPlaces()
+            .then((res) => this.places = res.data.data)
+    },
     methods: {
+        ...mapActions({
+            save: 'userList/saveUserLists',
+            fetchPlaces: 'place/fetchPlaces'
+        }),
+
+        onSave () {
+            this.save(1)
+                .then((res) => console.log(res));
+            // if (!this.$v.user.$invalid) {
+            //     this.login(this.user)
+            //         .then( (res) => {
+            //             this.onSuccess({
+            //                 message: 'Welcome!'
+            //             });
+            //             this.refreshInput();
+            //             this.$router.push({name: 'home'});
+            //         })
+            //         .catch( (err) => {
+            //             this.onError(err.response.data);
+            //         });
+            // } else {
+            //     this.onError({
+            //         message: 'Please, check your input data'
+            //     });
+            // }
+        },
+
+        onError (error) {
+            this.$toast.open({
+                message: 'The email or password is incorrect',
+                type: 'is-danger'
+            });
+        },
+        onSuccess (success) {
+            this.$toast.open({
+                message: success.message,
+                type: 'is-success'
+            });
+        },
         keyUp() {
             this.displayList = true;
         },
         onClickOutside() {
             this.displayList = false;
-        }
-    }
+        },
+        previewImage: function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            this.imageData = null;
+            if (file) {
+                reader.onload = (e) => {
+                    if (this.checkFileType(file.type)) {
+                        this.imageData = e.target.result;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        },
+        checkFileType(fileType) {
+            return this.availableImageTypes.includes(fileType);
+        },
+        mapInitialize(map) {
+            // map.fitBounds();
+        },
+        mapLoaded(map) {
+            this.markerManager = markerManager.getService(map);
+        },
+    },
+    // validations: {
+    //     userList: {
+    //         title: {
+    //             required,
+    //         },
+    //         image: {
+    //             required,
+    //         },
+    //     }
+    // }
 };
 </script>
 
+<style>
+    .mapboxgl-canvas {
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+    }
+</style>
+
 <style lang="scss" scoped>
+    .width100 {
+        width: 100%;
+    }
+
+    .form {
+        grid-area: form;
+    }
+
+    .image-wrapper {
+        width: 180px;
+        height: 128px;
+        overflow: hidden;
+        margin-bottom: 10px;
+
+        img {
+            border-radius: 5px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
+    }
     .container {
         border-radius: 3px;
         background: #fff;
         position: relative;
         display: grid;
-        grid-template-areas: "top-left top-left top-right" "bottom-left bottom-left bottom-right";
+        grid-template-areas: "form bottom-right" "bottom-left bottom-right";
         margin-top: 40px;
     }
 
@@ -165,13 +286,12 @@ export default {
 
         .name-desc-section {
             width: 83%;
+            margin-left: 30px;
         }
     }
 
     .top-right {
         grid-area: top-right;
-        border-left: 1px solid #e8e9eb;
-        background-color: #f0f4f5;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -179,6 +299,7 @@ export default {
 
     .bottom-left {
         grid-area: bottom-left;
+        height: 1000px;
 
         .search-places {
             background: #f0f4f5;
@@ -269,10 +390,12 @@ export default {
         grid-area: bottom-right;
         border-left: 1px solid #e8e9eb;
         border-top: 1px solid #e8e9eb;
+        position: relative;
 
         .mapbox-wrapper {
-            position: relative;
-            height: 320px;
+            position: sticky;
+            top: 50px;
+            height: calc(100vh - 50px);
 
             #map {
                 text-align: justify;

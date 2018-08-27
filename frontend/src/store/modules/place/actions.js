@@ -44,7 +44,7 @@ export default {
         });
     },
 
-    fetchPlaces: (context, filters) => {
+    fetchPlaces: (context, filters = {}) => {
         let queryUrl = createSearchQueryUrl(filters);
         return new Promise((resolve, reject) => {
             httpService.get('/places/search' + queryUrl)

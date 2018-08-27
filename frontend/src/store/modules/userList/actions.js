@@ -29,5 +29,15 @@ export default {
                     reject(error);
                 });
         });
+    },
+
+    saveUserLists: (context, userId) => {
+        return httpService.post('/user-lists/', {
+            'user_id': userId,
+            'name': 'Caffe',
+            'img_url': 'http://test.image',
+        }).then( (result) => {
+            return result.data.data;
+        });
     }
 };
