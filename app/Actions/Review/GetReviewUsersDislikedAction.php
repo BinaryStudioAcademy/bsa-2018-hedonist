@@ -15,10 +15,10 @@ class GetReviewUsersDislikedAction
 
     public function execute(GetReviewUsersDislikedRequest $request): GetReviewUsersDislikedResponse
     {
-        $dislikes = $this->reviewRepository->getById($request->getReviewId())->dislikes();
+        $dislikes = $this->reviewRepository->getById($request->getReviewId())->dislikes->all();
         $users = [];
         foreach ($dislikes as $dislike) {
-            $users[] = $dislike->user();
+            $users[] = $dislike->user;
         }
 
         return new GetReviewUsersDislikedResponse($users);

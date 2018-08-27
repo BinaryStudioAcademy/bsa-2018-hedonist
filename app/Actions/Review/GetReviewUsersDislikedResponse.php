@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Collection;
 
 class GetReviewUsersDislikedResponse
 {
-    private $userCollection;
+    private $users;
 
-    public function __construct(Collection $users)
+    public function __construct(Array $users)
     {
-        $this->userCollection = $users;
+        $this->users = $users;
     }
 
-    public function getUserCollection(): array
+    public function getUsers(): array
     {
-        return $this->userCollection->toArray();
+        return $this->users;
     }
 }

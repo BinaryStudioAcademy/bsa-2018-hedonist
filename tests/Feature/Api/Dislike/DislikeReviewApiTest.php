@@ -95,4 +95,24 @@ class DislikeReviewApiTest extends ApiTestCase
             'user_id' => $this->user->id
         ]);
     }
+
+    public function test_get_users_disliked_review()
+    {
+        $review = factory(Review::class)->create();
+
+        $dislike = factory(Dislike::class)->create([
+            'user_id' => $this->user->id,
+            'dislikeable_id' => $review->id,
+            'dislikeable_type' => Review::class
+        ]);
+
+        $response = $this->actingWithToken($this->user)->get(
+            "/api/v1/reviews/$review->id/users-disliked"
+        );
+
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'id' => $this->user->id
+        ]);
+    }
 }

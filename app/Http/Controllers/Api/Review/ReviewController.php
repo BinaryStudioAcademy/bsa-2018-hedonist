@@ -19,7 +19,7 @@ use Hedonist\Actions\Review\{
     DeleteReviewRequest,
     UpdateReviewDescriptionRequest,
     GetReviewUsersLikedRequest,
-    GetREviewUsersDislikeRequest
+    GetReviewUsersDislikedRequest
 };
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Exceptions\User\UserNotFoundException;
@@ -135,7 +135,7 @@ class ReviewController extends ApiController
             $getReviewUsersLikedResponse = $this->getReviewUsersLikedAction->execute(
                 new GetReviewUsersLikedRequest($id)
             );
-            return $this->successResponse([$getReviewUsersLikedResponse->getUserCollection()], 200);
+            return $this->successResponse([$getReviewUsersLikedResponse->getUsers()], 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
@@ -144,10 +144,10 @@ class ReviewController extends ApiController
     public function getReviewUsersDisliked($id)
     {
         try {
-            $getReviewUsersDisikedResponse = $this->getReviewUsersDislikedAction->execute(
+            $getReviewUsersDislikedResponse = $this->getReviewUsersDislikedAction->execute(
                 new GetReviewUsersDislikedRequest($id)
             );
-            return $this->successResponse([$getReviewUsersDislikedResponse->getUserCollection()], 200);
+            return $this->successResponse([$getReviewUsersDislikedResponse->getUsers()], 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }

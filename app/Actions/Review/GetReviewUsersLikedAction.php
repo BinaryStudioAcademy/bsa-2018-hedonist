@@ -15,10 +15,10 @@ class GetReviewUsersLikedAction
 
     public function execute(GetReviewUsersLikedRequest $request): GetReviewUsersLikedResponse
     {
-        $likes = $this->reviewRepository->getById($request->getReviewId())->likes();
+        $likes = $this->reviewRepository->getById($request->getReviewId())->likes->all();
         $users = [];
         foreach ($likes as $like) {
-            $users[] = $like->user();
+            $users[] = $like->user;
         }
 
         return new GetReviewUsersLikedResponse($users);

@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\Review;
 
-class GetReviewUsersDisikedRequest
+class GetReviewUsersDislikedRequest
 {
     private $reviewId;
 

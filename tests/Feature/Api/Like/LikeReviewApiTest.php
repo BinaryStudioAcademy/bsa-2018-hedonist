@@ -95,4 +95,24 @@ class LikeReviewApiTest extends ApiTestCase
             'user_id' => $this->user->id
         ]);
     }
+
+    public function test_get_users_liked_review()
+    {
+        $review = factory(Review::class)->create();
+
+        $like = factory(Like::class)->create([
+            'user_id' => $this->user->id,
+            'likeable_id' => $review->id,
+            'likeable_type' => Review::class
+        ]);
+
+        $response = $this->actingWithToken($this->user)->get(
+            "/api/v1/reviews/$review->id/users-liked"
+        );
+        
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'id' => $this->user->id
+        ]);
+    }
 }
