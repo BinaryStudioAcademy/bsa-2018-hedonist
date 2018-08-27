@@ -229,10 +229,9 @@ export default {
                 let file = this.files[0];
                 formData.append('avatar', file, file.name);
             }
-            if (this.oldPassword !== '' && this.newPassword !== '') {
-                formData.append('old_password', this.convertNullToEmptyString(this.oldPassword));
-                formData.append('new_password', this.convertNullToEmptyString(this.newPassword));
-            }
+            formData.append('old_password', this.convertNullToEmptyString(this.oldPassword));
+            formData.append('new_password', this.convertNullToEmptyString(this.newPassword));
+
             return formData;
         },
         convertNullToEmptyString(value) {
