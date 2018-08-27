@@ -71,7 +71,7 @@ export default {
     },
 
     ADD_REVIEW_USER: (state, user) => {
-        if (state.normalizeReviewUsers.allIds.includes(user.data.id)) {
+        if (state.users.allIds.includes(user.data.id)) {
             return;
         }
         const newUser = normalizer.normalize(user, {
@@ -79,12 +79,12 @@ export default {
             last_name: '',
             avatar_url: ''
         });
-        state.normalizeReviewUsers.byId = Object.assign(
+        state.users.byId = Object.assign(
             {},
-            state.normalizeReviewUsers.byId,
+            state.users.byId,
             newUser.byId
         );
-        state.normalizeReviewUsers.allIds.push(user.data.id);
+        state.users.allIds.push(user.data.id);
     },
 };
 
