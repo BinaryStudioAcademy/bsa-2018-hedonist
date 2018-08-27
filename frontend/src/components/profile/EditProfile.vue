@@ -3,7 +3,8 @@
         <div class="columns">
             <div class="column is-one-third">
                 <figure class="image avatar">
-                    <img :src="user.avatar_url">
+                    <img v-if="user.avatar_url" :src="user.avatar_url">
+                    <i v-else class="fas fa-file-image fa-8x" />
                 </figure>
                 <b-field class="file is-fullwidth">
                     <b-upload
@@ -250,6 +251,7 @@ export default {
     }
 
     .avatar {
+        text-align: center;
         margin-bottom: 10px;
     }
 
