@@ -7,7 +7,7 @@ export default {
             like: 'NONE',
             likes: 0,
             user_id: 0
-        }
+        };
     },
     reviews: {},
     users: {}
