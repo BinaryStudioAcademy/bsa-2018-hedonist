@@ -58,7 +58,7 @@ export default {
                 });
         }, 250),
         findByCurrentLocation() {
-            this.findCity.query = 'Current location';
+            this.findCity.query = this.$t('search.current_location');
             this.$emit('select', this.userLocation);
         }
     },
@@ -75,7 +75,7 @@ export default {
     },
     computed: {
         locationEnabled() {
-            return this.findCity.query === 'Current location';
+            return this.findCity.query === this.$t('search.current_location');
         }
     }
 };
