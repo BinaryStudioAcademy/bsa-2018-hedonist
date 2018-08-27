@@ -44,7 +44,6 @@ export default {
         markers.forEach((marker) => removeMarker(marker));
     },
     addMarkersFromPlaces(map,...places) {
-        console.log(places);
         return places.map((item) => addMarker(map)(parser(item)));
     }
 };
