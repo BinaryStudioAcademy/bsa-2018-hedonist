@@ -18,7 +18,7 @@ class GetReviewUsersLikedAction
         $likes = $this->reviewRepository->getById($request->getReviewId())->likes->all();
         $users = [];
         foreach ($likes as $like) {
-            $users[] = $like->user;
+            $users[] = $like->user->info;
         }
 
         return new GetReviewUsersLikedResponse($users);

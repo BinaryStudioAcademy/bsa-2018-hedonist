@@ -18,7 +18,7 @@ class GetReviewUsersDislikedAction
         $dislikes = $this->reviewRepository->getById($request->getReviewId())->dislikes->all();
         $users = [];
         foreach ($dislikes as $dislike) {
-            $users[] = $dislike->user;
+            $users[] = $dislike->user->info;
         }
 
         return new GetReviewUsersDislikedResponse($users);
