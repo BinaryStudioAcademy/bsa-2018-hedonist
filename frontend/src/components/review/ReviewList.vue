@@ -91,7 +91,7 @@ export default {
 
         isReviewsExist() {
             return !_.isEmpty(this.place.reviews);
-        }
+        },
     },
 
     methods: {

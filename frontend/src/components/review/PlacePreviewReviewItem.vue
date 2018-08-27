@@ -18,6 +18,8 @@
             </div>
             <LikeDislikeButton
                 font-size="0.7rem"
+                @like="onLikeReview"
+                @dislike="onDislikeReview"
                 :likes="review.likes"
                 :dislikes="review.dislikes"
                 :status="review.like"
@@ -28,6 +30,7 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex';
 import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
 
 export default {
@@ -42,6 +45,27 @@ export default {
     computed:{
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
+        }
+    },
+    methods: {
+        ...mapActions('review', ['likeReview', 'dislikeReview']),
+        ...mapMutations('place', {
+            updateReviewLikedState: 'UPDATE_REVIEW_LIKED_STATE',
+            updateReviewDislikedState: 'UPDATE_REVIEW_DISLIKED_STATE'
+        }),
+
+        onLikeReview() {
+            this.likeReview(this.review.id)
+                .then( () => {
+                    this.updateReviewLikedState(this.review.id);
+                });
+        },
+
+        onDislikeReview() {
+            this.dislikeReview(this.review.id)
+                .then( () => {
+                    this.updateReviewDislikedState(this.review.id);
+                });
         }
     }
 };

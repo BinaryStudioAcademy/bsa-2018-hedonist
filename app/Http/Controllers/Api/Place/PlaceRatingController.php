@@ -9,9 +9,9 @@ use Hedonist\Http\Requests\Place\Rate\{
     SetRatingHttpRequest,
     GetRatingHttpRequest
 };
-use Hedonist\Actions\Place\GetPlaceRating\{
-    GetPlaceRatingAction,
-    GetPlaceRatingRequest
+use Hedonist\Actions\Place\GetUserRatingForPlace\{
+    GetUserRatingForPlaceAction,
+    GetUserRatingForPlaceRequest
 };
 use Hedonist\Actions\Place\SetPlaceRating\{
     SetPlaceRatingAction,
@@ -29,7 +29,7 @@ class PlaceRatingController extends ApiController
     private $getPlaceRatingAvgAction;
 
     public function __construct(
-        GetPlaceRatingAction $getRatingAction,
+        GetUserRatingForPlaceAction $getRatingAction,
         SetPlaceRatingAction $setRatingAction,
         GetPlaceRatingAvgAction $getPlaceRateAvgAction
     ) {
@@ -38,18 +38,18 @@ class PlaceRatingController extends ApiController
         $this->getPlaceRatingAvgAction = $getPlaceRateAvgAction;
     }
 
-    public function setRating(SetRatingHttpRequest $httpRequest) : JsonResponse
+    public function setRating(int $id, SetRatingHttpRequest $httpRequest) : JsonResponse
     {
         try {
             $setPlaceRatingResponse = $this->setRatingAction->execute(
                 new SetPlaceRatingRequest(
                     $httpRequest->rating,
-                    $httpRequest->place_id
+                    $id
                 )
             );
             $getPlaceRatingAvgResponse = $this->getPlaceRatingAvgAction->execute(
                 new GetPlaceRatingAvgRequest(
-                    $httpRequest->place_id
+                    $id
                 )
             );
         } catch (DomainException $ex) {
@@ -70,7 +70,7 @@ class PlaceRatingController extends ApiController
     {
         try {
             $getPlaceMyRating = $this->getRatingAction->execute(
-                new GetPlaceRatingRequest(
+                new GetUserRatingForPlaceRequest(
                     $placeId
                 )
             );

@@ -76,7 +76,8 @@ export default {
         margin: 1.5rem auto;
         padding: 10px;
         text-align: left;
-        width: 600px;
+        width: 100%;
+        max-width: 600px;
         background-color: #FFF;
     }
 

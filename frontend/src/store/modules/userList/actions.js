@@ -21,21 +21,14 @@ export default {
             httpService.post('/user-lists/' + payload.listId + '/attach-place', {
                 id: payload.placeId
             })
-                .then( (result) => {
+                .then((result) => {
                     context.dispatch('getListsByUser');
                     resolve(result);
                 })
-                .catch( (error) => {
+                .catch((error) => {
                     reject(error);
                 });
         });
-    },
-
-    getUserLists: (context, userId) => {
-        return httpService.get('/users/' + userId + '/lists')
-            .then( (result) => {
-                return result.data.data;
-            });
     },
 
     normalizeUsers: (reviews) => {

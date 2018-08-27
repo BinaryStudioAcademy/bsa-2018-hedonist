@@ -16,8 +16,18 @@ export default {
             httpService.get('/users/me/checkins')
                 .then(function ({ data }) {
                     let checkIns = transformCheckins(data.data);
+                    let allCheckinIds = data.data.reduce(
+                        (ids, checkin) => {
+                            ids.push(checkin.id);
+                            return ids;
+                        },
+                        []
+                    );
                     let checkInPlaces = transformPlaces(data.data);
-                    context.commit('SET_CHECK_INS', checkIns);
+                    context.commit('SET_CHECK_INS', {
+                        items: checkIns,
+                        ids: allCheckinIds
+                    });
                     context.commit('SET_PLACES', checkInPlaces);
                     resolve({checkIns, checkInPlaces});
                 })

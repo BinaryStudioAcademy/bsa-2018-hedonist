@@ -2,9 +2,11 @@ import httpService from '@/services/common/httpService';
 import normalizerService from '@/services/common/normalizerService';
 
 export default {
-    setPlaceRating: (context, data) => {
+    setPlaceRating: (context, { placeId, rating }) => {
         return new Promise((resolve, reject) => {
-            return httpService.post('/places/rating', data)
+            return httpService.post('/places/' + placeId + '/ratings', {
+                rating: rating
+            })
                 .then(response => {
                     const ratingAvg = response.data.data.rating_avg;
                     context.commit('SET_CURRENT_PLACE_RATING_VALUE', ratingAvg);

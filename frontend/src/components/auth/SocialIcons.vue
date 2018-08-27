@@ -29,9 +29,10 @@ export default {
         font-size: 2rem;
         margin-top: 1rem;
         color: rgba(121, 87, 213, 0.8);
-        cursor: pointer;
-        &:hover {
+
+        .level-item:hover {
             color: rgb(121, 87, 213);
+            cursor: pointer;
         }
     }
 </style>

@@ -1,6 +1,7 @@
 <template>
     <section class="columns">
         <section class="column is-half">
+            <SearchFilterPlace />
             <template v-for="(place, index) in places">
                 <PlacePreview
                     v-if="isPlacesLoaded"
@@ -12,9 +13,9 @@
         </section>
         <section class="column mapbox-wrapper right-side">
             <mapbox
-                :access-token="getMapboxToken"
+                :access-token="mapboxToken"
                 :map-options="{
-                    style: getMapboxStyle,
+                    style: mapboxStyle,
                     center: currentCenter,
                     zoom: 9
                 }"
@@ -33,15 +34,18 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
+import SearchFilterPlace from './SearchFilterPlace';
 import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
 import placeholderImg from '@/assets/placeholder_128x128.png';
+import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     name: 'SearchPlace',
     components: {
         PlacePreview,
         Mapbox,
+        SearchFilterPlace
     },
     data() {
         return {
@@ -49,11 +53,9 @@ export default {
             isMapLoaded: false,
             isPlacesLoaded: false,
             map: {},
-            userCoordinates: {
-                lat: 50.4547,
-                lng: 30.5238
-            },
             markerManager: null,
+            mapboxToken: mapSettingsService.getMapboxToken(),
+            mapboxStyle: mapSettingsService.getMapboxStyle()
         };
     },
     created() {
@@ -63,7 +65,7 @@ export default {
             });
     },
     methods: {
-        ...mapActions('search', ['setCurrentCenter', 'mapInitialization']),
+        ...mapActions('search', ['setCurrentPosition', 'mapInitialization']),
 
         mapInitialize(map) {
             if (this.mapInitialized) {
@@ -73,8 +75,10 @@ export default {
             this.map = map;
             LocationService.getUserLocationData()
                 .then(coordinates => {
-                    this.userCoordinates.lat = coordinates.lat;
-                    this.userCoordinates.lng = coordinates.lng;
+                    this.setCurrentPosition({
+                        latitude: coordinates.lat,
+                        longitude: coordinates.lng
+                    });
                 });
             this.mapInitialization();
         },
@@ -90,8 +94,8 @@ export default {
         createUserMarker() {
             return {
                 id: 0,
-                latitude: this.userCoordinates.lat,
-                longitude: this.userCoordinates.lng,
+                latitude: this.currentPosition.latitude,
+                longitude: this.currentPosition.longitude,
                 localization: {
                     0: {
                         description: 'Your position',
@@ -124,20 +128,16 @@ export default {
     },
     computed: {
         ...mapState('place', ['places']),
-        ...mapState('search', ['currentLatitude', 'currentLongitude', 'mapInitialized']),
+        ...mapState('search', ['currentPosition', 'mapInitialized']),
         ...mapGetters('place', ['getFilteredByName']),
-        ...mapGetters('map', [
-            'getMapboxToken',
-            'getMapboxStyle'
-        ]),
         ...mapGetters({
             user: 'auth/getAuthenticatedUser'
         }),
 
         currentCenter() {
             return {
-                lat: this.currentLatitude ? this.currentLatitude : this.userCoordinates.lat,
-                lng: this.currentLongitude ? this.currentLongitude : this.userCoordinates.lng
+                lat: this.currentPosition.latitude,
+                lng: this.currentPosition.longitude
             };
         },
 
@@ -186,7 +186,7 @@ export default {
         text-align: justify;
         position: sticky;
         position: -webkit-sticky;
-        top: 0;
+        top: 3.75rem;
         height: 100vh;
         right: 0;
         width: 100%;
