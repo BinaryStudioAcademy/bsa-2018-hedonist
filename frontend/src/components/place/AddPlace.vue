@@ -346,51 +346,51 @@
                                     <div class="column is-half">
                                         <b-field class="is-block">
                                             <b-checkbox-button
-                                                    size="is-fullwidth"
-                                                    v-model="weekdays"
-                                                    native-value="mo"
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="mo"
                                             >
                                                 Monday
                                             </b-checkbox-button>
                                             <b-checkbox-button
-                                                    size="is-fullwidth"
-                                                    v-model="weekdays"
-                                                    native-value="tu"
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="tu"
                                             >
                                                 Tuesday
                                             </b-checkbox-button>
                                             <b-checkbox-button
-                                                    size="is-fullwidth"
-                                                    v-model="weekdays"
-                                                    native-value="we"
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="we"
                                             >
                                                 Wednesday
                                             </b-checkbox-button>
                                             <b-checkbox-button
-                                                    size="is-fullwidth"
-                                                    v-model="weekdays"
-                                                    native-value="th"
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="th"
                                             >
                                                 Thursday
                                             </b-checkbox-button>
                                             <b-checkbox-button
-                                                    size="is-fullwidth"
-                                                    v-model="weekdays"
-                                                    native-value="fr"
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="fr"
                                             >
                                                 Friday
                                             </b-checkbox-button>
                                             <b-checkbox-button
-                                                    size="is-fullwidth"
-                                                    v-model="weekdays"
-                                                    native-value="sa"
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="sa"
                                             >
                                                 Saturday
                                             </b-checkbox-button>
                                             <b-checkbox-button
-                                                    size="is-fullwidth"
-                                                    v-model="weekdays"
-                                                    native-value="su"
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="su"
                                             >
                                                 Sunday
                                             </b-checkbox-button>
@@ -414,9 +414,9 @@
                     </div>
 
                     <div class="buttons is-centered">
-                            <span @click="activeTab--" class="button is-warning">Previous</span>
-                            <span @click="activeTab++" class="button is-success">Next</span>
-                        </div>
+                        <span @click="activeTab--" class="button is-warning">Previous</span>
+                        <span @click="activeTab++" class="button is-success">Next</span>
+                    </div>
                 </b-tab-item>
 
                 <b-tab-item label="Add place" :disabled="activeTab !== 5">
