@@ -63,9 +63,9 @@ class UserInfoApiTest extends ApiTestCase
         $this->assertEquals($data['date_of_birth'], $result['data']['date_of_birth']->format('Y/m/d'));
         $this->assertEquals($data['phone_number'], $result['data']['phone_number']);
         $this->assertEquals($userInfo->avatar_url, $result['data']['avatar_url']);
-        $this->assertEquals("", $result['data']['facebook_url']);
-        $this->assertEquals("", $result['data']['instagram_url']);
-        $this->assertEquals("", $result['data']['twitter_url']);
+        $this->assertEquals(null, $result['data']['facebook_url']);
+        $this->assertEquals(null, $result['data']['instagram_url']);
+        $this->assertEquals(null, $result['data']['twitter_url']);
     }
 
     public function test_update_invalid_social()
