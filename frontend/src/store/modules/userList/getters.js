@@ -4,10 +4,10 @@ export default {
         Object.keys(userLists).forEach( (key) => {
             let userList = userLists[key];
             if(userList.name
-                    .toLowerCase()
-                    .indexOf(
-                        name.toLowerCase()
-                    ) > -1)
+                .toLowerCase()
+                .indexOf(
+                    name.toLowerCase()
+                ) > -1)
                 filtered[userList.id] = userList;
         });
         return filtered;
@@ -22,7 +22,7 @@ export default {
         userList.places
             .map(id => state.places.byId[id].city_id)
             .forEach((id) => {
-                cities[id] = state.cities.byId[id]
+                cities[id] = state.cities.byId[id];
             });
         return cities;
     },
