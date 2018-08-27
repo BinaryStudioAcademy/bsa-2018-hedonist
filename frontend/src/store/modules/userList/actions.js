@@ -6,55 +6,55 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.get(`/users/${userId}/lists`)
                 .then( (response) => {
-                    let normalizedUserLists = normalizerService.normalize(response.data);
-                    normalizedUserLists = normalizerService.updateAllIds(normalizedUserLists);
-                    let normalizedPlaces = {};
-                    let normalizedCities = {};
-                    let normalizedCategories = {};
+                    let userLists = normalizerService.normalize(response.data);
+                    userLists = normalizerService.updateAllIds(userLists);
+                    let places = {};
+                    let cities = {};
+                    let categories = {};
 
-                    for (let userList in normalizedUserLists.byId){
+                    for (let userList in userLists.byId){
                         let id = parseInt(userList);
 
-                        let normalizedPlacesOfOneList = normalizerService.normalize({
-                            data : normalizedUserLists.byId[id].places
+                        let placesOfOneList = normalizerService.normalize({
+                            data : userLists.byId[id].places
                         });
 
-                        normalizedPlaces = normalizerService.updateNormalizedData(
-                            normalizedPlaces,
-                            normalizedPlacesOfOneList
+                        places = normalizerService.updateNormalizedData(
+                            places,
+                            placesOfOneList
                         );
 
-                        normalizedUserLists.byId[id].places =
-                            normalizerService.updateAllIds(normalizedPlacesOfOneList).allIds;
+                        userLists.byId[id].places =
+                            normalizerService.updateAllIds(placesOfOneList).allIds;
                     }
-                    normalizedPlaces = normalizerService.updateAllIds(normalizedPlaces);
+                    places = normalizerService.updateAllIds(places);
 
-                    for (let place in normalizedPlaces.byId){
+                    for (let place in places.byId){
                         let id = parseInt(place);
 
-                        normalizedCities = normalizerService.updateNormalizedData(
-                            normalizedCities,
+                        cities = normalizerService.updateNormalizedData(
+                            cities,
                             normalizerService.normalize({
-                                data : normalizedPlaces.byId[id].city
+                                data : places.byId[id].city
                             })
                         );
-                        delete normalizedPlaces.byId[id].city;
+                        delete places.byId[id].city;
 
-                        normalizedCategories = normalizerService.updateNormalizedData(
-                            normalizedCategories,
+                        categories = normalizerService.updateNormalizedData(
+                            categories,
                             normalizerService.normalize({
-                                data : normalizedPlaces.byId[id].category
+                                data : places.byId[id].category
                             })
                         );
-                        delete normalizedPlaces.byId[id].category;
+                        delete places.byId[id].category;
                     }
-                    normalizedCities = normalizerService.updateAllIds(normalizedCities);
-                    normalizedCategories = normalizerService.updateAllIds(normalizedCategories);
+                    cities = normalizerService.updateAllIds(cities);
+                    categories = normalizerService.updateAllIds(categories);
 
-                    context.commit('SET_USER_LISTS', normalizedUserLists);
-                    context.commit('SET_PLACES', normalizedPlaces);
-                    context.commit('SET_CITIES', normalizedCities);
-                    context.commit('SET_CATEGORIES', normalizedCategories);
+                    context.commit('SET_USER_LISTS', userLists);
+                    context.commit('SET_PLACES', places);
+                    context.commit('SET_CITIES', cities);
+                    context.commit('SET_CATEGORIES', categories);
 
                     resolve();
                 })
