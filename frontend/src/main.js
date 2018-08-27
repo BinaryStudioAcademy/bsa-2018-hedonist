@@ -8,6 +8,7 @@ import Vuelidate from 'vuelidate';
 import vClickOutside from 'v-click-outside';
 import VueImg from 'v-img';
 import VueScrollTo from 'vue-scrollto';
+import Tooltip from 'vue-directive-tooltip';
 import vuexI18n from 'vuex-i18n';
 import { enableSentryErrorReporting } from './services/common/errorReportingService';
 
@@ -20,6 +21,7 @@ Vue.use(Vuelidate);
 Vue.use(vClickOutside);
 Vue.use(VueImg);
 Vue.use(VueScrollTo);
+Vue.use(Tooltip);
 Vue.use(vuexI18n.plugin, store);
 
 Vue.i18n.add('en', translationEn);
