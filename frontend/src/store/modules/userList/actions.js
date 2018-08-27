@@ -6,9 +6,6 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.get(`/users/${userId}/lists`)
                 .then( (response) => {
-                    const userLists = response.data.data;
-                    context.commit('SET_USER_LISTS', userLists);
-
                     let normalizedUserLists = normalizerService.normalize(response.data);
                     normalizedUserLists = normalizerService.updateAllIds(normalizedUserLists);
                     let normalizedPlaces = {};
@@ -59,7 +56,7 @@ export default {
                     context.commit('SET_NORMALIZED_CITIES', normalizedCities);
                     context.commit('SET_NORMALIZED_CATEGORIES', normalizedCategories);
 
-                    resolve(userLists);
+                    resolve();
                 })
                 .catch( (error) => {
                     reject(error);

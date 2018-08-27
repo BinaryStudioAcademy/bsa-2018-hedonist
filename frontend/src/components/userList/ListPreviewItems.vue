@@ -3,10 +3,10 @@
         <b-loading :active.sync="isLoading" />
         <ul v-show="isLoaded">
             <ListPreview
-                v-for="(userList,index) in filteredUserLists"
+                v-for="(userList,index,key) in filteredUserListsNormalized"
                 :key="userList.id"
                 :user-list="userList"
-                :timer="50 * (index+1)"
+                :timer="50 * (key+1)"
             />
         </ul>
     </section>
@@ -40,22 +40,24 @@ export default {
     },
     computed: {
         ...mapState('userList', [
-            'userLists'
+            'userLists',
+            'userListsNormalized',
+            'placesNormalized'
         ]),
         ...mapGetters('auth', {
             Auth: 'getAuthenticatedUser'
         }),
         ...mapGetters('userList', {
-            getFilteredByCity: 'getFilteredByCity'
+            getFilteredNormalizedByCity: 'getFilteredNormalizedByCity',
         }),
         isLoaded: function () {
-            return !!(this.userLists);
+            return !!(this.userListsNormalized);
         },
-        filteredUserLists: function () {
-            let filtered = this.userLists;
+        filteredUserListsNormalized: function () {
+            let filtered = this.userListsNormalized ? this.userListsNormalized.byId : null;
             let cityId = this.filterBy.cityId;
             if (cityId) {
-                filtered = this.getFilteredByCity(filtered, cityId);
+                filtered = this.getFilteredNormalizedByCity(filtered, cityId);
             }
             return filtered;
         }

@@ -1,30 +1,47 @@
 export default {
-    getFilteredByName: state => name => {
-        return state.userLists.filter(
-            userList => userList.name.toLowerCase().indexOf(name.toLowerCase()) > -1
-        );
+    getFilteredByName: state => (userLists, name) => {
+        let filtered = {};
+        Object.keys(userLists).forEach( (key) => {
+            let userList = userLists[key];
+            if(userList.name
+                    .toLowerCase()
+                    .indexOf(
+                        name.toLowerCase()
+                    ) > -1)
+                filtered[userList.id] = userList;
+        });
+        return filtered;
     },
+
     getById: state => id => {
-        return state.userLists.find( (userLists) => {
-            return userLists.id === parseInt(id); }
-        );
+        return state.userListsNormalized.byId[id];
     },
-    getUniqueCities: (state, getters) => userList => {
-        const places = userList.places;
-        const cities = places.map(place => place.city);
-        return cities.filter((a, i) =>
-            i === cities.length - 1 ||
-            a.id !== cities[i + 1].id
-        );
+
+    getUniqueCitiesNormalized: (state, getters) => userList => {
+        let cities = {};
+        userList.places
+            .map(id => state.placesNormalized.byId[id].city_id)
+            .forEach((id) => {
+                cities[id] = state.citiesNormalized.byId[id]
+            });
+        return cities;
     },
-    getUniqueCitiesByPlaceId: (state, getters) => id => {
-        const userList = getters.getById(id);
-        return getters.getUniqueCities(userList);
+
+    getFilteredNormalizedByCity: (state, getters) => (userLists, cityId) => {
+        let filtered = {};
+        Object.keys(userLists).forEach( (key) => {
+            let userList = userLists[key];
+            let cities = Object.keys(
+                getters.getUniqueCitiesNormalized(userList)
+            ).filter(
+                id => parseInt(id) === cityId
+            );
+            if(cities.length > 0) filtered[userList.id] = userList;
+        });
+        return filtered;
     },
-    getFilteredByCity: (state, getters) => (userLists, cityId) => {
-        return userLists.filter(
-            ul => ul.places.filter(
-                pl => pl.city_id === cityId
-            ).length > 0);
+
+    getPlaceById: (state, getters) => (id) => {
+        return state.placesNormalized.byId[id];
     }
 };

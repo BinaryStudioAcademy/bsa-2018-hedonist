@@ -18,11 +18,13 @@
                         <p class="address">
                             Cities in the list:
                             <a
-                                v-for="(city,index) in uniqueCities"
+                                v-for="(city,index,key) in uniqueCities"
                                 :key="index"
                                 href="#"
                                 @click="setCityFilter(city.id)"
-                            >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
+                            >{{ city.name }}
+                                <span v-show="notLast(key)">, </span>
+                            </a>
                         </p>
                     </div>
                 </div>
@@ -47,7 +49,7 @@ export default {
     },
     computed: {
         ...mapGetters('userList', {
-            getUniqueCities : 'getUniqueCities'
+            getUniqueCities : 'getUniqueCitiesNormalized'
         }),
         uniqueCities: function () {
             return this.getUniqueCities(this.userList);
@@ -64,8 +66,8 @@ export default {
         }
     },
     methods: {
-        notLast(index) {
-            return this.uniqueCities.length - index > 1;
+        notLast(key) {
+            return Object.keys(this.uniqueCities).length - key > 1;
         },
         like() {
             this.$toast.open({
