@@ -2,22 +2,22 @@
     <div class="row">
         <div v-if="isPlacesLoaded" class="column visitedplaces-wrapper">
             <div
-                v-for="(checkInId, index) in checkIns.allIds"
-                :key="checkInId"
+                    v-for="(checkInId, index) in checkIns.allIds"
+                    :key="checkInId"
             >
                 <PlaceVisitedPreview
-                    :check-in="getCheckInById(checkInId)"
-                    :check-in-place="getPlaceByCheckInId(checkInId)"
-                    :timer="50 * (index+1)"
+                        :check-in="getCheckInById(checkInId)"
+                        :check-in-place="getPlaceByCheckInId(checkInId)"
+                        :timer="50 * (index+1)"
                 />
             </div>
         </div>
 
-        <div v-if="mapInitialized" class="column mapbox-wrapper">
+        <div class="column mapbox-wrapper">
             <section id="map">
                 <mapbox
-                    :access-token="mapboxToken"
-                    :map-options="{
+                        :access-token="mapboxToken"
+                        :map-options="{
                         style: mapboxStyle,
                         center: {
                             lat: currentLatitude,
@@ -25,15 +25,15 @@
                         },
                         zoom: 12
                     }"
-                    :fullscreen-control="{
+                        :fullscreen-control="{
                         show: true,
                         position: 'bottom-right'
                     }"
-                    :scale-control="{
+                        :scale-control="{
                         show: true,
                         position: 'top-left'
                     }"
-                    @map-init="mapInitialize"
+                        @map-init="mapInitialize"
                 />
             </section>
         </div>
@@ -41,88 +41,99 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex';
-import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
-import LocationService from '@/services/location/locationService';
-import markerManager from '@/services/map/markerManager';
-import Mapbox from 'mapbox-gl-vue';
-import mapSettingsService from '@/services/map/mapSettingsService';
+    import {mapGetters, mapActions, mapState} from 'vuex';
+    import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
+    import LocationService from '@/services/location/locationService';
+    import markerManager from '@/services/map/markerManager';
+    import Mapbox from 'mapbox-gl-vue';
+    import mapSettingsService from '@/services/map/mapSettingsService';
 
-export default {
-    name: 'HistoryPage',
-    components: {
-        PlaceVisitedPreview,
-        Mapbox
-    },
-    data() {
-        return {
-            isPlacesLoaded: false,
-            markerManager: null,
-            userCoordinates: {
-                lat: null,
-                lng: null
+    export default {
+        name: 'HistoryPage',
+        components: {
+            PlaceVisitedPreview,
+            Mapbox
+        },
+        data() {
+            return {
+                isPlacesLoaded: false,
+                isMapLoaded: false,
+                markerManager: null,
+                userCoordinates: {
+                    lat: null,
+                    lng: null
+                },
+                mapboxToken: mapSettingsService.getMapboxToken(),
+                mapboxStyle: mapSettingsService.getMapboxStyle()
+            };
+        },
+        computed: {
+            ...mapGetters('user/history', [
+                'getCheckInById',
+                'getPlaceById',
+                'getPlaceByCheckInId',
+                'placeList'
+            ]),
+            ...mapState('user/history', [
+                'checkIns', 'places', 'currentLatitude', 'currentLongitude', 'mapInitialized'
+            ]),
+        },
+        created() {
+            this.loadUserCoords()
+                .then((coords) => {
+                    this.setCurrentMapCenter(coords);
+                });
+            this.loadCheckInPlaces()
+                .then(() => {
+                    this.isPlacesLoaded = true;
+                    this.setCurrentMapCenter(
+                        mapSettingsService.getMapboxCenter(this.places.byId, this.places.allIds)
+                    );
+                })
+                .catch((err) => {
+                    this.isPlacesLoaded = true;
+                });
+        },
+        watch: {
+            isMapLoaded: function (oldVal, newVal) {
+                this.updateMap(this.placesList);
             },
-            mapboxToken: mapSettingsService.getMapboxToken(),
-            mapboxStyle: mapSettingsService.getMapboxStyle()
-        };
-    },
-    computed: {
-        ...mapGetters('user/history', [
-            'getCheckInById',
-            'getPlaceById',
-            'getPlaceByCheckInId',
-            'placeList'
-        ]),
-        ...mapState('user/history', [
-            'checkIns', 'places', 'currentLatitude', 'currentLongitude', 'mapInitialized'
-        ]),
-    },
-    created() {
-        this.loadUserCoords()
-            .then((coords) => {
-                this.setCurrentMapCenter(coords);
-                this.mapInitialization();
-            })
-            .then(() => {
-                this.loadCheckInPlaces()
-                    .then(() => {
-                        this.isPlacesLoaded = true;
-                        this.setCurrentMapCenter(
-                            mapSettingsService.getMapboxCenter(this.places.byId, this.places.allIds)
-                        );
-                        this.updateMap(this.placeList);
-                    })
-                    .catch((err) => {
-                        this.isPlacesLoaded = true;
-                    });
-            });
-    },
-    methods: {
-        ...mapActions('user/history', [
-            'loadCheckInPlaces', 'setCurrentMapCenter', 'mapInitialization'
-        ]),
+            isPlacesLoaded: function (oldVal, newVal) {
+                this.updateMap(this.placesList);
+            }
+        },
+        methods: {
+            ...
+                mapActions('user/history', [
+                    'loadCheckInPlaces', 'setCurrentMapCenter', 'mapInitialization'
+                ]),
 
-        mapInitialize(map) {
-            this.markerManager = markerManager.getService(map);
-        },
-        updateMap(places) {
-            this.markerManager.setMarkersFromPlacesAndFit(...places);
-        },
-        loadUserCoords() {
-            return new Promise((resolve, reject) => {
-                LocationService.getUserLocationData()
-                    .then(coordinates => {
-                        this.userCoordinates.lat = coordinates.lat;
-                        this.userCoordinates.lng = coordinates.lng;
-                        resolve({
-                            latitude: coordinates.lat,
-                            longitude: coordinates.lng
+            mapInitialize(map) {
+                this.markerManager = markerManager.getService(map);
+            }
+            ,
+            updateMap(places) {
+                if(this.isMapLoaded && this.isPlacesLoaded)
+                this.markerManager.setMarkersFromPlacesAndFit(...places);
+            }
+            ,
+            loadUserCoords() {
+                return new Promise((resolve, reject) => {
+                    LocationService.getUserLocationData()
+                        .then(coordinates => {
+                            this.userCoordinates.lat = coordinates.lat;
+                            this.userCoordinates.lng = coordinates.lng;
+                            resolve({
+                                latitude: coordinates.lat,
+                                longitude: coordinates.lng
+                            });
                         });
-                    });
-            });
-        },
+                });
+            }
+            ,
+        }
     }
-};
+    ;
 
 </script>
 
