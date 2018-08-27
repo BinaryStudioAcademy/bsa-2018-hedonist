@@ -27,6 +27,9 @@ const createPopup = (markerData) => {
                     </a> 
                 </div>
                 <div>
+                    ${markerData.category || ''}
+                </div>
+                <div>
                     ${markerData.address || ''}
                 </div>
             </div>
