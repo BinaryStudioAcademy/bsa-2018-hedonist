@@ -381,11 +381,34 @@
                                         </b-field>
                                     </div>
                                 </div>
+
+                                <div class="worktime-wrp">
+                                    <b-message>
+                                        <p><strong>Monday:  </strong>from <strong>{{ newPlace.worktime['mo'].start }}</strong> till <strong>{{ newPlace.worktime['mo'].end }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Tuesday:  </strong>from <strong>{{ newPlace.worktime['tu'].start }}</strong> till <strong>{{ newPlace.worktime['tu'].end }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Wednesday:  </strong>from <strong>{{ newPlace.worktime['we'].start }}</strong> till <strong>{{ newPlace.worktime['we'].end }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Thursday:  </strong>from <strong>{{ newPlace.worktime['th'].start }}</strong> till <strong>{{ newPlace.worktime['th'].end }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Friday:  </strong>from <strong>{{ newPlace.worktime['fr'].start }}</strong> till <strong>{{ newPlace.worktime['fr'].end }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Saturday:  </strong>from <strong>{{ newPlace.worktime['sa'].start }}</strong> till <strong>{{ newPlace.worktime['sa'].end }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Sunday:  </strong>from <strong>{{ newPlace.worktime['su'].start }}</strong> till <strong>{{ newPlace.worktime['su'].end }}</strong> o'clock</p>
+                                    </b-message>
+                                </div>
+
                             </div>
                         </div>
                     </div>
-
-
 
                     <div class="level is-centered">
                         <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
@@ -451,33 +474,33 @@ export default {
                 instagram: '',
                 worktime: {
                     'mo': {
-                        start:  '10',
-                        end:    '21'
+                        start:  '10:00',
+                        end:    '21:00'
                     },
                     'tu': {
-                        start:  '10',
-                        end:    '21'
+                        start:  '10:00',
+                        end:    '21:00'
                     },
                     'we': {
-                        start:  '10',
-                        end:    '21'
+                        start:  '10:00',
+                        end:    '21:00'
                     },
                     'th': {
-                        start:  '10',
-                        end:    '21'
+                        start:  '10:00',
+                        end:    '21:00'
                     },
                     'fr': {
-                        start:  '10',
-                        end:    '21'
+                        start:  '10:00',
+                        end:    '21:00'
                     },
                     'sa': {
-                        start:  '10',
-                        end:    '21'
+                        start:  '10:00',
+                        end:    '21:00'
                     },
                     'su': {
-                        start:  '10',
-                        end:    '21'
-                    },
+                        start:  '10:00',
+                        end:    '21:00'
+                    }
                 }
             },
             allCategories: [],
@@ -571,8 +594,10 @@ export default {
 
         onWorkTimeAdd() {
             this.weekdays.forEach((item) => {
-                this.newPlace.worktime[item].start = this.timeStart.getHours();
-                this.newPlace.worktime[item].end = this.timeEnd.getHours();
+                let st_min = this.timeStart.getMinutes() < 10 ? '0' + this.timeStart.getMinutes() : this.timeStart.getMinutes();
+                let et_min = this.timeEnd.getMinutes() < 10 ? '0' + this.timeEnd.getMinutes() : this.timeEnd.getMinutes();
+                this.newPlace.worktime[item].start = this.timeStart.getHours() + ':' + st_min;
+                this.newPlace.worktime[item].end = this.timeEnd.getHours() + ':' + et_min;
             });
         },
 
@@ -622,6 +647,11 @@ export default {
     #map {
         width: 100%;
         height: 100%;
+    }
+
+    /* Hours tab */
+    .worktime-wrp {
+        margin-bottom: 10px;
     }
 
 </style>
