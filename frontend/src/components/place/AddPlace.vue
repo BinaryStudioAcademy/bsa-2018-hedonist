@@ -318,25 +318,25 @@
                             <div class="column is-half is-left">
                                 <div class="worktime-wrp">
                                     <b-message>
-                                        <p><strong>Monday:  </strong>from <strong>{{ newPlace.worktime['mo'].start }}</strong> till <strong>{{ newPlace.worktime['mo'].end }}</strong> o'clock</p>
+                                        <p><strong>Monday:  </strong>from <strong>{{ displayTime(newPlace.worktime['mo'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['mo'].end) }}</strong> o'clock</p>
                                     </b-message>
                                     <b-message>
-                                        <p><strong>Tuesday:  </strong>from <strong>{{ newPlace.worktime['tu'].start }}</strong> till <strong>{{ newPlace.worktime['tu'].end }}</strong> o'clock</p>
+                                        <p><strong>Tuesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['tu'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['tu'].end) }}</strong> o'clock</p>
                                     </b-message>
                                     <b-message>
-                                        <p><strong>Wednesday:  </strong>from <strong>{{ newPlace.worktime['we'].start }}</strong> till <strong>{{ newPlace.worktime['we'].end }}</strong> o'clock</p>
+                                        <p><strong>Wednesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['we'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['we'].end) }}</strong> o'clock</p>
                                     </b-message>
                                     <b-message>
-                                        <p><strong>Thursday:  </strong>from <strong>{{ newPlace.worktime['th'].start }}</strong> till <strong>{{ newPlace.worktime['th'].end }}</strong> o'clock</p>
+                                        <p><strong>Thursday:  </strong>from <strong>{{ displayTime(newPlace.worktime['th'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['th'].end) }}</strong> o'clock</p>
                                     </b-message>
                                     <b-message>
-                                        <p><strong>Friday:  </strong>from <strong>{{ newPlace.worktime['fr'].start }}</strong> till <strong>{{ newPlace.worktime['fr'].end }}</strong> o'clock</p>
+                                        <p><strong>Friday:  </strong>from <strong>{{ displayTime(newPlace.worktime['fr'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['fr'].end) }}</strong> o'clock</p>
                                     </b-message>
                                     <b-message>
-                                        <p><strong>Saturday:  </strong>from <strong>{{ newPlace.worktime['sa'].start }}</strong> till <strong>{{ newPlace.worktime['sa'].end }}</strong> o'clock</p>
+                                        <p><strong>Saturday:  </strong>from <strong>{{ displayTime(newPlace.worktime['sa'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['sa'].end) }}</strong> o'clock</p>
                                     </b-message>
                                     <b-message>
-                                        <p><strong>Sunday:  </strong>from <strong>{{ newPlace.worktime['su'].start }}</strong> till <strong>{{ newPlace.worktime['su'].end }}</strong> o'clock</p>
+                                        <p><strong>Sunday:  </strong>from <strong>{{ displayTime(newPlace.worktime['su'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['su'].end) }}</strong> o'clock</p>
                                     </b-message>
                                 </div>
                             </div>
@@ -473,32 +473,32 @@ export default {
                 instagram: '',
                 worktime: {
                     'mo': {
-                        start:  '10:00',
-                        end:    '21:00'
+                        start:  new Date(0,0,0,10),
+                        end:    new Date(0,0,0,21)
                     },
                     'tu': {
-                        start:  '10:00',
-                        end:    '21:00'
+                        start:  new Date(0,0,0,10),
+                        end:    new Date(0,0,0,21)
                     },
                     'we': {
-                        start:  '10:00',
-                        end:    '21:00'
+                        start:  new Date(0,0,0,10),
+                        end:    new Date(0,0,0,21)
                     },
                     'th': {
-                        start:  '10:00',
-                        end:    '21:00'
+                        start:  new Date(0,0,0,10),
+                        end:    new Date(0,0,0,21)
                     },
                     'fr': {
-                        start:  '10:00',
-                        end:    '21:00'
+                        start:  new Date(0,0,0,10),
+                        end:    new Date(0,0,0,21)
                     },
                     'sa': {
-                        start:  '10:00',
-                        end:    '21:00'
+                        start:  new Date(0,0,0,10),
+                        end:    new Date(0,0,0,21)
                     },
                     'su': {
-                        start:  '10:00',
-                        end:    '21:00'
+                        start:  new Date(0,0,0,10),
+                        end:    new Date(0,0,0,21)
                     }
                 }
             },
@@ -597,14 +597,17 @@ export default {
 
         onWorkTimeAdd() {
             this.weekdays.forEach((item) => {
-                let st_min = this.timeStart.getMinutes() < 10 ? '0' + this.timeStart.getMinutes() : this.timeStart.getMinutes();
-                let et_min = this.timeEnd.getMinutes() < 10 ? '0' + this.timeEnd.getMinutes() : this.timeEnd.getMinutes();
-                this.newPlace.worktime[item].start = this.timeStart.getHours() + ':' + st_min;
-                this.newPlace.worktime[item].end = this.timeEnd.getHours() + ':' + et_min;
-                this.weekdays = [];
-                this.timeStart = new Date(0,0,0,10);
-                this.timeEnd = new Date(0,0,0,21);
+                this.newPlace.worktime[item].start = this.timeStart;
+                this.newPlace.worktime[item].end = this.timeEnd;
             });
+            this.weekdays = [];
+            this.timeStart = new Date(0,0,0,10);
+            this.timeEnd = new Date(0,0,0,21);
+        },
+        displayTime(time) {
+            let hours = time.getHours();
+            let minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
+            return hours + ':' + minutes;
         },
 
         onAdd() {
@@ -620,7 +623,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
     .section {
         padding-top: 24px;
     }
@@ -655,6 +657,4 @@ export default {
         width: 100%;
         height: 100%;
     }
-
-
 </style>
