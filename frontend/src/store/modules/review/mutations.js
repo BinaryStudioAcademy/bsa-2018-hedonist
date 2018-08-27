@@ -1,5 +1,5 @@
 import normalizer from '../../../services/common/normalizerService';
-import { STATUS_NONE } from '@/services/api/codes';
+import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
 function findReviewById (reviews, reviewId) {
     return reviews.find( (review) => {
@@ -35,7 +35,7 @@ export default {
     },
 
     UPDATE_REVIEW_LIKED_STATE: (state, reviewId) => {
-        let review = findReviewById(state.reviews, reviewId);
+        let review = findReviewById(state.reviews.byId, reviewId);
 
         if (review.like === STATUS_NONE) {
             review.like = STATUS_LIKED;
@@ -51,7 +51,7 @@ export default {
     },
 
     UPDATE_REVIEW_DISLIKED_STATE: (state, reviewId) => {
-        let review = findReviewById(state.reviews, reviewId);
+        let review = findReviewById(state.reviews.byId, reviewId);
 
         if (review.like === STATUS_NONE) {
             review.like = STATUS_DISLIKED;

@@ -32,36 +32,4 @@ export default {
     SET_CURRENT_PLACE_MY_RATING: (state, myRating) => {
         state.currentPlace.myRating = myRating;
     },
-
-    UPDATE_REVIEW_LIKED_STATE: (state, reviewId) => {
-        let review = findReviewById(state.places, reviewId);
-
-        if (review.like === STATUS_NONE) {
-            review.like = STATUS_LIKED;
-            review.likes++;
-        } else if (review.like === STATUS_LIKED) {
-            review.like = STATUS_NONE;
-            review.likes--;
-        } else if (review.like === STATUS_DISLIKED) {
-            review.like = STATUS_LIKED;
-            review.likes++;
-            review.dislikes--;
-        }  
-    },
-
-    UPDATE_REVIEW_DISLIKED_STATE: (state, reviewId) => {
-        let review = findReviewById(state.places, reviewId);
-
-        if (review.like === STATUS_NONE) {
-            review.like = STATUS_DISLIKED;
-            review.dislikes++;
-        } else if (review.like === STATUS_DISLIKED) {
-            review.like = STATUS_NONE;
-            review.dislikes--;
-        } else if (review.like === STATUS_LIKED) {
-            review.like = STATUS_DISLIKED;
-            review.dislikes++;
-            review.likes--;
-        }  
-    }
 };
