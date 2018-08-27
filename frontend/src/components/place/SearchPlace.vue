@@ -34,6 +34,7 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import SearchFilterPlace from './SearchFilterPlace';
 import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
@@ -55,7 +56,8 @@ export default {
             map: {},
             markerManager: null,
             mapboxToken: mapSettingsService.getMapboxToken(),
-            mapboxStyle: mapSettingsService.getMapboxStyle()
+            mapboxStyle: mapSettingsService.getMapboxStyle(),
+            draw: {}
         };
     },
     created() {
@@ -81,6 +83,7 @@ export default {
                     });
                 });
             this.mapInitialization();
+            this.addDrawForMap();
         },
         mapLoaded(map) {
             this.markerManager = markerManager.getService(map);
@@ -111,6 +114,30 @@ export default {
                 this.markerManager.setMarkersFromPlacesAndFit(...this.places);
             }
         },
+        addDrawForMap() {
+            this.draw = new MapboxDraw({
+                displayControlsDefault: false,
+                controls: {
+                    polygon: true,
+                    trash: true
+                }
+            });
+            this.map.addControl(this.draw, 'top-left');
+
+            this.map.on('draw.create', this.updateSearchArea);
+            this.map.on('draw.delete', this.updateSearchArea);
+            this.map.on('draw.update', this.updateSearchArea);
+        },
+        updateSearchArea() {
+            let data = this.draw.getAll();
+            let polygonCoordinates = [];
+            if (data.features.length > 0) {
+                data.features.forEach(function (item) {
+                    polygonCoordinates = item.geometry.coordinates[0];
+                });
+            }
+            // TODO add action for find place by 'polygonCoordinates'
+        }
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {
