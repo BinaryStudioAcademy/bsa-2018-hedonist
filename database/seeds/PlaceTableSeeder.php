@@ -56,11 +56,11 @@ class PlaceTableSeeder extends Seeder
     private const PLACES = [
         [
             'name' => "Red Cat",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/DkrsZ_vVxHfEvT2iOMp1jrreHWe2qC_7W0rs6MmRrpg.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/c7MRnfq8e2GdRgvaTSA8lhXaq2Z4CvML4gC_Ftp9cco.jpg',
         ],
         [
             'name' => "Plates & Cups",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/200775283_9BcJTpT8cqbLyu7b3NifXmrykR01JWcXZzyJvFdDY98.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/42203382_d2Y-zXsuUwrJpiy2S_-USugLl2Vp_yvG7nEwcJbjBf4.jpg',
         ],
         [
             'name' => "SOWA",
@@ -68,7 +68,7 @@ class PlaceTableSeeder extends Seeder
         ],
         [
             'name' => "Croissants",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/887035_CLhGX1rsu2-V75shOAkPWuxXLY2k4iO17hEdOlOfSWc.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/2983080_WTDbU_CUdtA0Fg96YIZGbdqC6bp_rGYmxwIonInEyKo.jpg',
         ],
         [
             'name' => "Food and Good",
@@ -76,11 +76,11 @@ class PlaceTableSeeder extends Seeder
         ],
         [
             'name' => "Fixage",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/18744269_t7NmmtSLC9-a49KBCzEEHSevVJQ_s658tl1yYgOC8RA.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/11764392_BZLn3mg8-HFOchwIzzkIqU2rae-fdbirXnVJ0esHpds.jpg',
         ],
         [
             'name' => "Diana",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/39355032_huh3OTmAp_nlo-yY4Xy_AVwUcO6Uoq-UifIgGhL4yRo.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/57943_0MPikVQ3vInf4EUQzPkSvaS8op4nmHAiSD_QGGwePh4.jpg',
         ],
         [
             'name' => "Glory Cafe",
@@ -92,7 +92,7 @@ class PlaceTableSeeder extends Seeder
         ],
         [
             'name' => "Kredens Cafe",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/332099702_l80MuOfqsOaHR2c0j18msi7UFuzT2SWkHJKA1pvUqEk.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/MoZ-C7Bgks_Gryq_a9cfPqHPXXklzUpcXCcSQo3WcFs.jpg',
         ],
         [
             'name' => "Agrus",
@@ -100,27 +100,27 @@ class PlaceTableSeeder extends Seeder
         ],
         [
             'name' => "Ratusha",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/91848606_7s2MlUaTq44FYNaKskPEOsjIA42F6xYrD14Ilqeo7EM.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/91136_AD1XZn5E4Q3DZBoT8k5VL7zKk3fnmWAKysjCKC-kq2w.jpg',
         ],
         [
             'name' => "L'affinage cheese&wine",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/447201471_WLxH4tZhbfIA5zxRtKqyGq7n5HJIW9P9Om16iXaO6-s.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/262365_OOPsy-h-DlWkP2cPLXGilZ3QmG2zy9KhKs0b3GZ_eoE.jpg',
         ],
         [
             'name' => "SelfieCoffee",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/17700383_UUNtffUIrXMm8VyNghmIzp2R9JOlR7Ip4C_mfMJNDO4.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/38831731_lO9Rgsr6X_PJ--pRhXzq1wHuPJSvr9b7AqIBrcq6yPw.jpg',
         ],
         [
             'name' => "Blackwood Coffee",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/28171699_eHlER8a4ptHBtvRnkDXkNj47HpL4KfSDUo7aaL7VsWQ.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/697943_4WydpgvymCmX6jVUh0L8WgUQloM8A5yifuss-_5bXKk.jpg',
         ],
         [
             'name' => "Tarta Cafe",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/16644285_h1BNy0RmrSTR829S9H5p3W0mrQxDQCd8P3xl5bBlZro.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/50986_-oXtN_j0OHdoAOuDu7zHZPM53rh-Vul_c6fFP8ppHeU.jpg',
         ],
         [
             'name' => "Druzi",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/473118684__S6VWo02TbqQuXudPZjdyKrmXPF6o7Aj0QQv8utJHvg.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/7481718_ZBjyp1XayWkf19qjQBlH5lhjeuzroNtDUXBemeExEGg.jpg',
         ],
         [
             'name' => "The Blue Cup",
@@ -128,11 +128,11 @@ class PlaceTableSeeder extends Seeder
         ],
         [
             'name' => "Honey",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/119943044_6SDGf6xWxbwYJHVTyMVKNe_cXQKzhpsd7HOzCu0HAno.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/1030694_270Y-gUx1D1nXle7T3cX7aYriNPKkLJk17Dts-CPRKQ.jpg',
         ],
         [
             'name' => "Aroma Espresso Bar",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/431140131_nxLAzhiGVl9p8JEl3bot2hVtoW7W6Y4WT7T6TFJykwU.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/HkLXY5yZbabgoFMfPLcgj6OPOH2AgeY-qXEIHwUEQ48.jpg',
         ],
         [
             'name' => "Milk Bar",
@@ -140,11 +140,11 @@ class PlaceTableSeeder extends Seeder
         ],
         [
             'name' => "L'kafa",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/71577744_afIrVJ-RNcJFMst_Hx0LO1-XBp27Ze-3RdfSHznOfcw.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/697943_5lYecviba0R-P94sBEeIqRYsH0TLa1CVdnRQm0gOjOA.jpg',
         ],
         [
             'name' => "City-Zen cafe",
-            'img_url' => 'https://igx.4sqi.net/img/general/width960/27888382_dg90jR5EjwaqkGAqZZ0uxKUlmkx8tytv9aj5bYYCJvM.jpg',
+            'img_url' => 'https://igx.4sqi.net/img/general/width960/382040_MOkTPrR_2bsZ8U4tpxXksFlWIQDDFNckIWx_unJW-bQ.jpg',
         ],
     ];
 
@@ -197,6 +197,12 @@ class PlaceTableSeeder extends Seeder
                     'place_name' => $placeInfo['name'],
                     'place_id' => $place->id,
                     'language_id' => $language->id
+                ]);
+
+                factory(PlacePhoto::class)->create([
+                    'place_id' => $place->id,
+                    'creator_id' => User::inRandomOrder()->first()->id,
+                    'img_url' => $placeInfo['img_url']
                 ]);
 
                 foreach (self::IMAGES as $imageUrl) {

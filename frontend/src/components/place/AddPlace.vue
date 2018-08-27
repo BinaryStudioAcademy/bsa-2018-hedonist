@@ -523,6 +523,10 @@ export default {
         }
     },
 
+    updated() {
+        window.dispatchEvent(new Event('resize'));
+    },
+
     computed: {
         isCategorySelected: function() {
             return !!this.newPlace.category;
@@ -558,7 +562,7 @@ export default {
         },
 
         onAdd() {
-            console.log(this.newPlace);
+            console.debug(this.newPlace);
         },
 
         onCancel() {
