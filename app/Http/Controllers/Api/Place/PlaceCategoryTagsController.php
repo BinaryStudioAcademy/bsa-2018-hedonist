@@ -8,7 +8,7 @@ use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Actions\Place\GetPlaceTagsByCategory\GetPlaceTagsByCategoryAction;
 use Hedonist\Actions\Place\GetPlaceTagsByCategory\GetPlaceTagsByCategoryRequest;
 
-class PlaceCategoryTagsController extends ApiController
+class TagsController extends ApiController
 {
     private $getPlaceTagsByCategoryAction;
 
