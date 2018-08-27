@@ -7,7 +7,9 @@ use Hedonist\Actions\Review\{
     UpdateReviewDescriptionAction,
     CreateReviewAction,
     DeleteReviewAction,
-    GetReviewCollectionAction
+    GetReviewCollectionAction,
+    GetUsersLikedAction,
+    GetUsersDislikedAction
 };
 use Hedonist\Actions\Review\{
     GetReviewPhotoByReviewAction,
@@ -15,7 +17,9 @@ use Hedonist\Actions\Review\{
     GetReviewRequest,
     CreateReviewRequest,
     DeleteReviewRequest,
-    UpdateReviewDescriptionRequest
+    UpdateReviewDescriptionRequest,
+    GetUsersLikedRequest,
+    GetUsersDislikeRequest
 };
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Exceptions\User\UserNotFoundException;
@@ -31,6 +35,8 @@ class ReviewController extends ApiController
     private $deleteReviewAction;
     private $getReviewCollectionAction;
     private $getReviewPhotosByReviewAction;
+    private $getUsersLikedAction;
+    private $getUsersDislikedAction;
 
     public function __construct(
         GetReviewAction $getReviewAction,
@@ -38,7 +44,9 @@ class ReviewController extends ApiController
         DeleteReviewAction $deleteReviewAction,
         UpdateReviewDescriptionAction $updateReviewAction,
         GetReviewCollectionAction $getReviewCollectionAction,
-        GetReviewPhotoByReviewAction $getReviewPhotosByReviewAction
+        GetReviewPhotoByReviewAction $getReviewPhotosByReviewAction,
+        GetUsersLikedAction $getUsersLikedAction,
+        GetUsersDislikedAction $getUsersDislikedAction
     ) {
         $this->getReviewAction = $getReviewAction;
         $this->updateReviewAction = $updateReviewAction;
@@ -110,8 +118,34 @@ class ReviewController extends ApiController
     public function getPhotosByReviewId(int $reviewId)
     {
         try {
-            $reviewPhotosByReviewResponse = $this->getReviewPhotosByReviewAction->execute(new GetReviewPhotoByReviewRequest($reviewId));
+            $reviewPhotosByReviewResponse = $this->getReviewPhotosByReviewAction->execute(
+                new GetReviewPhotoByReviewRequest($reviewId)
+            );
             return $this->successResponse($reviewPhotosByReviewResponse->toArray(), 200);
+        } catch (\Exception $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
+        }
+    }
+
+    public function getUsersLiked($id)
+    {
+        try {
+            $getUsersLikedResponse = $this->getUsersLikedAction->execute(
+                new GetUsersLikedRequest($id)
+            );
+            return $this->successResponse([$getUsersLikedResponse->getUserCollection()], 200);
+        } catch (\Exception $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
+        }
+    }
+
+    public function getUsersDisliked($id)
+    {
+        try {
+            $getUsersDisikedResponse = $this->getUsersDislikedAction->execute(
+                new GetUsersDislikedRequest($id)
+            );
+            return $this->successResponse([$getUsersDislikedResponse->getUserCollection()], 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
