@@ -58,8 +58,19 @@
                     />
                 </b-field>
 
-                <b-field label="Phone">
-                    <b-input v-model.trim="user.phone_number" />
+                <b-field
+                        label="Phone"
+                        :type="isPhoneInvalid ? 'is-danger' : ''"
+                        :message="isPhoneInvalid ?
+                            'Please, enter a valid phone, e.g. +380950000000 or 380950000000':
+                            ''"
+                >
+                    <b-input
+                        v-model.trim="user.phone_number"
+                        @focus="phoneOnFocus"
+                        @blur = "validatePhone"
+                        @keydown.capture.native="validateCharacter"
+                    />
                 </b-field>
 
                 <b-field 
@@ -109,6 +120,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import phoneValidationService from '@/services/common/phoneValidationService';
 
 export default {
     name: 'EditProfile',
@@ -129,7 +141,8 @@ export default {
                 instagram_url: '',
                 facebook_url: '',
                 twitter_url: '',
-            }
+            },
+            isPhoneInvalid:false
         };
     },
     created() {
@@ -236,6 +249,20 @@ export default {
         },
         convertNullToEmptyString(value) {
             return value == null ? '' : value;
+        },
+        validateCharacter(event){
+            if(event.ctrlKey){
+                return;
+            }
+            if(!phoneValidationService.isValidPhoneCharacter(event.key)){
+                event.preventDefault();
+            }
+        },
+        validatePhone(){
+            this.isPhoneInvalid = !phoneValidationService.isPhone(this.user.phone_number);
+        },
+        phoneOnFocus(){
+            this.isPhoneInvalid = false;
         }
     }
 };

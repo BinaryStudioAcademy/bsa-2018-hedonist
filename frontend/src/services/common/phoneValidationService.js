@@ -1,11 +1,15 @@
-const isDigits = (phone) => phone.length >= 10 && phone.length <= 16 && phone.match('/\d+/');
+const E164 = /\+\d+/;
 
-const isE164 = (phone) => phone.length >= 11 && phone.length <= 17 && phone.match('/\+\d+/');
+const digits = /d+/;
 
-const isNANP = (phone) => phone.match('/^(?:\\+1|1)?\\s?-?\\(?\\d{3}\\)?(\\s|-)?\\d{3}-\\d{4}$/i');
+const isDigits = (phone) => (phone.length >= 10 && phone.length <= 16 && digits.test(phone));
 
-const isPhone = (phone) => isDigits(phone) || isE164(phone) || isNANP(phone);
+const isE164 = (phone) => (phone.length >= 11 && phone.length <= 17 && E164.test(phone));
 
-const isValidPhoneCharacter = (character) => character.match('/[\d+-]/');
+const phoneSymbols = ['0','1','2','3','4','5','6','7','8','9','+','F5','Tab','Backspace','Delete'];
+
+const isPhone = (phone) => isDigits(phone) || isE164(phone) || phone == null;
+
+const isValidPhoneCharacter = (character) => phoneSymbols.includes('' + character);
 
 export default {isPhone, isValidPhoneCharacter};
