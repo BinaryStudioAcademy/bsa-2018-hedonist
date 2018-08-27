@@ -196,23 +196,25 @@
                 </b-tab-item>
 
                 <b-tab-item label="Location" :disabled="activeTab !== 1">
-                    <div class="map-wrp">
-                        <mapbox
-                            :access-token="mapboxToken"
-                            :map-options="{
-                                style: mapboxStyle,
-                                center: {
-                                    lat: 50.4501,
-                                    lng: 30.5241
-                                },
-                                zoom: 5
-                            }"
-                            :scale-control="{
-                                show: true,
-                                position: 'top-left'
-                            }"
-                            @map-load="mapLoaded"
-                        />
+                    <div class="tab-wrp">
+                        <div class="map-wrp">
+                            <mapbox
+                                :access-token="mapboxToken"
+                                :map-options="{
+                                    style: mapboxStyle,
+                                    center: {
+                                        lat: 50.4501,
+                                        lng: 30.5241
+                                    },
+                                    zoom: 5
+                                }"
+                                :scale-control="{
+                                    show: true,
+                                    position: 'top-left'
+                                }"
+                                @map-load="mapLoaded"
+                            />
+                        </div>
                     </div>
 
                     <div class="buttons is-centered">
@@ -312,76 +314,8 @@
 
                 <b-tab-item label="Hours" :disabled="activeTab !== 4">
                     <div class="tab-wrp">
-                        <div class="level is-centered">
-                            <div class="level-item">
-                                <b-field class="is-block-mobile">
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="mo"
-                                    >
-                                        Monday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="tu"
-                                    >
-                                        Tuesday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="we"
-                                    >
-                                        Wednesday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="th"
-                                    >
-                                        Thursday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="fr"
-                                    >
-                                        Friday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="sa"
-                                    >
-                                        Saturday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="su"
-                                    >
-                                        Sunday
-                                    </b-checkbox-button>
-                                </b-field>
-                            </div>
-                        </div>
-                        <div class="columns is-centered">
-                            <div class="column is-half">
-                                <div class="level">
-                                    <div class="level-item">
-                                        <b-field label="from">
-                                            <b-timepicker v-model="timeStart" :disabled="isDaySelected" />
-                                        </b-field>
-                                    </div>
-                                    <div class="level-item">
-                                        <b-field label="to">
-                                            <b-timepicker v-model="timeEnd" :disabled="isDaySelected" />
-                                        </b-field>
-                                    </div>
-                                </div>
-
+                        <div class="columns is-vcentered">
+                            <div class="column is-half is-left">
                                 <div class="worktime-wrp">
                                     <b-message>
                                         <p><strong>Monday:  </strong>from <strong>{{ newPlace.worktime['mo'].start }}</strong> till <strong>{{ newPlace.worktime['mo'].end }}</strong> o'clock</p>
@@ -405,19 +339,84 @@
                                         <p><strong>Sunday:  </strong>from <strong>{{ newPlace.worktime['su'].start }}</strong> till <strong>{{ newPlace.worktime['su'].end }}</strong> o'clock</p>
                                     </b-message>
                                 </div>
+                            </div>
 
+                            <div class="column is-half is-right">
+                                <div class="columns is-centered">
+                                    <div class="column is-half">
+                                        <b-field class="is-block">
+                                            <b-checkbox-button
+                                                    size="is-fullwidth"
+                                                    v-model="weekdays"
+                                                    native-value="mo"
+                                            >
+                                                Monday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                    size="is-fullwidth"
+                                                    v-model="weekdays"
+                                                    native-value="tu"
+                                            >
+                                                Tuesday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                    size="is-fullwidth"
+                                                    v-model="weekdays"
+                                                    native-value="we"
+                                            >
+                                                Wednesday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                    size="is-fullwidth"
+                                                    v-model="weekdays"
+                                                    native-value="th"
+                                            >
+                                                Thursday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                    size="is-fullwidth"
+                                                    v-model="weekdays"
+                                                    native-value="fr"
+                                            >
+                                                Friday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                    size="is-fullwidth"
+                                                    v-model="weekdays"
+                                                    native-value="sa"
+                                            >
+                                                Saturday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                    size="is-fullwidth"
+                                                    v-model="weekdays"
+                                                    native-value="su"
+                                            >
+                                                Sunday
+                                            </b-checkbox-button>
+                                        </b-field>
+
+                                        <b-field label="from">
+                                            <b-timepicker v-model="timeStart" :disabled="isDaySelected" />
+                                        </b-field>
+                                        <b-field label="till">
+                                            <b-timepicker v-model="timeEnd" :disabled="isDaySelected" />
+                                        </b-field>
+
+                                        <div class="level">
+                                            <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="level is-centered">
-                        <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
-                    </div>
-
                     <div class="buttons is-centered">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
-                    </div>
+                            <span @click="activeTab--" class="button is-warning">Previous</span>
+                            <span @click="activeTab++" class="button is-success">Next</span>
+                        </div>
                 </b-tab-item>
 
                 <b-tab-item label="Add place" :disabled="activeTab !== 5">
@@ -598,6 +597,9 @@ export default {
                 let et_min = this.timeEnd.getMinutes() < 10 ? '0' + this.timeEnd.getMinutes() : this.timeEnd.getMinutes();
                 this.newPlace.worktime[item].start = this.timeStart.getHours() + ':' + st_min;
                 this.newPlace.worktime[item].end = this.timeEnd.getHours() + ':' + et_min;
+                this.weekdays = [];
+                this.timeStart = new Date(0,0,0,10);
+                this.timeEnd = new Date(0,0,0,21);
             });
         },
 
@@ -626,6 +628,7 @@ export default {
 
     .tab-wrp {
         min-height: 400px;
+        margin-bottom: 15px;
     }
 
     /* General tab */
@@ -649,9 +652,5 @@ export default {
         height: 100%;
     }
 
-    /* Hours tab */
-    .worktime-wrp {
-        margin-bottom: 10px;
-    }
 
 </style>
