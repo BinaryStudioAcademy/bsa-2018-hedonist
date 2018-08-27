@@ -33,7 +33,7 @@ export default {
 
                     //let normalizeUsersObj = context.dispatch('normalizeUsers', normalizeReviewsObj);
                     let normalizeUsersObj = normalizeUsers(normalizeReviewsObj);
-                    context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsersObj, { root: true });
+                    context.commit('userList/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsersObj, { root: true });
 
                     resolve();
                 })
