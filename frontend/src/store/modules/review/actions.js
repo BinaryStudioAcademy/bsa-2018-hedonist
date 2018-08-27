@@ -15,7 +15,7 @@ export default {
                     });
                     const review = Object.assign({}, res.data.data);
                     context.commit('ADD_REVIEW', review);
-                    resolve(res);
+                    resolve(res.data);
                 })
                 .catch(function (err) {
                     reject(err);
@@ -31,6 +31,11 @@ export default {
             formData.append('description', photo.description);
             httpService.post('reviews/photos', formData)
                 .then(function (res) {
+                    // console.log(res);
+                    context.commit('ADD_REVIEW_PHOTO', {
+                        reviewId: res.data.data.review_id,
+                        img_url: res.data.data.img_url
+                    });
                     resolve(res.data);
                 })
                 .catch(function (err) {
@@ -39,11 +44,19 @@ export default {
         });
     },
 
-    getReviewPhoto: (context, reviewId) => {
+    getReviewPhotos: (context, reviewId) => {
         return new Promise((resolve, reject) => {
             httpService.get(`reviews/${reviewId}/photos`)
                 .then((result) => {
-                    resolve(result.data.data[0].img_url);
+                    if (result.data.data.length > 0) {
+                        result.data.data.forEach(function (item) {
+                            context.commit('ADD_REVIEW_PHOTO', {
+                                reviewId: item.review_id,
+                                img_url: item.img_url
+                            });
+                        });
+                    }
+                    resolve(result.data);
                 })
                 .catch(() => {
                     reject();

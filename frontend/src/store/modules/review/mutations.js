@@ -50,6 +50,10 @@ export default {
         );
         state.users.allIds.push(user.data.id);
     },
+
+    ADD_REVIEW_PHOTO: (state, {reviewId, img_url}) => {
+        state.reviews.byId[reviewId].photos.push(img_url);
+    }
 };
 
 
