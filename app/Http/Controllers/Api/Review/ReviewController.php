@@ -8,8 +8,8 @@ use Hedonist\Actions\Review\{
     CreateReviewAction,
     DeleteReviewAction,
     GetReviewCollectionAction,
-    GetUsersLikedAction,
-    GetUsersDislikedAction
+    GetReviewUsersLikedAction,
+    GetReviewUsersDislikedAction
 };
 use Hedonist\Actions\Review\{
     GetReviewPhotoByReviewAction,
@@ -18,8 +18,8 @@ use Hedonist\Actions\Review\{
     CreateReviewRequest,
     DeleteReviewRequest,
     UpdateReviewDescriptionRequest,
-    GetUsersLikedRequest,
-    GetUsersDislikeRequest
+    GetReviewUsersLikedRequest,
+    GetREviewUsersDislikeRequest
 };
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Exceptions\User\UserNotFoundException;
@@ -35,8 +35,8 @@ class ReviewController extends ApiController
     private $deleteReviewAction;
     private $getReviewCollectionAction;
     private $getReviewPhotosByReviewAction;
-    private $getUsersLikedAction;
-    private $getUsersDislikedAction;
+    private $getReviewUsersLikedAction;
+    private $getReviewUsersDislikedAction;
 
     public function __construct(
         GetReviewAction $getReviewAction,
@@ -45,8 +45,8 @@ class ReviewController extends ApiController
         UpdateReviewDescriptionAction $updateReviewAction,
         GetReviewCollectionAction $getReviewCollectionAction,
         GetReviewPhotoByReviewAction $getReviewPhotosByReviewAction,
-        GetUsersLikedAction $getUsersLikedAction,
-        GetUsersDislikedAction $getUsersDislikedAction
+        GetReviewUsersLikedAction $getReviewUsersLikedAction,
+        GetReviewUsersDislikedAction $getReviewUsersDislikedAction
     ) {
         $this->getReviewAction = $getReviewAction;
         $this->updateReviewAction = $updateReviewAction;
@@ -54,6 +54,8 @@ class ReviewController extends ApiController
         $this->deleteReviewAction = $deleteReviewAction;
         $this->getReviewCollectionAction = $getReviewCollectionAction;
         $this->getReviewPhotosByReviewAction = $getReviewPhotosByReviewAction;
+        $this->getReviewUsersLikedAction = $getReviewUsersLikedAction;
+        $this->getReviewUsersDislikedAction = $getReviewUsersDislikedAction;
     }
 
     public function getReview(int $id)
@@ -127,25 +129,25 @@ class ReviewController extends ApiController
         }
     }
 
-    public function getUsersLiked($id)
+    public function getReviewUsersLiked($id)
     {
         try {
-            $getUsersLikedResponse = $this->getUsersLikedAction->execute(
-                new GetUsersLikedRequest($id)
+            $getReviewUsersLikedResponse = $this->getReviewUsersLikedAction->execute(
+                new GetReviewUsersLikedRequest($id)
             );
-            return $this->successResponse([$getUsersLikedResponse->getUserCollection()], 200);
+            return $this->successResponse([$getReviewUsersLikedResponse->getUserCollection()], 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
     }
 
-    public function getUsersDisliked($id)
+    public function getReviewUsersDisliked($id)
     {
         try {
-            $getUsersDisikedResponse = $this->getUsersDislikedAction->execute(
-                new GetUsersDislikedRequest($id)
+            $getReviewUsersDisikedResponse = $this->getReviewUsersDislikedAction->execute(
+                new GetReviewUsersDislikedRequest($id)
             );
-            return $this->successResponse([$getUsersDislikedResponse->getUserCollection()], 200);
+            return $this->successResponse([$getReviewUsersDislikedResponse->getUserCollection()], 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
