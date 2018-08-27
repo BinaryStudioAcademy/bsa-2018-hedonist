@@ -63,5 +63,27 @@ export default {
             .catch( (err) => {
                 return Promise.reject(err);
             });
+    },
+
+    getReviewLikedUsers: (context, id) => {
+        httpService.get(`reviews/${id}/users-liked`)
+        .then( (res) => {
+            context.commit('SET_REVIEW_LIKED_USERS', res.data.data);
+            return Promise.resolve(res);
+        })
+        .catch( (err) => {
+            return Promise.reject(err);
+        });
+    },
+
+    getReviewDislikedUsers: (context, id) => {
+        httpService.get(`reviews/${id}/users-disliked`)
+        .then( (res) => {
+            context.commit('SET_REVIEW_DISLIKED_USERS', res.data.data);
+            return Promise.resolve(res);
+        })
+        .catch( (err) => {
+            return Promise.reject(err);
+        });
     }
 };

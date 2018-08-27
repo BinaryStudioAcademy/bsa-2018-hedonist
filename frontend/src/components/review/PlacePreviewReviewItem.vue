@@ -20,6 +20,8 @@
                 font-size="0.7rem"
                 @like="onLikeReview"
                 @dislike="onDislikeReview"
+                @likedUsers="onLikedUsersReview"
+                @dislikedUsers="onDislikedUsersReview"
                 :likes="review.likes"
                 :dislikes="review.dislikes"
                 :status="review.like"
@@ -30,7 +32,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
 
 export default {
@@ -45,10 +47,20 @@ export default {
     computed:{
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
-        }
+        },
+
+        ...mapState('review', {
+            reviewLikedUsers: 'reviewLikedUsers',
+            reviewDislikedUsers: 'reviewDislikedUsers'
+        })
     },
     methods: {
-        ...mapActions('review', ['likeReview', 'dislikeReview']),
+        ...mapActions('review', [
+            'likeReview',
+            'dislikeReview',
+            'getReviewLikedUsers',
+            'getReviewDislikedUsers',
+        ]),
         ...mapMutations('place', {
             updateReviewLikedState: 'UPDATE_REVIEW_LIKED_STATE',
             updateReviewDislikedState: 'UPDATE_REVIEW_DISLIKED_STATE'
@@ -66,6 +78,24 @@ export default {
                 .then( () => {
                     this.updateReviewDislikedState(this.review.id);
                 });
+        },
+
+        onLikedUsersReview() {
+            if (this.review.likes) {
+                this.getReviewLikedUsers(this.review.id)
+                .then( () => {
+                    alert(JSON.stringify(this.reviewLikedUsers));
+                });
+            }
+        },
+
+        onDislikedUsersReview() {
+            if (this.review.dislikes) {
+                this.getReviewDislikedUsers(this.review.id)
+                .then( () => {
+                    alert(JSON.stringify(this.reviewDislikedUsers));
+                });
+            }
         }
     }
 };

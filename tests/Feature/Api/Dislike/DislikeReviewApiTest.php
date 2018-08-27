@@ -101,8 +101,16 @@ class DislikeReviewApiTest extends ApiTestCase
         factory(UserInfo::class)->create(['user_id' => $this->user->id]);
         $review = factory(Review::class)->create();
 
-        $dislike = factory(Dislike::class)->create([
+        $user2 = factory(User::class)->create();
+        factory(UserInfo::class)->create(['user_id' => $user2->id]);
+
+        factory(Dislike::class)->create([
             'user_id' => $this->user->id,
+            'dislikeable_id' => $review->id,
+            'dislikeable_type' => Review::class
+        ]);
+        factory(Dislike::class)->create([
+            'user_id' => $user2->id,
             'dislikeable_id' => $review->id,
             'dislikeable_type' => Review::class
         ]);
@@ -110,10 +118,12 @@ class DislikeReviewApiTest extends ApiTestCase
         $response = $this->actingWithToken($this->user)->get(
             "/api/v1/reviews/$review->id/users-disliked"
         );
-
+        
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'user_id' => $this->user->id
+            'id' => $this->user->id
+        ])->assertJsonFragment([
+            'id' => $user2->id
         ]);
     }
 }

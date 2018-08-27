@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\Review;
 
-class GetReviewUsersDislikedRequest
+class GetUsersWhoLikedReviewRequest
 {
     private $reviewId;
 
@@ -11,7 +11,7 @@ class GetReviewUsersDislikedRequest
         $this->reviewId = $reviewId;
     }
 
-    public function getReviewId()
+    public function getReviewId(): int
     {
         return $this->reviewId;
     }

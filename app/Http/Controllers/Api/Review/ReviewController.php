@@ -8,8 +8,8 @@ use Hedonist\Actions\Review\{
     CreateReviewAction,
     DeleteReviewAction,
     GetReviewCollectionAction,
-    GetReviewUsersLikedAction,
-    GetReviewUsersDislikedAction
+    GetUsersWhoLikedReviewAction,
+    GetUsersWhoDislikedReviewAction
 };
 use Hedonist\Actions\Review\{
     GetReviewPhotoByReviewAction,
@@ -18,14 +18,15 @@ use Hedonist\Actions\Review\{
     CreateReviewRequest,
     DeleteReviewRequest,
     UpdateReviewDescriptionRequest,
-    GetReviewUsersLikedRequest,
-    GetReviewUsersDislikedRequest
+    GetUsersWhoLikedReviewRequest,
+    GetUsersWhoDislikedReviewRequest
 };
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Http\Requests\Review\SaveReviewRequest;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
+use Hedonist\Actions\Presenters\User\UserPresenter;
 
 class ReviewController extends ApiController
 {
@@ -35,8 +36,8 @@ class ReviewController extends ApiController
     private $deleteReviewAction;
     private $getReviewCollectionAction;
     private $getReviewPhotosByReviewAction;
-    private $getReviewUsersLikedAction;
-    private $getReviewUsersDislikedAction;
+    private $getUsersWhoLikedReviewAction;
+    private $getUsersWhoDislikedReviewAction;
 
     public function __construct(
         GetReviewAction $getReviewAction,
@@ -45,8 +46,8 @@ class ReviewController extends ApiController
         UpdateReviewDescriptionAction $updateReviewAction,
         GetReviewCollectionAction $getReviewCollectionAction,
         GetReviewPhotoByReviewAction $getReviewPhotosByReviewAction,
-        GetReviewUsersLikedAction $getReviewUsersLikedAction,
-        GetReviewUsersDislikedAction $getReviewUsersDislikedAction
+        GetUsersWhoLikedReviewAction $getUsersWhoLikedReviewAction,
+        GetUsersWhoDislikedReviewAction $getUsersWhoDislikedReviewAction
     ) {
         $this->getReviewAction = $getReviewAction;
         $this->updateReviewAction = $updateReviewAction;
@@ -54,8 +55,8 @@ class ReviewController extends ApiController
         $this->deleteReviewAction = $deleteReviewAction;
         $this->getReviewCollectionAction = $getReviewCollectionAction;
         $this->getReviewPhotosByReviewAction = $getReviewPhotosByReviewAction;
-        $this->getReviewUsersLikedAction = $getReviewUsersLikedAction;
-        $this->getReviewUsersDislikedAction = $getReviewUsersDislikedAction;
+        $this->getUsersWhoLikedReviewAction = $getUsersWhoLikedReviewAction;
+        $this->getUsersWhoDislikedReviewAction = $getUsersWhoDislikedReviewAction;
     }
 
     public function getReview(int $id)
@@ -129,25 +130,35 @@ class ReviewController extends ApiController
         }
     }
 
-    public function getReviewUsersLiked($id)
+    public function getUsersWhoLikedReview(int $id, UserPresenter $presenter)
     {
         try {
-            $getReviewUsersLikedResponse = $this->getReviewUsersLikedAction->execute(
-                new GetReviewUsersLikedRequest($id)
+            $getUsersWhoLikedReviewResponse = $this->getUsersWhoLikedReviewAction->execute(
+                new GetUsersWhoLikedReviewRequest($id)
             );
-            return $this->successResponse([$getReviewUsersLikedResponse->getUsers()], 200);
+            $users = $getUsersWhoLikedReviewResponse->getUsers();
+            $presented = [];
+            foreach ($users as $user) {
+                $presented[] = $presenter->present($user);
+            }
+            return $this->successResponse($presented, 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
     }
 
-    public function getReviewUsersDisliked($id)
+    public function getUsersWhoDislikedReview(int $id, UserPresenter $presenter)
     {
         try {
-            $getReviewUsersDislikedResponse = $this->getReviewUsersDislikedAction->execute(
-                new GetReviewUsersDislikedRequest($id)
+            $getUsersWhoDislikedReviewResponse = $this->getUsersWhoDislikedReviewAction->execute(
+                new GetUsersWhoDislikedReviewRequest($id)
             );
-            return $this->successResponse([$getReviewUsersDislikedResponse->getUsers()], 200);
+            $users = $getUsersWhoDislikedReviewResponse->getUsers();
+            $presented = [];
+            foreach ($users as $user) {
+                $presented[] = $presenter->present($user);
+            }
+            return $this->successResponse($presented, 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }

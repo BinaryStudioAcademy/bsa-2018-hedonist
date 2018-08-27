@@ -3,25 +3,31 @@
         <div class="level-left">
             <div
                 class="likable like level-item"
-                @click="$emit('like')"
                 :class="{active: status === statusLiked}"
             >
-                <span class="likable-amount">
+                <span class="likable-amount"
+                    @click="$emit('likedUsers')"
+                >
                     {{ likes }}
                 </span>
-                <span class="fa-stack fa-2x">
+                <span class="fa-stack fa-2x"
+                    @click="$emit('like')"
+                >
                     <i class="fa fa-heart fa-stack-1x" />
                 </span>
             </div>
             <div
                 class="likable dislike level-item"
-                @click="$emit('dislike')"
                 :class="{active: status === statusDisliked}"
             >
-                <span class="likable-amount">
+                <span class="likable-amount"
+                    @click="$emit('dislikedUsers')"
+                >
                     {{ dislikes }}
                 </span>
-                <span class="fa-stack fa-2x">
+                <span class="fa-stack fa-2x"
+                    @click="$emit('dislike')"
+                >
                     <i class="fa fa-heart fa-stack-1x" />
                     <i class="fa fa-bolt fa-stack-1x fa-inverse" />
                 </span>

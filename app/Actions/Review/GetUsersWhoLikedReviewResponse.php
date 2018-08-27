@@ -2,19 +2,19 @@
 
 namespace Hedonist\Actions\Review;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
-class GetReviewUsersLikedResponse
+class GetUsersWhoLikedReviewResponse
 {
     private $users;
 
-    public function __construct(array $users)
+    public function __construct(Collection $users)
     {
         $this->users = $users;
     }
 
     public function getUsers(): array
     {
-        return $this->users;
+        return $this->users->all();
     }
 }

@@ -99,10 +99,19 @@ class LikeReviewApiTest extends ApiTestCase
     public function test_get_users_liked_review()
     {
         factory(UserInfo::class)->create(['user_id' => $this->user->id]);
+
+        $user2 = factory(User::class)->create();
+        factory(UserInfo::class)->create(['user_id' => $user2->id]);
+
         $review = factory(Review::class)->create();
 
-        $like = factory(Like::class)->create([
+        factory(Like::class)->create([
             'user_id' => $this->user->id,
+            'likeable_id' => $review->id,
+            'likeable_type' => Review::class
+        ]);
+        factory(Like::class)->create([
+            'user_id' => $user2->id,
             'likeable_id' => $review->id,
             'likeable_type' => Review::class
         ]);
@@ -113,7 +122,9 @@ class LikeReviewApiTest extends ApiTestCase
         
         $response->assertStatus(200);
         $response->assertJsonFragment([
-            'user_id' => $this->user->id
+            'id' => $this->user->id
+        ])->assertJsonFragment([
+            'id' => $user2->id
         ]);
     }
 }
