@@ -20,8 +20,8 @@
                 font-size="0.7rem"
                 @like="onLikeReview"
                 @dislike="onDislikeReview"
-                @likedUsers="onLikedUsersReview"
-                @dislikedUsers="onDislikedUsersReview"
+                @showUsersWhoLiked="onShowUsersWhoLiked"
+                @showUsersWhoDisliked="onShowUsersWhoDisliked"
                 :likes="review.likes"
                 :dislikes="review.dislikes"
                 :status="review.like"
@@ -80,20 +80,20 @@ export default {
                 });
         },
 
-        onLikedUsersReview() {
+        onShowUsersWhoLiked() {
             if (this.review.likes) {
                 this.getUsersWhoLikedReview(this.review.id)
                     .then( () => {
-                        alert(JSON.stringify(this.reviewLikedUsers));
+                        
                     });
             }
         },
 
-        onDislikedUsersReview() {
+        onShowUsersWhoDisliked() {
             if (this.review.dislikes) {
                 this.getUsersWhoDislikedReview(this.review.id)
                     .then( () => {
-                        alert(JSON.stringify(this.reviewDislikedUsers));
+                        
                     });
             }
         }

@@ -7,7 +7,7 @@
             >
                 <span 
                     class="likable-amount"
-                    @click="$emit('likedUsers')"
+                    @click="$emit('showUsersWhoLiked')"
                 >
                     {{ likes }}
                 </span>
@@ -27,7 +27,7 @@
             >
                 <span 
                     class="likable-amount"
-                    @click="$emit('dislikedUsers')"
+                    @click="$emit('showUsersWhoDisliked')"
                 >
                     {{ dislikes }}
                 </span>
