@@ -141,4 +141,13 @@ export default {
                 });
         });
     },
+
+    normalizeReviews: (context, reviews) => {
+        reviews.forEach(function(review) { review.user_id = review.user.id; });
+        let transformedCurrentPlaceReviews = normalizerService.normalize({ data: reviews }, context.state.getReviewSchema());
+        transformedCurrentPlaceReviews.allIds = [];
+        for (let k in transformedCurrentPlaceReviews.byId)
+            transformedCurrentPlaceReviews.allIds.push(parseInt(k));
+        return transformedCurrentPlaceReviews;
+    }
 };
