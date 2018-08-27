@@ -1,11 +1,5 @@
 import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
-function findReviewById (places, reviewId) {
-    return places.find( (place) => { 
-        return place.review.id === parseInt(reviewId); 
-    }).review;
-};
-
 export default {
     SET_PLACES: (state, places) => {
         state.places = places;

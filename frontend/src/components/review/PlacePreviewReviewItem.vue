@@ -49,7 +49,7 @@ export default {
     },
     methods: {
         ...mapActions('review', ['likeReview', 'dislikeReview']),
-        ...mapMutations('place', {
+        ...mapMutations('review', {
             updateReviewLikedState: 'UPDATE_REVIEW_LIKED_STATE',
             updateReviewDislikedState: 'UPDATE_REVIEW_DISLIKED_STATE'
         }),
