@@ -19,11 +19,6 @@
                         :access-token="mapboxToken"
                         :map-options="{
                         style: mapboxStyle,
-                        center: {
-                            lat: currentLatitude,
-                            lng: currentLongitude
-                        },
-                        zoom: 12
                     }"
                         :fullscreen-control="{
                         show: true,
@@ -79,8 +74,7 @@
             ]),
         },
         created() {
-            this.loadUserCoords()
-                .then((coords) => {
+            this.loadUserCoords().then((coords) => {
                     this.setCurrentMapCenter(coords);
                 });
             this.loadCheckInPlaces()
@@ -96,10 +90,10 @@
         },
         watch: {
             isMapLoaded: function (oldVal, newVal) {
-                this.updateMap(this.placesList);
+                this.updateMap(this.placeList);
             },
             isPlacesLoaded: function (oldVal, newVal) {
-                this.updateMap(this.placesList);
+                this.updateMap(this.placeList);
             }
         },
         methods: {
@@ -110,13 +104,16 @@
 
             mapInitialize(map) {
                 this.markerManager = markerManager.getService(map);
+                this.isMapLoaded = true;
             }
             ,
             updateMap(places) {
-                if(this.isMapLoaded && this.isPlacesLoaded)
-                this.markerManager.setMarkersFromPlacesAndFit(...places);
-            }
-            ,
+                console.log(this.isMapLoaded);
+                console.log(this.isPlacesLoaded);
+                if(this.isMapLoaded && this.isPlacesLoaded) {
+                    this.markerManager.setMarkersFromPlacesAndFit(...places);
+                }
+            },
             loadUserCoords() {
                 return new Promise((resolve, reject) => {
                     LocationService.getUserLocationData()
