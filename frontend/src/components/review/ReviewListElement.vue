@@ -17,11 +17,10 @@
                     </div>
 
                     <template v-if="isImageAttached">
-                        <div class="image is-3by1">
+                        <div class="review-photos">
                             <img 
-                                v-for="(photo, index) in this.review.photos" 
-                                class="review-photo" 
-                                :src="photo" 
+                                v-for="(photo, index) in review.photos"
+                                :src="photo"
                                 :key="index"
                             >
                         </div>
@@ -54,12 +53,6 @@ export default {
             type: Object,
             required: true
         }
-    },
-
-    data() {
-        return {
-            reviewImageUrl: ''
-        };
     },
 
     created() {
@@ -100,7 +93,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .review-wrp {
         background: #fff;
         border-top: 1px solid #efeff4;
@@ -116,9 +109,11 @@ export default {
         justify-content: space-between;
     }
 
-    /* for fill in the div without shrink */
-    .review-photo {
-        object-fit: cover;
+    .review-photos {
+        img {
+            height: 150px;
+            width: 150px;
+        }
     }
 
     .review-like {

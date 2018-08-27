@@ -53,6 +53,10 @@ export default {
 
     ADD_REVIEW_PHOTO: (state, {reviewId, img_url}) => {
         state.reviews.byId[reviewId].photos.push(img_url);
+    },
+
+    SET_REVIEW_PHOTOS: (state, {reviewId, photos}) => {
+        state.reviews.byId[reviewId].photos = photos;
     }
 };
 

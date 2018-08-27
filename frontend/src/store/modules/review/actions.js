@@ -31,7 +31,6 @@ export default {
             formData.append('description', photo.description);
             httpService.post('reviews/photos', formData)
                 .then(function (res) {
-                    // console.log(res);
                     context.commit('ADD_REVIEW_PHOTO', {
                         reviewId: res.data.data.review_id,
                         img_url: res.data.data.img_url
@@ -49,11 +48,13 @@ export default {
             httpService.get(`reviews/${reviewId}/photos`)
                 .then((result) => {
                     if (result.data.data.length > 0) {
+                        let photos = [];
                         result.data.data.forEach(function (item) {
-                            context.commit('ADD_REVIEW_PHOTO', {
-                                reviewId: item.review_id,
-                                img_url: item.img_url
-                            });
+                            photos.push(item.img_url);
+                        });
+                        context.commit('SET_REVIEW_PHOTOS', {
+                            reviewId: reviewId,
+                            photos: photos
                         });
                     }
                     resolve(result.data);
