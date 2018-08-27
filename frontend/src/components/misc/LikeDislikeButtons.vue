@@ -12,7 +12,7 @@
                     {{ likes }}
                 </span>
                 <b-modal :active.sync="isLikedModalActive" has-modal-card>
-                    <ReviewUsersLikedModal/>
+                    <ReviewUsersLikedModal />
                 </b-modal>
                 <span 
                     class="fa-stack fa-2x"
