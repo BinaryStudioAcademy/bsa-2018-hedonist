@@ -4,29 +4,33 @@
             <article class="media">
                 <figure class="media-left">
                     <p class="image is-32x32">
-                        <img :src="review.user.avatar">
+                        <img :src="review.user.avatar_url">
                     </p>
                 </figure>
                 <div class="media-content">
                     <div class="top-line">
-                        <strong><a>{{ review.user.name }}</a></strong>
-                        <small><a>21 September 2018</a></small>
+                        <strong><a>{{ userName }}</a></strong>
+                        <small>{{ date }}</small>
                     </div>
                     <div class="content">
-                        <p>{{ review.text }}</p>
+                        <p>{{ review.description }}</p>
                     </div>
-                    <nav class="level">
-                        <div class="level-left">
-                            <a class="level-item">
-                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-up" /></span>
-                                <span class="is-size-6">Upvote</span>
-                            </a>
-                            <a class="level-item">
-                                <span class="icon is-small"><i class="far fa-arrow-alt-circle-down" /></span>
-                                <span class="is-size-6">Downvote</span>
-                            </a>
+
+                    <template v-if="isImageAttached">
+                        <div class="image is-3by1">
+                            <img class="review-photo" :src="reviewImageUrl">
                         </div>
-                    </nav>
+                    </template>
+
+                    <LikeDislikeButtons
+                        @like="onLikeReview"
+                        @dislike="onDislikeReview"
+                        :likes="review.likes"
+                        :dislikes="review.dislikes"
+                        :status="review.like"
+                        font-size="0.5rem"
+                        class="review-like"
+                    />
                 </div>
             </article>
         </div>
@@ -34,14 +38,70 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
+
 export default {
     name: 'ReviewListElement',
+    components: {LikeDislikeButtons},
     props: {
         review: {
             type: Object,
             required: true
         }
     },
+
+    data() {
+        return {
+            reviewImageUrl: ''
+        };
+    },
+
+    created() {
+        this.getReviewImage();
+    },
+
+    computed: {
+        userName() {
+            return this.review.user.first_name + ' ' + this.review.user.last_name;
+        },
+
+        isImageAttached() {
+            return !_.isEmpty(this.reviewImageUrl);
+        },
+        date() {
+            const date = new Date(this.review['created_at']);
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long',
+            };
+            return date.toLocaleString('en-US', options);
+        }
+    },
+
+    methods: {
+        ...mapActions('review', ['getReviewPhoto']),
+        getReviewImage: function() {
+            this.getReviewPhoto(this.review.id)
+                .then((result) => {
+                    this.reviewImageUrl = result;
+                })
+                .catch(() => {
+                    this.reviewImageUrl = '';
+                });
+        },
+
+        ...mapActions('review', ['likeReview', 'dislikeReview']),
+        onLikeReview() {
+            this.likeReview(this.review.id);
+        },
+
+        onDislikeReview() {
+            this.dislikeReview(this.review.id);
+        }
+    }
 };
 </script>
 
@@ -61,8 +121,12 @@ export default {
         justify-content: space-between;
     }
 
-    .icon {
-        margin-right: 5px;
+    /* for fill in the div without shrink */
+    .review-photo {
+        object-fit: cover;
     }
 
+    .review-like {
+        max-width: 80px;
+    }
 </style>

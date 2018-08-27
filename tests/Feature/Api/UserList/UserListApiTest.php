@@ -27,7 +27,7 @@ class UserListApiTest extends ApiTestCase
             'name' => 'Bar',
             'img_url' => 'http://test.image',
         ];
-        $response = $this->json('POST', '/api/v1/user-list', $data);
+        $response = $this->json('POST', '/api/v1/user-lists', $data);
         $response->assertHeader('Content-Type', 'application/json');
 
         $this->assertDatabaseHas('user_lists', $data);
@@ -36,7 +36,7 @@ class UserListApiTest extends ApiTestCase
     public function test_get_user_list()
     {
         $userList = factory(UserList::class)->create();
-        $response = $this->json('GET', "/api/v1/user-list/$userList->id");
+        $response = $this->json('GET', "/api/v1/user-lists/$userList->id");
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
         $data = json_decode($response->getContent(), true);
@@ -44,6 +44,25 @@ class UserListApiTest extends ApiTestCase
         $this->assertEquals($userList->user_id, $data['data']['user_id']);
         $this->assertEquals($userList->name, $data['data']['name']);
         $this->assertEquals($userList->img_url, $data['data']['img_url']);
+    }
+
+    public function test_get_user_lists()
+    {
+        $userLists = factory(UserList::class)->create();
+        $response = $this->json('GET', "/api/v1/users/$userLists->user_id/lists");
+        $response->assertHeader('Content-Type', 'application/json');
+        $response->assertStatus(200);
+        $response->assertJsonStructure(
+            ["data" =>
+                [
+                    '*' => [
+                        "id",
+                        "user_id",
+                        "name",
+                        "img_url"
+                    ]
+                ]
+            ]);
     }
 
     public function test_update_user_list()
@@ -54,7 +73,7 @@ class UserListApiTest extends ApiTestCase
             'name' => 'Caffe',
             'img_url' => 'http://test.image',
         ];
-        $response = $this->json('PUT', "/api/v1/user-list/$userList->id", $data);
+        $response = $this->json('PUT', "/api/v1/user-lists/$userList->id", $data);
         $result = json_decode($response->getContent(), true);
         $this->assertEquals($result['data']['name'], $data['name']);
     }
@@ -62,9 +81,9 @@ class UserListApiTest extends ApiTestCase
     public function test_delete_user_list()
     {
         $userList = factory(UserList::class)->create();
-        $this->json('DELETE', "/api/v1/user-list/$userList->id");
+        $this->json('DELETE', "/api/v1/user-lists/$userList->id");
 
-        $this->json('GET', "/api/v1/user-list/$userList->id")->assertStatus(404);
+        $this->json('GET', "/api/v1/user-lists/$userList->id")->assertStatus(404);
     }
 
     public function test_get_all_user_list()
@@ -74,7 +93,7 @@ class UserListApiTest extends ApiTestCase
             $userList[] = factory(UserList::class)->create();
         }
 
-        $response = $this->json('GET', "/api/v1/user-list");
+        $response = $this->json('GET', "/api/v1/user-lists");
         $response->assertHeader('Content-Type', 'application/json');
         $response->assertStatus(200);
 
@@ -84,6 +103,6 @@ class UserListApiTest extends ApiTestCase
 
     public function test_get_user_list_not_found()
     {
-        $this->json('GET', "/api/v1/user-list/1")->assertStatus(404);
+        $this->json('GET', "/api/v1/user-lists/1")->assertStatus(404);
     }
 }

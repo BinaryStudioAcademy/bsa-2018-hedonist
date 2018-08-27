@@ -1,40 +1,139 @@
 <template>
     <div class="row">
-        <div class="column visitedplaces-wrapper">
-            <div 
-                v-for="(visitedPlace,index) in visitedPlaces" 
-                :key="visitedPlace.id"
+        <div v-if="isPlacesLoaded" class="column visitedplaces-wrapper">
+            <div
+                v-for="(checkInId, index) in checkIns.allIds"
+                :key="checkInId"
             >
-                <PlaceVisitedPreview 
-                    :visited-place="visitedPlace" 
-                    :index="index + 1" 
+                <PlaceVisitedPreview
+                    :check-in="getCheckInById(checkInId)"
+                    :check-in-place="getPlaceByCheckInId(checkInId)"
                     :timer="50 * (index+1)"
                 />
             </div>
         </div>
 
-        <div class="column mapbox-wrapper">
+        <div v-if="mapInitialized" class="column mapbox-wrapper">
             <section id="map">
                 <mapbox
-                    @map-load="mapLoaded"
-                    :access-token="getMapboxToken"
+                    :access-token="mapboxToken"
                     :map-options="{
-                        style: getMapboxStyle,
-                        center: getMapboxCenter(),
-                        zoom: 5
+                        style: mapboxStyle,
+                        center: {
+                            lat: currentLatitude,
+                            lng: currentLongitude
+                        },
+                        zoom: 12
                     }"
                     :fullscreen-control="{
                         show: true,
                         position: 'bottom-right'
                     }"
+                    :scale-control="{
+                        show: true,
+                        position: 'top-left'
+                    }"
+                    @map-init="mapInitialize"
                 />
             </section>
         </div>
     </div>
 </template>
 
-<style lang="scss" scoped>
+<script>
+import { mapGetters, mapActions, mapState } from 'vuex';
+import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
+import LocationService from '@/services/location/locationService';
+import markerManager from '@/services/map/markerManager';
+import Mapbox from 'mapbox-gl-vue';
+import mapSettingsService from '@/services/map/mapSettingsService';
 
+export default {
+    name: 'HistoryPage',
+    components: {
+        PlaceVisitedPreview,
+        Mapbox
+    },
+    data() {
+        return {
+            isPlacesLoaded: false,
+            markerManager: null,
+            userCoordinates: {
+                lat: null,
+                lng: null
+            },
+            mapboxToken: mapSettingsService.getMapboxToken(),
+            mapboxStyle: mapSettingsService.getMapboxStyle()
+        };
+    },
+    computed: {
+        ...mapGetters('user/history', [
+            'getCheckInById',
+            'getPlaceById',
+            'getPlaceByCheckInId',
+            'placeList'
+        ]),
+        ...mapState('user/history', [
+            'checkIns', 'places', 'currentLatitude', 'currentLongitude', 'mapInitialized'
+        ]),
+    },
+    created() {
+        this.loadUserCoords()
+            .then((coords) => {
+                this.setCurrentMapCenter(coords);
+                this.mapInitialization();
+            })
+            .then(() => {
+                this.loadCheckInPlaces()
+                    .then(() => {
+                        this.isPlacesLoaded = true;
+                        this.setCurrentMapCenter(
+                            mapSettingsService.getMapboxCenter(this.places.byId, this.places.allIds)
+                        );
+                        this.updateMap(this.placeList);
+                    })
+                    .catch((err) => {
+                        this.isPlacesLoaded = true;
+                    });
+            });
+    },
+    methods: {
+        ...mapActions('user/history', [
+            'loadCheckInPlaces', 'setCurrentMapCenter', 'mapInitialization'
+        ]),
+
+        mapInitialize(map) {
+            this.markerManager = markerManager.getService(map);
+        },
+        updateMap(places) {
+            this.markerManager.setMarkersFromPlacesAndFit(...places);
+        },
+        loadUserCoords() {
+            return new Promise((resolve, reject) => {
+                LocationService.getUserLocationData()
+                    .then(coordinates => {
+                        this.userCoordinates.lat = coordinates.lat;
+                        this.userCoordinates.lng = coordinates.lng;
+                        resolve({
+                            latitude: coordinates.lat,
+                            longitude: coordinates.lng
+                        });
+                    });
+            });
+        },
+    }
+};
+
+</script>
+
+<style>
+    .mapboxgl-ctrl-top-left,
+    .mapboxgl-ctrl-top-right {
+        top: 20px;
+    }
+</style>
+
+<style lang="scss" scoped>
     .row {
         display: flex;
     }
@@ -46,258 +145,41 @@
     #map {
         text-align: justify;
         position: fixed;
-        top: 0;
+        top: 87px;
         bottom: 0;
         right: 0;
         width: 50%;
     }
 
     @media screen and (max-width: 769px) {
-        #map {
-            text-align: justify;
-            vertical-align: top;
-            position: relative;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 500px;
-        }
-    }
-</style>
+        .row {
+            display: grid;
+            grid-template-areas: "right" "left";
 
-<style>
-    .mapboxgl-ctrl-top-left,
-    .mapboxgl-ctrl-top-right {
-        top: 50px;
-    }
-</style>
+            .visitedplaces-wrapper {
+                grid-area: left;
+            }
+            .mapbox-wrapper {
+                grid-area: right;
+                position: relative;
+                height: 500px;
 
-<script>
-import { mapGetters } from 'vuex';
-import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
-import Mapbox from 'mapbox-gl-vue';
-import mapActions from '../store/modules/map/actions';
-
-export default {
-    name: 'HistoryPage',
-    components: {
-        PlaceVisitedPreview,
-        Mapbox
-    },
-    data() {
-        return {
-            visitedPlaces: [
-                {
-                    id: 1,
-                    ratings: {
-                        rating: 7.9
-                    },
-                    address: 'Tolkien str., 3',
-                    latitude: 48.424234,
-                    longitude: 34.974195,
-                    zip: null,
-                    creator_id: null,
-                    categories: {
-                        id: 2,
-                        name: 'Restaurant'
-                    },
-                    place_photo: {
-                        url: 'http://www.fraufluger.ru/files/images/story/a7ab21562ce4476d11936f0fd3c27fa6_560x416.jpg',
-                        description: 'Сказка',
-                        posted_at: '2018-08-08'
-                    },
-                    reviews: [
-                        {
-                            id: 1,
-                            rate: 2
-                        },
-                        {
-                            id: 2,
-                            rate: 2
-                        },
-                        {
-                            id: 3,
-                            rate: 2
-                        }
-                    ],
-                    places_tr: {
-                        id: 2,
-                        place_name: 'Fairy tale',
-                        place_description: 'Ох',
-                        language_id: 2
-                    },
-                    cities: {
-                        id: 12,
-                        name: 'Dnepr'
-                    }
-                },
-                {
-                    id: 2,
-                    ratings: {
-                        rating: 8.8
-                    },
-                    address: 'Cosmos str., 18',
-                    latitude: 46.423080,
-                    longitude: 30.756138,
-                    zip: null,
-                    creator_id: null,
-                    categories: {
-                        id: 10,
-                        name: 'Restaurant'
-                    },
-                    place_photo: {
-                        url: 'https://www.stihi.ru/pics/2012/11/19/8139.jpg',
-                        description: 'Bourgeois',
-                        posted_at: '2018-08-08'
-                    },
-                    reviews: [
-                        {
-                            id: 1,
-                            rate: 2
-                        }
-                    ],
-                    places_tr: {
-                        id: 2,
-                        place_name: 'Bourgeois',
-                        place_description: 'Beast',
-                        language_id: 2
-                    },
-                    cities: {
-                        id: 4,
-                        name: 'Odesa'
-                    }
-                },
-                {
-                    id: 3,
-                    ratings: {
-                        rating: 10
-                    },
-                    address: 'ул. Р.Стонз, 62',
-                    latitude: 50.486555,
-                    longitude: 30.329787,
-                    zip: null,
-                    creator_id: null,
-                    categories: {
-                        id: 10,
-                        name: 'Art Pub'
-                    },
-                    place_photo: {
-                        url: 'https://static1.squarespace.com/static/5523fa93e4b0b65a7c7d15b4/t/576050c5a3360c552edf9b4f/1465929930315/',
-                        description: 'Beer&Blues',
-                        posted_at: '2018-08-08'
-                    },
-                    reviews: {
-
-                    },
-                    places_tr: {
-                        id: 2,
-                        place_name: 'Beer&Blues',
-                        place_description: 'beer and blues',
-                        language_id: 2
-                    },
-                    cities: {
-                        id: 12,
-                        name: 'Kiev'
-                    }
-                },
-                {
-                    id: 4,
-                    ratings: {
-                        rating: 6.3
-                    },
-                    address: 'Cat str., 43',
-                    latitude: 49.817136,
-                    longitude: 24.005504,
-                    zip: null,
-                    creator_id: null,
-                    categories: {
-                        id: 10,
-                        name: 'Park'
-                    },
-                    place_photo: {
-                        url: 'https://i.ytimg.com/vi/3lqlc-ooJpE/hqdefault.jpg',
-                        description: 'Cheburek',
-                        posted_at: '2018-08-08'
-                    },
-                    reviews: [
-                        {
-                            id: 1,
-                            rate: 2
-                        },
-                        {
-                            id: 2,
-                            rate: 2
-                        },
-                        {
-                            id: 3,
-                            rate: 2
-                        }
-                    ],
-                    places_tr: {
-                        id: 2,
-                        place_name: 'Cheburek',
-                        place_description: 'Cheburek is delicious',
-                        language_id: 2
-                    },
-                    cities: {
-                        id: 10,
-                        name: 'Lviv'
-                    }
-                },
-            ]
-        };
-    },
-    computed: {
-        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle'])
-    },
-    methods: {
-        mapLoaded: function (map) {
-            map.addLayer({
-                'id': 'points',
-                'type': 'symbol',
-                'source': {
-                    'type': 'geojson',
-                    'data': {
-                        'type': 'FeatureCollection',
-                        'features': this.generateMapFeatures()
-                    }
-                },
-                'layout': {
-                    'icon-image': '{icon}-15',
-                    'text-field': '{title}',
-                    'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-                    'text-offset': [0, 0.6],
-                    'text-anchor': 'top'
+                #map {
+                    position: absolute;
+                    width: 100%;
                 }
-            });
-        },
-        generateMapFeatures: function () {
-            let features = [];
-            this.visitedPlaces.forEach(function (place, i) {
-
-                let feature = {
-                    'type' : 'Feature',
-                    'geometry' : {
-                        'type' : 'Point',
-                        'coordinates' : [place.longitude, place.latitude]
-                    },
-                    'properties' : {
-                        'title' : place.places_tr.place_name,
-                        'icon' : 'marker',
-                        'marker-symbol' : i + 1
-                    }
-                };
-
-                features.push(feature);
-            });
-
-            return features;
-        },
-        getMapboxCenter: function() {
-            return mapActions.getMapboxCenter(this.visitedPlaces);
+            }
+        }
+        .column {
+            flex: 100%;
         }
     }
-};
 
-</script>
-
+    @media screen and (max-width: 520px) {
+        .row {
+            .mapbox-wrapper {
+                height: 300px;
+            }
+        }
+    }
+</style>

@@ -1,9 +1,9 @@
 <template>
     <div class="place-view container">
-        <b-loading :active.sync="isLoading" />
+        <Preloader :active="isLoading" />
         <PlaceTopInfo 
             v-if="loaded"
-            :place="place" 
+            :place="place"
             @tabChanged="tabChanged"
         />
         <div class="main-wrapper columns">
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import Preloader from '@/components/misc/Preloader';
 import PlaceTopInfo from '@/components/place/PlaceTopInfo';
 import ReviewList from '@/components/review/ReviewList';
 import ReviewPhotoGallery from '@/components/review/ReviewPhotoGallery';
@@ -41,24 +42,21 @@ export default {
         PlaceTopInfo,
         ReviewList,
         ReviewPhotoGallery,
-        PlaceSidebarInfo
+        PlaceSidebarInfo,
+        Preloader
     },
 
     data() {
         return {
             isLoading: true,
-            loaded: false,
             activeTab: 1,
-            place: null
         };
     },
 
     created() {
         this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
             .then((response) => {
-                this.place = response;
                 this.isLoading = false;
-                this.loaded = true;
             })
             .catch((err) => {
                 this.isLoading = false;
@@ -72,7 +70,13 @@ export default {
     },
 
     computed: {
-        ...mapState('place', ['places'])
+        ...mapState('place', {
+            places  : 'places',
+            place   : 'currentPlace'
+        }),
+        loaded: function() {
+            return !!(this.place) && !(this.isLoading);
+        }
     },
 };
 </script>

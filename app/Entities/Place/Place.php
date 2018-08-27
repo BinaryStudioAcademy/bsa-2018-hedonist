@@ -10,24 +10,8 @@ use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Hedonist\Entities\Place\Scope\PlaceScope;
 
-/**
- * Class Place
- *
- * @property int $id
- * @property float $longitude
- * @property float $latitude
- * @property int $zip
- * @property string $address
- * @property string $phone
- * @property string $website
- * @property int $creator_id
- * @property int $category_id
- * @property int $city_id
- * @property int $updated_at
- * @property int $created_at
- * @property int $deleted_at
- */
 class Place extends Model
 {
     use SoftDeletes;
@@ -46,6 +30,18 @@ class Place extends Model
 
     protected $dates = ['deleted_at'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new PlaceScope);
+    }
+
+    public function placeInfo()
+    {
+        return $this->hasOne(PlaceInfo::class);
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class);
@@ -54,6 +50,16 @@ class Place extends Model
     public function category()
     {
         return $this->belongsTo(PlaceCategory::class);
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(
+            PlaceCategoryTag::class,
+            'place_tag',
+            'place_id',
+            'tag_id'
+        );
     }
 
     public function city()
@@ -100,6 +106,14 @@ class Place extends Model
     {
         $this->latitude = $location->getLatitude();
         $this->longitude = $location->getLongitude();
+    }
+
+    public function getLocation() : Location
+    {
+        return new Location(
+            $this->longitude,
+            $this->latitude
+        );
     }
 
     public function likes()

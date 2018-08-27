@@ -3,8 +3,8 @@
 namespace Hedonist\Actions\Auth\Presenters;
 
 use Hedonist\Actions\Auth\Responses\AuthenticateResponseInterface;
+use Hedonist\Actions\SocialAuth\Responses\SocialRedirectResponse;
 use Hedonist\Actions\Auth\Responses\GetUserResponse;
-use Hedonist\Entities\User\User;
 
 class AuthPresenter
 {
@@ -33,7 +33,17 @@ class AuthPresenter
             'email' => $user->email,
             'first_name' => $userInfo->first_name,
             'last_name' => $userInfo->last_name,
-            'avatar_url' => $userInfo->avatar_url
+            'avatar_url' => $userInfo->avatar_url,
+            'phone_number' => $userInfo->phone_number,
+            'date_of_birth' => $userInfo->date_of_birth,
+            'facebook_url' => $userInfo->facebook_url,
+            'instagram_url' => $userInfo->instagram_url,
+            'twitter_url' => $userInfo->twitter_url,
         ];
+    }
+
+    public static function presentSocialRedirect(SocialRedirectResponse $response)
+    {
+        return ['url' => $response->getUrl()];
     }
 }

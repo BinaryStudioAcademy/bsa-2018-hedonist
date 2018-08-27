@@ -1,88 +1,87 @@
 <template>
     <div class="container">
         <ul>
-            <li 
-                v-for="(taste, index) in tastes" 
+            <li
+                v-for="(taste, index) in allTastes.byId"
                 class="taste"
-                :class="{added: taste.check, pop: taste.isAnimate, popin: !taste.isClick}" 
+                :class="{added: isChecked(taste.id), pop: isAnimated(taste.id), popin: !isClicked(taste.id)}"
                 :key="taste.id"
                 :style="{ animationDelay: index * 0.02 + 's' }"
             >
-                <div class="pill" @click="checkTaste(index)">
+                <div class="pill" @click="checkTaste(taste.id)">
                     {{ taste.name }}
-                    <i v-if="taste.check" class="fas fa-check" />
+                    <i v-if="isChecked(taste.id)" class="fas fa-check" />
                     <i v-else class="fas fa-plus" />
                 </div>
             </li>
         </ul>
-        <div class="loadMore">Load more</div>
-        <button class="doneButton loggedOut">Save and register</button>
     </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+
 export default {
     name: 'TasteList',
     data() {
         return {
             timeDelay: 0,
-            tastes: [
-                {
-                    id: 1,
-                    name: 'Craft beer',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                },
-                {
-                    id: 2,
-                    name: 'Ice-cream',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                },
-                {
-                    id: 3,
-                    name: 'Live-music',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                },
-                {
-                    id: 4,
-                    name: 'Sport-bar',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                },
-                {
-                    id: 5,
-                    name: 'Lunch',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                },
-                {
-                    id: 6,
-                    name: 'Sushi',
-                    check: false,
-                    isAnimate: false,
-                    isClick: false
-                }
-            ]
+            selectedIds: [],
+            tastesData: []
         };
     },
     methods: {
-        checkTaste(index) {
-            let taste = this.tastes[index];
-            taste.check = !taste.check;
-            taste.isClick = true;
-            taste.isAnimate = true;
+        checkTaste(id) {
+            if (this.tastesData[id] === undefined) {
+                this.tastesData[id] = {
+                    check: false,
+                    isClick: false,
+                    isAnimate: false
+                };
+            }
+            let tasteData = this.tastesData[id];
+            if (this.selectedIds.includes(id)) {
+                this.deleteTaste(id);
+            } else {
+                this.addTaste(id);
+            }
+            tasteData.isClick = true;
+            tasteData.isAnimate = true;
             setTimeout(function () {
-                taste.isAnimate = false;
+                tasteData.isAnimate = false;
             }, 200);
+        },
+        deleteTaste(id) {
+            this.tastesData[id].check = false;
+            this.$store.dispatch('taste/deleteMyTaste', id);
+            this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
+        },
+        addTaste(id) {
+            this.tastesData[id].check = true;
+            this.$store.dispatch('taste/addMyTaste', this.allTastes.byId[id]);
+            this.selectedIds.push(id);
+        },
+        isChecked(id) {
+            return this.selectedIds.includes(id);
+        },
+        isAnimated(id) {
+            return this.tastesData !== undefined || this.tastesData[id].isAnimate;
+        },
+        isClicked(id) {
+            return this.tastesData !== undefined || this.tastesData[id].isClick;
         }
-    }
+    },
+    computed: {
+        ...mapState('taste', ['allTastes', 'myTastes']),
+        ...mapGetters('taste', ['getMyTastesIds'])
+    },
+    created() {
+        this.$store.dispatch('taste/fetchTastes');
+        this.$store.dispatch('taste/fetchMyTastes').then(() => {
+            this.selectedIds = this.getMyTastesIds;
+            this.selectedIds.forEach((item, i) => { this.selectedIds[i] = parseInt(item); });
+        });
+    },
 };
 </script>
 
@@ -116,7 +115,7 @@ export default {
         background: #fff;
         position: relative;
         text-align: center;
-        padding: 20px;
+        padding: 80px 30px;
     }
 
     .taste {
@@ -161,17 +160,6 @@ export default {
         animation-name: pop;
     }
 
-    .loadMore {
-        border-radius: 100px;
-        background: #efeff4;
-        cursor: pointer;
-        display: inline-block;
-        font-size: 13px;
-        line-height: 100%;
-        margin: 15px auto;
-        padding: 7px 10px 7px 10px;
-    }
-
     .doneButton {
         font-size: 1rem;
         letter-spacing: 0;
@@ -187,6 +175,10 @@ export default {
         display: block;
         margin: 10px auto;
         text-align: center;
-        width: 200px;
+        width: 100px;
+    }
+
+    .doneButton:hover {
+        background-color: #426be6;
     }
 </style>

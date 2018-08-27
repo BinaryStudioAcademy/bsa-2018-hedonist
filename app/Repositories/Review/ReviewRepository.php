@@ -4,6 +4,7 @@ namespace Hedonist\Repositories\Review;
 
 use Hedonist\Entities\Review\Review;
 use Illuminate\Database\Eloquent\Collection;
+use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
 
 class ReviewRepository extends BaseRepository implements ReviewRepositoryInterface
@@ -32,5 +33,10 @@ class ReviewRepository extends BaseRepository implements ReviewRepositoryInterfa
     public function model()
     {
         return Review::class;
+    }
+
+    public function findByCriteria(CriteriaInterface $criteria): Collection
+    {
+        return $this->getByCriteria($criteria);
     }
 }

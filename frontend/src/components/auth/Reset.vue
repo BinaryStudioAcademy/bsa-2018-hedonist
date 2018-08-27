@@ -1,14 +1,14 @@
 <template>
-    <Container title="Reset your password">
+    <Container :title="$t('reset_page.title')">
         <Form>
             <b-field
-                label="Email"
+                :label="$t('inputs.auth.email.field_name')"
                 :type="input.email.type"
             >
 
                 <b-input
                     v-model="user.email"
-                    placeholder="Your Email"
+                    :placeholder="$t('inputs.auth.email.placeholder')"
                     name="email"
                     @blur="onBlur('email')"
                     @focus="onFocus('email')"
@@ -17,14 +17,14 @@
             </b-field>
       
             <b-field
-                label="New password"
+                :label="$t('inputs.auth.password.field_name')"
                 :type="input.password.type"
             >
 
                 <b-input 
                     type="password"
                     v-model="user.password"
-                    placeholder="New password"
+                    :placeholder="$t('inputs.auth.password.placeholder')"
                     password-reveal
                     @blur="onBlur('password')"
                     @focus="onFocus('password')"
@@ -33,14 +33,14 @@
             </b-field>
 
             <b-field
-                label="Confirm new password"
+                label="$t('inputs.auth.new_password.field_name')"
                 :type="input.passwordConfirm.type"
             >
 
                 <b-input
                     type="password"
                     v-model="user.passwordConfirm"
-                    placeholder="New password"
+                    :placeholder="$t('inputs.auth.new_password.placeholder')"
                     password-reveal
                     @blur="onBlur('passwordConfirm')"
                     @focus="onFocus('passwordConfirm')"
@@ -54,7 +54,7 @@
                 @click="onReset"
                 @keyup.enter="onReset"
             >
-                Reset
+                {{ $t('reset_page.buttons.submit') }}
             </button>
         </Form>
     </Container>

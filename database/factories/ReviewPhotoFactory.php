@@ -16,11 +16,15 @@ use Hedonist\Entities\Review\Review;
 */
 
 $factory->define(ReviewPhoto::class, function (Faker $faker) {
+    $width = $faker->numberBetween(200, 900);
+    $height = $faker->numberBetween(200, 900);
     return [
         'review_id' => function () {
             return factory(Review::class)->create()->id;
         },
         'description' => $faker->sentence(3),
-        'img_url' => $faker->imageUrl()
+        'img_url' => $faker->imageUrl($width, $height),
+        'width' => $width,
+        'height' => $height,
     ];
 });

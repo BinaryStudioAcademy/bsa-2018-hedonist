@@ -3,13 +3,13 @@
 namespace Hedonist\Actions\UserList;
 
 use Hedonist\Entities\UserList\UserList;
-use Hedonist\Repositories\UserList\UserListRepository;
+use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 
 class SaveUserListAction
 {
     private $userListRepository;
 
-    public function __construct(UserListRepository $userListRepository)
+    public function __construct(UserListRepositoryInterface $userListRepository)
     {
         $this->userListRepository = $userListRepository;
     }

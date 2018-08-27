@@ -1,9 +1,10 @@
 <template>
     <div class="reviews-photo">
-        <img 
+        <img
+            v-img:review-group
             class="reviews-photo__image" 
-            :src="photo.url" 
-            alt="reviews image"
+            :src="photo['img_url']"
+            :alt="photo.description"
         >
     </div>
 </template>
@@ -30,7 +31,7 @@ export default {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: 0 0;
+        object-position: 50% 50%;
     }
 }
 

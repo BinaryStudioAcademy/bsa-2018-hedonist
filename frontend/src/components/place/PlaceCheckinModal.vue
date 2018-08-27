@@ -11,12 +11,14 @@
                         :key="index + 1"
                         :value="index + 1"
                         :icon="icon"
+                        :selected="isSelected(index + 1)"
                         @onHover="onHover"
+                        @onOut="onOut"
                         @onSelect="onSelect"
                     />
                 </div>
 
-                <span class="rating">{{ userRating }}/10</span>
+                <span class="rating">{{ userRating || place.myRating || 0 }}/10</span>
             </section>
             <footer class="modal-card-foot">
                 <button class="button" type="button" @click="$parent.close()">Close</button>
@@ -26,7 +28,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import Smiley from '../misc/Smiley';
 
 export default {
@@ -63,54 +65,66 @@ export default {
     },
 
     computed: {
-        ...mapGetters('auth', ['getAuthenticatedUser'])
+        ...mapGetters('auth', [
+            'getAuthenticatedUser'
+        ]),
     },
 
     methods: {
-        ...mapActions('place', ['checkIn', 'setPlaceRating']),
+        ...mapActions('place', ['setPlaceRating']),
+        ...mapActions('user/history', ['checkIn']),
+
+        isSelected: function(rating) {
+            if (this.place.myRating === rating) {
+                return 'chosenRating';
+            }
+            return '';
+        },
 
         onHover: function(value) {
             this.userRating = value;
         },
 
+        onOut: function(value) {
+            this.userRating = this.place.myRating;
+        },
+
         onSelect: function(value) {
             this.checkIn({
                 place_id: this.place.id
-            }).then((response) => {
-                this.handleResponse(response, 'Checked in');
-            });
+            })
+                .then(() => {
+                    this.$toast.open({
+                        type: 'is-success',
+                        message: 'Checked in'
+                    });
+                })
+                .catch((response) => {
+                    this.handleError(response);
+                });
 
             this.setPlaceRating({
-                place_id: this.place.id,
-                rating: value,
-                user_id: this.getAuthenticatedUser.id
-            }).then((response) => {
-                this.handleResponse(response, 'Rating set');
-            });
+                placeId: this.place.id,
+                rating: value
+            })
+                .then(() => {
+                    this.$toast.open({
+                        type: 'is-success',
+                        message: 'Rating set'
+                    });
+                })
+                .catch((response) => {
+                    this.handleError(response);
+                });
 
             this.$parent.close();
         },
 
-        handleResponse: function(response, successMessage) {
-            switch (response.status) {
-            case 201:
-                this.$toast.open({
-                    type: 'is-success',
-                    message: successMessage
-                });
-                break;
-            case 400:
-                this.$toast.open({
-                    type: 'is-danger',
-                    message: response.statusText
-                });
-                break;
-            default:
-                this.$toast.open({
-                    type: 'is-danger',
-                    message: 'Something went wrong. Try again later'
-                });
-            }
+        handleError: function(response) {
+            this.$toast.open({
+                type: 'is-danger',
+                message: response.statusText
+            });
         }
     }
 };

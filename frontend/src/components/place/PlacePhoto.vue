@@ -1,14 +1,23 @@
 <template>
     <div class="place-photo">
-        <img 
-            class="place-photo__image" 
-            :src="photo.url" 
-            alt="place image"
+        <img
+            v-img:top-group
+            class="place-photo__image"
+            :src="photo['img_url']"
+            :alt="photo.description"
         >
         <div 
-            v-if="photo.id === lastId" 
+            v-if="lastPhoto"
             class="place-photo__show-all"
-        ><a href="#">Show all</a></div>
+        >
+            <a 
+                href="#"
+                v-scroll-to="'.main'"
+                @click="onClick"
+            >
+                Show all
+            </a>
+        </div>
     </div>
 </template>
 
@@ -20,11 +29,16 @@ export default {
             type: Object,
             required: true
         },
-        lastId: {
-            type: Number,
+        lastPhoto: {
+            type: Boolean,
             required: true
         }
     },
+    methods: {
+        onClick() {
+            this.$emit('showAllPhotos');
+        }
+    }
 };
 </script>
 
@@ -38,12 +52,10 @@ export default {
     position: relative;
 
     &__image {
-        position:absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        margin: auto;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
     }
 
     &__show-all {

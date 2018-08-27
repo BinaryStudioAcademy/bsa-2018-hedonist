@@ -27,25 +27,28 @@ class GetLikedPlaceAction
 
     public function execute(GetLikedPlaceRequest $request): GetLikedPlaceResponse
     {
-        $likeStatus = new LikeStatus();
-        $liked = $likeStatus->none();
+        $liked = LikeStatus::none();
         $placeId = $request->getPlaceId();
         $userId = Auth::id();
-        $place = $this->placeRepository->getById($placeId);
+        $place = $this->placeRepository->getByIdWithRelations($request->getPlaceId());
         if ($place === null) {
             throw new PlaceNotFoundException();
         }
 
         $like = $this->likeRepository->findByUserAndPlace($userId, $placeId);
         if ($like) {
-            $liked = $likeStatus->liked();
+            $liked = LikeStatus::liked();
         } else {
             $dislike = $this->dislikeRepository->findByUserAndPlace($userId, $placeId);
             if ($dislike) {
-                $liked = $likeStatus->disliked();
+                $liked = LikeStatus::disliked();
             }
         }
         
-        return new GetLikedPlaceResponse($liked);
+        return new GetLikedPlaceResponse(
+            $place->likes->count(),
+            $place->dislikes->count(),
+            $liked->value()
+        );
     }
 }

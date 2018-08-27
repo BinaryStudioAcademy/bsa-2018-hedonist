@@ -4,10 +4,15 @@ import state from './common/state';
 import actions from './common/actions';
 import getters from './common/getters';
 import mutations from './common/mutations';
-import auth from './modules/auth/index';
-import place from './modules/place/index';
-import placeCategory from './modules/place/category/index';
-import map from './modules/map/index';
+import auth from './modules/auth';
+import search from './modules/search';
+import category from './modules/category';
+import place from './modules/place';
+import review from './modules/review';
+import userList from './modules/userList';
+import taste from './modules/taste';
+import user from './modules/user';
+import profile from './modules/profile';
 
 Vue.use(Vuex);
 
@@ -19,8 +24,13 @@ export default new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
     modules: {
         auth,
+        category,
         place,
-        map,
-        placeCategory
+        search,
+        review,
+        userList,
+        taste,
+        user,
+        profile
     }
 });

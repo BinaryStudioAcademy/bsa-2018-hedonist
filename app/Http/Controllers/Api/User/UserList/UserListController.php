@@ -4,43 +4,57 @@ namespace Hedonist\Http\Controllers\Api\User\UserList;
 
 use Hedonist\Actions\UserList\DeleteUserListAction;
 use Hedonist\Actions\UserList\DeleteUserListRequest;
+use Hedonist\Actions\UserList\GetUserListsCollectionRequest;
 use Hedonist\Actions\UserList\SaveUserListRequest;
 use Hedonist\Actions\UserList\SaveUserListAction;
 use Hedonist\Actions\UserList\GetCollectionUserListAction;
+use Hedonist\Actions\UserList\GetUserListsCollectionAction;
 use Hedonist\Actions\UserList\GetUserListAction;
 use Hedonist\Actions\UserList\GetUserListRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\UserList\UserListRequest;
+use Illuminate\Http\JsonResponse;
 
 class UserListController extends ApiController
 {
-    public $userListAction;
-    public $collectionUserListAction;
+    public $saveUserListAction;
+    public $getCollectionUserListActionOfAllUsers;
+    public $getCollectionUserListsOfOneUserAction;
     public $getUserListAction;
     public $deleteUserListAction;
 
     public function __construct(
-        SaveUserListAction $userListAction,
-        GetCollectionUserListAction $collectionUserListAction,
+        SaveUserListAction $saveUserListAction,
+        GetCollectionUserListAction $getCollectionUserListAction,
+        GetUserListsCollectionAction $getCollectionUserListsAction,
         GetUserListAction $getUserListAction,
         DeleteUserListAction $deleteUserListAction
     ) {
-        $this->userListAction = $userListAction;
-        $this->collectionUserListAction = $collectionUserListAction;
+        $this->saveUserListAction = $saveUserListAction;
+        $this->getCollectionUserListActionOfAllUsers = $getCollectionUserListAction;
+        $this->getCollectionUserListsOfOneUserAction = $getCollectionUserListsAction;
         $this->getUserListAction = $getUserListAction;
         $this->deleteUserListAction = $deleteUserListAction;
     }
 
     public function index()
     {
-        $responseUserLists = $this->collectionUserListAction->execute();
+        $responseUserLists = $this->getCollectionUserListActionOfAllUsers->execute();
         return $this->successResponse($responseUserLists->toArray(), 200);
+    }
+
+    public function userLists(int $userId) : JsonResponse
+    {
+        $resUserLists = $this->getCollectionUserListsOfOneUserAction->execute(
+            new GetUserListsCollectionRequest($userId)
+        );
+        return $this->successResponse($resUserLists->toArray());
     }
 
     public function store(UserListRequest $request)
     {
         try {
-            $responseUserList = $this->userListAction->execute(
+            $responseUserList = $this->saveUserListAction->execute(
                 new SaveUserListRequest(
                     $request->get('user_id'),
                     $request->get('name'),
@@ -68,7 +82,7 @@ class UserListController extends ApiController
     public function update(UserListRequest $request, int $id)
     {
         try {
-            $responseUserList = $this->userListAction->execute(
+            $responseUserList = $this->saveUserListAction->execute(
                 new SaveUserListRequest(
                     $request->get('user_id'),
                     $request->get('name'),

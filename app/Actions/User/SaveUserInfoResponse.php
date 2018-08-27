@@ -45,36 +45,33 @@ class SaveUserInfoResponse
         return $this->lastName;
     }
 
-    public function getDateOfBirth(): string
+    public function getDateOfBirth(): ?\DateTime
     {
-        if ($this->dateOfBirth !== null) {
-            return $this->dateOfBirth->format('Y/m/d');
-        }
-        return "";
+        return $this->dateOfBirth;
     }
 
-    public function getPhoneNumber(): string
+    public function getPhoneNumber(): ?string
     {
-        return (string)$this->phoneNumber;
+        return $this->phoneNumber;
     }
 
-    public function getAvatarUrl(): string
+    public function getAvatarUrl(): ?string
     {
-        return (string)$this->avatarUrl;
+        return $this->avatarUrl;
     }
 
-    public function getFacebookUrl(): string
+    public function getFacebookUrl(): ?string
     {
-        return (string)$this->facebookUrl;
+        return $this->facebookUrl;
     }
 
-    public function getInstagramUrl(): string
+    public function getInstagramUrl(): ?string
     {
-        return (string)$this->instagramUrl;
+        return $this->instagramUrl;
     }
 
-    public function getTwitterUrl(): string
+    public function getTwitterUrl(): ?string
     {
-        return (string)$this->twitterUrl;
+        return $this->twitterUrl;
     }
 }

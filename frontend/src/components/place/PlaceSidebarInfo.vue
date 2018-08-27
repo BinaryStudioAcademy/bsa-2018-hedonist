@@ -2,10 +2,7 @@
     <aside class="column is-one-third">
         <div class="place-sidebar">
             <div class="map-box">
-                <img 
-                    src="https://image.ibb.co/isC2MU/Screenshot_from_2018_08_09_00_25_38.png" 
-                    alt="mapbox"
-                >
+                <PlaceMapMarker :place="place" />
             </div>
             <div class="place-sidebar__info">
                 <div class="place-sidebar__venue">
@@ -19,10 +16,10 @@
                         <span class="place-country">Украина</span>
                     </div>
                 </div>
-                <div v-if="place.tags" class="place-sidebar__tags">
+                <div v-if="place.category.tags" class="place-sidebar__tags">
                     <i class="place-sidebar__icon fas fa-info-circle" />
                     <span 
-                        v-for="tag in place.tags" 
+                        v-for="tag in place.category.tags"
                         class="tag"
                         :key="tag.id"
                     >
@@ -51,27 +48,29 @@
                         {{ place.website }}
                     </a>
                 </div>
-                <template v-if="place.socials">
-                    <div class="place-sidebar__facebook">
+                <template v-if="place.placeInfo">
+                    <div class="place-sidebar__facebook" v-if="place.placeInfo.facebook">
                         <i class="place-sidebar__icon fab fa-facebook-square" />
-                        <a href="https://www.facebook.com/mamamanana.kiev">mamamanana.kiev</a>
+                        <a :href="place.placeInfo.facebook">{{ place.placeInfo.facebook }}</a>
                     </div>
-                    <div class="place-sidebar__facebook">
+                    <div class="place-sidebar__facebook" v-if="place.placeInfo.instagram">
                         <i class="place-sidebar__icon fab fa-instagram" />
-                        <a href="https://www.instagram.com/mamamanana.kiev.ua/">@mamamanana.kiev.ua</a>
+                        <a :href="place.placeInfo.instagram">{{ place.placeInfo.instagram }}</a>
                     </div>
                 </template>
             </div>
-            <template v-if="place.features">
-                <div
-                    v-for="feature in place.features"
-                    :key="feature.id"
-                    class="place-sidebar__features"
-                >
+            <template v-if="place.features.length > 0">
+                <div class="place-sidebar__features">
                     <h2 class="feature-title">Features</h2>
-                    <div class="feature">
-                        <div class="feature-name">{{ feature.name }}</div>
-                        <div class="feature-info"><i class="fas fa-check" /></div>
+                    <div
+                        v-for="feature in place.features"
+                        :key="feature.id"
+                        class="place-sidebar__feature-list"
+                    >
+                        <div class="feature">
+                            <div class="feature-name">{{ feature.name }}</div>
+                            <div class="feature-info"><i class="fas fa-check" /></div>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -80,14 +79,21 @@
 </template>
 
 <script>
+import PlaceMapMarker from './PlaceMapMarker';
+
 export default {
     name: 'PlaceSidebarInfo',
+
+    components: {
+        PlaceMapMarker
+    },
+
     props: {
         place: {
             type: Object,
             required: true
         }
-    },
+    }
 };
 </script>
 
@@ -161,8 +167,12 @@ export default {
     }
 
     &__tags {
+        line-height: 30px;
+
         .tag {
             margin-right: 5px;
+            color: white;
+            background-color: #167df0;
             cursor: pointer;
         }
     }

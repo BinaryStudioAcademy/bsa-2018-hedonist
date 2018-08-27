@@ -6,7 +6,7 @@ import NewPlacePage from '@/pages/NewPlacePage';
 import UserListsPage from '@/pages/UserListsPage';
 import PlaceListPage from  '@/pages/PlaceListPage';
 import HistoryPage from '@/pages/HistoryPage';
-import SeachPlacePage from  '@/pages/SeachPlacePage';
+import SearchPlacePage from  '@/pages/SearchPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
 import UserListAddPage from '@/pages/UserListAddPage';
@@ -15,11 +15,12 @@ import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
 import MyTastesPage from '@/pages/MyTastesPage';
+import SocialAuthPage from '@/pages/SocialAuthPage';
 
 Vue.use(Router);
 
 const middleware = handler => (
-    routes => routes.map(route => Object.assign({}, route, { beforeEnter: handler }))
+    routes => routes.map(route => Object.assign({}, route, {beforeEnter: handler}))
 );
 
 export default new Router({
@@ -39,9 +40,14 @@ export default new Router({
                 component: ProfilePage,
             },
             {
-                path: '/places/list',
+                path: '/my-places',
                 name: 'PlacesList',
                 component: PlaceListPage
+            },
+            {
+                path: '/my-tastes',
+                name: 'MyTastesPage',
+                component: MyTastesPage
             },
             {
                 path: '/places/add',
@@ -50,8 +56,8 @@ export default new Router({
             },
             {
                 path: '/search',
-                name: 'SeachPlacePage',
-                component: SeachPlacePage
+                name: 'SearchPlacePage',
+                component: SearchPlacePage
             },
             {
                 path: '/places/:id',
@@ -59,24 +65,23 @@ export default new Router({
                 component: PlacePage
             },
             {
-                path: '/users/lists/add',
+                path: '/my-lists/add',
                 name: 'UserListAddPage',
                 component: UserListAddPage
             },
             {
-                path: '/user/lists',
+                path: '/my-lists',
                 name: 'UserListsPage',
                 component: UserListsPage
-            },
-            {
-                path: '/tastes',
-                name: 'MyTastesPage',
-                component: MyTastesPage
             },
             {
                 path: '/history',
                 name: 'HistoryPage',
                 component: HistoryPage
+            },
+            {
+                path: '*',
+                redirect: '/'
             }
         ]),
         ...middleware(middlewares.guest(store))([
@@ -99,6 +104,12 @@ export default new Router({
                 path: '/recover',
                 name: 'RecoverPasswordPage',
                 component: RecoverPasswordPage
+            },
+
+            {
+                path: '/auth/social/:provider',
+                name: 'SocialAuthPage',
+                component: SocialAuthPage
             },
         ])
     ]

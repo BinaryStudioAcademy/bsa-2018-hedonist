@@ -2,39 +2,94 @@
     <transition name="slide-fade">
         <article v-if="active">
             <div class="entry-media">
-                <img 
-                    class="image" 
-                    :src="visitedPlace.place_photo.url"
+                <img
+                    class="image"
+                    :src="placePhoto"
                 >
             </div>
             <div class="item-description">
                 <div class="rating-wrapper">
                     <div class="rating">
-                        {{ visitedPlace.ratings.rating }}
+                        {{ checkInPlace.rating }}
                     </div>
                 </div>
-                <h2 class="title">{{ index }}.{{ visitedPlace.places_tr.place_name }}</h2>
-                <p>{{ cityAddress }}</p>
-                <p>{{ visitedPlace.categories.name }} - Tips and feedback: {{ reviewCount }}</p>
-
-                <button class="saved"><i class="fa fa-bookmark" />Saved</button>
+                <h2 class="title">
+                    <router-link :to="`/places/${checkIn.id}`">
+                        {{ placeName }}
+                    </router-link>
+                </h2>
+                <div>
+                    <strong>{{ checkInPlace.city.name }}</strong>
+                </div>
+                <div>
+                    <a class="link" role="link">{{ checkInPlace.category.name }}</a>
+                </div>
             </div>
         </article>
     </transition>
 </template>
 
+<script>
+import imageStub from '@/assets/no-photo.png';
+
+export default {
+    name: 'PlaceVisitedPreview',
+    data() {
+        return {
+            active: false,
+            placePreviewMock: imageStub
+        };
+    },
+    props: {
+        checkIn: {
+            required: true,
+            type: Object,
+        },
+        checkInPlace: {
+            required: true,
+            type: Object,
+        },
+        timer: {
+            required: true,
+            type: Number
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
+    },
+    computed: {
+        placeName() {
+            return this.checkInPlace.localization[0].name;
+        },
+        placePhoto() {
+            return this.checkInPlace.photos[0].imgUrl || this.placePreviewMock;
+        },
+    }
+};
+</script>
+
 <style lang="scss" scoped>
 
     article {
         margin: 1.5rem auto;
+        padding: 10px;
         text-align: left;
-        width: 600px;
+        width: 100%;
+        max-width: 600px;
         background-color: #FFF;
     }
 
-    .entry-media {
-        height: 300px;
-        width: 600px;
+    .link {
+        color: grey;
+        -webkit-transition: color 0.3s;
+        transition: color 0.3s;
+
+        &:hover {
+            color: black;
+            text-decoration: underline;
+        }
     }
 
     .image {
@@ -93,42 +148,13 @@
         transform: translateX(300px);
         opacity: 0;
     }
-</style>
 
-<script>
-export default {
-    name: 'PlaceVisitedPreview',
-    data() {
-        return {
-            active: false
-        };
-    },
-    props: {
-        visitedPlace: {
-            required: true,
-            type: Object,
-        },
-        index: {
-            required: true,
-            type: Number
-        },
-        timer: {
-            required: true,
-            type: Number
+    @media screen and (max-width: 769px) {
+        article, .entry-media {
+            width: 100%;
         }
-    },
-    computed: {
-        cityAddress: function() {
-            return this.visitedPlace.address + ', ' + this.visitedPlace.cities.name;
-        },
-        reviewCount: function() {
-            return this.visitedPlace.reviews.length || 0;
+        .image {
+            max-width: 90%;
         }
-    },
-    created() {
-        setTimeout(() => {
-            this.active = true;
-        }, this.timer);
     }
-};
-</script>
+</style>

@@ -14,37 +14,49 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
     public function save(UserList $userList): UserList
     {
         $userList->save();
-        
+
         return $userList;
     }
-    
+
     public function getById(int $id): ?UserList
     {
         return UserList::find($id);
     }
-    
+
+    public function findUserLists(int $userId): Collection
+    {
+        return UserList::where('user_id', $userId)->get();
+    }
+
+    public function findUserListsWithPlaces(int $userId) : Collection
+    {
+        return UserList::with('places')
+            ->where('user_id', $userId)
+            ->get();
+    }
+
     public function findAll(): Collection
     {
         return UserList::all();
     }
-     
+
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
     }
-    
-    public function deleteById(int $id)
+
+    public function deleteById(int $id): void
     {
         $this->delete($id);
     }
-    
+
     public function model()
     {
         return UserList::class;
     }
 
-    public function attachPlace(UserList $userList, Place $place)
+    public function attachPlace(UserList $list, Place $place): void
     {
-        $this->getById($userList->id)->places()->attach($place->pluck('id'));
+        $list->places()->attach($place->id);
     }
 }
