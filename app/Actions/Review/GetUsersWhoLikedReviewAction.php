@@ -21,7 +21,7 @@ class GetUsersWhoLikedReviewAction
         $likes = $this->likeRepository->findByCriteria(
             new ByReviewWithUsersCriteria($request->getReviewId())
         );
-        $users = $likes->pluck('user'); 
+        $users = $likes->pluck('user');
 
         return new GetUsersWhoLikedReviewResponse($users);
     }

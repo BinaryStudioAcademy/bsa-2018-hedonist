@@ -21,7 +21,7 @@ class GetUsersWhoDislikedReviewAction
         $dislikes = $this->dislikeRepository->findByCriteria(
             new ByReviewWithUsersCriteria($request->getReviewId())
         );
-        $users = $dislikes->pluck('user'); 
+        $users = $dislikes->pluck('user');
 
         return new GetUsersWhoDislikedReviewResponse($users);
     }
