@@ -56,10 +56,10 @@ export default {
     },
     methods: {
         ...mapActions('review', [
-            'likeReview',
-            'dislikeReview',
+            'likeReviewSearch',
+            'dislikeReviewSearch',
             'getReviewLikedUsers',
-            'getReviewDislikedUsers',
+            'getReviewDislikedUsers'
         ]),
         ...mapMutations('place', {
             updateReviewLikedState: 'UPDATE_REVIEW_LIKED_STATE',
@@ -67,14 +67,14 @@ export default {
         }),
 
         onLikeReview() {
-            this.likeReview(this.review.id)
+            this.likeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewLikedState(this.review.id);
                 });
         },
 
         onDislikeReview() {
-            this.dislikeReview(this.review.id)
+            this.dislikeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewDislikedState(this.review.id);
                 });

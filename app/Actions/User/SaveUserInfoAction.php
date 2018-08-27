@@ -32,6 +32,12 @@ class SaveUserInfoAction
 
     public function execute(SaveUserInfoRequest $userInfoRequest): SaveUserInfoResponse
     {
+        $passwordValid[] = (bool)$userInfoRequest->getOldPassword();
+        $passwordValid[] = (bool)$userInfoRequest->getNewPassword();
+        if (in_array(true, $passwordValid) && in_array(false, $passwordValid)) {
+            throw new UserInfoRequiredFieldsException('\'Old password\' and \'new password\' are required fields for updating the password');
+        }
+
         if ($userInfoRequest->getOldPassword() && $userInfoRequest->getNewPassword()) {
             /** @var User $user */
             $user = Auth::user();
