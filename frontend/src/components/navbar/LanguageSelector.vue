@@ -11,7 +11,6 @@
                 <template>
                     <span :class="['language-item__icon', currentLangClass]" />
                 </template>
-                <b-icon icon="menu-down" />
             </button>
 
             <b-dropdown-item class="language-item" value="en">
@@ -51,7 +50,6 @@ export default {
 </script>
 
 <style lang="scss">
-
     .language-menu {
         .dropdown-content {
             width: 60px;
@@ -72,14 +70,20 @@ export default {
             }
         }
         .current-language {
-            &:active, &:focus {
-                border-color: #d2d2d2;
+            background-color: #167df0;
+            border: none;
+            box-shadow: none;
+
+            &:focus:not(:active), &.is-focused:not(:active) {
+                border: none;
+                box-shadow: none;
             }
 
             @media screen and (max-width: 1087px) {
                 display: none;
             }
         }
+
         .language-item {
             height: 40px;
             padding: 10px 15px;
