@@ -90,8 +90,7 @@ export default {
             .catch( (err) => {
                 return Promise.reject(err);
             });
-    },
-
+    }
 };
 
 const createSearchQueryUrl = (filters) => {

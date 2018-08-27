@@ -63,10 +63,10 @@ export default {
 
     dislikeReviewSearch: (context, id) => {
         httpService.post(`reviews/${id}/dislike`)
-            .then((res) => {
+            .then( (res) => {
                 return Promise.resolve(res);
             })
-            .catch((err) => {
+            .catch( (err) => {
                 return Promise.reject(err);
             });
     },

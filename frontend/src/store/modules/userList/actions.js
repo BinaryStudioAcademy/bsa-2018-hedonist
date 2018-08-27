@@ -21,11 +21,11 @@ export default {
             httpService.post('/user-lists/' + payload.listId + '/attach-place', {
                 id: payload.placeId
             })
-                .then((result) => {
+                .then( (result) => {
                     context.dispatch('getListsByUser');
                     resolve(result);
                 })
-                .catch((error) => {
+                .catch( (error) => {
                     reject(error);
                 });
         });
