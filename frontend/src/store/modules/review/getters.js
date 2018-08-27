@@ -1,10 +1,10 @@
 export default {
-    getAllReviews: state => {
+    getAllReviews: (state, getters, rootState) => {
         return state.reviews.allIds.map(id => {
             const review = state.reviews.byId[id];
 
             return Object.assign({}, review, {
-                user: state.users.byId[review.user_id]
+                user: rootState.userList.normalizeReviewUsers.byId[review.user_id]
             });
         });
     },
