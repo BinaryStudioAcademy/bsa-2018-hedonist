@@ -229,7 +229,7 @@
                                     <b-select v-model="newPlace.category">
                                         <option value="" selected disabled>Select a category</option>
                                         <option
-                                            v-for="option in categories"
+                                            v-for="option in allCategories"
                                             :key="option.id"
                                             :value="option"
                                         >
@@ -288,15 +288,15 @@
                 <b-tab-item label="Features" :disabled="activeTab !== 3">
                     <div class="columns is-centered">
                         <div class="column is-half">
-                            <template v-for="(feature, index) in features">
+                            <template v-for="(feature, index) in allFeatures">
                                 <div :key="index" class="level is-flex-mobile">
                                     <div class="level-left">
                                         <span class="label">{{ feature.name }}</span>
                                     </div>
                                     <div class="level-right">
                                         <b-switch
-                                            v-model="feature.status"
                                             type="is-success"
+                                            @input="onFeatureSwitch(feature)"
                                         />
                                     </div>
                                 </div>
@@ -411,6 +411,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Mapbox from 'mapbox-gl-vue';
 import SearchCity from '../navbar/SearchCity';
 import mapSettingsService from '@/services/map/mapSettingsService';
@@ -447,61 +448,26 @@ export default {
                 facebook: '',
                 instagram: ''
             },
-            categories: {},
+            allCategories: [],
+            allFeatures: [],
             selectedTag: '',
             category_tags: [],
+
             weekdays: [],
             timeStart: new Date(),
             timeEnd: new Date(),
-            features: [
-                {
-                    name: 'wi-fi',
-                    status: false
-                },
-                {
-                    name: 'hookah',
-                    status: false
-                },
-                {
-                    name: 'music',
-                    status: false
-                },
-                {
-                    name: 'credit cards',
-                    status: false
-                },
-                {
-                    name: 'wheelchair accessible',
-                    status: false
-                },
-                {
-                    name: 'reservations',
-                    status: false
-                },
-                {
-                    name: 'parking',
-                    status: false
-                },
-                {
-                    name: 'restroom',
-                    status: false
-                },
-                {
-                    name: 'take-out',
-                    status: false
-                },
-                {
-                    name: 'delivery',
-                    status: false
-                }
-            ]
         };
     },
 
     created() {
         this.$store.dispatch('category/getAllCategories')
             .then((result) => {
-                this.categories = result;
+                this.allCategories = result;
+            });
+
+        this.$store.dispatch('features/getAllFeatures')
+            .then((result) => {
+                this.allFeatures = result;
             });
     },
 
@@ -524,6 +490,11 @@ export default {
     },
 
     computed: {
+        ...mapGetters('auth', ['getAuthenticatedUser']),
+        user() {
+            return this.getAuthenticatedUser;
+        },
+
         isCategorySelected: function() {
             return !!this.newPlace.category;
         },
@@ -555,6 +526,15 @@ export default {
         onCloseTab: function(tagObject) {
             this.newPlace.tags = this.excludeTag(tagObject);
             this.selectedTag = '';
+        },
+
+        onFeatureSwitch(featureObject) {
+            let index = this.newPlace.features.indexOf(featureObject);
+            if (index === -1) {
+                this.newPlace.features.push(featureObject);
+            } else {
+                this.newPlace.features.splice(index, 1);
+            }
         },
 
         onAdd() {
