@@ -114,12 +114,18 @@ export default {
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {
-            this.updateMap();
+            if (this.isPlacesLoaded) {
+                this.updateMap();
+            }
         },
         isPlacesLoaded: function (oldVal, newVal) {
-            this.updateMap();
+            if (this.isPlacesLoaded) {
+                this.updateMap();
+            }
         },
         '$route' (to, from) {
+            this.isPlacesLoaded = false;
+
             this.$store.dispatch('place/fetchPlaces', to.query)
                 .then(() => {
                     this.isPlacesLoaded = true;
