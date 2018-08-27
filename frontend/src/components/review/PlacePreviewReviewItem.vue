@@ -50,8 +50,8 @@ export default {
         },
 
         ...mapState('review', {
-            reviewLikedUsers: 'reviewLikedUsers',
-            reviewDislikedUsers: 'reviewDislikedUsers'
+            usersWhoLikedReview: 'usersWhoLikedReview',
+            usersWhoDislikedReview: 'usersWhoDislikedReview'
         })
     },
     methods: {
