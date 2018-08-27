@@ -427,6 +427,7 @@ export default {
             mapboxToken: mapSettingsService.getMapboxToken(),
             mapboxStyle: mapSettingsService.getMapboxStyle(),
             activeTab: 0,
+            map: null,
             newPlace: {
                 localization: {
                     en: {
@@ -506,6 +507,11 @@ export default {
     },
 
     watch: {
+        'map': function () {
+            setTimeout(() => {
+                this.map.resize();
+            }, 500);
+        },
         'newPlace.category': function (categoryObject) {
             if (_.isEmpty(categoryObject)) { return; }
             this.newPlace.tags = [];
@@ -535,13 +541,13 @@ export default {
 
     methods: {
         mapLoaded(map) {
+            this.map = map;
             let marker = new mapboxgl.Marker({
                 draggable: true
             })
                 .setLngLat([30.5241, 50.4501])
                 .addTo(map);
 
-            map.resize();
             marker.on('dragend', () => {
                 this.newPlace.location = marker.getLngLat();
             });
