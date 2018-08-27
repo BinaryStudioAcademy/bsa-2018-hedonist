@@ -12,10 +12,11 @@
                 @input="loadCities"
                 @select="option => this.$emit('select', option)"
             />
-            <p class="control">
+            <p v-if="locationAvailable" class="control">
                 <button
                     class="button location"
                     @click="findByCurrentLocation"
+                    :class="{'enabled': locationEnabled}"
                 >
                     <b-icon pack="fas" icon="location-arrow"></b-icon>
                 </button>
@@ -40,7 +41,8 @@ export default {
             },
             userLocation: {
                 center: []
-            }
+            },
+            locationAvailable: true
         };
     },
     methods: {
@@ -56,20 +58,25 @@ export default {
                 });
         }, 250),
         findByCurrentLocation() {
-            // this.findCity.query = 'Current location';
+            this.findCity.query = 'Current location';
             this.$emit('select', this.userLocation);
         }
     },
     created() {
         LocationService.getUserLocationData()
             .then(coordinates => {
+                this.locationAvailable = true;
                 this.userLocation.center[0] = coordinates.lng;
                 this.userLocation.center[1] = coordinates.lat;
             })
             .catch(error => {
-                this.userLocation.center[0] = 30.5238;
-                this.userLocation.center[1] = 50.4547;
+                this.locationAvailable = false;
             });
+    },
+    computed: {
+        locationEnabled() {
+            return this.findCity.query === 'Current location';
+        }
     }
 };
 </script>
@@ -77,5 +84,9 @@ export default {
 <style scoped>
     .location {
         color: #b8b8ba;
+    }
+
+    .location.enabled {
+        color: #167df0;
     }
 </style>
