@@ -108,8 +108,6 @@ export default {
         }
         ,
         updateMap(places) {
-            console.log(this.isMapLoaded);
-            console.log(this.isPlacesLoaded);
             if(this.isMapLoaded && this.isPlacesLoaded) {
                 this.markerManager.setMarkersFromPlacesAndFit(...places);
             }
