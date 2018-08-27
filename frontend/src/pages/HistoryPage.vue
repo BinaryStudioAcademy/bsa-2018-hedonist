@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="column visitedplaces-wrapper">
-            <CheckInsContainer :checkIns="checkIns" />
+            <CheckInsContainer :check-ins="checkIns" />
         </div>
 
         <div class="column mapbox-wrapper">

@@ -34,7 +34,7 @@ export default {
             'getPlaceByCheckInId',
         ])
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
