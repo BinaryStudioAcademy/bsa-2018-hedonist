@@ -55,7 +55,6 @@ export default {
     .language-menu {
         .dropdown-content {
             width: 60px;
-            background: #ededed;
 
             @media screen and (max-width: 1087px) {
                 width: 100%;
@@ -69,13 +68,10 @@ export default {
         .dropdown-menu {
             @media screen and (max-width: 1087px) {
                 display: block;
-                background: #ededed;
                 padding: 0;
             }
         }
         .current-language {
-            background: #ededed;
-
             &:active, &:focus {
                 border-color: #d2d2d2;
             }
