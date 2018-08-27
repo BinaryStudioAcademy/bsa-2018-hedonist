@@ -562,7 +562,7 @@ export default {
         },
 
         onAdd() {
-            console.log(this.newPlace);
+            console.debug(this.newPlace);
         },
 
         onCancel() {

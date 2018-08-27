@@ -35,6 +35,10 @@ module.exports = {
         "semi": [
             "error",
             "always"
+        ],
+        "no-console": [
+            "error",
+            { allow: ["debug", "error", "warn"] }
         ]
     },
 };
