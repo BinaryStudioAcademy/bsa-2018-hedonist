@@ -541,6 +541,7 @@ export default {
                 .setLngLat([30.5241, 50.4501])
                 .addTo(map);
 
+            map.resize();
             marker.on('dragend', () => {
                 this.newPlace.location = marker.getLngLat();
             });
