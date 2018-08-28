@@ -24,3 +24,6 @@ yarn-error.log
 /public/dist
 
 .phpunit.result.cache
+
+supervisord.log
+supervisord.pid

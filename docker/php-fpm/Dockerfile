@@ -7,7 +7,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Install selected extensions and other stuff
 RUN apt-get update \
     && apt-get -y --no-install-recommends install  php7.2-mysql php-redis php7.2-sqlite3 \
-    php-xdebug php7.2-gd php-imagick \
+    php-xdebug php7.2-gd php-imagick php7.2-bcmath \
     ssmtp \
     mailutils \
     apt-utils \

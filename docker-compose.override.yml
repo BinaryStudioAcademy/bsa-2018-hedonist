@@ -15,6 +15,12 @@ services:
       ports:
         - "${BEANSTALKD_CONSOLE_HOST_PORT}:2080"
 
+    rabbitmq:
+      ports:
+        - "${RABBITMQ_NODE_HOST_PORT}:5672"
+        - "${RABBITMQ_MANAGEMENT_HTTP_HOST_PORT}:15672"
+        - "${RABBITMQ_MANAGEMENT_HTTPS_HOST_PORT}:15671"
+
     redis:
       ports:
         - "${REDIS_PORT_HOST}:6379"

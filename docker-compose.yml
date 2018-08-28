@@ -48,6 +48,13 @@ services:
         - ./docker/php-worker/supervisord.d:/etc/supervisord.d
         - .queue:/queue
 
+    rabbitmq:
+      build: ./docker/rabbitmq
+      container_name: bsa-app-rabbitmq
+      environment:
+        - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+        - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+
     redis:
       image: redis:alpine
       container_name: bsa-app-redis
