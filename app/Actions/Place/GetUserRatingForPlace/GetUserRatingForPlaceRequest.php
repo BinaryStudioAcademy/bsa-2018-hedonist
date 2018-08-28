@@ -1,8 +1,8 @@
 <?php
 
-namespace Hedonist\Actions\Place\GetPlaceRating;
+namespace Hedonist\Actions\Place\GetUserRatingForPlace;
 
-class GetPlaceRatingRequest
+class GetUserRatingForPlaceRequest
 {
     protected $userId;
 

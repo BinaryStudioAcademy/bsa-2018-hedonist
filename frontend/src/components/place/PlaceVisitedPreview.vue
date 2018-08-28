@@ -18,10 +18,12 @@
                         {{ placeName }}
                     </router-link>
                 </h2>
-                <p>{{ checkInPlace.city.name }}</p>
-                <p>{{ checkInPlace.category.name }}</p>
-
-                <button class="saved"><i class="fa fa-bookmark" />Saved</button>
+                <div>
+                    <strong>{{ checkInPlace.city.name }}</strong>
+                </div>
+                <div>
+                    <a class="link" role="link">{{ checkInPlace.category.name }}</a>
+                </div>
             </div>
         </article>
     </transition>
@@ -72,9 +74,22 @@ export default {
 
     article {
         margin: 1.5rem auto;
+        padding: 10px;
         text-align: left;
-        width: 600px;
+        width: 100%;
+        max-width: 600px;
         background-color: #FFF;
+    }
+
+    .link {
+        color: grey;
+        -webkit-transition: color 0.3s;
+        transition: color 0.3s;
+
+        &:hover {
+            color: black;
+            text-decoration: underline;
+        }
     }
 
     .image {

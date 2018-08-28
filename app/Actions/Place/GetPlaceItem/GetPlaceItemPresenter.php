@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Place\GetPlaceItem;
 
+use Hedonist\Actions\Place\GetUserRatingForPlace\GetUserRatingForPlaceResponse;
 use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
 use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
@@ -61,6 +62,14 @@ class GetPlaceItemPresenter
         $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
         $result['category'] = $this->categoryPresenter->present($place->category);
         $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
+
+        return $result;
+    }
+
+    public function presentWithUserRating(GetPlaceItemResponse $placeResponse, ?float $userRating): array
+    {
+        $result = $this->present($placeResponse);
+        $result['myRating'] = $userRating;
 
         return $result;
     }

@@ -8,7 +8,7 @@
                         height="25" 
                         width="25"
                     >
-                    <span>21 Reviews</span>
+                    <span>{{ getReviewsCount }} Reviews</span>
                 </div>
                 <div class="review-title-search">
                     <div class="control has-icons-left">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="reviews-section-list">
-                    <template v-for="review in currentPlaceReviews.byId">
+                    <template v-for="review in getAllReviews">
                         <Review
                             :key="review.id"
                             :review="review"
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
 
@@ -87,11 +87,11 @@ export default {
     },
 
     computed: {
-        ...mapState('place', ['currentPlaceReviews']),
+        ...mapGetters('review', [ 'getAllReviews', 'getReviewsCount' ]),
 
         isReviewsExist() {
             return !_.isEmpty(this.place.reviews);
-        }
+        },
     },
 
     methods: {

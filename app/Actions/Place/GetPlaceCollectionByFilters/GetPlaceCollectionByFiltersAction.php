@@ -5,9 +5,12 @@ namespace Hedonist\Actions\Place\GetPlaceCollectionByFilters;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionResponse;
 use Hedonist\Entities\Place\Location;
 use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
+use Hedonist\Repositories\Place\Criterias\AllPlacePhotosCriteria;
+use Hedonist\Repositories\Place\Criterias\GetPlaceByCategoryCriteria;
+use Hedonist\Repositories\Place\Criterias\GetPlaceByLocationCriteria;
+use Hedonist\Repositories\Place\Criterias\LatestReviewForPlaceCriteria;
+use Hedonist\Repositories\Place\Criterias\PlacePaginationCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
-use Hedonist\Repositories\Place\PlaceSearchCriteria;
-use Hedonist\Repositories\Review\Criterias\GetLastReviewByPlaceIdsCriteria;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,22 +31,28 @@ class GetPlaceCollectionByFiltersAction
     {
         $categoryId = $request->getCategoryId();
         $location = $request->getLocation();
-        if ($location) {
+        $page = $request->getPage() ?: GetPlaceCollectionByFiltersRequest::DEFAULT_PAGE;
+        $criterias = [];
+
+        if (!is_null($location)) {
             try {
                 $location = Location::fromString($location);
             } catch (\InvalidArgumentException $e) {
                 throw new PlaceLocationInvalidException($e->getMessage());
             }
+            $criterias[] = new GetPlaceByLocationCriteria($location);
+        }
+        if (!is_null($categoryId)) {
+            $criterias[] = new GetPlaceByCategoryCriteria($categoryId);
         }
 
-        $places = $this->placeRepository->findByCriteria(
-            new PlaceSearchCriteria($request->getPage(), $categoryId, $location)
+        $places = $this->placeRepository->findCollectionByCriterias(
+            new PlacePaginationCriteria($page),
+            new AllPlacePhotosCriteria(),
+            new LatestReviewForPlaceCriteria(),
+            ...$criterias
         );
 
-        $reviews = $this->reviewRepository->findByCriteria(
-            new GetLastReviewByPlaceIdsCriteria($places->pluck('id')->toArray())
-        );
-
-        return new GetPlaceCollectionResponse($places, $reviews, Auth::user());
+        return new GetPlaceCollectionResponse($places, Auth::user());
     }
 }

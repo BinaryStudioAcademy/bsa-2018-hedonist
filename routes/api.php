@@ -89,7 +89,10 @@ Route::prefix('v1')->group(function () {
         Route::post('/places/{id}/dislike', 'Api\Like\DislikeController@dislikePlace')->name('place.dislike');
         Route::get('/places/{id}/liked', 'Api\Like\LikeController@getLikedPlace')->name('place.liked');
 
-        Route::get('/places/{id}/rating', 'Api\Place\PlaceRatingController@getPlaceRatingAvg')
+        Route::post('/places/{id}/ratings', 'Api\Place\PlaceRatingController@setRating')
+            ->name('place.rating.setPlaceRating');
+
+        Route::get('/places/{id}/ratings/avg', 'Api\Place\PlaceRatingController@getPlaceRatingAvg')
             ->name('place.rating.getPlaceRatingAvg');
 
         Route::prefix('tastes')->group(function () {
@@ -118,24 +121,16 @@ Route::prefix('v1')->group(function () {
         Route::delete('/places/features/{id}', 'Api\Place\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
 
-        Route::get('/users/{userId}/info/', 'Api\User\UserInfoController@show')
+        Route::get('/users/{userId}/profile', 'Api\User\UserInfoController@show')
             ->name('user.info.show');
-        Route::put('/users/{userId}/info/', 'Api\User\UserInfoController@update')
+        Route::post('/users/{userId}/profile', 'Api\User\UserInfoController@update')
             ->name('user.info.update');
+        Route::delete('/users/{userId}/profile/avatar', 'Api\User\UserInfoController@deleteAvatar');
 
         Route::post('/users/me/checkins', 'Api\Place\PlaceCheckinController@setCheckin')
             ->name('user.me.checkin');
         Route::get('/users/me/checkins', 'Api\Place\PlaceCheckinController@getUserCheckInCollection')
             ->name('user.me.getUserCheckins');
-
-        Route::post('/places/rating', 'Api\Place\PlaceRatingController@setRating')
-            ->name('place.rating.setPlaceRating');
-
-        Route::get('/places/rating/byPlaceUser', 'Api\Place\PlaceRatingController@getRating')
-            ->name('place.rating.getPlaceRatingByPlaceUser');
-
-        Route::get('/places/rating/{id}', 'Api\Place\PlaceRatingController@getRating')
-            ->name('place.rating.getPlaceRating');
 
         Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 
@@ -143,6 +138,6 @@ Route::prefix('v1')->group(function () {
             'create', 'edit'
         ]);
 
-        Route::get('/places/categories/{id}/tags', 'Api\Place\PlaceCategoryTagsController@getTagsByCategoryId');
+        Route::get('/places/categories/{id}/tags', 'Api\Place\TagsController@getTagsByCategoryId');
     });
 });

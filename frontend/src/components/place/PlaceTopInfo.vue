@@ -64,7 +64,7 @@
                             @click="changeTab(1)"
                             :class="{ 'is-active' : activeTab === 1}"
                         >
-                            <a><span>Reviews (2)</span></a>
+                            <a><span>Reviews ({{ getReviewsCount }})</span></a>
                         </li>
                         <li
                             @click="changeTab(2)"
@@ -86,7 +86,7 @@
                     </sup>
                 </div>
                 <div class="place-rate__mark-count">
-                    {{ place.ratingCount || 1 }} marks
+                    {{ place.ratingCount || 'No' }} marks
                 </div>
                 <div class="place-rate__preference">
                     <LikeDislikeButtons
@@ -108,7 +108,7 @@ import PlaceCheckinModal from './PlaceCheckinModal';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 import { STATUS_NONE } from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
-
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'PlaceTopInfo',
@@ -154,6 +154,8 @@ export default {
     },
 
     computed: {
+        ...mapGetters('review', [ 'getReviewsCount' ]),
+
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
         },
@@ -249,13 +251,15 @@ export default {
                     color: white;
                     background-color: #00B551;
                     padding: 4px;
+                    white-space: nowrap;
                 }
                 &__mark-value {
                    margin:0 5px;
                 }
                 &__mark-count {
-                    margin-left: 10px;
                     font-style: italic;
+                    white-space: nowrap;
+                    padding: 0 10px;
                 }
                 &__preference {
                     display: flex;

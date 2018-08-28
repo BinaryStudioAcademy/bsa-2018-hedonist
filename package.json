@@ -5,6 +5,7 @@
     "author": "Pavlo Nemchenko <pavlo.nemchenko@binary-studio.com>",
     "scripts": {
         "dev": "webpack-dev-server --inline --progress --config frontend/build/webpack.dev.conf.js",
+        "fast": "webpack-dev-server --inline --progress --config frontend/build/webpack.dev-fast.conf.js",
         "start": "yarn run dev",
         "prod": "node frontend/build/build.js",
         "lint": "eslint --ext .js,.vue frontend/src",
@@ -12,6 +13,7 @@
     },
     "dependencies": {
         "@mapbox/geojson-extent": "^0.3.2",
+        "@mapbox/mapbox-gl-draw": "^1.0.9",
         "axios": "^0.18.0",
         "buefy": "^0.6.6",
         "css-loader": "^1.0.0",

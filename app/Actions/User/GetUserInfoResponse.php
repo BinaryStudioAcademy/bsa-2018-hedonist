@@ -45,32 +45,32 @@ class GetUserInfoResponse
         return $this->lastName;
     }
 
-    public function getDateOfBirth(): string
+    public function getDateOfBirth(): ?\DateTime
     {
-        return $this->dateOfBirth->format('Y/m/d');
+        return $this->dateOfBirth;
     }
 
-    public function getPhoneNumber(): string
+    public function getPhoneNumber(): ?string
     {
         return $this->phoneNumber;
     }
 
-    public function getAvatarUrl(): string
+    public function getAvatarUrl(): ?string
     {
         return $this->avatarUrl;
     }
 
-    public function getFacebookUrl(): string
+    public function getFacebookUrl(): ?string
     {
         return $this->facebookUrl;
     }
 
-    public function getInstagramUrl(): string
+    public function getInstagramUrl(): ?string
     {
         return $this->instagramUrl;
     }
 
-    public function getTwitterUrl(): string
+    public function getTwitterUrl(): ?string
     {
         return $this->twitterUrl;
     }

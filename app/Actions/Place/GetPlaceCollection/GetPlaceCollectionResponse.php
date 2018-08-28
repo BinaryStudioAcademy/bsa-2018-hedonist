@@ -2,20 +2,18 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
-use Hedonist\Entities\User\User;
+use Illuminate\Contracts\Auth\Authenticatable as User;
 use Illuminate\Database\Eloquent\Collection;
 
 class GetPlaceCollectionResponse
 {
     private $placeCollection;
     private $user;
-    private $reviews;
 
-    public function __construct(Collection $places, Collection $reviews, User $user)
+    public function __construct(Collection $places, User $user)
     {
         $this->placeCollection = $places;
         $this->user = $user;
-        $this->reviews = $reviews;
     }
 
     public function getPlaceCollection(): Collection
@@ -26,10 +24,5 @@ class GetPlaceCollectionResponse
     public function getUser(): User
     {
         return $this->user;
-    }
-
-    public function getReviews(): Collection
-    {
-        return $this->reviews;
     }
 }

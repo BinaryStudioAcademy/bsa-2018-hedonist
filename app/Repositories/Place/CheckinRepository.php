@@ -33,6 +33,7 @@ class CheckinRepository extends BaseRepository implements CheckinRepositoryInter
             'place.category',
             'place.photos'
         ])
+            ->orderBy('updated_at', 'desc')
             ->where(['user_id' => $id])
             ->get();
     }

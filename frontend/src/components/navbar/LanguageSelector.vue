@@ -1,11 +1,16 @@
 <template>
     <div class="control">
-        <b-dropdown v-model="language" @input="changeLang" class="language-menu">
+        <b-dropdown
+            v-model="language"
+            :mobile-modal="false"
+            hoverable
+            @input="changeLang"
+            class="language-menu"
+        >
             <button class="button current-language" type="button" slot="trigger">
                 <template>
                     <span :class="['language-item__icon', currentLangClass]" />
                 </template>
-                <b-icon icon="menu-down" />
             </button>
 
             <b-dropdown-item class="language-item" value="en">
@@ -45,19 +50,40 @@ export default {
 </script>
 
 <style lang="scss">
-
     .language-menu {
         .dropdown-content {
             width: 60px;
-            background: #ededed;
-        }
-        .current-language {
-            background: #ededed;
 
-            &:active, &:focus {
-                border-color: #d2d2d2;
+            @media screen and (max-width: 1087px) {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                border: none;
+                box-shadow: none;
+                padding: 0 20px;
             }
         }
+        .dropdown-menu {
+            @media screen and (max-width: 1087px) {
+                display: block;
+                padding: 0;
+            }
+        }
+        .current-language {
+            background-color: #167df0;
+            border: none;
+            box-shadow: none;
+
+            &:focus:not(:active), &.is-focused:not(:active) {
+                border: none;
+                box-shadow: none;
+            }
+
+            @media screen and (max-width: 1087px) {
+                display: none;
+            }
+        }
+
         .language-item {
             height: 40px;
             padding: 10px 15px;
@@ -87,6 +113,10 @@ export default {
                 &_ua {
                      background-position: -10px -50px;
                 }
+            }
+
+            @media screen and (max-width: 1087px) {
+                padding: 10px;
             }
         }
     }
