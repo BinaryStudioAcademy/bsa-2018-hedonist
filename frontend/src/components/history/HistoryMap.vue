@@ -9,10 +9,6 @@
                 show: true,
                 position: 'bottom-right'
             }"
-            :scale-control="{
-                show: true,
-                position: 'top-left'
-            }"
             @map-init="mapInitialize"
         />
     </section>
