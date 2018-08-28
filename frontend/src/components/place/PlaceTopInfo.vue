@@ -85,7 +85,7 @@
                         class="button is-primary"
                         @click="isCheckinModalActive = true"
                 >
-                    <i class="fas fa-check" />Rate
+                    <i class="fas fa-star-half-alt"></i>
                 </button>
                 <b-modal :active.sync="isCheckinModalActive" has-modal-card>
                     <PlaceCheckinModal :place="place" />
