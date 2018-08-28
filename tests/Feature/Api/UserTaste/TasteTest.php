@@ -37,4 +37,31 @@ class TasteTest extends ApiTestCase
                     ->assertJsonCount(3, 'data')
                     ->assertOk();
     }
+
+    public function test_add_taste()
+    {
+        $response = $this->actingWithToken()->post(
+            "/api/v1/tastes", [
+                'name' => 'Custom taste'
+            ]
+        );
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('tastes', [
+            'name' => 'Custom taste'
+        ]);
+    }
+
+    public function test_delete_taste()
+    {
+        $taste = factory(Taste::class)->create();
+        $response = $this->actingWithToken()->delete(
+            "/api/v1/tastes/$taste->id", [
+                'name' => 'Custom taste'
+            ]
+        );
+        $response->assertOk();
+        $this->assertDatabaseMissing('tastes', [
+            'name' => $taste->id
+        ]);
+    }
 }
