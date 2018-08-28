@@ -11,5 +11,8 @@ export default {
         };
     },
     reviews: {},
-    users: {}
+    users: {},
+    usersWhoLikedReview: [],
+    usersWhoDislikedReview: [],
+    isUsersModalLoading: false
 };
