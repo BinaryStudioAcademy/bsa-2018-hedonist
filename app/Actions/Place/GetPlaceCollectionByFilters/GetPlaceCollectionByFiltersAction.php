@@ -4,10 +4,12 @@ namespace Hedonist\Actions\Place\GetPlaceCollectionByFilters;
 
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionResponse;
 use Hedonist\Entities\Place\Location;
+use Hedonist\Entities\Place\Place;
 use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
 use Hedonist\Repositories\Place\Criterias\AllPlacePhotosCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByCategoryCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByLocationCriteria;
+use Hedonist\Repositories\Place\Criterias\GetPlaceByNameCriteria;
 use Hedonist\Repositories\Place\Criterias\LatestReviewForPlaceCriteria;
 use Hedonist\Repositories\Place\Criterias\PlacePaginationCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
@@ -43,8 +45,13 @@ class GetPlaceCollectionByFiltersAction
             }
             $criterias[] = new GetPlaceByLocationCriteria($location);
         }
+
         if (!is_null($categoryId)) {
             $criterias[] = new GetPlaceByCategoryCriteria($categoryId);
+        }
+
+        if (!is_null($name)) {
+            $criterias[] = new GetPlaceByNameCriteria($name);
         }
 
         $places = $this->placeRepository->findCollectionByCriterias(

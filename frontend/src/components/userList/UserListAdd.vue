@@ -55,13 +55,13 @@
                 <input
                     placeholder="Search places"
                     type="text"
-                    v-model.trim="placeName"
+                    v-model.trim="searchName"
                     @focus="searchPlaces"
                     class="search-field input"
                     @input="searchPlaces"
                 >
                 <div class="search-places__list" v-show="displayList && !isPlaceFetching">
-                    <ul v-if="places">
+                    <ul v-if="places.length > 0">
                         <li
                             v-for="place in places"
                             :key="place.id"
@@ -112,7 +112,7 @@
                         </button>
                     </li>
                 </ul>
-                <div v-else class="attached-places__none">You may attach some places for the list</div>
+                <div v-else class="attached-places__none">You may attach some places to the list</div>
             </div>
         </div>
         <div class="bottom-right">
@@ -135,6 +135,11 @@
                 />
             </div>
         </div>
+        <back-to-top>
+            <button type="button" class="btn btn-info btn-to-top">
+                <i class="fa fa-chevron-up"></i>
+            </button>
+        </back-to-top>
     </div>
 </template>
 
@@ -146,12 +151,14 @@ import markerManager from '@/services/map/markerManager';
 import imageStub from '@/assets/no-photo.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
 import { required } from 'vuelidate/lib/validators';
+import BackToTop from 'vue-backtotop'
 
 export default {
     name: 'UserListAdd',
     components: {
         Mapbox,
-        Preloader
+        Preloader,
+        BackToTop
     },
     data: function () {
         return {
@@ -163,13 +170,13 @@ export default {
                 name: null,
                 image: null
             },
-            placeName: '',
+            searchName: '',
             placesLocation: '30.5241,50.4501',
             imagePreview: null,
             isPlaceFetching: false,
             markerManager: null,
             errors: null,
-            places: null,
+            places: [],
             attachedPlaces: [],
             imageStub: imageStub,
             availableImageTypes: [
@@ -253,7 +260,7 @@ export default {
             this.isPlaceFetching = true;
             this.fetchPlaces({
                 location: this.placesLocation,
-                name: this.placeName
+                searchName: this.searchName
             }).then((res) => {
                 this.displayList = true;
                 this.isPlaceFetching = false;
@@ -303,6 +310,16 @@ export default {
     .control.is-loading::after {
         right: 1.625em;
         top: 30px;
+    }
+
+    .btn-to-top {
+        display: none;
+        width: 60px;
+        height: 60px;
+        padding: 10px 16px;
+        border-radius: 50%;
+        font-size: 22px;
+        line-height: 22px;
     }
 
     img {
@@ -565,6 +582,14 @@ export default {
             grid-template-areas: "form" "bottom-right" "bottom-left";
             grid-template-columns: auto;
             grid-template-rows: auto;
+        }
+
+        .form {
+            position: relative;
+        }
+
+        .btn-to-top {
+            display: block;
         }
 
         .bottom-left {
