@@ -13,17 +13,12 @@
             </div>
         </div>
 
-        <div v-if="mapInitialized" class="column mapbox-wrapper">
+        <div class="column mapbox-wrapper">
             <section id="map">
                 <mapbox
                     :access-token="mapboxToken"
                     :map-options="{
                         style: mapboxStyle,
-                        center: {
-                            lat: currentLatitude,
-                            lng: currentLongitude
-                        },
-                        zoom: 12
                     }"
                     :fullscreen-control="{
                         show: true,
@@ -41,7 +36,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex';
+import {mapGetters, mapActions, mapState} from 'vuex';
 import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
 import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
@@ -57,6 +52,7 @@ export default {
     data() {
         return {
             isPlacesLoaded: false,
+            isMapLoaded: false,
             markerManager: null,
             userCoordinates: {
                 lat: null,
@@ -78,35 +74,43 @@ export default {
         ]),
     },
     created() {
-        this.loadUserCoords()
-            .then((coords) => {
-                this.setCurrentMapCenter(coords);
-                this.mapInitialization();
-            })
+        this.loadUserCoords().then((coords) => {
+            this.setCurrentMapCenter(coords);
+        });
+        this.loadCheckInPlaces()
             .then(() => {
-                this.loadCheckInPlaces()
-                    .then(() => {
-                        this.isPlacesLoaded = true;
-                        this.setCurrentMapCenter(
-                            mapSettingsService.getMapboxCenter(this.places.byId, this.places.allIds)
-                        );
-                        this.updateMap(this.placeList);
-                    })
-                    .catch((err) => {
-                        this.isPlacesLoaded = true;
-                    });
+                this.isPlacesLoaded = true;
+                this.setCurrentMapCenter(
+                    mapSettingsService.getMapboxCenter(this.places.byId, this.places.allIds)
+                );
+            })
+            .catch((err) => {
+                this.isPlacesLoaded = true;
             });
     },
+    watch: {
+        isMapLoaded: function (oldVal, newVal) {
+            this.updateMap(this.placeList);
+        },
+        isPlacesLoaded: function (oldVal, newVal) {
+            this.updateMap(this.placeList);
+        }
+    },
     methods: {
-        ...mapActions('user/history', [
+        ...
+        mapActions('user/history', [
             'loadCheckInPlaces', 'setCurrentMapCenter', 'mapInitialization'
         ]),
 
         mapInitialize(map) {
             this.markerManager = markerManager.getService(map);
-        },
+            this.isMapLoaded = true;
+        }
+        ,
         updateMap(places) {
-            this.markerManager.setMarkersFromPlacesAndFit(...places);
+            if(this.isMapLoaded && this.isPlacesLoaded) {
+                this.markerManager.setMarkersFromPlacesAndFit(...places);
+            }
         },
         loadUserCoords() {
             return new Promise((resolve, reject) => {
@@ -120,9 +124,11 @@ export default {
                         });
                     });
             });
-        },
+        }
+        ,
     }
-};
+}
+;
 
 </script>
 
