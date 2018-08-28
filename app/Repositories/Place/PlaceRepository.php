@@ -63,10 +63,10 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
             'localization',
             'localization.language',
             'likes',
+            'photos',
             'dislikes',
-            'ratings',
-            'photos')
-            ->get();
+            'ratings'
+        )->get();
     }
 
     public function findByCriteria(CriteriaInterface $criteria): Collection
@@ -94,5 +94,14 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     public function getByList(int $listId): Collection
     {
         return UserList::find($listId)->places()->get();
+    }
+
+    public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection
+    {
+        foreach ($criterias as $criteria) {
+            $this->pushCriteria($criteria);
+        }
+
+        return $this->all();
     }
 }

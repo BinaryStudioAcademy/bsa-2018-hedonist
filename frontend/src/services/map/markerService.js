@@ -6,8 +6,8 @@ const parser = (item) => ({
     name: item.localization[0].name,
     lng: item.longitude,
     lat: item.latitude,
-    // TODO set place photo url
-    photoUrl: item.photoUrl || placeholderImg,
+    photoUrl: (item.photos && item.photos[0].img_url) || placeholderImg,
+    category: item.category && item.category.name,
     address: item.address
 });
 
