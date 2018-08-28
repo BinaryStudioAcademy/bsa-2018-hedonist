@@ -332,8 +332,8 @@
                 <b-tab-item label="Features" :disabled="activeTab !== 4">
                     <div class="columns is-centered">
                         <div class="column is-half">
-                            <template v-for="(feature, index) in allFeatures">
-                                <div :key="index" class="level is-flex-mobile">
+                            <template v-for="feature in allFeatures.byId">
+                                <div :key="feature.id" class="level is-flex-mobile">
                                     <div class="level-left">
                                         <span class="label">{{ feature.name }}</span>
                                     </div>
@@ -549,7 +549,7 @@ export default {
                 photos: []
             },
             // allCategories: [],
-            allFeatures: [],
+            // allFeatures: [],
             selectedTag: '',
             // category_tags: [],
 
@@ -566,10 +566,11 @@ export default {
         //         this.allCategories = result;
         //     });
 
-        this.$store.dispatch('features/getAllFeatures')
-            .then((result) => {
-                this.allFeatures = result;
-            });
+        this.$store.dispatch('features/fetchAllFeatures');
+        // this.$store.dispatch('features/getAllFeatures')
+        //     .then((result) => {
+        //         this.allFeatures = result;
+        //     });
     },
 
     watch: {
@@ -598,6 +599,7 @@ export default {
     computed: {
         ...mapState('category', ['allCategories']),
         ...mapState('category', ['categoryTags']),
+        ...mapState('features', ['allFeatures']),
 
         ...mapGetters('auth', ['getAuthenticatedUser']),
         user() {
