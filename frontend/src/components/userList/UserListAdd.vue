@@ -228,6 +228,7 @@ export default {
             this.isLoading = true;
             if (this.$v.userList.$invalid) {
                 this.onError('Photo and name are required!');
+                this.isLoading = false;
                 return;
             }
 
@@ -241,6 +242,7 @@ export default {
                     this.$router.push({ name: 'UserListsPage' });
                 })
                 .catch((err) => {
+                    this.isLoading = false;
                     this.onError(err.response.data);
                 });
         },
