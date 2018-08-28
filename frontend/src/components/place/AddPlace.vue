@@ -241,8 +241,8 @@
                     <div class="tab-wrp">
                         <div class="map-wrp">
                             <mapbox
-                                    :access-token="mapboxToken"
-                                    :map-options="{
+                                :access-token="mapboxToken"
+                                :map-options="{
                                     style: mapboxStyle,
                                     center: {
                                         lat: 50.4501,
@@ -250,11 +250,11 @@
                                     },
                                     zoom: 5
                                 }"
-                                    :scale-control="{
+                                :scale-control="{
                                     show: true,
                                     position: 'top-left'
                                 }"
-                                    @map-load="mapLoaded"
+                                @map-load="mapLoaded"
                             />
                         </div>
                     </div>
@@ -652,13 +652,10 @@ export default {
         displayTime(utcTime) {
             let localTime = utcTime.clone();
             localTime.local();
-            return localTime.format("HH:mm");
+            return localTime.format('HH:mm');
         },
 
-        onAdd() {
-            console.log(moment());
-            console.log(this.newPlace);
-        }
+        onAdd() {}
     }
 };
 </script>

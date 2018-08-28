@@ -13,7 +13,7 @@ export default {
                 .catch((error) => {
                     reject(error);
                 });
-        })
+        });
     },
 
     fetchCategoryTags: (context, categoryId) => {
@@ -27,6 +27,6 @@ export default {
                 .catch((error) => {
                     reject(error);
                 });
-        })
+        });
     }
 };
