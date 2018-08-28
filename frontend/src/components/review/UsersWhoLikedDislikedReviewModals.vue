@@ -58,7 +58,7 @@ export default {
     computed: {
         usersWhoLikedReviewModalActive: {
             get: function () {
-                return this.isUsersWhoLikedReviewModalActive
+                return this.isUsersWhoLikedReviewModalActive;
             },
             set: function (newValue) {
                 this.$emit('updateUsersWhoLikedReviewModalActive',newValue);
@@ -67,7 +67,7 @@ export default {
         
         usersWhoDislikedReviewModalActive: {
             get: function () {
-                return this.isUsersWhoDislikedReviewModalActive
+                return this.isUsersWhoDislikedReviewModalActive;
             },
             set: function (newValue) {
                 this.$emit('updateUsersWhoDislikedReviewModalActive',newValue);
