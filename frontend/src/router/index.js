@@ -16,6 +16,7 @@ import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
 import MyTastesPage from '@/pages/MyTastesPage';
 import SocialAuthPage from '@/pages/SocialAuthPage';
+import UsersProfile from '@/pages/UsersProfile';
 
 Vue.use(Router);
 
@@ -38,6 +39,11 @@ export default new Router({
                 path: '/profile',
                 name: 'ProfilePage',
                 component: ProfilePage,
+            },
+            {
+                path: '/user/:id',
+                name: 'UsersProfile',
+                component: UsersProfile,
             },
             {
                 path: '/my-places',
