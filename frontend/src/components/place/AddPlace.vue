@@ -207,10 +207,6 @@
                                 },
                                 zoom: 5
                             }"
-                            :scale-control="{
-                                show: true,
-                                position: 'top-left'
-                            }"
                             @map-load="mapLoaded"
                         />
                     </div>
