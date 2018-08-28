@@ -36,27 +36,20 @@ export default {
             filterPlaces: [
                 {
                     id: 1,
-                    name: 'liked',
-                    check: false,
-                    isLoading: false,
-                    tooltipText: 'Click to see liked places'
-                },
-                {
-                    id: 2,
                     name: 'saved',
                     check: false,
                     isLoading: false,
                     tooltipText: 'Click to see saved places'
                 },
                 {
-                    id: 3,
+                    id: 2,
                     name: 'checkin',
                     check: false,
                     isLoading: false,
                     tooltipText: 'Click to see checkin places'
                 },
                 {
-                    id: 4,
+                    id: 3,
                     name: 'not visited',
                     check: false,
                     isLoading: false,

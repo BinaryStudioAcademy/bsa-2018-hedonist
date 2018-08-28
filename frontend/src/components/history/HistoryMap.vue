@@ -4,11 +4,6 @@
             :access-token="mapboxToken"
             :map-options="{
                 style: mapboxStyle,
-                center: {
-                    lat: currentLatitude,
-                    lng: currentLongitude
-                },
-                zoom: 12
             }"
             :fullscreen-control="{
                 show: true,
@@ -39,6 +34,8 @@ export default {
 
     data() {
         return {
+            isPlacesLoaded: false,
+            isMapLoaded: false,
             markerManager: null,
             userCoordinates: {
                 lat: null,
@@ -59,27 +56,38 @@ export default {
             'places',
             'currentLatitude',
             'currentLongitude',
+            'mapInitialized',
         ]),
     },
 
     created() {
-        this.loadUserCoords()
-            .then((coords) => {
-                this.setCurrentMapCenter(coords);
-                this.mapInitialization();
-            })
+        this.loadUserCoords().then((coords) => {
+            this.setCurrentMapCenter(coords);
+        });
+
+        this.loadCheckInPlaces()
             .then(() => {
-                this.loadCheckInPlaces()
-                    .then(() => {
-                        this.setCurrentMapCenter(
-                            mapSettingsService.getMapboxCenter(
-                                this.places.byId,
-                                this.places.allIds
-                            )
-                        );
-                        this.updateMap(this.placeList);
-                    });
+                this.isPlacesLoaded = true;
+                this.setCurrentMapCenter(
+                    mapSettingsService.getMapboxCenter(
+                        this.places.byId,
+                        this.places.allIds
+                    )
+                );
+            })
+            .catch((err) => {
+                this.isPlacesLoaded = true;
             });
+    },
+
+    watch: {
+        isMapLoaded: function (oldVal, newVal) {
+            this.updateMap(this.placeList);
+        },
+
+        isPlacesLoaded: function (oldVal, newVal) {
+            this.updateMap(this.placeList);
+        }
     },
 
     methods: {
@@ -91,10 +99,13 @@ export default {
 
         mapInitialize(map) {
             this.markerManager = markerManager.getService(map);
+            this.isMapLoaded = true;
         },
 
         updateMap(places) {
-            this.markerManager.setMarkersFromPlacesAndFit(...places);
+            if(this.isMapLoaded && this.isPlacesLoaded) {
+                this.markerManager.setMarkersFromPlacesAndFit(...places);
+            }
         },
 
         loadUserCoords() {
@@ -109,7 +120,7 @@ export default {
                         });
                     });
             });
-        },
+        }
     }
 };
 </script>
