@@ -44,7 +44,7 @@ import Mapbox from 'mapbox-gl-vue';
 import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
-    name: 'HistoryPage',
+    name: 'CheckinsPage',
     components: {
         PlaceVisitedPreview,
         Mapbox

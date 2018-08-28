@@ -5,7 +5,7 @@ import ProfilePage from '@/pages/ProfilePage';
 import NewPlacePage from '@/pages/NewPlacePage';
 import UserListsPage from '@/pages/UserListsPage';
 import PlaceListPage from  '@/pages/PlaceListPage';
-import HistoryPage from '@/pages/HistoryPage';
+import CheckinsPage from '@/pages/CheckinsPage';
 import SearchPlacePage from  '@/pages/SearchPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
@@ -75,9 +75,9 @@ export default new Router({
                 component: UserListsPage
             },
             {
-                path: '/history',
-                name: 'HistoryPage',
-                component: HistoryPage
+                path: '/checkins',
+                name: 'CheckinsPage',
+                component: CheckinsPage
             },
             {
                 path: '*',
