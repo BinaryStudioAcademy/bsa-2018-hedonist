@@ -86,10 +86,10 @@ class UserListController extends ApiController
         try {
             $responseUserList = $this->saveUserListAction->execute(
                 new SaveUserListRequest(
-                    $request->get('user_id'),
+                    Auth::id(),
                     $request->get('name'),
-                    $request->get('img_url'),
-                    $id
+                    $request->file('img_url'),
+                    json_decode($request->get('attached_places'))
                 )
             );
             return $this->successResponse($responseUserList->toArray(), 201);

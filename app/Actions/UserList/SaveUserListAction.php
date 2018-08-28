@@ -28,14 +28,16 @@ class SaveUserListAction
 
         $file = $userListRequest->getImage();
         $imageName = (new FileNameGenerator($file))->generateFileName();
-        Storage::disk('public')->putFileAs(self::FILE_STORAGE, $file, $imageName, 'public');
+        Storage::disk()->putFileAs(self::FILE_STORAGE, $file, $imageName, 'public');
         $userList->user_id = $userListRequest->getUserId();
         $userList->name = $userListRequest->getName();
         $userList->img_url = Storage::disk()->url(self::FILE_STORAGE . $imageName);
 
         $userList = $this->userListRepository->save($userList);
-        $this->userListRepository
-            ->attachPlaces($userList, $userListRequest->getAttachedPlaces());
+        if ($userListRequest->getAttachedPlaces() !== null) {
+            $this->userListRepository
+                ->attachPlaces($userList, $userListRequest->getAttachedPlaces());
+        }
 
         return new SaveUserListResponse($userList);
     }

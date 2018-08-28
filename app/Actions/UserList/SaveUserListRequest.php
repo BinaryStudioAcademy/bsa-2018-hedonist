@@ -15,9 +15,8 @@ class SaveUserListRequest
     public function __construct(
         int $userId,
         string $name,
-        UploadedFile
-        $image,
-        array $attachedPlaces,
+        UploadedFile $image,
+        ?array $attachedPlaces,
         int $id = null
     ) {
         $this->id = $id;
@@ -47,7 +46,7 @@ class SaveUserListRequest
         return $this->userId;
     }
 
-    public function getAttachedPlaces(): array
+    public function getAttachedPlaces(): ?array
     {
         return $this->attachedPlaces;
     }
