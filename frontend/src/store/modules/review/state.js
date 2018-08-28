@@ -11,9 +11,11 @@ export default {
         };
     },
     reviews: {
-        allIds:[]
+        allIds:[],
+        byId:{}
     },
     users: {
-        byId:[]
+        allIds:[],
+        byId:{}
     }
 };
