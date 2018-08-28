@@ -218,7 +218,7 @@ export default {
             }
 
             if (rating >= 5) {
-                return 'okay'
+                return 'okay';
             }
 
             return 'bad';
