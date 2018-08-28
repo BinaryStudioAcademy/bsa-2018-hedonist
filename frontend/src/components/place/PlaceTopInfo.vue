@@ -83,7 +83,7 @@
                 <PlaceRating
                     v-if="place.rating"
                     :value="Number(place.rating)"
-                    :showMax="true"
+                    :show-max="true"
                 />
                 <div class="place-rate__mark-count">
                     {{ place.ratingCount || 'No' }} marks
