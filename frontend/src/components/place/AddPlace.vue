@@ -253,7 +253,7 @@
                         />
                     </div>
 
-                    <div class="buttons is-centered">
+                    <div class="buttons is-centered location-buttons">
                         <span @click="activeTab--" class="button is-warning">Previous</span>
                         <span @click="activeTab++" class="button is-success">Next</span>
                     </div>
@@ -662,6 +662,10 @@ export default {
     #map {
         width: 100%;
         height: 100%;
+    }
+
+    .location-buttons {
+        padding-top: 20px;
     }
 
 </style>
