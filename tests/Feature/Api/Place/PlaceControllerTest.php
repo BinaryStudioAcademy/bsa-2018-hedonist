@@ -31,6 +31,7 @@ class PlaceControllerTest extends ApiTestCase
             self::ENDPOINT
         );
         $arrayContent = $response->getOriginalContent();
+        dd($arrayContent);
         $this->assertTrue(isset(
             $arrayContent['data'][0]['id'],
             $arrayContent['data'][0]['city'],
