@@ -80,15 +80,11 @@
                 </nav>
             </div>
             <div class="column is-one-third place-rate">
-                <div class="place-rate__mark">
-                    <span class="place-rate__mark-value">
-                        {{ place.rating | formatRating }}
-                    </span>
-                    <sup>
-                        /
-                        <span>10</span>
-                    </sup>
-                </div>
+                <PlaceRating
+                    v-if="place.rating"
+                    :value="Number(place.rating)"
+                    :show-max="true"
+                />
                 <div class="place-rate__mark-count">
                     {{ place.ratingCount || 'No' }} marks
                 </div>
@@ -113,6 +109,7 @@ import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 import { STATUS_NONE } from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
 import { mapGetters } from 'vuex';
+import PlaceRating from './PlaceRating';
 
 export default {
     name: 'PlaceTopInfo',
@@ -120,7 +117,8 @@ export default {
     components: {
         PlacePhotoList,
         PlaceCheckinModal,
-        LikeDislikeButtons
+        LikeDislikeButtons,
+        PlaceRating,
     },
 
     props: {
@@ -190,7 +188,7 @@ export default {
 
         placeMarker() {
             return defaultMarker;
-        }
+        },
     },
 
     methods: {
@@ -248,22 +246,9 @@ export default {
             .place-rate {
                 display: flex;
                 align-items: center;
-                &__mark {
-                    margin-left: auto;
-                    margin-right: 5px;
-                    border-radius: 3px;
-                    color: white;
-                    background-color: #00B551;
-                    padding: 4px;
-                    white-space: nowrap;
-                }
-                &__mark-value {
-                   margin:0 5px;
-                }
                 &__mark-count {
                     font-style: italic;
                     white-space: nowrap;
-                    padding: 0 10px;
                 }
                 &__preference {
                     display: flex;
@@ -324,20 +309,6 @@ export default {
                 .place-rate {
                     &__mark-count{
                         display: none;
-                    }
-                }
-            }
-        }
-    }
-
-    @media screen and (max-width: 769px) {
-        .place-top-info {
-            &__sidebar {
-                .place-rate {
-                    &__mark {
-                        margin-left: 20px;
-                        margin-right: 5px;
-                        border-radius: 3px;
                     }
                 }
             }
