@@ -3,14 +3,14 @@
 namespace Hedonist\Actions\UserTaste;
 
 use Hedonist\Entities\User\Taste;
-use Hedonist\Repositories\User\TasteRepository;
+use Hedonist\Repositories\User\TasteRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class AddTasteAction
 {
     private $tasteRepository;
 
-    public function __construct(TasteRepository $tasteRepository)
+    public function __construct(TasteRepositoryInterface $tasteRepository)
     {
         $this->tasteRepository = $tasteRepository;
     }
