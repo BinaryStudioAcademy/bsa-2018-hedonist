@@ -1,6 +1,6 @@
 <template>
     <div class="filter-controls">
-        <h5 class="headerVisible">Filters:</h5>
+        <h5 class="header-visible">Filters:</h5>
         <ul>
             <li 
                 v-for="(filterPlace, index) in filterPlaces" 
@@ -100,7 +100,7 @@ export default {
         border-bottom: 1px solid #e4e4e4;
         padding: 5px 16px 8px 16px;
 
-        .headerVisible {
+        .header-visible {
             color: #6e6e6e;
             display: inline-block;
             font-size: 11px;
