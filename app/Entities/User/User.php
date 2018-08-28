@@ -2,15 +2,15 @@
 
 namespace Hedonist\Entities\User;
 
+use Hedonist\Entities\User\Scope\UserScope;
 use Hedonist\Events\Auth\PasswordResetedEvent;
 use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Event;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject, CanResetPasswordContract
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable, CanResetPassword;
 
@@ -65,6 +65,8 @@ class User extends Authenticatable implements JWTSubject, CanResetPasswordContra
     public static function boot()
     {
         parent::boot();
+
+        static::addGlobalScope(new UserScope());
 
         self::deleting(function ($user) {
             $user->info->delete();

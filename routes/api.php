@@ -138,6 +138,6 @@ Route::prefix('v1')->group(function () {
             'create', 'edit'
         ]);
 
-        Route::get('/places/categories/{id}/tags', 'Api\Place\PlaceCategoryTagsController@getTagsByCategoryId');
+        Route::get('/places/categories/{id}/tags', 'Api\Place\TagsController@getTagsByCategoryId');
     });
 });
