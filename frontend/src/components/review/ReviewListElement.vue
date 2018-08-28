@@ -113,6 +113,10 @@ export default {
         img {
             height: 150px;
             width: 150px;
+
+            &:not(:last-child) {
+                margin-right: 15px;
+            }
         }
     }
 
