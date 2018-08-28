@@ -237,7 +237,7 @@
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Location" :disabled="activeTab !== 1">
+                <b-tab-item label="Location" :disabled="activeTab !== 2">
                     <div class="tab-wrp">
                         <div class="map-wrp">
                             <mapbox
@@ -273,7 +273,7 @@
                                     <b-select v-model="newPlace.category">
                                         <option value="" selected disabled>Select a category</option>
                                         <option
-                                            v-for="option in allCategories"
+                                            v-for="option in allCategories.byId"
                                             :key="option.id"
                                             :value="option"
                                         >
@@ -290,7 +290,7 @@
                                         <b-select v-model="selectedTag">
                                             <option value="" selected disabled>Add tags</option>
                                             <option
-                                                v-for="option in category_tags"
+                                                v-for="option in categoryTags.byId"
                                                 :key="option.id"
                                                 :value="option"
                                             >
@@ -480,7 +480,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Mapbox from 'mapbox-gl-vue';
 import SearchCity from '../navbar/SearchCity';
 import mapSettingsService from '@/services/map/mapSettingsService';
@@ -548,10 +548,10 @@ export default {
                 },
                 photos: []
             },
-            allCategories: [],
+            // allCategories: [],
             allFeatures: [],
             selectedTag: '',
-            category_tags: [],
+            // category_tags: [],
 
             weekdays: [],
             timeStart: new Date(0,0,0,10),
@@ -560,10 +560,11 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('category/getAllCategories')
-            .then((result) => {
-                this.allCategories = result;
-            });
+        this.$store.dispatch('category/fetchAllCategories');
+        // this.$store.dispatch('category/getAllCategories')
+        //     .then((result) => {
+        //         this.allCategories = result;
+        //     });
 
         this.$store.dispatch('features/getAllFeatures')
             .then((result) => {
@@ -575,10 +576,11 @@ export default {
         'newPlace.category': function (categoryObject) {
             if (_.isEmpty(categoryObject)) { return; }
             this.newPlace.tags = [];
-            this.$store.dispatch('category/getTagsByCategory', categoryObject.id)
-                .then((result) => {
-                    this.category_tags = result;
-                });
+            this.$store.dispatch('category/fetchCategoryTags', categoryObject.id);
+            // this.$store.dispatch('category/getTagsByCategory', categoryObject.id);
+            //     .then((result) => {
+            //     this.category_tags = result;
+            // });
             this.selectedTag = '';
         },
 
@@ -594,6 +596,9 @@ export default {
     },
 
     computed: {
+        ...mapState('category', ['allCategories']),
+        ...mapState('category', ['categoryTags']),
+
         ...mapGetters('auth', ['getAuthenticatedUser']),
         user() {
             return this.getAuthenticatedUser;
