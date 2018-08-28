@@ -63,7 +63,6 @@ class GetPlaceCollectionPresenter
 
     private function presentReview(Collection $reviews, User $user): ?array
     {
-        clock($reviews);
         $review = $reviews->first();
         if (is_null($review)) {
             return null;
