@@ -91,12 +91,7 @@
                     <PlaceRatingModal :place="place" />
                 </b-modal>
 
-                <button
-                        class="button is-primary"
-                        @click=""
-                >
-                    <i class="fas fa-clock"></i> {{ checkinCount }}
-                </button>
+                <PlaceCheckin :checkins="place.checkins" />
             </div>
         </div>
     </div>
@@ -109,6 +104,7 @@ import { STATUS_NONE } from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
 import { mapGetters } from 'vuex';
 import PlaceRating from './PlaceRating';
+import PlaceCheckin from './PlaceCheckin';
 
 export default {
     name: 'PlaceTopInfo',
@@ -117,6 +113,7 @@ export default {
         PlacePhotoList,
         PlaceRatingModal,
         PlaceRating,
+        PlaceCheckin
     },
 
     props: {
@@ -187,10 +184,6 @@ export default {
         placeMarker() {
             return defaultMarker;
         },
-
-        checkinCount() {
-            return this.place.checkins;
-        }
     },
 
     methods: {
