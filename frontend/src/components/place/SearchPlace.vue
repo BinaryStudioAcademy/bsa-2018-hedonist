@@ -118,25 +118,26 @@ export default {
             this.draw = new MapboxDraw({
                 displayControlsDefault: false,
                 controls: {
-                    polygon: true,
-                    trash: true
+                    polygon: true
                 }
             });
             this.map.addControl(this.draw, 'top-left');
 
             this.map.on('draw.create', this.updateSearchArea);
-            this.map.on('draw.delete', this.updateSearchArea);
-            this.map.on('draw.update', this.updateSearchArea);
         },
         updateSearchArea() {
             let data = this.draw.getAll();
-            let polygonCoordinates = [];
+            let query = this.$route.query;
             if (data.features.length > 0) {
-                data.features.forEach(function (item) {
-                    polygonCoordinates = item.geometry.coordinates[0];
-                });
+                query.polygon = data.features.map(item => item.geometry.coordinates[0]);
             }
-            // TODO add action for find place by 'polygonCoordinates'
+
+            this.isPlacesLoaded = false;
+            this.$store.dispatch('place/fetchPlaces', query)
+                .then(() => {
+                    this.isPlacesLoaded = true;
+                    this.draw.deleteAll();
+                });
         }
     },
     watch: {

@@ -97,9 +97,18 @@ const createSearchQueryUrl = (filters) => {
     let category = filters.category !== undefined ? filters.category : '';
     let location = filters.location !== undefined ? filters.location : '';
     let page = filters.page !== undefined ? filters.page : 1;
+    let polygon = '';
+    if (filters.polygon !== undefined && Array.isArray(filters.polygon)) {
+        let polygonCoordinatesAsArray = [];
+        filters.polygon[0].forEach(function (item) {
+            polygonCoordinatesAsArray.push(item[0] + ',' + item[1]);
+        });
+        polygon = polygonCoordinatesAsArray.join(';');
+    }
 
     return '?filter[category]=' + category
         + '&filter[location]=' + location
+        + '&filter[polygon]=' + polygon
         + '&page=' + page;
 };
 
