@@ -26,7 +26,7 @@ class SaveUserListAction
     public function execute(SaveUserListRequest $userListRequest): SaveUserListResponse
     {
         return $this->transactionService->run(
-            function() use($userListRequest) {
+            function() use ($userListRequest) {
                 $id = $userListRequest->getId();
                 if (!$id) {
                     $userList = new UserList;
