@@ -17,7 +17,7 @@ class GetPlaceByNameCriteria implements CriteriaInterface
     public function apply($model, RepositoryInterface $repository)
     {
         $name = $this->name;
-        return $model->whereHas('localization', function ($q) use($name) {
+        return $model->whereHas('localization', function ($q) use ($name) {
             $q->where('place_name', 'like', "%{$name}%");
         });
     }
