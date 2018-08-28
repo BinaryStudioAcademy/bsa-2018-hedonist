@@ -421,10 +421,14 @@
 
                 <b-tab-item label="Add place" :disabled="activeTab !== 5">
                     <div class="box">
-                        <h1>Do you really want to add new place <strong>"{{ newPlace.localization.en.name }}"?</strong></h1>
-                        <div class="buttons is-right">
-                            <span @click="onAdd()" class="button is-medium is-success">Add</span>
+                        <div class="level">
+                            <div class="level-item">
+                                <h1>Do you really want to add new place <strong>"{{ newPlace.localization.en.name.trim() }}"?</strong></h1>
+                            </div>
+                        </div>
+                        <div class="buttons is-centered">
                             <span @click="activeTab--" class="button is-warning">Previous</span>
+                            <span @click="onAdd()" class="button is-medium is-success">Add</span>
                         </div>
                     </div>
                 </b-tab-item>
