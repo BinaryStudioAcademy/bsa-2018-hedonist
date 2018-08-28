@@ -3,7 +3,7 @@
             class="button is-primary checkin"
             @click="checkinPlace"
     >
-        <i class="fas fa-clock"></i> {{ checkinCount }}
+        <i class="fas fa-clock"></i>{{ checkinCount }}
     </button>
 </template>
 
@@ -66,5 +66,9 @@
         color: #FFF;
         text-align: center;
         padding: 0 10px;
+
+        i {
+            padding-right: 5px;
+        }
     }
 </style>
