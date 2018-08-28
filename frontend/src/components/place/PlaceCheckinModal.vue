@@ -72,7 +72,7 @@ export default {
 
     methods: {
         ...mapActions('place', ['setPlaceRating']),
-        ...mapActions('user/history', ['checkIn']),
+        ...mapActions('history', ['checkIn']),
 
         isSelected: function(rating) {
             if (this.place.myRating === rating) {
