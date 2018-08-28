@@ -16,6 +16,7 @@
                             class="input is-small" 
                             type="search" 
                             placeholder="Find review.."
+                            v-model="filter.byContent"
                         >
                         <span class="icon is-small is-left">
                             <i class="fas fa-search" />
@@ -47,7 +48,7 @@
                     </div>
                 </div>
                 <div class="reviews-section-list">
-                    <template v-for="review in getAllReviews">
+                    <template v-for="review in getFilteredReviews(filter)">
                         <Review
                             :key="review.id"
                             :review="review"
@@ -82,12 +83,19 @@ export default {
             isActive: {
                 popular: true,
                 recent: false
+            },
+            filter: {
+                byContent: '',
             }
         };
     },
 
     computed: {
-        ...mapGetters('review', [ 'getAllReviews', 'getReviewsCount' ]),
+        ...mapGetters('review', [
+            'getAllReviews',
+            'getReviewsCount',
+            'getFilteredReviews'
+        ]),
 
         isReviewsExist() {
             return !_.isEmpty(this.place.reviews);
