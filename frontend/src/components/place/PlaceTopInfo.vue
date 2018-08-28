@@ -92,15 +92,6 @@
                 <div class="place-rate__mark-count">
                     {{ place.ratingCount || 'No' }} marks
                 </div>
-                <div class="place-rate__preference">
-                    <LikeDislikeButtons
-                        :likes="place.likes"
-                        :dislikes="place.dislikes"
-                        :status="liked"
-                        @like="like"
-                        @dislike="dislike"
-                    />
-                </div>
             </div>
         </div>
     </div>
@@ -109,7 +100,6 @@
 <script>
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
-import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 import { STATUS_NONE } from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
 import { mapGetters } from 'vuex';
@@ -120,7 +110,6 @@ export default {
     components: {
         PlacePhotoList,
         PlaceCheckinModal,
-        LikeDislikeButtons
     },
 
     props: {
@@ -248,6 +237,7 @@ export default {
             .place-rate {
                 display: flex;
                 align-items: center;
+                justify-content: center;
                 &__mark {
                     margin-left: auto;
                     margin-right: 5px;
@@ -264,22 +254,6 @@ export default {
                     font-style: italic;
                     white-space: nowrap;
                     padding: 0 10px;
-                }
-                &__preference {
-                    display: flex;
-                    margin-left: auto;
-                    margin-right: 10px;
-                    .likable {
-                        cursor: pointer;
-                        &:hover {
-                            color: black;
-                        }
-                    }
-                    .fa-bolt {
-                        top: -5%;
-                        left: 2%;
-                        font-size: 70%;
-                    }
                 }
             }
         }
