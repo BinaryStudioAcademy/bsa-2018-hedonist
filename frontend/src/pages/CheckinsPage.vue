@@ -1,13 +1,13 @@
 <template>
-    <div class="row">
-        <div class="column visitedplaces-wrapper">
+    <section class="columns">
+        <section class="column is-half">
             <CheckInsContainer :check-ins="checkIns" />
-        </div>
+        </section>
 
-        <div class="column mapbox-wrapper">
+        <section class="column mapbox-wrapper right-side">
             <HistoryMap />
-        </div>
-    </div>
+        </section>
+    </section>
 </template>
 
 <script>
@@ -31,51 +31,69 @@ export default {
 </script>
 
 <style>
-    .mapboxgl-ctrl-top-left,
-    .mapboxgl-ctrl-top-right {
-        top: 20px;
+    .mapboxgl-canvas {
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    .mapboxgl-marker {
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup-close-button{
+        font-size: 22px;
+    }
+
+    .link-place:hover{
+        text-decoration: underline;
     }
 </style>
 
 <style lang="scss" scoped>
-    .row {
-        display: flex;
+    .search-field {
+        margin-bottom: 10px;
     }
 
-    .column {
-        flex: 50%;
+    .columns {
+        padding: 10px;
     }
 
-    .no-visited-places {
-        text-align: center;
+    #map {
+        text-align: justify;
+        position: sticky;
+        position: -webkit-sticky;
+        top: 3.75rem;
+        height: 100vh;
+        right: 0;
+        width: 100%;
     }
 
     @media screen and (max-width: 769px) {
-        .row {
+        .columns {
             display: grid;
             grid-template-areas: "right" "left";
 
-            .visitedplaces-wrapper {
+            .is-half {
                 grid-area: left;
             }
-
-            .mapbox-wrapper {
+            .right-side {
                 grid-area: right;
-                position: relative;
-                height: 500px;
             }
         }
-
-        .column {
-            flex: 100%;
+        #map {
+            text-align: justify;
+            vertical-align: top;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 500px;
         }
     }
 
     @media screen and (max-width: 520px) {
-        .row {
-            .mapbox-wrapper {
-                height: 300px;
-            }
+        #map {
+            height: 300px;
         }
     }
 </style>

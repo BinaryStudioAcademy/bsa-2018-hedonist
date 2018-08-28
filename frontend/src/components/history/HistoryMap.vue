@@ -122,17 +122,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    #map {
-        text-align: justify;
-        position: fixed;
-        top: 87px;
-        bottom: 0;
-        right: 0;
-        width: 50%;
 
-        @media screen and (max-width: 769px) {
-            position: absolute;
-            width: 100%;
-        }
-    }
 </style>
