@@ -1,5 +1,6 @@
 <template>
     <div class="filter-controls">
+        <h5 class="header-visible">Filters:</h5>
         <ul>
             <li 
                 v-for="(filterPlace, index) in filterPlaces" 
@@ -88,7 +89,20 @@ export default {
 
     .filter-controls {
         background: #f8f8f8;
-        padding: 5px 15px;
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #e4e4e4;
+        padding: 5px 16px 8px 16px;
+
+        .header-visible {
+            color: #6e6e6e;
+            display: inline-block;
+            font-size: 11px;
+            float: left;
+            margin: 6px 5px 0 0;
+            text-shadow: 0 1px 0 #fff;
+            line-height: 140%;
+            font-weight: bold;
+        }
 
         ul {
             display: inline-block;
@@ -98,9 +112,8 @@ export default {
 
             li {
                 float: left;
-                margin: 5px 4px 5px 0;
+                margin: 0 4px 0 0;
                 position: relative;
-                border: 1px solid #eee;
 
                 &:hover .filter-control-span{
                     border-color: #bbb;
@@ -119,7 +132,7 @@ export default {
                     color: #6e6e6e;
                     cursor: pointer;
                     display: inline-block;
-                    font-size: 14px;
+                    font-size: 11px;
                     font-weight: bold;
                     margin: 0;
                     padding: 4px 8px;

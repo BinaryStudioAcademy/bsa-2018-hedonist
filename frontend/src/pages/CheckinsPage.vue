@@ -24,10 +24,6 @@
                         show: true,
                         position: 'bottom-right'
                     }"
-                    :scale-control="{
-                        show: true,
-                        position: 'top-left'
-                    }"
                     @map-init="mapInitialize"
                 />
             </section>
@@ -44,7 +40,7 @@ import Mapbox from 'mapbox-gl-vue';
 import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
-    name: 'HistoryPage',
+    name: 'CheckinsPage',
     components: {
         PlaceVisitedPreview,
         Mapbox
