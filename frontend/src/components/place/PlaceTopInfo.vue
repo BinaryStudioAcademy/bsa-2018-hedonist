@@ -19,16 +19,6 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <button
-                    class="button is-primary"
-                    @click="isCheckinModalActive = true"
-                >
-                    <i class="fas fa-check" />Check-in
-                </button>
-                <b-modal :active.sync="isCheckinModalActive" has-modal-card>
-                    <PlaceCheckinModal :place="place" />
-                </b-modal>
-
                 <b-dropdown>
                     <button class="button is-success" slot="trigger">
                         <i class="far fa-save" />Save
@@ -85,9 +75,25 @@
                     :value="Number(place.rating)"
                     :show-max="true"
                 />
+
                 <div class="place-rate__mark-count">
                     {{ place.ratingCount || 'No' }} marks
                 </div>
+
+
+                <button
+                        class="button is-primary"
+                        @click="isCheckinModalActive = true"
+                >
+                    <i class="fas fa-check" />Rate
+                </button>
+                <b-modal :active.sync="isCheckinModalActive" has-modal-card>
+                    <PlaceCheckinModal :place="place" />
+                </b-modal>
+
+                <button class="button is-primary">
+                    <i class="fas fa-clock"></i>
+                </button>
             </div>
         </div>
     </div>
