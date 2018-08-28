@@ -9,7 +9,7 @@
             <div class="top-left">
                 <div class="image-upload">
                     <div class="image-wrapper">
-                        <img :src="imagePreview || imageStub">
+                        <img class="place-image" :src="imagePreview || imageStub">
                     </div>
                     <div class="field">
                         <div class="file is-primary">
@@ -70,7 +70,7 @@
                         >
                             <div class="search-places__img-wrapper">
                                 <img
-                                    class="search-places__img"
+                                    class="search-places__img place-image"
                                     :src="getPlacePhoto(place)"
                                     :alt="getPlacePhotoDescription(place)"
                                 >
@@ -79,6 +79,11 @@
                                 <div class="search-places__name">{{ getPlaceName(place) }}</div>
                                 <div class="search-places__city">{{ place.city.name }}</div>
                                 <div class="search-places__description">{{ place.address }}</div>
+                            </div>
+                            <div class="search-places__rating">
+                                <span :class="['place-rating','place-rating--' + ratingModifier(place.rating)]">
+                                    {{ place.rating }}
+                                </span>
                             </div>
                         </li>
                     </ul>
@@ -92,9 +97,15 @@
                         v-for="(place, index) in attachedPlaces"
                         :key="index"
                     >
+                        <button
+                            class="attached-places__detach button is-danger is-large"
+                            @click="detachPlace(place)"
+                        >
+                            -
+                        </button>
                         <div class="attached-places__img-wrapper">
                             <img
-                                class="attached-places__img"
+                                class="attached-places__img place-image"
                                 :src="getPlacePhoto(place)"
                                 :alt="getPlacePhotoDescription(place)"
                             >
@@ -104,12 +115,11 @@
                             <div class="attached-places__city">{{ place.city.name }}</div>
                             <div class="attached-places__description">{{ place.address }}</div>
                         </div>
-                        <button
-                            class="attached-places__detach button is-danger is-large"
-                            @click="detachPlace(place)"
-                        >
-                            -
-                        </button>
+                        <div class="attached-places__rating">
+                            <span :class="['place-rating','place-rating--' + ratingModifier(place.rating)]">
+                                {{ place.rating }}
+                            </span>
+                        </div>
                     </li>
                 </ul>
                 <div v-else class="attached-places__none">You may attach some places to the list</div>
@@ -202,6 +212,17 @@ export default {
             fetchPlaces: 'place/fetchPlaces'
         }),
 
+        ratingModifier(rating) {
+            if (rating >= 7) {
+                return 'good';
+            }
+
+            if (rating >= 5) {
+                return 'okay'
+            }
+
+            return 'bad';
+        },
         getPlaceName(place) {
             return place.localization[0].name;
         },
@@ -314,6 +335,25 @@ export default {
         top: 30px;
     }
 
+    .place-rating {
+        border-radius: 7px;
+        background-color: black;
+        color: #fff;
+        padding: 10px;
+
+        &--bad {
+            background-color: #FC8D9F;
+        }
+
+        &--okay {
+            background-color: #FFA500;
+        }
+
+        &--good {
+            background-color: #00B551;
+        }
+    }
+
     .btn-to-top {
         display: none;
         width: 60px;
@@ -324,7 +364,7 @@ export default {
         line-height: 22px;
     }
 
-    img {
+    .place-image {
         border-radius: 5px;
         width: 100%;
         height: 100%;
@@ -472,6 +512,15 @@ export default {
                 margin-left: 5px;
             }
 
+            &__rating {
+                margin-left: auto;
+                align-self: center;
+
+                .place-rating {
+                    font-size: 18px;
+                }
+            }
+
             &__name {
                 color: #333;
                 font-weight: bold;
@@ -528,9 +577,17 @@ export default {
             }
 
             &__detach {
-                margin-left: auto;
+                margin-right: 15px;
                 position: initial;
-                float: right;
+            }
+
+            &__rating {
+                margin-left: auto;
+
+                .place-rating {
+                    font-size: 25px;
+                    padding: 20px;
+                }
             }
         }
 
