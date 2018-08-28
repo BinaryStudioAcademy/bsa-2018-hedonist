@@ -79,13 +79,15 @@ export default {
         });
     },
 
-    saveUserLists: (context, userId) => {
-        return httpService.post('/user-lists/', {
-            'user_id': userId,
-            'name': 'Caffe',
-            'img_url': 'http://test.image',
-        }).then( (result) => {
-            return result.data.data;
-        });
+    saveUserLists: (context, {userList, attachedPlaceIds}) => {
+        const formData = new FormData();
+        formData.append('img_url', userList.image);
+        formData.append('name', userList.name);
+        formData.append('attached_places', JSON.stringify(attachedPlaceIds));
+
+        return httpService.post('/user-lists/', formData)
+            .then( (result) => {
+                return result.data.data;
+            });
     }
 };

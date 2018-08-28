@@ -59,4 +59,9 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
     {
         $list->places()->attach($place->id);
     }
+
+    public function attachPlaces(UserList $list, array $placeIds): void
+    {
+        $list->places()->attach($placeIds);
+    }
 }

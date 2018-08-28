@@ -7,13 +7,16 @@ class GetPlaceCollectionByFiltersRequest
     private $category_id;
     private $location;
     private $page;
+    private $name;
+
     const DEFAULT_PAGE = 1;
 
-    public function __construct(?int $page, ?int $category_id, ?string $location)
+    public function __construct(?int $page, ?int $category_id, ?string $location,  ?string $name)
     {
         $this->location = $location;
         $this->category_id = $category_id;
         $this->page = $page;
+        $this->name = $name;
     }
 
     public function getCategoryId(): ?int
@@ -29,5 +32,10 @@ class GetPlaceCollectionByFiltersRequest
     public function getPage(): ?int
     {
         return $this->page;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
     }
 }

@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <Preloader :active="isLoading" />
         <form
             class="form"
             @submit.prevent
@@ -8,64 +9,110 @@
             <div class="top-left">
                 <div class="image-upload">
                     <div class="image-wrapper">
-                        <img :src="userList.image || imageStub">
+                        <img :src="imagePreview || imageStub">
                     </div>
                     <div class="field">
                         <div class="file is-primary">
                             <label class="file-label width100">
-                                <input @change="previewImage" class="file-input" type="file" name="photo">
+                                <input
+                                    @change="previewImage"
+                                    class="file-input"
+                                    type="file"
+                                    name="photo"
+                                >
                                 <span class="file-cta width100">
                                     <span class="file-icon">
-                                        <i class="fas fa-upload"></i>
+                                        <i class="fas fa-upload" />
                                     </span>
                                     <span class="file-label">
-                                      Load a preview
+                                        Load a preview
                                     </span>
                                 </span>
                             </label>
                         </div>
                     </div>
                 </div>
-                <div class="name-desc-section">
-                    <label class="label" for="list-title">Title</label>
-                    <input id="list-title" type="text" class="text" name="title">
+                <div class="name-desc-section width100">
+                    <label class="label" for="list-name">List name</label>
+                    <input
+                        v-model="userList.name"
+                        id="list-name"
+                        type="text"
+                        class="text"
+                        name="name"
+                    >
                     <div class="top-right">
-                        <button class="button-green" @click="onSave">Save</button>
-                        <button class="button-grey">Delete</button>
+                        <button class="button is-success" @click="onSave">Save</button>
                     </div>
                 </div>
             </div>
         </form>
         <div class="bottom-left">
-            <div class="search-places">
+            <div
+                v-click-outside="hideSearchList"
+                :class="['search-places control', searchInputLoadingClass]"
+            >
                 <input
                     placeholder="Search places"
                     type="text"
-                    class="search-field"
-                    @keyup="keyUp"
+                    v-model.trim="placeName"
+                    @focus="searchPlaces"
+                    class="search-field input"
+                    @input="searchPlaces"
                 >
-                <ul
-                    class="search-places__list"
-                    v-show="displayList"
-                    v-click-outside="onClickOutside"
-                >
-                    <li v-for="place in places">
-                        <a href="#">
-                            <img
-                                height="32"
-                                width="32"
-                                class="search-places__list__img"
-                                src="https://ss3.4sqi.net/img/categories_v2/arts_entertainment/stadium_baseball_bg_32.png"
-                                alt="place image"
-                            >
-                            <div class="search-places__list__details">
-                                <div class="search-places__list__name">{{ place.localization[0].name }}</div>
-                                <div class="search-places__list__description">1 E 161st St (btwn Jerome & Rivera Ave)
-                                </div>
+                <div class="search-places__list" v-show="displayList && !isPlaceFetching">
+                    <ul v-if="places">
+                        <li
+                            v-for="place in places"
+                            :key="place.id"
+                            class="search-places__item"
+                            @click="attachPlace(place)"
+                        >
+                            <div class="search-places__img-wrapper">
+                                <img
+                                    class="search-places__img"
+                                    :src="getPlacePhoto(place)"
+                                    :alt="getPlacePhotoDescription(place)"
+                                >
                             </div>
-                        </a>
+                            <div class="search-places__details">
+                                <div class="search-places__name">{{ getPlaceName(place) }}</div>
+                                <div class="search-places__city">{{ place.city.name }}</div>
+                                <div class="search-places__description">{{ place.address }}</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div v-else class="search-places__none">No places found</div>
+                </div>
+            </div>
+            <div class="attached-places">
+                <ul class="attached-places__list" v-if="attachedPlaces.length > 0">
+                    <li
+                        class="attached-places__item"
+                        v-for="(place, index) in attachedPlaces"
+                        :key="index"
+                    >
+                        <div class="attached-places__img-wrapper">
+                            <img
+                                class="attached-places__img"
+                                :src="getPlacePhoto(place)"
+                                :alt="getPlacePhotoDescription(place)"
+                            >
+                        </div>
+                        <div class="attached-places__details">
+                            <div class="attached-places__name">{{ getPlaceName(place) }}</div>
+                            <div class="attached-places__city">{{ place.city.name }}</div>
+                            <div class="attached-places__description">{{ place.address }}</div>
+                        </div>
+                        <button
+                            class="attached-places__detach button is-danger is-large"
+                            @click="detachPlace(place)"
+                        >
+                            -
+                        </button>
                     </li>
                 </ul>
+                <div v-else class="attached-places__none">You may attach some places for the list</div>
             </div>
         </div>
         <div class="bottom-right">
@@ -85,7 +132,6 @@
                         position: 'top-left'
                     }"
                     @map-init="mapInitialize"
-                    @map-load="mapLoaded"
                 />
             </div>
         </div>
@@ -93,28 +139,38 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
+import Preloader from '@/components/misc/Preloader';
 import Mapbox from 'mapbox-gl-vue';
 import markerManager from '@/services/map/markerManager';
 import imageStub from '@/assets/no-photo.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
     name: 'UserListAdd',
     components: {
-        Mapbox
+        Mapbox,
+        Preloader
     },
     data: function () {
         return {
             displayList: false,
+            isLoading: false,
             mapboxToken: mapSettingsService.getMapboxToken(),
             mapboxStyle: mapSettingsService.getMapboxStyle(),
             userList: {
-                title: null,
+                name: null,
                 image: null
             },
+            placeName: '',
+            placesLocation: '30.5241,50.4501',
+            imagePreview: null,
+            isPlaceFetching: false,
+            markerManager: null,
             errors: null,
             places: null,
+            attachedPlaces: [],
             imageStub: imageStub,
             availableImageTypes: [
                 'image/jpeg',
@@ -123,9 +179,15 @@ export default {
             ]
         };
     },
-    created() {
-        this.fetchPlaces()
-            .then((res) => this.places = res.data.data)
+    watch: {
+        'attachedPlaces': function() {
+            this.markerManager.setMarkersFromPlacesAndFit(...this.attachedPlaces);
+        }
+    },
+    computed: {
+        searchInputLoadingClass() {
+            return this.isPlaceFetching ? 'is-loading' : false;
+        }
     },
     methods: {
         ...mapActions({
@@ -133,31 +195,51 @@ export default {
             fetchPlaces: 'place/fetchPlaces'
         }),
 
-        onSave () {
-            this.save(1)
-                .then((res) => console.log(res));
-            // if (!this.$v.user.$invalid) {
-            //     this.login(this.user)
-            //         .then( (res) => {
-            //             this.onSuccess({
-            //                 message: 'Welcome!'
-            //             });
-            //             this.refreshInput();
-            //             this.$router.push({name: 'home'});
-            //         })
-            //         .catch( (err) => {
-            //             this.onError(err.response.data);
-            //         });
-            // } else {
-            //     this.onError({
-            //         message: 'Please, check your input data'
-            //     });
-            // }
+        getPlaceName(place) {
+            return place.localization[0].name;
         },
+        getPlacePhoto(place) {
+            return place.photos[0]['img_url'];
+        },
+        getPlacePhotoDescription(place) {
+            return place.photos[0]['description'];
+        },
+        hideSearchList() {
+            this.displayList = false;
+        },
+        attachPlace(place) {
+            this.attachedPlaces.push(place);
+            this.places = this.filterPlaces(this.places);
+        },
+        detachPlace(detachedPlace) {
+            this.attachedPlaces = _.xorBy(this.attachedPlaces, [detachedPlace], 'id');
+        },
+        filterPlaces(places) {
+            return _.differenceBy(places, this.attachedPlaces, 'id');
+        },
+        onSave () {
+            this.isLoading = true;
+            if (this.$v.userList.$invalid) {
+                this.onError('Photo and name are required!');
+                return;
+            }
 
-        onError (error) {
+            this.save({
+                userList: this.userList,
+                attachedPlaceIds: this.attachedPlaces.map((place) => place.id)
+            })
+                .then(() => {
+                    this.isLoading = false;
+                    this.onSuccess({ message: 'The list was saved!' });
+                    this.$router.push({ name: 'UserListsPage' });
+                })
+                .catch((err) => {
+                    this.onError(err.response.data);
+                });
+        },
+        onError (message = 'Error occurred') {
             this.$toast.open({
-                message: 'The email or password is incorrect',
+                message: message,
                 type: 'is-danger'
             });
         },
@@ -167,22 +249,29 @@ export default {
                 type: 'is-success'
             });
         },
-        keyUp() {
-            this.displayList = true;
-        },
-        onClickOutside() {
-            this.displayList = false;
+        searchPlaces() {
+            this.isPlaceFetching = true;
+            this.fetchPlaces({
+                location: this.placesLocation,
+                name: this.placeName
+            }).then((res) => {
+                this.displayList = true;
+                this.isPlaceFetching = false;
+                this.places = this.filterPlaces(res.data.data);
+            });
         },
         previewImage: function(event) {
             const file = event.target.files[0];
             const reader = new FileReader();
-            this.imageData = null;
+            this.userList.image = null;
             if (file) {
                 reader.onload = (e) => {
                     if (this.checkFileType(file.type)) {
-                        this.imageData = e.target.result;
+                        this.imagePreview = e.target.result;
+                        this.userList.image = file;
                     }
                 };
+
                 reader.readAsDataURL(file);
             }
         },
@@ -190,41 +279,46 @@ export default {
             return this.availableImageTypes.includes(fileType);
         },
         mapInitialize(map) {
-            // map.fitBounds();
-        },
-        mapLoaded(map) {
             this.markerManager = markerManager.getService(map);
-        },
+        }
     },
-    // validations: {
-    //     userList: {
-    //         title: {
-    //             required,
-    //         },
-    //         image: {
-    //             required,
-    //         },
-    //     }
-    // }
+    validations: {
+        userList: {
+            name: {
+                required,
+            },
+            image: {
+                required,
+            },
+        }
+    }
 };
 </script>
-
-<style>
-    .mapboxgl-canvas {
-        left: 0;
-        top: 0;
-        bottom: 0;
-        right: 0;
-    }
-</style>
 
 <style lang="scss" scoped>
     .width100 {
         width: 100%;
     }
 
+    .control.is-loading::after {
+        right: 1.625em;
+        top: 30px;
+    }
+
+    img {
+        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
+    }
+
     .form {
         grid-area: form;
+        position: sticky;
+        top: 50px;
+        z-index: 2;
+        background-color: #fff;
     }
 
     .image-wrapper {
@@ -232,20 +326,15 @@ export default {
         height: 128px;
         overflow: hidden;
         margin-bottom: 10px;
-
-        img {
-            border-radius: 5px;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: 50% 50%;
-        }
     }
+
     .container {
         border-radius: 3px;
         background: #fff;
         position: relative;
         display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        grid-template-rows: 214px auto;
         grid-template-areas: "form bottom-right" "bottom-left bottom-right";
         margin-top: 40px;
     }
@@ -285,7 +374,6 @@ export default {
         }
 
         .name-desc-section {
-            width: 83%;
             margin-left: 30px;
         }
     }
@@ -299,15 +387,14 @@ export default {
 
     .bottom-left {
         grid-area: bottom-left;
-        height: 1000px;
 
         .search-places {
+            position: sticky;
+            top: 264px;
             background: #f0f4f5;
             border-bottom: 1px solid #dae4e6;
             border-top: 1px solid #dae4e6;
-            overflow: visible;
             padding: 20px;
-            position: relative;
 
             .search-field {
                 padding: 10px;
@@ -325,65 +412,109 @@ export default {
                 outline: none;
             }
 
+            &__none {
+                padding: 20px;
+                font-weight: bold;
+            }
+
+            &__item {
+                line-height: 16px;
+                overflow: hidden;
+                white-space: nowrap;
+                background: #fff;
+                cursor: pointer;
+                display: flex;
+                padding: 5px 10px;
+                text-decoration: none;
+
+                &:hover {
+                    background: #f5f5f5;
+                }
+            }
+
             &__list {
-                z-index: 999999;
-                left: 20px;
+                z-index: 1;
                 position: absolute;
-                top: 64px !important;
-                width: 430px;
+                width: calc(100% - 40px);
+                max-height: 200px;
+                overflow-y: auto;
+                top: 64px;
                 background: #fff;
                 border: 1px solid #3990bb;
                 border-top: none !important;
                 box-shadow: rgba(0, 0, 0, 0.1) 0 0 2px 0;
                 border-radius: 0 0 5px 5px;
                 vertical-align: baseline;
+            }
 
-                li {
-                    line-height: 16px;
-                    margin: 0;
-                    overflow: hidden;
-                    padding: 0;
-                    white-space: nowrap;
+            &__details {
+                display: flex;
+                flex-direction: column;
+                margin-left: 5px;
+            }
 
-                    a {
-                        background: #fff;
-                        cursor: pointer;
-                        display: flex;
-                        padding: 5px 10px;
-                        text-decoration: none;
-                        zoom: 1;
-                    }
-                    a:hover {
-                        background: #f5f5f5;
-                    }
-                }
+            &__name {
+                color: #333;
+                font-weight: bold;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 0.9rem;
+            }
 
-                &__details {
-                    display: flex;
-                    flex-direction: column;
-                    margin-left: 5px;
-                }
+            a:hover .search-places__name {
+                color: #2d5be3;
+            }
 
-                &__name {
-                    color: #333;
-                    font-weight: bold;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    font-size: 0.9rem;
-                }
-                a:hover .search-places__list__name {
-                    color: #2d5be3;
-                }
+            &__description {
+                color: #999;
+                font-weight: normal;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 0.9rem;
+            }
 
-                &__description {
-                    color: #999;
-                    font-weight: normal;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    font-size: 0.9rem;
-                }
+            &__img-wrapper {
+                width: 80px;
+                height: 50px;
             }
         }
+
+        .attached-places {
+            padding: 10px;
+
+            &__none {
+                font-size: 24px;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            &__item {
+                display: flex;
+                align-items: center;
+                margin: 15px 0;
+            }
+
+            &__img-wrapper {
+                width: 180px;
+                height: 128px;
+            }
+
+            &__details {
+                margin-left: 15px;
+            }
+
+            &__name {
+                font-size: 22px;
+                font-weight: bold;
+            }
+
+            &__detach {
+                margin-left: auto;
+                position: initial;
+                float: right;
+            }
+        }
+
     }
 
     .bottom-right {
@@ -429,57 +560,18 @@ export default {
         width: 100%;
     }
 
-    .button-green {
-        letter-spacing: 0;
-        box-sizing: border-box;
-        box-shadow: none;
-        text-shadow: none;
-        border-radius: 3px;
-        background: #00b551;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        color: #fff;
-        cursor: pointer;
-        display: block;
-        font-size: 0.9rem;
-        height: 30px;
-        line-height: 28px;
-        padding: 0 30px;
-        text-align: center;
-        text-transform: none;
-        margin-right: 15px;
-    }
-
-    .button-green:hover {
-        background: #4ca958;
-    }
-
-    .button-grey {
-        border-radius: 3px;
-        background: #efeff4;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        color: #4e595d;
-        cursor: pointer;
-        display: block;
-        font-size: 0.9rem;
-        font-weight: normal;
-        height: 30px;
-        line-height: 28px;
-        padding: 0 10px;
-        text-align: center;
-        text-transform: none;
-    }
-
-    .button-grey:hover {
-        background: rgb(227, 227, 232);
-        color: rgb(78, 89, 93);
-        border-width: 1px;
-        border-style: solid;
-        border-color: rgba(0, 0, 0, 0);
-    }
-
     @media screen and (max-width: 769px) {
         .container {
-            grid-template-areas: "top-left" "top-right" "bottom-left" "bottom-right";
+            grid-template-areas: "form" "bottom-right" "bottom-left";
+            grid-template-columns: auto;
+            grid-template-rows: auto;
+        }
+
+        .bottom-left {
+            .search-places {
+                position: relative;
+                top: 0;
+            }
         }
     }
 
@@ -491,10 +583,6 @@ export default {
 
                 .photo-section {
                     margin: 0 0 20px 0;
-                }
-
-                .name-desc-section {
-                    width: auto;
                 }
             }
         }

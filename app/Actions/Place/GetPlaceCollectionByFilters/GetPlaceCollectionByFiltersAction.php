@@ -30,6 +30,7 @@ class GetPlaceCollectionByFiltersAction
     public function execute(GetPlaceCollectionByFiltersRequest $request): GetPlaceCollectionResponse
     {
         $categoryId = $request->getCategoryId();
+        $name = $request->getName();
         $location = $request->getLocation();
         $page = $request->getPage() ?: GetPlaceCollectionByFiltersRequest::DEFAULT_PAGE;
         $criterias = [];

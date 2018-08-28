@@ -14,6 +14,7 @@ use Hedonist\Actions\UserList\GetUserListRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\UserList\UserListRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class UserListController extends ApiController
 {
@@ -56,9 +57,10 @@ class UserListController extends ApiController
         try {
             $responseUserList = $this->saveUserListAction->execute(
                 new SaveUserListRequest(
-                    $request->get('user_id'),
+                    Auth::id(),
                     $request->get('name'),
-                    $request->get('img_url')
+                    $request->file('img_url'),
+                    json_decode($request->get('attached_places'))
                 )
             );
             return $this->successResponse($responseUserList->toArray(), 201);

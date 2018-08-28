@@ -152,7 +152,8 @@ class PlaceController extends ApiController
                 new GetPlaceCollectionByFiltersRequest(
                     $request->input('page'),
                     $request->input('filter.category'),
-                    $request->input('filter.location')
+                    $request->input('filter.location'),
+                    $request->input('filter.name')
                 )
             );
 

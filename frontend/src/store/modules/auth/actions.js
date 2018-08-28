@@ -86,7 +86,6 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.get('/auth/me')
                 .then(function (res) {
-                    console.log(res.data.data);
                     context.commit('SET_AUTHENTICATED_USER', res.data.data);
                     resolve(res);
                 }).catch(function (error) {

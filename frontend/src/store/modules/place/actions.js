@@ -96,10 +96,12 @@ export default {
 const createSearchQueryUrl = (filters) => {
     let category = filters.category !== undefined ? filters.category : '';
     let location = filters.location !== undefined ? filters.location : '';
+    let name = filters.name !== undefined ? filters.name : '';
     let page = filters.page !== undefined ? filters.page : 1;
 
     return '?filter[category]=' + category
         + '&filter[location]=' + location
+        + '&filter[name]=' + name
         + '&page=' + page;
 };
 
