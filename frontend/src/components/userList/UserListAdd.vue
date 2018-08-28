@@ -137,7 +137,7 @@
         </div>
         <back-to-top>
             <button type="button" class="btn btn-info btn-to-top">
-                <i class="fa fa-chevron-up"></i>
+                <i class="fa fa-chevron-up" />
             </button>
         </back-to-top>
     </div>
@@ -151,7 +151,7 @@ import markerManager from '@/services/map/markerManager';
 import imageStub from '@/assets/no-photo.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
 import { required } from 'vuelidate/lib/validators';
-import BackToTop from 'vue-backtotop'
+import BackToTop from 'vue-backtotop';
 
 export default {
     name: 'UserListAdd',
