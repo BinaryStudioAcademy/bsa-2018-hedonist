@@ -32,7 +32,7 @@ import { mapActions, mapGetters, mapState } from 'vuex';
 import Smiley from '../misc/Smiley';
 
 export default {
-    name: 'PlaceCheckinModal',
+    name: 'PlaceRatingModal',
 
     components: {
         Smiley

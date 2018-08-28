@@ -88,11 +88,14 @@
                     <i class="fas fa-star-half-alt"></i>
                 </button>
                 <b-modal :active.sync="isCheckinModalActive" has-modal-card>
-                    <PlaceCheckinModal :place="place" />
+                    <PlaceRatingModal :place="place" />
                 </b-modal>
 
-                <button class="button is-primary">
-                    <i class="fas fa-clock"></i>
+                <button
+                        class="button is-primary"
+                        @click=""
+                >
+                    <i class="fas fa-clock"></i> {{ checkinCount }}
                 </button>
             </div>
         </div>
@@ -101,7 +104,7 @@
 
 <script>
 import PlacePhotoList from './PlacePhotoList';
-import PlaceCheckinModal from './PlaceCheckinModal';
+import PlaceRatingModal from './PlaceRatingModal';
 import { STATUS_NONE } from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
 import { mapGetters } from 'vuex';
@@ -112,7 +115,7 @@ export default {
 
     components: {
         PlacePhotoList,
-        PlaceCheckinModal,
+        PlaceRatingModal,
         PlaceRating,
     },
 
@@ -184,6 +187,10 @@ export default {
         placeMarker() {
             return defaultMarker;
         },
+
+        checkinCount() {
+            return this.place.checkins;
+        }
     },
 
     methods: {
