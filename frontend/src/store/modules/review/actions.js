@@ -48,10 +48,7 @@ export default {
             httpService.get(`reviews/${reviewId}/photos`)
                 .then((result) => {
                     if (result.data.data.length > 0) {
-                        let photos = [];
-                        result.data.data.forEach(function (item) {
-                            photos.push(item.img_url);
-                        });
+                        const photos = result.data.data.map(item => item.img_url);
                         context.commit('SET_REVIEW_PHOTOS', {
                             reviewId: reviewId,
                             photos: photos
