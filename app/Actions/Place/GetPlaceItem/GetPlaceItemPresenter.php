@@ -12,6 +12,7 @@ use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
 use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
 use Hedonist\Actions\Presenters\Place\PlaceInfoPresenter;
 use Hedonist\Actions\Presenters\Place\PlacePresenter;
+use Hedonist\Entities\Place\Checkin;
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\User\User;
 use Illuminate\Support\Collection;
@@ -62,6 +63,7 @@ class GetPlaceItemPresenter
         $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
         $result['category'] = $this->categoryPresenter->present($place->category);
         $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
+        $result['checkins'] = Checkin::places($place->id)->users($placeResponse->getUser()->id)->count();
 
         return $result;
     }
