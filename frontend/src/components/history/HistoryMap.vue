@@ -76,7 +76,7 @@ export default {
                 );
             })
             .catch((err) => {
-                this.isPlacesLoaded = true;
+                this.isPlacesLoaded = false;
             });
     },
 
