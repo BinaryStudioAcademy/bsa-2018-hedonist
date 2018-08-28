@@ -6,7 +6,8 @@ export default {
             dislikes: 0,
             like: 'NONE',
             likes: 0,
-            user_id: 0
+            user_id: 0,
+            photos: []
         };
     },
     reviews: {},

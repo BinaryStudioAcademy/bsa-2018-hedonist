@@ -4,11 +4,11 @@ namespace Hedonist\Entities\Place;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PlaceCategoryTag extends Model
+class Tag extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'place_categories_tags';
+    protected $table = 'tags';
 
     protected $fillable = [
         'name'

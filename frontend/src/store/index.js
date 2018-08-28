@@ -11,8 +11,8 @@ import place from './modules/place';
 import review from './modules/review';
 import userList from './modules/userList';
 import taste from './modules/taste';
-import user from './modules/user';
 import profile from './modules/profile';
+import history from './modules/history';
 
 Vue.use(Vuex);
 
@@ -30,7 +30,7 @@ export default new Vuex.Store({
         review,
         userList,
         taste,
-        user,
-        profile
+        profile,
+        history
     }
 });
