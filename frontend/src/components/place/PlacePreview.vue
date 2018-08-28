@@ -31,7 +31,13 @@
                     </p>
                 </div>
                 <div class="media-right rating-wrapper">
-                    <div v-if="place.rating" class="rating">
+                    <div 
+                        v-if="place.rating"
+                        :class="[
+                            'rating',
+                            'rating-' + ratingCategory
+                        ]"
+                    >
                         {{ place.rating }}
                     </div>
                 </div>
@@ -103,13 +109,24 @@
     .rating {
         width: 48px;
         height: 48px;
-        background: #00E676;
         border-radius: 7px;
         margin: auto;
         line-height: 48px;
         font-size: 1.5rem;
         color: #FFF;
         text-align: center;
+
+        &-bad {
+            background-color: #fc8d9f;
+        }
+
+        &-okay {
+            background-color: #ffa500;
+        }
+
+        &-good {
+            background-color: #00e676;
+        }
     }
 
     hr {
@@ -159,6 +176,13 @@ export default {
         },
         notFoundPhoto() {
             return imagePlaceholder;
+        },
+        ratingCategory() {
+            const placeRating = this.place.rating;
+
+            if (placeRating < 5) return 'bad';
+            if (placeRating >= 5 && placeRating < 7) return 'okay';
+            if (placeRating >= 7) return 'good';
         }
     },
     methods: {
