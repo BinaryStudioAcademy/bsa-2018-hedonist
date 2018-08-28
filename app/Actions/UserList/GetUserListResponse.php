@@ -2,24 +2,35 @@
 
 namespace Hedonist\Actions\UserList;
 
+use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
+use Illuminate\Support\Collection;
 
 class GetUserListResponse
 {
     private $userList;
+    private $places;
+    private $user;
 
-    public function __construct(UserList $userList)
+    public function __construct(UserList $userList, Collection $places, User $user)
     {
         $this->userList = $userList;
+        $this->places = $places;
+        $this->user = $user;
     }
 
-    public function toArray(): array
+    public function getUserList(): UserList
     {
-        return [
-            'id' => $this->userList->id,
-            'name' => $this->userList->name,
-            'user_id' => $this->userList->user_id,
-            'img_url' => $this->userList->img_url,
-        ];
+        return $this->userList;
+    }
+
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
     }
 }

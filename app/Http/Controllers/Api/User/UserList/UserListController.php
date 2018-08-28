@@ -2,6 +2,7 @@
 
 namespace Hedonist\Http\Controllers\Api\User\UserList;
 
+use Hedonist\Actions\Place\GetPlaceCollection\GetUserListPresenter;
 use Hedonist\Actions\UserList\DeleteUserListAction;
 use Hedonist\Actions\UserList\DeleteUserListRequest;
 use Hedonist\Actions\UserList\GetUserListsCollectionRequest;
@@ -67,13 +68,13 @@ class UserListController extends ApiController
         }
     }
 
-    public function show(int $id)
+    public function show(int $id,GetUserListPresenter $presenter)
     {
         try {
             $responseUserList = $this->getUserListAction->execute(
                 new GetUserListRequest($id)
             );
-            return $this->successResponse($responseUserList->toArray(), 200);
+            return $this->successResponse($presenter->present($responseUserList), 200);
         } catch (\Exception $exception) {
             return $this->errorResponse($exception->getMessage(), 404);
         }
