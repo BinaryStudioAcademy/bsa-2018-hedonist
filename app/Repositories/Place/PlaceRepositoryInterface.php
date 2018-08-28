@@ -11,7 +11,7 @@ interface PlaceRepositoryInterface
 {
     public function save(Place $placeCategory): Place;
 
-    public function getById(int $id) : ?Place;
+    public function getById(int $id): ?Place;
 
     public function getByIdWithRelations(int $id): ?Place;
 
@@ -26,4 +26,6 @@ interface PlaceRepositoryInterface
     public function getByList(int $listId): Collection;
 
     public function deleteById(int $id): void;
+
+    public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection;
 }

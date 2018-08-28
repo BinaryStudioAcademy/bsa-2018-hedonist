@@ -10,10 +10,10 @@
         </div>
         <ul v-show="isLoaded">
             <ListPreview
-                v-for="(userList,index) in filteredUserLists"
+                v-for="(userList,index,key) in filteredUserLists"
                 :key="userList.id"
                 :user-list="userList"
-                :timer="50 * (index+1)"
+                :timer="50 * (key+1)"
             />
         </ul>
     </section>
@@ -47,19 +47,20 @@ export default {
     },
     computed: {
         ...mapState('userList', [
-            'userLists'
+            'userLists',
+            'places'
         ]),
         ...mapGetters('auth', {
             Auth: 'getAuthenticatedUser'
         }),
         ...mapGetters('userList', {
-            getFilteredByCity: 'getFilteredByCity'
+            getFilteredByCity: 'getFilteredByCity',
         }),
         isLoaded: function () {
             return !!(this.userLists);
         },
         filteredUserLists: function () {
-            let filtered = this.userLists;
+            let filtered = this.userLists ? this.userLists.byId : null;
             let cityId = this.filterBy.cityId;
             if (cityId) {
                 filtered = this.getFilteredByCity(filtered, cityId);
