@@ -11,5 +11,6 @@ export default {
         };
     },
     reviews: {},
-    users: {}
+    users: {},
+    minLengthToFilter: 4,
 };
