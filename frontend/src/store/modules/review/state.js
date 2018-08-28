@@ -10,6 +10,10 @@ export default {
             photos: []
         };
     },
-    reviews: {},
-    users: {}
+    reviews: {
+        allIds:[]
+    },
+    users: {
+        byId:[]
+    }
 };

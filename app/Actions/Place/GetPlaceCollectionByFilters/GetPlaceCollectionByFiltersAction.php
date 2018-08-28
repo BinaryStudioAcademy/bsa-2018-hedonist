@@ -11,20 +11,15 @@ use Hedonist\Repositories\Place\Criterias\GetPlaceByLocationCriteria;
 use Hedonist\Repositories\Place\Criterias\LatestReviewForPlaceCriteria;
 use Hedonist\Repositories\Place\Criterias\PlacePaginationCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
-use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class GetPlaceCollectionByFiltersAction
 {
     private $placeRepository;
-    private $reviewRepository;
 
-    public function __construct(
-        PlaceRepositoryInterface $placeRepository,
-        ReviewRepositoryInterface $reviewRepository
-    ) {
+    public function __construct(PlaceRepositoryInterface $placeRepository)
+    {
         $this->placeRepository = $placeRepository;
-        $this->reviewRepository = $reviewRepository;
     }
 
     public function execute(GetPlaceCollectionByFiltersRequest $request): GetPlaceCollectionResponse
