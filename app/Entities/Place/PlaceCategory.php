@@ -25,7 +25,7 @@ class PlaceCategory extends Model
     public function tags()
     {
         return $this->belongsToMany(
-            PlaceCategoryTag::class,
+            Tag::class,
             'place_category_place_tag',
             'place_category_id',
             'place_tag_id'

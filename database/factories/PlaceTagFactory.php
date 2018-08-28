@@ -3,7 +3,7 @@
 use Faker\Generator as Faker;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\PlaceTag;
-use Hedonist\Entities\Place\PlaceCategoryTag;
+use Hedonist\Entities\Place\Tag;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +17,7 @@ use Hedonist\Entities\Place\PlaceCategoryTag;
 */
 $factory->define(PlaceTag::class, function (Faker $faker) use ($factory) {
     return [
-        'placecategory_placetag_id' => $factory->create(PlaceCategoryTag::class)->id,
+        'placecategory_placetag_id' => $factory->create(Tag::class)->id,
         'place_id' => $factory->create(Place::class)->id
     ];
 });

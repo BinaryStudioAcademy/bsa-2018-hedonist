@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Hedonist\Entities\Place\PlaceCategoryTag;
+use Hedonist\Entities\Place\Tag;
 use Illuminate\Support\Facades\DB;
 
-class PlaceCategoriesTagsTableSeeder extends Seeder
+class TagsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class PlaceCategoriesTagsTableSeeder extends Seeder
      */
     public function run()
     {
-        PlaceCategoryTag::query()->insert([
+        Tag::query()->insert([
             [ 'name' => 'Ice-cream cafe' ],
             [ 'name' => 'Cafe-confectionery' ],
             [ 'name' => 'Children\'s cafe' ],
