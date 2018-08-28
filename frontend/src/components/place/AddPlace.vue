@@ -481,6 +481,7 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import moment from 'moment';
 import Mapbox from 'mapbox-gl-vue';
 import SearchCity from '../navbar/SearchCity';
 import mapSettingsService from '@/services/map/mapSettingsService';
@@ -507,6 +508,7 @@ export default {
                 zip: '',
                 city: '',
                 address: '',
+                photos: [],
                 location: {},
                 category: '',
                 tags: [],
@@ -518,40 +520,39 @@ export default {
                 instagram: '',
                 worktime: {
                     'mo': {
-                        start:  new Date(0,0,0,10),
-                        end:    new Date(0,0,0,21)
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
                     },
                     'tu': {
-                        start:  new Date(0,0,0,10),
-                        end:    new Date(0,0,0,21)
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
                     },
                     'we': {
-                        start:  new Date(0,0,0,10),
-                        end:    new Date(0,0,0,21)
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
                     },
                     'th': {
-                        start:  new Date(0,0,0,10),
-                        end:    new Date(0,0,0,21)
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
                     },
                     'fr': {
-                        start:  new Date(0,0,0,10),
-                        end:    new Date(0,0,0,21)
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
                     },
                     'sa': {
-                        start:  new Date(0,0,0,10),
-                        end:    new Date(0,0,0,21)
+                        start: moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end: moment().set({'hours': 21, 'minutes': 0}).utc()
                     },
                     'su': {
-                        start:  new Date(0,0,0,10),
-                        end:    new Date(0,0,0,21)
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
                     }
-                },
-                photos: []
+                }
             },
             selectedTag: '',
             weekdays: [],
-            timeStart: new Date(0,0,0,10),
-            timeEnd: new Date(0,0,0,21)
+            timeStart: moment().set({'hours': 10, 'minutes': 0}).toDate(),
+            timeEnd: moment().set({'hours': 21, 'minutes': 0}).toDate(),
         };
     },
 
@@ -641,20 +642,21 @@ export default {
 
         onWorkTimeAdd() {
             this.weekdays.forEach((item) => {
-                this.newPlace.worktime[item].start = this.timeStart;
-                this.newPlace.worktime[item].end = this.timeEnd;
+                this.newPlace.worktime[item].start = moment(this.timeStart).utc();
+                this.newPlace.worktime[item].end = moment(this.timeEnd).utc();
             });
             this.weekdays = [];
-            this.timeStart = new Date(0,0,0,10);
-            this.timeEnd = new Date(0,0,0,21);
+            this.timeStart = moment().set({'hours': 10, 'minutes': 0}).toDate();
+            this.timeEnd = moment().set({'hours': 21, 'minutes': 0}).toDate();
         },
-        displayTime(time) {
-            let hours = time.getHours();
-            let minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes();
-            return hours + ':' + minutes;
+        displayTime(utcTime) {
+            let localTime = utcTime.clone();
+            localTime.local();
+            return localTime.format("HH:mm");
         },
 
         onAdd() {
+            console.log(moment());
             console.log(this.newPlace);
         }
     }
