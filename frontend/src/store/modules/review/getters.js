@@ -13,10 +13,10 @@ export default {
         state.reviews.allIds.forEach(id => {
             const review = getReviewWithUser(state, id);
             if (skipFilter || review.description
-                    .toLowerCase()
-                    .indexOf(
-                        filters.byContent.toLowerCase()
-                    ) > -1
+                .toLowerCase()
+                .indexOf(
+                    filters.byContent.toLowerCase()
+                ) > -1
             ) reviews.push(review);
         });
         return reviews;
