@@ -34,8 +34,8 @@
                         class="review-like"
                     />
                     <UsersWhoLikedDislikedReviewModals
-                        :isUsersWhoLikedReviewModalActive="isUsersWhoLikedReviewModalActive"
-                        :isUsersWhoDislikedReviewModalActive="isUsersWhoDislikedReviewModalActive"
+                        :is-users-who-liked-review-modal-active="isUsersWhoLikedReviewModalActive"
+                        :is-users-who-disliked-review-modal-active="isUsersWhoDislikedReviewModalActive"
                         @updateUsersWhoLikedReviewModalActive="updateUsersWhoLikedReviewModalActive"
                         @updateUsersWhoDislikedReviewModalActive="updateUsersWhoDislikedReviewModalActive"
                     />

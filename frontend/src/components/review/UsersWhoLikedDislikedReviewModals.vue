@@ -37,8 +37,15 @@ export default {
     },
 
     props: {
-        isUsersWhoLikedReviewModalActive: false,
-        isUsersWhoDislikedReviewModalActive: false
+        isUsersWhoLikedReviewModalActive: {
+            required: true,
+            type: Boolean
+        },
+
+        isUsersWhoDislikedReviewModalActive: {
+            required: true,
+            type: Boolean
+        }
     },
 
     methods: {

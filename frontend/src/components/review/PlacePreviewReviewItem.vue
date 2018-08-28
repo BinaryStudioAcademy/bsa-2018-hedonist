@@ -28,8 +28,8 @@
                 class="review-likes"
             />
             <UsersWhoLikedDislikedReviewModals
-                :isUsersWhoLikedReviewModalActive="isUsersWhoLikedReviewModalActive"
-                :isUsersWhoDislikedReviewModalActive="isUsersWhoDislikedReviewModalActive"
+                :is-users-who-liked-review-modal-active="isUsersWhoLikedReviewModalActive"
+                :is-users-who-disliked-review-modal-active="isUsersWhoDislikedReviewModalActive"
                 @updateUsersWhoLikedReviewModalActive="updateUsersWhoLikedReviewModalActive"
                 @updateUsersWhoDislikedReviewModalActive="updateUsersWhoDislikedReviewModalActive"
             />
@@ -52,7 +52,7 @@ export default {
         return {
             isUsersWhoLikedReviewModalActive: false,
             isUsersWhoDislikedReviewModalActive: false
-        }
+        };
     },
     props: {
         review: {

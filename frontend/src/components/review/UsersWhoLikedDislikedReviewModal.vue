@@ -78,6 +78,6 @@ export default {
     
     .modal-card-body {
         width: 100%;
-        height: 170px;
+        height: 180px;
     }
 </style>
