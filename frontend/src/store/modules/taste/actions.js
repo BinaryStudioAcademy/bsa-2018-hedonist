@@ -49,5 +49,31 @@ export default {
                     reject(err);
                 });
         });
+    },
+    addCustomTaste: (context, name) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/tastes', {
+                name: name
+            })
+                .then(function (res) {
+                    let taste = res.data.data;
+                    context.commit('ADD_TASTE', taste);
+                    resolve(res);
+                }).catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+    deleteCustomTaste: (context, id) => {
+        return new Promise((resolve, reject) => {
+            httpService.delete('/tastes/' + id)
+                .then(function (res) {
+                    context.commit('DELETE_TASTE', id);
+                    resolve(res);
+                }).catch(function (err) {
+                    reject(err);
+                });
+        });
+
     }
 };
