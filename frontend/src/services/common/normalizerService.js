@@ -28,6 +28,25 @@ export const normalizerService = {
         } else{
             return {};
         }
+    },
+
+    updateNormalizedData(targetNormalized, sourceNormalized){
+        if (targetNormalized.byId === undefined)
+            targetNormalized.byId = {};
+        for (let el in sourceNormalized.byId){
+            let elId = parseInt(el);
+            targetNormalized.byId[elId] = sourceNormalized.byId[elId];
+        }
+        return targetNormalized;
+    },
+
+    updateAllIds(targetNormalized){
+        if (targetNormalized.allIds === undefined)
+            targetNormalized.allIds = [];
+        for (let el in targetNormalized.byId){
+            targetNormalized.allIds.push(parseInt(el));
+        }
+        return targetNormalized;
     }
 };
 
