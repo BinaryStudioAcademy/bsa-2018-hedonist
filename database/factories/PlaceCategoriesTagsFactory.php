@@ -1,9 +1,9 @@
 <?php
 
 use Faker\Generator as Faker;
-use Hedonist\Entities\Place\PlaceCategoryTag;
+use Hedonist\Entities\Place\Tag;
 
-$factory->define(PlaceCategoryTag::class, function (Faker $faker) {
+$factory->define(Tag::class, function (Faker $faker) {
     $tags = [
         'asian cuisine',
         'authentic',

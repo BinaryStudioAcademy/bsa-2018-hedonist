@@ -2,17 +2,17 @@
 
 namespace Hedonist\Repositories\Place;
 
-use Hedonist\Entities\Place\PlaceCategoryTag;
+use Hedonist\Entities\Place\Tag;
 use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 
-interface PlaceCategoryTagRepositoryInterface
+interface TagRepositoryInterface
 {
-    public function save(PlaceCategoryTag $placeCategoryTag): PlaceCategoryTag;
+    public function save(Tag $tag): Tag;
  
     public function findAll(): Collection;
     
-    public function getById(int $id): ?PlaceCategoryTag;
+    public function getById(int $id): ?Tag;
 
     public function findByCategory(int $categoryId): Collection;
      

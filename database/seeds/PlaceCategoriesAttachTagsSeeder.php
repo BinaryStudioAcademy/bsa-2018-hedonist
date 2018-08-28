@@ -1,7 +1,7 @@
 <?php
 
 use Hedonist\Entities\Place\PlaceCategory;
-use Hedonist\Entities\Place\PlaceCategoryTag;
+use Hedonist\Entities\Place\Tag;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
@@ -72,7 +72,7 @@ class PlaceCategoriesAttachTagsSeeder extends Seeder
     public function run()
     {
         $categories = PlaceCategory::all();
-        $tags = PlaceCategoryTag::all();
+        $tags = Tag::all();
 
         foreach ($categories as $category) {
             $category

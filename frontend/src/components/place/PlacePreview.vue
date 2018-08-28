@@ -31,9 +31,10 @@
                     </p>
                 </div>
                 <div class="media-right rating-wrapper">
-                    <div v-if="place.rating" class="rating">
-                        {{ place.rating }}
-                    </div>
+                    <PlaceRating
+                        v-if="place.rating"
+                        :value="Number(place.rating)"
+                    />
                 </div>
             </div>
             <div class="media">
@@ -100,18 +101,6 @@
         margin-bottom: 0.5rem;
     }
 
-    .rating {
-        width: 48px;
-        height: 48px;
-        background: #00E676;
-        border-radius: 7px;
-        margin: auto;
-        line-height: 48px;
-        font-size: 1.5rem;
-        color: #FFF;
-        text-align: center;
-    }
-
     hr {
         color: grey;
         border-width: 3px;
@@ -131,10 +120,14 @@
 <script>
 import Review from '@/components/review/PlacePreviewReviewItem';
 import imagePlaceholder from '@/assets/placeholder_128x128.png';
+import PlaceRating from './PlaceRating';
 
 export default {
     name: 'PlacePreview',
-    components: {Review},
+    components: {
+        Review,
+        PlaceRating,
+    },
     data() {
         return {
             active: false
@@ -159,7 +152,7 @@ export default {
         },
         notFoundPhoto() {
             return imagePlaceholder;
-        }
+        },
     },
     methods: {
         like() {
