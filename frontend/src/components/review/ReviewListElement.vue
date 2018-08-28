@@ -22,6 +22,7 @@
                                 v-for="(photo, index) in review.photos"
                                 :src="photo"
                                 :key="index"
+                                v-img="{ group: review.id}"
                             >
                         </div>
                     </template>
