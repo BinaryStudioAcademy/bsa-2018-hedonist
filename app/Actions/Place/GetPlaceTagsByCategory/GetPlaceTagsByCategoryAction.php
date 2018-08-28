@@ -2,14 +2,13 @@
 
 namespace Hedonist\Actions\Place\GetPlaceTagsByCategory;
 
-use Hedonist\Repositories\Place\PlaceCategoryTagCriteria;
-use Hedonist\Repositories\Place\PlaceCategoryTagRepository;
+use Hedonist\Repositories\Place\TagRepository;
 
 class GetPlaceTagsByCategoryAction
 {
     private $categoryTagsRepository;
 
-    public function __construct(PlaceCategoryTagRepository $repository)
+    public function __construct(TagRepository $repository)
     {
         $this->categoryTagsRepository = $repository;
     }

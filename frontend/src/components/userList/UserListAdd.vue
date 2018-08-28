@@ -82,10 +82,6 @@
                         },
                         zoom: 9
                     }"
-                    :scale-control="{
-                        show: true,
-                        position: 'top-left'
-                    }"
                 />
             </div>
         </div>

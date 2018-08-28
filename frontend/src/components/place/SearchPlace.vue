@@ -19,10 +19,6 @@
                     center: currentCenter,
                     zoom: 9
                 }"
-                :scale-control="{
-                    show: true,
-                    position: 'top-left'
-                }"
                 @map-init="mapInitialize"
                 @map-load="mapLoaded"
             />
@@ -83,9 +79,9 @@ export default {
                     });
                 });
             this.mapInitialization();
-            this.addDrawForMap();
         },
         mapLoaded(map) {
+            map = this.addDrawForMap(map);
             this.markerManager = markerManager.getService(map);
             this.isMapLoaded = true;
         },
@@ -114,16 +110,17 @@ export default {
                 this.markerManager.setMarkersFromPlacesAndFit(...this.places);
             }
         },
-        addDrawForMap() {
+        addDrawForMap(map) {
             this.draw = new MapboxDraw({
                 displayControlsDefault: false,
                 controls: {
                     polygon: true
                 }
             });
-            this.map.addControl(this.draw, 'top-left');
+            map.addControl(this.draw, 'top-left');
+            map.on('draw.create', this.updateSearchArea);
 
-            this.map.on('draw.create', this.updateSearchArea);
+            return map;
         },
         updateSearchArea() {
             let data = this.draw.getAll();
