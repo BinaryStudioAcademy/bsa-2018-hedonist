@@ -76,7 +76,12 @@
                 </nav>
             </div>
             <div class="column is-one-third place-rate">
-                <div class="place-rate__mark">
+                <div 
+                    :class="[
+                        'place-rate__mark',
+                        'place-rate__mark-' + ratingCategory
+                    ]"
+                >
                     <span class="place-rate__mark-value">
                         {{ place.rating | formatRating }}
                     </span>
@@ -186,6 +191,14 @@ export default {
 
         placeMarker() {
             return defaultMarker;
+        },
+
+        ratingCategory() {
+            const placeRating = this.place.rating;
+
+            if (placeRating < 5) return 'bad';
+            if (placeRating >= 5 && placeRating < 7) return 'okay';
+            if (placeRating >= 7) return 'good';
         }
     },
 
@@ -249,9 +262,20 @@ export default {
                     margin-right: 5px;
                     border-radius: 3px;
                     color: white;
-                    background-color: #00B551;
                     padding: 4px;
                     white-space: nowrap;
+
+                    &-bad {
+                        background-color: #fc8d9f;
+                    }
+
+                    &-okay {
+                        background-color: #ffa500;
+                    }
+
+                    &-good {
+                        background-color: #00e676;
+                    }
                 }
                 &__mark-value {
                    margin:0 5px;

@@ -9,7 +9,12 @@
             </div>
             <div class="item-description">
                 <div class="rating-wrapper">
-                    <div class="rating">
+                    <div 
+                        :class="[
+                            'rating',
+                            'rating-' + ratingCategory
+                        ]"
+                    >
                         {{ checkInPlace.rating }}
                     </div>
                 </div>
@@ -66,6 +71,13 @@ export default {
         placePhoto() {
             return this.checkInPlace.photos[0].imgUrl || this.placePreviewMock;
         },
+        ratingCategory() {
+            const placeRating = this.checkInPlace.rating;
+
+            if (placeRating < 5) return 'bad';
+            if (placeRating >= 5 && placeRating < 7) return 'okay';
+            if (placeRating >= 7) return 'good';
+        }
     }
 };
 </script>
@@ -131,13 +143,24 @@ export default {
     .rating {
         width: 48px;
         height: 48px;
-        background: #00E676;
         border-radius: 7px;
         margin: auto;
         line-height: 48px;
         font-size: 1.5rem;
         color: #FFF;
         text-align: center;
+
+        &-bad {
+            background-color: #fc8d9f;
+        }
+
+        &-okay {
+            background-color: #ffa500;
+        }
+
+        &-good {
+            background-color: #00e676;
+        }
     }
 
     .slide-fade-enter-active {
