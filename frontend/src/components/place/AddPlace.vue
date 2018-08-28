@@ -195,12 +195,54 @@
                     </div>
                 </b-tab-item>
 
+                <b-tab-item label="Photos" :disabled="activeTab !== 1">
+                    <div class="tab-wrp">
+                        <div class="level">
+                            <div class="level-item">
+                                <b-field>
+                                    <b-upload v-model="newPlace.photos" multiple drag-drop>
+                                        <section class="section">
+                                            <div class="content has-text-centered">
+                                                <p><b-icon icon="upload" size="is-large" /></p>
+                                                <p>Drop photos here or click to upload</p>
+                                            </div>
+                                        </section>
+                                    </b-upload>
+                                </b-field>
+                            </div>
+                        </div>
+                        <div v-if="newPlace.photos.length > 0" class="columns is-multiline is-centered">
+                            <template v-for="(photo, index) in newPlace.photos">
+                                <div :key="index" class="column is-one-third">
+                                    <div class="photo">
+                                        <figure :key="index" class="image is-square">
+                                            <img :src="getPreview(photo)">
+                                        </figure>
+                                        <div class="level">
+                                            <div class="level-item">
+                                                <span class="tag is-small is-light id-center" @click="deletePhoto(index)">
+                                                    <a>delete</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="buttons is-centered">
+                        <span @click="activeTab--" class="button is-warning">Previous</span>
+                        <span @click="activeTab++" class="button is-success">Next</span>
+                    </div>
+                </b-tab-item>
+
                 <b-tab-item label="Location" :disabled="activeTab !== 1">
                     <div class="tab-wrp">
                         <div class="map-wrp">
                             <mapbox
-                                :access-token="mapboxToken"
-                                :map-options="{
+                                    :access-token="mapboxToken"
+                                    :map-options="{
                                     style: mapboxStyle,
                                     center: {
                                         lat: 50.4501,
@@ -208,11 +250,11 @@
                                     },
                                     zoom: 5
                                 }"
-                                :scale-control="{
+                                    :scale-control="{
                                     show: true,
                                     position: 'top-left'
                                 }"
-                                @map-load="mapLoaded"
+                                    @map-load="mapLoaded"
                             />
                         </div>
                     </div>
@@ -223,7 +265,7 @@
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Categories" :disabled="activeTab !== 2">
+                <b-tab-item label="Categories" :disabled="activeTab !== 3">
                     <div class="tab-wrp">
                         <div class="level">
                             <div class="level-item">
@@ -287,7 +329,7 @@
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Features" :disabled="activeTab !== 3">
+                <b-tab-item label="Features" :disabled="activeTab !== 4">
                     <div class="columns is-centered">
                         <div class="column is-half">
                             <template v-for="(feature, index) in allFeatures">
@@ -312,7 +354,7 @@
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Hours" :disabled="activeTab !== 4">
+                <b-tab-item label="Hours" :disabled="activeTab !== 5">
                     <div class="tab-wrp">
                         <div class="columns is-vcentered">
                             <div class="column is-half is-left">
@@ -419,7 +461,7 @@
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Add place" :disabled="activeTab !== 5">
+                <b-tab-item label="Add place" :disabled="activeTab !== 6">
                     <div class="box">
                         <div class="level">
                             <div class="level-item">
@@ -503,7 +545,8 @@ export default {
                         start:  new Date(0,0,0,10),
                         end:    new Date(0,0,0,21)
                     }
-                }
+                },
+                photos: []
             },
             allCategories: [],
             allFeatures: [],
@@ -566,6 +609,14 @@ export default {
     },
 
     methods: {
+        getPreview(photo) {
+            return URL.createObjectURL(photo).toString();
+        },
+
+        deletePhoto(index) {
+            this.newPlace.photos.splice(index, 1);
+        },
+
         mapLoaded(map) {
             let marker = new mapboxgl.Marker({
                 draggable: true
@@ -640,6 +691,13 @@ export default {
 
         h4 {
             font-weight: 500;
+        }
+    }
+
+    /* Photos tab */
+    .photo {
+        figure {
+            margin-bottom: 10px;
         }
     }
 
