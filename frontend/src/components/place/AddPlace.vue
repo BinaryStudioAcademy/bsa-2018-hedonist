@@ -613,9 +613,7 @@ export default {
             return hours + ':' + minutes;
         },
 
-        onAdd() {
-            console.debug(this.newPlace);
-        }
+        onAdd() {}
     }
 };
 </script>
