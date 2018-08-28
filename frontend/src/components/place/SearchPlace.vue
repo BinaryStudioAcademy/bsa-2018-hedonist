@@ -83,9 +83,9 @@ export default {
                     });
                 });
             this.mapInitialization();
-            this.addDrawForMap();
         },
         mapLoaded(map) {
+            map = this.addDrawForMap(map);
             this.markerManager = markerManager.getService(map);
             this.isMapLoaded = true;
         },
@@ -114,7 +114,7 @@ export default {
                 this.markerManager.setMarkersFromPlacesAndFit(...this.places);
             }
         },
-        addDrawForMap() {
+        addDrawForMap(map) {
             this.draw = new MapboxDraw({
                 displayControlsDefault: false,
                 controls: {
@@ -122,11 +122,13 @@ export default {
                     trash: true
                 }
             });
-            this.map.addControl(this.draw, 'top-left');
+            map.addControl(this.draw, 'top-left');
 
-            this.map.on('draw.create', this.updateSearchArea);
-            this.map.on('draw.delete', this.updateSearchArea);
-            this.map.on('draw.update', this.updateSearchArea);
+            map.on('draw.create', this.updateSearchArea);
+            map.on('draw.delete', this.updateSearchArea);
+            map.on('draw.update', this.updateSearchArea);
+
+            return map;
         },
         updateSearchArea() {
             let data = this.draw.getAll();
