@@ -425,7 +425,6 @@
                         <div class="buttons is-right">
                             <span @click="onAdd()" class="button is-medium is-success">Add</span>
                             <span @click="activeTab--" class="button is-warning">Previous</span>
-                            <span @click="onCancel()" class="button is-danger">Cancel</span>
                         </div>
                     </div>
                 </b-tab-item>
@@ -612,11 +611,6 @@ export default {
 
         onAdd() {
             console.debug(this.newPlace);
-        },
-
-        onCancel() {
-            this.newPlace = {};
-            this.$router.push({ name: 'home' });
         }
     }
 };
