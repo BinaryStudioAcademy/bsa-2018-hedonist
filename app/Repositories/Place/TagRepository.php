@@ -3,37 +3,37 @@
 namespace Hedonist\Repositories\Place;
 
 use Illuminate\Database\Eloquent\Collection;
-use Hedonist\Entities\Place\PlaceCategoryTag;
+use Hedonist\Entities\Place\Tag;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 
-class PlaceCategoryTagRepository extends BaseRepository implements PlaceCategoryTagRepositoryInterface
+class TagRepository extends BaseRepository implements TagRepositoryInterface
 {
     public function model()
     {
-        return PlaceCategoryTag::class;
+        return Tag::class;
     }
   
-    public function save(PlaceCategoryTag $placeCategoryTag): PlaceCategoryTag
+    public function save(Tag $tag): Tag
     {
-        $placeCategoryTag->save();
+        $tag->save();
         
-        return $placeCategoryTag;
+        return $tag;
     }
     
     public function findAll(): Collection
     {
-        return PlaceCategoryTag::all();
+        return Tag::all();
     }
     
-    public function getById(int $id): ?PlaceCategoryTag
+    public function getById(int $id): ?Tag
     {
-        return PlaceCategoryTag::find($id);
+        return Tag::find($id);
     }
 
     public function findByCategory(int $categoryId): Collection
     {
-        return PlaceCategoryTag::whereHas('categories', function ($query) use ($categoryId) {
+        return Tag::whereHas('categories', function ($query) use ($categoryId) {
             $query->where('place_category_id', $categoryId);
         })->get();
     }
@@ -45,6 +45,6 @@ class PlaceCategoryTagRepository extends BaseRepository implements PlaceCategory
     
     public function deleteById(int $id): void
     {
-        PlaceCategoryTag::destroy($id);
+        Tag::destroy($id);
     }
 }

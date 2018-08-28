@@ -16,8 +16,7 @@ import CheckInsContainer from '@/components/history/CheckInsContainer';
 import HistoryMap from '@/components/history/HistoryMap';
 
 export default {
-    name: 'HistoryPage',
-
+    name: 'CheckinsPage',
     components: {
         CheckInsContainer,
         HistoryMap
