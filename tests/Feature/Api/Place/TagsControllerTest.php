@@ -6,10 +6,10 @@ use Hedonist\Entities\User\User;
 use Illuminate\Support\Facades\DB;
 use Tests\Feature\Api\ApiTestCase;
 use Hedonist\Entities\Place\PlaceCategory;
-use Hedonist\Entities\Place\PlaceCategoryTag;
+use Hedonist\Entities\Place\Tag;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class PlaceCategoryTagsControllerTest extends ApiTestCase
+class TagsControllerTest extends ApiTestCase
 {
     use RefreshDatabase;
 
@@ -28,7 +28,7 @@ class PlaceCategoryTagsControllerTest extends ApiTestCase
             'name' => 'testCategory'
         ]);
 
-        $tag = PlaceCategoryTag::create([
+        $tag = Tag::create([
             'name' => 'testCategoryTag'
         ]);
 

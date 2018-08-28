@@ -36,10 +36,11 @@ class GetPlaceCollectionByFiltersAction
 
         if (!is_null($location)) {
             try {
-                $criterias[] = new GetPlaceByLocationCriteria(Location::fromString($location));
+                $location = Location::fromString($location);
             } catch (\InvalidArgumentException $e) {
                 throw new PlaceLocationInvalidException($e->getMessage());
             }
+            $criterias[] = new GetPlaceByLocationCriteria($location);
         }
         if (!is_null($categoryId)) {
             $criterias[] = new GetPlaceByCategoryCriteria($categoryId);
