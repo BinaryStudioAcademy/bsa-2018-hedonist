@@ -72,7 +72,6 @@ export default {
 
     methods: {
         ...mapActions('place', ['setPlaceRating']),
-        ...mapActions('history', ['checkIn']),
 
         isSelected: function(rating) {
             if (this.place.myRating === rating) {
@@ -90,19 +89,6 @@ export default {
         },
 
         onSelect: function(value) {
-            this.checkIn({
-                place_id: this.place.id
-            })
-                .then(() => {
-                    this.$toast.open({
-                        type: 'is-success',
-                        message: 'Checked in'
-                    });
-                })
-                .catch((response) => {
-                    this.handleError(response);
-                });
-
             this.setPlaceRating({
                 placeId: this.place.id,
                 rating: value

@@ -91,7 +91,7 @@
                     <PlaceRatingModal :place="place" />
                 </b-modal>
 
-                <PlaceCheckin :checkins="place.checkins" />
+                <PlaceCheckin :checkins="place.checkins" :placeId="place.id" />
             </div>
         </div>
     </div>
