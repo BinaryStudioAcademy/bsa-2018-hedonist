@@ -4,7 +4,6 @@ namespace Hedonist\Entities\User;
 
 use Hedonist\Entities\User\Scope\UserScope;
 use Hedonist\Events\Auth\PasswordResetedEvent;
-use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,7 +12,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject, CanResetPasswordContract
 {
-    use Notifiable, CanResetPassword;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
