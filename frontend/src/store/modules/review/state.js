@@ -12,5 +12,6 @@ export default {
     reviews: {},
     users: {},
     usersWhoLikedReview: [],
-    usersWhoDislikedReview: []
+    usersWhoDislikedReview: [],
+    isUsersModalLoading: false
 };

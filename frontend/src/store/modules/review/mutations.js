@@ -14,10 +14,16 @@ export default {
 
     SET_USERS_WHO_LIKED_REVIEW: (state, users) => {
         state.usersWhoLikedReview = users;
+        state.isUsersModalLoading = false;
     },
 
     SET_USERS_WHO_DISLIKED_REVIEW: (state, users) => {
         state.usersWhoDislikedReview = users;
+        state.isUsersModalLoading = false;
+    },
+
+    SET_USERS_MODAL_LOADING: (state, loading) => {
+        state.isUsersModalLoading = loading;
     },
 
     SET_CURRENT_PLACE_REVIEWS: (state, reviews) => {

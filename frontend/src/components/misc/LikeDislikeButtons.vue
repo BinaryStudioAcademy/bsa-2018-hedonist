@@ -11,9 +11,6 @@
                 >
                     {{ likes }}
                 </span>
-                <b-modal :active.sync="isLikedModalActive" has-modal-card>
-                    <ReviewUsersLikedModal />
-                </b-modal>
                 <span 
                     class="fa-stack fa-2x"
                     @click="$emit('like')"
@@ -45,7 +42,6 @@
 
 <script>
 import {STATUS_LIKED, STATUS_DISLIKED} from '@/services/api/codes';
-import ReviewUsersLikedModal from '@/components/review/ReviewUsersLikedModal';
 
 export default {
     name: 'LikeDislikeButtons',
@@ -53,13 +49,8 @@ export default {
     data: function () {
         return {
             statusLiked: STATUS_LIKED,
-            statusDisliked: STATUS_DISLIKED,
-            isLikedModalActive: false
+            statusDisliked: STATUS_DISLIKED
         };
-    },
-
-    components: {
-        ReviewUsersLikedModal
     },
 
     props: {

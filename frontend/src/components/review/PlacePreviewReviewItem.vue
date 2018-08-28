@@ -27,32 +27,43 @@
                 :status="review.like"
                 class="review-likes"
             />
+            <UsersWhoLikedDislikedReviewModals
+                :isUsersWhoLikedReviewModalActive="isUsersWhoLikedReviewModalActive"
+                :isUsersWhoDislikedReviewModalActive="isUsersWhoDislikedReviewModalActive"
+                @updateUsersWhoLikedReviewModalActive="updateUsersWhoLikedReviewModalActive"
+                @updateUsersWhoDislikedReviewModalActive="updateUsersWhoDislikedReviewModalActive"
+            />
         </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
+import UsersWhoLikedDislikedReviewModals from '@/components/review/UsersWhoLikedDislikedReviewModals';
 
 export default {
     name: 'PlacePreviewReviewItem',
-    components: {LikeDislikeButton},
+    components: {
+        LikeDislikeButton,
+        UsersWhoLikedDislikedReviewModals
+    },
+    data() {
+        return {
+            isUsersWhoLikedReviewModalActive: false,
+            isUsersWhoDislikedReviewModalActive: false
+        }
+    },
     props: {
         review: {
             type: Object,
             required: true
         }
     },
-    computed:{
+    computed: {
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
-        },
-
-        ...mapState('review', {
-            usersWhoLikedReview: 'usersWhoLikedReview',
-            usersWhoDislikedReview: 'usersWhoDislikedReview'
-        })
+        }
     },
     methods: {
         ...mapActions('review', [
@@ -84,7 +95,7 @@ export default {
             if (this.review.likes) {
                 this.getUsersWhoLikedReview(this.review.id)
                     .then( () => {
-                        
+                        this.updateUsersWhoLikedReviewModalActive(true);
                     });
             }
         },
@@ -93,9 +104,17 @@ export default {
             if (this.review.dislikes) {
                 this.getUsersWhoDislikedReview(this.review.id)
                     .then( () => {
-                        
+                        this.updateUsersWhoDislikedReviewModalActive(true);
                     });
             }
+        },
+
+        updateUsersWhoLikedReviewModalActive(newValue) {
+            this.isUsersWhoLikedReviewModalActive = newValue;
+        },
+
+        updateUsersWhoDislikedReviewModalActive(newValue) {
+            this.isUsersWhoDislikedReviewModalActive = newValue;
         }
     }
 };
