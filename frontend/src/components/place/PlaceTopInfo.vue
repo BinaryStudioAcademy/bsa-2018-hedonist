@@ -52,6 +52,10 @@
                             <i class="fab fa-facebook-square" />
                             Share on Facebook
                         </a>
+                        <a :href="'http://twitter.com/share?text='+localizedName+'&hashtags=hedonist,binaryacademy&url=' + pageLink" target="_blank">
+                            <i class="fab fa-twitter-square" />
+                            Share on Twitter
+                        </a>
                     </b-dropdown-item>
                 </b-dropdown>
             </div>
