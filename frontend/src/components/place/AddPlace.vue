@@ -273,7 +273,7 @@
                                     <b-select v-model="newPlace.category">
                                         <option value="" selected disabled>Select a category</option>
                                         <option
-                                            v-for="option in allCategories.byId"
+                                            v-for="option in allCategories"
                                             :key="option.id"
                                             :value="option"
                                         >
@@ -332,7 +332,7 @@
                 <b-tab-item label="Features" :disabled="activeTab !== 4">
                     <div class="columns is-centered">
                         <div class="column is-half">
-                            <template v-for="feature in allFeatures.byId">
+                            <template v-for="feature in allFeatures">
                                 <div :key="feature.id" class="level is-flex-mobile">
                                     <div class="level-left">
                                         <span class="label">{{ feature.name }}</span>

@@ -7,7 +7,7 @@ export default {
             httpService.get('/places/categories')
                 .then((result) => {
                     let normalizeData = normalizerService.normalize(result.data);
-                    context.commit('SET_ALL_CATEGORIES', normalizeData);
+                    context.commit('SET_ALL_CATEGORIES', normalizeData.byId);
                     resolve(result);
                 })
                 .catch((error) => {
