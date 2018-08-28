@@ -548,11 +548,7 @@ export default {
                 },
                 photos: []
             },
-            // allCategories: [],
-            // allFeatures: [],
             selectedTag: '',
-            // category_tags: [],
-
             weekdays: [],
             timeStart: new Date(0,0,0,10),
             timeEnd: new Date(0,0,0,21)
@@ -561,16 +557,7 @@ export default {
 
     created() {
         this.$store.dispatch('category/fetchAllCategories');
-        // this.$store.dispatch('category/getAllCategories')
-        //     .then((result) => {
-        //         this.allCategories = result;
-        //     });
-
         this.$store.dispatch('features/fetchAllFeatures');
-        // this.$store.dispatch('features/getAllFeatures')
-        //     .then((result) => {
-        //         this.allFeatures = result;
-        //     });
     },
 
     watch: {
@@ -578,10 +565,6 @@ export default {
             if (_.isEmpty(categoryObject)) { return; }
             this.newPlace.tags = [];
             this.$store.dispatch('category/fetchCategoryTags', categoryObject.id);
-            // this.$store.dispatch('category/getTagsByCategory', categoryObject.id);
-            //     .then((result) => {
-            //     this.category_tags = result;
-            // });
             this.selectedTag = '';
         },
 
@@ -671,7 +654,9 @@ export default {
             return hours + ':' + minutes;
         },
 
-        onAdd() {}
+        onAdd() {
+            console.log(this.newPlace);
+        }
     }
 };
 </script>
