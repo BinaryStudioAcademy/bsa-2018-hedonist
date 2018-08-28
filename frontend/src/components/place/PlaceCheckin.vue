@@ -1,6 +1,6 @@
 <template>
     <button
-            class="button is-primary"
+            class="button is-primary checkin"
             @click="checkinPlace"
     >
         <i class="fas fa-clock"></i> {{ checkinCount }}
@@ -59,5 +59,12 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .checkin {
+        border-radius: 7px;
+        height: 48px;
+        font-size: 1.5rem;
+        color: #FFF;
+        text-align: center;
+        padding: 0 10px;
+    }
 </style>

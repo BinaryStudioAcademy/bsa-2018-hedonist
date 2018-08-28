@@ -82,7 +82,7 @@
 
 
                 <button
-                        class="button is-primary"
+                        class="button is-primary rating"
                         @click="isCheckinModalActive = true"
                 >
                     <i class="fas fa-star-half-alt"></i>
@@ -240,14 +240,22 @@ export default {
             }
             .place-rate {
                 display: flex;
+                justify-content: space-around;
                 align-items: center;
-                justify-content: center;
                 &__mark-count {
                     font-style: italic;
                     white-space: nowrap;
                 }
             }
         }
+    }
+
+    .rating {
+        border-radius: 7px;
+        height: 48px;
+        font-size: 1.5rem;
+        color: #FFF;
+        text-align: center;
     }
 
     .place-venue {
