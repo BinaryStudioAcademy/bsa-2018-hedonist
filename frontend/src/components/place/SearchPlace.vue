@@ -19,10 +19,6 @@
                     center: currentCenter,
                     zoom: 9
                 }"
-                :scale-control="{
-                    show: true,
-                    position: 'top-left'
-                }"
                 @map-init="mapInitialize"
                 @map-load="mapLoaded"
             />
