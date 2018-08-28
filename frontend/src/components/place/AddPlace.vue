@@ -203,7 +203,7 @@
                                     <b-upload v-model="newPlace.photos" multiple drag-drop>
                                         <section class="section">
                                             <div class="content has-text-centered">
-                                                <p><b-icon icon="upload" size="is-large"></b-icon></p>
+                                                <p><b-icon icon="upload" size="is-large" /></p>
                                                 <p>Drop photos here or click to upload</p>
                                             </div>
                                         </section>
@@ -213,10 +213,10 @@
                         </div>
                         <div v-if="newPlace.photos.length > 0" class="columns is-multiline is-centered">
                             <template v-for="(photo, index) in newPlace.photos">
-                                <div class="column is-one-third">
+                                <div :key="index" class="column is-one-third">
                                     <div class="photo">
                                         <figure :key="index" class="image is-square">
-                                            <img :src="getPreview(photo)" />
+                                            <img :src="getPreview(photo)">
                                         </figure>
                                         <div class="level">
                                             <div class="level-item">
