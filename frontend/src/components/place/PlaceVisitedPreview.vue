@@ -9,9 +9,7 @@
             </div>
             <div class="item-description">
                 <div class="rating-wrapper">
-                    <div class="rating">
-                        {{ checkInPlace.rating }}
-                    </div>
+                    <PlaceRating :value="Number(checkInPlace.rating)" />
                 </div>
                 <h2 class="title">
                     <router-link :to="`/places/${checkIn.id}`">
@@ -31,9 +29,13 @@
 
 <script>
 import imageStub from '@/assets/no-photo.png';
+import PlaceRating from './PlaceRating';
 
 export default {
     name: 'PlaceVisitedPreview',
+    components: {
+        PlaceRating,
+    },
     data() {
         return {
             active: false,
@@ -76,7 +78,8 @@ export default {
         margin: 1.5rem auto;
         padding: 10px;
         text-align: left;
-        width: 600px;
+        width: 100%;
+        max-width: 600px;
         background-color: #FFF;
     }
 
@@ -125,18 +128,6 @@ export default {
     .title {
         margin-top: 1.5rem;
         padding-left: 0.5rem;
-    }
-
-    .rating {
-        width: 48px;
-        height: 48px;
-        background: #00E676;
-        border-radius: 7px;
-        margin: auto;
-        line-height: 48px;
-        font-size: 1.5rem;
-        color: #FFF;
-        text-align: center;
     }
 
     .slide-fade-enter-active {

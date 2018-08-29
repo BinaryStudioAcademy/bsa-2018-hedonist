@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions , mapState } from 'vuex';
+import Preloader from '@/components/misc/Preloader';
 import SearchCity from './SearchCity';
 import SearchPlaceCategory from './SearchPlaceCategory';
-import Preloader from '@/components/misc/Preloader';
 
 export default {
     name: 'NavbarSearchPanel',
@@ -30,9 +30,10 @@ export default {
         return {
             category: null,
             location: null,
-            isLoading: false,
-            timeLoading: 2000
         };
+    },
+    computed: {
+        ...mapState("search" , ["isLoading"]),
     },
     components: {
         SearchCity,
@@ -42,10 +43,11 @@ export default {
     methods: {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
-            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
+            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory',
+            setLoadingState: 'search/setLoadingState'
         }),
         search() {
-            this.isLoading = true;
+            this.$store.dispatch('search/setLoadingState' , true);
             let location = '';
             let category = '';
             if (this.location !== null) {
@@ -55,7 +57,7 @@ export default {
                 category = this.category.id;
             }
             this.$router.push({
-                path: 'search',
+                name: 'SearchPlacePage',
                 query: {
                     category: category,
                     location: location,
@@ -63,8 +65,8 @@ export default {
                 }
             });
             setTimeout(() => {
-                this.isLoading = false;
-            }, this.timeLoading);
+                this.$store.dispatch('search/setLoadingState' , false);
+            }, 2000)
         }
     },
 };
@@ -78,31 +80,31 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-    .button {
+.button {
+    @media screen and (max-width: 1087px) {
+        width: 88%;
+    }
+
+    .button-title {
+        display: none;
+
         @media screen and (max-width: 1087px) {
-            width: 88%;
-        }
-
-        .button-title {
-            display: none;
-
-            @media screen and (max-width: 1087px) {
-                display: inline-block;
-            }
-        }
-
-        &:hover {
-            background-color: #167df0;
-
-            @media screen and (max-width: 1087px) {
-                background-color: #0f77ea;
-            }
+            display: inline-block;
         }
     }
 
-    .navbar-search-btn {
+    &:hover {
+        background-color: #167df0;
+
         @media screen and (max-width: 1087px) {
-            text-align: center;
+            background-color: #0f77ea;
         }
     }
+}
+
+.navbar-search-btn {
+    @media screen and (max-width: 1087px) {
+        text-align: center;
+    }
+}
 </style>

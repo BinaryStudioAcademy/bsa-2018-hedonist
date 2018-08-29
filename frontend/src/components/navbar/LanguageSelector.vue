@@ -2,7 +2,7 @@
     <div class="control">
         <b-dropdown
             v-model="language"
-            mobile-modal="false"
+            :mobile-modal="false"
             hoverable
             @input="changeLang"
             class="language-menu"
@@ -11,7 +11,6 @@
                 <template>
                     <span :class="['language-item__icon', currentLangClass]" />
                 </template>
-                <b-icon icon="menu-down" />
             </button>
 
             <b-dropdown-item class="language-item" value="en">
@@ -51,11 +50,9 @@ export default {
 </script>
 
 <style lang="scss">
-
     .language-menu {
         .dropdown-content {
             width: 60px;
-            background: #ededed;
 
             @media screen and (max-width: 1087px) {
                 width: 100%;
@@ -69,21 +66,24 @@ export default {
         .dropdown-menu {
             @media screen and (max-width: 1087px) {
                 display: block;
-                background: #ededed;
                 padding: 0;
             }
         }
         .current-language {
-            background: #ededed;
+            background-color: #167df0;
+            border: none;
+            box-shadow: none;
 
-            &:active, &:focus {
-                border-color: #d2d2d2;
+            &:focus:not(:active), &.is-focused:not(:active) {
+                border: none;
+                box-shadow: none;
             }
 
             @media screen and (max-width: 1087px) {
                 display: none;
             }
         }
+
         .language-item {
             height: 40px;
             padding: 10px 15px;

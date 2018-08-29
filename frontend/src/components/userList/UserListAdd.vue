@@ -73,18 +73,14 @@
         <div class="bottom-right">
             <div class="mapbox-wrapper">
                 <mapbox
-                    :access-token="getMapboxToken"
+                    :access-token="mapboxToken"
                     :map-options="{
-                        style: getMapboxStyle,
+                        style: mapboxStyle,
                         center: {
                             lat: 50.4547,
                             lng: 30.5238
                         },
                         zoom: 9
-                    }"
-                    :scale-control="{
-                        show: true,
-                        position: 'top-left'
                     }"
                 />
             </div>
@@ -93,8 +89,8 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
 import Mapbox from 'mapbox-gl-vue';
+import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     name: 'UserListAdd',
@@ -103,11 +99,10 @@ export default {
     },
     data: function () {
         return {
-            displayList: false
+            displayList: false,
+            mapboxToken: mapSettingsService.getMapboxToken(),
+            mapboxStyle: mapSettingsService.getMapboxStyle()
         };
-    },
-    computed: {
-        ...mapGetters('map', ['getMapboxToken', 'getMapboxStyle'])
     },
     methods: {
         keyUp() {

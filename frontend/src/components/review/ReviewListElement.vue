@@ -17,8 +17,12 @@
                     </div>
 
                     <template v-if="isImageAttached">
-                        <div class="image is-3by1">
-                            <img class="review-photo" :src="reviewImageUrl">
+                        <div class="review-photos">
+                            <img 
+                                v-for="(photo, index) in review.photos"
+                                :src="photo"
+                                :key="index"
+                            >
                         </div>
                     </template>
 
@@ -51,14 +55,8 @@ export default {
         }
     },
 
-    data() {
-        return {
-            reviewImageUrl: ''
-        };
-    },
-
     created() {
-        this.getReviewImage();
+        this.getReviewPhotos(this.review.id);
     },
 
     computed: {
@@ -67,7 +65,7 @@ export default {
         },
 
         isImageAttached() {
-            return !_.isEmpty(this.reviewImageUrl);
+            return this.review.photos.length;
         },
         date() {
             const date = new Date(this.review['created_at']);
@@ -82,18 +80,8 @@ export default {
     },
 
     methods: {
-        ...mapActions('review', ['getReviewPhoto']),
-        getReviewImage: function() {
-            this.getReviewPhoto(this.review.id)
-                .then((result) => {
-                    this.reviewImageUrl = result;
-                })
-                .catch(() => {
-                    this.reviewImageUrl = '';
-                });
-        },
-
-        ...mapActions('place', ['likeReview', 'dislikeReview']),
+        ...mapActions('review', ['getReviewPhotos']),
+        ...mapActions('review', ['likeReview', 'dislikeReview']),
         onLikeReview() {
             this.likeReview(this.review.id);
         },
@@ -105,7 +93,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .review-wrp {
         background: #fff;
         border-top: 1px solid #efeff4;
@@ -121,9 +109,11 @@ export default {
         justify-content: space-between;
     }
 
-    /* for fill in the div without shrink */
-    .review-photo {
-        object-fit: cover;
+    .review-photos {
+        img {
+            height: 150px;
+            width: 150px;
+        }
     }
 
     .review-like {

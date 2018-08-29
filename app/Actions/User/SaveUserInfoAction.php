@@ -32,7 +32,14 @@ class SaveUserInfoAction
 
     public function execute(SaveUserInfoRequest $userInfoRequest): SaveUserInfoResponse
     {
+        $passwordValid[] = (bool)$userInfoRequest->getOldPassword();
+        $passwordValid[] = (bool)$userInfoRequest->getNewPassword();
+        if (in_array(true, $passwordValid) && in_array(false, $passwordValid)) {
+            throw new UserInfoRequiredFieldsException('\'Old password\' and \'new password\' are required fields for updating the password');
+        }
+
         if ($userInfoRequest->getOldPassword() && $userInfoRequest->getNewPassword()) {
+            /** @var User $user */
             $user = Auth::user();
             $this->validatePassword($user, $userInfoRequest->getOldPassword());
             $user->password = Hash::make($userInfoRequest->getNewPassword());
@@ -63,48 +70,32 @@ class SaveUserInfoAction
             }
         }
 
-        if ($userHasNotInfo || !empty($first_name)) {
+        if (!empty($first_name)) {
             $userInfo->first_name = $first_name;
         }
 
-        if ($userHasNotInfo || !empty($last_name)) {
+        if (!empty($last_name)) {
             $userInfo->last_name = $last_name;
         }
 
-        if ($userHasNotInfo || !empty($date_of_birth)) {
-            $userInfo->date_of_birth = $date_of_birth;
-        }
-        if ($userHasNotInfo || !empty($phone_number)) {
-            $userInfo->phone_number = $phone_number;
-        }
-        if ($userHasNotInfo || !empty($facebook_url)) {
-            if (
-                !empty($facebook_url) &&
-                stripos(parse_url($facebook_url, PHP_URL_HOST), 'facebook.com') === false
-            ) {
-                throw new UserInfoNotValidSocialUrlException('Invalid facebook url');
-            }
+        $userInfo->date_of_birth = $date_of_birth;
 
-            $userInfo->facebook_url = $facebook_url;
+        $userInfo->phone_number = $phone_number;
+
+        if (!$this->validateSocialUrl($facebook_url, 'facebook.com')) {
+            throw new UserInfoNotValidSocialUrlException('Invalid facebook url');
         }
-        if ($userHasNotInfo || !empty($instagram_url)) {
-            if (
-                !empty($instagram_url) &&
-                stripos(parse_url($instagram_url, PHP_URL_HOST), 'instagram.com') === false
-            ) {
-                throw new UserInfoNotValidSocialUrlException('Invalid instagram url');
-            }
-            $userInfo->instagram_url = $instagram_url;
+        $userInfo->facebook_url = $facebook_url;
+
+        if (!$this->validateSocialUrl($instagram_url, 'instagram.com')) {
+            throw new UserInfoNotValidSocialUrlException('Invalid instagram url');
         }
-        if ($userHasNotInfo || !empty($twitter_url)) {
-            if (
-                !empty($twitter_url) &&
-                stripos(parse_url($twitter_url, PHP_URL_HOST), 'twitter.com') === false
-            ) {
-                throw new UserInfoNotValidSocialUrlException('Invalid twitter url');
-            }
-            $userInfo->twitter_url = $twitter_url;
+        $userInfo->instagram_url = $instagram_url;
+
+        if (!$this->validateSocialUrl($twitter_url, 'twitter.com')) {
+            throw new UserInfoNotValidSocialUrlException('Invalid twitter url');
         }
+        $userInfo->twitter_url = $twitter_url;
 
         if ($userHasNotInfo || !empty($avatar)) {
             $userInfo->avatar_url = $this->storeAvatar($avatar);
@@ -127,5 +118,13 @@ class SaveUserInfoAction
         if (!Hash::check($oldPassword, $user->getAuthPassword())) {
             throw new PasswordsDosentMatchException();
         }
+    }
+
+    private function validateSocialUrl(?string $socialUrl, string $baseUrlHostOfSocial): bool
+    {
+        return (
+            empty($socialUrl) ||
+            stripos(parse_url($socialUrl, PHP_URL_HOST), $baseUrlHostOfSocial) !== false
+        );
     }
 }

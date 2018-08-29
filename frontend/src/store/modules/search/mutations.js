@@ -6,6 +6,7 @@ export default {
             latitude: searchCity.center[1],
             fullName: searchCity.place_name
         };
+        state.isLoading = true;
     },
 
     SET_SEARCH_PLACE_CATEGORY: (state, searchPlaceCategory) => {
@@ -13,11 +14,13 @@ export default {
             id: searchPlaceCategory.id,
             name: searchPlaceCategory.name
         };
+        state.isLoading = true;
     },
 
-    SET_CURRENT_CENTER: (state, { longitude, latitude }) => {
-        state.currentLatitude = latitude;
-        state.currentLongitude = longitude;
+    SET_LOADING_STATE: (state, loadState) => state.isLoading = loadState,
+
+    SET_CURRENT_POSITION: (state, currentPosition) => {
+        state.currentPosition = currentPosition;
     },
 
     MAP_INIT: (state, value) => {

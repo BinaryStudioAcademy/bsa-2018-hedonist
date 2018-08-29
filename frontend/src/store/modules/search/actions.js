@@ -9,14 +9,18 @@ export default {
         commit('SET_SEARCH_PLACE_CATEGORY', category);
     },
 
-    loadCategories(context, name) {
+    setLoadingState: ({commit} , loadState) => {
+        commit('SET_LOADING_STATE' , loadState);
+    },
+
+    loadCategories({context , commit}, name) {
         return httpService.get('/places/categories/search?name=' + name + '&limit=')
             .then( result => Promise.resolve(result.data.data))
             .catch( error  => Promise.reject(error));
     },
 
-    setCurrentCenter: ({ commit }, currentCenter) => {
-        commit('SET_CURRENT_CENTER', currentCenter);
+    setCurrentPosition: ({ commit }, currentPosition) => {
+        commit('SET_CURRENT_POSITION', currentPosition);
     },
 
     mapInitialization: ({ commit }) => {
