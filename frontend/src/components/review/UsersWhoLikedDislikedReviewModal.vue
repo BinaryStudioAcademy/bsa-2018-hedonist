@@ -2,13 +2,12 @@
     <form @submit.prevent>
         <div class="modal-card" style="width: auto">
             <header class="modal-card-head">
-                <p class="modal-card-title">Users who {{ action }} review</p>
+                <p class="modal-card-title">{{ title }}</p>
             </header>
             <section class="modal-card-body">
-                <SmallPreloader
-                    v-if="isUsersModalLoading"
-                    :active="isUsersModalLoading"
-                />
+                <div v-if="isUsersModalLoading">
+                    <SmallPreloader :active="isUsersModalLoading" />
+                </div>
                 <div
                     v-else
                     v-for="(user, index) in users"
@@ -35,7 +34,9 @@
                 </div>
             </section>
             <footer class="modal-card-foot">
-                <button class="button" type="button" @click="$emit('close')">Close</button>
+                <div>
+                    <button class="button" type="button" @click="$emit('close')">Close</button>
+                </div>
             </footer>
         </div>
     </form>    
@@ -63,7 +64,7 @@ export default {
             type: Array,
             required: true
         },
-        action: {
+        title: {
             type: String,
             required: true
         }
@@ -102,7 +103,16 @@ export default {
     }
     
     .modal-card-body {
-        width: 100%;
-        height: 210px;
+        width: 250px;
+        height: 220px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .modal-card-foot {
+        display: flex;
+        justify-content: flex-end;
     }
 </style>
