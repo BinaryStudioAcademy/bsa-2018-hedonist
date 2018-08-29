@@ -57,7 +57,7 @@ export default {
             })
                 .then(function (res) {
                     let taste = res.data.data;
-                    context.commit('ADD_TASTE', taste);
+                    context.commit('ADD_CUSTOM_TASTE', taste);
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);
@@ -68,7 +68,7 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.delete('/tastes/custom/' + id)
                 .then(function (res) {
-                    context.commit('DELETE_TASTE', id);
+                    context.commit('DELETE_CUSTOM_TASTE', id);
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);

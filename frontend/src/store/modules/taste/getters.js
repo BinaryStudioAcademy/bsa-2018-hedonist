@@ -15,13 +15,10 @@ export default {
     },
     getTasteByName: (state, getters) => name => {
         let ids = getters.getAllTastesIds;
-        let taste = null;
-        ids.forEach(id => {
-            if (state.allTastes.byId[id].name === name) {
-                taste = state.allTastes.byId[id];
-                return true;
-            }
+        const id = ids.find(id => {
+            return state.allTastes.byId[id].name === name;
         });
-        return taste;
+
+        return id ? state.allTastes.byId[id] : null;
     }
 };

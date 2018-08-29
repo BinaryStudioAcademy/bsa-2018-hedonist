@@ -100,8 +100,9 @@ export default {
         this.$store.dispatch('taste/fetchTastes').then(() => {
             let customTastes = [];
             this.getAllTastesIds.forEach((id) => {
-                if (this.allTastes.byId[id].user_id)
+                if (!this.allTastes.byId[id].is_default) {
                     customTastes.push(this.allTastes.byId[id].name);
+                }
             });
             this.customTastes = customTastes;
         });

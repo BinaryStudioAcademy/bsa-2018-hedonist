@@ -38,7 +38,7 @@ class TasteTest extends ApiTestCase
                     ->assertOk();
     }
 
-    public function test_add_taste()
+    public function test_add_custom_taste()
     {
         $response = $this->actingWithToken()->post(
             "/api/v1/tastes", [
@@ -51,7 +51,7 @@ class TasteTest extends ApiTestCase
         ]);
     }
 
-    public function test_delete_taste()
+    public function test_delete_custom_taste()
     {
         $taste = factory(Taste::class)->create();
         $response = $this->actingWithToken()->delete(

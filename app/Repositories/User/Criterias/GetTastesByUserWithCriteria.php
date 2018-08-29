@@ -5,7 +5,7 @@ namespace Hedonist\Repositories\User\Criterias;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
-class GetTastesByUserWithNullCriteria implements CriteriaInterface
+class GetTastesByUserWithCriteria implements CriteriaInterface
 {
     private $userId;
 
@@ -16,6 +16,6 @@ class GetTastesByUserWithNullCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->where('user_id', $this->userId)->orWhereNull('user_id');
+        return $model->where('user_id', $this->userId)->orWhere('is_default', true);
     }
 }

@@ -5,11 +5,11 @@ export default {
         state.allTastes = Object.assign({}, tastes);
     },
 
-    ADD_TASTE: (state, taste) => {
+    ADD_CUSTOM_TASTE: (state, taste) => {
         Vue.set(state.allTastes.byId, taste.id, taste);
     },
 
-    DELETE_TASTE: (state, id) => {
+    DELETE_CUSTOM_TASTE: (state, id) => {
         Vue.delete(state.allTastes.byId, id);
     },
 
