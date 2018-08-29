@@ -208,7 +208,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            save: 'userList/saveUserLists',
+            save: 'userList/saveUserList',
             fetchPlaces: 'place/fetchPlaces'
         }),
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Storage;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
@@ -11,7 +12,7 @@ use Tests\Feature\Api\ApiTestCase;
 
 class UserListApiTest extends ApiTestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected $user;
 
@@ -28,14 +29,12 @@ class UserListApiTest extends ApiTestCase
         $image = UploadedFile::fake()->image('review.jpg');
         $response = $this->json('POST', '/api/v1/user-lists', [
             'name' => 'Bar',
-            'img_url' => $image,
+            'image' => $image,
         ]);
-        $data = json_decode($response->getContent(), true);
+        $data = $response->json();
         $response->assertHeader('Content-Type', 'application/json');
 
-        $this->assertDatabaseHas('user_lists', [
-
-        ]);
+        $this->assertDatabaseHas('user_lists', $data['data']);
     }
 
     public function test_get_user_list()
@@ -77,8 +76,8 @@ class UserListApiTest extends ApiTestCase
         $userList = factory(UserList::class)->create();
         $data = [
             'name' => 'Caffe',
-            'img_url' => $image,
-            'attached_places' => json_encode([])
+            'image' => $image,
+            'attached_places' => []
         ];
         $response = $this->json('PUT', "/api/v1/user-lists/$userList->id", $data);
         $result = json_decode($response->getContent(), true);

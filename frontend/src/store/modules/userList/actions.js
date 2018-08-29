@@ -79,11 +79,13 @@ export default {
         });
     },
 
-    saveUserLists: (context, {userList, attachedPlaceIds}) => {
+    saveUserList: (context, {userList, attachedPlaceIds}) => {
         const formData = new FormData();
-        formData.append('img_url', userList.image);
+        formData.append('image', userList.image);
         formData.append('name', userList.name);
-        formData.append('attached_places', JSON.stringify(attachedPlaceIds));
+        _.forEach(attachedPlaceIds, function(place) {
+            formData.append('attached_places[]', place);
+        });
 
         return httpService.post('/user-lists/', formData)
             .then( (result) => {

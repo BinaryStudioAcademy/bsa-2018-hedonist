@@ -44,7 +44,7 @@ class SaveUserListAction
                 $userList = $this->userListRepository->save($userList);
                 if ($userListRequest->getAttachedPlaces() !== null) {
                     $this->userListRepository
-                        ->attachPlaces($userList, $userListRequest->getAttachedPlaces());
+                        ->syncPlaces($userList, $userListRequest->getAttachedPlaces());
                 }
 
                 return new SaveUserListResponse($userList);

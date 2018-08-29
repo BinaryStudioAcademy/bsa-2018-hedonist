@@ -14,8 +14,9 @@ class UserListRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'img_url' => 'required|image',
+            'name'            => 'required|string|max:255',
+            'image'           => 'required|image',
+            'attached_places' => 'nullable|array',
         ];
     }
 }

@@ -59,8 +59,8 @@ class UserListController extends ApiController
                 new SaveUserListRequest(
                     Auth::id(),
                     $request->get('name'),
-                    $request->file('img_url'),
-                    json_decode($request->get('attached_places'))
+                    $request->file('image'),
+                    $request->get('attached_places')
                 )
             );
             return $this->successResponse($responseUserList->toArray(), 201);
@@ -88,8 +88,8 @@ class UserListController extends ApiController
                 new SaveUserListRequest(
                     Auth::id(),
                     $request->get('name'),
-                    $request->file('img_url'),
-                    json_decode($request->get('attached_places'))
+                    $request->file('image'),
+                    $request->get('attached_places')
                 )
             );
             return $this->successResponse($responseUserList->toArray(), 201);
