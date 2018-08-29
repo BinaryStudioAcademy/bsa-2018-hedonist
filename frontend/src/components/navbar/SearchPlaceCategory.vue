@@ -8,7 +8,7 @@
             :loading="findItems.isFetching"
             class="navbar__search-autocomplete"
             field="name"
-            @input="loadCategories"
+            @input="loadItems"
             @select="option => this.$emit('select', option)"
         >
 
@@ -44,7 +44,7 @@ export default {
             loadCategoriesByName: 'search/loadCategories',
             loadPlaces: 'search/loadPlaces'
         }),
-        loadCategories: _.debounce(function () {
+        loadItems: _.debounce(function () {
             this.findItems.data = [];
             this.findItems.isFetching = true;
             if (this.findItems.query === '') {
