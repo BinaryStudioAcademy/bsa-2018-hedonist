@@ -655,7 +655,22 @@ export default {
             return localTime.format('HH:mm');
         },
 
-        onAdd() {}
+        onAdd() {
+            this.$store.dispatch('place/addNewPlace', {
+                user: this.user,
+                place: this.newPlace
+            }).then(() => {
+                this.$toast.open({
+                    type: 'is-success',
+                    message: 'Place added!'
+                })
+            }).catch(() => {
+                this.$toast.open({
+                    type: 'is-danger',
+                    message: 'Error!'
+                })
+            });
+        }
     }
 };
 </script>
