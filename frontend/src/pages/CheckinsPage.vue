@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
 import Preloader from '@/components/misc/Preloader';
 import CheckInsContainer from '@/components/history/CheckInsContainer';
 import HistoryMap from '@/components/history/HistoryMap';
@@ -24,7 +24,7 @@ export default {
         CheckInsContainer,
         HistoryMap
     },
-    
+
     computed: {
         ...mapState('history', [
             'checkIns',
