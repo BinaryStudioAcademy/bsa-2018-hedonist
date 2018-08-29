@@ -23,6 +23,8 @@ interface TasteRepositoryInterface
 
     public function getDefault(): Collection;
 
+    public function getCustomById(int $id): ?CustomTaste;
+
     public function getCustomByUserId(int $userId): Collection;
 
     public function saveCustom(CustomTaste $customTaste): CustomTaste;

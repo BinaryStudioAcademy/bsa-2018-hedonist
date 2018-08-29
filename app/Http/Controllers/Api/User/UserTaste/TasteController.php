@@ -8,7 +8,7 @@ use Hedonist\Actions\UserTaste\DeleteCustomTasteAction;
 use Hedonist\Actions\UserTaste\DeleteCustomTasteRequest;
 use Hedonist\Actions\UserTaste\GetCustomTastesAction;
 use Hedonist\Exceptions\DomainException;
-use Hedonist\Exceptions\User\TasteNotFoundException;
+use Hedonist\Exceptions\User\CustomTasteNotFoundException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Actions\UserTaste\GetTastesAction;
 use Illuminate\Http\Request;
@@ -61,7 +61,7 @@ class TasteController extends ApiController
         try {
             $this->deleteCustomTasteAction->execute(new DeleteCustomTasteRequest($tasteId));
             return $this->emptyResponse(200);
-        } catch (TasteNotFoundException $e) {
+        } catch (CustomTasteNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 404);
         }
     }

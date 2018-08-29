@@ -58,6 +58,11 @@ class TasteRepository extends BaseRepository implements TasteRepositoryInterface
         return Taste::all();
     }
 
+    public function getCustomById(int $id): ?CustomTaste
+    {
+        return CustomTaste::find($id);
+    }
+
     public function getCustomByUserId(int $userId): Collection
     {
         return CustomTaste::where('user_id', $userId)->get();
