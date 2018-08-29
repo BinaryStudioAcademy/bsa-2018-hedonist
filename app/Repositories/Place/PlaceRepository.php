@@ -101,7 +101,9 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         foreach ($criterias as $criteria) {
             $this->pushCriteria($criteria);
         }
+        $result = $this->all();
+        $this->resetCriteria();
 
-        return $this->all();
+        return $result;
     }
 }
