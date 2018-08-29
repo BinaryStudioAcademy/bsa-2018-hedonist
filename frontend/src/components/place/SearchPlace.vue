@@ -2,6 +2,10 @@
     <section class="columns">
         <section class="column is-half">
             <SearchFilterPlace />
+            <CategoryTagsContainer
+                v-if="categoryTagsList.length"
+                :tags="categoryTagsList"
+            />
             <template v-for="(place, index) in places">
                 <PlacePreview
                     v-if="isPlacesLoaded"
@@ -36,13 +40,15 @@ import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
 import placeholderImg from '@/assets/placeholder_128x128.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
+import CategoryTagsContainer from './CategoryTagsContainer';
 
 export default {
     name: 'SearchPlace',
     components: {
         PlacePreview,
         Mapbox,
-        SearchFilterPlace
+        SearchFilterPlace,
+        CategoryTagsContainer,
     },
     data() {
         return {
@@ -164,6 +170,7 @@ export default {
         ...mapGetters({
             user: 'auth/getAuthenticatedUser'
         }),
+        ...mapGetters('category', ['categoryTagsList']),
 
         currentCenter() {
             return {
