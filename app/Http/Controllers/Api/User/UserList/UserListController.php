@@ -12,6 +12,7 @@ use Hedonist\Actions\UserList\GetCollectionUserListAction;
 use Hedonist\Actions\UserList\GetUserListsCollectionAction;
 use Hedonist\Actions\UserList\GetUserListAction;
 use Hedonist\Actions\UserList\GetUserListRequest;
+use Hedonist\Exceptions\DomainException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\UserList\UserListRequest;
 use Illuminate\Http\JsonResponse;
@@ -77,7 +78,7 @@ class UserListController extends ApiController
                 new GetUserListRequest($id)
             );
             return $this->successResponse($presenter->present($responseUserList), 200);
-        } catch (\DomainException $exception) {
+        } catch (DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), 404);
         }
     }
