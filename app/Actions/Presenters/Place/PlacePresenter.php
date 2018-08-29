@@ -15,6 +15,7 @@ class PlacePresenter
             'id' => $place->id,
             'address' => $place->address,
             'created_at' => $place->created_at->toDateTimeString(),
+            'checkins' => $place->checkins->count(),
             'dislikes' => $place->dislikes->count(),
             'likes' => $place->likes->count(),
             'rating' => number_format(round($place->ratings->avg('rating'), 1), 1),

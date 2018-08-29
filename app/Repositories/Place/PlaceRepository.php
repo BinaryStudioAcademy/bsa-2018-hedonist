@@ -38,6 +38,7 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
                 'category',
                 'category.tags',
                 'city',
+                'checkins',
                 'localization',
                 'localization.language',
                 'likes',
