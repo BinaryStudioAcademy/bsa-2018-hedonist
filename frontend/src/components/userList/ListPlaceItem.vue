@@ -16,7 +16,7 @@
                 </h3>
                 <p class="place-city"><strong>{{ city }}</strong></p>
                 <p class="place-category">
-                    <a href="#">{{ category }}</a>
+                    <a href="#">{{ category.name }}</a>
                 </p>
                 <p class="address">
                     {{ place.address }}
@@ -27,6 +27,19 @@
                         v-if="place.rating"
                         :value="Number(place.rating)"
                 />
+            </div>
+        </div>
+        <div class="media">
+            <div class="media-content">
+                <b-taglist>
+                    <b-tag
+                            type="is-info"
+                            v-for="tag in category.tags"
+                            :key="tag.id"
+                    >
+                        {{ tag.name }}
+                    </b-tag>
+                </b-taglist>
             </div>
         </div>
         <Review
@@ -60,7 +73,7 @@
                 return this.cities.byId[this.place.city].name;
             },
             category(){
-                return this.categories.byId[this.place.category].name;
+                return this.categories.byId[this.place.category];
             },
             review(){
                 return this.reviews.byId[this.place.review];

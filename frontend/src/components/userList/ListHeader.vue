@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="list-data__updated-at level-right">
-                Updated at:{{listItem.updated_at}}
+                Updated at: {{listItem.updated_at}}
             </div>
         </div>
     </div>
