@@ -16,7 +16,7 @@ import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
 import MyTastesPage from '@/pages/MyTastesPage';
 import SocialAuthPage from '@/pages/SocialAuthPage';
-import UsersProfile from '@/pages/UsersProfile';
+import OtherUserPage from '@/pages/OtherUserPage';
 
 Vue.use(Router);
 
@@ -42,8 +42,8 @@ export default new Router({
             },
             {
                 path: '/user/:id',
-                name: 'UsersProfile',
-                component: UsersProfile,
+                name: 'OtherUserPage',
+                component: OtherUserPage,
             },
             {
                 path: '/my-places',
