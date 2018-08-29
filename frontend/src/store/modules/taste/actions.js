@@ -52,7 +52,7 @@ export default {
     },
     addCustomTaste: (context, name) => {
         return new Promise((resolve, reject) => {
-            httpService.post('/tastes', {
+            httpService.post('/tastes/custom', {
                 name: name
             })
                 .then(function (res) {
@@ -66,7 +66,7 @@ export default {
     },
     deleteCustomTaste: (context, id) => {
         return new Promise((resolve, reject) => {
-            httpService.delete('/tastes/' + id)
+            httpService.delete('/tastes/custom/' + id)
                 .then(function (res) {
                     context.commit('DELETE_TASTE', id);
                     resolve(res);
