@@ -57,6 +57,7 @@ export default {
     },
 
     created() {
+        this.$store.dispatch('history/setLoadingState' , true);
         this.loadUserCoords().then((coords) => {
             this.setCurrentMapCenter(coords);
         });
@@ -64,6 +65,7 @@ export default {
         this.loadCheckInPlaces()
             .then(() => {
                 this.isPlacesLoaded = true;
+//                this.$store.dispatch('history/setLoadingState' , false);
                 this.setCurrentMapCenter(
                     mapSettingsService.getMapboxCenter(
                         this.places.byId,
@@ -91,6 +93,7 @@ export default {
             'loadCheckInPlaces',
             'setCurrentMapCenter',
             'mapInitialization',
+            'setLoadingState'
         ]),
 
         mapInitialize(map) {

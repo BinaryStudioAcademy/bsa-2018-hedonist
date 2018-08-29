@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+        <Preloader :active="isLoading" />
         <div class="column visitedplaces-wrapper">
             <CheckInsContainer :check-ins="checkIns" />
         </div>
@@ -12,12 +13,14 @@
 
 <script>
 import { mapState } from 'vuex';
+import Preloader from '@/components/misc/Preloader';
 import CheckInsContainer from '@/components/history/CheckInsContainer';
 import HistoryMap from '@/components/history/HistoryMap';
 
 export default {
     name: 'CheckinsPage',
     components: {
+        Preloader,
         CheckInsContainer,
         HistoryMap
     },
@@ -25,6 +28,7 @@ export default {
     computed: {
         ...mapState('history', [
             'checkIns',
+            'isLoading'
         ]),
     }
 };

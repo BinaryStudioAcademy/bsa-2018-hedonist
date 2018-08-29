@@ -23,4 +23,5 @@ export default {
     MAP_INIT: (state, value) => {
         state.mapInitialized = value;
     },
+    SET_LOADING_STATE: (state, loadState) => state.isLoading = loadState,
 };
