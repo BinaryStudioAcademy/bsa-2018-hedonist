@@ -2,7 +2,7 @@
     <div class="wrapper">
         <div class="columns">
             <div class="column is-half">
-                <div class="content" v-if="!isLoading">
+                <div class="page-content" v-if="!isLoading">
                     <ListHeader
                             :listItem="userList"
                     />
@@ -39,7 +39,7 @@
             },
             denormolizedPlaces() {
                 const places = [];
-                for (index in this.listItem.places) {
+                for (const index of this.userList.places) {
                     places.push(this.places.byId[index]);
                 }
                 return places;

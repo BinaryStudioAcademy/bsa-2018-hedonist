@@ -66,7 +66,7 @@
         },
         props: {
             place:{
-                type:object,
+                type:Object,
                 required:true
             }
         }
