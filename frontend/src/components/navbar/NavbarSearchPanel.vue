@@ -33,7 +33,7 @@ export default {
         };
     },
     computed: {
-        ...mapState("search" , ["isLoading"]),
+        ...mapState('search' , ['isLoading']),
     },
     components: {
         SearchCity,
@@ -66,7 +66,7 @@ export default {
             });
             setTimeout(() => {
                 this.$store.dispatch('search/setLoadingState' , false);
-            }, 2000)
+            }, 2000);
         }
     },
 };
