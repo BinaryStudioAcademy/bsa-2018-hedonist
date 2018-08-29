@@ -1,10 +1,10 @@
 <template>
     <div class="navbar-start">
         <div class="navbar-item">
-            <SearchPlaceCategory @select="category = $event" />
+            <SearchPlaceCategory @select="selectSearchPlaceOrCategory" />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="location = $event" />
+            <SearchCity @select="selectSearchCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
@@ -18,18 +18,12 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import SearchCity from './SearchCity';
 import SearchPlaceCategory from './SearchPlaceCategory';
 
 export default {
     name: 'NavbarSearchPanel',
-    data() {
-        return {
-            category: null,
-            location: null,
-        };
-    },
     components: {
         SearchCity,
         SearchPlaceCategory
@@ -37,27 +31,40 @@ export default {
     methods: {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
-            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
+            selectSearchPlaceOrCategory: 'search/selectSearchPlaceOrCategory'
         }),
         search() {
             let location = '';
             let category = '';
-            if (this.location !== null) {
-                location = this.location.center[0] + ',' + this.location.center[1];
+            let placeName = '';
+            if (this.city !== null) {
+                location = this.city.longitude + ',' + this.city.latitude;
             }
-            if (this.category !== null) {
-                category = this.category.id;
+            if (this.placeCategory !== null) {
+                category = this.placeCategory.id;
             }
+            if (this.place !== null) {
+                placeName = this.place.name;
+            }
+
             this.$router.push({
                 name: 'SearchPlacePage',
                 query: {
                     category: category,
                     location: location,
+                    searchName: placeName,
                     page: 1
                 }
             });
         }
     },
+    computed: {
+        ...mapGetters({
+            city: 'search/getSelectedCity',
+            placeCategory: 'search/getSelectedPlaceCategory',
+            place: 'search/getSelectedPlace'
+        }),
+    }
 };
 </script>
 

@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
+use Hedonist\Actions\Place\GetPlaceCollectionForAutoComplete\GetPlaceCollectionForAutoCompleteResponse;
 use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
 use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
@@ -71,5 +72,20 @@ class GetPlaceCollectionPresenter
         $presented['like'] = $review->getLikedStatus($user->id)->value();
 
         return $presented;
+    }
+
+    public function presentForAutoComplete(GetPlaceCollectionForAutoCompleteResponse $placeResponse): array
+    {
+        return $placeResponse->getPlaceCollection()->map(function (Place $place) use ($placeResponse) {
+            $result['logo'] = '';
+            if (!empty($this->photoPresenter->presentCollection($place->photos))) {
+                $result['logo'] = $this->photoPresenter->presentCollection($place->photos)[0]['img_url'];
+
+            }
+            $result['name'] = $this->localizationPresenter->presentCollection($place->localization)[0]['name'];
+            $result['place'] = true;
+
+            return $result;
+        })->toArray();
     }
 }

@@ -2,11 +2,25 @@ import httpService from '@/services/common/httpService';
 
 export default {
     selectSearchCity: ({commit}, city) => {
-        commit('SET_SEARCH_CITY', city);
+        if (city !== null) {
+            commit('SET_SEARCH_CITY', city);
+        } else {
+            commit('DELETE_SEARCH_CITY');
+        }
     },
 
-    selectSearchPlaceCategory: ({commit}, category) => {
-        commit('SET_SEARCH_PLACE_CATEGORY', category);
+    selectSearchPlaceOrCategory: ({commit}, item) => {
+        if (item !== null) {
+            if (item.place !== undefined) {
+                commit('SET_SEARCH_PLACE', item);
+            } else {
+                commit('SET_SEARCH_PLACE_CATEGORY', item);
+            }
+        } else {
+            commit('DELETE_SEARCH_PLACE');
+            commit('DELETE_SEARCH_PLACE_CATEGORY');
+        }
+
     },
 
     loadCategories(context, name) {
@@ -21,5 +35,11 @@ export default {
 
     mapInitialization: ({ commit }) => {
         commit('MAP_INIT', true);
-    }
+    },
+
+    loadPlaces(context, filters) {
+        return httpService.get('/places/autocomplete/search?filter[name]=' + filters.name + '&filter[location]=' + filters.location)
+            .then( result => Promise.resolve(result.data.data))
+            .catch( error  => Promise.reject(error));
+    },
 };
