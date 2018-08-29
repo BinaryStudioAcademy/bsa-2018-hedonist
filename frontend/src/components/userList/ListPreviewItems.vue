@@ -1,6 +1,13 @@
 <template>
     <section class="container">
         <b-loading :active.sync="isLoading" />
+        <div class="has-text-right">
+            <router-link
+                role="button"
+                class="button is-success"
+                to="/my-lists/add"
+            >+ Add a new list</router-link>
+        </div>
         <ul v-show="isLoaded">
             <ListPreview
                 v-for="(userList,index,key) in filteredUserLists"
@@ -62,7 +69,7 @@ export default {
         }
     },
     methods: {
-        setCityFilter(cityId){
+        setCityFilter(cityId) {
             this.filterBy.cityId = cityId;
         }
     },
@@ -72,18 +79,7 @@ export default {
 <style lang="scss" scoped>
     section {
         background: #FFF;
-        padding: 0 10%;
+        padding: 50px 10%;
         min-height: calc(100vh - 59px);
-        overflow-y: scroll;
-        ul {
-            list-style: none;
-            li {
-                display: flex;
-                margin-bottom: -5%;
-                &:last-child {
-                    margin-bottom: 0;
-                }
-            }
-        }
     }
 </style>

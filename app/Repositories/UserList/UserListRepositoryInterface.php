@@ -26,4 +26,6 @@ interface UserListRepositoryInterface
     public function model();
 
     public function attachPlace(UserList $userList, Place $place);
+
+    public function syncPlaces(UserList $userList, array $placeIds): void;
 }
