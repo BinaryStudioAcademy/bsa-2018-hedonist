@@ -36,7 +36,13 @@ class AddPlaceAction
     {
         $creator = $this->userRepository->getById($placeRequest->getCreatorId());
         $category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
-        $city = $this->cityRepository->getById($placeRequest->getCityId());
+
+        /* firstOrCreate */
+        $city = $this->cityRepository->findByNameAndLocation(
+            $placeRequest->getCity()['name'],
+            $placeRequest->getCity()['lng'],
+            $placeRequest->getCity()['lat']
+        );
 
         try {
             $location = new Location($placeRequest->getLongitude(), $placeRequest->getLatitude());
@@ -52,6 +58,7 @@ class AddPlaceAction
             throw new PlaceCategoryDoesNotExistException;
         }
 
+        /* Delete with Exception, city CANNOT be null */
         if (!$city) {
             throw new PlaceCityDoesNotExistException;
         }

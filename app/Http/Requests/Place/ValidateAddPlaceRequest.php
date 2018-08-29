@@ -27,6 +27,7 @@ class ValidateAddPlaceRequest extends JsonRequest
         return [
             'longitude'   => 'required|numeric',
             'latitude'    => 'required|numeric',
+            'city'        => 'required|string',
             'zip'         => 'required|numeric',
             'address'     => 'required|max:255',
             'creator_id'  => 'required|numeric',

@@ -6,7 +6,7 @@ class AddPlaceRequest
 {
     private $creatorId;
     private $categoryId;
-    private $cityId;
+    private $city;
     private $longitude;
     private $latitude;
     private $zip;
@@ -17,7 +17,7 @@ class AddPlaceRequest
     public function __construct(
         int $creatorId,
         int $categoryId,
-        int $cityId,
+        String $city,
         float $longitude,
         float $latitude,
         int $zip,
@@ -27,7 +27,7 @@ class AddPlaceRequest
     ) {
         $this->creatorId = $creatorId;
         $this->categoryId = $categoryId;
-        $this->cityId = $cityId;
+        $this->city = $city;
         $this->longitude = $longitude;
         $this->latitude = $latitude;
         $this->zip = $zip;
@@ -46,9 +46,14 @@ class AddPlaceRequest
         return $this->categoryId;
     }
 
-    public function getCityId(): int
+    public function getCity(): array
     {
-        return $this->cityId;
+        $cityObj = json_decode($this->city, true);
+        return [
+            'name' => $cityObj['text_en'],
+            'lng'  => $cityObj['center'][0],
+            'lat'  => $cityObj['center'][1],
+        ];
     }
 
     public function getLongitude(): float
@@ -84,15 +89,15 @@ class AddPlaceRequest
     public function toArray(): array
     {
         return [
-            'creator_id'  => $this->getCreatorId(),
-            'category_id' => $this->getCategoryId(),
-            'city_id'     => $this->getCityId(),
-            'longitude'   => $this->getLongitude(),
-            'latitude'    => $this->getLatitude(),
-            'zip'         => $this->getZip(),
-            'address'     => $this->getAddress(),
-            'phone'     => $this->getPhone(),
-            'website'     => $this->getWebsite(),
+            'creator_id'    => $this->getCreatorId(),
+            'category_id'   => $this->getCategoryId(),
+            'city'          => $this->getCity(),
+            'longitude'     => $this->getLongitude(),
+            'latitude'      => $this->getLatitude(),
+            'zip'           => $this->getZip(),
+            'address'       => $this->getAddress(),
+            'phone'         => $this->getPhone(),
+            'website'       => $this->getWebsite(),
         ];
     }
 }
