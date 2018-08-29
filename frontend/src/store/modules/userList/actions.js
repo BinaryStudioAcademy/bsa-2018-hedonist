@@ -80,7 +80,7 @@ export default {
     },
 
     getListById: (context, placeId) => {
-        context.commit('SET_LOADING_SATE', true);
+        context.commit('SET_LOADING_STATE', true);
         return httpService.get(`/user-lists/${placeId}`)
             .then((response) => {
                 const places = {byId: {}, allIds: []};
@@ -96,12 +96,12 @@ export default {
                     cities.byId[item.city.id] = item.city;
                     currentPlace.city = item.city.id;
                     categories.byId[item.category.id] = item.category;
-                    currentPlace.categories = item.category.id;
+                    currentPlace.category = item.category.id;
                     if (item.review) {
                         reviews.byId[item.review.id] = item.review;
                         currentPlace.review = item.review.id;
                     }
-                    currentPlace.photos.map(item => {
+                    currentPlace.photos = item.photos.map(item => {
                         photos.byId[item.id] = item;
                         return item.id;
                     });
@@ -111,10 +111,15 @@ export default {
                 });
                 allLists.byId[list.id] = list;
                 allLists.allIds.push(list.id);
-                context.commit('SET_USER_LISTS', allLists);
+
                 context.commit('SET_PLACES', normalizerService.updateAllIds(places));
                 context.commit('SET_CITIES', normalizerService.updateAllIds(cities));
                 context.commit('SET_CATEGORIES', normalizerService.updateAllIds(categories));
+                context.commit('SET_REVIEWS', normalizerService.updateAllIds(reviews));
+                context.commit('SET_USER_LISTS', allLists);
+                context.commit('SET_PHOTOS',  normalizerService.updateAllIds(photos));
+
+                context.commit('SET_LOADING_STATE', false);
             })
     },
     saveUserList: (context, {userList, attachedPlaceIds}) => {

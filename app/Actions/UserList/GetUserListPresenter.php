@@ -10,6 +10,7 @@ use Hedonist\Actions\Presenters\Feature\FeaturePresenter;
 use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
 use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
 use Hedonist\Actions\Presenters\Place\PlacePresenter;
+use Hedonist\Actions\Presenters\User\UserPresenter;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\User\User;
 use Illuminate\Support\Collection;
@@ -24,6 +25,7 @@ class GetUserListPresenter
     private $categoryPresenter;
     private $photoPresenter;
     private $tagsPresenter;
+    private $userPresenter;
 
     public function __construct(
         PlacePresenter $placePresenter,
@@ -33,7 +35,8 @@ class GetUserListPresenter
         FeaturePresenter $featurePresenter,
         CategoryPresenter $categoryPresenter,
         CategoryTagPresenter $tagsPresenter,
-        PlacePhotoPresenter $photoPresenter
+        PlacePhotoPresenter $photoPresenter,
+        UserPresenter $userPresenter
     ) {
         $this->placePresenter = $placePresenter;
         $this->reviewPresenter = $reviewPresenter;
@@ -43,6 +46,7 @@ class GetUserListPresenter
         $this->categoryPresenter = $categoryPresenter;
         $this->tagsPresenter = $tagsPresenter;
         $this->photoPresenter = $photoPresenter;
+        $this->userPresenter = $userPresenter;
     }
 
     private function presentPlace(Collection $collection,User $user): array
@@ -81,9 +85,10 @@ class GetUserListPresenter
             'name' => $userList->name,
             'user_id' => $userList->user_id,
             'img_url' => $userList->img_url,
+            'updated_at' => $userList->updated_at->format('Y-m-d')
         ];
         $result['places'] = $this->presentPlace($response->getPlaces(),$response->getUser());
-
+        $result['user'] = $this->userPresenter->present($userList->user);
         return $result;
     }
 }

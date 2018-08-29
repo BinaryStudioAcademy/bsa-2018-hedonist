@@ -4,6 +4,6 @@ export default {
     cities : null,
     categories : null,
     photos: null,
-    user: null,
+    reviews:null,
     isLoading: false,
 };
