@@ -509,7 +509,10 @@ export default {
                 city: '',
                 address: '',
                 photos: [],
-                location: {},
+                location: {
+                    lng: 30.5241,
+                    lat: 50.4501
+                },
                 category: '',
                 tags: [],
                 features: [],
@@ -656,6 +659,7 @@ export default {
         },
 
         onAdd() {
+            console.log(this.newPlace);
             this.$store.dispatch('place/addNewPlace', {
                 user: this.user,
                 place: this.newPlace
