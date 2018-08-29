@@ -15,6 +15,17 @@
                 </div>
             </li>
         </ul>
+        <b-field label="My own">
+            <b-taginput
+                v-model="customTastesInput"
+                ellipsis
+                icon="label"
+                type="is-info"
+                placeholder="Add a taste"
+                @add="addCustomTaste"
+                @remove="deleteCustomTaste"
+            />
+        </b-field>
     </div>
 </template>
 
@@ -27,7 +38,8 @@ export default {
         return {
             timeDelay: 0,
             selectedIds: [],
-            tastesData: []
+            tastesData: [],
+            customTastesInput: []
         };
     },
     methods: {
@@ -61,6 +73,15 @@ export default {
             this.$store.dispatch('taste/addMyTaste', this.allTastes.byId[id]);
             this.selectedIds.push(id);
         },
+        addCustomTaste(name) {
+            this.$store.dispatch('taste/addCustomTaste', name);
+        },
+        deleteCustomTaste(name) {
+            let taste = this.getCustomTasteByName(name);
+            if (taste) {
+                this.$store.dispatch('taste/deleteCustomTaste', taste.id);
+            }
+        },
         isChecked(id) {
             return this.selectedIds.includes(id);
         },
@@ -72,11 +93,24 @@ export default {
         }
     },
     computed: {
-        ...mapState('taste', ['allTastes', 'myTastes']),
-        ...mapGetters('taste', ['getMyTastesIds'])
+        ...mapState('taste', ['allTastes', 'customTastes', 'myTastes']),
+        ...mapGetters('taste', [
+            'getMyTastesIds',
+            'getAllTastesIds',
+            'getCustomTastesIds',
+            'getTasteByName',
+            'getCustomTasteByName'
+        ])
     },
     created() {
         this.$store.dispatch('taste/fetchTastes');
+        this.$store.dispatch('taste/fetchCustomTastes').then(() => {
+            let customTastes = [];
+            this.getCustomTastesIds.forEach((id) => {
+                customTastes.push(this.customTastes.byId[id].name);
+            });
+            this.customTastesInput = customTastes;
+        });
         this.$store.dispatch('taste/fetchMyTastes').then(() => {
             this.selectedIds = this.getMyTastesIds;
             this.selectedIds.forEach((item, i) => { this.selectedIds[i] = parseInt(item); });
