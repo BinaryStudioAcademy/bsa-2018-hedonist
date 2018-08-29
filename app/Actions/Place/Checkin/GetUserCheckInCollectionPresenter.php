@@ -62,6 +62,7 @@ class GetUserCheckInCollectionPresenter
         $checkInArray['place']['city'] = $this->cityPresenter
             ->present($checkIn->place->city);
         $checkInArray['place']['category'] = $this->categoryPresenter
+            ->withTags($checkIn->place->category)
             ->present($checkIn->place->category);
         $checkInArray['place']['localization'] = $this->localizationPresenter
             ->presentCollection($checkIn->place->localization);

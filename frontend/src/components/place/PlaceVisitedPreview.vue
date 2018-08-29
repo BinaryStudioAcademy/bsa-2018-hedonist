@@ -39,6 +39,22 @@
             </div>
             <div class="media">
                 <div class="media-content">
+                    <p>{{ place.checkin_count}} people checked in this place</p>
+                    <p>This place saved in this lists:</p>
+                    <b-taglist>
+                        <b-tag>test 1</b-tag>
+                        <b-tag>test 2</b-tag>
+                        <b-tag
+                            v-for="user_list in place.category.user_lists"
+                            :key="user_list.id"
+                        >
+                            {{ user_list.name }}
+                        </b-tag>
+                    </b-taglist>
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-content">
                     <b-taglist>
                         <b-tag
                             type="is-info"
