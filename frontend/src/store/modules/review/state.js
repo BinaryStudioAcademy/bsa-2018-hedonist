@@ -11,11 +11,14 @@ export default {
         };
     },
     reviews: {
-        allIds:[],
-        byId:{}
+        byId: {},
+        allIds:[]
     },
     users: {
-        allIds:[],
-        byId:{}
-    }
+        byId: {},
+        allIds:[]
+    },
+    usersWhoLikedReview: [],
+    usersWhoDislikedReview: [],
+    isUsersModalLoading: false
 };

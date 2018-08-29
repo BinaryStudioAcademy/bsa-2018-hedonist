@@ -1,0 +1,72 @@
+<template>
+    <div
+        :class="[
+            'rating',
+            'rating-' + ratingCategory
+        ]"
+    >
+        {{ value | formatRating }}
+        
+        <sup v-if="showMax">/10</sup>
+    </div>
+</template>
+
+<script>
+export default {
+    name: 'PlaceRating',
+
+    props: {
+        value: {
+            required: true,
+            type: Number
+        },
+
+        showMax: {
+            type: Boolean
+        },
+    },
+
+    computed: {
+        ratingCategory() {
+            let placeRating = this.value;
+
+            if (placeRating < 5) return 'bad';
+            if (placeRating >= 5 && placeRating < 7) return 'okay';
+            if (placeRating >= 7) return 'good';
+        },
+    },
+
+    filters: {
+        formatRating(number) {
+            return new Intl.NumberFormat(
+                'en-US', {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                }).format(number);
+        },
+    },
+};
+</script>
+
+<style lang="scss" scoped>
+.rating {
+    border-radius: 7px;
+    line-height: 48px;
+    font-size: 1.5rem;
+    color: #FFF;
+    text-align: center;
+    padding: 0 10px;
+
+    &-bad {
+        background-color: #FC8D9F;
+    }
+
+    &-okay {
+        background-color: #FFA500;
+    }
+
+    &-good {
+        background-color: #00B551;
+    }
+}
+</style>
