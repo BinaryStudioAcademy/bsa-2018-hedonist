@@ -198,10 +198,11 @@ class PlaceControllerTest extends ApiTestCase
             'longitude' => 24.0335,
             'category_id' => $category->id,
         ]);
+        $polygon = '24.45513654618651,50.27748174666036;24.481544578315862,49.53768103435635;23.200755020088906,49.53768103435635;23.21395903614922,50.07453177140417;24.45513654618651,50.27748174666036';
 
         $response =  $this->actingWithToken()->json(
             'GET',
-            "/api/v1/places/search?filter[category]=$category->id&filter[location]=$longitude,$latitude&page=1"
+            "/api/v1/places/search?filter[category]=$category->id&filter[location]=$longitude,$latitude&filter[polygon]=$polygon&page=1"
         );
         $arrayContent = $response->getOriginalContent();
         $response->assertJsonStructure([
@@ -235,7 +236,7 @@ class PlaceControllerTest extends ApiTestCase
 
         $response =  $this->actingWithToken()->json(
             'GET',
-            "/api/v1/places/search?filter[category]=&filter[location]=&page=1"
+            "/api/v1/places/search?filter[category]=&filter[location]=&filter[polygon]=&page=1"
         );
         $arrayContent = $response->getOriginalContent();
         $response->assertJsonStructure([

@@ -86,7 +86,13 @@ class PlaceController extends ApiController
     public function getCollection(Request $request, GetPlaceCollectionPresenter $presenter): JsonResponse
     {
         $placeResponse = $this->getPlaceCollectionByFiltersAction->execute(
-            new GetPlaceCollectionByFiltersRequest($request->input('page'), null, null, null)
+            new GetPlaceCollectionByFiltersRequest(
+                $request->input('page'),
+                null,
+                null,
+                null,
+                null
+            )
         );
         return $this->successResponse($presenter->present($placeResponse));
     }
@@ -153,7 +159,8 @@ class PlaceController extends ApiController
                     $request->input('page'),
                     $request->input('filter.category'),
                     $request->input('filter.location'),
-                    $request->input('filter.name')
+                    $request->input('filter.name'),
+                    $request->input('filter.polygon')
                 )
             );
 
