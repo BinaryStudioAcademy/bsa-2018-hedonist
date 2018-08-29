@@ -80,7 +80,6 @@ class GetPlaceCollectionPresenter
             $result['logo'] = '';
             if (!empty($this->photoPresenter->presentCollection($place->photos))) {
                 $result['logo'] = $this->photoPresenter->presentCollection($place->photos)[0]['img_url'];
-
             }
             $result['name'] = $this->localizationPresenter->presentCollection($place->localization)[0]['name'];
             $result['place'] = true;
