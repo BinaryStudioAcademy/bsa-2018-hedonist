@@ -1,6 +1,8 @@
 <template>
     <section class="columns">
+        <Preloader :active="isLoading" />
         <section class="column is-half">
+
             <CheckInsContainer :check-ins="checkIns" />
         </section>
 
@@ -11,20 +13,23 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
+import Preloader from '@/components/misc/Preloader';
 import CheckInsContainer from '@/components/history/CheckInsContainer';
 import HistoryMap from '@/components/history/HistoryMap';
 
 export default {
     name: 'CheckinsPage',
     components: {
+        Preloader,
         CheckInsContainer,
         HistoryMap
     },
-    
+
     computed: {
         ...mapState('history', [
             'checkIns',
+            'isLoading'
         ]),
     }
 };
