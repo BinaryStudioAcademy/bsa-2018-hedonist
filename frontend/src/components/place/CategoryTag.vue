@@ -5,7 +5,7 @@
         @click="onClick"
     >
         {{ tag.name }}
-        <button v-if="isActive" class="delete is-small"></button>
+        <button v-if="isActive" class="delete is-small" />
     </span>     
 </template>
 
@@ -23,7 +23,7 @@ export default {
     data() {
         return {
             isActive: false
-        }
+        };
     },
 
     methods: {

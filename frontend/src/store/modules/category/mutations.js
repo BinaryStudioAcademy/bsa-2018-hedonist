@@ -8,6 +8,6 @@ export default {
     },
 
     RESET_CATEGORY_TAGS: state => {
-        state.categoryTags = []
+        state.categoryTags = [];
     },
 };
