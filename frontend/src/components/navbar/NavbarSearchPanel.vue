@@ -34,9 +34,6 @@ export default {
     },
     computed: {
         ...mapState("search" , ["isLoading"]),
-//        showItemState () {
-//            return this.$store.state.isLoading
-//        }
     },
     components: {
         SearchCity,
@@ -47,12 +44,10 @@ export default {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
             selectSearchPlaceCategory: 'search/selectSearchPlaceCategory',
-            setLoading: 'search/setLoading'
+            setLoadingState: 'search/setLoadingState'
         }),
         search() {
-//            this.$store.commit('search/setLoading' , true);
-//                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  this.$store.state.isLoading = this.isLoading;
-            console.log(this.isLoading);
+            this.$store.dispatch('search/setLoadingState' , true);
             let location = '';
             let category = '';
             if (this.location !== null) {
@@ -69,11 +64,9 @@ export default {
                     page: 1
                 }
             });
-//            this.isLoading = false;
-//            setTimeout(() => {
-//                this.$store.dispatch('search/setLoading' , false);
-//                console.log(this.isLoading);
-//            }, 2000)
+            setTimeout(() => {
+                this.$store.dispatch('search/setLoadingState' , false);
+            }, 2000)
         }
     },
 };

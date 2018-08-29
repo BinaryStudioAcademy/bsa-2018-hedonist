@@ -9,8 +9,8 @@ export default {
         commit('SET_SEARCH_PLACE_CATEGORY', category);
     },
 
-    setLoading: ({commit} , pass) => {
-        commit('SET_TEST' , pass);
+    setLoadingState: ({commit} , loadState) => {
+        commit('SET_LOADING_STATE' , loadState);
     },
 
     loadCategories({context , commit}, name) {

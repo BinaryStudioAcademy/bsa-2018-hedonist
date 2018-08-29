@@ -17,7 +17,7 @@ export default {
         state.isLoading = true;
     },
 
-    SET_TEST : (state , pass) => state.isLoading = pass,
+    SET_LOADING_STATE: (state, loadState) => state.isLoading = loadState,
 
     SET_CURRENT_POSITION: (state, currentPosition) => {
         state.currentPosition = currentPosition;
