@@ -14,7 +14,6 @@ export default {
     },
 
     getById: state => id => {
-        console.log(state.userLists);
         return state.userLists.byId[id];
     },
 

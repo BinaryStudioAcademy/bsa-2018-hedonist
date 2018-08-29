@@ -2,10 +2,16 @@
     <div class="wrapper">
         <div class="columns">
             <div class="column is-half">
-                <ListHeader
-                        v-if="!isLoading"
-                        :listItem="userList"
-                />
+                <div class="content" v-if="!isLoading">
+                    <ListHeader
+                            :listItem="userList"
+                    />
+                    <ListPlaceItem
+                            v-for="place in denormolizedPlaces"
+                            :key="place.id"
+                            :place="place"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -14,10 +20,11 @@
 <script>
     import {mapGetters, mapActions, mapState} from 'vuex'
     import ListHeader from "../components/userList/ListHeader";
+    import ListPlaceItem from "../components/userList/ListPlaceItem";
 
     export default {
         name: "UserListPage",
-        components: {ListHeader},
+        components: {ListPlaceItem, ListHeader},
         created() {
             this.getListById(this.$route.params.id);
         },
@@ -26,16 +33,23 @@
         },
         computed: {
             ...mapGetters('userList', ['getById']),
-            ...mapState('userList', ['isLoading']),
+            ...mapState('userList', ['isLoading', 'places']),
             userList() {
                 return this.getById(this.$route.params.id);
+            },
+            denormolizedPlaces() {
+                const places = [];
+                for (index in this.listItem.places) {
+                    places.push(this.places.byId[index]);
+                }
+                return places;
             }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    .wrapper{
+    .wrapper {
         padding: 10px 20px;
     }
 </style>

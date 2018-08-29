@@ -6,9 +6,6 @@
                         :src="previewImage"
                 >
             </figure>
-            <figure v-else class="media-left image is-128x128">
-                <img :src="notFoundPhoto">
-            </figure>
             <div class="media-content">
                 <h3
                         class="title has-text-primary"
@@ -17,9 +14,9 @@
                         {{ localizedName }}
                     </router-link>
                 </h3>
-                <p class="place-city"><strong>{{ place.city.name }}</strong></p>
+                <p class="place-city"><strong>{{ city }}</strong></p>
                 <p class="place-category">
-                    <a href="#">{{ place.category.name }}</a>
+                    <a href="#">{{ category }}</a>
                 </p>
                 <p class="address">
                     {{ place.address }}
@@ -33,8 +30,8 @@
             </div>
         </div>
         <Review
-                v-if="place.review"
-                :review="place.review"
+                v-if="review"
+                :review="review"
         />
     </div>
 </template>
@@ -43,17 +40,29 @@
     import PlaceRating from '@/components/place/PlaceRating';
     import Review from '@/components/review/PlacePreviewReviewItem';
     import imagePlaceholder from '@/assets/placeholder_128x128.png';
+    import {mapState} from 'vuex';
 
     export default {
         name: "ListPlaceItem",
         components:{PlaceRating,Review},
         computed: {
+            ...mapState('userList',['reviews','categories','cities','photos']),
             localizedName() {
                 return this.place.localization[0].name;
             },
             previewImage(){
+                if(place.photos[0]){
+                    return this.place.photos.byId[place.photos[0]];
+                }
                 return imagePlaceholder;
+            },
+            city(){
+                return this.cities.byId[this.place.id];
+            },
+            category(){
+                return this.categories.byId[this.place.category];
             }
+
         },
         props: {
             place:{
