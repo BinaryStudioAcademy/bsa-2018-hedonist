@@ -80,7 +80,6 @@
                     {{ place.ratingCount || 'No' }} marks
                 </div>
 
-
                 <button
                     class="button is-primary rating"
                     @click="isCheckinModalActive = true"
