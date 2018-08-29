@@ -42,6 +42,7 @@
 <style lang="scss" scoped>
     .wrapper-list{
         background: #FFF;
+        margin-bottom: 1rem;
     }
 
     .list-image{
