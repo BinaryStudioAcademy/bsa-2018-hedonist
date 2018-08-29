@@ -1,6 +1,6 @@
 <template>
     <section class="columns">
-     <Preloader :active="isLoading" />
+        <Preloader :active="isLoading" />
         <section class="column is-half">
 
             <CheckInsContainer :check-ins="checkIns" />
