@@ -77,5 +77,19 @@ export default {
                     reject(error);
                 });
         });
+    },
+
+    saveUserList: (context, {userList, attachedPlaceIds}) => {
+        const formData = new FormData();
+        formData.append('image', userList.image);
+        formData.append('name', userList.name);
+        _.forEach(attachedPlaceIds, function(place) {
+            formData.append('attached_places[]', place);
+        });
+
+        return httpService.post('/user-lists/', formData)
+            .then( (result) => {
+                return result.data.data;
+            });
     }
 };

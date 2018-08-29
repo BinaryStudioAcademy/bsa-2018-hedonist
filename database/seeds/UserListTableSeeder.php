@@ -11,7 +11,7 @@ class UserListTableSeeder extends Seeder
 {
     const LISTS = [
         [
-            'name' => 'Favorite Lviv cafes',
+            'name' => 'Favourite Lviv cafes',
             'img_url' => 'https://therantingpanda.files.wordpress.com/2016/03/img_9130e.jpg',
             'city' => 'Lviv'
         ], [
