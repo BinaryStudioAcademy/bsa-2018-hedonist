@@ -51,7 +51,7 @@ class GetPlaceCollectionByFiltersAction
         }
         if (!is_null($polygon)) {
             try {
-                $polygon = new Polygon($polygon);
+                $polygon = Polygon::fromString($polygon);
             } catch (\InvalidArgumentException $e) {
                 throw PlacePolygonInvalidException::createFromMessage($e->getMessage());
             }
