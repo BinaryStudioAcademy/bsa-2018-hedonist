@@ -36,10 +36,10 @@ export default {
                 },
                 {
                     id: 2,
-                    name: 'checkin',
+                    name: 'checkins',
                     check: false,
                     isLoading: false,
-                    tooltipText: 'Click to see checked places'
+                    tooltipText: 'Click to see checkins places'
                 },
                 {
                     id: 3,
