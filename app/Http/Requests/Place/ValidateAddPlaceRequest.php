@@ -33,7 +33,7 @@ class ValidateAddPlaceRequest extends JsonRequest
             'category_id' => 'required|numeric',
             'city_id'     => 'required|numeric',
             'phone'       => [new Phone()],
-            'website'     => 'url|max:255'
+            'website'     => 'max:255'
         ];
     }
 }
