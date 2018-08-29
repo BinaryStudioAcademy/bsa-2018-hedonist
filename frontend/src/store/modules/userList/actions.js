@@ -111,10 +111,23 @@ export default {
                 });
                 allLists.byId[list.id] = list;
                 allLists.allIds.push(list.id);
-                context.commit('SET_USER_LISTS',allLists);
+                context.commit('SET_USER_LISTS', allLists);
                 context.commit('SET_PLACES', normalizerService.updateAllIds(places));
                 context.commit('SET_CITIES', normalizerService.updateAllIds(cities));
                 context.commit('SET_CATEGORIES', normalizerService.updateAllIds(categories));
+            })
+    },
+    saveUserList: (context, {userList, attachedPlaceIds}) => {
+        const formData = new FormData();
+        formData.append('image', userList.image);
+        formData.append('name', userList.name);
+        _.forEach(attachedPlaceIds, function(place) {
+            formData.append('attached_places[]', place);
+        });
+
+        return httpService.post('/user-lists/', formData)
+            .then( (result) => {
+                return result.data.data;
             });
     }
 };

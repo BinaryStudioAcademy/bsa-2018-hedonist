@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex';
+import {mapGetters, mapActions, mapState} from 'vuex';
 import Mapbox from 'mapbox-gl-vue';
 import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
@@ -57,6 +57,7 @@ export default {
     },
 
     created() {
+        this.$store.dispatch('history/setLoadingState', true);
         this.loadUserCoords().then((coords) => {
             this.setCurrentMapCenter(coords);
         });
@@ -91,6 +92,7 @@ export default {
             'loadCheckInPlaces',
             'setCurrentMapCenter',
             'mapInitialization',
+            'setLoadingState'
         ]),
 
         mapInitialize(map) {
@@ -99,7 +101,7 @@ export default {
         },
 
         updateMap(places) {
-            if(this.isMapLoaded && this.isPlacesLoaded) {
+            if (this.isMapLoaded && this.isPlacesLoaded) {
                 this.markerManager.setMarkersFromPlacesAndFit(...places);
             }
         },
@@ -122,17 +124,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    #map {
-        text-align: justify;
-        position: fixed;
-        top: 87px;
-        bottom: 0;
-        right: 0;
-        width: 50%;
 
-        @media screen and (max-width: 769px) {
-            position: absolute;
-            width: 100%;
-        }
-    }
 </style>

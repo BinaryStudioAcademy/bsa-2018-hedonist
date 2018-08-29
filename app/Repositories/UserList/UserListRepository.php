@@ -60,6 +60,7 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         $list->places()->attach($place->id);
     }
 
+
     public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection
     {
         foreach ($criterias as $criteria) {
@@ -69,5 +70,10 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         $this->resetCriteria();
 
         return $result;
+    }
+
+    public function syncPlaces(UserList $list, array $placeIds): void
+    {
+        $list->places()->sync($placeIds);
     }
 }

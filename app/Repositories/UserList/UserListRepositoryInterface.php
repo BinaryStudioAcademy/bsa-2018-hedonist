@@ -28,4 +28,6 @@ interface UserListRepositoryInterface
     public function attachPlace(UserList $userList, Place $place);
 
     public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection;
+
+    public function syncPlaces(UserList $userList, array $placeIds): void;
 }
