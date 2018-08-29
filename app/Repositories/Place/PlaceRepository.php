@@ -108,7 +108,7 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         return $result;
     }
 
-    public function getPlaceCheckinsCountByUser(int $placeId, int $userId)
+    public function getPlaceCheckinsCountByUser(int $placeId, int $userId) : int
     {
         return Checkin::places($placeId)->users($userId)->count();
     }

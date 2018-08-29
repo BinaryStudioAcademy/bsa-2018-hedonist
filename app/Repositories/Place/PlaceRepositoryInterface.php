@@ -29,5 +29,5 @@ interface PlaceRepositoryInterface
 
     public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection;
 
-    public function getPlaceCheckinsCountByUser(int $placeId, int $userId);
+    public function getPlaceCheckinsCountByUser(int $placeId, int $userId) : int;
 }
