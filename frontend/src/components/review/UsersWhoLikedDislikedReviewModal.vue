@@ -31,7 +31,7 @@
                             >
                         </a>
                     </div>
-                    <div class="user-name">{{ userFullname(user) }}</div>
+                    <div class="has-text-primary user-name">{{ userFullname(user) }}</div>
                 </div>
             </section>
             <footer class="modal-card-foot">
@@ -83,7 +83,7 @@ export default {
 
 <style lang="scss" scoped>
     .user-avatar {
-        border-radius: 5px;
+        border-radius: 50%;
         padding: 10px;
         float: left;
     }
