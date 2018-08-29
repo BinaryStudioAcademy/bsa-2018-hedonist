@@ -64,6 +64,8 @@ Route::prefix('v1')->group(function () {
                 ->name('removePlace');
 
             Route::get('/places/search', 'PlaceController@searchByFilters');
+
+            Route::get('/places/autocomplete/search', 'PlaceController@getCollectionForAutocomplete');
         });
 
         Route::prefix('reviews')->group(function () {
