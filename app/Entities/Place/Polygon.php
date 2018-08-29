@@ -9,7 +9,7 @@ class Polygon
 
     private $polygon = [];
 
-    private function __construct(array $polygon)
+    public function __construct(array $polygon)
     {
         $this->polygon = $polygon;
     }
