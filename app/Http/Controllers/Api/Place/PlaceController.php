@@ -180,8 +180,8 @@ class PlaceController extends ApiController
         try {
             $placeResponse = $this->getPlaceCollectionForAutoCompleteAction->execute(
                 new GetPlaceCollectionForAutoCompleteRequest(
-                    $request->input('filter.location'),
-                    $request->input('filter.name')
+                    $request->input('filter.name'),
+                    $request->input('filter.location')
                 )
             );
 

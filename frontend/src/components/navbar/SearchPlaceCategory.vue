@@ -62,7 +62,15 @@ export default {
                 }
                 this.loadPlaces({name: this.findItems.query, location: location})
                     .then( res => {
-                        this.findItems.data = res;
+                        let data = [];
+                        res.forEach(function (item, index) {
+                            data[index] = {
+                                logo: item['photo']['img_url'],
+                                name: item['localization'][0]['name'],
+                                place: true
+                            };
+                        });
+                        this.findItems.data = data;
                         this.findItems.isFetching = false;
                     }, response => {
                         this.findItems.isFetching = false;

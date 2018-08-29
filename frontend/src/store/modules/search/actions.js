@@ -13,8 +13,10 @@ export default {
         if (item !== null) {
             if (item.place !== undefined) {
                 commit('SET_SEARCH_PLACE', item);
+                commit('DELETE_SEARCH_PLACE_CATEGORY');
             } else {
                 commit('SET_SEARCH_PLACE_CATEGORY', item);
+                commit('DELETE_SEARCH_PLACE');
             }
         } else {
             commit('DELETE_SEARCH_PLACE');

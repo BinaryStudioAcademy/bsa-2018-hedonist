@@ -77,12 +77,11 @@ class GetPlaceCollectionPresenter
     public function presentForAutoComplete(GetPlaceCollectionForAutoCompleteResponse $placeResponse): array
     {
         return $placeResponse->getPlaceCollection()->map(function (Place $place) use ($placeResponse) {
-            $result['logo'] = '';
-            if (!empty($this->photoPresenter->presentCollection($place->photos))) {
-                $result['logo'] = $this->photoPresenter->presentCollection($place->photos)[0]['img_url'];
+            $result['photo']['img_url'] = '';
+            if (!empty($place->photos)) {
+                $result['photo'] = $this->photoPresenter->present($place->photos[0]);
             }
-            $result['name'] = $this->localizationPresenter->presentCollection($place->localization)[0]['name'];
-            $result['place'] = true;
+            $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
 
             return $result;
         })->toArray();

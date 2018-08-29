@@ -4,15 +4,15 @@ namespace Hedonist\Actions\Place\GetPlaceCollectionForAutoComplete;
 
 class GetPlaceCollectionForAutoCompleteRequest
 {
-    private $location;
     private $name;
+    private $location;
 
     public function __construct(
-        ?string $location,
-        ?string $name
+        string $name,
+        ?string $location
     ) {
-        $this->location = $location;
         $this->name = $name;
+        $this->location = $location;
     }
 
     public function getLocation(): ?string
@@ -20,7 +20,7 @@ class GetPlaceCollectionForAutoCompleteRequest
         return $this->location;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
