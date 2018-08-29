@@ -41,12 +41,12 @@ class TasteTest extends ApiTestCase
     public function test_add_custom_taste()
     {
         $response = $this->actingWithToken()->post(
-            "/api/v1/tastes", [
+            "/api/v1/tastes/custom", [
                 'name' => 'Custom taste'
             ]
         );
         $response->assertStatus(201);
-        $this->assertDatabaseHas('tastes', [
+        $this->assertDatabaseHas('custom_tastes', [
             'name' => 'Custom taste'
         ]);
     }
@@ -55,12 +55,12 @@ class TasteTest extends ApiTestCase
     {
         $taste = factory(Taste::class)->create();
         $response = $this->actingWithToken()->delete(
-            "/api/v1/tastes/$taste->id", [
+            "/api/v1/tastes/custom/$taste->id", [
                 'name' => 'Custom taste'
             ]
         );
         $response->assertOk();
-        $this->assertDatabaseMissing('tastes', [
+        $this->assertDatabaseMissing('custom_tastes', [
             'name' => $taste->id
         ]);
     }
