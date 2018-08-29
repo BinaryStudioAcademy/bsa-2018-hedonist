@@ -465,7 +465,7 @@
                     <div class="box">
                         <div class="level">
                             <div class="level-item">
-                                <h1>Do you really want to add new place <strong>"{{ newPlace.localization.en.name.trim() }}"?</strong></h1>
+                                <h1>Confirm add place <strong>"{{ newPlace.localization.en.name.trim() }}"?</strong></h1>
                             </div>
                         </div>
                         <div class="buttons is-centered">
