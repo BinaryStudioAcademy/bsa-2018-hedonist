@@ -9,7 +9,7 @@ use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
 use Hedonist\Actions\Presenters\Place\PlacePresenter;
 use Hedonist\Entities\Place\Checkin;
 use Hedonist\Entities\Place\RatingAverage;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 
 class GetUserCheckInCollectionPresenter
 {
@@ -67,10 +67,26 @@ class GetUserCheckInCollectionPresenter
             ->presentCollection($checkIn->place->localization);
         $checkInArray['place']['photos'] = $this->photoPresenter
             ->presentCollection($checkIn->place->photos);
-        $checkInArray['place']['checkin_count'] = $checkIn->place->ratings->count();
-        $checkInArray['place']['lists'] = $checkIn->place->lists->where('user_id', Auth::id());
-
+        $checkInArray['place']['checkin_count'] = $checkIn->place->checkin_count;
+        $checkInArray['place']['user_lists'] = $this->presentLists($checkIn->place->user_lists);
 
         return $checkInArray;
+    }
+
+    private function presentLists(Collection $lists) : array
+    {
+        $array = [];
+
+        foreach ($lists as $list)
+        {
+            $array[] = [
+                'id' => $list->id,
+                'user_id' => $list->user_id,
+                'name' => $list->name,
+                'img_url' => $list->img_url,
+            ];
+        }
+
+        return $array;
     }
 }
