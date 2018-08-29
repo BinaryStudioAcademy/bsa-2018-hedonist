@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\UserTaste;
 
+use Hedonist\Entities\User\CustomTaste;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\Taste;
 use Tests\Feature\Api\ApiTestCase;
@@ -53,15 +54,12 @@ class TasteTest extends ApiTestCase
 
     public function test_delete_custom_taste()
     {
-        $taste = factory(Taste::class)->create();
-        $response = $this->actingWithToken()->delete(
-            "/api/v1/tastes/custom/$taste->id", [
-                'name' => 'Custom taste'
-            ]
-        );
+        $customTaste = factory(CustomTaste::class)->create();
+        $response = $this->actingWithToken(User::find($customTaste->user_id))
+            ->delete("/api/v1/tastes/custom/$customTaste->id");
         $response->assertOk();
         $this->assertDatabaseMissing('custom_tastes', [
-            'name' => $taste->id
+            'name' => $customTaste->id
         ]);
     }
 }
