@@ -7,7 +7,7 @@
         >
             <UsersWhoLikedDislikedReviewModal
                 :users="usersWhoLikedReview"
-                action="liked"
+                title="Liked"
                 @close="close"
             />
         </b-modal>
@@ -18,7 +18,7 @@
         >
             <UsersWhoLikedDislikedReviewModal
                 :users="usersWhoDislikedReview"
-                action="disliked"
+                title="Disliked"
                 @close="close"
             />
         </b-modal>
