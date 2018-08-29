@@ -1,8 +1,6 @@
 import normalizer from '../../../services/common/normalizerService';
 import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
-
-
 export default {
     ADD_REVIEW: (state, review) => {
         const newReview = normalizer.normalize( { data: review }, state.getReviewSchema());
@@ -12,6 +10,20 @@ export default {
             newReview.byId
         );
         state.reviews.allIds.push(review.id);
+    },
+
+    SET_USERS_WHO_LIKED_REVIEW: (state, users) => {
+        state.usersWhoLikedReview = users;
+        state.isUsersModalLoading = false;
+    },
+
+    SET_USERS_WHO_DISLIKED_REVIEW: (state, users) => {
+        state.usersWhoDislikedReview = users;
+        state.isUsersModalLoading = false;
+    },
+
+    SET_USERS_MODAL_LOADING: (state, loading) => {
+        state.isUsersModalLoading = loading;
     },
 
     SET_CURRENT_PLACE_REVIEWS: (state, reviews) => {
@@ -59,5 +71,3 @@ export default {
         state.reviews.byId[reviewId].photos = photos;
     }
 };
-
-

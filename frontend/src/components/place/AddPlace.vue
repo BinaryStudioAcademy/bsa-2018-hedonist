@@ -238,19 +238,25 @@
                 </b-tab-item>
 
                 <b-tab-item label="Location" :disabled="activeTab !== 2">
-                    <div class="map-wrp">
-                        <mapbox
-                            :access-token="mapboxToken"
-                            :map-options="{
-                                style: mapboxStyle,
-                                center: {
-                                    lat: 50.4501,
-                                    lng: 30.5241
-                                },
-                                zoom: 5
-                            }"
-                            @map-load="mapLoaded"
-                        />
+                    <div class="tab-wrp">
+                        <div class="map-wrp">
+                            <mapbox
+                                :access-token="mapboxToken"
+                                :map-options="{
+                                    style: mapboxStyle,
+                                    center: {
+                                        lat: 50.4501,
+                                        lng: 30.5241
+                                    },
+                                    zoom: 5
+                                }"
+                                :scale-control="{
+                                    show: true,
+                                    position: 'top-left'
+                                }"
+                                @map-load="mapLoaded"
+                            />
+                        </div>
                     </div>
 
                     <div class="buttons is-centered location-buttons">
@@ -267,7 +273,7 @@
                                     <b-select v-model="newPlace.category">
                                         <option value="" selected disabled>Select a category</option>
                                         <option
-                                            v-for="option in categories"
+                                            v-for="option in allCategories"
                                             :key="option.id"
                                             :value="option"
                                         >
@@ -284,7 +290,7 @@
                                         <b-select v-model="selectedTag">
                                             <option value="" selected disabled>Add tags</option>
                                             <option
-                                                v-for="option in category_tags"
+                                                v-for="option in categoryTags.byId"
                                                 :key="option.id"
                                                 :value="option"
                                             >
@@ -326,15 +332,15 @@
                 <b-tab-item label="Features" :disabled="activeTab !== 4">
                     <div class="columns is-centered">
                         <div class="column is-half">
-                            <template v-for="(feature, index) in features">
-                                <div :key="index" class="level is-flex-mobile">
+                            <template v-for="feature in allFeatures">
+                                <div :key="feature.id" class="level is-flex-mobile">
                                     <div class="level-left">
                                         <span class="label">{{ feature.name }}</span>
                                     </div>
                                     <div class="level-right">
                                         <b-switch
-                                            v-model="feature.status"
                                             type="is-success"
+                                            @input="onFeatureSwitch(feature)"
                                         />
                                     </div>
                                 </div>
@@ -350,81 +356,103 @@
 
                 <b-tab-item label="Hours" :disabled="activeTab !== 5">
                     <div class="tab-wrp">
-                        <div class="level is-centered">
-                            <div class="level-item">
-                                <b-field class="is-block-mobile">
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="mo"
-                                    >
-                                        Monday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="tu"
-                                    >
-                                        Tuesday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="we"
-                                    >
-                                        Wednesday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="th"
-                                    >
-                                        Thursday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="fr"
-                                    >
-                                        Friday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="sa"
-                                    >
-                                        Saturday
-                                    </b-checkbox-button>
-                                    <b-checkbox-button
-                                        size="is-fullwidth"
-                                        v-model="weekdays"
-                                        native-value="su"
-                                    >
-                                        Sunday
-                                    </b-checkbox-button>
-                                </b-field>
+                        <div class="columns is-vcentered">
+                            <div class="column is-half is-left">
+                                <div class="worktime-wrp">
+                                    <b-message>
+                                        <p><strong>Monday:  </strong>from <strong>{{ displayTime(newPlace.worktime['mo'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['mo'].end) }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Tuesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['tu'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['tu'].end) }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Wednesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['we'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['we'].end) }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Thursday:  </strong>from <strong>{{ displayTime(newPlace.worktime['th'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['th'].end) }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Friday:  </strong>from <strong>{{ displayTime(newPlace.worktime['fr'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['fr'].end) }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Saturday:  </strong>from <strong>{{ displayTime(newPlace.worktime['sa'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['sa'].end) }}</strong> o'clock</p>
+                                    </b-message>
+                                    <b-message>
+                                        <p><strong>Sunday:  </strong>from <strong>{{ displayTime(newPlace.worktime['su'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['su'].end) }}</strong> o'clock</p>
+                                    </b-message>
+                                </div>
                             </div>
-                        </div>
-                        <div class="columns is-centered">
-                            <div class="column is-half">
-                                <div class="level">
-                                    <div class="level-item">
+
+                            <div class="column is-half is-right">
+                                <div class="columns is-centered">
+                                    <div class="column is-half">
+                                        <b-field class="is-block">
+                                            <b-checkbox-button
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="mo"
+                                            >
+                                                Monday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="tu"
+                                            >
+                                                Tuesday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="we"
+                                            >
+                                                Wednesday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="th"
+                                            >
+                                                Thursday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="fr"
+                                            >
+                                                Friday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="sa"
+                                            >
+                                                Saturday
+                                            </b-checkbox-button>
+                                            <b-checkbox-button
+                                                size="is-fullwidth"
+                                                v-model="weekdays"
+                                                native-value="su"
+                                            >
+                                                Sunday
+                                            </b-checkbox-button>
+                                        </b-field>
+
                                         <b-field label="from">
                                             <b-timepicker v-model="timeStart" :disabled="isDaySelected" />
                                         </b-field>
-                                    </div>
-                                    <div class="level-item">
-                                        <b-field label="to">
+                                        <b-field label="till">
                                             <b-timepicker v-model="timeEnd" :disabled="isDaySelected" />
                                         </b-field>
+
+                                        <div class="level">
+                                            <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="level is-centered">
-                        <div class="level-item"><a class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
                     </div>
 
                     <div class="buttons is-centered">
@@ -435,11 +463,14 @@
 
                 <b-tab-item label="Add place" :disabled="activeTab !== 6">
                     <div class="box">
-                        <h1>Do you really want to add new place <strong>"{{ newPlace.localization.en.name }}"?</strong></h1>
-                        <div class="buttons is-right">
-                            <span @click="onAdd()" class="button is-medium is-success">Add</span>
+                        <div class="level">
+                            <div class="level-item">
+                                <h1>Do you really want to add new place <strong>"{{ newPlace.localization.en.name.trim() }}"?</strong></h1>
+                            </div>
+                        </div>
+                        <div class="buttons is-centered">
                             <span @click="activeTab--" class="button is-warning">Previous</span>
-                            <span @click="onCancel()" class="button is-danger">Cancel</span>
+                            <span @click="onAdd()" class="button is-medium is-success">Add</span>
                         </div>
                     </div>
                 </b-tab-item>
@@ -449,6 +480,8 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex';
+import moment from 'moment';
 import Mapbox from 'mapbox-gl-vue';
 import SearchCity from '../navbar/SearchCity';
 import mapSettingsService from '@/services/map/mapSettingsService';
@@ -475,6 +508,7 @@ export default {
                 zip: '',
                 city: '',
                 address: '',
+                photos: [],
                 location: {},
                 category: '',
                 tags: [],
@@ -484,74 +518,54 @@ export default {
                 twitter: '',
                 facebook: '',
                 instagram: '',
-                photos: []
-            },
-            categories: {},
-            selectedTag: '',
-            category_tags: [],
-            weekdays: [],
-            timeStart: new Date(),
-            timeEnd: new Date(),
-            features: [
-                {
-                    name: 'wi-fi',
-                    status: false
-                },
-                {
-                    name: 'hookah',
-                    status: false
-                },
-                {
-                    name: 'music',
-                    status: false
-                },
-                {
-                    name: 'credit cards',
-                    status: false
-                },
-                {
-                    name: 'wheelchair accessible',
-                    status: false
-                },
-                {
-                    name: 'reservations',
-                    status: false
-                },
-                {
-                    name: 'parking',
-                    status: false
-                },
-                {
-                    name: 'restroom',
-                    status: false
-                },
-                {
-                    name: 'take-out',
-                    status: false
-                },
-                {
-                    name: 'delivery',
-                    status: false
+                worktime: {
+                    'mo': {
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    'tu': {
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    'we': {
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    'th': {
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    'fr': {
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    'sa': {
+                        start: moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end: moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    'su': {
+                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
+                    }
                 }
-            ]
+            },
+            selectedTag: '',
+            weekdays: [],
+            timeStart: moment().set({'hours': 10, 'minutes': 0}).toDate(),
+            timeEnd: moment().set({'hours': 21, 'minutes': 0}).toDate(),
         };
     },
 
     created() {
-        this.$store.dispatch('category/getAllCategories')
-            .then((result) => {
-                this.categories = result;
-            });
+        this.$store.dispatch('category/fetchAllCategories');
+        this.$store.dispatch('features/fetchAllFeatures');
     },
 
     watch: {
         'newPlace.category': function (categoryObject) {
             if (_.isEmpty(categoryObject)) { return; }
             this.newPlace.tags = [];
-            this.$store.dispatch('category/getTagsByCategory', categoryObject.id)
-                .then((result) => {
-                    this.category_tags = result;
-                });
+            this.$store.dispatch('category/fetchCategoryTags', categoryObject.id);
             this.selectedTag = '';
         },
 
@@ -567,6 +581,15 @@ export default {
     },
 
     computed: {
+        ...mapState('category', ['allCategories']),
+        ...mapState('category', ['categoryTags']),
+        ...mapState('features', ['allFeatures']),
+
+        ...mapGetters('auth', ['getAuthenticatedUser']),
+        user() {
+            return this.getAuthenticatedUser;
+        },
+
         isCategorySelected: function() {
             return !!this.newPlace.category;
         },
@@ -608,20 +631,36 @@ export default {
             this.selectedTag = '';
         },
 
-        onAdd() {
-            console.debug(this.newPlace);
+        onFeatureSwitch(featureObject) {
+            let index = this.newPlace.features.indexOf(featureObject);
+            if (index === -1) {
+                this.newPlace.features.push(featureObject);
+            } else {
+                this.newPlace.features.splice(index, 1);
+            }
         },
 
-        onCancel() {
-            this.newPlace = {};
-            this.$router.push({ name: 'home' });
-        }
+        onWorkTimeAdd() {
+            this.weekdays.forEach((item) => {
+                this.newPlace.worktime[item].start = moment(this.timeStart).utc();
+                this.newPlace.worktime[item].end = moment(this.timeEnd).utc();
+            });
+            this.weekdays = [];
+            this.timeStart = moment().set({'hours': 10, 'minutes': 0}).toDate();
+            this.timeEnd = moment().set({'hours': 21, 'minutes': 0}).toDate();
+        },
+        displayTime(utcTime) {
+            let localTime = utcTime.clone();
+            localTime.local();
+            return localTime.format('HH:mm');
+        },
+
+        onAdd() {}
     }
 };
 </script>
 
 <style lang="scss" scoped>
-
     .section {
         padding-top: 24px;
     }
