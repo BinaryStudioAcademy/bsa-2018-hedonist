@@ -2,6 +2,28 @@ import httpService from '@/services/common/httpService';
 import normalizerService from '@/services/common/normalizerService';
 
 export default {
+    addNewPlace: (context, payload) => {
+        return new Promise((resolve, reject) => {
+            let data = new FormData();
+            data.append('longitude', payload.place.location.lng);
+            data.append('latitude', payload.place.location.lat);
+            data.append('city', JSON.stringify(payload.place.city));
+            data.append('zip', payload.place.zip);
+            data.append('address', payload.place.address);
+            data.append('phone', payload.place.phone);
+            data.append('website', payload.place.website);
+            data.append('creator_id', payload.user.id);
+            data.append('category_id', payload.place.category.id);
+            httpService.post('/places', data)
+                .then(() => {
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        })
+    },
+
     setPlaceRating: (context, { placeId, rating }) => {
         return new Promise((resolve, reject) => {
             return httpService.post('/places/' + placeId + '/ratings', {
