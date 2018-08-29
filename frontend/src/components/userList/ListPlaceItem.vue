@@ -1,5 +1,5 @@
 <template>
-    <div class="container place-item" v-if="active">
+    <div class="container place-item">
         <div class="media">
             <figure class="media-left image is-128x128">
                 <img
@@ -51,16 +51,19 @@
                 return this.place.localization[0].name;
             },
             previewImage(){
-                if(place.photos[0]){
-                    return this.place.photos.byId[place.photos[0]];
+                if(this.place.photos[0]){
+                    return this.photos.byId[this.place.photos[0]].img_url;
                 }
                 return imagePlaceholder;
             },
             city(){
-                return this.cities.byId[this.place.id];
+                return this.cities.byId[this.place.city].name;
             },
             category(){
-                return this.categories.byId[this.place.category];
+                return this.categories.byId[this.place.category].name;
+            },
+            review(){
+                return this.reviews.byId[this.place.review];
             }
 
         },
