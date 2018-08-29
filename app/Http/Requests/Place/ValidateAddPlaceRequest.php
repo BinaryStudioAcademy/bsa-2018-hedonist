@@ -39,6 +39,8 @@ class ValidateAddPlaceRequest extends JsonRequest
             'twitter'      => 'url|max:255',
             'menu_url'     => 'url|max:255',
             'category_id'  => 'required|numeric',
+            'tags'         => 'array',
+            'features'     => 'array',
             'creator_id'   => 'required|numeric'
         ];
     }

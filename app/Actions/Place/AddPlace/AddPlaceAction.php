@@ -4,7 +4,6 @@ namespace Hedonist\Actions\Place\AddPlace;
 
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\Location;
-use Hedonist\Entities\Place\PlaceInfo;
 use Illuminate\Support\Facades\Storage;
 use Hedonist\Entities\Place\PlacePhoto;
 use Hedonist\Services\FileNameGenerator;
@@ -36,9 +35,9 @@ class AddPlaceAction
         PlacePhotoRepositoryInterface $placePhotoRepository,
         PlaceCategoryRepositoryInterface $placeCategoryRepository
     ) {
-        $this->placeRepository = $placeRepository;
         $this->userRepository = $userRepository;
         $this->cityRepository = $cityRepository;
+        $this->placeRepository = $placeRepository;
         $this->placePhotoRepository = $placePhotoRepository;
         $this->placeCategoryRepository = $placeCategoryRepository;
     }
@@ -48,7 +47,7 @@ class AddPlaceAction
         $creator = $this->userRepository->getById($placeRequest->getCreatorId());
         $category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
 
-        /* firstOrCreate */
+        /* City - firstOrCreate */
         $city = $this->cityRepository->findByNameAndLocation(
             $placeRequest->getCity()['name'],
             $placeRequest->getCity()['lng'],
@@ -86,6 +85,7 @@ class AddPlaceAction
             'website'     => $placeRequest->getWebsite(),
         ]));
 
+        /* PlaceInfo */
         $place->placeInfo()->create([
             'place_id'     => $place->id,
             'work_weekend' => $placeRequest->getWorkWeekend(),
@@ -95,6 +95,13 @@ class AddPlaceAction
             'menu_url'     => $placeRequest->getMenuUrl()
         ]);
 
+        /* PlaceTags */
+        $this->placeRepository->syncTags($place, $placeRequest->getTags());
+
+        /* PlaceFeatures */
+        $this->placeRepository->syncFeatures($place, $placeRequest->getFeatures());
+
+        /* PlacePhotos */
         foreach ($placeRequest->getPhotos() as $photo) {
             $fileNameGenerator = new FileNameGenerator($photo);
             $fileName = $fileNameGenerator->generateFileName();

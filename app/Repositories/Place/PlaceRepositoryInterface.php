@@ -28,4 +28,8 @@ interface PlaceRepositoryInterface
     public function deleteById(int $id): void;
 
     public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection;
+
+    public function syncTags(Place $place, array $tags): void;
+
+    public function syncFeatures(Place $place, array $features): void;
 }

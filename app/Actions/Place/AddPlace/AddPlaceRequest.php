@@ -6,6 +6,8 @@ class AddPlaceRequest
 {
     private $creatorId;
     private $categoryId;
+    private $tags;
+    private $features;
     private $city;
     private $longitude;
     private $latitude;
@@ -23,6 +25,8 @@ class AddPlaceRequest
     public function __construct(
         int $creatorId,
         int $categoryId,
+        ?array $tags,
+        ?array $features,
         String $city,
         float $longitude,
         float $latitude,
@@ -35,10 +39,12 @@ class AddPlaceRequest
         string $twitter,
         string $menu_url,
         int $work_weekend,
-        array $photos
+        ?array $photos
     ) {
         $this->creatorId = $creatorId;
         $this->categoryId = $categoryId;
+        $this->tags = $tags;
+        $this->features = $features;
         $this->city = $city;
         $this->longitude = $longitude;
         $this->latitude = $latitude;
@@ -62,6 +68,16 @@ class AddPlaceRequest
     public function getCategoryId(): int
     {
         return $this->categoryId;
+    }
+
+    public function getTags(): ?array
+    {
+        return $this->tags;
+    }
+
+    public function getFeatures(): ?array
+    {
+        return $this->features;
     }
 
     public function getCity(): array
@@ -129,7 +145,7 @@ class AddPlaceRequest
         return $this->work_weekend;
     }
 
-    public function getPhotos(): array
+    public function getPhotos(): ?array
     {
         return $this->photos;
     }
@@ -139,6 +155,8 @@ class AddPlaceRequest
         return [
             'creator_id'    => $this->getCreatorId(),
             'category_id'   => $this->getCategoryId(),
+            'tags'          => $this->getTags(),
+            'features'      => $this->getFeatures(),
             'city'          => $this->getCity(),
             'longitude'     => $this->getLongitude(),
             'latitude'      => $this->getLatitude(),

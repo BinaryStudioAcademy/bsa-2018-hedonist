@@ -108,6 +108,8 @@ class PlaceController extends ApiController
             $placeResponse = $this->addPlaceAction->execute(new AddPlaceRequest(
                 $request->creator_id,
                 $request->category_id,
+                $request->tags,
+                $request->features,
                 $request->city,
                 $request->longitude,
                 $request->latitude,

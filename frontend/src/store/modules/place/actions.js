@@ -22,6 +22,12 @@ export default {
             data.append('menu_url', payload.place.menu);
             data.append('work_weekend', payload.place.workWeekend);
             data.append('category_id', payload.place.category.id);
+            _.forEach(payload.place.tags, (tag) => {
+                data.append('tags[]', tag.id);
+            });
+            _.forEach(payload.place.features, (feature) => {
+                data.append('features[]', feature.id);
+            });
             data.append('creator_id', payload.user.id);
             httpService.post('/places', data)
                 .then(() => {

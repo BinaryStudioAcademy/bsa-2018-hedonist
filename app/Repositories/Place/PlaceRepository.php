@@ -104,4 +104,14 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
 
         return $this->all();
     }
+
+    public function syncTags(Place $place, array $tags): void
+    {
+        $place->tags()->sync($tags);
+    }
+
+    public function syncFeatures(Place $place, array $features): void
+    {
+        $place->features()->sync($features);
+    }
 }
