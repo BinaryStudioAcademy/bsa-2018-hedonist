@@ -49,7 +49,7 @@ class GetUserListPresenter
         $this->userPresenter = $userPresenter;
     }
 
-    private function presentPlace(Collection $collection,User $user): array
+    private function presentPlace(Collection $collection, User $user): array
     {
         return $collection->map(function (Place $place) use ($user) {
             $result = $this->placePresenter->present($place);
@@ -87,7 +87,7 @@ class GetUserListPresenter
             'img_url' => $userList->img_url,
             'updated_at' => $userList->updated_at->format('Y-m-d')
         ];
-        $result['places'] = $this->presentPlace($response->getPlaces(),$response->getUser());
+        $result['places'] = $this->presentPlace($response->getPlaces(), $response->getUser());
         $result['user'] = $this->userPresenter->present($userList->user);
         return $result;
     }
