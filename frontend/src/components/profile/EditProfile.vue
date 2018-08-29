@@ -3,7 +3,8 @@
         <div class="columns">
             <div class="column is-one-third">
                 <figure class="image avatar">
-                    <img :src="user.avatar_url">
+                    <img v-if="user.avatar_url" :src="user.avatar_url">
+                    <i v-else class="fas fa-file-image fa-8x" />
                 </figure>
                 <b-field class="file is-fullwidth">
                     <b-upload
@@ -58,8 +59,19 @@
                     />
                 </b-field>
 
-                <b-field label="Phone">
-                    <b-input v-model.trim="user.phone_number" />
+                <b-field
+                    label="Phone"
+                    :type="isPhoneInvalid ? 'is-danger' : ''"
+                    :message="isPhoneInvalid
+                        ? 'Please, enter a valid phone, e.g. +380950000000 or 380950000000'
+                    : '' "
+                >
+                    <b-input
+                        v-model.trim="user.phone_number"
+                        @focus="phoneOnFocus"
+                        @blur = "validatePhone"
+                        @keydown.capture.native="validateCharacter"
+                    />
                 </b-field>
 
                 <b-field 
@@ -109,6 +121,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import phoneValidationService from '@/services/common/phoneValidationService';
 
 export default {
     name: 'EditProfile',
@@ -129,7 +142,8 @@ export default {
                 instagram_url: '',
                 facebook_url: '',
                 twitter_url: '',
-            }
+            },
+            isPhoneInvalid:false
         };
     },
     created() {
@@ -228,14 +242,27 @@ export default {
                 let file = this.files[0];
                 formData.append('avatar', file, file.name);
             }
-            if (this.oldPassword !== '' && this.newPassword !== '') {
-                formData.append('old_password', this.convertNullToEmptyString(this.oldPassword));
-                formData.append('new_password', this.convertNullToEmptyString(this.newPassword));
-            }
+            formData.append('old_password', this.convertNullToEmptyString(this.oldPassword));
+            formData.append('new_password', this.convertNullToEmptyString(this.newPassword));
+
             return formData;
         },
         convertNullToEmptyString(value) {
             return value == null ? '' : value;
+        },
+        validateCharacter(event){
+            if(event.ctrlKey){
+                return;
+            }
+            if(!phoneValidationService.isValidPhoneCharacter(event.key)){
+                event.preventDefault();
+            }
+        },
+        validatePhone(){
+            this.isPhoneInvalid = !phoneValidationService.isPhone(this.user.phone_number);
+        },
+        phoneOnFocus(){
+            this.isPhoneInvalid = false;
         }
     }
 };
@@ -250,6 +277,7 @@ export default {
     }
 
     .avatar {
+        text-align: center;
         margin-bottom: 10px;
     }
 

@@ -52,6 +52,10 @@
                             <i class="fab fa-facebook-square" />
                             Share on Facebook
                         </a>
+                        <a :href="'http://twitter.com/share?text='+localizedName+'&hashtags=hedonist,binaryacademy&url=' + pageLink" target="_blank">
+                            <i class="fab fa-twitter-square" />
+                            Share on Twitter
+                        </a>
                     </b-dropdown-item>
                 </b-dropdown>
             </div>
@@ -64,7 +68,7 @@
                             @click="changeTab(1)"
                             :class="{ 'is-active' : activeTab === 1}"
                         >
-                            <a><span>Reviews ({{ reviewsCount }})</span></a>
+                            <a><span>Reviews ({{ getReviewsCount }})</span></a>
                         </li>
                         <li
                             @click="changeTab(2)"
@@ -76,26 +80,13 @@
                 </nav>
             </div>
             <div class="column is-one-third place-rate">
-                <div class="place-rate__mark">
-                    <span class="place-rate__mark-value">
-                        {{ place.rating | formatRating }}
-                    </span>
-                    <sup>
-                        /
-                        <span>10</span>
-                    </sup>
-                </div>
+                <PlaceRating
+                    v-if="place.rating"
+                    :value="Number(place.rating)"
+                    :show-max="true"
+                />
                 <div class="place-rate__mark-count">
                     {{ place.ratingCount || 'No' }} marks
-                </div>
-                <div class="place-rate__preference">
-                    <LikeDislikeButtons
-                        :likes="place.likes"
-                        :dislikes="place.dislikes"
-                        :status="liked"
-                        @like="like"
-                        @dislike="dislike"
-                    />
                 </div>
             </div>
         </div>
@@ -105,10 +96,10 @@
 <script>
 import PlacePhotoList from './PlacePhotoList';
 import PlaceCheckinModal from './PlaceCheckinModal';
-import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 import { STATUS_NONE } from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
-
+import { mapGetters } from 'vuex';
+import PlaceRating from './PlaceRating';
 
 export default {
     name: 'PlaceTopInfo',
@@ -116,7 +107,7 @@ export default {
     components: {
         PlacePhotoList,
         PlaceCheckinModal,
-        LikeDislikeButtons
+        PlaceRating,
     },
 
     props: {
@@ -154,6 +145,8 @@ export default {
     },
 
     computed: {
+        ...mapGetters('review', [ 'getReviewsCount' ]),
+
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
         },
@@ -164,10 +157,6 @@ export default {
 
         photosCount() {
             return this.place.photos.length;
-        },
-
-        reviewsCount() {
-            return this.place.reviews.length;
         },
 
         liked() {
@@ -188,7 +177,7 @@ export default {
 
         placeMarker() {
             return defaultMarker;
-        }
+        },
     },
 
     methods: {
@@ -246,38 +235,10 @@ export default {
             .place-rate {
                 display: flex;
                 align-items: center;
-                &__mark {
-                    margin-left: auto;
-                    margin-right: 5px;
-                    border-radius: 3px;
-                    color: white;
-                    background-color: #00B551;
-                    padding: 4px;
-                    white-space: nowrap;
-                }
-                &__mark-value {
-                   margin:0 5px;
-                }
+                justify-content: center;
                 &__mark-count {
                     font-style: italic;
                     white-space: nowrap;
-                    padding: 0 10px;
-                }
-                &__preference {
-                    display: flex;
-                    margin-left: auto;
-                    margin-right: 10px;
-                    .likable {
-                        cursor: pointer;
-                        &:hover {
-                            color: black;
-                        }
-                    }
-                    .fa-bolt {
-                        top: -5%;
-                        left: 2%;
-                        font-size: 70%;
-                    }
                 }
             }
         }
@@ -322,20 +283,6 @@ export default {
                 .place-rate {
                     &__mark-count{
                         display: none;
-                    }
-                }
-            }
-        }
-    }
-
-    @media screen and (max-width: 769px) {
-        .place-top-info {
-            &__sidebar {
-                .place-rate {
-                    &__mark {
-                        margin-left: 20px;
-                        margin-right: 5px;
-                        border-radius: 3px;
                     }
                 }
             }

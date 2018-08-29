@@ -19,10 +19,6 @@
                     center: currentCenter,
                     zoom: 9
                 }"
-                :scale-control="{
-                    show: true,
-                    position: 'top-left'
-                }"
                 @map-init="mapInitialize"
                 @map-load="mapLoaded"
             />
@@ -34,6 +30,7 @@
 import { mapState, mapGetters, mapActions } from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import SearchFilterPlace from './SearchFilterPlace';
 import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
@@ -55,7 +52,8 @@ export default {
             map: {},
             markerManager: null,
             mapboxToken: mapSettingsService.getMapboxToken(),
-            mapboxStyle: mapSettingsService.getMapboxStyle()
+            mapboxStyle: mapSettingsService.getMapboxStyle(),
+            draw: {}
         };
     },
     created() {
@@ -83,6 +81,7 @@ export default {
             this.mapInitialization();
         },
         mapLoaded(map) {
+            map = this.addDrawForMap(map);
             this.markerManager = markerManager.getService(map);
             this.isMapLoaded = true;
         },
@@ -111,15 +110,47 @@ export default {
                 this.markerManager.setMarkersFromPlacesAndFit(...this.places);
             }
         },
+        addDrawForMap(map) {
+            this.draw = new MapboxDraw({
+                displayControlsDefault: false,
+                controls: {
+                    polygon: true,
+                    trash: true
+                }
+            });
+            map.addControl(this.draw, 'top-left');
+
+            map.on('draw.create', this.updateSearchArea);
+            map.on('draw.delete', this.updateSearchArea);
+            map.on('draw.update', this.updateSearchArea);
+
+            return map;
+        },
+        updateSearchArea() {
+            let data = this.draw.getAll();
+            let polygonCoordinates = [];
+            if (data.features.length > 0) {
+                data.features.forEach(function (item) {
+                    polygonCoordinates = item.geometry.coordinates[0];
+                });
+            }
+            // TODO add action for find place by 'polygonCoordinates'
+        }
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {
-            this.updateMap();
+            if (this.isPlacesLoaded) {
+                this.updateMap();
+            }
         },
         isPlacesLoaded: function (oldVal, newVal) {
-            this.updateMap();
+            if (this.isPlacesLoaded) {
+                this.updateMap();
+            }
         },
         '$route' (to, from) {
+            this.isPlacesLoaded = false;
+
             this.$store.dispatch('place/fetchPlaces', to.query)
                 .then(() => {
                     this.isPlacesLoaded = true;

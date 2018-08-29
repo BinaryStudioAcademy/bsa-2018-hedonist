@@ -72,7 +72,7 @@ export default {
 
     methods: {
         ...mapActions('place', ['setPlaceRating']),
-        ...mapActions('user/history', ['checkIn']),
+        ...mapActions('history', ['checkIn']),
 
         isSelected: function(rating) {
             if (this.place.myRating === rating) {
@@ -104,9 +104,8 @@ export default {
                 });
 
             this.setPlaceRating({
-                place_id: this.place.id,
-                rating: value,
-                user_id: this.getAuthenticatedUser.id
+                placeId: this.place.id,
+                rating: value
             })
                 .then(() => {
                     this.$toast.open({

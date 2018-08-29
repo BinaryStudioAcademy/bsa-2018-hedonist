@@ -1,8 +1,8 @@
 import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
 function findReviewById (places, reviewId) {
-    return places.find( (place) => { 
-        return place.review.id === parseInt(reviewId); 
+    return places.find( (place) => {
+        return place.review.id === parseInt(reviewId);
     }).review;
 };
 
@@ -39,22 +39,6 @@ export default {
         state.currentPlace.myRating = myRating;
     },
 
-    SET_CURRENT_PLACE_REVIEWS: (state, reviews) => {
-        state.currentPlaceReviews = reviews;
-    },
-
-    SET_CURRENT_PLACE_REVIEW_LIKE_STATE: (state, { reviewId, likeState }) => {
-        state.currentPlaceReviews.byId[reviewId].like = likeState;
-    },
-
-    SET_CURRENT_PLACE_REVIEW_LIKE_COUNT: (state, { reviewId, count }) => {
-        state.currentPlaceReviews.byId[reviewId].likes = count;
-    },
-
-    SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT: (state, { reviewId, count }) => {
-        state.currentPlaceReviews.byId[reviewId].dislikes = count;
-    },
-    
     UPDATE_REVIEW_LIKED_STATE: (state, reviewId) => {
         let review = findReviewById(state.places, reviewId);
 
@@ -68,7 +52,7 @@ export default {
             review.like = STATUS_LIKED;
             review.likes++;
             review.dislikes--;
-        }  
+        }
     },
 
     UPDATE_REVIEW_DISLIKED_STATE: (state, reviewId) => {
@@ -84,6 +68,6 @@ export default {
             review.like = STATUS_DISLIKED;
             review.dislikes++;
             review.likes--;
-        }  
+        }
     }
 };

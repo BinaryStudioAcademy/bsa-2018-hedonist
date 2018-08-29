@@ -55,7 +55,7 @@ class PlaceRatingTest extends ApiTestCase
         $placeId = $this->place_1_rating_1->place_id;
         $rating = $this->place_1_rating_1->rating;
 
-        $response = $this->json('GET', "api/v1/places/$placeId/rating");
+        $response = $this->json('GET', "api/v1/places/$placeId/ratings/avg");
 
         $response->assertStatus(201);
         $response->assertJsonFragment([
@@ -63,7 +63,7 @@ class PlaceRatingTest extends ApiTestCase
             'my_rating' => $rating
         ]);
 
-        $response = $this->json('GET', 'api/v1/places/9999/rating');
+        $response = $this->json('GET', 'api/v1/places/9999/ratings/avg');
 
         $response->assertStatus(400);
         $response->assertJsonFragment([
@@ -82,7 +82,7 @@ class PlaceRatingTest extends ApiTestCase
         ];
         $ratingAvg = round(array_sum($ratings) / \count($ratings), 1);
 
-        $response = $this->json('GET', "api/v1/places/$placeId/rating", [
+        $response = $this->json('GET', "api/v1/places/$placeId/ratings/avg", [
         ]);
 
         $response->assertStatus(201);
@@ -91,7 +91,7 @@ class PlaceRatingTest extends ApiTestCase
             'rating_avg' => $ratingAvg
         ]);
 
-        $response = $this->json('GET', 'api/v1/places/999/rating', [
+        $response = $this->json('GET', 'api/v1/places/999/ratings/avg', [
         ]);
 
         $response->assertStatus(400);
@@ -111,8 +111,7 @@ class PlaceRatingTest extends ApiTestCase
             'place_id' => $placeId
         ]);
 
-        $response = $this->json('POST', 'api/v1/places/rating', [
-            'place_id' => $placeId,
+        $response = $this->json('POST', "api/v1/places/$placeId/ratings", [
             'rating' => $rating
         ]);
 
@@ -131,8 +130,7 @@ class PlaceRatingTest extends ApiTestCase
 
         $ratingNew = 8;
 
-        $response = $this->json('POST', 'api/v1/places/rating', [
-            'place_id' => $placeId,
+        $response = $this->json('POST', "api/v1/places/$placeId/ratings", [
             'rating' => $ratingNew
         ]);
 
@@ -156,32 +154,27 @@ class PlaceRatingTest extends ApiTestCase
         $rating_less = -50;
         $rating_over = 50;
 
-        $response = $this->json('POST', 'api/v1/places/rating', [
+        $response = $this->json('POST', "api/v1/places/$placeId/ratings", [
         ]);
         $response->assertStatus(422);
         $response->assertJsonFragment([
             'errors' => [
-                'place_id' => ['The place id field is required.'],
                 'rating' => ['The rating field is required.']
             ],
             'message' => 'The given data was invalid.'
         ]);
 
-        $response = $this->json('POST', 'api/v1/places/rating', [
-            'place_id' => 'k',
+        $response = $this->json('POST', "api/v1/places/$placeId/ratings", [
             'rating' => $rating_less
         ]);
         $response->assertJsonFragment([
-            'message' => 'The given data was invalid.',
-            'errors' => [
-                'place_id' => [
-                    0 => 'The place id must be an integer.'
-                ],
+            'error' => [
+                'httpStatus' => 400,
+                'message' => 'Rating value must be between 1 and 10'
             ]
         ]);
 
-        $response = $this->json('POST', 'api/v1/places/rating', [
-            'place_id' => $placeId,
+        $response = $this->json('POST', "api/v1/places/$placeId/ratings", [
             'rating' => $rating_over
         ]);
         $response->assertJsonFragment([
@@ -191,8 +184,7 @@ class PlaceRatingTest extends ApiTestCase
             ]
         ]);
 
-        $response = $this->json('POST', 'api/v1/places/rating', [
-            'place_id' => $placeId,
+        $response = $this->json('POST', "api/v1/places/$placeId/ratings", [
             'rating' => $rating_less
         ]);
         $response->assertJsonFragment([
