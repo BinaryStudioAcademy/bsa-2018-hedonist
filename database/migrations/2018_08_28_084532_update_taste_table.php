@@ -16,7 +16,7 @@ class UpdateTasteTable extends Migration
         Schema::table('tastes', function (Blueprint $table) {
             $table->unsignedInteger('user_id')->nullable();
             $table->boolean('is_default')->default(false);
-            
+
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

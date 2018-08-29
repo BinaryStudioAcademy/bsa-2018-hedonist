@@ -10,7 +10,7 @@ class Taste extends Model
 
     protected $fillable = [
         'name',
-        'user_id'
+        'is_default'
     ];
 
     public function users()
