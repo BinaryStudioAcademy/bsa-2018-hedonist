@@ -2,9 +2,9 @@
 
 namespace Hedonist\Http\Controllers\Api\User\UserList;
 
-use Hedonist\Actions\Place\GetPlaceCollection\GetUserListPresenter;
 use Hedonist\Actions\UserList\DeleteUserListAction;
 use Hedonist\Actions\UserList\DeleteUserListRequest;
+use Hedonist\Actions\UserList\GetUserListPresenter;
 use Hedonist\Actions\UserList\GetUserListsCollectionRequest;
 use Hedonist\Actions\UserList\SaveUserListRequest;
 use Hedonist\Actions\UserList\SaveUserListAction;
@@ -75,7 +75,7 @@ class UserListController extends ApiController
                 new GetUserListRequest($id)
             );
             return $this->successResponse($presenter->present($responseUserList), 200);
-        } catch (\Exception $exception) {
+        } catch (\DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), 404);
         }
     }

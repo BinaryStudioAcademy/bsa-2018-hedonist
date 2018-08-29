@@ -27,7 +27,8 @@ class GetUserListAction
     {
         $id = $userListRequest->getId();
         $userList = $this->userListRepository->getById($id);
-        if (!$userList) {
+        clock($userList);
+        if (is_null($userList)) {
             throw new UserListExistsException('User list not found.');
         }
         $places = $this->placeRepository->findCollectionByCriterias(

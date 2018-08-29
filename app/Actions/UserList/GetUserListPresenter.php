@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Place\GetPlaceCollection;
+namespace Hedonist\Actions\UserList;
 
 use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
@@ -10,7 +10,6 @@ use Hedonist\Actions\Presenters\Feature\FeaturePresenter;
 use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
 use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
 use Hedonist\Actions\Presenters\Place\PlacePresenter;
-use Hedonist\Actions\UserList\GetUserListResponse;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\User\User;
 use Illuminate\Support\Collection;

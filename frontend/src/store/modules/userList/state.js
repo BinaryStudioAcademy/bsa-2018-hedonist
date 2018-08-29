@@ -3,4 +3,5 @@ export default {
     places : null,
     cities : null,
     categories : null,
+    isLoading: false
 };

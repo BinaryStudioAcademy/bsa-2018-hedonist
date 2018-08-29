@@ -11,4 +11,7 @@ export default {
     SET_CATEGORIES: (state, categories) => {
         state.categories = categories;
     },
+    SET_LOADING_STATE: (state,loadingState) => {
+        state.isLoading = loadingState;
+    }
 };

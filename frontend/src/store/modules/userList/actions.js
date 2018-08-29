@@ -77,5 +77,12 @@ export default {
                     reject(error);
                 });
         });
+    },
+
+    getListById: (context, placeId) => {
+        return httpService.get(`/user-lists/${placeId}`)
+            .then((result) => {
+                console.dir(result.data.data);
+            });
     }
 };

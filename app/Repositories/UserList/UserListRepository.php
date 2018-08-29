@@ -65,7 +65,9 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         foreach ($criterias as $criteria) {
             $this->pushCriteria($criteria);
         }
+        $result = $this->all();
+        $this->resetCriteria();
 
-        return $this->all();
+        return $result;
     }
 }

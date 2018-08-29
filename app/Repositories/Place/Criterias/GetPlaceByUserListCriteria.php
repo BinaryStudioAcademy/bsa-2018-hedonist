@@ -2,7 +2,7 @@
 
 namespace Hedonist\Repositories\Place\Criterias;
 
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
@@ -17,8 +17,8 @@ class GetPlaceByUserListCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        $model->whereHas('lists',function(HasMany $relation){
-            return $relation->where('id',$this->list);
+        return $model->whereHas('lists',function(Builder $relation){
+            return $relation->where('user_lists.id',$this->list);
         });
     }
 }
