@@ -7,7 +7,7 @@
                         v-for="(photo, index) in place.photos"
                         v-img="{group: place.id}"
                         v-show="index === 0"
-                        :src="photo.img_url"
+                        :src="photo.img_url || photo.imgUrl"
                         :key="photo.id"
                     >
                 </figure>
