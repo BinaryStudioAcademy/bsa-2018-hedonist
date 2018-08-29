@@ -89,7 +89,7 @@ const transformPlaces = (data) => {
                 return {
                     id: photo.id,
                     description: photo.description,
-                    imgUrl: photo['img_url'],
+                    img_url: photo['img_url'],
                     creatorId: photo['creator_id'],
                 };
             }),
