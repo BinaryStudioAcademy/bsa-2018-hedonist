@@ -2,14 +2,17 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Storage;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Tests\Feature\Api\ApiTestCase;
 
 class UserListApiTest extends ApiTestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     protected $user;
 
@@ -22,15 +25,16 @@ class UserListApiTest extends ApiTestCase
 
     public function test_add_user_list()
     {
-        $data = [
-            'user_id' => $this->user->id,
+        Storage::fake();
+        $image = UploadedFile::fake()->image('review.jpg');
+        $response = $this->json('POST', '/api/v1/user-lists', [
             'name' => 'Bar',
-            'img_url' => 'http://test.image',
-        ];
-        $response = $this->json('POST', '/api/v1/user-lists', $data);
+            'image' => $image,
+        ]);
+        $data = $response->json();
         $response->assertHeader('Content-Type', 'application/json');
 
-        $this->assertDatabaseHas('user_lists', $data);
+        $this->assertDatabaseHas('user_lists', $data['data']);
     }
 
     public function test_get_user_list()
@@ -67,11 +71,13 @@ class UserListApiTest extends ApiTestCase
 
     public function test_update_user_list()
     {
+        Storage::fake();
+        $image = UploadedFile::fake()->image('review.jpg');
         $userList = factory(UserList::class)->create();
         $data = [
-            'user_id' => $userList->user_id,
             'name' => 'Caffe',
-            'img_url' => 'http://test.image',
+            'image' => $image,
+            'attached_places' => []
         ];
         $response = $this->json('PUT', "/api/v1/user-lists/$userList->id", $data);
         $result = json_decode($response->getContent(), true);
@@ -103,6 +109,6 @@ class UserListApiTest extends ApiTestCase
 
     public function test_get_user_list_not_found()
     {
-        $this->json('GET', "/api/v1/user-lists/1")->assertStatus(404);
+        $this->json('GET', "/api/v1/user-lists/9090")->assertStatus(404);
     }
 }

@@ -239,6 +239,7 @@ export default {
                 &__mark-count {
                     font-style: italic;
                     white-space: nowrap;
+                    margin-left: 20px;
                 }
             }
         }
