@@ -6,6 +6,10 @@
             center: currentCenter,
             zoom: 11
         }"
+        :fullscreen-control="{
+            show: true,
+            position: 'bottom-right'
+        }"
         @map-load="mapLoaded"
     />
 </template>
