@@ -99,11 +99,9 @@ const createSearchQueryUrl = (filters) => {
     let page = filters.page !== undefined ? filters.page : 1;
     let polygon = '';
     if (filters.polygon !== undefined && Array.isArray(filters.polygon)) {
-        let polygonCoordinatesAsArray = [];
-        filters.polygon[0].forEach(function (item) {
-            polygonCoordinatesAsArray.push(item[0] + ',' + item[1]);
-        });
-        polygon = polygonCoordinatesAsArray.join(';');
+        polygon = filters.polygon[0]
+            .map( (item) => item[0] + ',' + item[1])
+            .join(';');
     }
 
     return '?filter[category]=' + category

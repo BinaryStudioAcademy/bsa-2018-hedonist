@@ -6,8 +6,8 @@ use Hedonist\Exceptions\DomainException;
 
 class PlacePolygonInvalidException extends DomainException
 {
-    public function __construct(string $message, $code = 400, \Throwable $previous = null)
+    public static function createFromMessage($message): self
     {
-        parent::__construct($message, $code, $previous);
+        return new self($message);
     }
 }

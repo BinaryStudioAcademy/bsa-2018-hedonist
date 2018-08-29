@@ -51,9 +51,9 @@ class GetPlaceCollectionByFiltersAction
         }
         if (!is_null($polygon)) {
             try {
-                $polygon = Polygon::polygonFormatter($polygon);
+                $polygon = new Polygon($polygon);
             } catch (\InvalidArgumentException $e) {
-                throw new PlacePolygonInvalidException($e->getMessage());
+                throw PlacePolygonInvalidException::createFromMessage($e->getMessage());
             }
             $criterias[] = new GetPlaceByPolygonCriteria($polygon);
         }
