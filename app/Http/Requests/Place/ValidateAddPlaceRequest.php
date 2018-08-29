@@ -32,7 +32,6 @@ class ValidateAddPlaceRequest extends JsonRequest
             'address'     => 'required|max:255',
             'creator_id'  => 'required|numeric',
             'category_id' => 'required|numeric',
-            'city_id'     => 'required|numeric',
             'phone'       => [new Phone()],
             'website'     => 'max:255'
         ];

@@ -23,7 +23,8 @@ class AddPlaceRequest
         int $zip,
         string $address,
         string $phone,
-        string $website
+        string $website,
+        array $photos
     ) {
         $this->creatorId = $creatorId;
         $this->categoryId = $categoryId;
@@ -34,6 +35,7 @@ class AddPlaceRequest
         $this->address = $address;
         $this->phone = $phone;
         $this->website = $website;
+        $this->photos = $photos;
     }
 
     public function getCreatorId(): int
@@ -86,6 +88,11 @@ class AddPlaceRequest
         return $this->website;
     }
 
+    public function getPhotos(): array
+    {
+        return $this->photos;
+    }
+
     public function toArray(): array
     {
         return [
@@ -98,6 +105,7 @@ class AddPlaceRequest
             'address'       => $this->getAddress(),
             'phone'         => $this->getPhone(),
             'website'       => $this->getWebsite(),
+            'photos'        => $this->getPhotos()
         ];
     }
 }

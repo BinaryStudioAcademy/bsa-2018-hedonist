@@ -114,7 +114,8 @@ class PlaceController extends ApiController
                 $request->zip,
                 $request->address,
                 $request->phone,
-                $request->website
+                $request->website,
+                $request->photos
             ));
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());

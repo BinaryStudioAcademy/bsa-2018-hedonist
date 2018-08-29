@@ -2,33 +2,43 @@
 
 namespace Hedonist\Actions\Place\AddPlace;
 
-use Hedonist\Entities\Place\Location;
 use Hedonist\Entities\Place\Place;
-use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
-use Hedonist\Exceptions\Place\PlaceCategoryDoesNotExistException;
-use Hedonist\Exceptions\Place\PlaceCityDoesNotExistException;
-use Hedonist\Exceptions\Place\PlaceCreatorDoesNotExistException;
-use Hedonist\Repositories\City\CityRepositoryInterface;
-use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
-use Hedonist\Repositories\Place\PlaceRepositoryInterface;
+use Hedonist\Entities\Place\Location;
+use Illuminate\Support\Facades\Storage;
+use Hedonist\Entities\Place\PlacePhoto;
+use Hedonist\Services\FileNameGenerator;
 use Hedonist\Repositories\User\UserRepositoryInterface;
+use Hedonist\Repositories\City\CityRepositoryInterface;
+use Hedonist\Repositories\Place\PlaceRepositoryInterface;
+use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
+use Hedonist\Exceptions\Place\PlaceCityDoesNotExistException;
+use Hedonist\Repositories\Place\PlacePhotoRepositoryInterface;
+use Hedonist\Exceptions\Place\PlaceCreatorDoesNotExistException;
+use Hedonist\Exceptions\Place\PlaceCategoryDoesNotExistException;
+use Hedonist\Repositories\Place\PlaceCategoryRepositoryInterface;
 
 class AddPlaceAction
 {
-    private $placeRepository;
+    const FILE_STORAGE = 'upload/place';
+    const DESCRIPTION_DEFAULT = 'Place owner\'s photo.';
+
     private $userRepository;
     private $cityRepository;
+    private $placeRepository;
+    private $placePhotoRepository;
     private $placeCategoryRepository;
 
     public function __construct(
-        PlaceRepositoryInterface $placeRepository,
         UserRepositoryInterface $userRepository,
-        PlaceCategoryRepositoryInterface $placeCategoryRepository,
-        CityRepositoryInterface $cityRepository
+        CityRepositoryInterface $cityRepository,
+        PlaceRepositoryInterface $placeRepository,
+        PlacePhotoRepositoryInterface $placePhotoRepository,
+        PlaceCategoryRepositoryInterface $placeCategoryRepository
     ) {
         $this->placeRepository = $placeRepository;
         $this->userRepository = $userRepository;
         $this->cityRepository = $cityRepository;
+        $this->placePhotoRepository = $placePhotoRepository;
         $this->placeCategoryRepository = $placeCategoryRepository;
     }
 
@@ -74,6 +84,21 @@ class AddPlaceAction
             'phone'       => $placeRequest->getPhone(),
             'website'     => $placeRequest->getWebsite(),
         ]));
+
+        foreach ($placeRequest->getPhotos() as $photo) {
+            $fileNameGenerator = new FileNameGenerator($photo);
+            $fileName = $fileNameGenerator->generateFileName();
+            $path = Storage::putFileAs(self::FILE_STORAGE, $photo, $fileName, 'public');
+            list($width, $height) = getimagesize($photo);
+            $this->placePhotoRepository->save(new PlacePhoto([
+                'creator_id'  => $creator->id,
+                'img_url'     => $path,
+                'description' => self::DESCRIPTION_DEFAULT,
+                'place_id'    => $place->id,
+                'width'       => $width,
+                'height'      => $height
+            ]));
+        }
 
         return new AddPlaceResponse($place);
     }

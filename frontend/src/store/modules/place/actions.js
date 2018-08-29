@@ -14,6 +14,10 @@ export default {
             data.append('website', payload.place.website);
             data.append('creator_id', payload.user.id);
             data.append('category_id', payload.place.category.id);
+
+            _.forEach(payload.place.photos, (photo) => {
+                data.append('photos[]', photo);
+            });
             httpService.post('/places', data)
                 .then(() => {
                     resolve();
