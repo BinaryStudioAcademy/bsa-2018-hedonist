@@ -2,11 +2,11 @@
 
 namespace Hedonist\Actions\UserTaste;
 
-use Hedonist\Entities\User\Taste;
+use Hedonist\Entities\User\CustomTaste;
 use Hedonist\Repositories\User\TasteRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
-class AddTasteAction
+class AddCustomTasteAction
 {
     private $tasteRepository;
 
@@ -15,13 +15,13 @@ class AddTasteAction
         $this->tasteRepository = $tasteRepository;
     }
 
-    public function execute(AddTasteRequest $addTasteRequest): AddTasteResponse
+    public function execute(AddCustomTasteRequest $addCustomTasteRequest): AddCustomTasteResponse
     {
-        $taste = $this->tasteRepository->save(new Taste([
-            'name' => $addTasteRequest->getName(),
+        $customTaste = $this->tasteRepository->saveCustom(new CustomTaste([
+            'name' => $addCustomTasteRequest->getName(),
             'user_id' => Auth::id()
         ]));
 
-        return new AddTasteResponse($taste);
+        return new AddCustomTasteResponse($customTaste);
     }
 }

@@ -3,20 +3,21 @@
 namespace Hedonist\Actions\UserTaste;
 
 use Hedonist\Repositories\User\TasteRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
-class GetTastesAction
+class GetCustomTastesAction
 {
     private $tasteRepository;
-    
+
     public function __construct(TasteRepositoryInterface $repository)
     {
         $this->tasteRepository = $repository;
     }
-    
-    public function execute(): GetTastesResponse
+
+    public function execute(): GetCustomTastesResponse
     {
-        $tastes = $this->tasteRepository->getDefault();
- 
-        return new GetTastesResponse($tastes);
+        $customTastes = $this->tasteRepository->getCustomByUserId(Auth::id());
+
+        return new GetCustomTastesResponse($customTastes);
     }
 }

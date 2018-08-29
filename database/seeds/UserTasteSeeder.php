@@ -28,8 +28,7 @@ class UserTasteSeeder extends Seeder
     {
         foreach (self::TASTES as $taste) {
             Taste::create([
-                'name' => $taste,
-                'is_default' => true
+                'name' => $taste
             ]);
         }
     }

@@ -2,6 +2,7 @@
 
 namespace Hedonist\Repositories\User;
 
+use Hedonist\Entities\User\CustomTaste;
 use Hedonist\Entities\User\Taste;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -50,5 +51,27 @@ class TasteRepository extends BaseRepository implements TasteRepositoryInterface
                 $query->where('user_id', $userId);
             }
         )->get();
+    }
+
+    public function getDefault(): Collection
+    {
+        return Taste::all();
+    }
+
+    public function getCustomByUserId(int $userId): Collection
+    {
+        return CustomTaste::where('user_id', $userId)->get();
+    }
+
+    public function saveCustom(CustomTaste $customTaste): CustomTaste
+    {
+        $customTaste->save();
+
+        return $customTaste;
+    }
+
+    public function deleteCustomById(int $id): void
+    {
+        CustomTaste::destroy($id);
     }
 }

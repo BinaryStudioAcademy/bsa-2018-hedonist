@@ -4,16 +4,17 @@ namespace Hedonist\Entities\User;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Taste extends Model
+class CustomTaste extends Model
 {
     public $timestamps = false;
 
     protected $fillable = [
-        'name'
+        'name',
+        'user_id'
     ];
 
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }
