@@ -12,10 +12,8 @@ use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
 use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
 use Hedonist\Actions\Presenters\Place\PlaceInfoPresenter;
 use Hedonist\Actions\Presenters\Place\PlacePresenter;
-use Hedonist\Entities\Place\Checkin;
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\User\User;
-use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Collection;
 
 class GetPlaceItemPresenter

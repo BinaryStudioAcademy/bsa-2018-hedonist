@@ -67,11 +67,6 @@ class Place extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function checkins()
-    {
-        return $this->hasMany(Checkin::class);
-    }
-
     public function photos()
     {
         return $this->hasMany(PlacePhoto::class);
