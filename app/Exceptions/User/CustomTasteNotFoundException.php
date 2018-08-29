@@ -6,4 +6,5 @@ use Hedonist\Exceptions\DomainException;
 
 class CustomTasteNotFoundException extends DomainException
 {
+    protected $message = 'Custom taste not found!';
 }

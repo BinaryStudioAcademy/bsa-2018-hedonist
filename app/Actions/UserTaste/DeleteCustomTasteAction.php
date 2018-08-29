@@ -19,7 +19,10 @@ class DeleteCustomTasteAction
     {
         $customTaste = $this->tasteRepository->getCustomById($deleteCustomTasteRequest->getCustomTasteId());
         if (!$customTaste) {
-            throw new CustomTasteNotFoundException('Custom taste not found!');
+            throw new CustomTasteNotFoundException;
+        }
+        if ($customTaste->user_id !== Auth::id()) {
+            throw new CustomTasteNotFoundException;
         }
         $this->tasteRepository->deleteCustomById($deleteCustomTasteRequest->getCustomTasteId());
     }
