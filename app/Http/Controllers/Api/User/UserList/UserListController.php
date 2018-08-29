@@ -4,6 +4,7 @@ namespace Hedonist\Http\Controllers\Api\User\UserList;
 
 use Hedonist\Actions\UserList\DeleteUserListAction;
 use Hedonist\Actions\UserList\DeleteUserListRequest;
+use Hedonist\Actions\UserList\GetUserListPresenter;
 use Hedonist\Actions\UserList\GetUserListsCollectionRequest;
 use Hedonist\Actions\UserList\SaveUserListRequest;
 use Hedonist\Actions\UserList\SaveUserListAction;
@@ -11,6 +12,7 @@ use Hedonist\Actions\UserList\GetCollectionUserListAction;
 use Hedonist\Actions\UserList\GetUserListsCollectionAction;
 use Hedonist\Actions\UserList\GetUserListAction;
 use Hedonist\Actions\UserList\GetUserListRequest;
+use Hedonist\Exceptions\DomainException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\UserList\UserListRequest;
 use Illuminate\Http\JsonResponse;
@@ -69,14 +71,14 @@ class UserListController extends ApiController
         }
     }
 
-    public function show(int $id)
+    public function show(int $id, GetUserListPresenter $presenter)
     {
         try {
             $responseUserList = $this->getUserListAction->execute(
                 new GetUserListRequest($id)
             );
-            return $this->successResponse($responseUserList->toArray(), 200);
-        } catch (\Exception $exception) {
+            return $this->successResponse($presenter->present($responseUserList), 200);
+        } catch (DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), 404);
         }
     }

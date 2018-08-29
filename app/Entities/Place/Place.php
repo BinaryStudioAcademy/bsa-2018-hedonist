@@ -89,7 +89,12 @@ class Place extends Model
 
     public function lists()
     {
-        return $this->belongsToMany(UserList::class, 'user_list_places');
+        return $this->belongsToMany(
+            UserList::class,
+            'user_list_places',
+            'place_id',
+            'list_id'
+            );
     }
 
     public function features()
