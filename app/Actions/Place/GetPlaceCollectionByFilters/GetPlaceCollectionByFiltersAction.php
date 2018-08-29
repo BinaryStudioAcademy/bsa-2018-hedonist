@@ -5,34 +5,32 @@ namespace Hedonist\Actions\Place\GetPlaceCollectionByFilters;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionResponse;
 use Hedonist\Entities\Place\Location;
 use Hedonist\Entities\Place\Polygon;
+use Hedonist\Entities\Place\Place;
 use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
 use Hedonist\Exceptions\Place\PlacePolygonInvalidException;
 use Hedonist\Repositories\Place\Criterias\AllPlacePhotosCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByCategoryCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByLocationCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByPolygonCriteria;
+use Hedonist\Repositories\Place\Criterias\GetPlaceByNameCriteria;
 use Hedonist\Repositories\Place\Criterias\LatestReviewForPlaceCriteria;
 use Hedonist\Repositories\Place\Criterias\PlacePaginationCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
-use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class GetPlaceCollectionByFiltersAction
 {
     private $placeRepository;
-    private $reviewRepository;
 
-    public function __construct(
-        PlaceRepositoryInterface $placeRepository,
-        ReviewRepositoryInterface $reviewRepository
-    ) {
+    public function __construct(PlaceRepositoryInterface $placeRepository)
+    {
         $this->placeRepository = $placeRepository;
-        $this->reviewRepository = $reviewRepository;
     }
 
     public function execute(GetPlaceCollectionByFiltersRequest $request): GetPlaceCollectionResponse
     {
         $categoryId = $request->getCategoryId();
+        $name = $request->getName();
         $location = $request->getLocation();
         $page = $request->getPage() ?: GetPlaceCollectionByFiltersRequest::DEFAULT_PAGE;
         $polygon = $request->getPolygon();
@@ -46,6 +44,7 @@ class GetPlaceCollectionByFiltersAction
             }
             $criterias[] = new GetPlaceByLocationCriteria($location);
         }
+
         if (!is_null($categoryId)) {
             $criterias[] = new GetPlaceByCategoryCriteria($categoryId);
         }
@@ -56,6 +55,10 @@ class GetPlaceCollectionByFiltersAction
                 throw PlacePolygonInvalidException::createFromMessage($e->getMessage());
             }
             $criterias[] = new GetPlaceByPolygonCriteria($polygon);
+        }
+
+        if (!is_null($name)) {
+            $criterias[] = new GetPlaceByNameCriteria($name);
         }
 
         $places = $this->placeRepository->findCollectionByCriterias(

@@ -1,6 +1,6 @@
 version: "3.1"
-services:
 
+services:
     mysql:
       image: mysql:5.7.22
       container_name: bsa-app-mysql
@@ -25,7 +25,7 @@ services:
         - ./docker/nginx/ssl:/etc/nginx/ssl
 
     php-fpm:
-      build: docker/php-fpm
+      build: ./docker/php-fpm
       container_name: bsa-app-php
       working_dir: /application
       volumes:
@@ -36,12 +36,33 @@ services:
       image: schickling/beanstalkd
       container_name: bsa-app-beanstalkd
 
+    php-worker:
+      build:
+        context: ./docker/php-worker
+        args:
+          - "PHP_VERSION=${PHP_VERSION}"
+      working_dir: /application
+      container_name: bsa-app-php-worker
+      volumes:
+        - .:/application
+        - ./docker/php-worker/supervisord.d:/etc/supervisord.d
+        - .queue:/queue
+
+    rabbitmq:
+      build: ./docker/rabbitmq
+      container_name: bsa-app-rabbitmq
+      environment:
+        - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+        - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+
     redis:
       image: redis:alpine
       container_name: bsa-app-redis
+      volumes:
+        - .redis:/data
 
     frontend:
-      build: docker/node
+      build: ./docker/node
       container_name: bsa-app-frontend
       working_dir: /application
       volumes:

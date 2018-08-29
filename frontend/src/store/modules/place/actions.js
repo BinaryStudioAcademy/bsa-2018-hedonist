@@ -43,7 +43,7 @@ export default {
         });
     },
 
-    fetchPlaces: (context, filters) => {
+    fetchPlaces: (context, filters = {}) => {
         let queryUrl = createSearchQueryUrl(filters);
         return new Promise((resolve, reject) => {
             httpService.get('/places/search' + queryUrl)
@@ -96,6 +96,7 @@ export default {
 const createSearchQueryUrl = (filters) => {
     let category = filters.category !== undefined ? filters.category : '';
     let location = filters.location !== undefined ? filters.location : '';
+    let name = filters.searchName !== undefined ? filters.searchName : '';
     let page = filters.page !== undefined ? filters.page : 1;
     let polygon = '';
     if (filters.polygon !== undefined && Array.isArray(filters.polygon)) {
@@ -106,6 +107,7 @@ const createSearchQueryUrl = (filters) => {
 
     return '?filter[category]=' + category
         + '&filter[location]=' + location
+        + '&filter[name]=' + name
         + '&filter[polygon]=' + polygon
         + '&page=' + page;
 };

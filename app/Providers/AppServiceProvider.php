@@ -4,6 +4,8 @@ namespace Hedonist\Providers;
 
 use Hedonist\Actions\SocialAuth\Manager\SocialAuthStrategyManager;
 use Hedonist\Actions\SocialAuth\Manager\SocialAuthStrategyManagerInterface;
+use Hedonist\Services\TransactionService;
+use Hedonist\Services\TransactionServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(SocialAuthStrategyManagerInterface::class, SocialAuthStrategyManager::class);
+        $this->app->bind(TransactionServiceInterface::class, TransactionService::class);
     }
 }

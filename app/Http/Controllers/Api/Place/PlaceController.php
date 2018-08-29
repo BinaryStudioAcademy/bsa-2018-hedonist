@@ -90,6 +90,7 @@ class PlaceController extends ApiController
                 $request->input('page'),
                 null,
                 null,
+                null,
                 null
             )
         );
@@ -158,6 +159,7 @@ class PlaceController extends ApiController
                     $request->input('page'),
                     $request->input('filter.category'),
                     $request->input('filter.location'),
+                    $request->input('filter.name'),
                     $request->input('filter.polygon')
                 )
             );

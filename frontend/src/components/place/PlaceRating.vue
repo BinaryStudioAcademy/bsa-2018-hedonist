@@ -51,7 +51,6 @@ export default {
 <style lang="scss" scoped>
 .rating {
     border-radius: 7px;
-    margin: auto;
     line-height: 48px;
     font-size: 1.5rem;
     color: #FFF;
