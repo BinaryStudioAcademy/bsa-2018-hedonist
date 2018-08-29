@@ -82,10 +82,10 @@
 
 
                 <button
-                        class="button is-primary rating"
-                        @click="isCheckinModalActive = true"
+                    class="button is-primary rating"
+                    @click="isCheckinModalActive = true"
                 >
-                    <i class="fas fa-star-half-alt"></i>
+                    <i class="fas fa-star-half-alt" />
                 </button>
                 <b-modal :active.sync="isCheckinModalActive" has-modal-card>
                     <PlaceRatingModal :place="place" />
