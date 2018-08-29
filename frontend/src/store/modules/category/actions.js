@@ -28,5 +28,9 @@ export default {
                     reject(error);
                 });
         });
-    }
+    },
+
+    resetCategoryTags: context => {
+        context.commit('RESET_CATEGORY_TAGS');
+    },
 };

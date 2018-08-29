@@ -5,5 +5,9 @@ export default {
 
     SET_CATEGORY_TAGS: (state, tags) => {
         state.categoryTags = Object.assign({}, tags);
-    }
+    },
+
+    RESET_CATEGORY_TAGS: state => {
+        state.categoryTags = []
+    },
 };
