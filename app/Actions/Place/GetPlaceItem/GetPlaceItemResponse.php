@@ -9,11 +9,13 @@ class GetPlaceItemResponse
 {
     private $place;
     private $user;
+    private $checkins;
 
-    public function __construct(Place $place, User $user)
+    public function __construct(Place $place, User $user, int $checkins)
     {
         $this->place = $place;
         $this->user = $user;
+        $this->checkins = $checkins;
     }
 
     public function getPlace(): Place
@@ -24,5 +26,10 @@ class GetPlaceItemResponse
     public function getUser(): User
     {
         return $this->user;
+    }
+
+    public function getCheckinsCount(): int
+    {
+        return $this->checkins;
     }
 }

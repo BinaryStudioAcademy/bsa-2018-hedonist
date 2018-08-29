@@ -29,7 +29,6 @@ class GetPlaceItemPresenter
     private $photoPresenter;
     private $tagsPresenter;
     private $placeInfoPresenter;
-    private $placeRepository;
 
     public function __construct(
         PlacePresenter $placePresenter,
@@ -40,8 +39,7 @@ class GetPlaceItemPresenter
         FeaturePresenter $featurePresenter,
         CategoryPresenter $categoryPresenter,
         CategoryTagPresenter $tagsPresenter,
-        PlacePhotoPresenter $photoPresenter,
-        PlaceRepositoryInterface $placeRepository
+        PlacePhotoPresenter $photoPresenter
     ) {
         $this->placePresenter = $placePresenter;
         $this->placeInfoPresenter = $placeInfoPresenter;
@@ -52,7 +50,6 @@ class GetPlaceItemPresenter
         $this->categoryPresenter = $categoryPresenter;
         $this->tagsPresenter = $tagsPresenter;
         $this->photoPresenter = $photoPresenter;
-        $this->placeRepository = $placeRepository;
     }
 
     public function present(GetPlaceItemResponse $placeResponse): array
@@ -67,7 +64,6 @@ class GetPlaceItemPresenter
         $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
         $result['category'] = $this->categoryPresenter->present($place->category);
         $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
-        $result['checkins'] = $this->placeRepository->getPlaceCheckinsCountByUser($place->id, $placeResponse->getUser()->id);
 
         return $result;
     }
