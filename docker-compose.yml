@@ -16,7 +16,7 @@ services:
         - MYSQL_PASSWORD=secret
 
     webserver:
-      image: nginx:alpine
+      image: nginx:stable-alpine
       container_name: bsa-app-webserver
       working_dir: /application
       volumes:
