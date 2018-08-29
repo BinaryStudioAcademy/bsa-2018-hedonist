@@ -120,7 +120,7 @@ export default {
                 context.commit('SET_PHOTOS',  normalizerService.updateAllIds(photos));
 
                 context.commit('SET_LOADING_STATE', false);
-            })
+            });
     },
     saveUserList: (context, {userList, attachedPlaceIds}) => {
         const formData = new FormData();

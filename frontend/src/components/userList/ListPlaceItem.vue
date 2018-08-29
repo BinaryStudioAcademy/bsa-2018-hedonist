@@ -3,12 +3,12 @@
         <div class="media">
             <figure class="media-left image is-128x128">
                 <img
-                        :src="previewImage"
+                    :src="previewImage"
                 >
             </figure>
             <div class="media-content">
                 <h3
-                        class="title has-text-primary"
+                    class="title has-text-primary"
                 >
                     <router-link :to="`/places/${place.id}`">
                         {{ localizedName }}
@@ -24,8 +24,8 @@
             </div>
             <div class="media-right rating-wrapper">
                 <PlaceRating
-                        v-if="place.rating"
-                        :value="Number(place.rating)"
+                    v-if="place.rating"
+                    :value="Number(place.rating)"
                 />
             </div>
         </div>
@@ -33,9 +33,9 @@
             <div class="media-content">
                 <b-taglist>
                     <b-tag
-                            type="is-info"
-                            v-for="tag in category.tags"
-                            :key="tag.id"
+                        type="is-info"
+                        v-for="tag in category.tags"
+                        :key="tag.id"
                     >
                         {{ tag.name }}
                     </b-tag>
@@ -43,50 +43,50 @@
             </div>
         </div>
         <Review
-                v-if="review"
-                :review="review"
+            v-if="review"
+            :review="review"
         />
     </div>
 </template>
 
 <script>
-    import PlaceRating from '@/components/place/PlaceRating';
-    import Review from '@/components/review/PlacePreviewReviewItem';
-    import imagePlaceholder from '@/assets/placeholder_128x128.png';
-    import {mapState} from 'vuex';
+import PlaceRating from '@/components/place/PlaceRating';
+import Review from '@/components/review/PlacePreviewReviewItem';
+import imagePlaceholder from '@/assets/placeholder_128x128.png';
+import {mapState} from 'vuex';
 
-    export default {
-        name: "ListPlaceItem",
-        components:{PlaceRating,Review},
-        computed: {
-            ...mapState('userList',['reviews','categories','cities','photos']),
-            localizedName() {
-                return this.place.localization[0].name;
-            },
-            previewImage(){
-                if(this.place.photos[0]){
-                    return this.photos.byId[this.place.photos[0]].img_url;
-                }
-                return imagePlaceholder;
-            },
-            city(){
-                return this.cities.byId[this.place.city].name;
-            },
-            category(){
-                return this.categories.byId[this.place.category];
-            },
-            review(){
-                return this.reviews.byId[this.place.review];
-            }
-
+export default {
+    name: 'ListPlaceItem',
+    components:{PlaceRating,Review},
+    computed: {
+        ...mapState('userList',['reviews','categories','cities','photos']),
+        localizedName() {
+            return this.place.localization[0].name;
         },
-        props: {
-            place:{
-                type:Object,
-                required:true
+        previewImage(){
+            if(this.place.photos[0]){
+                return this.photos.byId[this.place.photos[0]].img_url;
             }
+            return imagePlaceholder;
+        },
+        city(){
+            return this.cities.byId[this.place.city].name;
+        },
+        category(){
+            return this.categories.byId[this.place.category];
+        },
+        review(){
+            return this.reviews.byId[this.place.review];
+        }
+
+    },
+    props: {
+        place:{
+            type:Object,
+            required:true
         }
     }
+};
 </script>
 
 <style lang="scss" scoped>
