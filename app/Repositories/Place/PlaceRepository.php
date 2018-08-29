@@ -2,6 +2,7 @@
 
 namespace Hedonist\Repositories\Place;
 
+use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Place\Location;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -105,6 +106,18 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         $this->resetCriteria();
 
         return $result;
+    }
+
+    public function setTranslations(Place $place, array $localizations): void
+    {
+        foreach ($localizations as $key => $value) {
+            $place->localization()->create([
+               'place_name'        => $value['name'],
+               'place_description' => $value['description'],
+               'place_id'          => $place->id,
+               'language_id'       => Language::where('code', $key)->first()->id
+            ]);
+        }
     }
 
     public function syncTags(Place $place, array $tags): void

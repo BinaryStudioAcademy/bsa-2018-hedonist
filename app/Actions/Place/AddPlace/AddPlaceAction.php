@@ -85,6 +85,9 @@ class AddPlaceAction
             'website'     => $placeRequest->getWebsite(),
         ]));
 
+        /* PlaceLocalization */
+        $this->placeRepository->setTranslations($place, $placeRequest->getLocalization());
+
         /* PlaceInfo */
         $place->placeInfo()->create([
             'place_id'     => $place->id,

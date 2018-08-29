@@ -5,6 +5,7 @@ namespace Hedonist\Actions\Place\AddPlace;
 class AddPlaceRequest
 {
     private $creatorId;
+    private $localization;
     private $categoryId;
     private $tags;
     private $features;
@@ -24,6 +25,7 @@ class AddPlaceRequest
 
     public function __construct(
         int $creatorId,
+        String $localization,
         int $categoryId,
         ?array $tags,
         ?array $features,
@@ -42,6 +44,7 @@ class AddPlaceRequest
         ?array $photos
     ) {
         $this->creatorId = $creatorId;
+        $this->localization = $localization;
         $this->categoryId = $categoryId;
         $this->tags = $tags;
         $this->features = $features;
@@ -63,6 +66,11 @@ class AddPlaceRequest
     public function getCreatorId(): int
     {
         return $this->creatorId;
+    }
+
+    public function getLocalization(): array
+    {
+        return json_decode($this->localization, true);
     }
 
     public function getCategoryId(): int
@@ -154,6 +162,7 @@ class AddPlaceRequest
     {
         return [
             'creator_id'    => $this->getCreatorId(),
+            'localization'  => $this->getLocalization(),
             'category_id'   => $this->getCategoryId(),
             'tags'          => $this->getTags(),
             'features'      => $this->getFeatures(),
