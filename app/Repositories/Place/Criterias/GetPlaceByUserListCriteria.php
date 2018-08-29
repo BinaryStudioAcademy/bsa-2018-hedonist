@@ -17,8 +17,8 @@ class GetPlaceByUserListCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->whereHas('lists',function(Builder $relation){
-            return $relation->where('user_lists.id',$this->list);
+        return $model->whereHas('lists', function (Builder $relation) {
+            return $relation->where('user_lists.id', $this->list);
         });
     }
 }

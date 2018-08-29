@@ -70,7 +70,7 @@ class UserListController extends ApiController
         }
     }
 
-    public function show(int $id,GetUserListPresenter $presenter)
+    public function show(int $id, GetUserListPresenter $presenter)
     {
         try {
             $responseUserList = $this->getUserListAction->execute(
