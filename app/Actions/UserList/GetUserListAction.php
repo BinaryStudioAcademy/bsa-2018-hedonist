@@ -27,7 +27,6 @@ class GetUserListAction
     {
         $id = $userListRequest->getId();
         $userList = $this->userListRepository->getById($id);
-        clock($userList);
         if (is_null($userList)) {
             throw new UserListExistsException('User list not found.');
         }
