@@ -10,8 +10,14 @@ export default {
             photos: []
         };
     },
-    reviews: {},
-    users: {},
+    reviews: {
+        byId: {},
+        allIds:[]
+    },
+    users: {
+        byId: {},
+        allIds:[]
+    },
     usersWhoLikedReview: [],
     usersWhoDislikedReview: [],
     isUsersModalLoading: false
