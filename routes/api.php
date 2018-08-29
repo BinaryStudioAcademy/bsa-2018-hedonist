@@ -101,6 +101,10 @@ Route::prefix('v1')->group(function () {
         Route::prefix('tastes')->group(function () {
             Route::get('/', 'Api\User\UserTaste\TasteController@getTastes')
                 ->name('tastes.getTastes');
+            Route::post('/', 'Api\User\UserTaste\TasteController@addTaste')
+                ->name('tastes.addTaste');
+            Route::delete('/{id}', 'Api\User\UserTaste\TasteController@deleteTaste')
+                ->name('tastes.deleteTaste');
             Route::get('/my', 'Api\User\UserTasteController@getTastes')
                 ->name('user.tastes.getTastes');
             Route::post('/my', 'Api\User\UserTasteController@addTaste')
