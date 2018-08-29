@@ -9,7 +9,11 @@ export default {
         commit('SET_SEARCH_PLACE_CATEGORY', category);
     },
 
-    loadCategories(context, name) {
+    setLoading: ({commit} , pass) => {
+        commit('SET_TEST' , pass);
+    },
+
+    loadCategories({context , commit}, name) {
         return httpService.get('/places/categories/search?name=' + name + '&limit=')
             .then( result => Promise.resolve(result.data.data))
             .catch( error  => Promise.reject(error));

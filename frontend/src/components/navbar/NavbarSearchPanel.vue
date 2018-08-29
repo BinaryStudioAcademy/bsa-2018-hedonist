@@ -1,5 +1,6 @@
 <template>
     <div class="navbar-start">
+        <Preloader :active="isLoading" />
         <div class="navbar-item">
             <SearchPlaceCategory @select="category = $event" />
         </div>
@@ -18,7 +19,8 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions , mapState } from 'vuex';
+import Preloader from '@/components/misc/Preloader';
 import SearchCity from './SearchCity';
 import SearchPlaceCategory from './SearchPlaceCategory';
 
@@ -30,16 +32,27 @@ export default {
             location: null,
         };
     },
+    computed: {
+        ...mapState("search" , ["isLoading"]),
+//        showItemState () {
+//            return this.$store.state.isLoading
+//        }
+    },
     components: {
         SearchCity,
-        SearchPlaceCategory
+        SearchPlaceCategory,
+        Preloader
     },
     methods: {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
-            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
+            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory',
+            setLoading: 'search/setLoading'
         }),
         search() {
+//            this.$store.commit('search/setLoading' , true);
+//                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  this.$store.state.isLoading = this.isLoading;
+            console.log(this.isLoading);
             let location = '';
             let category = '';
             if (this.location !== null) {
@@ -56,6 +69,11 @@ export default {
                     page: 1
                 }
             });
+//            this.isLoading = false;
+//            setTimeout(() => {
+//                this.$store.dispatch('search/setLoading' , false);
+//                console.log(this.isLoading);
+//            }, 2000)
         }
     },
 };
