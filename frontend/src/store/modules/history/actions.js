@@ -90,7 +90,7 @@ const transformPlaces = (data) => {
                     id: photo.id,
                     description: photo.description,
                     img_url: photo['img_url'],
-                    creatorId: photo['creator_id'],
+                    creator_id: photo['creator_id'],
                 };
             }),
             rating: checkIn.place.rating
