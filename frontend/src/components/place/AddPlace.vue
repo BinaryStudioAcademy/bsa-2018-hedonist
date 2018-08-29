@@ -550,7 +550,8 @@ export default {
                         start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
                         end:    moment().set({'hours': 21, 'minutes': 0}).utc()
                     }
-                }
+                },
+                workWeekend: 1
             },
             selectedTag: '',
             weekdays: [],

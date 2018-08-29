@@ -13,6 +13,12 @@ class AddPlaceRequest
     private $address;
     private $phone;
     private $website;
+    private $facebook;
+    private $instagram;
+    private $twitter;
+    private $menu_url;
+    private $work_weekend;
+    private $photos;
 
     public function __construct(
         int $creatorId,
@@ -24,6 +30,11 @@ class AddPlaceRequest
         string $address,
         string $phone,
         string $website,
+        string $facebook,
+        string $instagram,
+        string $twitter,
+        string $menu_url,
+        int $work_weekend,
         array $photos
     ) {
         $this->creatorId = $creatorId;
@@ -35,6 +46,11 @@ class AddPlaceRequest
         $this->address = $address;
         $this->phone = $phone;
         $this->website = $website;
+        $this->facebook = $facebook;
+        $this->instagram = $instagram;
+        $this->twitter = $twitter;
+        $this->menu_url = $menu_url;
+        $this->work_weekend = $work_weekend;
         $this->photos = $photos;
     }
 
@@ -88,6 +104,31 @@ class AddPlaceRequest
         return $this->website;
     }
 
+    public function getFacebook(): string
+    {
+        return $this->facebook;
+    }
+
+    public function getInstagram(): string
+    {
+        return $this->instagram;
+    }
+
+    public function getTwitter(): string
+    {
+        return $this->twitter;
+    }
+
+    public function getMenuUrl(): string
+    {
+        return $this->menu_url;
+    }
+
+    public function getWorkWeekend(): string
+    {
+        return $this->work_weekend;
+    }
+
     public function getPhotos(): array
     {
         return $this->photos;
@@ -105,6 +146,11 @@ class AddPlaceRequest
             'address'       => $this->getAddress(),
             'phone'         => $this->getPhone(),
             'website'       => $this->getWebsite(),
+            'facebook'      => $this->getFacebook(),
+            'instagram'     => $this->getInstagram(),
+            'twitter'       => $this->getTwitter(),
+            'menu_url'      => $this->getMenuUrl(),
+            'work_weekend'  => $this->getWorkWeekend(),
             'photos'        => $this->getPhotos()
         ];
     }

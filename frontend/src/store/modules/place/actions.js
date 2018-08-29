@@ -10,14 +10,19 @@ export default {
             data.append('city', JSON.stringify(payload.place.city));
             data.append('zip', payload.place.zip);
             data.append('address', payload.place.address);
-            data.append('phone', payload.place.phone);
-            data.append('website', payload.place.website);
-            data.append('creator_id', payload.user.id);
-            data.append('category_id', payload.place.category.id);
-
+            data.append('localization', JSON.stringify(payload.place.localization));
             _.forEach(payload.place.photos, (photo) => {
                 data.append('photos[]', photo);
             });
+            data.append('phone', payload.place.phone);
+            data.append('website', payload.place.website);
+            data.append('facebook', payload.place.facebook);
+            data.append('instagram', payload.place.instagram);
+            data.append('twitter', payload.place.twitter);
+            data.append('menu_url', payload.place.menu);
+            data.append('work_weekend', payload.place.workWeekend);
+            data.append('category_id', payload.place.category.id);
+            data.append('creator_id', payload.user.id);
             httpService.post('/places', data)
                 .then(() => {
                     resolve();

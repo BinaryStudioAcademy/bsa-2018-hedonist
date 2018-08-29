@@ -115,6 +115,11 @@ class PlaceController extends ApiController
                 $request->address,
                 $request->phone,
                 $request->website,
+                $request->facebook,
+                $request->instagram,
+                $request->twitter,
+                $request->menu_url,
+                $request->work_weekend,
                 $request->photos
             ));
         } catch (DomainException $e) {

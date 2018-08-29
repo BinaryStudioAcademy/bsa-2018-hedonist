@@ -4,6 +4,7 @@ namespace Hedonist\Actions\Place\AddPlace;
 
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\Location;
+use Hedonist\Entities\Place\PlaceInfo;
 use Illuminate\Support\Facades\Storage;
 use Hedonist\Entities\Place\PlacePhoto;
 use Hedonist\Services\FileNameGenerator;
@@ -84,6 +85,15 @@ class AddPlaceAction
             'phone'       => $placeRequest->getPhone(),
             'website'     => $placeRequest->getWebsite(),
         ]));
+
+        $place->placeInfo()->create([
+            'place_id'     => $place->id,
+            'work_weekend' => $placeRequest->getWorkWeekend(),
+            'facebook'     => $placeRequest->getFacebook(),
+            'instagram'    => $placeRequest->getInstagram(),
+            'twitter'      => $placeRequest->getTwitter(),
+            'menu_url'     => $placeRequest->getMenuUrl()
+        ]);
 
         foreach ($placeRequest->getPhotos() as $photo) {
             $fileNameGenerator = new FileNameGenerator($photo);
