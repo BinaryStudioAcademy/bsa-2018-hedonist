@@ -14,6 +14,18 @@ export default {
                 });
         });
     },
+    fetchCustomTastes: (context) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/tastes/custom')
+                .then(function (res) {
+                    let transformedTastes = normalizerService.normalize(res.data);
+                    context.commit('SET_CUSTOM_TASTES', transformedTastes);
+                    resolve(res);
+                }).catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
     fetchMyTastes: (context) => {
         return new Promise((resolve, reject) => {
             httpService.get('/tastes/my')
