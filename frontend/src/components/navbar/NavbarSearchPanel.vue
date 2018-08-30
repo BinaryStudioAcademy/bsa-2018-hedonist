@@ -76,7 +76,8 @@ export default {
         },
         onSelect(query) {
             this.selectSearchPlaceOrCategory(query);
-            if (query !== null) {
+
+            if (query !== null && query.id) {
                 this.setCategoryTags(query.id);
             }
         },
