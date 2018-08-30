@@ -11,7 +11,7 @@
             <sup v-if="showMax">/10</sup>
         </div>
 
-        <div class="place-rate__mark-count">
+        <div class="place-rate__mark-count" v-if="showRating">
             {{ ratingCount || 'No' }} marks
         </div>
     </div>
@@ -28,6 +28,10 @@ export default {
         },
 
         showMax: {
+            type: Boolean
+        },
+
+        showRating: {
             type: Boolean
         },
 
