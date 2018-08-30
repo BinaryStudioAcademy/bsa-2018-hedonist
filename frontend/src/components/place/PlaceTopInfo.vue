@@ -101,7 +101,7 @@ import PlacePhotoList from './PlacePhotoList';
 import PlaceRatingModal from './PlaceRatingModal';
 import { STATUS_NONE } from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import PlaceRating from './PlaceRating';
 import PlaceCheckin from './PlaceCheckin';
 
@@ -135,22 +135,18 @@ export default {
     data() {
         return {
             activeTab: 1,
-            userList: {},
             isCheckinModalActive: false
         };
     },
 
     created() {
-        this.$store.dispatch('userList/getListsByUser', this.user.id)
-            .then((result) => {
-                this.userList = result;
-            });
-
+        this.$store.dispatch('userList/getListsByUser', this.user.id);
         this.$store.dispatch('place/getLikedPlace', this.place.id);
     },
 
     computed: {
         ...mapGetters('review', [ 'getReviewsCount' ]),
+        ...mapState('userList', ['userLists']),
 
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
@@ -183,6 +179,10 @@ export default {
         placeMarker() {
             return defaultMarker;
         },
+
+        userList(){
+            return this.userLists ? Object.values(this.userLists.byId) : [];
+        }
     },
 
     methods: {
