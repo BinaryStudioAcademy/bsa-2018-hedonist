@@ -77,6 +77,11 @@ class Place extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function checkins()
+    {
+        return $this->hasMany(Checkin::class);
+    }
+
     public function reviewers()
     {
         return $this->belongsToMany(User::class, 'reviews');
@@ -94,7 +99,7 @@ class Place extends Model
             'user_list_places',
             'place_id',
             'list_id'
-            );
+        );
     }
 
     public function features()

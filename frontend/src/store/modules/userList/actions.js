@@ -70,7 +70,7 @@ export default {
                 id: payload.placeId
             })
                 .then((result) => {
-                    context.dispatch('getListsByUser');
+                    context.dispatch('getListsByUser',payload.userId);
                     resolve(result);
                 })
                 .catch((error) => {

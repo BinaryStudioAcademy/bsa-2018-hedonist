@@ -31,23 +31,10 @@
                 </b-dropdown>
 
 
-                <b-dropdown>
-                    <button class="button is-primary" slot="trigger">
-                        <i class="far fa-share-square" />Share
-                        <b-icon icon="menu-down" />
-                    </button>
-
-                    <b-dropdown-item has-link>
-                        <a :href="'https://www.facebook.com/sharer/sharer.php?u=' + pageLink" target="_blank">
-                            <i class="fab fa-facebook-square" />
-                            Share on Facebook
-                        </a>
-                        <a :href="'http://twitter.com/share?text='+localizedName+'&hashtags=hedonist,binaryacademy&url=' + pageLink" target="_blank">
-                            <i class="fab fa-twitter-square" />
-                            Share on Twitter
-                        </a>
-                    </b-dropdown-item>
-                </b-dropdown>
+                <ShareDropdown
+                    :link="pageLink"
+                    :text="localizedName"
+                />
             </div>
         </div>
         <div class="place-top-info__sidebar columns">
@@ -74,11 +61,9 @@
                     v-if="place.rating"
                     :value="Number(place.rating)"
                     :show-max="true"
+                    :show-rating="true"
+                    :rating-count="place.ratingCount"
                 />
-
-                <div class="place-rate__mark-count">
-                    {{ place.ratingCount || 'No' }} marks
-                </div>
 
                 <button
                     class="button is-primary rating"
@@ -101,9 +86,10 @@ import PlacePhotoList from './PlacePhotoList';
 import PlaceRatingModal from './PlaceRatingModal';
 import { STATUS_NONE } from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import PlaceRating from './PlaceRating';
 import PlaceCheckin from './PlaceCheckin';
+import ShareDropdown from '@/components/misc/ShareDropdown';
 
 export default {
     name: 'PlaceTopInfo',
@@ -112,7 +98,8 @@ export default {
         PlacePhotoList,
         PlaceRatingModal,
         PlaceRating,
-        PlaceCheckin
+        PlaceCheckin,
+        ShareDropdown
     },
 
     props: {
@@ -135,22 +122,18 @@ export default {
     data() {
         return {
             activeTab: 1,
-            userList: {},
             isCheckinModalActive: false
         };
     },
 
     created() {
-        this.$store.dispatch('userList/getListsByUser', this.user.id)
-            .then((result) => {
-                this.userList = result;
-            });
-
+        this.$store.dispatch('userList/getListsByUser', this.user.id);
         this.$store.dispatch('place/getLikedPlace', this.place.id);
     },
 
     computed: {
         ...mapGetters('review', [ 'getReviewsCount' ]),
+        ...mapState('userList', ['userLists']),
 
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
@@ -183,6 +166,10 @@ export default {
         placeMarker() {
             return defaultMarker;
         },
+
+        userList(){
+            return this.userLists ? Object.values(this.userLists.byId) : [];
+        }
     },
 
     methods: {
@@ -213,7 +200,8 @@ export default {
         addPlaceToList: function (listId) {
             this.$store.dispatch('userList/addPlaceToList', {
                 listId: listId,
-                placeId: this.place.id
+                placeId: this.place.id,
+                userId: this.user.id
             });
         }
     }
@@ -224,7 +212,7 @@ export default {
     .place-top-info {
         background-color: #fff;
         .column {
-            padding: 0;
+            padding: 0.75rem;
         }
         &__sidebar {
             margin-top: 20px;

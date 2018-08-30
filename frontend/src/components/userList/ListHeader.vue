@@ -3,9 +3,19 @@
         <figure class="image is-5by3 list-image">
             <img :src="listItem.img_url">
         </figure>
-        <h3 class="title">
-            {{ listItem.name }}
-        </h3>
+        <div class="level list-data is-mobile">
+            <div class="level-left">
+                <h3 class="title">
+                    {{ listItem.name }}
+                </h3>
+            </div>
+            <div class="level-right">
+                <ShareDropdown
+                    :link="pageLink"
+                    :text="pageTitle"
+                />
+            </div>
+        </div>
         <div class="level list-data is-mobile">
             <div class="list-data__user-data level-left">
                 <figure class="image is-32x32 level-item">
@@ -23,8 +33,14 @@
 </template>
 
 <script>
+import ShareDropdown from '@/components/misc/ShareDropdown';
+
 export default {
     name: 'ListHeader',
+    components: {ShareDropdown},
+    comments: {
+        ShareDropdown
+    },
     props: {
         listItem:{
             required:true,
@@ -34,6 +50,12 @@ export default {
     computed: {
         userName(){
             return this.listItem.user.first_name + ' ' + this.listItem.user.last_name;
+        },
+        pageLink() {
+            return location.href;
+        },
+        pageTitle() {
+            return this.listItem.name;
         }
     }
 };
