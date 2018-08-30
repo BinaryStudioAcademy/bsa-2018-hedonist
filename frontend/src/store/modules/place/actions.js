@@ -2,7 +2,46 @@ import httpService from '@/services/common/httpService';
 import normalizerService from '@/services/common/normalizerService';
 
 export default {
-    setPlaceRating: (context, {placeId, rating}) => {
+    addNewPlace: (context, payload) => {
+        return new Promise((resolve, reject) => {
+            let data = new FormData();
+            data.append('longitude', payload.place.location.lng);
+            data.append('latitude', payload.place.location.lat);
+            data.append('city', JSON.stringify(payload.place.city));
+            data.append('zip', payload.place.zip);
+            data.append('address', payload.place.address);
+            data.append('localization', JSON.stringify(payload.place.localization));
+            _.forEach(payload.place.photos, (photo) => {
+                data.append('photos[]', photo);
+            });
+            data.append('phone', payload.place.phone);
+            data.append('website', payload.place.website);
+            data.append('facebook', payload.place.facebook);
+            data.append('instagram', payload.place.instagram);
+            data.append('twitter', payload.place.twitter);
+            data.append('menu_url', payload.place.menu);
+            data.append('category_id', payload.place.category.id);
+            _.forEach(payload.place.tags, (tag) => {
+                data.append('tags[]', tag.id);
+            });
+            _.forEach(payload.place.features, (feature) => {
+                data.append('features[]', feature.id);
+            });
+            data.append('creator_id', payload.user.id);
+            data.append('work_weekend', payload.place.workWeekend);
+            data.append('worktime', JSON.stringify(payload.place.worktime));
+
+            httpService.post('/places', data)
+                .then(() => {
+                    resolve();
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    },
+
+    setPlaceRating: (context, { placeId, rating }) => {
         return new Promise((resolve, reject) => {
             return httpService.post('/places/' + placeId + '/ratings', {
                 rating: rating

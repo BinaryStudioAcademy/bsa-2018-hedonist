@@ -14,6 +14,8 @@ interface CityRepositoryInterface
 
     public function findAll(): Collection;
 
+    public function findByNameAndLocation(String $name, float $lng, float $lat): ?City;
+
     public function findByCriteria(CriteriaInterface $criteria): Collection;
 
     public function deleteById(int $id);
