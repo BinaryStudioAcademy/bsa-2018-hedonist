@@ -118,14 +118,24 @@ class PlaceController extends ApiController
         try {
             $placeResponse = $this->addPlaceAction->execute(new AddPlaceRequest(
                 $request->creator_id,
+                $request->localization,
                 $request->category_id,
-                $request->city_id,
+                $request->tags,
+                $request->features,
+                $request->city,
                 $request->longitude,
                 $request->latitude,
                 $request->zip,
                 $request->address,
                 $request->phone,
-                $request->website
+                $request->website,
+                $request->facebook,
+                $request->instagram,
+                $request->twitter,
+                $request->menu_url,
+                $request->work_weekend,
+                $request->photos,
+                $request->worktime
             ));
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
