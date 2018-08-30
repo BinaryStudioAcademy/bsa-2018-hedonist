@@ -105,6 +105,7 @@
 import Review from '@/components/review/PlacePreviewReviewItem';
 import imagePlaceholder from '@/assets/placeholder_128x128.png';
 import PlaceRating from './PlaceRating';
+import moment from 'moment';
 
 export default {
     name: 'PlaceVisitedPreview',
@@ -119,15 +120,7 @@ export default {
     },
     filters: {
         timeDate: function(dateTime){
-            const ts = new Date(Date.parse(dateTime));
-            return ts.toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute:'2-digit',
-                hour12: false
-            }) + ' '
-            + ts.getDate() + '.'
-            + ts.getMonth() + '.'
-            + ts.getFullYear();
+            return moment(dateTime).format('MMMM DD, HH:mm');
         },
     },
     props: {
