@@ -67,7 +67,6 @@ const transformCheckins = (data) => {
 
 const transformPlaces = (data) => {
     let transformedObj = {};
-
     data.forEach((checkIn) => {
         transformedObj[checkIn.place.id] = {
             id: checkIn.place.id,
@@ -81,7 +80,13 @@ const transformPlaces = (data) => {
             },
             category: {
                 id: checkIn.place.category.id,
-                name: checkIn.place.category.name
+                name: checkIn.place.category.name,
+                tags: checkIn.place.category.tags.map((tag) => {
+                    return {
+                        id: tag.id,
+                        name: tag.name
+                    };
+                })
             },
             createdAt: checkIn.place.createdAt,
             localization: checkIn.place.localization.map((localization) => {
@@ -98,6 +103,15 @@ const transformPlaces = (data) => {
                     creator_id: photo['creator_id'],
                 };
             }),
+            user_lists: checkIn.place.user_lists.map((list) =>{
+                return {
+                    id: list.id,
+                    name: list.name,
+                    user_id: list.user_id,
+                    img_url: list.img_url
+                };
+            }),
+            checkin_count: checkIn.place.checkin_count,
             rating: checkIn.place.rating
         };
     });

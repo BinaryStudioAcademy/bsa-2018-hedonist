@@ -38,6 +38,32 @@
                 </div>
             </div>
             <div class="media">
+                <p><i class="fa fa-user" />
+                    {{ place.checkin_count }} checked in this place</p>
+            </div>
+            <div
+                class="media"
+                v-if="place.user_lists.length"
+            >
+                <div class="media-content">
+                    <b-taglist>
+                        <span>Saved in lists:</span>
+                        <router-link
+                            v-for="user_list in place.user_lists"
+                            :to="`/my-places/${user_list.id}`"
+                            :key="user_list.id"
+                        >
+                            <b-tag>
+                                {{ user_list.name }}
+                            </b-tag>
+                        </router-link>
+                    </b-taglist>
+                </div>
+            </div>
+            <div
+                class="media"
+                v-if="place.category.tags.length"
+            >
                 <div class="media-content">
                     <b-taglist>
                         <b-tag
