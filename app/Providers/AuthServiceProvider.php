@@ -29,5 +29,6 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('delete', UserListPolicy::class . '@delete');
+        Gate::define('update', UserListPolicy::class . '@update');
     }
 }

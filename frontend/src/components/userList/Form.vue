@@ -18,13 +18,13 @@
                             name="photo"
                         >
                         <span class="file-cta width100">
-                                <span class="file-icon">
-                                    <i class="fas fa-upload" />
-                                </span>
-                                <span class="file-label">
-                                    Load a preview
-                                </span>
+                            <span class="file-icon">
+                                <i class="fas fa-upload" />
                             </span>
+                            <span class="file-label">
+                                Load a preview
+                            </span>
+                        </span>
                     </label>
                 </div>
             </div>
@@ -39,7 +39,9 @@
                 name="name"
             >
             <div class="form-actions">
-                <button class="button is-success" @click="onSave">Save</button>
+                <button v-if="id" class="button is-info" @click="onUpdate">Update</button>
+                <button v-if="id" class="button is-danger" @click="onDelete">Delete</button>
+                <button v-else class="button is-success" @click="onAdd">Save</button>
             </div>
         </div>
     </form>
@@ -51,17 +53,23 @@ import { required } from 'vuelidate/lib/validators';
 import { mapActions } from 'vuex';
 
 export default {
-    name: "Form",
+    name: 'Form',
     props: {
         attachedPlaces: {
             type: Array,
             required: true
         },
+        id: {
+            type: Number,
+            default: null
+        },
         listName: {
             type: String,
+            default: null
         },
-        imagePreview: {
+        listImage: {
             type: String,
+            default: null
         }
     },
     data: function() {
@@ -71,6 +79,7 @@ export default {
                 image: null
             },
             imageStub: imageStub,
+            imagePreview: this.$props.listImage,
             errors: [],
             availableImageSize: 5000000,
             availableImageTypes: [
@@ -78,17 +87,15 @@ export default {
                 'image/jpg',
                 'image/png'
             ]
-        }
-    },
-    watch: {
-        'listName': function() {
-            console.log(1);
-            this.userList.name = this.listName;
-        }
+        };
     },
     methods: {
-        ...mapActions({ save: 'userList/saveUserList' }),
-        onSave () {
+        ...mapActions('userList', {
+            add: 'addUserList',
+            update: 'updateUserList',
+            delete: 'deleteUserList'
+        }),
+        onAdd () {
             this.$emit('loading', true);
             this.validateForm();
             if (this.formHasErrors()) {
@@ -97,7 +104,7 @@ export default {
                 return;
             }
 
-            this.save({
+            this.add({
                 userList: this.userList,
                 attachedPlaces: this.attachedPlaces
             })
@@ -109,6 +116,38 @@ export default {
                 .catch((err) => {
                     this.$emit('loading', false);
                     this.onError(err.response.data.message);
+                });
+        },
+        onUpdate () {
+            this.$emit('loading', true);
+            if (this.formHasErrors()) {
+                this.onError(this.getFormError());
+                this.$emit('loading', false);
+                return;
+            }
+
+            this.update({
+                userList: this.userList,
+                attachedPlaces: this.attachedPlaces,
+                id: this.id
+            })
+                .then(() => {
+                    this.$emit('loading', false);
+                    this.onSuccess({ message: 'The list was updated!' });
+                    this.$router.push({ name: 'UserListsPage' });
+                })
+                .catch((err) => {
+                    this.$emit('loading', false);
+                    this.onError(err.response.data.message);
+                });
+        },
+        onDelete() {
+            this.$emit('loading', true);
+            this.delete(this.id)
+                .then(() => {
+                    this.$emit('loading', false);
+                    this.onSuccess({ message: 'The list was deleted!' });
+                    this.$router.push({ name: 'UserListsPage' });
                 });
         },
         validateForm() {
@@ -176,7 +215,7 @@ export default {
             },
         }
     }
-}
+};
 </script>
 
 <style scoped lang="scss">
@@ -200,6 +239,7 @@ export default {
     }
 
     .image-wrapper {
+        flex-shrink: 0;
         width: 180px;
         height: 128px;
         overflow: hidden;
@@ -241,6 +281,7 @@ export default {
     @media screen and (max-width: 769px) {
         .form {
             position: relative;
+            top: 0;
         }
     }
 

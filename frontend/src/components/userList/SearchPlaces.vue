@@ -29,13 +29,16 @@
                         </div>
                         <div class="search-places__details">
                             <div class="search-places__name">{{ getPlaceName(place) }}</div>
-                            <div class="search-places__city">{{ place.city.name }}</div>
+                            <div>
+                                <span class="search-places__city">{{ place.city.name }}</span>,&nbsp;
+                                <span class="search-places__category">{{ place.category.name }}</span>
+                            </div>
                             <div class="search-places__description">{{ place.address }}</div>
                         </div>
                         <div class="search-places__rating">
-                                <span :class="['place-rating','place-rating--' + ratingModifier(place.rating)]">
-                                    {{ place.rating }}
-                                </span>
+                            <span :class="['place-rating','place-rating--' + ratingModifier(place.rating)]">
+                                {{ place.rating }}
+                            </span>
                         </div>
                     </li>
                 </ul>
@@ -53,7 +56,7 @@
                         class="attached-places__detach button is-danger is-large"
                         @click="detachPlace(place)"
                     >
-                         -
+                        -
                     </button>
                     <div class="attached-places__img-wrapper">
                         <img
@@ -65,12 +68,13 @@
                     <div class="attached-places__details">
                         <div class="attached-places__name">{{ getPlaceName(place) }}</div>
                         <div class="attached-places__city">{{ place.city.name }}</div>
+                        <div class="attached-places__category">{{ place.category.name }}</div>
                         <div class="attached-places__description">{{ place.address }}</div>
                     </div>
                     <div class="attached-places__rating">
-                            <span :class="['place-rating','place-rating--' + ratingModifier(place.rating)]">
-                                {{ place.rating }}
-                            </span>
+                        <span :class="['place-rating','place-rating--' + ratingModifier(place.rating)]">
+                            {{ place.rating }}
+                        </span>
                     </div>
                 </li>
             </ul>
@@ -83,7 +87,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-    name: "SearchPlaces",
+    name: 'SearchPlaces',
     props: {
         attachedPlaces: {
             type: Array,
@@ -97,7 +101,7 @@ export default {
             placesLocation: '30.5241,50.4501',
             places: [],
             isPlaceFetching: false,
-        }
+        };
     },
     computed: {
         searchInputLoadingClass() {
@@ -156,7 +160,7 @@ export default {
             return place.photos[0]['description'];
         },
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -194,10 +198,9 @@ export default {
 
     .places {
         grid-area: places;
+        background-color: white;
 
         .search-places {
-            position: sticky;
-            top: 264px;
             background: #f0f4f5;
             border-bottom: 1px solid #dae4e6;
             border-top: 1px solid #dae4e6;
@@ -227,7 +230,6 @@ export default {
             &__item {
                 line-height: 16px;
                 overflow: hidden;
-                white-space: nowrap;
                 background: #fff;
                 cursor: pointer;
                 display: flex;
@@ -290,6 +292,7 @@ export default {
             }
 
             &__img-wrapper {
+                flex-shrink: 0;
                 width: 80px;
                 height: 50px;
             }
@@ -311,6 +314,7 @@ export default {
             }
 
             &__img-wrapper {
+                flex-shrink: 0;
                 width: 180px;
                 height: 128px;
             }

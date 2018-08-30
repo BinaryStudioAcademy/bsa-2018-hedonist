@@ -3,13 +3,15 @@
         <Preloader :active="isLoading" />
         <Form
             :attachedPlaces="attachedPlaces"
-            :image-preview="userListImageUrl"
-            :name="userListName"
-            v-on:loading="loading"
+            :list-image="userListImageUrl"
+            :list-name="userListName"
+            :id="parseInt(id)"
+            v-if="!isLoading"
+            @loading="loading"
         />
         <SearchPlaces
-            :attachedPlaces="attachedPlaces"
-            v-on:changeAttachedPlaces="changeAttachedPlaces"
+            :attached-places="attachedPlaces"
+            @changeAttachedPlaces="changeAttachedPlaces"
         />
         <div class="map">
             <div class="mapbox-wrapper">
@@ -41,7 +43,6 @@
 </template>
 
 <script>
-import UserListAdd from '@/components/userList/UserListAdd';
 import Form from '@/components/userList/Form';
 import SearchPlaces from '@/components/userList/SearchPlaces';
 import mapSettingsService from '@/services/map/mapSettingsService';
@@ -54,7 +55,6 @@ import Preloader from '@/components/misc/Preloader';
 export default {
     name: 'UserListAddUpdatePage',
     components: {
-        UserListAdd,
         SearchPlaces,
         Mapbox,
         Form,
@@ -69,35 +69,34 @@ export default {
             attachedPlaces: [],
             userListName: null,
             userListImageUrl: null,
-            isLoading: false,
+            isLoading: true,
             id: null
-        }
+        };
     },
     created() {
-        if (this.$route.params.id) {
-            this.isLoading = true;
-            this.id = this.$route.params.id;
-            const userList  = this.getUserList(this.id);
-            if (userList) {
+        if (!this.$route.params.id) {
+            this.isLoading = false;
+            return;
+        }
+
+        this.id = this.$route.params.id;
+        this.fetchListById(this.id)
+            .then(() => {
+                const userList  = this.getUserListById(this.id);
                 this.userListName = userList.name;
                 this.userListImageUrl = userList['img_url'];
+                this.attachedPlaces = this.getPlacesByIds(userList.places);
                 this.isLoading = false;
-            }
-            this.isLoading = false;
-            this.getListById(this.id)
-                .then(() => {
-                    const userList  = this.getUserList(this.id);
-                    this.userListName = userList.name;
-                    this.userListImageUrl = userList['img_url'];
-                    this.isLoading = false;
-                });
-        }
+            });
     },
     computed: {
-        ...mapGetters({ getUserList: 'userList/getById' }),
+        ...mapGetters({
+            getUserListById: 'userList/getById',
+            getPlacesByIds: 'userList/getPlacesByIds'
+        }),
     },
     methods: {
-        ...mapActions({ getListById: 'userList/getListById' }),
+        ...mapActions({ fetchListById: 'userList/getListById' }),
         mapInitialize(map) {
             this.markerManager = markerManager.getService(map);
         },
@@ -163,6 +162,9 @@ export default {
             grid-template-rows: auto;
         }
 
+        .mapbox-wrapper {
+            height: 50vh;
+        }
         .btn-to-top {
             display: block;
         }

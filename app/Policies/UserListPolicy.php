@@ -14,4 +14,9 @@ class UserListPolicy
     {
         return $user->id === $userList->user_id;
     }
+
+    public function update(User $user, UserList $userList)
+    {
+        return $user->id === $userList->user_id;
+    }
 }
