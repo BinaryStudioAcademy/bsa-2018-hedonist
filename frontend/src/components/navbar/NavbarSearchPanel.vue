@@ -19,21 +19,20 @@
 </template>
 
 <script>
-import {mapActions, mapState, mapMutations} from 'vuex';
+import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
 import Preloader from '@/components/misc/Preloader';
 import SearchCity from './SearchCity';
 import SearchPlaceCategory from './SearchPlaceCategory';
 
 export default {
     name: 'NavbarSearchPanel',
-    data() {
-        return {
-            category: null,
-            location: null,
-        };
-    },
     computed: {
         ...mapState('search', ['isLoading']),
+        ...mapGetters({
+            city: 'search/getSelectedCity',
+            placeCategory: 'search/getSelectedPlaceCategory',
+            place: 'search/getSelectedPlace'
+        }),
     },
     components: {
         SearchCity,
@@ -43,7 +42,7 @@ export default {
     methods: {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
-            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory',
+            selectSearchPlaceOrCategory: 'search/selectSearchPlaceOrCategory',
         }),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE',
@@ -74,13 +73,6 @@ export default {
             });
 
         }
-    },
-    computed: {
-        ...mapGetters({
-            city: 'search/getSelectedCity',
-            placeCategory: 'search/getSelectedPlaceCategory',
-            place: 'search/getSelectedPlace'
-        }),
     }
 };
 </script>
