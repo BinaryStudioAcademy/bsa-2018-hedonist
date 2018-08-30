@@ -82,6 +82,7 @@ class GetPlaceCollectionPresenter
                 $result['photo'] = $this->photoPresenter->present($place->photos[0]);
             }
             $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
+            $result['city'] = $this->cityPresenter->present($place->city);
 
             return $result;
         })->toArray();

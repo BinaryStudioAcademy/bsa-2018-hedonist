@@ -13,7 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 class City extends Model
 {
     protected $fillable = [
-        "name"
+        'name',
+        'longitude',
+        'latitude'
     ];
 
     public function places()

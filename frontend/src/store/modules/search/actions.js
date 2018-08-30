@@ -1,4 +1,6 @@
 import httpService from '@/services/common/httpService';
+import LocationService from '@/services/location/locationService';
+import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     selectSearchCity: ({commit}, city) => {
@@ -13,6 +15,15 @@ export default {
         if (item !== null) {
             if (item.place !== undefined) {
                 commit('SET_SEARCH_PLACE', item);
+
+                LocationService.getCityList(mapSettingsService.getMapboxToken(), item.city.name)
+                    .then( res => {
+                        if (res.length > 0) {
+                            commit('SET_SEARCH_CITY', res[0]);
+                        } else {
+                            commit('DELETE_SEARCH_CITY');
+                        }
+                    });
                 commit('DELETE_SEARCH_PLACE_CATEGORY');
             } else {
                 commit('SET_SEARCH_PLACE_CATEGORY', item);
