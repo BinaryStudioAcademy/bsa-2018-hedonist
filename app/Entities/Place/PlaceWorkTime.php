@@ -14,6 +14,8 @@ class PlaceWorkTime extends Model
     const SA = 'sa';
     const SU = 'su';
 
+    public $timestamps = false;
+
     protected $table = 'place_worktime';
 
     protected $fillable = [

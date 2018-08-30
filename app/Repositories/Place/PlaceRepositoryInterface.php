@@ -29,5 +29,13 @@ interface PlaceRepositoryInterface
 
     public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection;
 
+    public function setTranslations(Place $place, array $localizations): void;
+
+    public function syncTags(Place $place, array $tags): void;
+
+    public function syncFeatures(Place $place, array $features): void;
+
+    public function setWorktime(Place $place, array $worktime): void;
+
     public function getPlaceCheckinsCountByUser(int $placeId, int $userId) : int;
 }
