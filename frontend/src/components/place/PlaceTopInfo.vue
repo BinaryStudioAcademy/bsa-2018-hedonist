@@ -213,7 +213,8 @@ export default {
         addPlaceToList: function (listId) {
             this.$store.dispatch('userList/addPlaceToList', {
                 listId: listId,
-                placeId: this.place.id
+                placeId: this.place.id,
+                userId: this.user.id
             });
         }
     }
