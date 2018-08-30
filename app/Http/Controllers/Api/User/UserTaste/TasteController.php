@@ -40,10 +40,10 @@ class TasteController extends ApiController
         return $this->successResponse($getTastesResponse->getTastes());
     }
 
-    public function getTastesAutocomplete(String $query, TasteAutocompletePresenter $presenter)
+    public function getTastesAutocomplete(Request $request, TasteAutocompletePresenter $presenter)
     {
         $getTastesAutocompleteResponse = $this->getTastesAutocompleteAction->execute(
-            new GetTastesAutocompleteRequest($query)
+            new GetTastesAutocompleteRequest((string)$request['query'])
         );
 
         return $this->successResponse($presenter->present($getTastesAutocompleteResponse));

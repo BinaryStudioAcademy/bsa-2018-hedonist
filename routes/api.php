@@ -103,7 +103,7 @@ Route::prefix('v1')->group(function () {
         Route::prefix('tastes')->group(function () {
             Route::get('/', 'Api\User\UserTaste\TasteController@getTastes')
                 ->name('tastes.getTastes');
-            Route::get('/autocomplete/{query}', 'Api\User\UserTaste\TasteController@getTastesAutocomplete')
+            Route::get('/autocomplete', 'Api\User\UserTaste\TasteController@getTastesAutocomplete')
                 ->name('taste.getTastesAutocomplete');
             Route::post('/custom', 'Api\User\UserTaste\TasteController@addTaste')
                 ->name('tastes.addCustomTaste');
