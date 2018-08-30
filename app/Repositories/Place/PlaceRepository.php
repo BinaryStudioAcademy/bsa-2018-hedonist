@@ -2,6 +2,8 @@
 
 namespace Hedonist\Repositories\Place;
 
+use Carbon\Carbon;
+use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Place\Checkin;
 use Hedonist\Entities\Place\Location;
 use Illuminate\Support\Facades\DB;
@@ -106,6 +108,40 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         $this->resetCriteria();
 
         return $result;
+    }
+
+    public function setTranslations(Place $place, array $localizations): void
+    {
+        foreach ($localizations as $key => $value) {
+            $place->localization()->create([
+               'place_name'        => $value['name'],
+               'place_description' => $value['description'],
+               'place_id'          => $place->id,
+               'language_id'       => Language::where('code', $key)->first()->id
+            ]);
+        }
+    }
+
+    public function syncTags(Place $place, array $tags): void
+    {
+        $place->tags()->sync($tags);
+    }
+
+    public function syncFeatures(Place $place, array $features): void
+    {
+        $place->features()->sync($features);
+    }
+
+    public function setWorktime(Place $place, array $worktime): void
+    {
+        foreach ($worktime as $key => $value) {
+            $place->worktime()->create([
+                'place_id' => $place->id,
+                'day_code' => $key,
+                'start_time' => Carbon::parse($value['start'])->toDateTimeString(),
+                'end_time' => Carbon::parse($value['end'])->toDateTimeString()
+            ]);
+        }
     }
 
     public function getPlaceCheckinsCountByUser(int $placeId, int $userId) : int

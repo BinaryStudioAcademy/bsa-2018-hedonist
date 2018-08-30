@@ -29,57 +29,81 @@
 
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'SearchFilterPlace',
     data() {
         return {
             timeDelay: 0,
-            filterPlaces: [
-                {
+            filterPlaces: {
+                top_rated:{
                     id: 1,
-                    name: 'saved',
+                    name: 'Top Rated',
+                    check: false,
+                    isLoading: false,
+                    tooltipText: 'Click to see places with at least 8 rating'
+                },
+                saved:{
+                    id: 2,
+                    name: 'Saved',
                     check: false,
                     isLoading: false,
                     tooltipText: 'Click to see saved places'
                 },
-                {
-                    id: 2,
-                    name: 'checkin',
+                checkin:{
+                    id: 3,
+                    name: 'Checkin',
                     check: false,
                     isLoading: false,
                     tooltipText: 'Click to see checkin places'
                 },
-                {
-                    id: 3,
-                    name: 'not visited',
+                top_reviewed:{
+                    id: 4,
+                    name: 'Top Reviewed',
                     check: false,
                     isLoading: false,
-                    tooltipText: 'Click to see not visited places'
+                    tooltipText: 'Click to see places with at least 10 reviews'
                 },
-            ],
+            },
         };
     },
     methods: {
+        ...mapActions({
+            setFilters: 'search/setFilters',
+            initFilters: 'search/initFilters'
+        }),
         checkFilter(index) {
             let filterPlaces = this.filterPlaces[index];
 
             if (filterPlaces.check === false) {
                 filterPlaces.isLoading = true;
-                setTimeout(function () {
+                setTimeout(()=>{
                     filterPlaces.isLoading = false;
                     filterPlaces.check = !filterPlaces.check;
+                    this.setFilters({[index]: filterPlaces.check});
                 }, 300);
             } else {
                 filterPlaces.check = !filterPlaces.check;
                 filterPlaces.isLoading = true;
-                setTimeout(function () {
+                setTimeout(()=> {
                     filterPlaces.isLoading = false;
-
+                    this.setFilters({[index]: filterPlaces.check});
                 }, 300);
+            }
+        },
+        init() {
+            this.initFilters();
+            for(let filter in this.filterPlaces){
+                this.filterPlaces[filter].check = this.getFilter(filter);
             }
         }
     },
-    computed: {},
+    computed: {
+        ...mapGetters('search', [ 'getFilter' ]),
+    },
+    created: function(){
+        this.init();
+    }
 
 };
 

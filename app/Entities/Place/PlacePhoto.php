@@ -8,7 +8,7 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class PlacePhoto extends Model
 {
-    protected $fillable = ['creator_id', 'img_url', 'description', 'place_id'];
+    protected $fillable = ['creator_id', 'img_url', 'description', 'place_id', 'width', 'height'];
 
     public function creator()
     {

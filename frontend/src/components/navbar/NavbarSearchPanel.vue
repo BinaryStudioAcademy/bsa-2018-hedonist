@@ -5,7 +5,7 @@
             <SearchPlaceCategory @select="onSelect" />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="selectSearchCity" />
+            <SearchCity @select="selectCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
@@ -26,6 +26,12 @@ import SearchPlaceCategory from './SearchPlaceCategory';
 
 export default {
     name: 'NavbarSearchPanel',
+    data: function(){
+        return {
+            location: null,
+            category: null,
+        };
+    },
     computed: {
         ...mapState('search', ['isLoading']),
         ...mapGetters({
@@ -42,40 +48,27 @@ export default {
     methods: {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
+            updateQueryFilters: 'search/updateQueryFilters',
             selectSearchPlaceOrCategory: 'search/selectSearchPlaceOrCategory',
             setCategoryTags: 'category/fetchCategoryTags',
         }),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE',
         }),
+        selectCity(city){
+            this.location = city;
+        },
+        selectPlaceOrCategory(category){
+            this.category = category;
+        },
         search() {
             this.setLoadingState(true);
-            let location = '';
-            let category = '';
-            let placeName = '';
-            if (this.city !== null) {
-                location = this.city.longitude + ',' + this.city.latitude;
-            }
-            if (this.placeCategory !== null) {
-                category = this.placeCategory.id;
-            }
-            if (this.place !== null) {
-                placeName = this.place.name;
-            }
-
-            this.$router.push({
-                name: 'SearchPlacePage',
-                query: {
-                    category: category,
-                    location: location,
-                    searchName: placeName,
-                    page: 1
-                }
-            });
-
+            this.selectSearchCity(this.location);
+            this.selectSearchPlaceOrCategory(this.category);
+            this.updateQueryFilters();
         },
         onSelect(query) {
-            this.selectSearchPlaceOrCategory(query);
+            this.selectPlaceOrCategory(query);
 
             if (query !== null && query.id) {
                 this.setCategoryTags(query.id);
