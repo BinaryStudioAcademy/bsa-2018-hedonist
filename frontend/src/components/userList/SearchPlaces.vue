@@ -201,6 +201,8 @@ export default {
         background-color: white;
 
         .search-places {
+            position: sticky;
+            top: 264px;
             background: #f0f4f5;
             border-bottom: 1px solid #dae4e6;
             border-top: 1px solid #dae4e6;
@@ -340,6 +342,16 @@ export default {
                     font-size: 25px;
                     padding: 20px;
                 }
+            }
+        }
+    }
+
+
+    @media screen and (max-width: 769px) {
+        .places {
+            .search-places {
+                position: relative;
+                top: 0;
             }
         }
     }

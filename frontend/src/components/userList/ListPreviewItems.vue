@@ -73,7 +73,7 @@ export default {
         setCityFilter(cityId) {
             this.filterBy.cityId = cityId;
         },
-        sortByAsc(lists) {
+        sortByDesc(lists) {
             let listArray = [];
             for (const listId in lists) {
                 if (lists.hasOwnProperty(listId)) {
