@@ -14,6 +14,7 @@
                 :key="userList.id"
                 :user-list="userList"
                 :timer="50 * (key+1)"
+                @loading="loading"
             />
         </ul>
     </section>
@@ -82,6 +83,9 @@ export default {
             }
 
             return listArray.reverse();
+        },
+        loading(value) {
+            this.isLoading = value;
         }
     },
 };

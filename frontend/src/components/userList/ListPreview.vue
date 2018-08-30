@@ -98,8 +98,10 @@ export default {
             this.$parent.setCityFilter(cityId);
         },
         onDelete() {
+            this.$emit('loading', true);
             this.delete(this.userList.id)
                 .then(() => {
+                    this.$emit('loading', false);
                     this.$toast.open({
                         message: 'The list was removed',
                         position: 'is-top',

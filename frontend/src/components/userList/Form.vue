@@ -80,7 +80,6 @@ export default {
             },
             imageStub: imageStub,
             imagePreview: this.$props.listImage,
-            errors: [],
             availableImageSize: 5000000,
             availableImageTypes: [
                 'image/jpeg',
@@ -97,9 +96,8 @@ export default {
         }),
         onAdd () {
             this.$emit('loading', true);
-            this.validateForm();
-            if (this.formHasErrors()) {
-                this.onError(this.getFormError());
+            if (this.$v.userList.$invalid) {
+                this.onError('Photo and name are required!');
                 this.$emit('loading', false);
                 return;
             }
@@ -120,12 +118,6 @@ export default {
         },
         onUpdate () {
             this.$emit('loading', true);
-            if (this.formHasErrors()) {
-                this.onError(this.getFormError());
-                this.$emit('loading', false);
-                return;
-            }
-
             this.update({
                 userList: this.userList,
                 attachedPlaces: this.attachedPlaces,
@@ -149,17 +141,6 @@ export default {
                     this.onSuccess({ message: 'The list was deleted!' });
                     this.$router.push({ name: 'UserListsPage' });
                 });
-        },
-        validateForm() {
-            if (this.$v.userList.$invalid) {
-                this.errors.push('Photo and name are required!');
-            }
-        },
-        formHasErrors() {
-            return this.errors.length > 0;
-        },
-        getFormError() {
-            return this.errors[0];
         },
         onError (message = 'Error occurred') {
             this.$toast.open({
