@@ -29,6 +29,7 @@ export default {
     methods: {
         onClick() {
             this.isActive = !this.isActive;
+            this.$emit('onSelectTag', this.tag.id, this.isActive);
         }
     },
 };

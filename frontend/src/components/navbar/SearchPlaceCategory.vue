@@ -9,7 +9,7 @@
             class="navbar__search-autocomplete"
             field="name"
             @input="loadItems"
-            @select="onSelect"
+            @select="option => this.$emit('select', option)"
         >
 
             <template slot-scope="props">
@@ -44,10 +44,6 @@ export default {
             loadCategoriesByName: 'search/loadCategories',
             loadPlaces: 'search/loadPlaces'
         }),
-        ...mapActions('category', [
-            'fetchCategoryTags',
-            'resetCategoryTags',
-        ]),
         loadItems: _.debounce(function () {
             this.findItems.data = [];
             this.findItems.isFetching = true;
@@ -87,14 +83,6 @@ export default {
                 .then( res => {
                     this.findItems.data = res;
                 });
-        },
-        onSelect(option) {
-            if (option) {
-                this.$emit('select', option);
-                this.fetchCategoryTags(option.id);
-            } else {
-                this.resetCategoryTags();
-            }
         },
     },
     created() {

@@ -2,7 +2,7 @@
     <div class="navbar-start">
         <Preloader :active="isLoading" />
         <div class="navbar-item">
-            <SearchPlaceCategory @select="selectSearchPlaceOrCategory" />
+            <SearchPlaceCategory @select="onSelect" />
         </div>
         <div class="navbar-item">
             <SearchCity @select="selectSearchCity" />
@@ -43,6 +43,7 @@ export default {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
             selectSearchPlaceOrCategory: 'search/selectSearchPlaceOrCategory',
+            setCategoryTags: 'category/fetchCategoryTags',
         }),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE',
@@ -72,7 +73,13 @@ export default {
                 }
             });
 
-        }
+        },
+        onSelect(query) {
+            this.selectSearchPlaceOrCategory(query);
+            if (query !== null) {
+                this.setCategoryTags(query.id);
+            }
+        },
     }
 };
 </script>

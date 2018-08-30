@@ -5,6 +5,7 @@
             <CategoryTagsContainer
                 v-if="categoryTagsList.length"
                 :tags="categoryTagsList"
+                @onSelectTag="onSelectTag(tagId, isTagActive)"
             />
             <template v-for="(place, index) in places">
                 <PlacePreview
@@ -145,7 +146,10 @@ export default {
                     this.isPlacesLoaded = true;
                     this.draw.deleteAll();
                 });
-        }
+        },
+        onSelectTag(tagId, isTagActive) {
+            // TODO
+        },
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {

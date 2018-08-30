@@ -29,8 +29,4 @@ export default {
                 });
         });
     },
-
-    resetCategoryTags: context => {
-        context.commit('RESET_CATEGORY_TAGS');
-    },
 };

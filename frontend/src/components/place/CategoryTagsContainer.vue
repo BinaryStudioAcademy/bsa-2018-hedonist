@@ -4,7 +4,11 @@
 
         <div class="tags">
             <template v-for="tag in tags">
-                <CategoryTag :key="tag.id" :tag="tag" />
+                <CategoryTag
+                    :key="tag.id"
+                    :tag="tag"
+                    @onSelectTag="onSelectTag(tagId, isTagActive)"
+                />
             </template>
         </div>
     </div>    
@@ -24,6 +28,12 @@ export default {
         tags: {
             required: true,
             type: Array,
+        },
+    },
+
+    methods: {
+        onSelectTag(tagId, isTagActive) {
+            this.$emit('onSelectTag', tagId, isTagActive);
         },
     },
 };
