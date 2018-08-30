@@ -51,7 +51,21 @@
                                 </span>
                             </b-upload>
                         </div>
-
+                        <ul v-if="isTastes">
+                            <li
+                                v-for="(taste, index) in myTastes.byId"
+                                class="taste"
+                                :class="{added: isChecked(taste.id)}"
+                                :key="taste.id"
+                                :style="{ animationDelay: index * 0.02 + 's' }"
+                            >
+                                <div class="pill" @click="toggleTaste(taste.id)">
+                                    {{ taste.name }}
+                                    <i v-if="isChecked(taste.id)" class="fas fa-check" />
+                                    <i v-else class="fas fa-plus" />
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </b-field>
 
@@ -85,7 +99,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapState } from 'vuex';
 
 export default {
     name: 'AddReview',
@@ -103,17 +117,24 @@ export default {
                 description: ''
             },
             photos: [],
+            selectedTasteIds: []
         };
+    },
+    created() {
+        this.fetchMyTastes();
     },
     computed: {
         isPhotos() {
             return !_.isEmpty(this.photos);
         },
-
+        ...mapState('taste', ['myTastes']),
         ...mapGetters('auth', ['hasToken', 'getAuthenticatedUser']),
         userId: function () {
             return this.getAuthenticatedUser.id;
-        }
+        },
+        isTastes() {
+            return !_.isEmpty(this.myTastes.byId);
+        },
     },
     methods: {
         getPreview (photo) {
@@ -121,6 +142,7 @@ export default {
         },
 
         ...mapActions('review', ['addReview', 'addReviewPhoto']),
+        ...mapActions('taste', ['fetchMyTastes']),
         onAddReview () {
             this.newReview.user_id = this.userId;
             this.newReview.place_id = this.placeId;
@@ -165,7 +187,17 @@ export default {
         },
         deletePhoto(index) {
             this.photos.splice(index, 1);
-        }
+        },
+        isChecked(id) {
+            return this.selectedTasteIds.includes(id);
+        },
+        toggleTaste(id) {
+            if (this.selectedTasteIds.includes(id)) {
+                this.selectedTasteIds.splice(this.selectedTasteIds.indexOf(id), 1);
+            } else {
+                this.selectedTasteIds.push(id);
+            }
+        },
     }
 };
 </script>
@@ -186,6 +218,39 @@ export default {
 
             img {
                 border: 1px solid #4e595d;
+            }
+        }
+    }
+
+    .taste {
+        animation-fill-mode: both;
+        animation-duration: .2s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease;
+
+        display: inline-block;
+        margin: 0 5px 7px 5px;
+
+        .pill {
+            border-radius: 100px;
+            background: #2d5be3;
+            color: #fff;
+            cursor: pointer;
+            font-size: 0.9rem;
+            line-height: 100%;
+            padding: 7px 10px 7px 12px;
+            position: relative;
+
+            i {
+                margin-left: 5px;
+            }
+        }
+        .pill:hover {
+            top: -1px;
+        }
+        &.added {
+            .pill {
+                background: #f94877;
             }
         }
     }
