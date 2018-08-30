@@ -14,18 +14,6 @@ export default {
                 });
         });
     },
-    fetchCustomTastes: (context) => {
-        return new Promise((resolve, reject) => {
-            httpService.get('/tastes/custom')
-                .then(function (res) {
-                    let transformedTastes = normalizerService.normalize(res.data);
-                    context.commit('SET_CUSTOM_TASTES', transformedTastes);
-                    resolve(res);
-                }).catch(function (err) {
-                    reject(err);
-                });
-        });
-    },
     fetchMyTastes: (context) => {
         return new Promise((resolve, reject) => {
             httpService.get('/tastes/my')
@@ -70,7 +58,7 @@ export default {
                 .then(function (res) {
                     let taste = res.data.data;
                     context.commit('ADD_CUSTOM_TASTE', taste);
-                    resolve(res);
+                    resolve(res.data.data);
                 }).catch(function (err) {
                     reject(err);
                 });

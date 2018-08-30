@@ -15,17 +15,13 @@
                 </div>
             </li>
         </ul>
-        <b-field label="My own">
-            <b-taginput
-                v-model="customTastesInput"
-                ellipsis
-                icon="label"
-                type="is-info"
-                placeholder="Add a taste"
-                @add="addCustomTaste"
-                @remove="deleteCustomTaste"
-            />
-        </b-field>
+        <b-input
+            class="taste-input"
+            placeholder="Enter a tag"
+            rounded
+            v-model.trim="tasteInput"
+            @keyup.native.enter="addCustomTaste(tasteInput)"
+        />
     </div>
 </template>
 
@@ -39,7 +35,7 @@ export default {
             timeDelay: 0,
             selectedIds: [],
             tastesData: [],
-            customTastesInput: []
+            tasteInput: ''
         };
     },
     methods: {
@@ -57,16 +53,23 @@ export default {
             } else {
                 this.addTaste(id);
             }
-            tasteData.isClick = true;
-            tasteData.isAnimate = true;
-            setTimeout(function () {
-                tasteData.isAnimate = false;
-            }, 200);
+            if (this.allTastes.byId[id].is_default) {
+                tasteData.isClick = true;
+                tasteData.isAnimate = true;
+                setTimeout(function () {
+                    tasteData.isAnimate = false;
+                }, 200);
+            }
         },
         deleteTaste(id) {
-            this.tastesData[id].check = false;
-            this.$store.dispatch('taste/deleteMyTaste', id);
-            this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
+            if (this.allTastes.byId[id].is_default) {
+                this.tastesData[id].check = false;
+                this.$store.dispatch('taste/deleteMyTaste', id).then(() => {
+                    this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
+                });
+            } else {
+                this.deleteCustomTaste(id);
+            }
         },
         addTaste(id) {
             this.tastesData[id].check = true;
@@ -74,13 +77,15 @@ export default {
             this.selectedIds.push(id);
         },
         addCustomTaste(name) {
-            this.$store.dispatch('taste/addCustomTaste', name);
+            this.$store.dispatch('taste/addCustomTaste', name).then((res) => {
+                this.checkTaste(res.id);
+                this.tasteInput = '';
+            });
         },
-        deleteCustomTaste(name) {
-            let taste = this.getCustomTasteByName(name);
-            if (taste) {
-                this.$store.dispatch('taste/deleteCustomTaste', taste.id);
-            }
+        deleteCustomTaste(id) {
+            this.$store.dispatch('taste/deleteCustomTaste', id).then(() => {
+                this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
+            });
         },
         isChecked(id) {
             return this.selectedIds.includes(id);
@@ -93,24 +98,14 @@ export default {
         }
     },
     computed: {
-        ...mapState('taste', ['allTastes', 'customTastes', 'myTastes']),
+        ...mapState('taste', ['allTastes', 'myTastes']),
         ...mapGetters('taste', [
             'getMyTastesIds',
-            'getAllTastesIds',
-            'getCustomTastesIds',
-            'getTasteByName',
-            'getCustomTasteByName'
+            'getAllTastesIds'
         ])
     },
     created() {
         this.$store.dispatch('taste/fetchTastes');
-        this.$store.dispatch('taste/fetchCustomTastes').then(() => {
-            let customTastes = [];
-            this.getCustomTastesIds.forEach((id) => {
-                customTastes.push(this.customTastes.byId[id].name);
-            });
-            this.customTastesInput = customTastes;
-        });
         this.$store.dispatch('taste/fetchMyTastes').then(() => {
             this.selectedIds = this.getMyTastesIds;
             this.selectedIds.forEach((item, i) => { this.selectedIds[i] = parseInt(item); });
@@ -214,5 +209,10 @@ export default {
 
     .doneButton:hover {
         background-color: #426be6;
+    }
+
+    .taste-input {
+        max-width: 300px;
+        margin: 30px auto;
     }
 </style>
