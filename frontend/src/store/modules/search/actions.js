@@ -25,7 +25,7 @@ export default {
 
     },
 
-    loadCategories(context, name) {
+    loadCategories({context , commit}, name) {
         return httpService.get('/places/categories/search?name=' + name + '&limit=')
             .then( result => Promise.resolve(result.data.data))
             .catch( error  => Promise.reject(error));

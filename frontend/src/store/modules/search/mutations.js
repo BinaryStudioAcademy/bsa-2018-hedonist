@@ -15,6 +15,10 @@ export default {
         };
     },
 
+    SET_LOADING_STATE: (state, loadState) => {
+        state.isLoading = loadState;
+    },
+
     SET_CURRENT_POSITION: (state, currentPosition) => {
         state.currentPosition = currentPosition;
     },

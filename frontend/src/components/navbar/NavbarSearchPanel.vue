@@ -1,5 +1,6 @@
 <template>
     <div class="navbar-start">
+        <Preloader :active="isLoading" />
         <div class="navbar-item">
             <SearchPlaceCategory @select="selectSearchPlaceOrCategory" />
         </div>
@@ -18,22 +19,37 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import {mapActions, mapState, mapMutations} from 'vuex';
+import Preloader from '@/components/misc/Preloader';
 import SearchCity from './SearchCity';
 import SearchPlaceCategory from './SearchPlaceCategory';
 
 export default {
     name: 'NavbarSearchPanel',
+    data() {
+        return {
+            category: null,
+            location: null,
+        };
+    },
+    computed: {
+        ...mapState('search', ['isLoading']),
+    },
     components: {
         SearchCity,
-        SearchPlaceCategory
+        SearchPlaceCategory,
+        Preloader
     },
     methods: {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
-            selectSearchPlaceOrCategory: 'search/selectSearchPlaceOrCategory'
+            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory',
+        }),
+        ...mapMutations('search', {
+            setLoadingState: 'SET_LOADING_STATE',
         }),
         search() {
+            this.setLoadingState(true);
             let location = '';
             let category = '';
             let placeName = '';
@@ -56,6 +72,7 @@ export default {
                     page: 1
                 }
             });
+
         }
     },
     computed: {
@@ -70,37 +87,37 @@ export default {
 
 
 <style lang="scss">
-    .navbar__search-autocomplete input{
+    .navbar__search-autocomplete input {
         padding-right: 2.25em;
     }
 </style>
 
 <style lang="scss" scoped>
-.button {
-    @media screen and (max-width: 1087px) {
-        width: 88%;
-    }
-
-    .button-title {
-        display: none;
-
+    .button {
         @media screen and (max-width: 1087px) {
-            display: inline-block;
+            width: 88%;
+        }
+
+        .button-title {
+            display: none;
+
+            @media screen and (max-width: 1087px) {
+                display: inline-block;
+            }
+        }
+
+        &:hover {
+            background-color: #167df0;
+
+            @media screen and (max-width: 1087px) {
+                background-color: #0f77ea;
+            }
         }
     }
 
-    &:hover {
-        background-color: #167df0;
-
+    .navbar-search-btn {
         @media screen and (max-width: 1087px) {
-            background-color: #0f77ea;
+            text-align: center;
         }
     }
-}
-
-.navbar-search-btn {
-    @media screen and (max-width: 1087px) {
-        text-align: center;
-    }
-}
 </style>
