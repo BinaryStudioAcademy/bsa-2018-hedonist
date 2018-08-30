@@ -27,10 +27,10 @@ import SearchPlaceCategory from './SearchPlaceCategory';
 export default {
     name: 'NavbarSearchPanel',
     data: function(){
-      return {
-          location: null,
-          category: null,
-      }
+        return {
+            location: null,
+            category: null,
+        };
     },
     computed: {
         ...mapState('search', ['isLoading']),
@@ -65,31 +65,6 @@ export default {
             this.selectSearchCity(this.location);
             this.selectSearchPlaceOrCategory(this.category);
             this.updateQueryFilters();
-            
-            /*this.setLoadingState(true);
-            let location = '';
-            let category = '';
-            let placeName = '';
-            if (this.city !== null) {
-                location = this.city.longitude + ',' + this.city.latitude;
-            }
-            if (this.placeCategory !== null) {
-                category = this.placeCategory.id;
-            }
-            if (this.place !== null) {
-                placeName = this.place.name;
-            }
-
-            this.$router.push({
-                name: 'SearchPlacePage',
-                query: {
-                    category: category,
-                    location: location,
-                    searchName: placeName,
-                    page: 1
-                }
-            });*/
-
         }
     }
 };

@@ -13,7 +13,7 @@ export default {
                 longitude: null,
                 latitude: null,
                 fullName: ''
-            }
+            };
         }
     },
 
@@ -27,7 +27,7 @@ export default {
             state.placeCategory = {
                 id: null,
                 name: ''
-            }
+            };
         }
     },
 

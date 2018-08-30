@@ -42,7 +42,7 @@ export class HttpService {
             (stringParamsArray, paramName) => {
                 if (params[paramName] !== undefined) {
                     stringParamsArray.push(
-                        encodeURIComponent(paramName) + "=" + encodeURIComponent(params[paramName])
+                        encodeURIComponent(paramName) + '=' + encodeURIComponent(params[paramName])
                     );
                 }
                 return stringParamsArray;
@@ -51,7 +51,7 @@ export class HttpService {
         );
         let query = stringifiedParams.join('&');
         if (query) {
-            queryUrl += "?" + query;
+            queryUrl += '?' + query;
         }
         return queryUrl;
     };

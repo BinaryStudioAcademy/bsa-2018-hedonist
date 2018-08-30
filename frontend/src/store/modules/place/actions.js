@@ -90,8 +90,8 @@ export default {
                     context.commit('SET_PLACES', res.data.data);
                     resolve(res);
                 }).catch(function (err) {
-                reject(err);
-            });
+                    reject(err);
+                });
         });
     },
 
@@ -101,8 +101,8 @@ export default {
                 context.commit('SET_PLACE_LIKED', res.data.data.likeStatus);
                 return Promise.resolve(res);
             }).catch((err) => {
-            return Promise.reject(err);
-        });
+                return Promise.reject(err);
+            });
     },
 
     likePlace: (context, placeId) => {
