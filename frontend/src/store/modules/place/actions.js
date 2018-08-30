@@ -64,28 +64,28 @@ export default {
     loadCurrentPlace: (context, id) => {
         return new Promise((resolve, reject) => {
             httpService.get('/places/' + id)
-                .then( (response) => {
+                .then((response) => {
                     const currentPlace = response.data.data;
                     context.commit('SET_CURRENT_PLACE', currentPlace);
 
                     let normalizeReviewsObj = normalizeReviews(context, currentPlace.reviews);
-                    context.commit('review/SET_CURRENT_PLACE_REVIEWS', normalizeReviewsObj, { root: true });
+                    context.commit('review/SET_CURRENT_PLACE_REVIEWS', normalizeReviewsObj, {root: true});
 
                     let normalizeUsersObj = normalizeUsers(normalizeReviewsObj);
-                    context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsersObj, { root: true });
+                    context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsersObj, {root: true});
 
                     resolve();
                 })
-                .catch( (err) => {
+                .catch((err) => {
                     reject(err);
                 });
         });
     },
 
-    fetchPlaces: (context, filters = {}) => {
-        let queryUrl = createSearchQueryUrl(filters);
+    fetchPlaces: (context, filters) => {
+        let queryUrl = createSearchQueryUrl('/places/search', filters);
         return new Promise((resolve, reject) => {
-            httpService.get('/places/search' + queryUrl)
+            httpService.get(queryUrl)
                 .then(function (res) {
                     context.commit('SET_PLACES', res.data.data);
                     resolve(res);
@@ -97,63 +97,67 @@ export default {
 
     getLikedPlace: (context, placeId) => {
         httpService.get(`places/${placeId}/liked`)
-            .then( (res) => {
+            .then((res) => {
                 context.commit('SET_PLACE_LIKED', res.data.data.likeStatus);
                 return Promise.resolve(res);
-            }).catch( (err) => {
+            }).catch((err) => {
                 return Promise.reject(err);
             });
     },
 
     likePlace: (context, placeId) => {
         httpService.post(`places/${placeId}/like`)
-            .then( (res) => {
+            .then((res) => {
                 context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
                 context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
                 context.commit('SET_PLACE_LIKED', res.data.data.likeStatus);
                 return Promise.resolve(res);
             })
-            .catch( (err) => {
+            .catch((err) => {
                 return Promise.reject(err);
             });
     },
-    
+
     dislikePlace: (context, placeId) => {
         httpService.post(`places/${placeId}/dislike`)
-            .then( (res) => {
+            .then((res) => {
                 context.commit('SET_CURRENT_PLACE_LIKES', res.data.data.likes);
                 context.commit('SET_CURRENT_PLACE_DISLIKES', res.data.data.dislikes);
                 context.commit('SET_PLACE_LIKED', res.data.data.likeStatus);
                 return Promise.resolve(res);
             })
-            .catch( (err) => {
+            .catch((err) => {
                 return Promise.reject(err);
             });
     }
 };
 
-const createSearchQueryUrl = (filters) => {
-    let category = filters.category !== undefined ? filters.category : '';
-    let location = filters.location !== undefined ? filters.location : '';
-    let name = filters.searchName !== undefined ? filters.searchName : '';
-    let page = filters.page !== undefined ? filters.page : 1;
+const createSearchQueryUrl = (url, filters) => {
     let polygon = '';
     if (filters.polygon !== undefined && Array.isArray(filters.polygon)) {
         polygon = filters.polygon[0]
             .map( (item) => item[0] + ',' + item[1])
             .join(';');
     }
+    let params = {
+        'filter[category]': filters.category,
+        'filter[location]': filters.location,
+        'filter[top_rated]': filters.top_rated,
+        'filter[top_reviewed]': filters.top_reviewed,
+        'filter[checkin]': filters.checkin,
+        'filter[saved]': filters.saved,
+        'filter[polygon]': polygon,
+        'page': filters.page
+    };
 
-    return '?filter[category]=' + category
-        + '&filter[location]=' + location
-        + '&filter[name]=' + name
-        + '&filter[polygon]=' + polygon
-        + '&page=' + page;
+    return httpService.makeQueryUrl(url, params);
 };
 
 function normalizeReviews(context, reviews) {
-    reviews.forEach(function(review) { review.user_id = review.user.id; });
-    let transformedCurrentPlaceReviews = normalizerService.normalize({ data: reviews }, context.rootState.review.getReviewSchema());
+    reviews.forEach(function (review) {
+        review.user_id = review.user.id;
+    });
+    let transformedCurrentPlaceReviews = normalizerService.normalize({data: reviews}, context.rootState.review.getReviewSchema());
     transformedCurrentPlaceReviews.allIds = [];
     for (let k in transformedCurrentPlaceReviews.byId)
         transformedCurrentPlaceReviews.allIds.push(parseInt(k));
@@ -166,13 +170,13 @@ function normalizeUsers(reviews) {
     for (let key in reviews.byId) {
         if (!reviews.byId.hasOwnProperty(key)) continue;
         let userId = reviews.byId[key].user.id;
-        if (! allUserIds.includes(userId)) {
+        if (!allUserIds.includes(userId)) {
             users.push(reviews.byId[key].user);
             allUserIds.push(userId);
         }
     }
 
-    let normalizeUsers = normalizerService.normalize({ data:users }, {
+    let normalizeUsers = normalizerService.normalize({data: users}, {
         first_name: '',
         last_name: '',
         avatar_url: ''
