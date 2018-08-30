@@ -36,8 +36,9 @@ export default {
         },
 
         ratingCount: {
-            required: false,
-            type: Number
+            required: this.showRating,
+            type: Number,
+            default: 0.0
         }
     },
 
