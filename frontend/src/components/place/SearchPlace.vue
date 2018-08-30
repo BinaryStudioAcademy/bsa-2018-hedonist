@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions , mapMutations } from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
@@ -61,9 +61,13 @@ export default {
             .then(() => {
                 this.isPlacesLoaded = true;
             });
+
     },
     methods: {
         ...mapActions('search', ['setCurrentPosition', 'mapInitialization']),
+        ...mapMutations('search', {
+            setLoadingState: 'SET_LOADING_STATE',
+        }),
 
         mapInitialize(map) {
             if (this.mapInitialized) {
@@ -154,6 +158,7 @@ export default {
             this.$store.dispatch('place/fetchPlaces', to.query)
                 .then(() => {
                     this.isPlacesLoaded = true;
+                    this.setLoadingState(false);
                 });
         }
     },

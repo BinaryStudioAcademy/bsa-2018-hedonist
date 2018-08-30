@@ -9,10 +9,6 @@ export default {
         commit('SET_SEARCH_PLACE_CATEGORY', category);
     },
 
-    setLoadingState: ({commit} , loadState) => {
-        commit('SET_LOADING_STATE' , loadState);
-    },
-
     loadCategories({context , commit}, name) {
         return httpService.get('/places/categories/search?name=' + name + '&limit=')
             .then( result => Promise.resolve(result.data.data))
