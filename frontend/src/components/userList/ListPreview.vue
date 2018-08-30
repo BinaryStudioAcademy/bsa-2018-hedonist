@@ -8,7 +8,7 @@
                     </figure>
                     <div class="media-content">
                         <h3 class="title has-text-primary">
-                            <router-link :to="`/my-places/${userList.id}`">
+                            <router-link :to="`/list/${userList.id}`">
                                 {{ userList.name }}
                             </router-link>
                         </h3>

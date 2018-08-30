@@ -1,8 +1,20 @@
 export default {
-    userLists : null,
-    places : null,
-    cities : null,
-    categories : null,
+    userLists: {
+        byId: {},
+        allIds: []
+    },
+    places: {
+        byId: {},
+        allIds: []
+    },
+    cities: {
+        byId: {},
+        allIds: []
+    },
+    categories: {
+        byId: {},
+        allIds: []
+    },
     photos: null,
     reviews:null,
     isLoading: false,

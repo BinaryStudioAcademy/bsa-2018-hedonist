@@ -47,7 +47,7 @@
                 </div>
             </div>
         </form>
-        <div class="bottom-left">
+        <div class="places">
             <div
                 v-click-outside="hideSearchList"
                 :class="['search-places control', searchInputLoadingClass]"
@@ -125,7 +125,7 @@
                 <div v-else class="attached-places__none">You may attach some places to the list</div>
             </div>
         </div>
-        <div class="bottom-right">
+        <div class="map">
             <div class="mapbox-wrapper">
                 <mapbox
                     :access-token="mapboxToken"
@@ -172,27 +172,28 @@ export default {
     },
     data: function () {
         return {
-            displayList: false,
             isLoading: false,
             mapboxToken: mapSettingsService.getMapboxToken(),
             mapboxStyle: mapSettingsService.getMapboxStyle(),
+            attachedPlaces: [],
+            markerManager: null,
             userList: {
                 name: null,
                 image: null
             },
             searchName: '',
+            places: [],
+            displayList: false,
+            isPlaceFetching: false,
             placesLocation: '30.5241,50.4501',
             imagePreview: null,
-            isPlaceFetching: false,
-            markerManager: null,
-            errors: null,
-            places: [],
-            attachedPlaces: [],
+            errors: [],
             imageStub: imageStub,
+            availableImageSize: 2000000,
             availableImageTypes: [
                 'image/jpeg',
                 'image/jpg',
-                'image/png',
+                'image/png'
             ]
         };
     },
@@ -247,15 +248,16 @@ export default {
         },
         onSave () {
             this.isLoading = true;
-            if (this.$v.userList.$invalid) {
-                this.onError('Photo and name are required!');
+            this.validateForm();
+            if (this.formHasErrors()) {
+                this.onError(this.getFormError());
                 this.isLoading = false;
                 return;
             }
 
             this.save({
                 userList: this.userList,
-                attachedPlaceIds: this.attachedPlaces.map((place) => place.id)
+                attachedPlaces: this.attachedPlaces
             })
                 .then(() => {
                     this.isLoading = false;
@@ -264,8 +266,19 @@ export default {
                 })
                 .catch((err) => {
                     this.isLoading = false;
-                    this.onError(err.response.data);
+                    this.onError();
                 });
+        },
+        validateForm() {
+            if (this.$v.userList.$invalid) {
+                this.errors.push('Photo and name are required!');
+            }
+        },
+        formHasErrors() {
+            return this.errors.length > 0;
+        },
+        getFormError() {
+            return this.errors[0];
         },
         onError (message = 'Error occurred') {
             this.$toast.open({
@@ -296,7 +309,7 @@ export default {
             this.userList.image = null;
             if (file) {
                 reader.onload = (e) => {
-                    if (this.checkFileType(file.type)) {
+                    if (this.checkFileType(file.type) && this.checkFileSize(file.size)) {
                         this.imagePreview = e.target.result;
                         this.userList.image = file;
                     }
@@ -306,7 +319,20 @@ export default {
             }
         },
         checkFileType(fileType) {
-            return this.availableImageTypes.includes(fileType);
+            if (!this.availableImageTypes.includes(fileType)) {
+                this.onError('Wrong image type');
+                return false;
+            }
+
+            return true;
+        },
+        checkFileSize(fileSize) {
+            if (this.availableImageSize < fileSize) {
+                this.onError('Photo size is too big');
+                return false;
+            }
+
+            return true;
         },
         mapInitialize(map) {
             this.markerManager = markerManager.getService(map);
@@ -394,7 +420,7 @@ export default {
         display: grid;
         grid-template-columns: 1.2fr 0.8fr;
         grid-template-rows: 214px auto;
-        grid-template-areas: "form bottom-right" "bottom-left bottom-right";
+        grid-template-areas: "form map" "places map";
         margin-top: 40px;
     }
 
@@ -444,8 +470,8 @@ export default {
         align-items: center;
     }
 
-    .bottom-left {
-        grid-area: bottom-left;
+    .places {
+        grid-area: places;
 
         .search-places {
             position: sticky;
@@ -593,8 +619,8 @@ export default {
 
     }
 
-    .bottom-right {
-        grid-area: bottom-right;
+    .map {
+        grid-area: map;
         border-left: 1px solid #e8e9eb;
         border-top: 1px solid #e8e9eb;
         position: relative;
@@ -638,7 +664,7 @@ export default {
 
     @media screen and (max-width: 769px) {
         .container {
-            grid-template-areas: "form" "bottom-right" "bottom-left";
+            grid-template-areas: "form" "map" "places";
             grid-template-columns: auto;
             grid-template-rows: auto;
         }
@@ -651,7 +677,7 @@ export default {
             display: block;
         }
 
-        .bottom-left {
+        .places {
             .search-places {
                 position: relative;
                 top: 0;

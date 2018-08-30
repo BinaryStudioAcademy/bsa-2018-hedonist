@@ -19,6 +19,7 @@ export default {
 
     getUniqueCities: (state, getters) => userList => {
         let cities = {};
+        console.log(state.places);
         userList.places
             .map(id => state.places.byId[id].city_id)
             .forEach((id) => {

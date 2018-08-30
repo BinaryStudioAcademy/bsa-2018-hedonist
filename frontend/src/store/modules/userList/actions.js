@@ -122,16 +122,16 @@ export default {
                 context.commit('SET_LOADING_STATE', false);
             });
     },
-    saveUserList: (context, {userList, attachedPlaceIds}) => {
+    saveUserList: (context, {userList, attachedPlaces}) => {
         const formData = new FormData();
         formData.append('image', userList.image);
         formData.append('name', userList.name);
-        _.forEach(attachedPlaceIds, function(place) {
-            formData.append('attached_places[]', place);
+        _.forEach(attachedPlaces, function(place) {
+            formData.append('attached_places[]', place.id);
         });
 
         return httpService.post('/user-lists/', formData)
-            .then( (result) => {
+            .then((result) => {
                 return result.data.data;
             });
     }

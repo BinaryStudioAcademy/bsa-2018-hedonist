@@ -2,6 +2,8 @@
 
 namespace Hedonist\Providers;
 
+use Hedonist\Entities\UserList\UserList;
+use Hedonist\Policies\UserListPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -14,6 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'Hedonist\Model' => 'Hedonist\Policies\ModelPolicy',
+        UserList::class => UserListPolicy::class
     ];
 
     /**
@@ -25,6 +28,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('delete', UserListPolicy::class . '@delete');
     }
 }
