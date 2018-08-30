@@ -94,8 +94,8 @@ const transformPlaces = (data) => {
                 return {
                     id: photo.id,
                     description: photo.description,
-                    imgUrl: photo['img_url'],
-                    creatorId: photo['creator_id'],
+                    img_url: photo['img_url'],
+                    creator_id: photo['creator_id'],
                 };
             }),
             rating: checkIn.place.rating

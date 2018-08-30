@@ -10,6 +10,7 @@ import SearchPlacePage from  '@/pages/SearchPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
 import UserListAddPage from '@/pages/UserListAddPage';
+import ListPage from '@/pages/ListPage';
 import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
@@ -73,6 +74,11 @@ export default new Router({
                 path: '/my-lists',
                 name: 'UserListsPage',
                 component: UserListsPage
+            },
+            {
+                path: '/list/:id',
+                name: 'ListPage',
+                component: ListPage
             },
             {
                 path: '/checkins',
