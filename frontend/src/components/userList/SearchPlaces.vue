@@ -8,9 +8,9 @@
                 placeholder="Search places"
                 type="text"
                 v-model.trim="searchName"
-                @focus="searchPlaces"
+                @focus="searchPlaces()"
                 class="search-field input"
-                @input="searchPlaces"
+                @input="searchPlaces()"
             >
             <div class="search-places__list" v-show="displayList && !isPlaceFetching">
                 <ul v-if="places.length > 0">
@@ -116,15 +116,17 @@ export default {
     methods: {
         ...mapActions({ fetchPlaces: 'place/fetchPlaces' }),
         searchPlaces() {
-            this.isPlaceFetching = true;
-            this.fetchPlaces({
-                location: this.placesLocation,
-                searchName: this.searchName
-            }).then((res) => {
-                this.displayList = true;
-                this.isPlaceFetching = false;
-                this.places = this.filterPlaces(res.data.data);
-            });
+            _.debounce(() => {
+                this.isPlaceFetching = true;
+                this.fetchPlaces({
+                    location: this.placesLocation,
+                    searchName: this.searchName
+                }).then((res) => {
+                    this.displayList = true;
+                    this.isPlaceFetching = false;
+                    this.places = this.filterPlaces(res.data.data);
+                });
+            }, 500)()
         },
         hideSearchList() {
             this.displayList = false;
