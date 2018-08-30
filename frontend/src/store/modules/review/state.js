@@ -9,6 +9,8 @@ export default {
             user_id: 0
         };
     },
-    reviews: {},
+    reviews: {
+        allIds: []
+    },
     users: {}
 };
