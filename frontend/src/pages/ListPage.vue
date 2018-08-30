@@ -41,8 +41,8 @@ export default {
     created() {
         this.getListById(this.$route.params.id);
     },
-    data(){
-        return{
+    data() {
+        return {
             markerManager: null,
             mapboxToken: mapSettingsService.getMapboxToken(),
             mapboxStyle: mapSettingsService.getMapboxStyle()
@@ -50,13 +50,13 @@ export default {
     },
     methods: {
         ...mapActions('userList', ['getListById']),
-        mapInitialize(map){
+        mapInitialize(map) {
             this.markerManager = markerManager.getService(map);
         },
-        updatePlaceMarkers(places){
-            if(this.markerManager && !this.isLoading){
-                this.markerManager.setMarkersFromPlacesAndFit(...places.map((item) => ({
-                    id:item.id,
+        updatePlaceMarkers() {
+            if (!this.isLoading && this.markerManager) {
+                this.markerManager.setMarkersFromPlacesAndFit(...this.denormolizedPlaces.map((item) => ({
+                    id: item.id,
                     name: item.localization[0].name,
                     localization: item.localization,
                     longitude: item.longitude,
@@ -70,7 +70,7 @@ export default {
     },
     computed: {
         ...mapGetters('userList', ['getById']),
-        ...mapState('userList', ['isLoading', 'places','photos','categories']),
+        ...mapState('userList', ['isLoading', 'places', 'photos', 'categories']),
         userList() {
             return this.getById(this.$route.params.id);
         },
@@ -79,8 +79,15 @@ export default {
             for (const index of this.userList.places) {
                 places.push(this.places.byId[index]);
             }
-            this.updatePlaceMarkers(places);
             return places;
+        },
+    },
+    watch:{
+        isLoading(){
+            this.updatePlaceMarkers();
+        },
+        markerManager(){
+            this.updatePlaceMarkers();
         }
     }
 };
@@ -90,6 +97,7 @@ export default {
     .wrapper {
         padding: 10px 20px;
     }
+
     #map {
         text-align: justify;
         position: fixed;
