@@ -5,11 +5,12 @@ import ProfilePage from '@/pages/ProfilePage';
 import NewPlacePage from '@/pages/NewPlacePage';
 import UserListsPage from '@/pages/UserListsPage';
 import PlaceListPage from  '@/pages/PlaceListPage';
-import HistoryPage from '@/pages/HistoryPage';
+import CheckinsPage from '@/pages/CheckinsPage';
 import SearchPlacePage from  '@/pages/SearchPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
 import UserListAddPage from '@/pages/UserListAddPage';
+import ListPage from '@/pages/ListPage';
 import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
@@ -75,9 +76,14 @@ export default new Router({
                 component: UserListsPage
             },
             {
-                path: '/history',
-                name: 'HistoryPage',
-                component: HistoryPage
+                path: '/list/:id',
+                name: 'ListPage',
+                component: ListPage
+            },
+            {
+                path: '/checkins',
+                name: 'CheckinsPage',
+                component: CheckinsPage
             },
             {
                 path: '*',

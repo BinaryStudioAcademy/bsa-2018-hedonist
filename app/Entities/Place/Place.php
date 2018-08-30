@@ -55,7 +55,7 @@ class Place extends Model
     public function tags()
     {
         return $this->belongsToMany(
-            PlaceCategoryTag::class,
+            Tag::class,
             'place_tag',
             'place_id',
             'tag_id'
@@ -94,7 +94,12 @@ class Place extends Model
 
     public function lists()
     {
-        return $this->belongsToMany(UserList::class, 'user_list_places', 'place_id', 'list_id');
+        return $this->belongsToMany(
+            UserList::class,
+            'user_list_places',
+            'place_id',
+            'list_id'
+        );
     }
 
     public function features()

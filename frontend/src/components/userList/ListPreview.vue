@@ -8,7 +8,7 @@
                     </figure>
                     <div class="media-content">
                         <h3 class="title has-text-primary">
-                            <router-link :to="`/my-places/${userList.id}`">
+                            <router-link :to="`/list/${userList.id}`">
                                 {{ userList.name }}
                             </router-link>
                         </h3>
@@ -18,11 +18,13 @@
                         <p class="address">
                             Cities in the list:
                             <a
-                                v-for="(city,index) in uniqueCities"
+                                v-for="(city,index,key) in uniqueCities"
                                 :key="index"
                                 href="#"
                                 @click="setCityFilter(city.id)"
-                            >{{ city.name }}<span v-show="notLast(index)">, </span> </a>
+                            >{{ city.name }}
+                                <span v-show="notLast(key)">, </span>
+                            </a>
                         </p>
                     </div>
                 </div>
@@ -64,8 +66,8 @@ export default {
         }
     },
     methods: {
-        notLast(index) {
-            return this.uniqueCities.length - index > 1;
+        notLast(key) {
+            return Object.keys(this.uniqueCities).length - key > 1;
         },
         like() {
             this.$toast.open({
@@ -99,6 +101,7 @@ export default {
         color: grey;
         max-width: 100%;
         margin-bottom: 1rem;
+        margin-left: 0;
         padding: 10px;
     }
     .columns {

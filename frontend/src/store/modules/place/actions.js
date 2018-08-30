@@ -94,6 +94,12 @@ export default {
 };
 
 const createSearchQueryUrl = (url, filters) => {
+    let polygon = '';
+    if (filters.polygon !== undefined && Array.isArray(filters.polygon)) {
+        polygon = filters.polygon[0]
+            .map( (item) => item[0] + ',' + item[1])
+            .join(';');
+    }
     let params = {
         'filter[category]': filters.category,
         'filter[location]': filters.location,
@@ -101,6 +107,7 @@ const createSearchQueryUrl = (url, filters) => {
         'filter[top_reviewed]': filters.top_reviewed,
         'filter[checkin]': filters.checkin,
         'filter[saved]': filters.saved,
+        'filter[polygon]': polygon,
         'page': filters.page
     };
 

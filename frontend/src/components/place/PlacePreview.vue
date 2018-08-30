@@ -31,9 +31,10 @@
                     </p>
                 </div>
                 <div class="media-right rating-wrapper">
-                    <div v-if="place.rating" class="rating">
-                        {{ place.rating }}
-                    </div>
+                    <PlaceRating
+                        v-if="place.rating"
+                        :value="Number(place.rating)"
+                    />
                 </div>
             </div>
             <div class="media">
@@ -56,6 +57,67 @@
         </div>
     </transition>
 </template>
+
+<script>
+import Review from '@/components/review/PlacePreviewReviewItem';
+import imagePlaceholder from '@/assets/placeholder_128x128.png';
+import PlaceRating from './PlaceRating';
+
+export default {
+    name: 'PlacePreview',
+    components: {
+        Review,
+        PlaceRating,
+    },
+    data() {
+        return {
+            active: false
+        };
+    },
+    props: {
+        place: {
+            required: true,
+            type: Object,
+        },
+        timer: {
+            required: true,
+            type: Number,
+        }
+    },
+    computed: {
+        localizedName(){
+            return this.place.localization[0].name;
+        },
+        hasPhotos() {
+            return this.place.photos !== undefined && this.place.photos.length;
+        },
+        notFoundPhoto() {
+            return imagePlaceholder;
+        },
+    },
+    methods: {
+        like() {
+            this.$toast.open({
+                message: 'You liked this review!',
+                type: 'is-info',
+                position: 'is-bottom'
+            });
+        },
+        dislike() {
+            this.$toast.open({
+                message: 'You disliked this review',
+                position: 'is-bottom',
+                type: 'is-info'
+            });
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
+    }
+};
+</script>
 
 <style lang="scss" scoped>
     .place-item {
@@ -100,18 +162,6 @@
         margin-bottom: 0.5rem;
     }
 
-    .rating {
-        width: 48px;
-        height: 48px;
-        background: #00E676;
-        border-radius: 7px;
-        margin: auto;
-        line-height: 48px;
-        font-size: 1.5rem;
-        color: #FFF;
-        text-align: center;
-    }
-
     hr {
         color: grey;
         border-width: 3px;
@@ -127,60 +177,3 @@
     }
 
 </style>
-
-<script>
-import Review from '@/components/review/PlacePreviewReviewItem';
-import imagePlaceholder from '@/assets/placeholder_128x128.png';
-
-export default {
-    name: 'PlacePreview',
-    components: {Review},
-    data() {
-        return {
-            active: false
-        };
-    },
-    props: {
-        place: {
-            required: true,
-            type: Object,
-        },
-        timer: {
-            required: true,
-            type: Number,
-        }
-    },
-    computed: {
-        localizedName(){
-            return this.place.localization[0].name;
-        },
-        hasPhotos() {
-            return this.place.photos !== undefined && this.place.photos.length;
-        },
-        notFoundPhoto() {
-            return imagePlaceholder;
-        }
-    },
-    methods: {
-        like() {
-            this.$toast.open({
-                message: 'You liked this review!',
-                type: 'is-info',
-                position: 'is-bottom'
-            });
-        },
-        dislike() {
-            this.$toast.open({
-                message: 'You disliked this review',
-                position: 'is-bottom',
-                type: 'is-info'
-            });
-        }
-    },
-    created() {
-        setTimeout(() => {
-            this.active = true;
-        }, this.timer);
-    }
-};
-</script>

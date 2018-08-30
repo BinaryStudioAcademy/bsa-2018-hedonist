@@ -17,19 +17,32 @@
                     </div>
 
                     <template v-if="isImageAttached">
-                        <div class="image is-3by1">
-                            <img class="review-photo" :src="reviewImageUrl">
+                        <div class="review-photos">
+                            <img 
+                                v-for="(photo, index) in review.photos"
+                                :src="photo"
+                                :key="index"
+                                v-img="{ group: review.id}"
+                            >
                         </div>
                     </template>
 
                     <LikeDislikeButtons
                         @like="onLikeReview"
                         @dislike="onDislikeReview"
+                        @showUsersWhoLiked="onShowUsersWhoLiked"
+                        @showUsersWhoDisliked="onShowUsersWhoDisliked"
                         :likes="review.likes"
                         :dislikes="review.dislikes"
                         :status="review.like"
                         font-size="0.5rem"
                         class="review-like"
+                    />
+                    <UsersWhoLikedDislikedReviewModals
+                        :is-users-who-liked-review-modal-active="isUsersWhoLikedReviewModalActive"
+                        :is-users-who-disliked-review-modal-active="isUsersWhoDislikedReviewModalActive"
+                        @updateUsersWhoLikedReviewModalActive="updateUsersWhoLikedReviewModalActive"
+                        @updateUsersWhoDislikedReviewModalActive="updateUsersWhoDislikedReviewModalActive"
                     />
                 </div>
             </article>
@@ -40,10 +53,14 @@
 <script>
 import { mapActions } from 'vuex';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
+import UsersWhoLikedDislikedReviewModals from '@/components/review/UsersWhoLikedDislikedReviewModals';
 
 export default {
     name: 'ReviewListElement',
-    components: {LikeDislikeButtons},
+    components: {
+        LikeDislikeButtons,
+        UsersWhoLikedDislikedReviewModals
+    },
     props: {
         review: {
             type: Object,
@@ -53,12 +70,14 @@ export default {
 
     data() {
         return {
-            reviewImageUrl: ''
+            reviewImageUrl: '',
+            isUsersWhoLikedReviewModalActive: false,
+            isUsersWhoDislikedReviewModalActive: false
         };
     },
 
     created() {
-        this.getReviewImage();
+        this.getReviewPhotos(this.review.id);
     },
 
     computed: {
@@ -67,7 +86,7 @@ export default {
         },
 
         isImageAttached() {
-            return !_.isEmpty(this.reviewImageUrl);
+            return this.review.photos.length;
         },
         date() {
             const date = new Date(this.review['created_at']);
@@ -82,7 +101,13 @@ export default {
     },
 
     methods: {
-        ...mapActions('review', ['getReviewPhoto']),
+        ...mapActions('review', [
+            'getReviewPhotos',
+            'likeReview', 
+            'dislikeReview',
+            'getUsersWhoLikedReview',
+            'getUsersWhoDislikedReview'
+        ]),
         getReviewImage: function() {
             this.getReviewPhoto(this.review.id)
                 .then((result) => {
@@ -93,19 +118,44 @@ export default {
                 });
         },
 
-        ...mapActions('review', ['likeReview', 'dislikeReview']),
         onLikeReview() {
             this.likeReview(this.review.id);
         },
 
         onDislikeReview() {
             this.dislikeReview(this.review.id);
+        },
+
+        onShowUsersWhoLiked() {
+            if (this.review.likes) {
+                this.getUsersWhoLikedReview(this.review.id)
+                    .then( () => {
+                        this.updateUsersWhoLikedReviewModalActive(true);
+                    });
+            }
+        },
+
+        onShowUsersWhoDisliked() {
+            if (this.review.dislikes) {
+                this.getUsersWhoDislikedReview(this.review.id)
+                    .then( () => {
+                        this.updateUsersWhoDislikedReviewModalActive(true);
+                    });
+            }
+        },
+
+        updateUsersWhoLikedReviewModalActive(newValue) {
+            this.isUsersWhoLikedReviewModalActive = newValue;
+        },
+
+        updateUsersWhoDislikedReviewModalActive(newValue) {
+            this.isUsersWhoDislikedReviewModalActive = newValue;
         }
     }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .review-wrp {
         background: #fff;
         border-top: 1px solid #efeff4;
@@ -121,9 +171,15 @@ export default {
         justify-content: space-between;
     }
 
-    /* for fill in the div without shrink */
-    .review-photo {
-        object-fit: cover;
+    .review-photos {
+        img {
+            height: 150px;
+            width: 150px;
+
+            &:not(:last-child) {
+                margin-right: 15px;
+            }
+        }
     }
 
     .review-like {

@@ -2,9 +2,9 @@
 
 namespace Hedonist\Repositories\Place;
 
+use Hedonist\Entities\Place\Checkin;
 use Hedonist\Entities\Place\Location;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -102,7 +102,14 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         foreach ($criterias as $criteria) {
             $this->pushCriteria($criteria);
         }
+        $result = $this->all();
+        $this->resetCriteria();
 
-        return $this->all();
+        return $result;
+    }
+
+    public function getPlaceCheckinsCountByUser(int $placeId, int $userId) : int
+    {
+        return Checkin::places($placeId)->users($userId)->count();
     }
 }

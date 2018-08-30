@@ -1,16 +1,27 @@
 <template>
     <div class="control">
-        <b-autocomplete
-            v-model.trim="findCity.query"
-            placeholder="Location"
-            :data="findCity.data"
-            :open-on-focus="true"
-            :loading="findCity.isFetching"
-            field="text"
-            class="navbar__search-autocomplete"
-            @input="loadCities"
-            @select="option => this.$emit('select', option)"
-        />
+        <b-field>
+            <b-autocomplete
+                v-model.trim="findCity.query"
+                placeholder="Location"
+                :data="findCity.data"
+                :open-on-focus="true"
+                :loading="findCity.isFetching"
+                field="text"
+                class="navbar__search-autocomplete"
+                @input="loadCities"
+                @select="option => this.$emit('select', option)"
+            />
+            <p v-if="locationAvailable" class="control">
+                <button
+                    class="button location"
+                    @click="findByCurrentLocation"
+                    :class="{'enabled': locationEnabled}"
+                >
+                    <b-icon pack="fas" icon="location-arrow" />
+                </button>
+            </p>
+        </b-field>
     </div>
 </template>
 
@@ -27,7 +38,12 @@ export default {
                 data: [],
                 query: '',
                 isFetching: false
-            }
+            },
+            userLocation: {
+                center: []
+            },
+            locationAvailable: true,
+            searchPushed: false
         };
     },
     methods: {
@@ -41,7 +57,48 @@ export default {
                 }, response => {
                     this.findCity.isFetching = false;
                 });
-        }, 250)
+        }, 250),
+        findByCurrentLocation() {
+            this.findCity.query = this.$t('search.current_location');
+            this.$emit('select', this.userLocation);
+            this.$router.push({
+                name: 'SearchPlacePage',
+                query: {
+                    location: this.userLocation.center[0] + ',' + this.userLocation.center[1],
+                    page: 1
+                }
+            });
+        }
+    },
+    created() {
+        LocationService.getUserLocationData()
+            .then(coordinates => {
+                this.locationAvailable = true;
+                this.userLocation.center[0] = coordinates.lng;
+                this.userLocation.center[1] = coordinates.lat;
+                if ((this.$router.currentRoute.name === 'SearchPlacePage') && !this.searchPushed) {
+                    this.searchPushed = true;
+                    this.findByCurrentLocation();
+                }
+            })
+            .catch(error => {
+                this.locationAvailable = false;
+            });
+    },
+    computed: {
+        locationEnabled() {
+            return this.findCity.query === this.$t('search.current_location');
+        }
     }
 };
 </script>
+
+<style scoped>
+    .location {
+        color: #b8b8ba;
+    }
+
+    .location.enabled {
+        color: #167df0;
+    }
+</style>
