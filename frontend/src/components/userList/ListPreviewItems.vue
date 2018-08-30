@@ -66,7 +66,7 @@ export default {
                 filtered = this.getFilteredByCity(filtered, cityId);
             }
 
-            return this.sortByAsc(filtered);
+            return this.sortByDesc(filtered);
         }
     },
     methods: {
