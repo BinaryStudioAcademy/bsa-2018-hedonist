@@ -22,6 +22,7 @@ class AddPlaceRequest
     private $menu_url;
     private $work_weekend;
     private $photos;
+    private $worktime;
 
     public function __construct(
         int $creatorId,
@@ -41,7 +42,8 @@ class AddPlaceRequest
         string $twitter,
         string $menu_url,
         int $work_weekend,
-        ?array $photos
+        ?array $photos,
+        String $worktime
     ) {
         $this->creatorId = $creatorId;
         $this->localization = $localization;
@@ -61,6 +63,7 @@ class AddPlaceRequest
         $this->menu_url = $menu_url;
         $this->work_weekend = $work_weekend;
         $this->photos = $photos;
+        $this->worktime = $worktime;
     }
 
     public function getCreatorId(): int
@@ -158,6 +161,11 @@ class AddPlaceRequest
         return $this->photos;
     }
 
+    public function getWorktime(): array
+    {
+        return json_decode($this->worktime, true);
+    }
+
     public function toArray(): array
     {
         return [
@@ -178,7 +186,8 @@ class AddPlaceRequest
             'twitter'       => $this->getTwitter(),
             'menu_url'      => $this->getMenuUrl(),
             'work_weekend'  => $this->getWorkWeekend(),
-            'photos'        => $this->getPhotos()
+            'photos'        => $this->getPhotos(),
+            'worktime'      => $this->getWorktime()
         ];
     }
 }

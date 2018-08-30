@@ -68,7 +68,7 @@ class AddPlaceAction
             throw new PlaceCategoryDoesNotExistException;
         }
 
-        /* Delete with Exception, city CANNOT be null */
+        /* Delete? with Exception, city CANNOT be null */
         if (!$city) {
             throw new PlaceCityDoesNotExistException;
         }
@@ -119,6 +119,9 @@ class AddPlaceAction
                 'height'      => $height
             ]));
         }
+
+        /* PlaceWorktime */
+        $this->placeRepository->setWorktime($place, $placeRequest->getWorktime());
 
         return new AddPlaceResponse($place);
     }

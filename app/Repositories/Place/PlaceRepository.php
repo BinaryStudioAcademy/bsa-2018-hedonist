@@ -2,6 +2,7 @@
 
 namespace Hedonist\Repositories\Place;
 
+use Carbon\Carbon;
 use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Place\Location;
 use Illuminate\Support\Facades\DB;
@@ -128,5 +129,17 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     public function syncFeatures(Place $place, array $features): void
     {
         $place->features()->sync($features);
+    }
+
+    public function setWorktime(Place $place, array $worktime): void
+    {
+        foreach ($worktime as $key => $value) {
+            $place->worktime()->create([
+                'place_id'   => $place->id,
+                'day_code'   => $key,
+                'start_time' => Carbon::parse($value['start'])->toDateTimeString(),
+                'end_time'   => Carbon::parse($value['end'])->toDateTimeString()
+            ]);
+        }
     }
 }

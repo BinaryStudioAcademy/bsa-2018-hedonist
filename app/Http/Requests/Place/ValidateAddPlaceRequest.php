@@ -41,7 +41,8 @@ class ValidateAddPlaceRequest extends JsonRequest
             'category_id'  => 'required|numeric',
             'tags'         => 'array',
             'features'     => 'array',
-            'creator_id'   => 'required|numeric'
+            'creator_id'   => 'required|numeric',
+            'worktime'     => 'required|string'
         ];
     }
 }

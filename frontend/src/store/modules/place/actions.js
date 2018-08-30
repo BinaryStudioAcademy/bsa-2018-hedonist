@@ -20,7 +20,6 @@ export default {
             data.append('instagram', payload.place.instagram);
             data.append('twitter', payload.place.twitter);
             data.append('menu_url', payload.place.menu);
-            data.append('work_weekend', payload.place.workWeekend);
             data.append('category_id', payload.place.category.id);
             _.forEach(payload.place.tags, (tag) => {
                 data.append('tags[]', tag.id);
@@ -29,6 +28,9 @@ export default {
                 data.append('features[]', feature.id);
             });
             data.append('creator_id', payload.user.id);
+            data.append('work_weekend', payload.place.workWeekend);
+            data.append('worktime', JSON.stringify(payload.place.worktime));
+
             httpService.post('/places', data)
                 .then(() => {
                     resolve();
