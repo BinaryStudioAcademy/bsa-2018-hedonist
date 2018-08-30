@@ -4,6 +4,7 @@ namespace Hedonist\Repositories\Place;
 
 use Carbon\Carbon;
 use Hedonist\Entities\Localization\Language;
+use Hedonist\Entities\Place\Checkin;
 use Hedonist\Entities\Place\Location;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -135,11 +136,16 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     {
         foreach ($worktime as $key => $value) {
             $place->worktime()->create([
-                'place_id'   => $place->id,
-                'day_code'   => $key,
+                'place_id' => $place->id,
+                'day_code' => $key,
                 'start_time' => Carbon::parse($value['start'])->toDateTimeString(),
-                'end_time'   => Carbon::parse($value['end'])->toDateTimeString()
+                'end_time' => Carbon::parse($value['end'])->toDateTimeString()
             ]);
         }
+    }
+
+    public function getPlaceCheckinsCountByUser(int $placeId, int $userId) : int
+    {
+        return Checkin::places($placeId)->users($userId)->count();
     }
 }

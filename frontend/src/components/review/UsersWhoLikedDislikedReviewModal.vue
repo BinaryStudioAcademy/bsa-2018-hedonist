@@ -14,23 +14,23 @@
                     :key="index + 1"
                     class="user-item"
                 >
-                    <div class="image is-64x64">
+                    <div class="image is-64x64 user-avatar">
+                        <img 
+                            v-if="user.avatar_url"
+                            :src="user.avatar_url"
+                            :alt="userFullname(user)"
+                        >
+                        <img
+                            v-else
+                            src="/assets/add_review_default_avatar.png"
+                            :alt="userFullname(user)"
+                        >
+                    </div>
+                    <div class="has-text-primary user-name">
                         <a :href="userPage(user.id)">
-                            <img 
-                                v-if="user.avatar_url"
-                                class="user-avatar"
-                                :src="user.avatar_url"
-                                :alt="userFullname(user)"
-                            >
-                            <img
-                                v-else
-                                class="user-avatar"
-                                src="/assets/add_review_default_avatar.png"
-                                :alt="userFullname(user)"
-                            >
+                            {{ userFullname(user) }}
                         </a>
                     </div>
-                    <div class="has-text-primary user-name">{{ userFullname(user) }}</div>
                 </div>
             </section>
             <footer class="modal-card-foot">
@@ -83,19 +83,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .user-avatar {
-        border-radius: 50%;
-        padding: 10px;
-        float: left;
-    }
-
     .user-item {
         display: flex;
-        justify-content: center;
+        align-content: space-between;
+        justify-content: space-between;
+        min-height: 70px;
+        width: 100%;
+    }
+
+    .user-avatar {
+        padding: 10px;
+    }
+
+    .user-avatar img {
+        border-radius: 50%;
+        float: left;
     }
 
     .user-name {
         padding: 10px;
+        font-size: 0.9em;
+        width: 80%;
     }
 
     .modal-card-title {
@@ -103,12 +111,16 @@ export default {
     }
     
     .modal-card-body {
-        width: 250px;
+        width: 100%;
+        min-width: 260px;
         height: 220px;
         display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
+    }
+
+    .modal-card-body::before, .modal-card-body::after {
+        content: '';  
+        margin: auto; 
     }
 
     .modal-card-foot {

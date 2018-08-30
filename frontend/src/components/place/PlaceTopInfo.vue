@@ -19,16 +19,6 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <button
-                    class="button is-primary"
-                    @click="isCheckinModalActive = true"
-                >
-                    <i class="fas fa-check" />Check-in
-                </button>
-                <b-modal :active.sync="isCheckinModalActive" has-modal-card>
-                    <PlaceCheckinModal :place="place" />
-                </b-modal>
-
                 <b-dropdown>
                     <button class="button is-success" slot="trigger">
                         <i class="far fa-save" />Save
@@ -85,9 +75,22 @@
                     :value="Number(place.rating)"
                     :show-max="true"
                 />
+
                 <div class="place-rate__mark-count">
                     {{ place.ratingCount || 'No' }} marks
                 </div>
+
+                <button
+                    class="button is-primary rating"
+                    @click="isCheckinModalActive = true"
+                >
+                    <i class="fas fa-star-half-alt" />
+                </button>
+                <b-modal :active.sync="isCheckinModalActive" has-modal-card>
+                    <PlaceRatingModal :place="place" />
+                </b-modal>
+
+                <PlaceCheckin :place="place" />
             </div>
         </div>
     </div>
@@ -95,19 +98,21 @@
 
 <script>
 import PlacePhotoList from './PlacePhotoList';
-import PlaceCheckinModal from './PlaceCheckinModal';
+import PlaceRatingModal from './PlaceRatingModal';
 import { STATUS_NONE } from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import PlaceRating from './PlaceRating';
+import PlaceCheckin from './PlaceCheckin';
 
 export default {
     name: 'PlaceTopInfo',
 
     components: {
         PlacePhotoList,
-        PlaceCheckinModal,
+        PlaceRatingModal,
         PlaceRating,
+        PlaceCheckin
     },
 
     props: {
@@ -130,22 +135,18 @@ export default {
     data() {
         return {
             activeTab: 1,
-            userList: {},
             isCheckinModalActive: false
         };
     },
 
     created() {
-        this.$store.dispatch('userList/getListsByUser', this.user.id)
-            .then((result) => {
-                this.userList = result;
-            });
-
+        this.$store.dispatch('userList/getListsByUser', this.user.id);
         this.$store.dispatch('place/getLikedPlace', this.place.id);
     },
 
     computed: {
         ...mapGetters('review', [ 'getReviewsCount' ]),
+        ...mapState('userList', ['userLists']),
 
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
@@ -178,6 +179,10 @@ export default {
         placeMarker() {
             return defaultMarker;
         },
+
+        userList(){
+            return this.userLists ? Object.values(this.userLists.byId) : [];
+        }
     },
 
     methods: {
@@ -208,7 +213,8 @@ export default {
         addPlaceToList: function (listId) {
             this.$store.dispatch('userList/addPlaceToList', {
                 listId: listId,
-                placeId: this.place.id
+                placeId: this.place.id,
+                userId: this.user.id
             });
         }
     }
@@ -234,8 +240,8 @@ export default {
             }
             .place-rate {
                 display: flex;
+                justify-content: space-around;
                 align-items: center;
-                justify-content: center;
                 &__mark-count {
                     font-style: italic;
                     white-space: nowrap;
@@ -243,6 +249,14 @@ export default {
                 }
             }
         }
+    }
+
+    .rating {
+        border-radius: 7px;
+        height: 48px;
+        font-size: 1.5rem;
+        color: #FFF;
+        text-align: center;
     }
 
     .place-venue {
