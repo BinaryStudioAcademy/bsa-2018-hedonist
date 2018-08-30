@@ -31,7 +31,9 @@ class TasteTest extends ApiTestCase
     
     public function test_get_tastes()
     {
-        factory(Taste::class, 3)->create();
+        factory(Taste::class, 3)->create([
+            'user_id' => $this->user->id
+        ]);
         
         $response = $this->json('GET', '/api/v1/tastes', [], ['Authorization' => 'Bearer ' . $this->token]);
         $response->assertHeader('Content-Type', 'application/json')
@@ -47,19 +49,21 @@ class TasteTest extends ApiTestCase
             ]
         );
         $response->assertStatus(201);
-        $this->assertDatabaseHas('custom_tastes', [
+        $this->assertDatabaseHas('tastes', [
             'name' => 'Custom taste'
         ]);
     }
 
     public function test_delete_custom_taste()
     {
-        $customTaste = factory(CustomTaste::class)->create();
-        $response = $this->actingWithToken(User::find($customTaste->user_id))
+        $customTaste = factory(Taste::class)->create([
+            'user_id' => $this->user->id
+        ]);
+        $response = $this->actingWithToken($this->user)
             ->delete("/api/v1/tastes/custom/$customTaste->id");
         $response->assertOk();
-        $this->assertDatabaseMissing('custom_tastes', [
-            'name' => $customTaste->id
+        $this->assertDatabaseMissing('tastes', [
+            'id' => $customTaste->id
         ]);
     }
 }

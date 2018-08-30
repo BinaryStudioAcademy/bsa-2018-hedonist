@@ -2,7 +2,7 @@
 
 namespace Hedonist\Actions\UserTaste;
 
-class AddCustomTasteRequest
+class AddTasteRequest
 {
     private $name;
 

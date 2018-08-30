@@ -2,34 +2,31 @@
 
 namespace Hedonist\Http\Controllers\Api\User\UserTaste;
 
-use Hedonist\Actions\UserTaste\AddCustomTasteAction;
-use Hedonist\Actions\UserTaste\AddCustomTasteRequest;
-use Hedonist\Actions\UserTaste\DeleteCustomTasteAction;
-use Hedonist\Actions\UserTaste\DeleteCustomTasteRequest;
-use Hedonist\Actions\UserTaste\GetCustomTastesAction;
-use Hedonist\Exceptions\DomainException;
-use Hedonist\Exceptions\User\CustomTasteNotFoundException;
-use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Actions\UserTaste\GetTastesAction;
+use Hedonist\Actions\UserTaste\AddTasteAction;
+use Hedonist\Actions\UserTaste\AddTasteRequest;
+use Hedonist\Actions\UserTaste\DeleteTasteAction;
+use Hedonist\Actions\UserTaste\DeleteTasteRequest;
+use Hedonist\Exceptions\DomainException;
+use Hedonist\Exceptions\User\TasteNotFoundException;
+use Hedonist\Http\Controllers\Api\ApiController;
 use Illuminate\Http\Request;
 
 class TasteController extends ApiController
 {
     private $getTastesAction;
-    private $getCustomTastesAction;
-    private $addCustomTasteAction;
-    private $deleteCustomTasteAction;
+    private $addTasteAction;
+    private $deleteTasteAction;
 
     public function __construct(
         GetTastesAction $getTastesAction,
-        GetCustomTastesAction $getCustomTastesAction,
-        AddCustomTasteAction $addCustomTasteAction,
-        DeleteCustomTasteAction $deleteCustomTasteAction
+        AddTasteAction $addTasteAction,
+        DeleteTasteAction $deleteTasteAction
     ) {
         $this->getTastesAction = $getTastesAction;
-        $this->getCustomTastesAction = $getCustomTastesAction;
-        $this->addCustomTasteAction = $addCustomTasteAction;
-        $this->deleteCustomTasteAction = $deleteCustomTasteAction;
+        $this->getTastesAction = $getTastesAction;
+        $this->addTasteAction = $addTasteAction;
+        $this->deleteTasteAction = $deleteTasteAction;
     }
     
     public function getTastes()
@@ -38,30 +35,24 @@ class TasteController extends ApiController
         return $this->successResponse($getTastesResponse->getTastes());
     }
 
-    public function getCustomTastes()
-    {
-        $getCustomTastesResponse = $this->getCustomTastesAction->execute();
-        return $this->successResponse($getCustomTastesResponse->getCustomTastes());
-    }
-
-    public function addCustomTaste(Request $request)
+    public function addTaste(Request $request)
     {
         try {
-            $addCustomTasteResponse = $this->addCustomTasteAction->execute(
-                new AddCustomTasteRequest($request['name'])
+            $addTasteResponse = $this->addTasteAction->execute(
+                new AddTasteRequest($request['name'])
             );
-            return $this->successResponse($addCustomTasteResponse->getTaste(), 201);
+            return $this->successResponse($addTasteResponse->getTaste(), 201);
         } catch (DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
     }
 
-    public function deleteCustomTaste(int $tasteId)
+    public function deleteTaste(int $tasteId)
     {
         try {
-            $this->deleteCustomTasteAction->execute(new DeleteCustomTasteRequest($tasteId));
+            $this->deleteTasteAction->execute(new DeleteTasteRequest($tasteId));
             return $this->emptyResponse(200);
-        } catch (CustomTasteNotFoundException $e) {
+        } catch (TasteNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 404);
         }
     }
