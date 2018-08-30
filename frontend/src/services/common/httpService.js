@@ -35,6 +35,26 @@ export class HttpService {
     delete(url, params) {
         return this.axios.delete(url, params);
     }
+
+    makeQueryUrl = (url, params) => {
+        let queryUrl = url;
+        let stringifiedParams = Object.keys(params).reduce(
+            (stringParamsArray, paramName) => {
+                if (params[paramName] !== undefined) {
+                    stringParamsArray.push(
+                        encodeURIComponent(paramName) + "=" + encodeURIComponent(params[paramName])
+                    );
+                }
+                return stringParamsArray;
+            },
+            []
+        );
+        let query = stringifiedParams.join('&');
+        if (query) {
+            queryUrl += "?" + query;
+        }
+        return queryUrl;
+    };
 }
 
 export default new HttpService();
