@@ -25,8 +25,7 @@ class GetUserCheckInCollectionAction
         $ratings = $this->ratingRepository
             ->getAvgByPlaceIds($checkIns->pluck('place_id')->all());
 
-        foreach ($checkIns as $key => $checkIn)
-        {
+        foreach ($checkIns as $key => $checkIn) {
             $checkIns[$key]->place->user_lists = $checkIn
                 ->place
                 ->lists()

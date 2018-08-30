@@ -78,8 +78,7 @@ class GetUserCheckInCollectionPresenter
     {
         $array = [];
 
-        foreach ($lists as $list)
-        {
+        foreach ($lists as $list) {
             $array[] = [
                 'id' => $list->id,
                 'user_id' => $list->user_id,

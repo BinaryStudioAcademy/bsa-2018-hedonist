@@ -22,7 +22,7 @@ class CategoryPresenter
     public function withTags(PlaceCategory $category): self
     {
         $this->presentation['tags'] = [];
-        foreach ($category->tags as $tag){
+        foreach ($category->tags as $tag) {
             $this->presentation['tags'][] = [
                 'id' => $tag->id,
                 'name' => $tag->name
