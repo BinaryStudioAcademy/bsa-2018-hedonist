@@ -162,8 +162,10 @@ export default {
             grid-template-rows: auto;
         }
 
-        .mapbox-wrapper {
-            height: 50vh;
+        .map {
+            .mapbox-wrapper {
+                height: 50vh;
+            }
         }
         .btn-to-top {
             display: block;
