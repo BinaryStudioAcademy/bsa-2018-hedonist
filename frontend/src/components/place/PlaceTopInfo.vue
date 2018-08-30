@@ -212,7 +212,7 @@ export default {
     .place-top-info {
         background-color: #fff;
         .column {
-            padding: 0;
+            padding: 0.75rem;
         }
         &__sidebar {
             margin-top: 20px;
