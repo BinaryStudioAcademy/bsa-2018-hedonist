@@ -45,7 +45,19 @@ export default {
         return state.places.byId[id];
     },
 
+    getPhotosByIds: (state, getters) => (ids) => {
+        return ids.map((id) => state.photos.byId[id]);
+    },
+
     getPlacesByIds: (state, getters) => (ids) => {
-        return ids.map((id) => getters.getPlaceById(id));
+        return ids.map((id) => {
+            const place = getters.getPlaceById(id);
+            return {
+                ...place,
+                photos: getters.getPhotosByIds(place.photos),
+                city: state.cities.byId[place.city],
+                category: state.categories.byId[place.category]
+            };
+        });
     }
 };

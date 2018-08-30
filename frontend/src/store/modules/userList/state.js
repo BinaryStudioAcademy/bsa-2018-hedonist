@@ -15,7 +15,13 @@ export default {
         byId: {},
         allIds: []
     },
-    photos: null,
-    reviews:null,
+    photos: {
+        byId: {},
+        allIds: []
+    },
+    reviews:{
+        byId: {},
+        allIds: []
+    },
     isLoading: false,
 };
