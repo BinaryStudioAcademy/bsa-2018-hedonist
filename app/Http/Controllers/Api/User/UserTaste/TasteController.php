@@ -2,11 +2,14 @@
 
 namespace Hedonist\Http\Controllers\Api\User\UserTaste;
 
+use Hedonist\Actions\Presenters\Taste\TasteAutocompletePresenter;
 use Hedonist\Actions\UserTaste\GetTastesAction;
+use Hedonist\Actions\UserTaste\GetTastesAutocompleteAction;
 use Hedonist\Actions\UserTaste\AddTasteAction;
 use Hedonist\Actions\UserTaste\AddTasteRequest;
 use Hedonist\Actions\UserTaste\DeleteTasteAction;
 use Hedonist\Actions\UserTaste\DeleteTasteRequest;
+use Hedonist\Actions\UserTaste\GetTastesAutocompleteRequest;
 use Hedonist\Exceptions\DomainException;
 use Hedonist\Exceptions\User\TasteNotFoundException;
 use Hedonist\Http\Controllers\Api\ApiController;
@@ -15,16 +18,18 @@ use Illuminate\Http\Request;
 class TasteController extends ApiController
 {
     private $getTastesAction;
+    private $getTastesAutocompleteAction;
     private $addTasteAction;
     private $deleteTasteAction;
 
     public function __construct(
         GetTastesAction $getTastesAction,
+        GetTastesAutocompleteAction $getTastesAutocompleteAction,
         AddTasteAction $addTasteAction,
         DeleteTasteAction $deleteTasteAction
     ) {
         $this->getTastesAction = $getTastesAction;
-        $this->getTastesAction = $getTastesAction;
+        $this->getTastesAutocompleteAction = $getTastesAutocompleteAction;
         $this->addTasteAction = $addTasteAction;
         $this->deleteTasteAction = $deleteTasteAction;
     }
@@ -33,6 +38,15 @@ class TasteController extends ApiController
     {
         $getTastesResponse = $this->getTastesAction->execute();
         return $this->successResponse($getTastesResponse->getTastes());
+    }
+
+    public function getTastesAutocomplete(String $query, TasteAutocompletePresenter $presenter)
+    {
+        $getTastesAutocompleteResponse = $this->getTastesAutocompleteAction->execute(
+            new GetTastesAutocompleteRequest($query)
+        );
+
+        return $this->successResponse($presenter->present($getTastesAutocompleteResponse));
     }
 
     public function addTaste(Request $request)
