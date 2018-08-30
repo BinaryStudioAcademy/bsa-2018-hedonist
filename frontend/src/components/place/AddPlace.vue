@@ -361,7 +361,7 @@
                                 <div class="worktime-wrp">
                                     <b-message :type="isDayWorking(newPlace.worktime['mo'].start, newPlace.worktime['mo'].end) ? 'is-success' : 'is-danger'">
                                         <p><strong>Monday:  </strong>from <strong>{{ displayTime(newPlace.worktime['mo'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['mo'].end) }}</strong> o'clock</p>
-                                    </b-message >
+                                    </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['tu'].start, newPlace.worktime['tu'].end) ? 'is-success' : 'is-danger'">
                                         <p><strong>Tuesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['tu'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['tu'].end) }}</strong> o'clock</p>
                                     </b-message>
@@ -696,12 +696,12 @@ export default {
                 this.$toast.open({
                     type: 'is-success',
                     message: 'Place added!'
-                })
+                });
             }).catch(() => {
                 this.$toast.open({
                     type: 'is-danger',
                     message: 'Error!'
-                })
+                });
             });
         }
     }

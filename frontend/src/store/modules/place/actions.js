@@ -38,7 +38,7 @@ export default {
                 .catch((error) => {
                     reject(error);
                 });
-        })
+        });
     },
 
     setPlaceRating: (context, { placeId, rating }) => {

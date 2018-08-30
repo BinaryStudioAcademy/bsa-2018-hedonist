@@ -105,19 +105,21 @@ class AddPlaceAction
         $this->placeRepository->syncFeatures($place, $placeRequest->getFeatures());
 
         /* PlacePhotos */
-        foreach ($placeRequest->getPhotos() as $photo) {
-            $fileNameGenerator = new FileNameGenerator($photo);
-            $fileName = $fileNameGenerator->generateFileName();
-            $path = Storage::putFileAs(self::FILE_STORAGE, $photo, $fileName, 'public');
-            list($width, $height) = getimagesize($photo);
-            $this->placePhotoRepository->save(new PlacePhoto([
-                'creator_id'  => $creator->id,
-                'img_url'     => $path,
-                'description' => self::DESCRIPTION_DEFAULT,
-                'place_id'    => $place->id,
-                'width'       => $width,
-                'height'      => $height
-            ]));
+        if ($photos = $placeRequest->getPhotos()) {
+            foreach ($photos as $photo) {
+                $fileNameGenerator = new FileNameGenerator($photo);
+                $fileName = $fileNameGenerator->generateFileName();
+                $path = Storage::putFileAs(self::FILE_STORAGE, $photo, $fileName, 'public');
+                list($width, $height) = getimagesize($photo);
+                $this->placePhotoRepository->save(new PlacePhoto([
+                    'creator_id' => $creator->id,
+                    'img_url' => $path,
+                    'description' => self::DESCRIPTION_DEFAULT,
+                    'place_id' => $place->id,
+                    'width' => $width,
+                    'height' => $height
+                ]));
+            }
         }
 
         /* PlaceWorktime */
