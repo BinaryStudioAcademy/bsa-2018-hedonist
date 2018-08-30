@@ -126,7 +126,7 @@ export default {
                     this.isPlaceFetching = false;
                     this.places = this.filterPlaces(res.data.data);
                 });
-            }, 500)()
+            }, 500)();
         },
         hideSearchList() {
             this.displayList = false;
