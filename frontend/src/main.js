@@ -10,6 +10,7 @@ import VueImg from 'v-img';
 import VueScrollTo from 'vue-scrollto';
 import vuexI18n from 'vuex-i18n';
 import { enableSentryErrorReporting } from './services/common/errorReportingService';
+import infiniteScroll from 'vue-infinite-scroll'
 
 import translationEn from './localization/en.json';
 import translationsUa from './localization/ua.json';
@@ -21,6 +22,7 @@ Vue.use(vClickOutside);
 Vue.use(VueImg);
 Vue.use(VueScrollTo);
 Vue.use(vuexI18n.plugin, store);
+Vue.use(infiniteScroll)
 
 Vue.i18n.add('en', translationEn);
 Vue.i18n.add('ua', translationsUa);
