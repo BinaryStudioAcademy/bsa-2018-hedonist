@@ -28,4 +28,6 @@ interface PlaceRepositoryInterface
     public function deleteById(int $id): void;
 
     public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection;
+
+    public function getPlaceCheckinsCountByUser(int $placeId, int $userId) : int;
 }

@@ -3,7 +3,6 @@
 namespace Hedonist\Actions\UserTaste;
 
 use Hedonist\Repositories\User\TasteRepositoryInterface;
-use Hedonist\Actions\UserTaste\GetTastesResponse;
 
 class GetTastesAction
 {
@@ -16,7 +15,7 @@ class GetTastesAction
     
     public function execute(): GetTastesResponse
     {
-        $tastes = $this->tasteRepository->findAll();
+        $tastes = $this->tasteRepository->getDefault();
  
         return new GetTastesResponse($tastes);
     }

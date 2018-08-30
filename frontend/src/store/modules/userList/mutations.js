@@ -11,4 +11,13 @@ export default {
     SET_CATEGORIES: (state, categories) => {
         state.categories = categories;
     },
+    SET_LOADING_STATE: (state,loadingState) => {
+        state.isLoading = loadingState;
+    },
+    SET_REVIEWS: (state, reviews) => {
+        state.reviews = reviews;
+    },
+    SET_PHOTOS: (state, photos) => {
+        state.photos = photos;
+    },
 };

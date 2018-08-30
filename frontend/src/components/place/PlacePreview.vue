@@ -58,65 +58,6 @@
     </transition>
 </template>
 
-<style lang="scss" scoped>
-    .place-item {
-        background: #FFF;
-        color: grey;
-        max-width: 100%;
-        margin-bottom: 1rem;
-        padding: 10px;
-    }
-
-    .columns {
-        width: 100%;
-        margin: 0;
-    }
-
-    .title {
-        margin-bottom: 0.5rem;
-    }
-
-    .image > img {
-        border-radius: 5px;
-    }
-
-    .place-category {
-        margin-bottom: 0.25rem;
-        a {
-            color: grey;
-            -webkit-transition: color 0.3s;
-            -moz-transition: color 0.3s;
-            -ms-transition: color 0.3s;
-            -o-transition: color 0.3s;
-            transition: color 0.3s;
-
-            &:hover {
-                color: black;
-                text-decoration: underline;
-            }
-        }
-    }
-
-    .address {
-        margin-bottom: 0.5rem;
-    }
-
-    hr {
-        color: grey;
-        border-width: 3px;
-    }
-
-    .slide-fade-enter-active {
-        transition: all 0.5s ease;
-    }
-
-    .slide-fade-enter, .slide-fade-leave-to {
-        transform: translateX(300px);
-        opacity: 0;
-    }
-
-</style>
-
 <script>
 import Review from '@/components/review/PlacePreviewReviewItem';
 import imagePlaceholder from '@/assets/placeholder_128x128.png';
@@ -177,3 +118,62 @@ export default {
     }
 };
 </script>
+
+<style lang="scss" scoped>
+    .place-item {
+        background: #FFF;
+        color: grey;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        padding: 10px;
+    }
+
+    .columns {
+        width: 100%;
+        margin: 0;
+    }
+
+    .title {
+        margin-bottom: 0.5rem;
+    }
+
+    .image > img {
+        border-radius: 5px;
+    }
+
+    .place-category {
+        margin-bottom: 0.25rem;
+        a {
+            color: grey;
+            -webkit-transition: color 0.3s;
+            -moz-transition: color 0.3s;
+            -ms-transition: color 0.3s;
+            -o-transition: color 0.3s;
+            transition: color 0.3s;
+
+            &:hover {
+                color: black;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .address {
+        margin-bottom: 0.5rem;
+    }
+
+    hr {
+        color: grey;
+        border-width: 3px;
+    }
+
+    .slide-fade-enter-active {
+        transition: all 0.5s ease;
+    }
+
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateX(300px);
+        opacity: 0;
+    }
+
+</style>

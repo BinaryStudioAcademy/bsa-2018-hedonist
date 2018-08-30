@@ -5,6 +5,15 @@
 
                 <div class="media-left">
                     <img
+                        v-if="getAuthenticatedUser.avatar_url"
+                        :src="getAuthenticatedUser.avatar_url"
+                        :title="getAuthenticatedUser.first_name+' '+getAuthenticatedUser.last_name"
+                        :alt="getAuthenticatedUser.first_name+' '+getAuthenticatedUser.last_name"
+                        height="32"
+                        width="32"
+                    >
+                    <img
+                        v-else
                         src="/assets/add_review_default_avatar.png"
                         height="32"
                         width="32"
@@ -31,7 +40,7 @@
                         </div>
 
                         <div class="level">
-                            <b-upload 
+                            <b-upload
                                 class="level-left"
                                 v-model="photos"
                                 accept="image/*"
