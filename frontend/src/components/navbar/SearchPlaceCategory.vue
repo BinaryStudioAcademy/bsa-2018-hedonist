@@ -15,7 +15,7 @@
             <template slot-scope="props">
                 <div class="search-block">
                     <img :src="props.option.logo">
-                    <span>{{ props.option.name }}</span>
+                    <span>{{ props.option.nameForAutoComplete }}</span>
                 </div>
 
             </template>
@@ -50,7 +50,16 @@ export default {
             if (this.findItems.query === '') {
                 this.loadCategoriesByName(this.findItems.query)
                     .then( res => {
-                        this.findItems.data = res;
+                        let data = [];
+                        res.forEach(function (item, index) {
+                            data[index] = {
+                                id: item['id'],
+                                nameForAutoComplete: item['name'],
+                                name: item['name'],
+                                logo: item['logo']
+                            };
+                        });
+                        this.findItems.data = data;
                         this.findItems.isFetching = false;
                     }, response => {
                         this.findItems.isFetching = false;
@@ -66,7 +75,9 @@ export default {
                         res.forEach(function (item, index) {
                             data[index] = {
                                 logo: item['photo']['img_url'],
+                                nameForAutoComplete: item['localization'][0]['name'] + ' - ' + item['city']['name'],
                                 name: item['localization'][0]['name'],
+                                city: item['city'],
                                 place: true
                             };
                         });
@@ -81,7 +92,16 @@ export default {
         init() {
             this.loadCategoriesByName(this.findItems.query)
                 .then( res => {
-                    this.findItems.data = res;
+                    let data = [];
+                    res.forEach(function (item, index) {
+                        data[index] = {
+                            id: item['id'],
+                            nameForAutoComplete: item['name'],
+                            name: item['name'],
+                            logo: item['logo']
+                        };
+                    });
+                    this.findItems.data = data;
                 });
         }
     },
