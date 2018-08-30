@@ -116,11 +116,11 @@ class AddPlaceAction
                     foreach ($photos as $photo) {
                         $fileNameGenerator = new FileNameGenerator($photo);
                         $fileName = $fileNameGenerator->generateFileName();
-                        $path = Storage::putFileAs(self::FILE_STORAGE, $photo, $fileName, 'public');
+                        Storage::disk()->putFileAs(self::FILE_STORAGE, $photo, $fileName, 'public');
                         list($width, $height) = getimagesize($photo);
                         $this->placePhotoRepository->save(new PlacePhoto([
                             'creator_id' => $creator->id,
-                            'img_url' => $path,
+                            'img_url' => Storage::disk()->url(self::FILE_STORAGE . '/' . $fileName),
                             'description' => self::DESCRIPTION_DEFAULT,
                             'place_id' => $place->id,
                             'width' => $width,

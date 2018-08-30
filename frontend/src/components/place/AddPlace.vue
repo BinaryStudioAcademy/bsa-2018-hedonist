@@ -697,6 +697,7 @@ export default {
                     type: 'is-success',
                     message: 'Place added!'
                 });
+
             }).catch(() => {
                 this.$toast.open({
                     type: 'is-danger',
