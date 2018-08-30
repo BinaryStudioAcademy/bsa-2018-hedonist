@@ -74,6 +74,15 @@ export default {
                     reject(err);
                 });
         });
-
+    },
+    getTasteAutocomplete: (context, query) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/tastes/autocomplete?query=' + query)
+                .then(function (res) {
+                    resolve(res.data.data);
+                }).catch(function (err) {
+                    reject(err);
+                });
+        });
     }
 };

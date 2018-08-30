@@ -15,12 +15,16 @@
                 </div>
             </li>
         </ul>
-        <b-input
+        <b-autocomplete
             class="taste-input"
-            placeholder="Enter a tag"
             rounded
-            v-model.trim="tasteInput"
-            @keyup.native.enter="addCustomTaste(tasteInput)"
+            v-model.trim="tasteInput.text"
+            placeholder="Enter a tag"
+            :loading="tasteInput.isFetching"
+            :data="tasteInput.data"
+            @input="loadTags"
+            @select="option => selected = option"
+            @keyup.native.enter="addCustomTaste(tasteInput.text)"
         />
     </div>
 </template>
@@ -35,7 +39,11 @@ export default {
             timeDelay: 0,
             selectedIds: [],
             tastesData: [],
-            tasteInput: ''
+            tasteInput: {
+                data: [],
+                text: '',
+                isFetching: false
+            },
         };
     },
     methods: {
@@ -79,7 +87,7 @@ export default {
         addCustomTaste(name) {
             this.$store.dispatch('taste/addCustomTaste', name).then((res) => {
                 this.checkTaste(res.id);
-                this.tasteInput = '';
+                this.tasteInput.text = '';
             });
         },
         deleteCustomTaste(id) {
@@ -95,7 +103,19 @@ export default {
         },
         isClicked(id) {
             return this.tastesData !== undefined || this.tastesData[id].isClick;
-        }
+        },
+        loadTags: _.debounce(function () {
+            this.tasteInput.data = [];
+            this.tasteInput.isFetching = true;
+            this.$store.dispatch('taste/getTasteAutocomplete', this.tasteInput.text)
+                .then(res => {
+                    this.tasteInput.data = res;
+                    this.tasteInput.isFetching = false;
+                })
+                .catch(err => {
+                    this.tasteInput.isFetching = false;
+                });
+        }, 250),
     },
     computed: {
         ...mapState('taste', ['allTastes', 'myTastes']),
