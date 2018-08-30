@@ -31,23 +31,10 @@
                 </b-dropdown>
 
 
-                <b-dropdown>
-                    <button class="button is-primary" slot="trigger">
-                        <i class="far fa-share-square" />Share
-                        <b-icon icon="menu-down" />
-                    </button>
-
-                    <b-dropdown-item has-link>
-                        <a :href="'https://www.facebook.com/sharer/sharer.php?u=' + pageLink" target="_blank">
-                            <i class="fab fa-facebook-square" />
-                            Share on Facebook
-                        </a>
-                        <a :href="'http://twitter.com/share?text='+localizedName+'&hashtags=hedonist,binaryacademy&url=' + pageLink" target="_blank">
-                            <i class="fab fa-twitter-square" />
-                            Share on Twitter
-                        </a>
-                    </b-dropdown-item>
-                </b-dropdown>
+                <ShareDropdown
+                    :link="pageLink"
+                    :text="localizedName"
+                />
             </div>
         </div>
         <div class="place-top-info__sidebar columns">
@@ -104,6 +91,7 @@ import defaultMarker from '@/assets/default_marker.png';
 import { mapGetters, mapState } from 'vuex';
 import PlaceRating from './PlaceRating';
 import PlaceCheckin from './PlaceCheckin';
+import ShareDropdown from '@/components/misc/ShareDropdown';
 
 export default {
     name: 'PlaceTopInfo',
@@ -112,7 +100,8 @@ export default {
         PlacePhotoList,
         PlaceRatingModal,
         PlaceRating,
-        PlaceCheckin
+        PlaceCheckin,
+        ShareDropdown
     },
 
     props: {
