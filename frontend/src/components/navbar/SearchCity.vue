@@ -42,7 +42,8 @@ export default {
             userLocation: {
                 center: []
             },
-            locationAvailable: true
+            locationAvailable: true,
+            searchPushed: false
         };
     },
     methods: {
@@ -60,6 +61,13 @@ export default {
         findByCurrentLocation() {
             this.findCity.query = this.$t('search.current_location');
             this.$emit('select', this.userLocation);
+            this.$router.push({
+                name: 'SearchPlacePage',
+                query: {
+                    location: this.userLocation.center[0] + ',' + this.userLocation.center[1],
+                    page: 1
+                }
+            });
         }
     },
     created() {
@@ -68,6 +76,10 @@ export default {
                 this.locationAvailable = true;
                 this.userLocation.center[0] = coordinates.lng;
                 this.userLocation.center[1] = coordinates.lat;
+                if ((this.$router.currentRoute.name === 'SearchPlacePage') && !this.searchPushed) {
+                    this.searchPushed = true;
+                    this.findByCurrentLocation();
+                }
             })
             .catch(error => {
                 this.locationAvailable = false;
