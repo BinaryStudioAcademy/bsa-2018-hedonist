@@ -5,7 +5,7 @@
             <CategoryTagsContainer
                 v-if="categoryTagsList.length"
                 :tags="categoryTagsList"
-                @onSelectTag="onSelectTag(tagId, isTagActive)"
+                @onSelectTag="onSelectTag"
             />
             <template v-for="(place, index) in places">
                 <PlacePreview

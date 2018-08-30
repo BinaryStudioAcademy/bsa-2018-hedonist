@@ -7,7 +7,7 @@
                 <CategoryTag
                     :key="tag.id"
                     :tag="tag"
-                    @onSelectTag="onSelectTag(tagId, isTagActive)"
+                    @onSelectTag="onSelectTag"
                 />
             </template>
         </div>
