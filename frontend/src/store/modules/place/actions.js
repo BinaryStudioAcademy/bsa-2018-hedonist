@@ -56,6 +56,21 @@ export default {
         });
     },
 
+    loadMorePlaces: (context, filters = {}) => {
+        filters.page = filters.page !== undefined ? filters.page : 1;
+        filters.page++;
+        let queryUrl = createSearchQueryUrl(filters);
+        return new Promise((resolve, reject) => {
+            httpService.get('/places/search' + queryUrl)
+                .then(function (res) {
+                    context.commit('LOAD_MORE_PLACES', res.data.data);
+                    resolve(res);
+                }).catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+
     getLikedPlace: (context, placeId) => {
         httpService.get(`places/${placeId}/liked`)
             .then( (res) => {

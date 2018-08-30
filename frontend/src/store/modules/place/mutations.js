@@ -11,6 +11,10 @@ export default {
         state.places = places;
     },
 
+    LOAD_MORE_PLACES: (state, newPlaces) => {
+        state.places.push(newPlaces);
+    },
+
     SET_PLACE_LIKED: (state, liked) => {
         state.liked = liked;
     },
