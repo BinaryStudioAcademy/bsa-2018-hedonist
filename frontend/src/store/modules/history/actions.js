@@ -109,7 +109,7 @@ const transformPlaces = (data) => {
                     name: list.name,
                     user_id: list.user_id,
                     img_url: list.img_url
-                }
+                };
             }),
             checkin_count: checkIn.place.checkin_count,
             rating: checkIn.place.rating
