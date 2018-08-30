@@ -144,8 +144,6 @@ export default {
         ...mapActions('review', ['addReview', 'addReviewPhoto']),
         ...mapActions('taste', ['fetchMyTastes']),
         onAddReview () {
-            console.log(this.myTastes);
-            return false;
             this.newReview.user_id = this.userId;
             this.newReview.place_id = this.placeId;
 
