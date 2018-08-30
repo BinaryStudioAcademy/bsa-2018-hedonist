@@ -9,5 +9,6 @@ export default {
         longitude: KIEV_LONGITUDE
     },
     mapInitialized : false,
-    isLoading : false
+    isLoading : false,
+    currentPage : 1
 };

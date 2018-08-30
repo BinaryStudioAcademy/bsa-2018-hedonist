@@ -2,7 +2,12 @@
     <section class="columns">
         <section class="column is-half">
             <SearchFilterPlace />
-            <template v-for="(place, index) in places">
+            <template
+                v-for="(place, index) in places"
+                v-infinite-scroll="loadMore"
+                infinite-scroll-disabled="busy"
+                infinite-scroll-distance="30">
+            >
                 <PlacePreview
                     v-if="isPlacesLoaded"
                     :key="place.id"
@@ -36,6 +41,7 @@ import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
 import placeholderImg from '@/assets/placeholder_128x128.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
+import infiniteScroll from 'vue-infinite-scroll';
 
 export default {
     name: 'SearchPlace',
@@ -59,6 +65,7 @@ export default {
     created() {
         this.$store.dispatch('place/fetchPlaces', this.$route.query)
             .then(() => {
+                this.setStartCurrentPage();
                 this.isPlacesLoaded = true;
             });
 
@@ -67,6 +74,8 @@ export default {
         ...mapActions('search', ['setCurrentPosition', 'mapInitialization']),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE',
+            setStartCurrentPage: 'SET_START_CURRENT_PAGE',
+            incCurrentPage: 'INC_CURRENT_PAGE',
         }),
 
         mapInitialize(map) {
@@ -139,6 +148,17 @@ export default {
                     this.isPlacesLoaded = true;
                     this.draw.deleteAll();
                 });
+        },
+        loadMore: function () {
+            this.incCurrentPage();
+            alert('loadMore: '+this.currentPage);
+            this.$store.dispatch('place/loadMorePlaces', {
+                    filters: this.$route.query,
+                    page: $this.currentPage
+                })
+                .then(() => {
+                    this.isPlacesLoaded = true;
+                });
         }
     },
     watch: {
@@ -164,7 +184,11 @@ export default {
     },
     computed: {
         ...mapState('place', ['places']),
-        ...mapState('search', ['currentPosition', 'mapInitialized']),
+        ...mapState('search', [
+            'currentPosition',
+            'mapInitialized',
+            'currentPage'
+        ]),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters({
             user: 'auth/getAuthenticatedUser'

@@ -56,9 +56,8 @@ export default {
         });
     },
 
-    loadMorePlaces: (context, filters = {}) => {
-        filters.page = filters.page !== undefined ? filters.page : 1;
-        filters.page++;
+    loadMorePlaces: (context, {filters = {}, page = 1}) => {
+        filters.page = page;
         let queryUrl = createSearchQueryUrl(filters);
         return new Promise((resolve, reject) => {
             httpService.get('/places/search' + queryUrl)

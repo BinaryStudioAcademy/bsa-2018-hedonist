@@ -44,5 +44,13 @@ export default {
 
     DELETE_SEARCH_CITY: (state) => {
         state.city = null;
+    },
+
+    SET_START_CURRENT_PAGE: (state) => {
+        state.currentPage = 1;
+    },
+
+    INC_CURRENT_PAGE: (state) => {
+        state.currentPage++;
     }
 };
