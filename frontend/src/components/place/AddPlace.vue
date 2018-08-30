@@ -446,7 +446,7 @@
                                         </b-field>
 
                                         <div class="level">
-                                            <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
+                                            <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary" :disabled="isDaySelected">Add</a></div>
                                         </div>
 
                                     </div>
@@ -465,12 +465,12 @@
                     <div class="box">
                         <div class="level">
                             <div class="level-item">
-                                <h1>Do you really want to add new place <strong>"{{ newPlace.localization.en.name.trim() }}"?</strong></h1>
+                                <h1>{{ confirmText }}</h1>
                             </div>
                         </div>
                         <div class="buttons is-centered">
                             <span @click="activeTab--" class="button is-warning">Previous</span>
-                            <span @click="onAdd()" class="button is-medium is-success">Add</span>
+                            <span @click="onAdd()" class="button is-success">Add</span>
                         </div>
                     </div>
                 </b-tab-item>
@@ -596,6 +596,10 @@ export default {
 
         isDaySelected: function() {
             return !this.weekdays.length;
+        },
+
+        confirmText: function() {
+            return 'Confirm add place "' + this.newPlace.localization.en.name.trim() + '"?';
         }
     },
 
