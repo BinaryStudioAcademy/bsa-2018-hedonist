@@ -10,6 +10,8 @@ use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionPresenter;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionRequest;
 use Hedonist\Actions\Place\GetPlaceCollectionByFilters\GetPlaceCollectionByFiltersAction;
 use Hedonist\Actions\Place\GetPlaceCollectionByFilters\GetPlaceCollectionByFiltersRequest;
+use Hedonist\Actions\Place\GetPlaceCollectionForAutoComplete\GetPlaceCollectionForAutoCompleteAction;
+use Hedonist\Actions\Place\GetPlaceCollectionForAutoComplete\GetPlaceCollectionForAutoCompleteRequest;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemAction;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemPresenter;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemRequest;
@@ -45,6 +47,7 @@ class PlaceController extends ApiController
     private $updatePlaceAction;
     private $getUserRatingForPlaceAction;
     private $getPlaceCollectionByFiltersAction;
+    private $getPlaceCollectionForAutoCompleteAction;
 
     public function __construct(
         GetPlaceItemAction $getPlaceItemAction,
@@ -53,7 +56,8 @@ class PlaceController extends ApiController
         AddPlaceAction $addPlaceAction,
         UpdatePlaceAction $updatePlaceAction,
         GetUserRatingForPlaceAction $getUserRatingForPlaceAction,
-        GetPlaceCollectionByFiltersAction $getPlaceCollectionByFiltersAction
+        GetPlaceCollectionByFiltersAction $getPlaceCollectionByFiltersAction,
+        GetPlaceCollectionForAutoCompleteAction $getPlaceCollectionForAutoCompleteAction
     ) {
         $this->getPlaceItemAction = $getPlaceItemAction;
         $this->getPlaceCollectionAction = $getPlaceCollectionAction;
@@ -62,6 +66,7 @@ class PlaceController extends ApiController
         $this->updatePlaceAction = $updatePlaceAction;
         $this->getUserRatingForPlaceAction = $getUserRatingForPlaceAction;
         $this->getPlaceCollectionByFiltersAction = $getPlaceCollectionByFiltersAction;
+        $this->getPlaceCollectionForAutoCompleteAction = $getPlaceCollectionForAutoCompleteAction;
     }
 
     public function getPlace(int $id, GetPlaceItemPresenter $presenter): JsonResponse
@@ -86,7 +91,13 @@ class PlaceController extends ApiController
     public function getCollection(Request $request, GetPlaceCollectionPresenter $presenter): JsonResponse
     {
         $placeResponse = $this->getPlaceCollectionByFiltersAction->execute(
-            new GetPlaceCollectionByFiltersRequest($request->input('page'), null, null)
+            new GetPlaceCollectionByFiltersRequest(
+                $request->input('page'),
+                null,
+                null,
+                null,
+                null
+            )
         );
         return $this->successResponse($presenter->present($placeResponse));
     }
@@ -152,11 +163,29 @@ class PlaceController extends ApiController
                 new GetPlaceCollectionByFiltersRequest(
                     $request->input('page'),
                     $request->input('filter.category'),
-                    $request->input('filter.location')
+                    $request->input('filter.location'),
+                    $request->input('filter.name'),
+                    $request->input('filter.polygon')
                 )
             );
 
             return $this->successResponse($presenter->present($placeResponse), 200);
+        } catch (DomainException $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function getCollectionForAutocomplete(PlaceSearchRequest $request, GetPlaceCollectionPresenter $presenter): JsonResponse
+    {
+        try {
+            $placeResponse = $this->getPlaceCollectionForAutoCompleteAction->execute(
+                new GetPlaceCollectionForAutoCompleteRequest(
+                    $request->input('filter.name'),
+                    $request->input('filter.location')
+                )
+            );
+
+            return $this->successResponse($presenter->presentForAutoComplete($placeResponse), 200);
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage());
         }

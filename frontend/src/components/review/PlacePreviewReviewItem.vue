@@ -20,10 +20,18 @@
                 font-size="0.7rem"
                 @like="onLikeReview"
                 @dislike="onDislikeReview"
+                @showUsersWhoLiked="onShowUsersWhoLiked"
+                @showUsersWhoDisliked="onShowUsersWhoDisliked"
                 :likes="review.likes"
                 :dislikes="review.dislikes"
                 :status="review.like"
                 class="review-likes"
+            />
+            <UsersWhoLikedDislikedReviewModals
+                :is-users-who-liked-review-modal-active="isUsersWhoLikedReviewModalActive"
+                :is-users-who-disliked-review-modal-active="isUsersWhoDislikedReviewModalActive"
+                @updateUsersWhoLikedReviewModalActive="updateUsersWhoLikedReviewModalActive"
+                @updateUsersWhoDislikedReviewModalActive="updateUsersWhoDislikedReviewModalActive"
             />
         </div>
     </div>
@@ -32,23 +40,38 @@
 <script>
 import { mapActions, mapMutations } from 'vuex';
 import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
+import UsersWhoLikedDislikedReviewModals from '@/components/review/UsersWhoLikedDislikedReviewModals';
 
 export default {
     name: 'PlacePreviewReviewItem',
-    components: {LikeDislikeButton},
+    components: {
+        LikeDislikeButton,
+        UsersWhoLikedDislikedReviewModals
+    },
+    data() {
+        return {
+            isUsersWhoLikedReviewModalActive: false,
+            isUsersWhoDislikedReviewModalActive: false
+        };
+    },
     props: {
         review: {
             type: Object,
             required: true
         }
     },
-    computed:{
+    computed: {
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
         }
     },
     methods: {
-        ...mapActions('review', ['likeReviewSearch', 'dislikeReviewSearch']),
+        ...mapActions('review', [
+            'likeReviewSearch',
+            'dislikeReviewSearch',
+            'getUsersWhoLikedReview',
+            'getUsersWhoDislikedReview'
+        ]),
         ...mapMutations('place', {
             updateReviewLikedState: 'UPDATE_REVIEW_LIKED_STATE',
             updateReviewDislikedState: 'UPDATE_REVIEW_DISLIKED_STATE'
@@ -66,6 +89,32 @@ export default {
                 .then( () => {
                     this.updateReviewDislikedState(this.review.id);
                 });
+        },
+
+        onShowUsersWhoLiked() {
+            if (this.review.likes) {
+                this.getUsersWhoLikedReview(this.review.id)
+                    .then( () => {
+                        this.updateUsersWhoLikedReviewModalActive(true);
+                    });
+            }
+        },
+
+        onShowUsersWhoDisliked() {
+            if (this.review.dislikes) {
+                this.getUsersWhoDislikedReview(this.review.id)
+                    .then( () => {
+                        this.updateUsersWhoDislikedReviewModalActive(true);
+                    });
+            }
+        },
+
+        updateUsersWhoLikedReviewModalActive(newValue) {
+            this.isUsersWhoLikedReviewModalActive = newValue;
+        },
+
+        updateUsersWhoDislikedReviewModalActive(newValue) {
+            this.isUsersWhoDislikedReviewModalActive = newValue;
         }
     }
 };

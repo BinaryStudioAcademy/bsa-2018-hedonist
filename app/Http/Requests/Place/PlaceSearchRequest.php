@@ -16,6 +16,7 @@ class PlaceSearchRequest extends FormRequest
         return [
             'filter.category' => 'nullable|int',
             'filter.location' => 'nullable|string',
+            'filter.polygon' => 'nullable|string',
             'page' => 'int|min:1',
         ];
     }

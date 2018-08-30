@@ -34,7 +34,8 @@ class GetPlaceItemAction
         if (!$place) {
             throw new PlaceDoesNotExistException;
         }
+        $checkinsCount = $this->placeRepository->getPlaceCheckinsCountByUser($place->id, Auth::user()->id);
 
-        return new GetPlaceItemResponse($place, Auth::user());
+        return new GetPlaceItemResponse($place, Auth::user(), $checkinsCount);
     }
 }

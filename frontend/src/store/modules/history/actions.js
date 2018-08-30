@@ -3,7 +3,7 @@ import httpService from '@/services/common/httpService';
 export default {
     checkIn: (context, data) => {
         return httpService.post('/users/me/checkins', data)
-            .then(response => { 
+            .then(response => {
                 return Promise.resolve(response);
             })
             .catch(error => {
@@ -29,12 +29,17 @@ export default {
                         ids: allCheckinIds
                     });
                     context.commit('SET_PLACES', checkInPlaces);
+                    context.commit('SET_LOADING_STATE' , false);
                     resolve({checkIns, checkInPlaces});
                 })
                 .catch(function (err) {
                     reject(err);
                 });
         });
+    },
+
+    setLoadingState: ({commit} ,loadState) => {
+        commit('SET_LOADING_STATE' , loadState);
     },
 
     setCurrentMapCenter: ({ commit }, currentCenter) => {
@@ -89,8 +94,8 @@ const transformPlaces = (data) => {
                 return {
                     id: photo.id,
                     description: photo.description,
-                    imgUrl: photo['img_url'],
-                    creatorId: photo['creator_id'],
+                    img_url: photo['img_url'],
+                    creator_id: photo['creator_id'],
                 };
             }),
             rating: checkIn.place.rating

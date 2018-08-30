@@ -1,6 +1,6 @@
 const E164 = /\+\d+/;
 
-const digits = /d+/;
+const digits = /\d+/;
 
 const isDigits = (phone) => (phone.length >= 10 && phone.length <= 16 && digits.test(phone));
 
