@@ -74,8 +74,8 @@
                     v-if="place.rating"
                     :value="Number(place.rating)"
                     :show-max="true"
-                    :showRating="true"
-                    :ratingCount="place.ratingCount"
+                    :show-rating="true"
+                    :rating-count="place.ratingCount"
                 />
 
                 <button

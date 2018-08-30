@@ -1,10 +1,10 @@
 <template>
     <div class="rating-wrapper">
         <div
-                :class="[
-            'rating',
-            'rating-' + ratingCategory
-        ]"
+            :class="[
+                'rating',
+                'rating-' + ratingCategory
+            ]"
         >
             {{ value | formatRating }}
 
