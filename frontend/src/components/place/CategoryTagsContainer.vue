@@ -3,7 +3,9 @@
         <span class="category-tags__title">Show only:</span>
 
         <div class="tags">
-            <CategoryTag v-for="tag in tags" :key="tag.id" :tag="tag" />
+            <template v-for="tag in tags">
+                <CategoryTag :key="tag.id" :tag="tag" />
+            </template>
         </div>
     </div>    
 </template>
