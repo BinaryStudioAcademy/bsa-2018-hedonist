@@ -1,10 +1,10 @@
 <template>
     <div class="navbar-start">
         <div class="navbar-item">
-            <SearchPlaceCategory @select="category = $event" />
+            <SearchPlaceCategory @select="selectCategory" />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="location = $event" />
+            <SearchCity @select="selectCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
@@ -37,25 +37,19 @@ export default {
     methods: {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
-            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
+            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory',
+            updateQueryFilters: 'search/updateQueryFilters'
         }),
+        selectCity(city){
+            this.location = city;
+        },
+        selectCategory(category){
+            this.category = category;
+        },
         search() {
-            let location = '';
-            let category = '';
-            if (this.location !== null) {
-                location = this.location.center[0] + ',' + this.location.center[1];
-            }
-            if (this.category !== null) {
-                category = this.category.id;
-            }
-            this.$router.push({
-                name: 'SearchPlacePage',
-                query: {
-                    category: category,
-                    location: location,
-                    page: 1
-                }
-            });
+            this.selectSearchCity(this.location);
+            this.selectSearchPlaceCategory(this.category);
+            this.updateQueryFilters();
         }
     },
 };
