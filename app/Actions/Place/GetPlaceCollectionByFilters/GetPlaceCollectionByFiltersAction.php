@@ -54,19 +54,19 @@ class GetPlaceCollectionByFiltersAction
             $criterias[] = new GetPlaceByCategoryCriteria($categoryId);
         }
 
-        if($request->isTopReviewed()){
+        if ($request->isTopReviewed()) {
             $criterias[] = new TopReviewedCriteria;
         }
 
-        if($request->isTopRated()){
+        if ($request->isTopRated()) {
             $criterias[] = new TopRatedCriteria;
         }
 
-        if($request->isCheckin()){
+        if ($request->isCheckin()) {
             $criterias[] = new CheckinCriteria($user);
         }
 
-        if($request->isSaved()){
+        if ($request->isSaved()) {
             $criterias[] = new SavedCriteria($user);
         }
 

@@ -17,7 +17,7 @@ class CheckinCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->whereHas('checkins', function ($query){
+        return $model->whereHas('checkins', function ($query) {
             $query->where('user_id', $this->user->id);
         });
     }
