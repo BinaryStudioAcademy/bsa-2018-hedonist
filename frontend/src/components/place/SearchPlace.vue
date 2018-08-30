@@ -215,12 +215,11 @@ export default {
 
     #map {
         text-align: justify;
-        position: sticky;
-        position: -webkit-sticky;
-        top: 3.75rem;
+        position: fixed;
+        top: 63px;
         height: 100vh;
-        right: 0;
-        width: 100%;
+        right: 4px;
+        width: 49%;
     }
 
     @media screen and (max-width: 769px) {
