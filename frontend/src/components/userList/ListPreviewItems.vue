@@ -65,12 +65,23 @@ export default {
             if (cityId) {
                 filtered = this.getFilteredByCity(filtered, cityId);
             }
-            return filtered;
+
+            return this.sortByAsc(filtered);
         }
     },
     methods: {
         setCityFilter(cityId) {
             this.filterBy.cityId = cityId;
+        },
+        sortByAsc(lists) {
+            let listArray = [];
+            for (const listId in lists) {
+                if (lists.hasOwnProperty(listId)) {
+                    listArray.push(lists[listId]);
+                }
+            }
+
+            return listArray.reverse();
         }
     },
 };
