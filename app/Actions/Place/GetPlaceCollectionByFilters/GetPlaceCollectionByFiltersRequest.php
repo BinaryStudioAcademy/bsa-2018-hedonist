@@ -21,7 +21,7 @@ class GetPlaceCollectionByFiltersRequest
         ?int $category_id,
         ?string $location,
         ?string $name,
-        ?string $polygon
+        ?string $polygon,
         ?bool $topReviewed = false,
         ?bool $topRated = false,
         ?bool $checkin = false,

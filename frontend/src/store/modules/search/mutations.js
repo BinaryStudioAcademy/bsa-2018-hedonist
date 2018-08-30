@@ -58,7 +58,10 @@ export default {
     },
 
     DELETE_SEARCH_PLACE_CATEGORY: (state) => {
-        state.placeCategory = null;
+        state.placeCategory = {
+            id: null,
+            name: ''
+        };
     },
 
     DELETE_SEARCH_PLACE: (state) => {
@@ -66,6 +69,11 @@ export default {
     },
 
     DELETE_SEARCH_CITY: (state) => {
-        state.city = null;
+        state.city = {
+            name: '',
+            longitude: null,
+            latitude: null,
+            fullName: ''
+        };
     }
 };

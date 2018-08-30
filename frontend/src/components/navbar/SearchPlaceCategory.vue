@@ -66,7 +66,7 @@ export default {
                     });
             } else {
                 let location = '';
-                if (this.city !== null) {
+                if (this.city && this.city.longitude && this.city.latitude) {
                     location = this.city.longitude + ',' + this.city.latitude;
                 }
                 this.loadPlaces({name: this.findItems.query, location: location})

@@ -2,10 +2,10 @@
     <div class="navbar-start">
         <Preloader :active="isLoading" />
         <div class="navbar-item">
-            <SearchPlaceCategory @select="selectSearchPlaceOrCategory" />
+            <SearchPlaceCategory @select="selectPlaceOrCategory" />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="selectSearchCity" />
+            <SearchCity @select="selectCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
@@ -26,6 +26,12 @@ import SearchPlaceCategory from './SearchPlaceCategory';
 
 export default {
     name: 'NavbarSearchPanel',
+    data: function(){
+      return {
+          location: null,
+          category: null,
+      }
+    },
     computed: {
         ...mapState('search', ['isLoading']),
         ...mapGetters({
@@ -42,9 +48,8 @@ export default {
     methods: {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
-            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory',
-            updateQueryFilters: 'search/updateQueryFilters'
-            selectSearchPlaceOrCategory: 'search/selectSearchPlaceOrCategory',
+            updateQueryFilters: 'search/updateQueryFilters',
+            selectSearchPlaceOrCategory: 'search/selectSearchPlaceOrCategory'
         }),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE',
@@ -52,15 +57,16 @@ export default {
         selectCity(city){
             this.location = city;
         },
-        selectCategory(category){
+        selectPlaceOrCategory(category){
             this.category = category;
         },
         search() {
-            //this.selectSearchCity(this.location);
-            //this.selectSearchPlaceCategory(this.category);
-            //this.updateQueryFilters();
-            
             this.setLoadingState(true);
+            this.selectSearchCity(this.location);
+            this.selectSearchPlaceOrCategory(this.category);
+            this.updateQueryFilters();
+            
+            /*this.setLoadingState(true);
             let location = '';
             let category = '';
             let placeName = '';
@@ -82,7 +88,7 @@ export default {
                     searchName: placeName,
                     page: 1
                 }
-            });
+            });*/
 
         }
     }
