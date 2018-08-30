@@ -1,13 +1,19 @@
 <template>
-    <div
-        :class="[
+    <div class="rating-wrapper">
+        <div
+                :class="[
             'rating',
             'rating-' + ratingCategory
         ]"
-    >
-        {{ value | formatRating }}
-        
-        <sup v-if="showMax">/10</sup>
+        >
+            {{ value | formatRating }}
+
+            <sup v-if="showMax">/10</sup>
+        </div>
+
+        <div class="place-rate__mark-count">
+            {{ ratingCount || 'No' }} marks
+        </div>
     </div>
 </template>
 
@@ -24,6 +30,11 @@ export default {
         showMax: {
             type: Boolean
         },
+
+        ratingCount: {
+            required: true,
+            type: Number
+        }
     },
 
     computed: {
@@ -49,24 +60,33 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.rating {
-    border-radius: 7px;
-    line-height: 48px;
-    font-size: 1.5rem;
-    color: #FFF;
-    text-align: center;
-    padding: 0 10px;
+.rating-wrapper{
+    display: flex;
+    align-items: center;
 
-    &-bad {
-        background-color: #FC8D9F;
+    .rating {
+        border-radius: 7px;
+        line-height: 48px;
+        font-size: 1.5rem;
+        color: #FFF;
+        text-align: center;
+        padding: 0 10px;
+
+        &-bad {
+            background-color: #FC8D9F;
+        }
+
+        &-okay {
+            background-color: #FFA500;
+        }
+
+        &-good {
+            background-color: #00B551;
+        }
     }
 
-    &-okay {
-        background-color: #FFA500;
-    }
-
-    &-good {
-        background-color: #00B551;
+    .place-rate__mark-count {
+        margin-left: 15px;
     }
 }
 </style>

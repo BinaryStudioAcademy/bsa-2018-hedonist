@@ -74,11 +74,8 @@
                     v-if="place.rating"
                     :value="Number(place.rating)"
                     :show-max="true"
+                    :ratingCount="place.ratingCount"
                 />
-
-                <div class="place-rate__mark-count">
-                    {{ place.ratingCount || 'No' }} marks
-                </div>
 
                 <button
                     class="button is-primary rating"
