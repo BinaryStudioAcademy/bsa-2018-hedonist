@@ -13,8 +13,10 @@ use Hedonist\Actions\UserList\GetUserListsCollectionAction;
 use Hedonist\Actions\UserList\GetUserListAction;
 use Hedonist\Actions\UserList\GetUserListRequest;
 use Hedonist\Exceptions\DomainException;
+use Hedonist\Exceptions\UserList\UserListPermissionDeniedException;
 use Hedonist\Http\Controllers\Api\ApiController;
-use Hedonist\Http\Requests\UserList\UserListRequest;
+use Hedonist\Http\Requests\UserList\UserListAddRequest;
+use Hedonist\Http\Requests\UserList\UserListUpdateRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,7 +56,7 @@ class UserListController extends ApiController
         return $this->successResponse($resUserLists->toArray());
     }
 
-    public function store(UserListRequest $request)
+    public function store(UserListAddRequest $request)
     {
         try {
             $responseUserList = $this->saveUserListAction->execute(
@@ -83,7 +85,7 @@ class UserListController extends ApiController
         }
     }
 
-    public function update(UserListRequest $request, int $id)
+    public function update(UserListUpdateRequest $request, int $id)
     {
         try {
             $responseUserList = $this->saveUserListAction->execute(
@@ -91,12 +93,13 @@ class UserListController extends ApiController
                     Auth::id(),
                     $request->get('name'),
                     $request->file('image'),
-                    $request->get('attached_places')
+                    $request->get('attached_places'),
+                    $id
                 )
             );
             return $this->successResponse($responseUserList->toArray(), 201);
-        } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), 404);
+        } catch (UserListPermissionDeniedException | \Exception $exception) {
+            return $this->errorResponse($exception->getMessage(), $exception->getCode());
         }
     }
 
@@ -104,8 +107,8 @@ class UserListController extends ApiController
     {
         try {
             $this->deleteUserListAction->execute(new DeleteUserListRequest($id));
-        } catch (\Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), 400);
+        } catch (UserListPermissionDeniedException | \Exception $exception) {
+            return $this->errorResponse($exception->getMessage(), $exception->getCode());
         }
     }
 }

@@ -30,8 +30,9 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
 
     public function findUserListsWithPlaces(int $userId): Collection
     {
-        return UserList::with('places')
+        return UserList::with('places', 'places.tags')
             ->where('user_id', $userId)
+            ->orderBy('created_at', 'DESC')
             ->get();
     }
 
@@ -47,6 +48,8 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
 
     public function deleteById(int $id): void
     {
+        $userList = $this->getById($id);
+        $userList->places()->detach();
         $this->delete($id);
     }
 

@@ -19,4 +19,6 @@ interface ReviewPhotoRepositoryInterface
     public function deleteById(int $id): void;
 
     public function getByReview(int $reviewId): Collection;
+
+    public function getByPlace(int $placeId): Collection;
 }

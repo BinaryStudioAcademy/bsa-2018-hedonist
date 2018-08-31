@@ -20,14 +20,4 @@ interface TasteRepositoryInterface
     public function findByUser(int $userId): Collection;
 
     public function deleteById(int $id): void;
-
-    public function getDefault(): Collection;
-
-    public function getCustomById(int $id): ?CustomTaste;
-
-    public function getCustomByUserId(int $userId): Collection;
-
-    public function saveCustom(CustomTaste $customTaste): CustomTaste;
-
-    public function deleteCustomById(int $id): void;
 }

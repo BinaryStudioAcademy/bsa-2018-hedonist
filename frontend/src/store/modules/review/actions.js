@@ -35,6 +35,7 @@ export default {
                         reviewId: res.data.data.review_id,
                         img_url: res.data.data.img_url
                     });
+                    context.commit('ADD_PLACE_REVIEW_PHOTO', res.data.data);
                     resolve(res.data);
                 })
                 .catch(function (err) {
@@ -55,6 +56,21 @@ export default {
                         });
                     }
                     resolve(result.data);
+                })
+                .catch(() => {
+                    reject();
+                });
+        });
+    },
+
+    getReviewPhotosByPlace: (context, placeId) => {
+        return new Promise((resolve, reject) => {
+            httpService.get(`reviews/photos/${placeId}`)
+                .then((result) => {
+                    if (result.data.data.length > 0) {
+                        context.commit('SET_PLACE_REVIEW_PHOTOS', result.data.data);
+                    }
+                    resolve(result.data.data);
                 })
                 .catch(() => {
                     reject();

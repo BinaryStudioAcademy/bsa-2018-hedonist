@@ -14,6 +14,7 @@
                 :key="userList.id"
                 :user-list="userList"
                 :timer="50 * (key+1)"
+                @loading="loading"
             />
         </ul>
     </section>
@@ -65,12 +66,26 @@ export default {
             if (cityId) {
                 filtered = this.getFilteredByCity(filtered, cityId);
             }
-            return filtered;
+
+            return this.sortByDesc(filtered);
         }
     },
     methods: {
         setCityFilter(cityId) {
             this.filterBy.cityId = cityId;
+        },
+        sortByDesc(lists) {
+            let listArray = [];
+            for (const listId in lists) {
+                if (lists.hasOwnProperty(listId)) {
+                    listArray.push(lists[listId]);
+                }
+            }
+
+            return listArray.reverse();
+        },
+        loading(value) {
+            this.isLoading = value;
         }
     },
 };

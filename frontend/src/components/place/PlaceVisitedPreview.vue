@@ -2,7 +2,7 @@
     <transition name="slide-fade">
         <div class="container place-item" v-if="active">
             <div class="media">
-                <figure v-if="hasPhotos" class="media-left image is-128x128">
+                <figure v-if="hasPhotos" class="media-left image is-96x96">
                     <img 
                         v-for="(photo, index) in place.photos"
                         v-img="{group: place.id}"
@@ -11,23 +11,23 @@
                         :key="photo.id"
                     >
                 </figure>
-                <figure v-else class="media-left image is-128x128">
+                <figure v-else class="media-left image is-96x96">
                     <img :src="notFoundPhoto">
                 </figure>
                 <div class="media-content">
+                    <p class="address">
+                        You were here at {{ checkin.createdAt | timeDate }}
+                    </p>
                     <h3
                         class="title has-text-primary"
                     >
                         <router-link :to="`/places/${place.id}`">
                             {{ localizedName }}
                         </router-link>
+
                     </h3>
-                    <p class="place-city"><strong>{{ place.city.name }}</strong></p>
-                    <p class="place-category">
-                        <a href="#">{{ place.category.name }}</a>
-                    </p>
                     <p class="address">
-                        {{ place.address }}
+                        <strong>{{ place.city.name }}</strong>, {{ place.address }}
                     </p>
                 </div>
                 <div class="media-right rating-wrapper">
@@ -37,23 +37,6 @@
                     />
                 </div>
             </div>
-            <div class="media">
-                <div class="media-content">
-                    <b-taglist>
-                        <b-tag
-                            type="is-info"
-                            v-for="tag in place.category.tags"
-                            :key="tag.id"
-                        >
-                            {{ tag.name }}
-                        </b-tag>
-                    </b-taglist>
-                </div>
-            </div>
-            <Review
-                v-if="place.review"
-                :review="place.review"
-            />
         </div>
     </transition>
 </template>
@@ -74,6 +57,7 @@
 
     .title {
         margin-bottom: 0.5rem;
+        font-size: 1.3rem;
     }
 
     .image > img {
@@ -121,6 +105,7 @@
 import Review from '@/components/review/PlacePreviewReviewItem';
 import imagePlaceholder from '@/assets/placeholder_128x128.png';
 import PlaceRating from './PlaceRating';
+import moment from 'moment';
 
 export default {
     name: 'PlaceVisitedPreview',
@@ -133,8 +118,17 @@ export default {
             active: false
         };
     },
+    filters: {
+        timeDate: function(dateTime){
+            return moment(dateTime).format('MMMM DD, HH:mm');
+        },
+    },
     props: {
         place: {
+            required: true,
+            type: Object,
+        },
+        checkin: {
             required: true,
             type: Object,
         },

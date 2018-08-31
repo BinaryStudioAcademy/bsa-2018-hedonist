@@ -3,7 +3,7 @@
         <PlaceVisitedPreview
             v-for="(checkInId, index) in checkIns.allIds"
             :key="checkInId"
-            :check-in="getCheckInById(checkInId)"
+            :checkin="getCheckInById(checkInId)"
             :place="getPlaceByCheckInId(checkInId)"
             :timer="50 * (index+1)"
         />
