@@ -129,6 +129,14 @@ export default {
             .catch((err) => {
                 return Promise.reject(err);
             });
+    },
+
+    addTasteToPlace: (context, data) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/place/add-taste', data)
+                .then(function (res) { resolve(res); })
+                .catch(function (err) { reject(err); });
+        });
     }
 };
 
