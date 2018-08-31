@@ -6,7 +6,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Storage;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\Feature\Api\ApiTestCase;
 
@@ -74,12 +73,13 @@ class UserListApiTest extends ApiTestCase
         Storage::fake();
         $image = UploadedFile::fake()->image('review.jpg');
         $userList = factory(UserList::class)->create();
+        $user = User::find($userList->user_id);
         $data = [
             'name' => 'Caffe',
             'image' => $image,
             'attached_places' => []
         ];
-        $response = $this->json('PUT', "/api/v1/user-lists/$userList->id", $data);
+        $response = $this->actingWithToken($user)->json('PUT', "/api/v1/user-lists/$userList->id", $data);
         $result = json_decode($response->getContent(), true);
         $this->assertEquals($result['data']['name'], $data['name']);
     }
@@ -87,7 +87,8 @@ class UserListApiTest extends ApiTestCase
     public function test_delete_user_list()
     {
         $userList = factory(UserList::class)->create();
-        $this->json('DELETE', "/api/v1/user-lists/$userList->id");
+        $user = User::find($userList->user_id);
+        $this->actingWithToken($user)->json('DELETE', "/api/v1/user-lists/$userList->id");
 
         $this->json('GET', "/api/v1/user-lists/$userList->id")->assertStatus(404);
     }
