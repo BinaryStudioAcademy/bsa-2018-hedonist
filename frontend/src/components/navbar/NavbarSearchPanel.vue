@@ -65,7 +65,7 @@ export default {
             this.setLoadingState(true);
             this.selectSearchCity(this.location);
 
-            var searchParam = this.city.longitude + ',' + this.city.latitude;
+            let searchParam = this.city.longitude + ',' + this.city.latitude;
             if (this.$route.query.location === searchParam) {
                 this.setLoadingState(false);
                 return;
