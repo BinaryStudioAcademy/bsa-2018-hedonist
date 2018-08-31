@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\Place\GetPlaceItem;
 
 use Hedonist\Actions\Place\GetUserRatingForPlace\GetUserRatingForPlaceResponse;
+use Hedonist\Actions\Presenters\Place\PlaceWorkTimePresenter;
 use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
 use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
@@ -27,6 +28,7 @@ class GetPlaceItemPresenter
     private $photoPresenter;
     private $tagsPresenter;
     private $placeInfoPresenter;
+    private $worktimePresenter;
 
     public function __construct(
         PlacePresenter $placePresenter,
@@ -37,7 +39,8 @@ class GetPlaceItemPresenter
         FeaturePresenter $featurePresenter,
         CategoryPresenter $categoryPresenter,
         CategoryTagPresenter $tagsPresenter,
-        PlacePhotoPresenter $photoPresenter
+        PlacePhotoPresenter $photoPresenter,
+        PlaceWorkTimePresenter $worktimePresenter
     ) {
         $this->placePresenter = $placePresenter;
         $this->placeInfoPresenter = $placeInfoPresenter;
@@ -48,6 +51,7 @@ class GetPlaceItemPresenter
         $this->categoryPresenter = $categoryPresenter;
         $this->tagsPresenter = $tagsPresenter;
         $this->photoPresenter = $photoPresenter;
+        $this->worktimePresenter = $worktimePresenter;
     }
 
     public function present(GetPlaceItemResponse $placeResponse): array
@@ -63,6 +67,7 @@ class GetPlaceItemPresenter
         $result['category'] = $this->categoryPresenter->present($place->category);
         $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
         $result['checkins'] = $placeResponse->getCheckinsCount();
+        $result['worktime'] = $this->worktimePresenter->present($place->worktime);
 
         return $result;
     }

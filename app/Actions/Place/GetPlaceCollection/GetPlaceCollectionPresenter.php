@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
 use Hedonist\Actions\Place\GetPlaceCollectionForAutoComplete\GetPlaceCollectionForAutoCompleteResponse;
+use Hedonist\Actions\Presenters\Place\PlaceWorkTimePresenter;
 use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
 use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
@@ -25,6 +26,7 @@ class GetPlaceCollectionPresenter
     private $categoryPresenter;
     private $photoPresenter;
     private $tagsPresenter;
+    private $worktimePresenter;
 
     public function __construct(
         PlacePresenter $placePresenter,
@@ -34,7 +36,8 @@ class GetPlaceCollectionPresenter
         FeaturePresenter $featurePresenter,
         CategoryPresenter $categoryPresenter,
         CategoryTagPresenter $tagsPresenter,
-        PlacePhotoPresenter $photoPresenter
+        PlacePhotoPresenter $photoPresenter,
+        PlaceWorkTimePresenter $workTimePresenter
     ) {
         $this->placePresenter = $placePresenter;
         $this->reviewPresenter = $reviewPresenter;
@@ -44,6 +47,7 @@ class GetPlaceCollectionPresenter
         $this->categoryPresenter = $categoryPresenter;
         $this->tagsPresenter = $tagsPresenter;
         $this->photoPresenter = $photoPresenter;
+        $this->worktimePresenter = $workTimePresenter;
     }
 
     public function present(GetPlaceCollectionResponse $placeResponse): array
@@ -57,6 +61,7 @@ class GetPlaceCollectionPresenter
             $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
             $result['category'] = $this->categoryPresenter->present($place->category);
             $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
+            $result['worktime'] = $this->worktimePresenter->present($place->worktime);
 
             return $result;
         })->toArray();
