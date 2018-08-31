@@ -7,13 +7,27 @@
                 :tags="categoryTagsList"
                 @onSelectTag="onSelectTag"
             />
-            <template v-for="(place, index) in places">
-                <PlacePreview
-                    v-if="isPlacesLoaded"
-                    :key="place.id"
-                    :place="place"
-                    :timer="50 * (index+1)"
-                />
+            <template v-if="places.length">
+                <template v-for="(place, index) in places">
+                    <PlacePreview
+                        v-if="isPlacesLoaded"
+                        :key="place.id"
+                        :place="place"
+                        :timer="50 * (index+1)"
+                    />
+                </template>
+            </template>
+            <template v-else>
+                <div class="no-results">
+                    <div class="no-results__title has-text-weight-bold">Sorry, no results are found.</div>
+
+                    <div class="no-results__try">You may try:</div>
+                    <ul>
+                        <li>removing your filters</li>
+                        <li>search in different location</li>
+                        <li>search for something more general</li>
+                    </ul>
+                </div>
             </template>
         </section>
         <section class="column mapbox-wrapper right-side">
@@ -236,6 +250,26 @@ export default {
         height: 100vh;
         right: 4px;
         width: 49%;
+    }
+
+    .no-results {
+        padding: 30px 50px;
+
+        &__title {
+            margin-bottom: 20px;
+        }
+        &__try {
+            font-weight: 500;
+        }
+
+        ul {
+            margin-left: 20px;
+
+            li {
+                font-size: 0.9rem;
+                list-style: disc;
+            }
+        }
     }
 
     @media screen and (max-width: 769px) {
