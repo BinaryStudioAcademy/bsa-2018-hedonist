@@ -7,11 +7,11 @@
                 :tags="categoryTagsList"
                 @onSelectTag="onSelectTag"
             />
-            <template v-if="places.length">
-                <div
-                    v-infinite-scroll="loadMore"
-                    :infinite-scroll-disabled="scrollBusy"
-                >
+            <div
+                v-infinite-scroll="loadMore"
+                :infinite-scroll-disabled="scrollBusy"
+            >
+                <template v-if="places.length">   
                     <template v-for="(place, index) in places">
                         <PlacePreview
                             v-if="isPlacesLoaded"
@@ -20,20 +20,20 @@
                             :timer="50 * (index+1)"
                         />
                     </template>
-                </div>
-            </template>
-            <template v-else>
-                <div class="no-results">
-                    <div class="no-results__title has-text-weight-bold">Sorry, no results are found.</div>
+                </template>
+                <template v-else>
+                    <div class="no-results">
+                        <div class="no-results__title has-text-weight-bold">Sorry, no results are found.</div>
 
-                    <div class="no-results__try">You may try:</div>
-                    <ul>
-                        <li>removing your filters</li>
-                        <li>search in different location</li>
-                        <li>search for something more general</li>
-                    </ul>
-                </div>
-            </template>
+                        <div class="no-results__try">You may try:</div>
+                        <ul>
+                            <li>removing your filters</li>
+                            <li>search in different location</li>
+                            <li>search for something more general</li>
+                        </ul>
+                    </div>
+                </template>
+            </div>
         </section>
         <section class="column mapbox-wrapper right-side">
             <mapbox
@@ -158,13 +158,16 @@ export default {
 
             return map;
         },
-        updateSearchArea() {
+        getQuery() {
             let data = this.draw.getAll();
             let query = this.$route.query;
             if (data.features.length > 0) {
                 query.polygon = data.features.map(item => item.geometry.coordinates[0]);
             }
-
+            return query;
+        },
+        updateSearchArea() {
+            let query = this.getQuery();
             this.isPlacesLoaded = false;
             this.$store.dispatch('place/fetchPlaces', query)
                 .then(() => {
@@ -174,6 +177,7 @@ export default {
         },
         loadMore: function () {
             if (this.isPlacesLoaded) {
+                let query = this.getQuery();
                 this.scrollBusy = true;
                 this.currentPage++;
                 this.$store.dispatch('place/loadMorePlaces', {
@@ -208,6 +212,7 @@ export default {
                 .then(() => {
                     this.isPlacesLoaded = true;
                     this.setLoadingState(false);
+                    this.currentPage = 1;
                 });
         }
     },

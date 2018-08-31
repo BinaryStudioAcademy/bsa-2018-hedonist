@@ -97,9 +97,9 @@ export default {
 
     loadMorePlaces: (context, {filters = {}, page}) => {
         filters.page = page;
-        let queryUrl = createSearchQueryUrl(filters);
+        let queryUrl = createSearchQueryUrl('/places/search', filters);
         return new Promise((resolve, reject) => {
-            httpService.get('/places/search' + queryUrl)
+            httpService.get(queryUrl)
                 .then(function (res) {
                     context.commit('LOAD_MORE_PLACES', res.data.data);
                     resolve(res);
