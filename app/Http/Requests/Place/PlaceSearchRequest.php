@@ -16,6 +16,10 @@ class PlaceSearchRequest extends FormRequest
         return [
             'filter.category' => 'nullable|int',
             'filter.location' => 'nullable|string',
+            'filter.top_reviewed' => 'nullable|boolean',
+            'filter.top_rated' => 'nullable|boolean',
+            'filter.checkin' => 'nullable|boolean',
+            'filter.saved' => 'nullable|boolean',
             'filter.polygon' => 'nullable|string',
             'page' => 'int|min:1',
         ];

@@ -26,6 +26,7 @@
                 <PlaceRating
                     v-if="place.rating"
                     :value="Number(place.rating)"
+                    :show-rating="false"
                 />
             </div>
         </div>

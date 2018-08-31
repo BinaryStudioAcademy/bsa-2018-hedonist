@@ -31,6 +31,15 @@ class CityRepository extends BaseRepository implements CityRepositoryInterface
         return City::all();
     }
 
+    public function findByNameAndLocation(String $name, float $lng, float $lat): City
+    {
+        return City::firstOrCreate([
+            'name' => $name,
+            'longitude' => $lng,
+            'latitude' => $lat
+        ]);
+    }
+
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);

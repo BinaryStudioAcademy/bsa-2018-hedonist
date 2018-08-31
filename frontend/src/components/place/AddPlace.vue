@@ -359,25 +359,25 @@
                         <div class="columns is-vcentered">
                             <div class="column is-half is-left">
                                 <div class="worktime-wrp">
-                                    <b-message>
+                                    <b-message :type="isDayWorking(newPlace.worktime['mo'].start, newPlace.worktime['mo'].end) ? 'is-success' : 'is-danger'">
                                         <p><strong>Monday:  </strong>from <strong>{{ displayTime(newPlace.worktime['mo'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['mo'].end) }}</strong> o'clock</p>
                                     </b-message>
-                                    <b-message>
+                                    <b-message :type="isDayWorking(newPlace.worktime['tu'].start, newPlace.worktime['tu'].end) ? 'is-success' : 'is-danger'">
                                         <p><strong>Tuesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['tu'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['tu'].end) }}</strong> o'clock</p>
                                     </b-message>
-                                    <b-message>
+                                    <b-message :type="isDayWorking(newPlace.worktime['we'].start, newPlace.worktime['we'].end) ? 'is-success' : 'is-danger'">
                                         <p><strong>Wednesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['we'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['we'].end) }}</strong> o'clock</p>
                                     </b-message>
-                                    <b-message>
+                                    <b-message :type="isDayWorking(newPlace.worktime['th'].start, newPlace.worktime['th'].end) ? 'is-success' : 'is-danger'">
                                         <p><strong>Thursday:  </strong>from <strong>{{ displayTime(newPlace.worktime['th'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['th'].end) }}</strong> o'clock</p>
                                     </b-message>
-                                    <b-message>
+                                    <b-message :type="isDayWorking(newPlace.worktime['fr'].start, newPlace.worktime['fr'].end) ? 'is-success' : 'is-danger'">
                                         <p><strong>Friday:  </strong>from <strong>{{ displayTime(newPlace.worktime['fr'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['fr'].end) }}</strong> o'clock</p>
                                     </b-message>
-                                    <b-message>
+                                    <b-message :type="isDayWorking(newPlace.worktime['sa'].start, newPlace.worktime['sa'].end) ? 'is-success' : 'is-danger'">
                                         <p><strong>Saturday:  </strong>from <strong>{{ displayTime(newPlace.worktime['sa'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['sa'].end) }}</strong> o'clock</p>
                                     </b-message>
-                                    <b-message>
+                                    <b-message :type="isDayWorking(newPlace.worktime['su'].start, newPlace.worktime['su'].end) ? 'is-success' : 'is-danger'">
                                         <p><strong>Sunday:  </strong>from <strong>{{ displayTime(newPlace.worktime['su'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['su'].end) }}</strong> o'clock</p>
                                     </b-message>
                                 </div>
@@ -438,6 +438,10 @@
                                             </b-checkbox-button>
                                         </b-field>
 
+                                        <div class="level">
+                                            <div class="level-item"><a @click="onDayOff" class="button is-danger" :disabled="isDaySelected">Day(s) off?</a></div>
+                                        </div>
+
                                         <b-field label="from">
                                             <b-timepicker v-model="timeStart" :disabled="isDaySelected" />
                                         </b-field>
@@ -446,7 +450,7 @@
                                         </b-field>
 
                                         <div class="level">
-                                            <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary is-large" :disabled="isDaySelected">Add</a></div>
+                                            <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary" :disabled="isDaySelected">Add</a></div>
                                         </div>
 
                                     </div>
@@ -465,12 +469,12 @@
                     <div class="box">
                         <div class="level">
                             <div class="level-item">
-                                <h1>Do you really want to add new place <strong>"{{ newPlace.localization.en.name.trim() }}"?</strong></h1>
+                                <h1>{{ confirmText }}</h1>
                             </div>
                         </div>
                         <div class="buttons is-centered">
                             <span @click="activeTab--" class="button is-warning">Previous</span>
-                            <span @click="onAdd()" class="button is-medium is-success">Add</span>
+                            <span @click="onAdd()" class="button is-success">Add</span>
                         </div>
                     </div>
                 </b-tab-item>
@@ -509,7 +513,10 @@ export default {
                 city: '',
                 address: '',
                 photos: [],
-                location: {},
+                location: {
+                    lng: 30.5241,
+                    lat: 50.4501
+                },
                 category: '',
                 tags: [],
                 features: [],
@@ -519,35 +526,36 @@ export default {
                 facebook: '',
                 instagram: '',
                 worktime: {
-                    'mo': {
-                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
-                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
-                    },
-                    'tu': {
-                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
-                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
-                    },
-                    'we': {
-                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
-                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
-                    },
-                    'th': {
-                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
-                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
-                    },
-                    'fr': {
-                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
-                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
-                    },
-                    'sa': {
+                    mo: {
                         start: moment().set({'hours': 10, 'minutes': 0}).utc(),
-                        end: moment().set({'hours': 21, 'minutes': 0}).utc()
+                        end:   moment().set({'hours': 21, 'minutes': 0}).utc()
                     },
-                    'su': {
-                        start:  moment().set({'hours': 10, 'minutes': 0}).utc(),
-                        end:    moment().set({'hours': 21, 'minutes': 0}).utc()
+                    tu: {
+                        start: moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:   moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    we: {
+                        start: moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:   moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    th: {
+                        start: moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:   moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    fr: {
+                        start: moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:   moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    sa: {
+                        start: moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:   moment().set({'hours': 21, 'minutes': 0}).utc()
+                    },
+                    su: {
+                        start: moment().set({'hours': 10, 'minutes': 0}).utc(),
+                        end:   moment().set({'hours': 21, 'minutes': 0}).utc()
                     }
-                }
+                },
+                workWeekend: 1
             },
             selectedTag: '',
             weekdays: [],
@@ -596,6 +604,10 @@ export default {
 
         isDaySelected: function() {
             return !this.weekdays.length;
+        },
+
+        confirmText: function() {
+            return 'Confirm add place "' + this.newPlace.localization.en.name.trim() + '"?';
         }
     },
 
@@ -645,17 +657,58 @@ export default {
                 this.newPlace.worktime[item].start = moment(this.timeStart).utc();
                 this.newPlace.worktime[item].end = moment(this.timeEnd).utc();
             });
-            this.weekdays = [];
-            this.timeStart = moment().set({'hours': 10, 'minutes': 0}).toDate();
-            this.timeEnd = moment().set({'hours': 21, 'minutes': 0}).toDate();
+            this.resetWorkTimeSelect();
         },
         displayTime(utcTime) {
             let localTime = utcTime.clone();
             localTime.local();
             return localTime.format('HH:mm');
         },
+        onDayOff() {
+            this.weekdays.forEach((item) => {
+                this.newPlace.worktime[item].start = moment().set({'hours': 0, 'minutes': 0}).utc();
+                this.newPlace.worktime[item].end = moment().set({'hours': 0, 'minutes': 0}).utc();
+            });
+            this.resetWorkTimeSelect();
+        },
+        resetWorkTimeSelect() {
+            this.weekdays = [];
+            this.timeStart = moment().set({'hours': 10, 'minutes': 0}).toDate();
+            this.timeEnd = moment().set({'hours': 21, 'minutes': 0}).toDate();
+        },
+        isDayWorking(utcStart, utcEnd) {
+            let localStart = utcStart.clone();
+            localStart.local();
+            let localEnd = utcEnd.clone();
+            localEnd.local();
 
-        onAdd() {}
+            return !(!localStart.hours() && !localStart.minutes() && !localEnd.hours() && !localEnd.minutes());
+        },
+        checkWorkTime() {
+            if (!this.isDayWorking(this.newPlace.worktime.sa.start, this.newPlace.worktime.sa.end) &&
+                    !this.isDayWorking(this.newPlace.worktime.su.start, this.newPlace.worktime.su.end)) {
+                this.newPlace.workWeekend = 0;
+            }
+        },
+
+        onAdd() {
+            this.checkWorkTime();
+            this.$store.dispatch('place/addNewPlace', {
+                user: this.user,
+                place: this.newPlace
+            }).then(() => {
+                this.$toast.open({
+                    type: 'is-success',
+                    message: 'Place added!'
+                });
+
+            }).catch(() => {
+                this.$toast.open({
+                    type: 'is-danger',
+                    message: 'Error!'
+                });
+            });
+        }
     }
 };
 </script>

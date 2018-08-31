@@ -3,7 +3,7 @@
         <li>
             <div class="container place-item" v-if="active">
                 <div class="media">
-                    <figure class="media-left image is-128x128">
+                    <figure class="media-left image">
                         <img :src="userList.img_url">
                     </figure>
                     <div class="media-content">
@@ -27,6 +27,16 @@
                             </a>
                         </p>
                     </div>
+                    <div class="place-item__actions">
+                        <router-link
+                            class="button is-info"
+                            role="button"
+                            :to="`/my-lists/${userList.id}/edit`"
+                        >
+                            Update
+                        </router-link>
+                        <button class="button is-danger" @click="onDelete">Delete</button>
+                    </div>
                 </div>
             </div>
         </li>
@@ -34,7 +44,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
     name: 'ListPreview',
     data() {
@@ -66,6 +76,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions({ delete: 'userList/deleteUserList' }),
         notLast(key) {
             return Object.keys(this.uniqueCities).length - key > 1;
         },
@@ -85,6 +96,18 @@ export default {
         },
         setCityFilter(cityId){
             this.$parent.setCityFilter(cityId);
+        },
+        onDelete() {
+            this.$emit('loading', true);
+            this.delete(this.userList.id)
+                .then(() => {
+                    this.$emit('loading', false);
+                    this.$toast.open({
+                        message: 'The list was removed',
+                        position: 'is-top',
+                        type: 'is-info'
+                    });
+                });
         }
     },
     created() {
@@ -103,6 +126,17 @@ export default {
         margin-bottom: 1rem;
         margin-left: 0;
         padding: 10px;
+        border-bottom: 1px grey solid;
+
+        &__actions {
+            display: flex;
+            flex-direction: column;
+            margin-top: auto;
+
+            .button {
+                margin-top: 10px;
+            }
+        }
     }
     .columns {
         width: 100%;
@@ -111,8 +145,17 @@ export default {
     .title {
         margin-bottom: 0.5rem;
     }
-    .image > img {
-        border-radius: 5px;
+    .image {
+        width: 180px;
+        height: 128px;
+        flex-shrink: 0;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
     }
     .place-category {
         margin-bottom: 0.25rem;
@@ -149,5 +192,22 @@ export default {
     .slide-fade-enter, .slide-fade-leave-to {
         transform: translateX(300px);
         opacity: 0;
+    }
+
+    @media screen and (max-width: 769px) {
+        .place-item {
+            .media {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            &__actions {
+                flex-direction: row;
+
+                .button {
+                    margin-right: 10px;
+                }
+            }
+        }
     }
 </style>

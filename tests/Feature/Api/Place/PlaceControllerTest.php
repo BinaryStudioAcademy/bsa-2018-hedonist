@@ -2,6 +2,7 @@
 
 namespace tests\Feature\Api\Place;
 
+use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\PlaceCategory;
 use Hedonist\Entities\Place\PlaceTaste;
@@ -10,6 +11,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Tests\Feature\Api\ApiTestCase;
+use Hedonist\Entities\Place\Tag;
+use Hedonist\Entities\Place\PlaceFeature;
 
 class PlaceControllerTest extends ApiTestCase
 {
@@ -62,18 +65,58 @@ class PlaceControllerTest extends ApiTestCase
     public function testAddPlace()
     {
         $routeName = 'addPlace';
+
+        Language::create([
+            'code'    => 'en',
+            'active'  => 1,
+            'default' => 1
+        ]);
+
+        Tag::create([
+            'name' => 'Ice-cream cafe'
+        ]);
+
+        PlaceFeature::create([
+            'name' => 'Live music'
+        ]);
+
         $response = $this->actingWithToken()->json(
             'POST', route($routeName),
             [
-                'creator_id' => $this->place->creator->id,
-                'category_id' => $this->place->category->id,
-                'city_id' => $this->place->city->id,
-                'longitude' => -20,
-                'latitude' => 32.3,
-                'zip' => 3322,
-                'address' => 'sdf',
-                'phone' => +380636678400,
-                'website' => 'http://beef.kiev.ua/'
+                'creator_id'   => $this->place->creator->id,
+                'localization' => json_encode([
+                    'en' => [
+                        'name'        => 'Test',
+                        'description' => 'Test description'
+                    ]
+                ]),
+                'category_id'  => $this->place->category->id,
+                'tags'         => [1],
+                'features'     => [1],
+                'city'         => json_encode([
+                    'text_en' => 'Kyiv',
+                    'center'  => [
+                        '30.5241',
+                        '50.4501'
+                    ]
+                ]),
+                'longitude'    => -20,
+                'latitude'     => 32.3,
+                'zip'          => 3322,
+                'address'      => 'Test address',
+                'phone'        => +380636678400,
+                'website'      => 'http://beef.kiev.ua/',
+                'facebook'     => 'https://facebook.com/',
+                'instagram'    => 'https://instagram.com/',
+                'twitter'      => 'https://twitter.com/',
+                'menu_url'     => 'https://menu.com/',
+                'work_weekend' => 1,
+                'worktime'     => json_encode([
+                        'mo' => [
+                            'start' => '2018-08-30UTC07:00:10.2390',
+                            'end'   => '2018-08-30UTC18:00:10.2390'
+                        ]
+                    ])
             ]
         );
         $newPlace = $response->getOriginalContent();
@@ -84,6 +127,26 @@ class PlaceControllerTest extends ApiTestCase
         $this->checkJsonStructure($response);
         $response->assertStatus(201);
         $response->assertHeader('Content-Type', 'application/json');
+
+        /* PlaceLocalization */
+        $this->assertDatabaseHas('places_tr', [
+            'place_name' => 'Test'
+        ]);
+
+        /* PlaceTags */
+        $this->assertDatabaseHas('place_tag', [
+            'place_id' => $newPlace['data']['id']
+        ]);
+
+        /* PlaceFeatures */
+        $this->assertDatabaseHas('places_places_features', [
+            'place_id' => $newPlace['data']['id']
+        ]);
+
+        /* PlaceWorktime */
+        $this->assertDatabaseHas('place_worktime', [
+            'place_id' => $newPlace['data']['id']
+        ]);
     }
 
     public function testUpdatePlace()
