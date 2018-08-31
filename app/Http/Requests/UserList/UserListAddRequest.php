@@ -4,7 +4,7 @@ namespace Hedonist\Http\Requests\UserList;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserListRequest extends FormRequest
+class UserListAddRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,7 +15,7 @@ class UserListRequest extends FormRequest
     {
             return [
                 'name'            => 'required|string|max:255',
-                'image'           => 'sometimes|image',
+                'image'           => 'sometimes|image|max:5000',
                 'attached_places' => 'nullable|array',
             ];
     }
