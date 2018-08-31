@@ -103,7 +103,7 @@ export default {
                     });
                     this.findItems.data = data;
                 });
-        }
+        },
     },
     created() {
         this.init();
