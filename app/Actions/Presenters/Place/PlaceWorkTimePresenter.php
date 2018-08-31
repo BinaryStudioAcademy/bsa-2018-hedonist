@@ -11,7 +11,6 @@ class PlaceWorkTimePresenter
     public function present(Collection $worktime)
     {
         foreach ($worktime as $item) {
-
             $this->presentation[] = [
                     'day'   => $this->getDayName($item->day_code),
                     'start' => $item->start_time,
