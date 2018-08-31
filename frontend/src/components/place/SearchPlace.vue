@@ -2,19 +2,20 @@
     <section class="columns">
         <section class="column is-half">
             <SearchFilterPlace />
-            <template
-                v-for="(place, index) in places"
+            <div
                 v-infinite-scroll="loadMore"
-                infinite-scroll-disabled="busy"
-                infinite-scroll-distance="30">
+                :infinite-scroll-disabled="scrollBusy"
             >
-                <PlacePreview
-                    v-if="isPlacesLoaded"
-                    :key="place.id"
-                    :place="place"
-                    :timer="50 * (index+1)"
-                />
-            </template>
+                <template v-for="(place, index) in places">
+                    <div :id="index" :key="place.id+1000"></div>
+                    <PlacePreview
+                        v-if="isPlacesLoaded"
+                        :key="place.id"
+                        :place="place"
+                        :timer="50 * (index+1)"
+                    />
+                </template>
+            </div>
         </section>
         <section class="column mapbox-wrapper right-side">
             <mapbox
@@ -50,6 +51,9 @@ export default {
         Mapbox,
         SearchFilterPlace
     },
+    directives: {
+        infiniteScroll
+    },
     data() {
         return {
             filterQuery: '',
@@ -59,13 +63,14 @@ export default {
             markerManager: null,
             mapboxToken: mapSettingsService.getMapboxToken(),
             mapboxStyle: mapSettingsService.getMapboxStyle(),
-            draw: {}
+            draw: {},
+            currentPage: 1,
+            scrollBusy: false
         };
     },
     created() {
         this.$store.dispatch('place/fetchPlaces', this.$route.query)
             .then(() => {
-                this.setStartCurrentPage();
                 this.isPlacesLoaded = true;
             });
 
@@ -73,9 +78,7 @@ export default {
     methods: {
         ...mapActions('search', ['setCurrentPosition', 'mapInitialization']),
         ...mapMutations('search', {
-            setLoadingState: 'SET_LOADING_STATE',
-            setStartCurrentPage: 'SET_START_CURRENT_PAGE',
-            incCurrentPage: 'INC_CURRENT_PAGE',
+            setLoadingState: 'SET_LOADING_STATE'
         }),
 
         mapInitialize(map) {
@@ -150,15 +153,18 @@ export default {
                 });
         },
         loadMore: function () {
-            this.incCurrentPage();
-            alert('loadMore: '+this.currentPage);
-            this.$store.dispatch('place/loadMorePlaces', {
+            if (this.isPlacesLoaded) {
+                this.scrollBusy = true;
+                this.currentPage++;
+                this.$store.dispatch('place/loadMorePlaces', {
                     filters: this.$route.query,
-                    page: $this.currentPage
+                    page: this.currentPage
                 })
-                .then(() => {
-                    this.isPlacesLoaded = true;
-                });
+                    .then(() => {
+                        this.scrollBusy = false;
+                        this.updateMap();
+                    });
+            }
         }
     },
     watch: {
@@ -186,8 +192,7 @@ export default {
         ...mapState('place', ['places']),
         ...mapState('search', [
             'currentPosition',
-            'mapInitialized',
-            'currentPage'
+            'mapInitialized'
         ]),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters({

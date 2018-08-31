@@ -56,7 +56,7 @@ export default {
         });
     },
 
-    loadMorePlaces: (context, {filters = {}, page = 1}) => {
+    loadMorePlaces: (context, {filters = {}, page}) => {
         filters.page = page;
         let queryUrl = createSearchQueryUrl(filters);
         return new Promise((resolve, reject) => {
