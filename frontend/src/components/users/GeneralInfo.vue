@@ -247,10 +247,4 @@ export default {
             }
         }
     }
-
-    /*@media screen and (max-width: 768px) {*/
-    /*.user-social{*/
-    /*display: block;*/
-    /*}*/
-    /*}*/
 </style>
