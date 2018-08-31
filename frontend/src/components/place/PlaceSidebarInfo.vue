@@ -120,10 +120,7 @@ export default {
     data() {
         return {
             isShowSchedule: false
-        }
-    },
-    created() {
-        console.log(this.place);
+        };
     },
     methods: {
         isOpen() {
