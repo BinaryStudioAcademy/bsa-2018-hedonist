@@ -31,8 +31,8 @@
                     <i class="place-sidebar__icon far fa-clock" />
                     <div class="level">
                         <div class="level-left">
-                            <span v-if="isOpen()" class="worktime-info--green">Open now</span>
-                            <span v-else class="worktime-info--red">Closed now</span>
+                            <span v-if="isOpen === true" class="worktime-info--green">Open now</span>
+                            <span v-else class="worktime-info--red">Closed</span>
                         </div>
                         <div class="level-right">
                             <a @click="isShowSchedule = !isShowSchedule">Schedule</a>
@@ -40,62 +40,16 @@
                     </div>
                     <b-collapse :open="isShowSchedule">
                         <div class="notification">
-                            <div class="level">
-                                <div class="level-left">
-                                    Monday
+                            <template v-for="item in place.worktime">
+                                <div :key="item.id" class="level">
+                                    <div class="level-left">
+                                        {{ item.day }}
+                                    </div>
+                                    <div class="level-right">
+                                        {{ displayTime(item.start) }} - {{ displayTime(item.end) }}
+                                    </div>
                                 </div>
-                                <div class="level-right">
-                                    10.00 - 21.00
-                                </div>
-                            </div>
-                            <div class="level">
-                                <div class="level-left">
-                                    Tuesday
-                                </div>
-                                <div class="level-right">
-                                    10.00 - 21.00
-                                </div>
-                            </div>
-                            <div class="level">
-                                <div class="level-left">
-                                    Wednesday
-                                </div>
-                                <div class="level-right">
-                                    10.00 - 21.00
-                                </div>
-                            </div>
-                            <div class="level">
-                                <div class="level-left">
-                                    Thursday
-                                </div>
-                                <div class="level-right">
-                                    10.00 - 21.00
-                                </div>
-                            </div>
-                            <div class="level">
-                                <div class="level-left">
-                                    Friday
-                                </div>
-                                <div class="level-right">
-                                    10.00 - 21.00
-                                </div>
-                            </div>
-                            <div class="level">
-                                <div class="level-left">
-                                    Saturday
-                                </div>
-                                <div class="level-right">
-                                    10.00 - 21.00
-                                </div>
-                            </div>
-                            <div class="level">
-                                <div class="level-left">
-                                    Sunday
-                                </div>
-                                <div class="level-right">
-                                    10.00 - 21.00
-                                </div>
-                            </div>
+                            </template>
                         </div>
                     </b-collapse>
                 </div>
@@ -149,6 +103,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import PlaceMapMarker from './PlaceMapMarker';
 
 export default {
@@ -172,7 +127,27 @@ export default {
     },
     methods: {
         isOpen() {
-            return true;
+            let today = moment().format('dddd');
+            let now = this.getMinutes(moment());
+            let isOpen = false;
+            _.forEach(this.place.worktime, (item) => {
+                if (item.day === today) {
+                    isOpen = this.getMinutes(this.getLocalMoment(item.start)) < now
+                        && now < this.getMinutes(this.getLocalMoment(item.end));
+                }
+            });
+            return isOpen;
+        },
+        displayTime(time) {
+            let localTime = this.getLocalMoment(time);
+            return localTime.format('HH:mm');
+        },
+        getLocalMoment(time) {
+            let utcTime = moment.utc(time);
+            return utcTime.local();
+        },
+        getMinutes(momentObj) {
+            return momentObj.hours() * 60 + momentObj.minutes();
         }
     }
 };
