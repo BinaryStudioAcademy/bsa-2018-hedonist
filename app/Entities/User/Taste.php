@@ -9,7 +9,9 @@ class Taste extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'name'
+        'name',
+        'user_id',
+        'is_default'
     ];
 
     public function users()

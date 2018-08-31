@@ -8,22 +8,13 @@
                 :class="{selected: filterPlace.check}"
                 :key="filterPlace.id"
             >
-                <b-tooltip 
-                    :label=filterPlace.tooltipText
-                    type="is-dark"
-                    animated
-                    position="is-bottom"
-                >
-                    <span @click="checkFilter(index)" class="filter-control-span">
-                        {{ filterPlace.name }}
-                        <i v-if="filterPlace.isLoading" class="fa fa-spinner fa-spin" />
-                        <i v-if="filterPlace.check" class="far fa-times-circle" />
-                    </span>
-                </b-tooltip>
-
+                <span v-tooltip.bottom="filterPlace.tooltipText" @click="checkFilter(index)" class="filter-control-span">
+                    {{ filterPlace.name }}
+                    <i v-if="filterPlace.isLoading" class="fa fa-spinner fa-spin" />
+                    <i v-if="filterPlace.check" class="far fa-times-circle" />
+                </span>
             </li>
         </ul>
-
     </div>
 </template>
 
