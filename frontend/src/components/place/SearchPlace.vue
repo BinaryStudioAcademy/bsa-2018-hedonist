@@ -185,7 +185,7 @@ export default {
                         this.updateMap();
                     });
             }
-        }
+        },
         onSelectTag(tagId, isTagActive) {
             // TODO
         },
