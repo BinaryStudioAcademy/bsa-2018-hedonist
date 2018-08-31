@@ -10,9 +10,8 @@
                 <span v-if="loaded">{{ photosCount }} Photos</span>
             </div>
         </div>
-        <ul class="reviews-photo-list">
+        <ul v-if="loaded" class="reviews-photo-list">
             <li
-                v-if="loaded"
                 v-for="(photo, index) in photos"
                 :key="index"
             >

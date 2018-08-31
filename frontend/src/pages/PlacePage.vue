@@ -4,7 +4,7 @@
         <PlaceTopInfo 
             v-if="loaded"
             :place="place"
-            :isLoadingReviewPhoto="isLoadingReviewPhoto"
+            :is-loading-review-photo="isLoadingReviewPhoto"
             @tabChanged="tabChanged"
         />
         <div class="main-wrapper columns">
@@ -17,7 +17,7 @@
                     <ReviewPhotoGallery 
                         v-if="loaded && (activeTab === 2) && place.photos"
                         :place="place"
-                        :isLoadingReviewPhoto="isLoadingReviewPhoto"
+                        :is-loading-review-photo="isLoadingReviewPhoto"
                     />
                 </div>
             </div>
