@@ -20,4 +20,8 @@ export default {
     SET_PHOTOS: (state, photos) => {
         state.photos = photos;
     },
+    REMOVE_USER_LIST: (state, id) => {
+        state.userLists.byId = _.filter(state.userLists.byId, (list) => list.id !== id);
+        state.userLists.allIds = _.filter(state.userLists.allIds, (listId) => listId !== id);
+    },
 };

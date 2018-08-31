@@ -2,20 +2,38 @@
     <section class="columns">
         <section class="column is-half">
             <SearchFilterPlace />
-            <div
-                v-infinite-scroll="loadMore"
-                :infinite-scroll-disabled="scrollBusy"
-            >
-                <template v-for="(place, index) in places">
-                    <div :id="index" :key="place.id+1000"></div>
-                    <PlacePreview
-                        v-if="isPlacesLoaded"
-                        :key="place.id"
-                        :place="place"
-                        :timer="50 * (index+1)"
-                    />
-                </template>
-            </div>
+            <CategoryTagsContainer
+                v-if="categoryTagsList.length"
+                :tags="categoryTagsList"
+                @onSelectTag="onSelectTag"
+            />
+            <template v-if="places.length">
+                <div
+                    v-infinite-scroll="loadMore"
+                    :infinite-scroll-disabled="scrollBusy"
+                >
+                    <template v-for="(place, index) in places">
+                        <PlacePreview
+                            v-if="isPlacesLoaded"
+                            :key="place.id"
+                            :place="place"
+                            :timer="50 * (index+1)"
+                        />
+                    </template>
+                </div>
+            </template>
+            <template v-else>
+                <div class="no-results">
+                    <div class="no-results__title has-text-weight-bold">Sorry, no results are found.</div>
+
+                    <div class="no-results__try">You may try:</div>
+                    <ul>
+                        <li>removing your filters</li>
+                        <li>search in different location</li>
+                        <li>search for something more general</li>
+                    </ul>
+                </div>
+            </template>
         </section>
         <section class="column mapbox-wrapper right-side">
             <mapbox
@@ -43,13 +61,15 @@ import markerManager from '@/services/map/markerManager';
 import placeholderImg from '@/assets/placeholder_128x128.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
 import infiniteScroll from 'vue-infinite-scroll';
+import CategoryTagsContainer from './CategoryTagsContainer';
 
 export default {
     name: 'SearchPlace',
     components: {
         PlacePreview,
         Mapbox,
-        SearchFilterPlace
+        SearchFilterPlace,
+        CategoryTagsContainer,
     },
     directives: {
         infiniteScroll
@@ -166,6 +186,9 @@ export default {
                     });
             }
         }
+        onSelectTag(tagId, isTagActive) {
+            // TODO
+        },
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {
@@ -198,6 +221,7 @@ export default {
         ...mapGetters({
             user: 'auth/getAuthenticatedUser'
         }),
+        ...mapGetters('category', ['categoryTagsList']),
 
         currentCenter() {
             return {
@@ -249,12 +273,31 @@ export default {
 
     #map {
         text-align: justify;
-        position: sticky;
-        position: -webkit-sticky;
-        top: 3.75rem;
+        position: fixed;
+        top: 63px;
         height: 100vh;
-        right: 0;
-        width: 100%;
+        right: 4px;
+        width: 49%;
+    }
+
+    .no-results {
+        padding: 30px 50px;
+
+        &__title {
+            margin-bottom: 20px;
+        }
+        &__try {
+            font-weight: 500;
+        }
+
+        ul {
+            margin-left: 20px;
+
+            li {
+                font-size: 0.9rem;
+                list-style: disc;
+            }
+        }
     }
 
     @media screen and (max-width: 769px) {

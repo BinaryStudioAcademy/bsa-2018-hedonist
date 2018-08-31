@@ -15,20 +15,22 @@
                     class="user-item"
                 >
                     <div class="image is-64x64 user-avatar">
+                        <img 
+                            v-if="user.avatar_url"
+                            :src="user.avatar_url"
+                            :alt="userFullname(user)"
+                        >
+                        <img
+                            v-else
+                            src="/assets/add_review_default_avatar.png"
+                            :alt="userFullname(user)"
+                        >
+                    </div>
+                    <div class="has-text-primary user-name">
                         <a :href="userPage(user.id)">
-                            <img 
-                                v-if="user.avatar_url"
-                                :src="user.avatar_url"
-                                :alt="userFullname(user)"
-                            >
-                            <img
-                                v-else
-                                src="/assets/add_review_default_avatar.png"
-                                :alt="userFullname(user)"
-                            >
+                            {{ userFullname(user) }}
                         </a>
                     </div>
-                    <div class="has-text-primary user-name">{{ userFullname(user) }}</div>
                 </div>
             </section>
             <footer class="modal-card-foot">
@@ -113,9 +115,12 @@ export default {
         min-width: 260px;
         height: 220px;
         display: flex;
-        justify-content: center;
-        align-items: center;
         flex-direction: column;
+    }
+
+    .modal-card-body::before, .modal-card-body::after {
+        content: '';  
+        margin: auto; 
     }
 
     .modal-card-foot {

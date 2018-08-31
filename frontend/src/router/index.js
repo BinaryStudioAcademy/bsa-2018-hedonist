@@ -9,8 +9,8 @@ import CheckinsPage from '@/pages/CheckinsPage';
 import SearchPlacePage from  '@/pages/SearchPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
-import UserListAddPage from '@/pages/UserListAddPage';
 import ListPage from '@/pages/ListPage';
+import UserListAddUpdatePage from '@/pages/UserListAddUpdatePage';
 import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
@@ -67,8 +67,13 @@ export default new Router({
             },
             {
                 path: '/my-lists/add',
-                name: 'UserListAddPage',
-                component: UserListAddPage
+                name: 'UserListAdd',
+                component: UserListAddUpdatePage
+            },
+            {
+                path: '/my-lists/:id/edit',
+                name: 'UserListUpdate',
+                component: UserListAddUpdatePage
             },
             {
                 path: '/my-lists',

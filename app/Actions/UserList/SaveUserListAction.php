@@ -3,9 +3,11 @@
 namespace Hedonist\Actions\UserList;
 
 use Hedonist\Entities\UserList\UserList;
+use Hedonist\Exceptions\UserList\UserListPermissionDeniedException;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 use Hedonist\Services\FileNameGenerator;
 use Hedonist\Services\TransactionServiceInterface;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class SaveUserListAction
@@ -32,14 +34,19 @@ class SaveUserListAction
                     $userList = new UserList;
                 } else {
                     $userList = $this->userListRepository->getById($id);
+                    if (Gate::denies('update', $userList)) {
+                        throw new UserListPermissionDeniedException;
+                    }
                 }
 
                 $file = $userListRequest->getImage();
-                $imageName = (new FileNameGenerator($file))->generateFileName();
-                Storage::disk()->putFileAs(self::FILE_STORAGE, $file, $imageName, 'public');
+                if ($file !== null) {
+                    $imageName = (new FileNameGenerator($file))->generateFileName();
+                    Storage::disk()->putFileAs(self::FILE_STORAGE, $file, $imageName, 'public');
+                    $userList->img_url = Storage::disk()->url(self::FILE_STORAGE . $imageName);
+                }
                 $userList->user_id = $userListRequest->getUserId();
-                $userList->name = $userListRequest->getName();
-                $userList->img_url = Storage::disk()->url(self::FILE_STORAGE . $imageName);
+                $userList->name = $userListRequest->getName() ?? $userList->name;
 
                 $userList = $this->userListRepository->save($userList);
                 if ($userListRequest->getAttachedPlaces() !== null) {

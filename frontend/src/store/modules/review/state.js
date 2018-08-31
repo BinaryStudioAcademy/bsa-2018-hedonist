@@ -20,5 +20,6 @@ export default {
     },
     usersWhoLikedReview: [],
     usersWhoDislikedReview: [],
-    isUsersModalLoading: false
+    isUsersModalLoading: false,
+    placeReviewPhotos: []
 };

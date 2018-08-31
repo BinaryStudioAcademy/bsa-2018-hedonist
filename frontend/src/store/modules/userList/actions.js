@@ -70,7 +70,7 @@ export default {
                 id: payload.placeId
             })
                 .then((result) => {
-                    context.dispatch('getListsByUser');
+                    context.dispatch('getListsByUser',payload.userId);
                     resolve(result);
                 })
                 .catch((error) => {
@@ -122,16 +122,43 @@ export default {
                 context.commit('SET_LOADING_STATE', false);
             });
     },
-    saveUserList: (context, {userList, attachedPlaceIds}) => {
+    addUserList: (context, {userList, attachedPlaces}) => {
         const formData = new FormData();
         formData.append('image', userList.image);
         formData.append('name', userList.name);
-        _.forEach(attachedPlaceIds, function(place) {
-            formData.append('attached_places[]', place);
+        _.forEach(attachedPlaces, function(place) {
+            formData.append('attached_places[]', place.id);
         });
 
         return httpService.post('/user-lists/', formData)
-            .then( (result) => {
+            .then((result) => {
+                return result.data.data;
+            });
+    },
+    updateUserList: (context, {userList, attachedPlaces, id}) => {
+        const formData = new FormData();
+        formData.append('_method', 'PUT');
+        if (userList.image !== null) {
+            formData.append('image', userList.image);
+        }
+
+        if (userList.name !== null) {
+            formData.append('name', userList.name);
+        }
+
+        _.forEach(attachedPlaces, function(place) {
+            formData.append('attached_places[]', place.id);
+        });
+
+        return httpService.post(`/user-lists/${id}`, formData)
+            .then((result) => {
+                return result.data.data;
+            });
+    },
+    deleteUserList: (context, id) => {
+        return httpService.delete(`/user-lists/${id}`)
+            .then((result) => {
+                context.commit('REMOVE_USER_LIST', id);
                 return result.data.data;
             });
     }
