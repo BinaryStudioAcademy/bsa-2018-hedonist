@@ -46,6 +46,7 @@ export default {
     updateQueryFilters({state}) {
         let query = {
             category: state.placeCategory && state.placeCategory.id,
+            name: state.place && state.place.name,
             location:
                 state.city.longitude &&
                 state.city.latitude &&

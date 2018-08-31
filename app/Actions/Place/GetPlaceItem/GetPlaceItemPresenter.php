@@ -66,6 +66,7 @@ class GetPlaceItemPresenter
         $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
         $result['category'] = $this->categoryPresenter->present($place->category);
         $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
+        $result['tags'] = $this->tagsPresenter->presentCollection($place->tags);
         $result['checkins'] = $placeResponse->getCheckinsCount();
         $result['worktime'] = $this->worktimePresenter->present($place->worktime);
 

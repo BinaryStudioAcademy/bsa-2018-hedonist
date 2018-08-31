@@ -39,7 +39,7 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         return Place::with(
             [
                 'category',
-                'category.tags',
+                'tags',
                 'city',
                 'localization',
                 'localization.language',
@@ -62,7 +62,7 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     {
         return Place::with(
             'category',
-            'category.tags',
+            'tags',
             'city',
             'localization',
             'localization.language',
