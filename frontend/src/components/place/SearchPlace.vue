@@ -64,32 +64,49 @@ export default {
         };
     },
     created() {
-        this.$store.dispatch('place/fetchPlaces', this.$route.query)
-            .then(() => {
-                this.isPlacesLoaded = true;
-            });
-
+        this.getLocation();
+        this.$store.dispatch('search/updateState', this.$route.query)
+            .then(
+                this.$store.dispatch('place/fetchPlaces', this.$route.query)
+                    .then(() => {
+                        this.isPlacesLoaded = true;
+                    })
+            );
     },
     methods: {
-        ...mapActions('search', ['setCurrentPosition', 'mapInitialization']),
+        ...mapActions('search', [
+            'setCurrentPosition',
+            'selectSearchCity',
+            'mapInitialization'
+        ]),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE',
         }),
-
         mapInitialize(map) {
             if (this.mapInitialized) {
                 return;
             }
 
             this.map = map;
-            LocationService.getUserLocationData()
-                .then(coordinates => {
-                    this.setCurrentPosition({
-                        latitude: coordinates.lat,
-                        longitude: coordinates.lng
-                    });
-                });
+            this.getLocation();
             this.mapInitialization();
+        },
+        getLocation(){
+            if (!this.$route.query.location) {
+                LocationService.getUserLocationData()
+                    .then(coordinates => {
+                        this.setCurrentPosition({
+                            latitude: coordinates.lat,
+                            longitude: coordinates.lng
+                        });
+                        this.selectSearchCity({
+                            center: [
+                                coordinates.lat,
+                                coordinates.lng
+                            ]
+                        });
+                    });
+            }
         },
         mapLoaded(map) {
             map = this.addDrawForMap(map);
@@ -163,6 +180,7 @@ export default {
             }
         },
         '$route' (to, from) {
+
             this.isPlacesLoaded = false;
 
             this.$store.dispatch('place/fetchPlaces', to.query)

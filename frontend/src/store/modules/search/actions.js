@@ -4,7 +4,50 @@ import LocationService from '@/services/location/locationService';
 import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
-    selectSearchCity: ({commit}, city) => {
+    updateState: ({commit, state}, query) => {
+        console.log(query);
+        if(query.location){
+            const searchCity = {};
+            searchCity.center = query.location.split(',');
+            commit('SET_SEARCH_CITY', searchCity);
+            commit('SET_CURRENT_POSITION', {
+                longitude: searchCity.center[0],
+                latitude: searchCity.center[1],
+            });
+        }
+        else {
+            commit('SET_SEARCH_CITY', {
+                center: [
+                    state.currentPosition.latitude,
+                    state.currentPosition.longitude
+                ]
+            });
+        }
+
+        console.log(state.city);
+        console.log(state.currentPosition);
+
+        if(query.page)
+            commit('SET_PAGE', parseInt(query.page));
+
+        if(query.category)
+            commit('SET_SEARCH_PLACE_CATEGORY', {
+                id: query.category,
+                name: ''
+            });
+
+        if(query.name)
+            commit('SET_SEARCH_PLACE', {
+                id: null,
+                name: query.name
+            });
+
+        commit('SET_FILTERS', query.checkin, query.saved, query.top_rated, query.top_reviewed);
+
+        return Promise.resolve();
+    },
+
+    selectSearchCity: ({commit, state}, city) => {
         if (city !== null) {
             commit('SET_SEARCH_CITY', city);
         } else {
@@ -13,6 +56,7 @@ export default {
     },
 
     selectSearchPlaceOrCategory: ({commit}, item) => {
+        console.log(item);
         if (item !== null) {
             if (item.place !== undefined) {
                 commit('SET_SEARCH_PLACE', item);
@@ -46,6 +90,7 @@ export default {
     updateQueryFilters({state}) {
         let query = {
             category: state.placeCategory && state.placeCategory.id,
+            page: state.page,
             name: state.place && state.place.name,
             location:
                 state.city.longitude &&
