@@ -10,5 +10,8 @@ export default {
     },
     getReviewsCount: state => {
         return state.reviews.allIds.length;
+    },
+    getPlaceReviewPhotos: (state) => {
+        return state.placeReviewPhotos;
     }
 };

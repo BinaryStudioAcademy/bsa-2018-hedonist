@@ -4,6 +4,7 @@
         <PlaceTopInfo 
             v-if="loaded"
             :place="place"
+            :isLoadingReviewPhoto="isLoadingReviewPhoto"
             @tabChanged="tabChanged"
         />
         <div class="main-wrapper columns">
@@ -16,6 +17,7 @@
                     <ReviewPhotoGallery 
                         v-if="loaded && (activeTab === 2) && place.photos"
                         :place="place"
+                        :isLoadingReviewPhoto="isLoadingReviewPhoto"
                     />
                 </div>
             </div>
@@ -49,6 +51,7 @@ export default {
     data() {
         return {
             isLoading: true,
+            isLoadingReviewPhoto: true,
             activeTab: 1,
         };
     },
@@ -57,10 +60,18 @@ export default {
         this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
             .then((response) => {
                 this.isLoading = false;
+                this.$store.dispatch('review/getReviewPhotosByPlace', this.place.id)
+                    .then((response) => {
+                        this.isLoadingReviewPhoto = false;
+                    })
+                    .catch((err) => {
+                        this.isLoadingReviewPhoto = false;
+                    });
             })
             .catch((err) => {
                 this.isLoading = false;
             });
+
     },
 
     methods: {

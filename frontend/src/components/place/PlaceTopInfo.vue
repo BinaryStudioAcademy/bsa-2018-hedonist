@@ -51,7 +51,7 @@
                             @click="changeTab(2)"
                             :class="{ 'is-active' : activeTab === 2}"
                         >
-                            <a><span>Photos ({{ photosCount }})</span></a>
+                            <a><span>Photos <template v-if="loaded">({{ photosCount }})</template></span></a>
                         </li>
                     </ul>
                 </nav>
@@ -106,6 +106,10 @@ export default {
         place: {
             type: Object,
             required: true
+        },
+        isLoadingReviewPhoto: {
+            type: Boolean,
+            required: true
         }
     },
 
@@ -132,7 +136,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters('review', [ 'getReviewsCount' ]),
+        ...mapGetters('review', [ 'getReviewsCount', 'getPlaceReviewPhotos']),
         ...mapState('userList', ['userLists']),
 
         user() {
@@ -144,7 +148,7 @@ export default {
         },
 
         photosCount() {
-            return this.place.photos.length;
+            return this.place.photos.length + this.getPlaceReviewPhotos.length;
         },
 
         liked() {
@@ -169,7 +173,11 @@ export default {
 
         userList(){
             return this.userLists ? Object.values(this.userLists.byId) : [];
-        }
+        },
+
+        loaded() {
+            return !(this.isLoadingReviewPhoto) && !!(this.getPlaceReviewPhotos);
+        },
     },
 
     methods: {
@@ -203,7 +211,7 @@ export default {
                 placeId: this.place.id,
                 userId: this.user.id
             });
-        }
+        },
     }
 };
 </script>

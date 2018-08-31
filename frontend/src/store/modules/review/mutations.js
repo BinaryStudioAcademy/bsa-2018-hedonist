@@ -69,5 +69,13 @@ export default {
 
     SET_REVIEW_PHOTOS: (state, {reviewId, photos}) => {
         state.reviews.byId[reviewId].photos = photos;
-    }
+    },
+
+    SET_PLACE_REVIEW_PHOTOS: (state, photos) => {
+        state.placeReviewPhotos = photos;
+    },
+
+    ADD_PLACE_REVIEW_PHOTO: (state, photo) => {
+        state.placeReviewPhotos.push(photo);
+    },
 };

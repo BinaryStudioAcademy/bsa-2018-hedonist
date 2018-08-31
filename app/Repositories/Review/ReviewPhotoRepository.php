@@ -44,4 +44,12 @@ class ReviewPhotoRepository extends BaseRepository implements ReviewPhotoReposit
     {
         return ReviewPhoto::where('review_id', $reviewId)->get();
     }
+
+    public function getByPlace(int $placeId): Collection
+    {
+        return ReviewPhoto::select('review_photos.*')
+            ->leftJoin('reviews', 'reviews.id', '=', 'review_photos.review_id')
+            ->leftJoin('places', 'places.id', '=', 'reviews.place_id')
+            ->get();
+    }
 }
