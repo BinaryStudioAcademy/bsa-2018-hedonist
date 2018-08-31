@@ -26,10 +26,80 @@
                         {{ tag.name }}
                     </span>
                 </div>
+
                 <div class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock" />
-                    <span class="worktime-info--red">Закрыто до 15:00</span>
+                    <div class="level">
+                        <div class="level-left">
+                            <span v-if="isOpen()" class="worktime-info--green">Open now</span>
+                            <span v-else class="worktime-info--red">Closed now</span>
+                        </div>
+                        <div class="level-right">
+                            <a @click="isShowSchedule = !isShowSchedule">Schedule</a>
+                        </div>
+                    </div>
+                    <b-collapse :open="isShowSchedule">
+                        <div class="notification">
+                            <div class="level">
+                                <div class="level-left">
+                                    Monday
+                                </div>
+                                <div class="level-right">
+                                    10.00 - 21.00
+                                </div>
+                            </div>
+                            <div class="level">
+                                <div class="level-left">
+                                    Tuesday
+                                </div>
+                                <div class="level-right">
+                                    10.00 - 21.00
+                                </div>
+                            </div>
+                            <div class="level">
+                                <div class="level-left">
+                                    Wednesday
+                                </div>
+                                <div class="level-right">
+                                    10.00 - 21.00
+                                </div>
+                            </div>
+                            <div class="level">
+                                <div class="level-left">
+                                    Thursday
+                                </div>
+                                <div class="level-right">
+                                    10.00 - 21.00
+                                </div>
+                            </div>
+                            <div class="level">
+                                <div class="level-left">
+                                    Friday
+                                </div>
+                                <div class="level-right">
+                                    10.00 - 21.00
+                                </div>
+                            </div>
+                            <div class="level">
+                                <div class="level-left">
+                                    Saturday
+                                </div>
+                                <div class="level-right">
+                                    10.00 - 21.00
+                                </div>
+                            </div>
+                            <div class="level">
+                                <div class="level-left">
+                                    Sunday
+                                </div>
+                                <div class="level-right">
+                                    10.00 - 21.00
+                                </div>
+                            </div>
+                        </div>
+                    </b-collapse>
                 </div>
+
                 <div class="place-sidebar__phone">
                     <i class="place-sidebar__icon fas fa-phone" />
                     <a 
@@ -83,15 +153,26 @@ import PlaceMapMarker from './PlaceMapMarker';
 
 export default {
     name: 'PlaceSidebarInfo',
-
     components: {
         PlaceMapMarker
     },
-
     props: {
         place: {
             type: Object,
             required: true
+        }
+    },
+    data() {
+        return {
+            isShowSchedule: false
+        }
+    },
+    created() {
+        console.log(this.place);
+    },
+    methods: {
+        isOpen() {
+            return true;
         }
     }
 };
@@ -130,10 +211,16 @@ export default {
     }
 
     &__worktime {
+        .level {
+            margin-bottom: 5px;
+        }
 
         .worktime-info {
             &--red {
                 color: red;
+            }
+            &--green {
+                color: green;
             }
         }
     }
