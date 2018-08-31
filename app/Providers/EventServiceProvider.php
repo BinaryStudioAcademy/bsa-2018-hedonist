@@ -19,6 +19,9 @@ class EventServiceProvider extends ServiceProvider
         'Hedonist\Events\Dislike\DislikeAddEvent' => [
             'Hedonist\Listeners\DislikeAddEventListener',
         ],
+        'Hedonist\Events\Auth\PasswordResetedEvent' => [
+            'Hedonist\Listeners\PasswordResetedEventListener',
+        ],
     ];
 
     /**
