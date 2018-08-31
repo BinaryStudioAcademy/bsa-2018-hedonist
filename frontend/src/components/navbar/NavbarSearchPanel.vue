@@ -66,6 +66,7 @@ export default {
             this.selectSearchCity(this.location);
             this.selectSearchPlaceOrCategory(this.category);
             this.updateQueryFilters();
+            this.setLoadingState(false);
         },
         onSelect(query) {
             this.selectPlaceOrCategory(query);
