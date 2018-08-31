@@ -35,7 +35,7 @@
                 <b-taglist>
                     <b-tag
                         type="is-info"
-                        v-for="tag in category.tags"
+                        v-for="tag in place.tags"
                         :key="tag.id"
                     >
                         {{ tag.name }}
