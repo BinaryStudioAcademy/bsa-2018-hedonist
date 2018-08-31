@@ -66,6 +66,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/places/search', 'PlaceController@searchByFilters');
 
             Route::get('/places/autocomplete/search', 'PlaceController@getCollectionForAutocomplete');
+
+            Route::post('/place/add-taste', 'PlaceController@addTaste');
         });
 
         Route::prefix('reviews')->group(function () {

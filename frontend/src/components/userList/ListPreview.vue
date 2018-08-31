@@ -101,7 +101,6 @@ export default {
             this.$emit('loading', true);
             this.delete(this.userList.id)
                 .then(() => {
-                    this.$emit('loading', false);
                     this.$toast.open({
                         message: 'The list was removed',
                         position: 'is-top',
@@ -114,6 +113,9 @@ export default {
         setTimeout(() => {
             this.active = true;
         }, this.timer);
+    },
+    beforeDestroy() {
+        this.$emit('loading', false);
     }
 };
 </script>

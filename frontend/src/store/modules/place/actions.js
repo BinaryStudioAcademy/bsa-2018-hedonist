@@ -129,6 +129,14 @@ export default {
             .catch((err) => {
                 return Promise.reject(err);
             });
+    },
+
+    addTasteToPlace: (context, data) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/place/add-taste', data)
+                .then(function (res) { resolve(res); })
+                .catch(function (err) { reject(err); });
+        });
     }
 };
 
@@ -141,6 +149,7 @@ const createSearchQueryUrl = (url, filters) => {
     }
     let params = {
         'filter[category]': filters.category,
+        'filter[name]': filters.name,
         'filter[location]': filters.location,
         'filter[top_rated]': filters.top_rated,
         'filter[top_reviewed]': filters.top_reviewed,
