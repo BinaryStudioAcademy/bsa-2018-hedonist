@@ -27,6 +27,7 @@
         "v-img": "^0.2.0",
         "vue": "^2.5.2",
         "vue-browser-geolocation": "^1.5.0",
+        "vue-moment": "^4.0.0",
         "vue-resize-directive": "^1.0.1",
         "vue-router": "^3.0.1",
         "vue-scrollto": "^2.11.0",
