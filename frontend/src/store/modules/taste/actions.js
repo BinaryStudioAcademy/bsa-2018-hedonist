@@ -58,7 +58,7 @@ export default {
                 .then(function (res) {
                     let taste = res.data.data;
                     context.commit('ADD_CUSTOM_TASTE', taste);
-                    resolve(res.data.data);
+                    resolve(taste);
                 }).catch(function (err) {
                     reject(err);
                 });
