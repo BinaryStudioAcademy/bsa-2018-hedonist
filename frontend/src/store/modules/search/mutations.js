@@ -17,6 +17,14 @@ export default {
         }
     },
 
+    SET_PAGE: (state, page) => {
+        if(page !== null) {
+            state.page = page;
+        } else {
+            state.page = 1;
+        }
+    },
+
     SET_SEARCH_PLACE_CATEGORY: (state, searchPlaceCategory) => {
         if (searchPlaceCategory !== null) {
             state.placeCategory = {

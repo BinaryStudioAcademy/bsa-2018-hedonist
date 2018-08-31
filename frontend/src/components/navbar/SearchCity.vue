@@ -29,6 +29,7 @@
 import _ from 'lodash';
 import LocationService from '@/services/location/locationService';
 import mapSettingsService from '@/services/map/mapSettingsService';
+import { mapState, mapActions } from 'vuex';
 
 export default {
     name: 'SearchCity',
@@ -61,22 +62,44 @@ export default {
         findByCurrentLocation() {
             this.findCity.query = this.$t('search.current_location');
             this.$emit('select', this.userLocation);
+            const query = {};
+
+            if(this.userLocation.center[0] && this.userLocation.center[1])
+                query.location = this.userLocation.center[0] + ',' + this.userLocation.center[1];
+            if(this.placeCategory.id)
+                query.category = this.placeCategory.id;
+            if(this.page)
+                query.page = this.page;
+            if(this.place.name)
+                query.name = this.place.name;
+            if(this.filters.checkin)
+                query.checkin = this.filters.checkin;
+            if(this.filters.saved)
+                query.saved = this.filters.saved;
+            if(this.filters.top_rated)
+                query.top_rated = this.filters.top_rated;
+            if(this.filters.top_reviewed)
+                query.top_reviewed = this.filters.top_reviewed;
+
+            console.log(query);
+
             this.$router.push({
                 name: 'SearchPlacePage',
-                query: {
-                    location: this.userLocation.center[0] + ',' + this.userLocation.center[1],
-                    page: 1
-                }
+                query: query
             });
         }
     },
     created() {
+
         LocationService.getUserLocationData()
             .then(coordinates => {
                 this.locationAvailable = true;
                 this.userLocation.center[0] = coordinates.lng;
                 this.userLocation.center[1] = coordinates.lat;
-                if ((this.$router.currentRoute.name === 'SearchPlacePage') && !this.searchPushed) {
+                if (
+                    (this.$router.currentRoute.name === 'SearchPlacePage')
+                    && !this.searchPushed
+                ) {
                     this.searchPushed = true;
                     this.findByCurrentLocation();
                 }
@@ -86,6 +109,12 @@ export default {
             });
     },
     computed: {
+        ...mapState('search', [
+            'city',
+            'placeCategory',
+            'page',
+            'filters'
+        ]),
         locationEnabled() {
             return this.findCity.query === this.$t('search.current_location');
         }
