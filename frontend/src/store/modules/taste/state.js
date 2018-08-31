@@ -1,8 +1,8 @@
 export default {
     allTastes: {
-        byId: []
+        byId: {}
     },
     myTastes: {
-        byId: []
+        byId: {}
     }
 };
