@@ -17,13 +17,15 @@
 
                         <div class="card-image">
                             <figure class="image is-3by1">
-                                <img src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
-                                     alt="Placeholder image">
+                                <img 
+                                    src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
+                                    alt="Placeholder image"
+                                >
                             </figure>
                             <div class="user-review-save">
                                 <a class="button ">
-                                  <span class="icon">
-                                      <i class="far fa-bookmark"></i>
+                                    <span class="icon">
+                                        <i class="far fa-bookmark" />
                                     </span>
                                     <span>Save</span>
                                 </a>
@@ -34,20 +36,22 @@
                         </div>
                         <div class="user-review-tip">
                             <a class="user-tip-image" href="/user/4">
-                                <img class="image is-32x32"
-                                     src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
-                                     alt="">
+                                <img 
+                                    class="image is-32x32"
+                                    src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
+                                    alt=""
+                                >
                             </a>
                             <span class="user-tip-name">
                                 <a href="/user/4">
                                     Alex Fiannaca
                                 </a>
-                        </span>
+                            </span>
                             <span class="user-tip-date">
-                            <a href="/user/4">
-                                Декабрь 30, 2017
-                            </a>
-                        </span>
+                                <a href="/user/4">
+                                    Декабрь 30, 2017
+                                </a>
+                            </span>
                         </div>
                         <div class="user-review-place">
                             <div class="user-review-name">
@@ -55,16 +59,16 @@
                                     Patio Pasterio
                                 </a>
                                 <span class="review-place-name">
-                                Italian Restoraunt
-                            </span>
+                                    Italian Restoraunt
+                                </span>
                                 <span class="review-place-city">
-                                Odesa
-                            </span>
+                                    Odesa
+                                </span>
                             </div>
                             <div class="media">
                                 <div class="media-right rating-wrapper">
                                     <PlaceRating
-                                            :value="Number(10)"
+                                        :value="Number(10)"
                                     />
                                 </div>
                             </div>
@@ -76,37 +80,41 @@
 
                         <div class="card-image">
                             <figure class="image is-3by1">
-                                <img src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
-                                     alt="Placeholder image">
+                                <img 
+                                    src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
+                                    alt="Placeholder image"
+                                >
                             </figure>
                             <div class="user-review-save">
                                 <a class="button ">
-                                  <span class="icon">
-                                      <i class="far fa-bookmark"></i>
+                                    <span class="icon">
+                                        <i class="far fa-bookmark" />
                                     </span>
                                     <span>Save</span>
                                 </a>
                             </div>
                         </div>
                         <div class="user-review-content">
-                            "Пиво есть интересное, но кухня плохая. Вредом приду сюда 2й раз"
+                            "Ужас и позор! Горячий шоколад за 45грн это тупо шмурдяк из пакетика, разбавлен водой, а какао с маршмелоу это другой шмурдяк с одной огромной обветренной зефириной за 30грн! Никому не советую!!"
                         </div>
                         <div class="user-review-tip">
                             <a class="user-tip-image" href="/user/4">
-                                <img class="image is-32x32"
-                                     src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
-                                     alt="">
+                                <img 
+                                    class="image is-32x32"
+                                    src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
+                                    alt=""
+                                >
                             </a>
                             <span class="user-tip-name">
                                 <a href="/user/4">
                                     Alex Fiannaca
                                 </a>
-                        </span>
+                            </span>
                             <span class="user-tip-date">
-                            <a href="/user/4">
-                                Декабрь 30, 2017
-                            </a>
-                        </span>
+                                <a href="/user/4">
+                                    Декабрь 30, 2017
+                                </a>
+                            </span>
                         </div>
                         <div class="user-review-place">
                             <div class="user-review-name">
@@ -114,16 +122,16 @@
                                     Patio Pasterio
                                 </a>
                                 <span class="review-place-name">
-                                Italian Restoraunt
-                            </span>
+                                    Italian Restoraunt
+                                </span>
                                 <span class="review-place-city">
-                                Odesa
-                            </span>
+                                    Odesa
+                                </span>
                             </div>
                             <div class="media">
                                 <div class="media-right rating-wrapper">
                                     <PlaceRating
-                                            :value="Number(10)"
+                                        :value="Number(3.2)"
                                     />
                                 </div>
                             </div>
@@ -135,13 +143,15 @@
 
                         <div class="card-image">
                             <figure class="image is-3by1">
-                                <img src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
-                                     alt="Placeholder image">
+                                <img 
+                                    src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
+                                    alt="Placeholder image"
+                                >
                             </figure>
                             <div class="user-review-save">
                                 <a class="button ">
-                                  <span class="icon">
-                                      <i class="far fa-bookmark"></i>
+                                    <span class="icon">
+                                        <i class="far fa-bookmark" />
                                     </span>
                                     <span>Save</span>
                                 </a>
@@ -152,20 +162,22 @@
                         </div>
                         <div class="user-review-tip">
                             <a class="user-tip-image" href="/user/4">
-                                <img class="image is-32x32"
-                                     src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
-                                     alt="">
+                                <img 
+                                    class="image is-32x32"
+                                    src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
+                                    alt=""
+                                >
                             </a>
                             <span class="user-tip-name">
                                 <a href="/user/4">
                                     Alex Fiannaca
                                 </a>
-                        </span>
+                            </span>
                             <span class="user-tip-date">
-                            <a href="/user/4">
-                                Декабрь 30, 2017
-                            </a>
-                        </span>
+                                <a href="/user/4">
+                                    Декабрь 30, 2017
+                                </a>
+                            </span>
                         </div>
                         <div class="user-review-place">
                             <div class="user-review-name">
@@ -173,16 +185,16 @@
                                     Patio Pasterio
                                 </a>
                                 <span class="review-place-name">
-                                Italian Restoraunt
-                            </span>
+                                    Italian Restoraunt
+                                </span>
                                 <span class="review-place-city">
-                                Odesa
-                            </span>
+                                    Odesa
+                                </span>
                             </div>
                             <div class="media">
                                 <div class="media-right rating-wrapper">
                                     <PlaceRating
-                                            :value="Number(10)"
+                                        :value="Number(10)"
                                     />
                                 </div>
                             </div>
@@ -194,13 +206,15 @@
 
                         <div class="card-image">
                             <figure class="image is-3by1">
-                                <img src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
-                                     alt="Placeholder image">
+                                <img 
+                                    src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
+                                    alt="Placeholder image"
+                                >
                             </figure>
                             <div class="user-review-save">
                                 <a class="button ">
-                                  <span class="icon">
-                                      <i class="far fa-bookmark"></i>
+                                    <span class="icon">
+                                        <i class="far fa-bookmark" />
                                     </span>
                                     <span>Save</span>
                                 </a>
@@ -211,20 +225,22 @@
                         </div>
                         <div class="user-review-tip">
                             <a class="user-tip-image" href="/user/4">
-                                <img class="image is-32x32"
-                                     src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
-                                     alt="">
+                                <img 
+                                    class="image is-32x32"
+                                    src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
+                                    alt=""
+                                >
                             </a>
                             <span class="user-tip-name">
                                 <a href="/user/4">
                                     Alex Fiannaca
                                 </a>
-                        </span>
+                            </span>
                             <span class="user-tip-date">
-                            <a href="/user/4">
-                                Декабрь 30, 2017
-                            </a>
-                        </span>
+                                <a href="/user/4">
+                                    Декабрь 30, 2017
+                                </a>
+                            </span>
                         </div>
                         <div class="user-review-place">
                             <div class="user-review-name">
@@ -232,16 +248,16 @@
                                     Patio Pasterio
                                 </a>
                                 <span class="review-place-name">
-                                Italian Restoraunt
-                            </span>
+                                    Italian Restoraunt
+                                </span>
                                 <span class="review-place-city">
-                                Odesa
-                            </span>
+                                    Odesa
+                                </span>
                             </div>
                             <div class="media">
                                 <div class="media-right rating-wrapper">
                                     <PlaceRating
-                                            :value="Number(10)"
+                                        :value="Number(10)"
                                     />
                                 </div>
                             </div>
@@ -253,13 +269,15 @@
 
                         <div class="card-image">
                             <figure class="image is-3by1">
-                                <img src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
-                                     alt="Placeholder image">
+                                <img 
+                                    src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
+                                    alt="Placeholder image"
+                                >
                             </figure>
                             <div class="user-review-save">
                                 <a class="button ">
-                                  <span class="icon">
-                                      <i class="far fa-bookmark"></i>
+                                    <span class="icon">
+                                        <i class="far fa-bookmark" />
                                     </span>
                                     <span>Save</span>
                                 </a>
@@ -270,20 +288,22 @@
                         </div>
                         <div class="user-review-tip">
                             <a class="user-tip-image" href="/user/4">
-                                <img class="image is-32x32"
-                                     src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
-                                     alt="">
+                                <img 
+                                    class="image is-32x32"
+                                    src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
+                                    alt=""
+                                >
                             </a>
                             <span class="user-tip-name">
                                 <a href="/user/4">
                                     Alex Fiannaca
                                 </a>
-                        </span>
+                            </span>
                             <span class="user-tip-date">
-                            <a href="/user/4">
-                                Декабрь 30, 2017
-                            </a>
-                        </span>
+                                <a href="/user/4">
+                                    Декабрь 30, 2017
+                                </a>
+                            </span>
                         </div>
                         <div class="user-review-place">
                             <div class="user-review-name">
@@ -291,16 +311,16 @@
                                     Patio Pasterio
                                 </a>
                                 <span class="review-place-name">
-                                Italian Restoraunt
-                            </span>
+                                    Italian Restoraunt
+                                </span>
                                 <span class="review-place-city">
-                                Odesa
-                            </span>
+                                    Odesa
+                                </span>
                             </div>
                             <div class="media">
                                 <div class="media-right rating-wrapper">
                                     <PlaceRating
-                                            :value="Number(10)"
+                                        :value="Number(10)"
                                     />
                                 </div>
                             </div>
@@ -313,18 +333,18 @@
 </template>
 
 <script>
-    import {mapState, mapActions, mapGetters} from 'vuex';
-    import PlaceRating from '@/components/place/PlaceRating';
+import {mapState, mapActions, mapGetters} from 'vuex';
+import PlaceRating from '@/components/place/PlaceRating';
 
-    export default {
-        name: 'GeneralInfo',
-        data() {
-            return {};
-        },
-        components: {
-            PlaceRating,
-        },
-    };
+export default {
+    name: 'GeneralInfo',
+    data() {
+        return {};
+    },
+    components: {
+        PlaceRating,
+    },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -360,6 +380,7 @@
 
     .user-reviews-item {
         background-color: #fff;
+        box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.28);
         align-items: center;
 
         .card-image {
@@ -395,6 +416,7 @@
             line-height: 26px;
             font-weight: 300;
             word-wrap: break-word;
+            overflow: hidden;
         }
 
         .user-review-tip {

@@ -1,12 +1,14 @@
 <template>
     <div class="container user-cities">
-        <h3 class="subtitle is-4">{{userProfile.first_name}} : favorite cities</h3>
+        <h3 class="subtitle is-4">{{ userProfile.first_name }} : favorite cities</h3>
 
         <ul class="columns is-variable is-4 is-multiline user-cities-items">
 
             <li class="column is-4">
-                <div class="cities-cart"
-                     style="background-image: url('https://igx.4sqi.net/img/general/340x300/56255921_ND28KNkEc3SDMx4yT-RRrX7Yo5oGYWEaCkCItehGros.jpg');">
+                <div 
+                    class="cities-cart"
+                    style="background-image: url('https://igx.4sqi.net/img/general/340x300/56255921_ND28KNkEc3SDMx4yT-RRrX7Yo5oGYWEaCkCItehGros.jpg');"
+                >
                     <div>
                         <p><span class="cities-cart-name">Odesa</span></p>
                         <p><span class="cities-cart-reviews">42 reviews</span></p>
@@ -20,8 +22,10 @@
 
             </li>
             <li class="column is-4">
-                <div class="cities-cart"
-                     style="background-image: url('https://igx.4sqi.net/img/general/340x300/39381392_RNQBVEoRAFvuXjp7XeAIuNsAvUYo_mC68kffS-0OtLA.jpg');">
+                <div 
+                    class="cities-cart"
+                    style="background-image: url('https://igx.4sqi.net/img/general/340x300/39381392_RNQBVEoRAFvuXjp7XeAIuNsAvUYo_mC68kffS-0OtLA.jpg');"
+                >
                     <div>
                         <p><span class="cities-cart-name">Odesa</span></p>
                         <p><span class="cities-cart-reviews">42 reviews</span></p>
@@ -34,8 +38,10 @@
                 </div>
             </li>
             <li class="column is-4">
-                <div class="cities-cart"
-                     style="background-image: url('https://igx.4sqi.net/img/general/340x300/34706843_1A6_hykGqxpMqduFANofMzzPssLIuHvpYGwm2zY8QLY.jpg');">
+                <div 
+                    class="cities-cart"
+                    style="background-image: url('https://igx.4sqi.net/img/general/340x300/34706843_1A6_hykGqxpMqduFANofMzzPssLIuHvpYGwm2zY8QLY.jpg');"
+                >
                     <div>
                         <p><span class="cities-cart-name">Kiev</span></p>
                         <p><span class="cities-cart-reviews">38 reviews</span></p>
@@ -48,8 +54,10 @@
                 </div>
             </li>
             <li class="column is-4">
-                <div class="cities-cart"
-                     style="background-image: url('https://igx.4sqi.net/img/general/340x300/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg');">
+                <div 
+                    class="cities-cart"
+                    style="background-image: url('https://igx.4sqi.net/img/general/340x300/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg');"
+                >
                     <div>
                         <p><span class="cities-cart-name">Kiev</span></p>
                         <p><span class="cities-cart-reviews">38 reviews</span></p>
@@ -67,18 +75,18 @@
 </template>
 
 <script>
-    import {mapState, mapActions, mapGetters} from 'vuex';
-    export default {
-        name: 'ListsContainer',
-        data() {
-            return {};
-        },
-        computed: {
-            ...mapGetters({
-                userProfile: 'users/getUserProfile'
-            })
-        },
-    }
+import {mapState, mapActions, mapGetters} from 'vuex';
+export default {
+    name: 'ListsContainer',
+    data() {
+        return {};
+    },
+    computed: {
+        ...mapGetters({
+            userProfile: 'users/getUserProfile'
+        })
+    },
+};
 </script>
 
 <style lang="scss" scoped>
