@@ -29,7 +29,8 @@ class DeleteTasteAction
         }
         $this->userRepository->deleteTaste(
             Auth::user(),
-            $taste);
+            $taste
+        );
         $this->tasteRepository->deleteById($deleteTasteRequest->getTasteId());
     }
 }
