@@ -143,6 +143,7 @@ export default {
 
         ...mapActions('review', ['addReview', 'addReviewPhoto']),
         ...mapActions('taste', ['fetchMyTastes']),
+        ...mapActions('place', ['addTasteToPlace']),
         onAddReview () {
             this.newReview.user_id = this.userId;
             this.newReview.place_id = this.placeId;
@@ -155,6 +156,15 @@ export default {
                         img: item
                     });
                 });
+                if (this.selectedTasteIds.length > 0) {
+                    this.selectedTasteIds.forEach((item) => {
+                        this.addTasteToPlace({
+                            place_id: this.placeId,
+                            taste_id: item
+                        });
+                    });
+                    this.selectedTasteIds = [];
+                }
                 this.refreshInput();
                 this.onSuccess({
                     message: 'Your review has been added'

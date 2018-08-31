@@ -5,6 +5,8 @@ namespace Hedonist\Http\Controllers\Api\Place;
 use Hedonist\Actions\Place\AddPlace\AddPlaceAction;
 use Hedonist\Actions\Place\AddPlace\AddPlacePresenter;
 use Hedonist\Actions\Place\AddPlace\AddPlaceRequest;
+use Hedonist\Actions\Place\AddPlaceTaste\AddPlaceTasteAction;
+use Hedonist\Actions\Place\AddPlaceTaste\AddPlaceTasteRequest;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionAction;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionPresenter;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionRequest;
@@ -32,6 +34,7 @@ use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 use Hedonist\Exceptions\Place\PlaceRatingNotFoundException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Place\PlaceSearchRequest;
+use Hedonist\Http\Requests\Place\PlaceTasteRequest;
 use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
 use Illuminate\Http\JsonResponse;
@@ -48,6 +51,7 @@ class PlaceController extends ApiController
     private $getUserRatingForPlaceAction;
     private $getPlaceCollectionByFiltersAction;
     private $getPlaceCollectionForAutoCompleteAction;
+    private $addPlaceTasteAction;
 
     public function __construct(
         GetPlaceItemAction $getPlaceItemAction,
@@ -57,7 +61,8 @@ class PlaceController extends ApiController
         UpdatePlaceAction $updatePlaceAction,
         GetUserRatingForPlaceAction $getUserRatingForPlaceAction,
         GetPlaceCollectionByFiltersAction $getPlaceCollectionByFiltersAction,
-        GetPlaceCollectionForAutoCompleteAction $getPlaceCollectionForAutoCompleteAction
+        GetPlaceCollectionForAutoCompleteAction $getPlaceCollectionForAutoCompleteAction,
+        AddPlaceTasteAction $addPlaceTasteAction
     ) {
         $this->getPlaceItemAction = $getPlaceItemAction;
         $this->getPlaceCollectionAction = $getPlaceCollectionAction;
@@ -67,6 +72,7 @@ class PlaceController extends ApiController
         $this->getUserRatingForPlaceAction = $getUserRatingForPlaceAction;
         $this->getPlaceCollectionByFiltersAction = $getPlaceCollectionByFiltersAction;
         $this->getPlaceCollectionForAutoCompleteAction = $getPlaceCollectionForAutoCompleteAction;
+        $this->addPlaceTasteAction = $addPlaceTasteAction;
     }
 
     public function getPlace(int $id, GetPlaceItemPresenter $presenter): JsonResponse
@@ -186,6 +192,22 @@ class PlaceController extends ApiController
             );
 
             return $this->successResponse($presenter->presentForAutoComplete($placeResponse), 200);
+        } catch (DomainException $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function addTaste(PlaceTasteRequest $request): JsonResponse
+    {
+        try {
+            $this->addPlaceTasteAction->execute(
+                new AddPlaceTasteRequest(
+                    $request->input('place_id'),
+                    $request->input('taste_id')
+                )
+            );
+
+            return $this->emptyResponse();
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage());
         }
