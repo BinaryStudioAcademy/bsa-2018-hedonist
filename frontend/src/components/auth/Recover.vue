@@ -66,7 +66,7 @@ export default {
                         this.refreshInput();
                         this.$toast.open({
                             type: 'is-success',
-                            message: "We've emailed you password recovery link",
+                            message: 'We\'ve emailed you password recovery link',
                         });
                     })
                     .catch(error => {
