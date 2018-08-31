@@ -5,7 +5,7 @@
             <b-icon icon="menu-down"/>
         </button>
         <template v-for="list in lists">
-            <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">
+            <b-dropdown-item :key="list.id" @click="addToList(list)">
                 {{ list.name }}
                 <i
                         class="fas fa-check checkmark has-text-success"
@@ -37,10 +37,10 @@
         },
         methods: {
             ...mapActions('userList', ['addPlaceToList']),
-            addToList: function (listId) {
-                if (this.checkedIn) return;//no action if place already checked in
+            addToList: function (list) {
+                if (this.checkedIn(list.places)) return;//no action if place already checked in
                 this.addPlaceToList({
-                    listId: this.list.id,
+                    listId: list.id,
                     placeId: this.place.id,
                     userId: this.getAuthenticatedUser.id
                 })
@@ -53,8 +53,8 @@
                         }
                     );
             },
-            checkedIn(places) {
-                return places.includes(this.place.id);
+            checkedIn(listPlaces) {
+                return listPlaces.includes(this.place.id);
             },
             showToast: function (success) {
                 if (success) {
