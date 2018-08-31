@@ -1,9 +1,8 @@
 export default {
     getMyTastesIds: state => {
-        if (state.myTastes.byId !== undefined) {
-            return Object.keys(state.myTastes.byId);
-        } else {
-            return [];
-        }
+        return Object.keys(state.myTastes.byId);
+    },
+    getAllTastesIds: state => {
+        return Object.keys(state.allTastes.byId);
     }
 };

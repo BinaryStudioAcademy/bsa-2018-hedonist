@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\UserTaste;
 
+use Hedonist\Entities\User\CustomTaste;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\Taste;
 use Tests\Feature\Api\ApiTestCase;
@@ -30,11 +31,39 @@ class TasteTest extends ApiTestCase
     
     public function test_get_tastes()
     {
-        factory(Taste::class, 3)->create();
+        factory(Taste::class, 3)->create([
+            'user_id' => $this->user->id
+        ]);
         
         $response = $this->json('GET', '/api/v1/tastes', [], ['Authorization' => 'Bearer ' . $this->token]);
         $response->assertHeader('Content-Type', 'application/json')
                     ->assertJsonCount(3, 'data')
                     ->assertOk();
+    }
+
+    public function test_add_custom_taste()
+    {
+        $response = $this->actingWithToken()->post(
+            "/api/v1/tastes/custom", [
+                'name' => 'Custom taste'
+            ]
+        );
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('tastes', [
+            'name' => 'Custom taste'
+        ]);
+    }
+
+    public function test_delete_custom_taste()
+    {
+        $customTaste = factory(Taste::class)->create([
+            'user_id' => $this->user->id
+        ]);
+        $response = $this->actingWithToken($this->user)
+            ->delete("/api/v1/tastes/custom/$customTaste->id");
+        $response->assertOk();
+        $this->assertDatabaseMissing('tastes', [
+            'id' => $customTaste->id
+        ]);
     }
 }

@@ -49,5 +49,40 @@ export default {
                     reject(err);
                 });
         });
+    },
+    addCustomTaste: (context, name) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/tastes/custom', {
+                name: name
+            })
+                .then(function (res) {
+                    let taste = res.data.data;
+                    context.commit('ADD_CUSTOM_TASTE', taste);
+                    resolve(taste);
+                }).catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+    deleteCustomTaste: (context, id) => {
+        return new Promise((resolve, reject) => {
+            httpService.delete('/tastes/custom/' + id)
+                .then(function (res) {
+                    context.commit('DELETE_CUSTOM_TASTE', id);
+                    resolve(res);
+                }).catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+    getTasteAutocomplete: (context, query) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/tastes/autocomplete?query=' + query)
+                .then(function (res) {
+                    resolve(res.data.data);
+                }).catch(function (err) {
+                    reject(err);
+                });
+        });
     }
 };

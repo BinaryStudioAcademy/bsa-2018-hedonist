@@ -3,17 +3,25 @@ import { KIEV_LATITUDE, KIEV_LONGITUDE } from '@/services/location/positions';
 export default {
     city: {
         name: '',
-        longitude: 0,
-        latitude: 0,
+        longitude: null,
+        latitude: null,
         fullName: ''
     },
     placeCategory: {
         id: null,
         name: ''
     },
+    place: null,
     currentPosition: {
         latitude: KIEV_LATITUDE,
         longitude: KIEV_LONGITUDE
     },
     mapInitialized : false,
+    filters: {
+        checkin: false,
+        saved: false,
+        top_rated: false,
+        top_reviewed: false
+    },
+    isLoading : false
 };

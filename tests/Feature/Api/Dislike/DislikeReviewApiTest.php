@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Api\Like;
 
-use Hedonist\Entities\User\User;
+use Hedonist\Entities\User\{ User, UserInfo };
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\Like\Like;
 use Hedonist\Entities\Dislike\Dislike;
@@ -93,6 +93,37 @@ class DislikeReviewApiTest extends ApiTestCase
             'dislikeable_id' => $like->likeable_id,
             'dislikeable_type' => $like->likeable_type,
             'user_id' => $this->user->id
+        ]);
+    }
+
+    public function test_get_users_disliked_review()
+    {
+        factory(UserInfo::class)->create(['user_id' => $this->user->id]);
+        $review = factory(Review::class)->create();
+
+        $user2 = factory(User::class)->create();
+        factory(UserInfo::class)->create(['user_id' => $user2->id]);
+
+        factory(Dislike::class)->create([
+            'user_id' => $this->user->id,
+            'dislikeable_id' => $review->id,
+            'dislikeable_type' => Review::class
+        ]);
+        factory(Dislike::class)->create([
+            'user_id' => $user2->id,
+            'dislikeable_id' => $review->id,
+            'dislikeable_type' => Review::class
+        ]);
+
+        $response = $this->actingWithToken($this->user)->get(
+            "/api/v1/reviews/$review->id/users-disliked"
+        );
+        
+        $response->assertStatus(200);
+        $response->assertJsonFragment([
+            'id' => $this->user->id
+        ])->assertJsonFragment([
+            'id' => $user2->id
         ]);
     }
 }

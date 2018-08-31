@@ -1,191 +1,103 @@
 <template>
-    <div class="row">
-        <div v-if="isPlacesLoaded" class="column visitedplaces-wrapper">
-            <div
-                v-for="(checkInId, index) in checkIns.allIds"
-                :key="checkInId"
-            >
-                <PlaceVisitedPreview
-                    :check-in="getCheckInById(checkInId)"
-                    :check-in-place="getPlaceByCheckInId(checkInId)"
-                    :timer="50 * (index+1)"
-                />
-            </div>
-        </div>
+    <section class="columns">
+        <Preloader :active="isLoading" />
+        <section class="column is-half">
 
-        <div class="column mapbox-wrapper">
-            <section id="map">
-                <mapbox
-                    :access-token="mapboxToken"
-                    :map-options="{
-                        style: mapboxStyle,
-                    }"
-                    :fullscreen-control="{
-                        show: true,
-                        position: 'bottom-right'
-                    }"
-                    :scale-control="{
-                        show: true,
-                        position: 'top-left'
-                    }"
-                    @map-init="mapInitialize"
-                />
-            </section>
-        </div>
-    </div>
+            <CheckInsContainer :check-ins="checkIns" />
+        </section>
+
+        <section class="column mapbox-wrapper right-side">
+            <HistoryMap />
+        </section>
+    </section>
 </template>
 
 <script>
-import {mapGetters, mapActions, mapState} from 'vuex';
-import PlaceVisitedPreview from '../components/place/PlaceVisitedPreview';
-import LocationService from '@/services/location/locationService';
-import markerManager from '@/services/map/markerManager';
-import Mapbox from 'mapbox-gl-vue';
-import mapSettingsService from '@/services/map/mapSettingsService';
+import {mapState} from 'vuex';
+import Preloader from '@/components/misc/Preloader';
+import CheckInsContainer from '@/components/history/CheckInsContainer';
+import HistoryMap from '@/components/history/HistoryMap';
 
 export default {
     name: 'CheckinsPage',
     components: {
-        PlaceVisitedPreview,
-        Mapbox
+        Preloader,
+        CheckInsContainer,
+        HistoryMap
     },
-    data() {
-        return {
-            isPlacesLoaded: false,
-            isMapLoaded: false,
-            markerManager: null,
-            userCoordinates: {
-                lat: null,
-                lng: null
-            },
-            mapboxToken: mapSettingsService.getMapboxToken(),
-            mapboxStyle: mapSettingsService.getMapboxStyle()
-        };
-    },
+
     computed: {
-        ...mapGetters('user/history', [
-            'getCheckInById',
-            'getPlaceById',
-            'getPlaceByCheckInId',
-            'placeList'
+        ...mapState('history', [
+            'checkIns',
+            'isLoading'
         ]),
-        ...mapState('user/history', [
-            'checkIns', 'places', 'currentLatitude', 'currentLongitude', 'mapInitialized'
-        ]),
-    },
-    created() {
-        this.loadUserCoords().then((coords) => {
-            this.setCurrentMapCenter(coords);
-        });
-        this.loadCheckInPlaces()
-            .then(() => {
-                this.isPlacesLoaded = true;
-                this.setCurrentMapCenter(
-                    mapSettingsService.getMapboxCenter(this.places.byId, this.places.allIds)
-                );
-            })
-            .catch((err) => {
-                this.isPlacesLoaded = true;
-            });
-    },
-    watch: {
-        isMapLoaded: function (oldVal, newVal) {
-            this.updateMap(this.placeList);
-        },
-        isPlacesLoaded: function (oldVal, newVal) {
-            this.updateMap(this.placeList);
-        }
-    },
-    methods: {
-        ...
-        mapActions('user/history', [
-            'loadCheckInPlaces', 'setCurrentMapCenter', 'mapInitialization'
-        ]),
-
-        mapInitialize(map) {
-            this.markerManager = markerManager.getService(map);
-            this.isMapLoaded = true;
-        }
-        ,
-        updateMap(places) {
-            if(this.isMapLoaded && this.isPlacesLoaded) {
-                this.markerManager.setMarkersFromPlacesAndFit(...places);
-            }
-        },
-        loadUserCoords() {
-            return new Promise((resolve, reject) => {
-                LocationService.getUserLocationData()
-                    .then(coordinates => {
-                        this.userCoordinates.lat = coordinates.lat;
-                        this.userCoordinates.lng = coordinates.lng;
-                        resolve({
-                            latitude: coordinates.lat,
-                            longitude: coordinates.lng
-                        });
-                    });
-            });
-        }
-        ,
     }
-}
-;
-
+};
 </script>
 
 <style>
-    .mapboxgl-ctrl-top-left,
-    .mapboxgl-ctrl-top-right {
-        top: 20px;
+    .mapboxgl-canvas {
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    .mapboxgl-marker {
+        cursor: pointer;
+    }
+
+    .mapboxgl-popup-close-button{
+        font-size: 22px;
+    }
+
+    .link-place:hover{
+        text-decoration: underline;
     }
 </style>
 
 <style lang="scss" scoped>
-    .row {
-        display: flex;
+    .search-field {
+        margin-bottom: 10px;
     }
 
-    .column {
-        flex: 50%;
+    .columns {
+        padding: 10px;
     }
 
     #map {
         text-align: justify;
         position: fixed;
-        top: 87px;
-        bottom: 0;
-        right: 0;
-        width: 50%;
+        top: 63px;
+        height: 100vh;
+        right: 4px;
+        width: 49%;
     }
 
     @media screen and (max-width: 769px) {
-        .row {
+        .columns {
             display: grid;
             grid-template-areas: "right" "left";
 
-            .visitedplaces-wrapper {
+            .is-half {
                 grid-area: left;
             }
-            .mapbox-wrapper {
+            .right-side {
                 grid-area: right;
-                position: relative;
-                height: 500px;
-
-                #map {
-                    position: absolute;
-                    width: 100%;
-                }
             }
         }
-        .column {
-            flex: 100%;
+        #map {
+            text-align: justify;
+            vertical-align: top;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 500px;
         }
     }
 
     @media screen and (max-width: 520px) {
-        .row {
-            .mapbox-wrapper {
-                height: 300px;
-            }
+        #map {
+            height: 300px;
         }
     }
 </style>

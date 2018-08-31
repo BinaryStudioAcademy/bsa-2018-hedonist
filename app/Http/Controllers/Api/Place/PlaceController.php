@@ -5,11 +5,15 @@ namespace Hedonist\Http\Controllers\Api\Place;
 use Hedonist\Actions\Place\AddPlace\AddPlaceAction;
 use Hedonist\Actions\Place\AddPlace\AddPlacePresenter;
 use Hedonist\Actions\Place\AddPlace\AddPlaceRequest;
+use Hedonist\Actions\Place\AddPlaceTaste\AddPlaceTasteAction;
+use Hedonist\Actions\Place\AddPlaceTaste\AddPlaceTasteRequest;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionAction;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionPresenter;
 use Hedonist\Actions\Place\GetPlaceCollection\GetPlaceCollectionRequest;
 use Hedonist\Actions\Place\GetPlaceCollectionByFilters\GetPlaceCollectionByFiltersAction;
 use Hedonist\Actions\Place\GetPlaceCollectionByFilters\GetPlaceCollectionByFiltersRequest;
+use Hedonist\Actions\Place\GetPlaceCollectionForAutoComplete\GetPlaceCollectionForAutoCompleteAction;
+use Hedonist\Actions\Place\GetPlaceCollectionForAutoComplete\GetPlaceCollectionForAutoCompleteRequest;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemAction;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemPresenter;
 use Hedonist\Actions\Place\GetPlaceItem\GetPlaceItemRequest;
@@ -30,6 +34,7 @@ use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 use Hedonist\Exceptions\Place\PlaceRatingNotFoundException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Place\PlaceSearchRequest;
+use Hedonist\Http\Requests\Place\PlaceTasteRequest;
 use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
 use Illuminate\Http\JsonResponse;
@@ -45,6 +50,8 @@ class PlaceController extends ApiController
     private $updatePlaceAction;
     private $getUserRatingForPlaceAction;
     private $getPlaceCollectionByFiltersAction;
+    private $getPlaceCollectionForAutoCompleteAction;
+    private $addPlaceTasteAction;
 
     public function __construct(
         GetPlaceItemAction $getPlaceItemAction,
@@ -53,7 +60,9 @@ class PlaceController extends ApiController
         AddPlaceAction $addPlaceAction,
         UpdatePlaceAction $updatePlaceAction,
         GetUserRatingForPlaceAction $getUserRatingForPlaceAction,
-        GetPlaceCollectionByFiltersAction $getPlaceCollectionByFiltersAction
+        GetPlaceCollectionByFiltersAction $getPlaceCollectionByFiltersAction,
+        GetPlaceCollectionForAutoCompleteAction $getPlaceCollectionForAutoCompleteAction,
+        AddPlaceTasteAction $addPlaceTasteAction
     ) {
         $this->getPlaceItemAction = $getPlaceItemAction;
         $this->getPlaceCollectionAction = $getPlaceCollectionAction;
@@ -62,6 +71,8 @@ class PlaceController extends ApiController
         $this->updatePlaceAction = $updatePlaceAction;
         $this->getUserRatingForPlaceAction = $getUserRatingForPlaceAction;
         $this->getPlaceCollectionByFiltersAction = $getPlaceCollectionByFiltersAction;
+        $this->getPlaceCollectionForAutoCompleteAction = $getPlaceCollectionForAutoCompleteAction;
+        $this->addPlaceTasteAction = $addPlaceTasteAction;
     }
 
     public function getPlace(int $id, GetPlaceItemPresenter $presenter): JsonResponse
@@ -86,7 +97,13 @@ class PlaceController extends ApiController
     public function getCollection(Request $request, GetPlaceCollectionPresenter $presenter): JsonResponse
     {
         $placeResponse = $this->getPlaceCollectionByFiltersAction->execute(
-            new GetPlaceCollectionByFiltersRequest($request->input('page'), null, null)
+            new GetPlaceCollectionByFiltersRequest(
+                $request->input('page'),
+                null,
+                null,
+                null,
+                null
+            )
         );
         return $this->successResponse($presenter->present($placeResponse));
     }
@@ -107,14 +124,24 @@ class PlaceController extends ApiController
         try {
             $placeResponse = $this->addPlaceAction->execute(new AddPlaceRequest(
                 $request->creator_id,
+                $request->localization,
                 $request->category_id,
-                $request->city_id,
+                $request->tags,
+                $request->features,
+                $request->city,
                 $request->longitude,
                 $request->latitude,
                 $request->zip,
                 $request->address,
                 $request->phone,
-                $request->website
+                $request->website,
+                $request->facebook,
+                $request->instagram,
+                $request->twitter,
+                $request->menu_url,
+                $request->work_weekend,
+                $request->photos,
+                $request->worktime
             ));
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
@@ -152,11 +179,49 @@ class PlaceController extends ApiController
                 new GetPlaceCollectionByFiltersRequest(
                     $request->input('page'),
                     $request->input('filter.category'),
-                    $request->input('filter.location')
+                    $request->input('filter.location'),
+                    $request->input('filter.name'),
+                    $request->input('filter.polygon'),
+                    $request->input('filter.top_reviewed'),
+                    $request->input('filter.top_rated'),
+                    $request->input('filter.checkin'),
+                    $request->input('filter.saved')
                 )
             );
 
             return $this->successResponse($presenter->present($placeResponse), 200);
+        } catch (DomainException $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function getCollectionForAutocomplete(PlaceSearchRequest $request, GetPlaceCollectionPresenter $presenter): JsonResponse
+    {
+        try {
+            $placeResponse = $this->getPlaceCollectionForAutoCompleteAction->execute(
+                new GetPlaceCollectionForAutoCompleteRequest(
+                    $request->input('filter.name'),
+                    $request->input('filter.location')
+                )
+            );
+
+            return $this->successResponse($presenter->presentForAutoComplete($placeResponse), 200);
+        } catch (DomainException $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+    }
+
+    public function addTaste(PlaceTasteRequest $request): JsonResponse
+    {
+        try {
+            $this->addPlaceTasteAction->execute(
+                new AddPlaceTasteRequest(
+                    $request->input('place_id'),
+                    $request->input('taste_id')
+                )
+            );
+
+            return $this->emptyResponse();
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage());
         }

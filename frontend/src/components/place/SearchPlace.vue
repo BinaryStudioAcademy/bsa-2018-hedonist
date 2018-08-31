@@ -2,6 +2,11 @@
     <section class="columns">
         <section class="column is-half">
             <SearchFilterPlace />
+            <CategoryTagsContainer
+                v-if="categoryTagsList.length"
+                :tags="categoryTagsList"
+                @onSelectTag="onSelectTag"
+            />
             <template v-for="(place, index) in places">
                 <PlacePreview
                     v-if="isPlacesLoaded"
@@ -19,10 +24,6 @@
                     center: currentCenter,
                     zoom: 9
                 }"
-                :scale-control="{
-                    show: true,
-                    position: 'top-left'
-                }"
                 @map-init="mapInitialize"
                 @map-load="mapLoaded"
             />
@@ -31,7 +32,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions , mapMutations } from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
@@ -40,13 +41,15 @@ import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
 import placeholderImg from '@/assets/placeholder_128x128.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
+import CategoryTagsContainer from './CategoryTagsContainer';
 
 export default {
     name: 'SearchPlace',
     components: {
         PlacePreview,
         Mapbox,
-        SearchFilterPlace
+        SearchFilterPlace,
+        CategoryTagsContainer,
     },
     data() {
         return {
@@ -65,9 +68,13 @@ export default {
             .then(() => {
                 this.isPlacesLoaded = true;
             });
+
     },
     methods: {
         ...mapActions('search', ['setCurrentPosition', 'mapInitialization']),
+        ...mapMutations('search', {
+            setLoadingState: 'SET_LOADING_STATE',
+        }),
 
         mapInitialize(map) {
             if (this.mapInitialized) {
@@ -83,9 +90,9 @@ export default {
                     });
                 });
             this.mapInitialization();
-            this.addDrawForMap();
         },
         mapLoaded(map) {
+            map = this.addDrawForMap(map);
             this.markerManager = markerManager.getService(map);
             this.isMapLoaded = true;
         },
@@ -114,30 +121,35 @@ export default {
                 this.markerManager.setMarkersFromPlacesAndFit(...this.places);
             }
         },
-        addDrawForMap() {
+        addDrawForMap(map) {
             this.draw = new MapboxDraw({
                 displayControlsDefault: false,
                 controls: {
-                    polygon: true,
-                    trash: true
+                    polygon: true
                 }
             });
-            this.map.addControl(this.draw, 'top-left');
+            map.addControl(this.draw, 'top-left');
+            map.on('draw.create', this.updateSearchArea);
 
-            this.map.on('draw.create', this.updateSearchArea);
-            this.map.on('draw.delete', this.updateSearchArea);
-            this.map.on('draw.update', this.updateSearchArea);
+            return map;
         },
         updateSearchArea() {
             let data = this.draw.getAll();
-            let polygonCoordinates = [];
+            let query = this.$route.query;
             if (data.features.length > 0) {
-                data.features.forEach(function (item) {
-                    polygonCoordinates = item.geometry.coordinates[0];
-                });
+                query.polygon = data.features.map(item => item.geometry.coordinates[0]);
             }
-            // TODO add action for find place by 'polygonCoordinates'
-        }
+
+            this.isPlacesLoaded = false;
+            this.$store.dispatch('place/fetchPlaces', query)
+                .then(() => {
+                    this.isPlacesLoaded = true;
+                    this.draw.deleteAll();
+                });
+        },
+        onSelectTag(tagId, isTagActive) {
+            // TODO
+        },
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {
@@ -156,6 +168,7 @@ export default {
             this.$store.dispatch('place/fetchPlaces', to.query)
                 .then(() => {
                     this.isPlacesLoaded = true;
+                    this.setLoadingState(false);
                 });
         }
     },
@@ -166,6 +179,7 @@ export default {
         ...mapGetters({
             user: 'auth/getAuthenticatedUser'
         }),
+        ...mapGetters('category', ['categoryTagsList']),
 
         currentCenter() {
             return {
@@ -217,12 +231,11 @@ export default {
 
     #map {
         text-align: justify;
-        position: sticky;
-        position: -webkit-sticky;
-        top: 3.75rem;
+        position: fixed;
+        top: 63px;
         height: 100vh;
-        right: 0;
-        width: 100%;
+        right: 4px;
+        width: 49%;
     }
 
     @media screen and (max-width: 769px) {

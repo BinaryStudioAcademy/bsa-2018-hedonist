@@ -2,6 +2,7 @@
 
 namespace Hedonist\Repositories\User;
 
+use Hedonist\Entities\User\CustomTaste;
 use Hedonist\Entities\User\Taste;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;

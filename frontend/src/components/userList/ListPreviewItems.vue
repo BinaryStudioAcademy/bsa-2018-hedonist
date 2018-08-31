@@ -1,12 +1,20 @@
 <template>
     <section class="container">
         <b-loading :active.sync="isLoading" />
+        <div class="has-text-right">
+            <router-link
+                role="button"
+                class="button is-success"
+                to="/my-lists/add"
+            >+ Add a new list</router-link>
+        </div>
         <ul v-show="isLoaded">
             <ListPreview
                 v-for="(userList,index,key) in filteredUserLists"
                 :key="userList.id"
                 :user-list="userList"
                 :timer="50 * (key+1)"
+                @loading="loading"
             />
         </ul>
     </section>
@@ -58,12 +66,26 @@ export default {
             if (cityId) {
                 filtered = this.getFilteredByCity(filtered, cityId);
             }
-            return filtered;
+
+            return this.sortByDesc(filtered);
         }
     },
     methods: {
-        setCityFilter(cityId){
+        setCityFilter(cityId) {
             this.filterBy.cityId = cityId;
+        },
+        sortByDesc(lists) {
+            let listArray = [];
+            for (const listId in lists) {
+                if (lists.hasOwnProperty(listId)) {
+                    listArray.push(lists[listId]);
+                }
+            }
+
+            return listArray.reverse();
+        },
+        loading(value) {
+            this.isLoading = value;
         }
     },
 };
@@ -72,18 +94,7 @@ export default {
 <style lang="scss" scoped>
     section {
         background: #FFF;
-        padding: 0 10%;
+        padding: 50px 10%;
         min-height: calc(100vh - 59px);
-        overflow-y: scroll;
-        ul {
-            list-style: none;
-            li {
-                display: flex;
-                margin-bottom: -5%;
-                &:last-child {
-                    margin-bottom: 0;
-                }
-            }
-        }
     }
 </style>

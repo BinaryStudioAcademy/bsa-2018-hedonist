@@ -6,10 +6,6 @@
             center: currentCenter,
             zoom: 11
         }"
-        :scale-control="{
-            show: true,
-            position: 'top-left'
-        }"
         @map-load="mapLoaded"
     />
 </template>

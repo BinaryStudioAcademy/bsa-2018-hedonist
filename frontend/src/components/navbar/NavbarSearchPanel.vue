@@ -1,10 +1,11 @@
 <template>
     <div class="navbar-start">
+        <Preloader :active="isLoading" />
         <div class="navbar-item">
-            <SearchPlaceCategory @select="category = $event" />
+            <SearchPlaceCategory @select="onSelect" />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="location = $event" />
+            <SearchCity @select="selectCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
@@ -18,82 +19,98 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+import Preloader from '@/components/misc/Preloader';
 import SearchCity from './SearchCity';
 import SearchPlaceCategory from './SearchPlaceCategory';
 
 export default {
     name: 'NavbarSearchPanel',
-    data() {
+    data: function(){
         return {
-            category: null,
             location: null,
+            category: null,
         };
+    },
+    computed: {
+        ...mapState('search', ['isLoading']),
+        ...mapGetters({
+            city: 'search/getSelectedCity',
+            placeCategory: 'search/getSelectedPlaceCategory',
+            place: 'search/getSelectedPlace'
+        }),
     },
     components: {
         SearchCity,
-        SearchPlaceCategory
+        SearchPlaceCategory,
+        Preloader
     },
     methods: {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
-            selectSearchPlaceCategory: 'search/selectSearchPlaceCategory'
+            updateQueryFilters: 'search/updateQueryFilters',
+            selectSearchPlaceOrCategory: 'search/selectSearchPlaceOrCategory',
+            setCategoryTags: 'category/fetchCategoryTags',
         }),
+        ...mapMutations('search', {
+            setLoadingState: 'SET_LOADING_STATE',
+        }),
+        selectCity(city){
+            this.location = city;
+        },
+        selectPlaceOrCategory(category){
+            this.category = category;
+        },
         search() {
-            let location = '';
-            let category = '';
-            if (this.location !== null) {
-                location = this.location.center[0] + ',' + this.location.center[1];
+            this.setLoadingState(true);
+            this.selectSearchCity(this.location);
+            this.selectSearchPlaceOrCategory(this.category);
+            this.updateQueryFilters();
+        },
+        onSelect(query) {
+            this.selectPlaceOrCategory(query);
+
+            if (query !== null && query.id) {
+                this.setCategoryTags(query.id);
             }
-            if (this.category !== null) {
-                category = this.category.id;
-            }
-            this.$router.push({
-                name: 'SearchPlacePage',
-                query: {
-                    category: category,
-                    location: location,
-                    page: 1
-                }
-            });
-        }
-    },
+        },
+    }
 };
 </script>
 
 
 <style lang="scss">
-    .navbar__search-autocomplete input{
+    .navbar__search-autocomplete input {
         padding-right: 2.25em;
     }
 </style>
 
 <style lang="scss" scoped>
-.button {
-    @media screen and (max-width: 1087px) {
-        width: 88%;
-    }
-
-    .button-title {
-        display: none;
-
+    .button {
         @media screen and (max-width: 1087px) {
-            display: inline-block;
+            width: 88%;
+        }
+
+        .button-title {
+            display: none;
+
+            @media screen and (max-width: 1087px) {
+                display: inline-block;
+            }
+        }
+
+        &:hover {
+            background-color: #167df0;
+
+            @media screen and (max-width: 1087px) {
+                background-color: #0f77ea;
+            }
         }
     }
 
-    &:hover {
-        background-color: #167df0;
-
+    .navbar-search-btn {
         @media screen and (max-width: 1087px) {
-            background-color: #0f77ea;
+            text-align: center;
         }
     }
-}
-
-.navbar-search-btn {
-    @media screen and (max-width: 1087px) {
-        text-align: center;
-    }
-}
 </style>

@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
+use Hedonist\Actions\Place\GetPlaceCollectionForAutoComplete\GetPlaceCollectionForAutoCompleteResponse;
 use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
 use Hedonist\Actions\Presenters\Category\Tag\CategoryTagPresenter;
@@ -56,6 +57,7 @@ class GetPlaceCollectionPresenter
             $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
             $result['category'] = $this->categoryPresenter->present($place->category);
             $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
+            $result['tags'] = $this->tagsPresenter->presentCollection($place->tags);
 
             return $result;
         })->toArray();
@@ -71,5 +73,19 @@ class GetPlaceCollectionPresenter
         $presented['like'] = $review->getLikedStatus($user->id)->value();
 
         return $presented;
+    }
+
+    public function presentForAutoComplete(GetPlaceCollectionForAutoCompleteResponse $placeResponse): array
+    {
+        return $placeResponse->getPlaceCollection()->map(function (Place $place) use ($placeResponse) {
+            $result['photo']['img_url'] = '';
+            if (!empty($place->photos)) {
+                $result['photo'] = $this->photoPresenter->present($place->photos[0]);
+            }
+            $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
+            $result['city'] = $this->cityPresenter->present($place->city);
+
+            return $result;
+        })->toArray();
     }
 }

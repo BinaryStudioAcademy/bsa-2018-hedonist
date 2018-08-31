@@ -19,41 +19,14 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <button
-                    class="button is-primary"
-                    @click="isCheckinModalActive = true"
-                >
-                    <i class="fas fa-check" />Check-in
-                </button>
-                <b-modal :active.sync="isCheckinModalActive" has-modal-card>
-                    <PlaceCheckinModal :place="place" />
-                </b-modal>
-
-                <b-dropdown>
-                    <button class="button is-success" slot="trigger">
-                        <i class="far fa-save" />Save
-                        <b-icon icon="menu-down" />
-                    </button>
-                    <template v-for="list in userList">
-                        <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}
-                        </b-dropdown-item>
-                    </template>
-                </b-dropdown>
-
-
-                <b-dropdown>
-                    <button class="button is-primary" slot="trigger">
-                        <i class="far fa-share-square" />Share
-                        <b-icon icon="menu-down" />
-                    </button>
-
-                    <b-dropdown-item has-link>
-                        <a :href="'https://www.facebook.com/sharer/sharer.php?u=' + pageLink" target="_blank">
-                            <i class="fab fa-facebook-square" />
-                            Share on Facebook
-                        </a>
-                    </b-dropdown-item>
-                </b-dropdown>
+                <TopInfoUserListItem
+                    :place="place"
+                    :lists="userList"
+                />
+                <ShareDropdown
+                    :link="pageLink"
+                    :text="localizedName"
+                />
             </div>
         </div>
         <div class="place-top-info__sidebar columns">
@@ -76,27 +49,25 @@
                 </nav>
             </div>
             <div class="column is-one-third place-rate">
-                <div class="place-rate__mark">
-                    <span class="place-rate__mark-value">
-                        {{ place.rating | formatRating }}
-                    </span>
-                    <sup>
-                        /
-                        <span>10</span>
-                    </sup>
-                </div>
-                <div class="place-rate__mark-count">
-                    {{ place.ratingCount || 'No' }} marks
-                </div>
-                <div class="place-rate__preference">
-                    <LikeDislikeButtons
-                        :likes="place.likes"
-                        :dislikes="place.dislikes"
-                        :status="liked"
-                        @like="like"
-                        @dislike="dislike"
-                    />
-                </div>
+                <PlaceRating
+                    v-if="place.rating"
+                    :value="Number(place.rating)"
+                    :show-max="true"
+                    :show-rating="true"
+                    :rating-count="place.ratingCount"
+                />
+
+                <button
+                    class="button is-primary rating"
+                    @click="isCheckinModalActive = true"
+                >
+                    <i class="fas fa-star-half-alt" />
+                </button>
+                <b-modal :active.sync="isCheckinModalActive" has-modal-card>
+                    <PlaceRatingModal :place="place" />
+                </b-modal>
+
+                <PlaceCheckin :place="place" />
             </div>
         </div>
     </div>
@@ -104,19 +75,25 @@
 
 <script>
 import PlacePhotoList from './PlacePhotoList';
-import PlaceCheckinModal from './PlaceCheckinModal';
-import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
-import { STATUS_NONE } from '@/services/api/codes';
+import PlaceRatingModal from './PlaceRatingModal';
+import {STATUS_NONE} from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
-import { mapGetters } from 'vuex';
+import {mapGetters, mapState} from 'vuex';
+import PlaceRating from './PlaceRating';
+import PlaceCheckin from './PlaceCheckin';
+import ShareDropdown from '@/components/misc/ShareDropdown';
+import TopInfoUserListItem from './TopInfoUserListItem';
 
 export default {
     name: 'PlaceTopInfo',
 
     components: {
         PlacePhotoList,
-        PlaceCheckinModal,
-        LikeDislikeButtons
+        PlaceRatingModal,
+        PlaceRating,
+        PlaceCheckin,
+        ShareDropdown,
+        TopInfoUserListItem
     },
 
     props: {
@@ -139,22 +116,18 @@ export default {
     data() {
         return {
             activeTab: 1,
-            userList: {},
             isCheckinModalActive: false
         };
     },
 
     created() {
-        this.$store.dispatch('userList/getListsByUser', this.user.id)
-            .then((result) => {
-                this.userList = result;
-            });
-
+        this.$store.dispatch('userList/getListsByUser', this.user.id);
         this.$store.dispatch('place/getLikedPlace', this.place.id);
     },
 
     computed: {
-        ...mapGetters('review', [ 'getReviewsCount' ]),
+        ...mapGetters('review', ['getReviewsCount']),
+        ...mapState('userList', ['userLists']),
 
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
@@ -179,13 +152,17 @@ export default {
         dislikes() {
             return this.$store.getters['place/getDislikes'];
         },
-        
+
         pageLink() {
             return location.href;
         },
 
         placeMarker() {
             return defaultMarker;
+        },
+
+        userList() {
+            return this.userLists ? Object.values(this.userLists.byId) : [];
         }
     },
 
@@ -213,13 +190,6 @@ export default {
             this.$store.dispatch('place/dislikePlace', this.place.id);
             this.updateLikesDislikes();
         },
-
-        addPlaceToList: function (listId) {
-            this.$store.dispatch('userList/addPlaceToList', {
-                listId: listId,
-                placeId: this.place.id
-            });
-        }
     }
 };
 </script>
@@ -228,7 +198,7 @@ export default {
     .place-top-info {
         background-color: #fff;
         .column {
-            padding: 0;
+            padding: 0.75rem;
         }
         &__sidebar {
             margin-top: 20px;
@@ -243,42 +213,23 @@ export default {
             }
             .place-rate {
                 display: flex;
+                justify-content: space-around;
                 align-items: center;
-                &__mark {
-                    margin-left: auto;
-                    margin-right: 5px;
-                    border-radius: 3px;
-                    color: white;
-                    background-color: #00B551;
-                    padding: 4px;
-                    white-space: nowrap;
-                }
-                &__mark-value {
-                   margin:0 5px;
-                }
                 &__mark-count {
                     font-style: italic;
                     white-space: nowrap;
-                    padding: 0 10px;
-                }
-                &__preference {
-                    display: flex;
-                    margin-left: auto;
-                    margin-right: 10px;
-                    .likable {
-                        cursor: pointer;
-                        &:hover {
-                            color: black;
-                        }
-                    }
-                    .fa-bolt {
-                        top: -5%;
-                        left: 2%;
-                        font-size: 70%;
-                    }
+                    margin-left: 20px;
                 }
             }
         }
+    }
+
+    .rating {
+        border-radius: 7px;
+        height: 48px;
+        font-size: 1.5rem;
+        color: #FFF;
+        text-align: center;
     }
 
     .place-venue {
@@ -318,22 +269,8 @@ export default {
         .place-top-info {
             &__sidebar {
                 .place-rate {
-                    &__mark-count{
+                    &__mark-count {
                         display: none;
-                    }
-                }
-            }
-        }
-    }
-
-    @media screen and (max-width: 769px) {
-        .place-top-info {
-            &__sidebar {
-                .place-rate {
-                    &__mark {
-                        margin-left: 20px;
-                        margin-right: 5px;
-                        border-radius: 3px;
                     }
                 }
             }

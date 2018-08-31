@@ -25,8 +25,11 @@ const parseCoordinates = (...markers) => {
 };
 
 export const fitMap = (map, ...activeMarkers) => {
-    if (activeMarkers.length < 1) return;//we need a square to fit map
-    map.fitBounds(parseCoordinates(...activeMarkers), {padding: 100, linear: true, maxZoom: 17});
+    if (activeMarkers.length > 1) {
+        map.fitBounds(parseCoordinates(...activeMarkers), {padding: 100, linear: true, maxZoom: 17});
+    } else if (activeMarkers.length === 1) {
+        map.flyTo({center:activeMarkers[0].getLngLat(), zoom:17});
+    }
 };
 
 export default {fitMap};
