@@ -4901,6 +4901,10 @@ pluralize@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-7.0.0.tgz#298b89df8b93b0221dbf421ad2b1b1ea23fc6777"
 
+popper.js@1.12.5:
+  version "1.12.5"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.12.5.tgz#229e4dea01629e1f1a1e26991ffade5024220fa6"
+
 portfinder@^1.0.13, portfinder@^1.0.9:
   version "1.0.16"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.16.tgz#a6a68be9c352bc66c1a4c17a261f661f3facaf52"
@@ -6801,6 +6805,12 @@ vue-browser-geolocation@^1.5.0:
   resolved "https://registry.yarnpkg.com/vue-browser-geolocation/-/vue-browser-geolocation-1.5.0.tgz#bbae3a01e8066c5526b921d7762aca8866cfd16f"
   dependencies:
     vue "^2.0.1"
+
+vue-directive-tooltip@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/vue-directive-tooltip/-/vue-directive-tooltip-1.4.5.tgz#d55519132cd7d405d4e941d6bea0a0da01ef6278"
+  dependencies:
+    popper.js "1.12.5"
 
 vue-eslint-parser@^3.2.1:
   version "3.2.2"

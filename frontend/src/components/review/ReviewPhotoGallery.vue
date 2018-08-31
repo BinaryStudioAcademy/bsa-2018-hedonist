@@ -7,16 +7,15 @@
                     height="25" 
                     width="25"
                 >
-                <span>{{ photosCount }} Photos</span>
+                <span v-if="loaded">{{ photosCount }} Photos</span>
             </div>
         </div>
-        <ul class="reviews-photo-list">
-            <li 
-                v-for="photo in place.photos"
-                :key="photo.id"
+        <ul v-if="loaded" class="reviews-photo-list">
+            <li
+                v-for="(photo, index) in photos"
+                :key="index"
             >
-                <ReviewPhoto 
-                    :key="photo.id" 
+                <ReviewPhoto
                     :photo="photo"
                 />
             </li>
@@ -26,27 +25,40 @@
 
 <script>
 import ReviewPhoto from './ReviewPhoto';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'ReviewPhotoGallery',
-
     components: { 
         ReviewPhoto 
     },
-
     props: {
         place: {
             type: Object,
             required: true
+        },
+        isLoadingReviewPhoto: {
+            type: Boolean,
+            required: true
         }
     },
-
     computed: {
+        ...mapGetters({
+            placeReviewPhotos: 'review/getPlaceReviewPhotos',
+        }),
         photosCount() {
-            return this.place.photos.length;
+            return this.place.photos.length + this.placeReviewPhotos.length;
         },
+        loaded() {
+            return !(this.isLoadingReviewPhoto) && !!(this.placeReviewPhotos);
+        },
+        photos() {
+            let placePhotos = Object.values(this.place.photos);
+            let placeReviewPhotos = Object.values(this.placeReviewPhotos);
+            return placePhotos.concat(placeReviewPhotos);
+        }
     }
-};   
+};
 </script>
 
 <style lang="scss" scoped>

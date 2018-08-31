@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomTastesTable extends Migration
+class UpdateTasteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateCustomTastesTable extends Migration
      */
     public function up()
     {
-        Schema::create('custom_tastes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
+        Schema::table('tastes', function (Blueprint $table) {
             $table->unsignedInteger('user_id')->nullable();
+            $table->boolean('is_default')->default(false);
 
             $table->foreign('user_id')->references('id')->on('users');
         });
@@ -29,6 +28,9 @@ class CreateCustomTastesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('custom_tastes');
+        Schema::table('tastes', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropColumn('user_id');
+        });
     }
 }
