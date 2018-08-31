@@ -16,10 +16,10 @@
                         <span class="place-country">Украина</span>
                     </div>
                 </div>
-                <div v-if="place.category.tags" class="place-sidebar__tags">
+                <div v-if="place.tags" class="place-sidebar__tags">
                     <i class="place-sidebar__icon fas fa-info-circle" />
                     <span 
-                        v-for="tag in place.category.tags"
+                        v-for="tag in place.tags"
                         class="tag"
                         :key="tag.id"
                     >
