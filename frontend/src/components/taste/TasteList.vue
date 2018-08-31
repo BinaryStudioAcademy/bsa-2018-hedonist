@@ -70,7 +70,8 @@ export default {
             }
         },
         deleteTaste(id) {
-            if (this.allTastes.byId[id].is_default) {
+            let taste = this.allTastes.byId[id];
+            if (taste && taste.is_default) {
                 this.tastesData[id].check = false;
                 this.$store.dispatch('taste/deleteMyTaste', id).then(() => {
                     this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
@@ -127,8 +128,7 @@ export default {
     created() {
         this.$store.dispatch('taste/fetchTastes');
         this.$store.dispatch('taste/fetchMyTastes').then(() => {
-            this.selectedIds = this.getMyTastesIds;
-            this.selectedIds.forEach((item, i) => { this.selectedIds[i] = parseInt(item); });
+            this.selectedIds = this.getMyTastesIds.map(id => parseInt(id));
         });
     },
 };

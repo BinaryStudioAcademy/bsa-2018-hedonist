@@ -1,4 +1,8 @@
 export default {
-    allTastes: [],
-    myTastes: []
+    allTastes: {
+        byId: []
+    },
+    myTastes: {
+        byId: []
+    }
 };
