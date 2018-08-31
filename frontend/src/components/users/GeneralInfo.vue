@@ -1,33 +1,52 @@
 <template>
-    <div class="container is-fullhd">
+    <div class="container is-fullhd is-fluid">
         <div class="container">
 
             <div class="columns user-info">
 
-                <div class="column is-narrow user-info-img">
-                    <figure class="image is-128x128">
-                        <img src="https://igx.4sqi.net/img/user/130x130/63127607-FUGH5AYFXN0RRZWT.jpg" alt="">
-                    </figure>
+                <div class="column is-narrow">
+                    <div class="user-info-img">
+                        <figure class="image is-128x128">
+                            <img
+                                v-if="userProfile.avatar_url"
+                                :src="userProfile.avatar_url"
+                                :title="userProfile.first_name+' '+userProfile.last_name"
+                                :alt="userProfile.first_name+' '+userProfile.last_name"
+                            >
+                        </figure>
+                    </div>
                 </div>
 
                 <div class="column user-info-stats">
 
                     <div class="user-stats-title">
-                        <h1 class="subtitle is-3">Valeri</h1>
-                        <a href="#" class="facebbok-link" target="_blank">
-                            <i class="fa-2x fab fa-facebook-square"></i>
-                        </a>
-                        <a href="#" class="twitter-link" target="_blank">
-                            <i class="fa-2x fab fa-twitter-square"></i>
-                        </a>
+                        <h1 class="subtitle is-3">{{ userProfile.first_name + ' ' + userProfile.last_name }}</h1>
+                        <div class="user-social">
+                            <a 
+                                v-show="userProfile.facebook_url" 
+                                :href="userProfile.facebook_url" 
+                                class="facebbok-link"
+                                target="_blank"
+                            >
+                                <i class="fa-2x fab fa-facebook-square" />
+                            </a>
+                            <a 
+                                v-show="userProfile.twitter_url" 
+                                :href="userProfile.twitter_url" 
+                                class="twitter-link"
+                                target="_blank"
+                            >
+                                <i class="fa-2x fab fa-twitter-square" />
+                            </a>
+                        </div>
                     </div>
 
                     <div class="user-stats-contact">
-                        <h6 class="subtitle is-7">Odessa</h6>
+                        <span>Odessa</span>
                     </div>
 
                     <div class="user-stats-complaint">
-                        <span class="">Пожаловаться на этого человека?</span>
+                        <span>Пожаловаться на этого человека?</span>
                     </div>
                 </div>
 
@@ -61,12 +80,14 @@
                         </li>
                     </ul>
 
-                    <a class="button is-success">
+                    <div class="btn-follow">
+                        <a class="button is-info">
                             <span class="icon is-small">
-                              <i class="fas fa-check"></i>
+                                <i class="fas fa-plus-circle" />
                             </span>
-                        <span>Save</span>
-                    </a>
+                            <span>Follow {{ userProfile.first_name }}</span>
+                        </a>
+                    </div>
 
                 </div>
             </div>
@@ -76,9 +97,27 @@
 </template>
 
 <script>
-    export default {
-        name: 'GeneralInfo',
-    };
+import {mapState, mapActions, mapGetters} from 'vuex';
+
+export default {
+    name: 'GeneralInfo',
+    data() {
+        return {};
+    },
+    created() {
+        this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
+    },
+    computed: {
+        ...mapGetters({
+            userProfile: 'users/getUserProfile'
+        })
+    },
+    methods: {
+        ...mapActions({
+            getUsersProfile: 'users/getUsersProfile',
+        }),
+    }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -92,6 +131,10 @@
     .user-info {
 
         &-img {
+            @media screen and (max-width: 768px) {
+                display: flex;
+                justify-content: center;
+            }
             img {
                 border-radius: 32px;
             }
@@ -105,6 +148,18 @@
                     display: inline-block;
                     margin-right: 15px;
                     margin-bottom: 0;
+                    @media screen and (max-width: 768px) {
+                        text-align: center;
+                        display: block;
+                    }
+                }
+                .user-social {
+                    display: inline-block;
+                    @media screen and (max-width: 768px) {
+                        display: block;
+                        text-align: center;
+                        margin: 10px 0;
+                    }
                 }
                 a {
                     display: inline-block;
@@ -123,9 +178,15 @@
                 }
             }
 
+            .user-stats-contact {
+                span {
+                    font-size: 0.75rem;
+                }
+            }
+
             .user-stats-complaint {
                 span {
-                    font-size: 11px;
+                    font-size: 0.75rem;
                     color: #aeb4b6;
                     cursor: pointer;
 
@@ -135,32 +196,61 @@
                 }
             }
 
-
+            .user-stats-contact,
+            .user-stats-complaint {
+                @media screen and (max-width: 768px) {
+                    text-align: center;
+                }
+                span {
+                    @media screen and (max-width: 768px) {
+                        font-size: 16px;
+                    }
+                }
+            }
 
         }
 
-        &-relation{
+        &-relation {
             padding: 0;
-            align-self: end;
-            .level{
-                margin-bottom: 10px;
-                li{
-                    border-right: 1px solid rgba(199,205,207,0.3);
+            align-self: center;
+            .btn-follow {
+                display: flex;
+                justify-content: center;
+                a {
+                    width: 250px;
+                }
+            }
+            .level {
+                margin-bottom: 20px;
+                li {
+                    border-right: 1px solid rgba(199, 205, 207, 0.3);
+                    transition: 0.2s linear;
 
-                    &:nth-last-child(1){
+                    &:nth-last-child(1) {
                         border-right: none;
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                        background-color: rgba(199, 205, 207, 0.3);
                     }
                 }
 
             }
-            .relation-count{
+            .relation-count {
                 font-weight: bold;
                 font-size: 20px;
             }
-            .relation-title{
+            .relation-title {
                 font-size: 12px;
                 color: #aeb4b6;
             }
         }
     }
+
+    /*@media screen and (max-width: 768px) {*/
+    /*.user-social{*/
+    /*display: block;*/
+    /*}*/
+    /*}*/
 </style>
