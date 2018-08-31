@@ -65,6 +65,12 @@ return [
             'block_for' => null,
         ],
 
+        'rabbitmq' => [
+            'driver' => 'rabbitmq',
+            'host' => env('RABBITMQ_HOST', 'localhost'),
+            'queue' => 'rabbit',
+            'retry_after' => 90,
+        ],
     ],
 
     /*
