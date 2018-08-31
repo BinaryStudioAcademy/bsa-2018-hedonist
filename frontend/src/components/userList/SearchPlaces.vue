@@ -185,7 +185,6 @@ export default {
         },
         selectCity(city) {
             if (city && city.center) {
-                console.log(city.center);
                 this.location = {
                     lng: city.center[0],
                     lat: city.center[1]
