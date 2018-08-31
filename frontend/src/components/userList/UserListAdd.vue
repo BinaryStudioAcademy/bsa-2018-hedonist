@@ -247,8 +247,8 @@ export default {
         },
         onSave () {
             this.isLoading = true;
-            if (this.$v.userList.$invalid) {
-                this.onError('Photo and name are required!');
+            if (this.$v.userList.name.$invalid) {
+                this.onError('Name is required!');
                 this.isLoading = false;
                 return;
             }
@@ -318,7 +318,6 @@ export default {
                 required,
             },
             image: {
-                required,
             },
         }
     }

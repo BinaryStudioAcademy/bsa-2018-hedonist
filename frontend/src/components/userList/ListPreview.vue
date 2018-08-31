@@ -4,7 +4,7 @@
             <div class="container place-item" v-if="active">
                 <div class="media">
                     <figure class="media-left image is-128x128">
-                        <img :src="userList.img_url">
+                        <img :src="userList.img_url || imageStub">
                     </figure>
                     <div class="media-content">
                         <h3 class="title has-text-primary">
@@ -35,10 +35,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import imageStub from '@/assets/no-photo.png';
 export default {
     name: 'ListPreview',
     data() {
         return {
+            imageStub: imageStub,
             active: false
         };
     },

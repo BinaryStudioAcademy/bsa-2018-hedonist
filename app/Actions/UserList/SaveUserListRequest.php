@@ -15,7 +15,7 @@ class SaveUserListRequest
     public function __construct(
         int $userId,
         string $name,
-        UploadedFile $image,
+        ?UploadedFile $image,
         ?array $attachedPlaces,
         int $id = null
     ) {
@@ -31,7 +31,7 @@ class SaveUserListRequest
         return $this->id;
     }
 
-    public function getImage(): UploadedFile
+    public function getImage(): ?UploadedFile
     {
         return $this->image;
     }

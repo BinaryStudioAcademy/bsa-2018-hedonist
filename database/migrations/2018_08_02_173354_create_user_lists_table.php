@@ -17,7 +17,7 @@ class CreateUserListsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('name');
-            $table->string('img_url');
+            $table->string('img_url')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');
         });
