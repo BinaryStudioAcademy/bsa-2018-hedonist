@@ -1,13 +1,13 @@
 <template>
     <div class="place-top-info">
-        <PlacePhotoList :photos="place.photos" @showAllPhotos="changeTab(2)"/>
+        <PlacePhotoList :photos="place.photos" @showAllPhotos="changeTab(2)" />
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
                     <img
-                            :src="placeMarker"
-                            width="88"
-                            height="88"
+                        :src="placeMarker"
+                        width="88"
+                        height="88"
                     >
                 </div>
                 <div class="place-venue__prime-info">
@@ -20,12 +20,12 @@
             </div>
             <div class="column is-one-third place-venue__actions">
                 <TopInfoUserListItem
-                        :place="place"
-                        :lists="userList"
+                    :place="place"
+                    :lists="userList"
                 />
                 <ShareDropdown
-                        :link="pageLink"
-                        :text="localizedName"
+                    :link="pageLink"
+                    :text="localizedName"
                 />
             </div>
         </div>
@@ -34,14 +34,14 @@
                 <nav class="sidebar-actions tabs">
                     <ul>
                         <li
-                                @click="changeTab(1)"
-                                :class="{ 'is-active' : activeTab === 1}"
+                            @click="changeTab(1)"
+                            :class="{ 'is-active' : activeTab === 1}"
                         >
                             <a><span>Reviews ({{ getReviewsCount }})</span></a>
                         </li>
                         <li
-                                @click="changeTab(2)"
-                                :class="{ 'is-active' : activeTab === 2}"
+                            @click="changeTab(2)"
+                            :class="{ 'is-active' : activeTab === 2}"
                         >
                             <a><span>Photos ({{ photosCount }})</span></a>
                         </li>
@@ -50,148 +50,148 @@
             </div>
             <div class="column is-one-third place-rate">
                 <PlaceRating
-                        v-if="place.rating"
-                        :value="Number(place.rating)"
-                        :show-max="true"
-                        :show-rating="true"
-                        :rating-count="place.ratingCount"
+                    v-if="place.rating"
+                    :value="Number(place.rating)"
+                    :show-max="true"
+                    :show-rating="true"
+                    :rating-count="place.ratingCount"
                 />
 
                 <button
-                        class="button is-primary rating"
-                        @click="isCheckinModalActive = true"
+                    class="button is-primary rating"
+                    @click="isCheckinModalActive = true"
                 >
-                    <i class="fas fa-star-half-alt"/>
+                    <i class="fas fa-star-half-alt" />
                 </button>
                 <b-modal :active.sync="isCheckinModalActive" has-modal-card>
-                    <PlaceRatingModal :place="place"/>
+                    <PlaceRatingModal :place="place" />
                 </b-modal>
 
-                <PlaceCheckin :place="place"/>
+                <PlaceCheckin :place="place" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import PlacePhotoList from './PlacePhotoList';
-    import PlaceRatingModal from './PlaceRatingModal';
-    import {STATUS_NONE} from '@/services/api/codes';
-    import defaultMarker from '@/assets/default_marker.png';
-    import {mapGetters, mapState} from 'vuex';
-    import PlaceRating from './PlaceRating';
-    import PlaceCheckin from './PlaceCheckin';
-    import ShareDropdown from '@/components/misc/ShareDropdown';
-    import TopInfoUserListItem from './TopInfoUserListItem';
+import PlacePhotoList from './PlacePhotoList';
+import PlaceRatingModal from './PlaceRatingModal';
+import {STATUS_NONE} from '@/services/api/codes';
+import defaultMarker from '@/assets/default_marker.png';
+import {mapGetters, mapState} from 'vuex';
+import PlaceRating from './PlaceRating';
+import PlaceCheckin from './PlaceCheckin';
+import ShareDropdown from '@/components/misc/ShareDropdown';
+import TopInfoUserListItem from './TopInfoUserListItem';
 
-    export default {
-        name: 'PlaceTopInfo',
+export default {
+    name: 'PlaceTopInfo',
 
-        components: {
-            PlacePhotoList,
-            PlaceRatingModal,
-            PlaceRating,
-            PlaceCheckin,
-            ShareDropdown,
-            TopInfoUserListItem
-        },
+    components: {
+        PlacePhotoList,
+        PlaceRatingModal,
+        PlaceRating,
+        PlaceCheckin,
+        ShareDropdown,
+        TopInfoUserListItem
+    },
 
-        props: {
-            place: {
-                type: Object,
-                required: true
-            }
-        },
-
-        filters: {
-            formatRating: function (number) {
-                return new Intl.NumberFormat(
-                    'en-US', {
-                        minimumFractionDigits: 1,
-                        maximumFractionDigits: 1,
-                    }).format(number);
-            },
-        },
-
-        data() {
-            return {
-                activeTab: 1,
-                isCheckinModalActive: false
-            };
-        },
-
-        created() {
-            this.$store.dispatch('userList/getListsByUser', this.user.id);
-            this.$store.dispatch('place/getLikedPlace', this.place.id);
-        },
-
-        computed: {
-            ...mapGetters('review', ['getReviewsCount']),
-            ...mapState('userList', ['userLists']),
-
-            user() {
-                return this.$store.getters['auth/getAuthenticatedUser'];
-            },
-
-            localizedName() {
-                return this.place.localization[0].name;
-            },
-
-            photosCount() {
-                return this.place.photos.length;
-            },
-
-            liked() {
-                return this.$store.getters['place/getLikedStatus'];
-            },
-
-            likes() {
-                return this.$store.getters['place/getLikes'];
-            },
-
-            dislikes() {
-                return this.$store.getters['place/getDislikes'];
-            },
-
-            pageLink() {
-                return location.href;
-            },
-
-            placeMarker() {
-                return defaultMarker;
-            },
-
-            userList() {
-                return this.userLists ? Object.values(this.userLists.byId) : [];
-            }
-        },
-
-        methods: {
-            changeTab: function (activeTab) {
-                this.activeTab = activeTab;
-                this.$emit('tabChanged', activeTab);
-            },
-
-            updateLikesDislikes() {
-                if (this.likes) {
-                    this.place.likes = this.likes;
-                }
-                if (this.dislikes) {
-                    this.place.dislikes = this.dislikes;
-                }
-            },
-
-            like() {
-                this.$store.dispatch('place/likePlace', this.place.id);
-                this.updateLikesDislikes();
-            },
-
-            dislike() {
-                this.$store.dispatch('place/dislikePlace', this.place.id);
-                this.updateLikesDislikes();
-            },
+    props: {
+        place: {
+            type: Object,
+            required: true
         }
-    };
+    },
+
+    filters: {
+        formatRating: function (number) {
+            return new Intl.NumberFormat(
+                'en-US', {
+                    minimumFractionDigits: 1,
+                    maximumFractionDigits: 1,
+                }).format(number);
+        },
+    },
+
+    data() {
+        return {
+            activeTab: 1,
+            isCheckinModalActive: false
+        };
+    },
+
+    created() {
+        this.$store.dispatch('userList/getListsByUser', this.user.id);
+        this.$store.dispatch('place/getLikedPlace', this.place.id);
+    },
+
+    computed: {
+        ...mapGetters('review', ['getReviewsCount']),
+        ...mapState('userList', ['userLists']),
+
+        user() {
+            return this.$store.getters['auth/getAuthenticatedUser'];
+        },
+
+        localizedName() {
+            return this.place.localization[0].name;
+        },
+
+        photosCount() {
+            return this.place.photos.length;
+        },
+
+        liked() {
+            return this.$store.getters['place/getLikedStatus'];
+        },
+
+        likes() {
+            return this.$store.getters['place/getLikes'];
+        },
+
+        dislikes() {
+            return this.$store.getters['place/getDislikes'];
+        },
+
+        pageLink() {
+            return location.href;
+        },
+
+        placeMarker() {
+            return defaultMarker;
+        },
+
+        userList() {
+            return this.userLists ? Object.values(this.userLists.byId) : [];
+        }
+    },
+
+    methods: {
+        changeTab: function (activeTab) {
+            this.activeTab = activeTab;
+            this.$emit('tabChanged', activeTab);
+        },
+
+        updateLikesDislikes() {
+            if (this.likes) {
+                this.place.likes = this.likes;
+            }
+            if (this.dislikes) {
+                this.place.dislikes = this.dislikes;
+            }
+        },
+
+        like() {
+            this.$store.dispatch('place/likePlace', this.place.id);
+            this.updateLikesDislikes();
+        },
+
+        dislike() {
+            this.$store.dispatch('place/dislikePlace', this.place.id);
+            this.updateLikesDislikes();
+        },
+    }
+};
 </script>
 
 <style lang="scss" scoped>
