@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Hedonist\Mail\ResetPasswordLinkSent;
 
 class PasswordResetedEventListener
-{   
+{
     public function handle(PasswordResetedEvent $event)
     {
         $user = $event->getUser();
