@@ -31,7 +31,7 @@
                     <i class="place-sidebar__icon far fa-clock" />
                     <div class="level">
                         <div class="level-left">
-                            <span v-if="isOpen === true" class="worktime-info--green">Open now</span>
+                            <span v-if="isOpen() === true" class="worktime-info--green">Open now</span>
                             <span v-else class="worktime-info--red">Closed</span>
                         </div>
                         <div class="level-right">
