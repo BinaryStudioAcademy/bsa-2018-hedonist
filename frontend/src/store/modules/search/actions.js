@@ -4,6 +4,29 @@ import LocationService from '@/services/location/locationService';
 import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
+    updateStateFromQuery: ({commit}, query) => {
+        if(query.location) {
+            let location = query.location.split(',');
+            commit('SET_SEARCH_CITY', {center: location});
+            commit('SET_CURRENT_POSITION', {
+                latitude: location[0],
+                longitude: location[1]
+            });
+        } else {
+            LocationService.getUserLocationData()
+                .then(coordinates => {
+                    let city = {center: [coordinates.lng, coordinates.lat]};
+                    commit('SET_SEARCH_CITY', city);
+                    commit('SET_CURRENT_POSITION', {
+                        latitude: coordinates.lat,
+                        longitude: coordinates.lng
+                    });
+                });
+        }
+        if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
+        if(query.page) commit('SET_PAGE', query.page);
+        return Promise.resolve();
+    },
     selectSearchCity: ({commit}, city) => {
         if (city !== null) {
             commit('SET_SEARCH_CITY', city);
@@ -46,6 +69,7 @@ export default {
     updateQueryFilters({state}) {
         let query = {
             category: state.placeCategory && state.placeCategory.id,
+            page: state.page,
             name: state.place && state.place.name,
             location:
                 state.city.longitude &&
@@ -66,6 +90,8 @@ export default {
             name: 'SearchPlacePage',
             query
         });
+
+        Promise.resolve();
     },
 
     setCurrentPosition: ({commit}, currentPosition) => {

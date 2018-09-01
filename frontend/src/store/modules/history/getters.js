@@ -12,12 +12,5 @@ export default {
         return state.places.byId[placeId];
     },
 
-    placeList: (state) => {
-        let placeArray = [];
-        for (let id of state.places.allIds) {
-            placeArray.push(state.places.byId[id]);
-        }
-
-        return placeArray;
-    }
+    placeList: (state) => _.map(state.places.allIds, (id) => state.places.byId[id])
 };
