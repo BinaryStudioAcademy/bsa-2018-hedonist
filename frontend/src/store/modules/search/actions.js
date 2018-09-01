@@ -23,6 +23,7 @@ export default {
                     });
                 });
         }
+        if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
         if(query.page) commit('SET_PAGE', query.page);
         return Promise.resolve();
     },

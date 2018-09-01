@@ -82,13 +82,12 @@ export default {
             .then(() => {
                 this.$store.dispatch('search/updateQueryFilters')
                     .then(() => {
-                        console.log(this.$route.query);
                         this.$store.dispatch('place/fetchPlaces', this.$route.query)
                             .then(() => {
                                 this.isPlacesLoaded = true;
                             });
                     });
-        });
+            });
     },
     methods: {
         ...mapActions('search', ['setCurrentPosition', 'mapInitialization', 'updateStateFromQuery']),
