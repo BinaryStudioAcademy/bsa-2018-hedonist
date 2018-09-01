@@ -10,6 +10,10 @@
                 },
                 zoom: 4.7
             }"
+            :fullscreen-control="{
+                show: true,
+                position: 'bottom-right'
+            }"
             @map-init="mapInitialize"
         />
     </section>
