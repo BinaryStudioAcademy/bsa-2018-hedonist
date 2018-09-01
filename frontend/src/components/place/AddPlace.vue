@@ -4,9 +4,16 @@
 
             <b-tabs v-model="activeTab" position="is-centered" class="block">
                 <b-tab-item label="General" :disabled="activeTab !== 0">
+                    <div v-if="$v.newPlace.$error" class="level">
+                        <div class="level-item">
+                            <h6 class="error title is-6">Please, fill in the highlighted fields.</h6>
+                        </div>
+                    </div>
+
                     <div class="field is-horizontal">
                         <div class="field-label is-medium">
-                            <label class="label">Name</label>
+                            <label v-if="!$v.newPlace.localization.en.name.$error" class="label">Name</label>
+                            <label v-else class="label error">Name</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -16,7 +23,14 @@
                                         class="input is-medium"
                                         type="text"
                                         placeholder="Place's name"
+                                        :status="$v.newPlace.localization.en.name.$error ? 'error' : null"
+                                        @input="$v.$reset()"
                                     >
+                                    <div v-if="$v.newPlace.localization.en.name.$error" class="level">
+                                        <div class="level-item">
+                                            <p v-if="!$v.newPlace.localization.en.name.minLength" class="error">Minimum 4 chars!</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -28,12 +42,13 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">City</label>
+                            <label v-if="!$v.newPlace.city.$error" class="label">City</label>
+                            <label v-else class="label error">City</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control is-expanded">
-                                    <SearchCity @select="newPlace.city = $event" />
+                                    <SearchCity @select="newPlace.city = $event" :status="$v.newPlace.city.$error ? 'error' : null" />
                                 </div>
                             </div>
                         </div>
@@ -41,7 +56,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Zip</label>
+                            <label v-if="!$v.newPlace.zip.$error" class="label">Zip</label>
+                            <label v-else class="label error">Zip</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -51,7 +67,14 @@
                                         class="input"
                                         type="text"
                                         placeholder="Place's postal code"
+                                        :status="$v.newPlace.zip.$error ? 'error' : null"
+                                        @input="$v.$reset()"
                                     >
+                                    <div v-if="$v.newPlace.zip.$error" class="level">
+                                        <div class="level-item">
+                                            <p v-if="!$v.newPlace.zip.numeric" class="error">Only digits!</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +82,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Address</label>
+                            <label v-if="!$v.newPlace.address.$error" class="label">Address</label>
+                            <label v-else class="label error">Address</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -69,6 +93,8 @@
                                         class="input"
                                         type="text"
                                         placeholder="Place's address"
+                                        :status="$v.newPlace.address.$error ? 'error' : null"
+                                        @input="$v.$reset()"
                                     >
                                 </div>
                             </div>
@@ -81,7 +107,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Phone</label>
+                            <label v-if="!$v.newPlace.phone.$error" class="label">Phone</label>
+                            <label v-else class="label error">Phone</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -91,8 +118,15 @@
                                         class="input"
                                         type="tel"
                                         placeholder="Place's phone"
-                                    >
+                                        :status="$v.newPlace.phone.$error ? 'error' : null"
+                                        @input="$v.$reset()"
+                                    />
                                 </p>
+                                <div v-if="$v.newPlace.phone.$error" class="level">
+                                    <div class="level-item">
+                                        <p v-if="!$v.newPlace.phone.numeric" class="error">Only digits!</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="field-label is-normal">
                                 <label class="label">Twitter</label>
@@ -179,19 +213,31 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Description</label>
+                            <label v-if="!$v.newPlace.localization.en.description.$error" class="label">Description</label>
+                            <label v-else class="label error">Description</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <textarea v-model="newPlace.localization.en.description" class="textarea" placeholder="Place's description.." />
+                                    <textarea
+                                            v-model="newPlace.localization.en.description"
+                                            class="textarea"
+                                            placeholder="Place's description.."
+                                            :status="$v.newPlace.localization.en.description.$error ? 'error' : null"
+                                            @input="$v.$reset()"
+                                    />
+                                    <div v-if="$v.newPlace.localization.en.description.$error" class="level">
+                                        <div class="level-item">
+                                            <p v-if="!$v.newPlace.localization.en.description.minLength" class="error">Minimum 20 chars!</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="onNextGeneral()" class="button is-success">Next</span>
                     </div>
                 </b-tab-item>
 
@@ -259,7 +305,7 @@
                         </div>
                     </div>
 
-                    <div class="buttons is-centered location-buttons">
+                    <div class="buttons is-centered">
                         <span @click="activeTab--" class="button is-warning">Previous</span>
                         <span @click="activeTab++" class="button is-success">Next</span>
                     </div>
@@ -488,6 +534,7 @@ import { mapState, mapGetters } from 'vuex';
 import moment from 'moment';
 import Mapbox from 'mapbox-gl-vue';
 import SearchCity from '../navbar/SearchCity';
+import { required, minLength, numeric } from 'vuelidate/lib/validators';
 import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
@@ -564,6 +611,21 @@ export default {
         };
     },
 
+    validations: {
+        newPlace: {
+            localization: {
+                en: {
+                    name: { required, minLength: minLength(4) },
+                    description: { required, minLength: minLength(20) }
+                }
+            },
+            city: { required },
+            zip: { required, numeric },
+            address: { required },
+            phone: { required, numeric }
+        }
+    },
+
     created() {
         this.$store.dispatch('category/fetchAllCategories');
         this.$store.dispatch('features/fetchAllFeatures');
@@ -581,7 +643,7 @@ export default {
             if (tagObject !== '' && !this.isTagAdded(tagObject)) {
                 this.newPlace.tags.push(tagObject);
             }
-        }
+        },
     },
 
     updated() {
@@ -691,6 +753,13 @@ export default {
             }
         },
 
+        onNextGeneral() {
+            this.$v.$touch();
+            if (!this.$v.$invalid) {
+                this.activeTab++;
+            }
+        },
+
         onAdd() {
             this.checkWorkTime();
             this.$store.dispatch('place/addNewPlace', {
@@ -756,8 +825,7 @@ export default {
         height: 100%;
     }
 
-    .location-buttons {
-        padding-top: 20px;
+    .error {
+        color: #E50000;
     }
-
 </style>
