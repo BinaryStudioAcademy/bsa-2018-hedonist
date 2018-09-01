@@ -42,16 +42,14 @@ export default {
             userLocation: {
                 center: []
             },
-            locationAvailable: true,
             searchPushed: false
         };
     },
     methods: {
         ...mapMutations('search', {
             setCity: 'SET_SEARCH_CITY',
-            setCurrentPosition: 'SET_CURRENT_POSITION',
         }),
-        ...mapActions('search', ['updateQueryFilters']),
+        ...mapActions('search', ['updateQueryFilters', 'setLocationAvailable', 'setCurrentPosition']),
         loadCities: _.debounce(function () {
             this.findCity.data = [];
             this.findCity.isFetching = true;
@@ -74,20 +72,16 @@ export default {
     created() {
         LocationService.getUserLocationData()
             .then(coordinates => {
-                this.locationAvailable = true;
+                this.setLocationAvailable(true);
                 this.userLocation.center[0] = coordinates.lng;
                 this.userLocation.center[1] = coordinates.lat;
-                if ((this.$router.currentRoute.name === 'SearchPlacePage') && !this.searchPushed) {
-                    this.searchPushed = true;
-                    this.updateQueryFilters();
-                }
             })
             .catch(error => {
-                this.locationAvailable = false;
+                this.setLocationAvailable(false);
             });
     },
     computed: {
-        ...mapState('search', ['currentPosition', 'location', 'page', 'city']),
+        ...mapState('search', ['currentPosition', 'location', 'page', 'city', 'locationAvailable']),
         locationEnabled() {
             return this.findCity.query === this.$t('search.current_location');
         }

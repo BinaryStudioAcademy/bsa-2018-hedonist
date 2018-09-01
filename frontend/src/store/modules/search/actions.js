@@ -5,15 +5,17 @@ import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     updateStateFromQuery: ({commit}, query) => {
+        if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
+        if(query.page) commit('SET_PAGE', query.page);
         if(query.location) {
             let location = query.location.split(',');
             commit('SET_SEARCH_CITY', {center: location});
             commit('SET_CURRENT_POSITION', {
-                latitude: location[0],
-                longitude: location[1]
+                latitude: location[1],
+                longitude: location[0]
             });
         } else {
-            LocationService.getUserLocationData()
+            return LocationService.getUserLocationData()
                 .then(coordinates => {
                     let city = {center: [coordinates.lng, coordinates.lat]};
                     commit('SET_SEARCH_CITY', city);
@@ -23,8 +25,6 @@ export default {
                     });
                 });
         }
-        if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
-        if(query.page) commit('SET_PAGE', query.page);
         return Promise.resolve();
     },
     selectSearchCity: ({commit}, city) => {
@@ -67,14 +67,15 @@ export default {
     },
 
     updateQueryFilters({state}) {
+        let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
+        if (state.city.longitude && state.city.latitude) {
+            location = state.city.longitude + ',' + state.city.latitude;
+        }
         let query = {
             category: state.placeCategory && state.placeCategory.id,
             page: state.page,
             name: state.place && state.place.name,
-            location:
-                state.city.longitude &&
-                state.city.latitude &&
-                (state.city.longitude + ',' + state.city.latitude),
+            location: location,
             ...state.filters
         };
         Object.keys(query).map((param) => { //convert bool to int, remove empty
@@ -96,6 +97,10 @@ export default {
 
     setCurrentPosition: ({commit}, currentPosition) => {
         commit('SET_CURRENT_POSITION', currentPosition);
+    },
+
+    setLocationAvailable: ({commit}, locationAvailable) => {
+        commit('SET_LOCATION_AVAILABLE', locationAvailable);
     },
 
     setFilters: ({commit, dispatch}, filters) => {

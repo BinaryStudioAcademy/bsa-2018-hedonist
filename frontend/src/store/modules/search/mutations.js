@@ -40,6 +40,10 @@ export default {
         state.currentPosition = currentPosition;
     },
 
+    SET_LOCATION_AVAILABLE: (state, locationAvailable) => {
+        state.locationAvailable = locationAvailable;
+    },
+
     SET_FILTERS: (state, filters) => {
         state.filters = {
             ...state.filters,

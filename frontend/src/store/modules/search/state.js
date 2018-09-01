@@ -21,6 +21,7 @@ export default {
         latitude: KIEV_LATITUDE,
         longitude: KIEV_LONGITUDE
     },
+    locationAvailable: false,
     mapInitialized : false,
     filters: {
         checkin: false,
