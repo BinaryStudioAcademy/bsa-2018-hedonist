@@ -1,77 +1,22 @@
 <template>
-    <div class="container user-cities">
-        <h3 class="subtitle is-4">{{ userProfile.first_name }} : favorite cities</h3>
-
-        <ul class="columns is-variable is-4 is-multiline user-cities-items">
-
-            <li class="column is-4">
-                <div 
-                    class="cities-cart"
-                    style="background-image: url('https://igx.4sqi.net/img/general/340x300/56255921_ND28KNkEc3SDMx4yT-RRrX7Yo5oGYWEaCkCItehGros.jpg');"
-                >
-                    <div>
-                        <p><span class="cities-cart-name">Odesa</span></p>
-                        <p><span class="cities-cart-reviews">42 reviews</span></p>
-                    </div>
-                    <div class="cities-cart-see">
-                        <a href="#" class="button is-info">
-                            <span>See all lists in this city</span>
-                        </a>
-                    </div>
-                </div>
-
-            </li>
-            <li class="column is-4">
-                <div 
-                    class="cities-cart"
-                    style="background-image: url('https://igx.4sqi.net/img/general/340x300/39381392_RNQBVEoRAFvuXjp7XeAIuNsAvUYo_mC68kffS-0OtLA.jpg');"
-                >
-                    <div>
-                        <p><span class="cities-cart-name">Odesa</span></p>
-                        <p><span class="cities-cart-reviews">42 reviews</span></p>
-                    </div>
-                    <div class="cities-cart-see">
-                        <a href="#" class="button is-info">
-                            <span>See all lists in this city</span>
-                        </a>
-                    </div>
-                </div>
-            </li>
-            <li class="column is-4">
-                <div 
-                    class="cities-cart"
-                    style="background-image: url('https://igx.4sqi.net/img/general/340x300/34706843_1A6_hykGqxpMqduFANofMzzPssLIuHvpYGwm2zY8QLY.jpg');"
-                >
-                    <div>
-                        <p><span class="cities-cart-name">Kiev</span></p>
-                        <p><span class="cities-cart-reviews">38 reviews</span></p>
-                    </div>
-                    <div class="cities-cart-see">
-                        <a href="#" class="button is-info">
-                            <span>See all lists in this city</span>
-                        </a>
-                    </div>
-                </div>
-            </li>
-            <li class="column is-4">
-                <div 
-                    class="cities-cart"
-                    style="background-image: url('https://igx.4sqi.net/img/general/340x300/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg');"
-                >
-                    <div>
-                        <p><span class="cities-cart-name">Kiev</span></p>
-                        <p><span class="cities-cart-reviews">38 reviews</span></p>
-                    </div>
-                    <div class="cities-cart-see">
-                        <a href="#" class="button is-info">
-                            <span>See all lists in this city</span>
-                        </a>
-                    </div>
-                </div>
-            </li>
-        </ul>
-
-    </div>
+    <li class="column is-4">
+        <div
+            class="cities-cart"
+            :style="{backgroundImage: 'url(' + userList.img_url + ')' }"
+        >
+            <div>
+                <router-link :to="`/my-places/${userList.id}`">
+                    <p><span class="cities-cart-name">{{ userList.name }}</span></p>
+                </router-link>
+                <p><span class="cities-cart-reviews">{{ userList.places | countPlaces }} saved places in list</span></p>
+            </div>
+            <div class="cities-cart-see">
+                <router-link :to="`/my-places/${userList.id}`" class="button is-info">
+                    <span>See this list</span>
+                </router-link>
+            </div>
+        </div>
+    </li>
 </template>
 
 <script>
@@ -81,10 +26,16 @@ export default {
     data() {
         return {};
     },
-    computed: {
-        ...mapGetters({
-            userProfile: 'users/getUserProfile'
-        })
+    props: {
+        userList: {
+            required: true,
+            type: Object,
+        },
+    },
+    filters: {
+        countPlaces: function (places) {
+            return places.length;
+        },
     },
 };
 </script>
@@ -100,7 +51,7 @@ export default {
             li {
 
                 .cities-cart {
-                    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.28);
+                    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.28);
                     display: flex;
                     flex-direction: column;
                     justify-content: space-between;
@@ -114,8 +65,8 @@ export default {
                     cursor: pointer;
                     transition: 0.3s linear;
 
-                    &:hover{
-                        box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.5);
+                    &:hover {
+                        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
                     }
 
                     &-name,
@@ -127,11 +78,11 @@ export default {
                     }
 
                     &-name {
-                        font-size: 26px;
+                        font-size: 22px;
                         margin-bottom: 5px;
                     }
                     &-reviews {
-                        font-size: 18px;
+                        font-size: 16px;
                     }
 
                     &-see {
