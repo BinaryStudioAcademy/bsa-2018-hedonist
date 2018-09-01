@@ -30,6 +30,12 @@ import _ from 'lodash';
 
 export default {
     name: 'SearchPlaceCategory',
+    props: {
+        selectCity: {
+            type: Object,
+            required: true
+        }
+    },
     data() {
         return {
             findItems: {
@@ -66,8 +72,8 @@ export default {
                     });
             } else {
                 let location = '';
-                if (this.city && this.city.longitude && this.city.latitude) {
-                    location = this.city.longitude + ',' + this.city.latitude;
+                if (!_.isEmpty(this.selectCity)) {
+                    location = this.selectCity.center[0] + ',' + this.selectCity.center[1];
                 }
                 this.loadPlaces({name: this.findItems.query, location: location})
                     .then( res => {
@@ -107,11 +113,6 @@ export default {
     },
     created() {
         this.init();
-    },
-    computed: {
-        ...mapGetters({
-            city: 'search/getSelectedCity'
-        }),
     }
 };
 </script>
