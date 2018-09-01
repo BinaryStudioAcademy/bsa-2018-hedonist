@@ -29,7 +29,7 @@
 import _ from 'lodash';
 import LocationService from '@/services/location/locationService';
 import mapSettingsService from '@/services/map/mapSettingsService';
-
+import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
     name: 'SearchCity',
     data() {
@@ -47,6 +47,11 @@ export default {
         };
     },
     methods: {
+        ...mapMutations('search', {
+            setCity: 'SET_SEARCH_CITY',
+            setCurrentPosition: 'SET_CURRENT_POSITION',
+        }),
+        ...mapActions('search', ['updateQueryFilters']),
         loadCities: _.debounce(function () {
             this.findCity.data = [];
             this.findCity.isFetching = true;
@@ -58,34 +63,48 @@ export default {
                     this.findCity.isFetching = false;
                 });
         }, 250),
+
         findByCurrentLocation() {
             this.findCity.query = this.$t('search.current_location');
             this.$emit('select', this.userLocation);
-            this.$router.push({
-                name: 'SearchPlacePage',
-                query: {
-                    location: this.userLocation.center[0] + ',' + this.userLocation.center[1],
-                    page: 1
-                }
-            });
-        }
+
+            const query = {};
+
+            if(!this.city.latitude || !this.city.longitude)
+                this.setCity(this.userLocation);
+
+            this.updateQueryFilters();
+
+//            query.location = this.userLocation.center[0] + ',' + this.userLocation.center[1];
+//            query.page = this.page || 1;
+//
+//            this.$router.push({
+//                name: 'SearchPlacePage',
+//                query: query
+//            });
+        },
     },
     created() {
-        LocationService.getUserLocationData()
-            .then(coordinates => {
-                this.locationAvailable = true;
-                this.userLocation.center[0] = coordinates.lng;
-                this.userLocation.center[1] = coordinates.lat;
-                if ((this.$router.currentRoute.name === 'SearchPlacePage') && !this.searchPushed) {
-                    this.searchPushed = true;
-                    this.findByCurrentLocation();
-                }
-            })
-            .catch(error => {
-                this.locationAvailable = false;
-            });
+//        console.log('this.location',this.location);
+//        console.log('this.$route.query.location',this.$route.query.location);
+//        if(!this.location) {
+            LocationService.getUserLocationData()
+                .then(coordinates => {
+                    this.locationAvailable = true;
+                    this.userLocation.center[0] = coordinates.lng;
+                    this.userLocation.center[1] = coordinates.lat;
+                    if ((this.$router.currentRoute.name === 'SearchPlacePage') && !this.searchPushed) {
+                        this.searchPushed = true;
+                        this.findByCurrentLocation();
+                    }
+                })
+                .catch(error => {
+                    this.locationAvailable = false;
+                });
+//        }
     },
     computed: {
+        ...mapState('search', ['currentPosition', 'location', 'page', 'city']),
         locationEnabled() {
             return this.findCity.query === this.$t('search.current_location');
         }

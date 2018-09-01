@@ -83,16 +83,20 @@ export default {
     },
 
     fetchPlaces: (context, filters) => {
-        let queryUrl = createSearchQueryUrl('/places/search', filters);
-        return new Promise((resolve, reject) => {
-            httpService.get(queryUrl)
-                .then(function (res) {
-                    context.commit('SET_PLACES', res.data.data);
-                    resolve(res);
-                }).catch(function (err) {
-                    reject(err);
-                });
-        });
+        if(filters.location){
+            let queryUrl = createSearchQueryUrl('/places/search', filters);
+            return new Promise((resolve, reject) => {
+                httpService.get(queryUrl)
+                    .then(function (res) {
+                        context.commit('SET_PLACES', res.data.data);
+                        resolve(res);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+            });
+        } else {
+            Promise.resolve();
+        }
     },
 
     getLikedPlace: (context, placeId) => {

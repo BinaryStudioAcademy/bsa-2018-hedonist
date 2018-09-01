@@ -36,6 +36,7 @@ export default {
     },
 
     SET_CURRENT_POSITION: (state, currentPosition) => {
+        state.location = true;
         state.currentPosition = currentPosition;
     },
 
@@ -44,6 +45,10 @@ export default {
             ...state.filters,
             ...filters
         };
+    },
+
+    SET_PAGE: (state, page) => {
+        state.page = page;
     },
 
     MAP_INIT: (state, value) => {
