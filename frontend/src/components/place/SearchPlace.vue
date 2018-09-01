@@ -78,14 +78,19 @@ export default {
         };
     },
     created() {
-        this.$store.dispatch('place/fetchPlaces', this.$route.query)
+        this.$store.dispatch('search/updateStateFromQuery', this.$route.query)
             .then(() => {
-                this.isPlacesLoaded = true;
+                this.$store.dispatch('search/updateQueryFilters')
+                    .then(() => {
+                        this.$store.dispatch('place/fetchPlaces', this.$route.query)
+                            .then(() => {
+                                this.isPlacesLoaded = true;
+                            });
+                    });
             });
-
     },
     methods: {
-        ...mapActions('search', ['setCurrentPosition', 'mapInitialization']),
+        ...mapActions('search', ['setCurrentPosition', 'mapInitialization', 'updateStateFromQuery']),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE',
         }),
@@ -96,13 +101,14 @@ export default {
             }
 
             this.map = map;
-            LocationService.getUserLocationData()
-                .then(coordinates => {
-                    this.setCurrentPosition({
-                        latitude: coordinates.lat,
-                        longitude: coordinates.lng
+            if(!this.$route.query.location)
+                LocationService.getUserLocationData()
+                    .then(coordinates => {
+                        this.setCurrentPosition({
+                            latitude: coordinates.lat,
+                            longitude: coordinates.lng
+                        });
                     });
-                });
             this.mapInitialization();
         },
         mapLoaded(map) {
