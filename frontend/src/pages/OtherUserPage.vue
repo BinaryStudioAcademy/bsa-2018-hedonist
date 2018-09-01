@@ -37,8 +37,7 @@ export default {
             'places'
         ]),
         filteredUserLists: function () {
-            let filtered = this.userLists ? this.userLists.byId : null;
-            return filtered;
+            return this.userLists ? this.userLists.byId : null;
         }
     },
     created() {
