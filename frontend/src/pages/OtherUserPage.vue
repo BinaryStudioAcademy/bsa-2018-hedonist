@@ -4,16 +4,7 @@
             :reviews-count="filterAllReviewUser.length"
         />
 
-        <div class="container user-cities">
-            <h3 class="subtitle is-4">{{ userProfile.first_name }}'s lists</h3>
-            <ul class="columns is-variable is-4 is-multiline user-cities-items">
-                <ListsContainer
-                    v-for="userList in filteredUserLists"
-                    :key="userList.id"
-                    :user-list="userList"
-                />
-            </ul>
-        </div>
+        <ListsContainer />
 
         <div class="container">
             <div class="user-reviews-container">
@@ -65,12 +56,6 @@ export default {
             userProfile: 'users/getUserProfile'
         }),
         ...mapGetters('place', ['getReviewsById' , 'getUserReviewsAll']),
-        ...mapState('userList', [
-            'userLists'
-        ]),
-        filteredUserLists: function () {
-            return this.userLists ? this.userLists.byId : null;
-        },
         filteredUsersPlaces: function () {
             return this.getReviewsById(parseInt(this.$route.params.id));
         },
@@ -78,19 +63,8 @@ export default {
             return this.getUserReviewsAll(parseInt(this.$route.params.id));
         },
     },
-    filters: {
-        countUserLists: function (lists) {
-            return lists.length;
-        },
-    },
     created() {
-        this.getUsersLists(this.$route.params.id);
         this.$store.dispatch('place/fetchPlaces', this.$route.query);
-    },
-    methods: {
-        ...mapActions({
-            getUsersLists: 'userList/getListsByUser',
-        }),
     },
 };
 </script>
