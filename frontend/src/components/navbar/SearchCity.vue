@@ -67,41 +67,24 @@ export default {
         findByCurrentLocation() {
             this.findCity.query = this.$t('search.current_location');
             this.$emit('select', this.userLocation);
-
-            const query = {};
-
-            if(!this.city.latitude || !this.city.longitude)
-                this.setCity(this.userLocation);
-
+            this.setCity(this.userLocation);
             this.updateQueryFilters();
-
-//            query.location = this.userLocation.center[0] + ',' + this.userLocation.center[1];
-//            query.page = this.page || 1;
-//
-//            this.$router.push({
-//                name: 'SearchPlacePage',
-//                query: query
-//            });
         },
     },
     created() {
-//        console.log('this.location',this.location);
-//        console.log('this.$route.query.location',this.$route.query.location);
-//        if(!this.location) {
-            LocationService.getUserLocationData()
-                .then(coordinates => {
-                    this.locationAvailable = true;
-                    this.userLocation.center[0] = coordinates.lng;
-                    this.userLocation.center[1] = coordinates.lat;
-                    if ((this.$router.currentRoute.name === 'SearchPlacePage') && !this.searchPushed) {
-                        this.searchPushed = true;
-                        this.findByCurrentLocation();
-                    }
-                })
-                .catch(error => {
-                    this.locationAvailable = false;
-                });
-//        }
+        LocationService.getUserLocationData()
+            .then(coordinates => {
+                this.locationAvailable = true;
+                this.userLocation.center[0] = coordinates.lng;
+                this.userLocation.center[1] = coordinates.lat;
+                if ((this.$router.currentRoute.name === 'SearchPlacePage') && !this.searchPushed) {
+                    this.searchPushed = true;
+                    this.updateQueryFilters();
+                }
+            })
+            .catch(error => {
+                this.locationAvailable = false;
+            });
     },
     computed: {
         ...mapState('search', ['currentPosition', 'location', 'page', 'city']),
