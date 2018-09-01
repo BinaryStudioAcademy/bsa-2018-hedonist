@@ -55,7 +55,7 @@
                     <ul class="level">
                         <li class="level-item has-text-centered">
                             <div>
-                                <p class="relation-count">20</p>
+                                <p class="relation-count">{{ this.reviewsCount }}</p>
                                 <p class="relation-title">Reviews</p>
                             </div>
                         </li>
@@ -103,6 +103,12 @@ export default {
     name: 'GeneralInfo',
     data() {
         return {};
+    },
+    props: {
+        reviewsCount: {
+            required: true,
+            type: Number,
+        },
     },
     created() {
         this.$store.dispatch('users/getUsersProfile', this.$route.params.id);

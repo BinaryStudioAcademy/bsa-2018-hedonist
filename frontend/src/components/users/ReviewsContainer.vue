@@ -1,335 +1,71 @@
 <template>
-    <div class="container">
-        <div class="user-reviews-container">
-            <div class="user-reviews-header">
-                <h3 class="subtitle is-4">users recent reviews</h3>
-                <div class="header-btn">
-                    <a class="button is-info">
-                        <span>See all 60 reviews</span>
+
+
+    <li class="column is-4">
+        <div class="user-reviews-item">
+
+            <div class="card-image">
+                <figure class="image is-3by1">
+                    <img
+                        :src="place.photos[0].img_url"
+                    >
+                </figure>
+                <div class="user-review-save">
+                    <a class="button ">
+                        <span class="icon">
+                            <i class="far fa-bookmark" />
+                        </span>
+                        <span>Save</span>
                     </a>
                 </div>
             </div>
+            <div class="user-review-content">
+                "{{ place.review.description }}"
+            </div>
+            <div class="user-review-tip">
+                <router-link :to="`/user/${place.review.user.id}`" class="user-tip-image">
 
+                    <img
+                        class="image is-32x32"
+                        :src="place.review.user.avatar_url"
 
-            <ul class="columns is-variable is-4 is-multiline user-reviews-items">
-                <li class="column is-4">
-                    <div class="user-reviews-item">
-
-                        <div class="card-image">
-                            <figure class="image is-3by1">
-                                <img 
-                                    src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
-                                    alt="Placeholder image"
-                                >
-                            </figure>
-                            <div class="user-review-save">
-                                <a class="button ">
-                                    <span class="icon">
-                                        <i class="far fa-bookmark" />
-                                    </span>
-                                    <span>Save</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="user-review-content">
-                            "Пиво есть интересное, но кухня плохая. Вредом приду сюда 2й раз"
-                        </div>
-                        <div class="user-review-tip">
-                            <a class="user-tip-image" href="/user/4">
-                                <img 
-                                    class="image is-32x32"
-                                    src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
-                                    alt=""
-                                >
-                            </a>
-                            <span class="user-tip-name">
-                                <a href="/user/4">
-                                    Alex Fiannaca
-                                </a>
-                            </span>
-                            <span class="user-tip-date">
-                                <a href="/user/4">
-                                    Декабрь 30, 2017
-                                </a>
-                            </span>
-                        </div>
-                        <div class="user-review-place">
-                            <div class="user-review-name">
-                                <a class="review-place-link" href="#">
-                                    Patio Pasterio
-                                </a>
-                                <span class="review-place-name">
-                                    Italian Restoraunt
-                                </span>
-                                <span class="review-place-city">
-                                    Odesa
-                                </span>
-                            </div>
-                            <div class="media">
-                                <div class="media-right rating-wrapper">
-                                    <PlaceRating
-                                        :value="Number(10)"
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                        alt=""
+                    >
+                </router-link>
+                <span class="user-tip-name">
+                    <a href="/user/4">
+                        Alex Fiannaca
+                    </a>
+                </span>
+                <span class="user-tip-date">
+                    <router-link :to="`/places/${place.review.id}`">
+                        {{ date }}
+                    </router-link>
+                </span>
+            </div>
+            <div class="user-review-place">
+                <div class="user-review-name">
+                    <router-link :to="`/places/${place.id}`" class="review-place-link">
+                        {{ place.localization[0].name }}
+                    </router-link>
+                    <span class="review-place-name">
+                        {{ place.category.name }}
+                    </span>
+                    <span class="review-place-city">
+                        {{ place.city.name }}
+                    </span>
+                </div>
+                <div class="media">
+                    <div class="media-right rating-wrapper">
+                        <PlaceRating
+                            :value="Number(place.rating)"
+                        />
                     </div>
-                </li>
-                <li class="column is-4">
-                    <div class="user-reviews-item">
-
-                        <div class="card-image">
-                            <figure class="image is-3by1">
-                                <img 
-                                    src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
-                                    alt="Placeholder image"
-                                >
-                            </figure>
-                            <div class="user-review-save">
-                                <a class="button ">
-                                    <span class="icon">
-                                        <i class="far fa-bookmark" />
-                                    </span>
-                                    <span>Save</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="user-review-content">
-                            "Ужас и позор! Горячий шоколад за 45грн это тупо шмурдяк из пакетика, разбавлен водой, а какао с маршмелоу это другой шмурдяк с одной огромной обветренной зефириной за 30грн! Никому не советую!!"
-                        </div>
-                        <div class="user-review-tip">
-                            <a class="user-tip-image" href="/user/4">
-                                <img 
-                                    class="image is-32x32"
-                                    src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
-                                    alt=""
-                                >
-                            </a>
-                            <span class="user-tip-name">
-                                <a href="/user/4">
-                                    Alex Fiannaca
-                                </a>
-                            </span>
-                            <span class="user-tip-date">
-                                <a href="/user/4">
-                                    Декабрь 30, 2017
-                                </a>
-                            </span>
-                        </div>
-                        <div class="user-review-place">
-                            <div class="user-review-name">
-                                <a class="review-place-link" href="#">
-                                    Patio Pasterio
-                                </a>
-                                <span class="review-place-name">
-                                    Italian Restoraunt
-                                </span>
-                                <span class="review-place-city">
-                                    Odesa
-                                </span>
-                            </div>
-                            <div class="media">
-                                <div class="media-right rating-wrapper">
-                                    <PlaceRating
-                                        :value="Number(3.2)"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="column is-4">
-                    <div class="user-reviews-item">
-
-                        <div class="card-image">
-                            <figure class="image is-3by1">
-                                <img 
-                                    src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
-                                    alt="Placeholder image"
-                                >
-                            </figure>
-                            <div class="user-review-save">
-                                <a class="button ">
-                                    <span class="icon">
-                                        <i class="far fa-bookmark" />
-                                    </span>
-                                    <span>Save</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="user-review-content">
-                            "Пиво есть интересное, но кухня плохая. Вредом приду сюда 2й раз"
-                        </div>
-                        <div class="user-review-tip">
-                            <a class="user-tip-image" href="/user/4">
-                                <img 
-                                    class="image is-32x32"
-                                    src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
-                                    alt=""
-                                >
-                            </a>
-                            <span class="user-tip-name">
-                                <a href="/user/4">
-                                    Alex Fiannaca
-                                </a>
-                            </span>
-                            <span class="user-tip-date">
-                                <a href="/user/4">
-                                    Декабрь 30, 2017
-                                </a>
-                            </span>
-                        </div>
-                        <div class="user-review-place">
-                            <div class="user-review-name">
-                                <a class="review-place-link" href="#">
-                                    Patio Pasterio
-                                </a>
-                                <span class="review-place-name">
-                                    Italian Restoraunt
-                                </span>
-                                <span class="review-place-city">
-                                    Odesa
-                                </span>
-                            </div>
-                            <div class="media">
-                                <div class="media-right rating-wrapper">
-                                    <PlaceRating
-                                        :value="Number(10)"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="column is-4">
-                    <div class="user-reviews-item">
-
-                        <div class="card-image">
-                            <figure class="image is-3by1">
-                                <img 
-                                    src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
-                                    alt="Placeholder image"
-                                >
-                            </figure>
-                            <div class="user-review-save">
-                                <a class="button ">
-                                    <span class="icon">
-                                        <i class="far fa-bookmark" />
-                                    </span>
-                                    <span>Save</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="user-review-content">
-                            "Пиво есть интересное, но кухня плохая. Вредом приду сюда 2й раз"
-                        </div>
-                        <div class="user-review-tip">
-                            <a class="user-tip-image" href="/user/4">
-                                <img 
-                                    class="image is-32x32"
-                                    src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
-                                    alt=""
-                                >
-                            </a>
-                            <span class="user-tip-name">
-                                <a href="/user/4">
-                                    Alex Fiannaca
-                                </a>
-                            </span>
-                            <span class="user-tip-date">
-                                <a href="/user/4">
-                                    Декабрь 30, 2017
-                                </a>
-                            </span>
-                        </div>
-                        <div class="user-review-place">
-                            <div class="user-review-name">
-                                <a class="review-place-link" href="#">
-                                    Patio Pasterio
-                                </a>
-                                <span class="review-place-name">
-                                    Italian Restoraunt
-                                </span>
-                                <span class="review-place-city">
-                                    Odesa
-                                </span>
-                            </div>
-                            <div class="media">
-                                <div class="media-right rating-wrapper">
-                                    <PlaceRating
-                                        :value="Number(10)"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="column is-4">
-                    <div class="user-reviews-item">
-
-                        <div class="card-image">
-                            <figure class="image is-3by1">
-                                <img 
-                                    src="https://igx.4sqi.net/img/general/340x170/139800814_QQO75Sr4LRtolXbmuOvmXPSz2HiFFmOTKeiMuJgumVs.jpg"
-                                    alt="Placeholder image"
-                                >
-                            </figure>
-                            <div class="user-review-save">
-                                <a class="button ">
-                                    <span class="icon">
-                                        <i class="far fa-bookmark" />
-                                    </span>
-                                    <span>Save</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="user-review-content">
-                            "Пиво есть интересное, но кухня плохая. Вредом приду сюда 2й раз"
-                        </div>
-                        <div class="user-review-tip">
-                            <a class="user-tip-image" href="/user/4">
-                                <img 
-                                    class="image is-32x32"
-                                    src="https://www.microsoft.com/en-us/research/uploads/prod/2018/02/ProfilePhoto.jpg"
-                                    alt=""
-                                >
-                            </a>
-                            <span class="user-tip-name">
-                                <a href="/user/4">
-                                    Alex Fiannaca
-                                </a>
-                            </span>
-                            <span class="user-tip-date">
-                                <a href="/user/4">
-                                    Декабрь 30, 2017
-                                </a>
-                            </span>
-                        </div>
-                        <div class="user-review-place">
-                            <div class="user-review-name">
-                                <a class="review-place-link" href="#">
-                                    Patio Pasterio
-                                </a>
-                                <span class="review-place-name">
-                                    Italian Restoraunt
-                                </span>
-                                <span class="review-place-city">
-                                    Odesa
-                                </span>
-                            </div>
-                            <div class="media">
-                                <div class="media-right rating-wrapper">
-                                    <PlaceRating
-                                        :value="Number(10)"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
-    </div>
+    </li>
+
 </template>
 
 <script>
@@ -341,26 +77,47 @@ export default {
     data() {
         return {};
     },
+    props: {
+        place: {
+            required: true,
+            type: Object,
+        },
+    },
+    computed: {
+        date() {
+            const date = new Date(this.place.review['created_at']);
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+            };
+            return date.toLocaleString('en-US', options);
+        }
+    },
     components: {
         PlaceRating,
     },
+
 };
 </script>
-
+<style lang="scss">
+    .user-reviews-container {
+        margin-top: 60px;
+    }
+    .user-reviews-header {
+        display: flex;
+        justify-content: space-between;
+        @media screen and (max-width: 768px) {
+            text-align: center;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+    }
+    </style>
 <style lang="scss" scoped>
 
     .user-reviews-container {
         margin-top: 60px;
-
-        .user-reviews-header {
-            display: flex;
-            justify-content: space-between;
-            @media screen and (max-width: 768px) {
-                text-align: center;
-                flex-direction: column;
-                margin-bottom: 20px;
-            }
-        }
 
         .header-btn {
             a {
@@ -380,7 +137,7 @@ export default {
 
     .user-reviews-item {
         background-color: #fff;
-        box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.28);
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.28);
         align-items: center;
 
         .card-image {
