@@ -4,6 +4,7 @@ namespace Hedonist\Actions\Presenters\Review;
 
 use Hedonist\Actions\Presenters\PresentsCollection;
 use Hedonist\Actions\Presenters\User\UserPresenter;
+use Hedonist\Actions\Review\GetReviewCollectionResponse;
 use Hedonist\Entities\Review\Review;
 
 class ReviewPresenter
@@ -27,5 +28,10 @@ class ReviewPresenter
             'likes' => $review->likes_count,
             'dislikes' => $review->dislikes_count,
         ];
+    }
+
+    public function presentReviews(GetReviewCollectionResponse $response): array
+    {
+        return $this->presentCollection($response->getReviewCollection());
     }
 }

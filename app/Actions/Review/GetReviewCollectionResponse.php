@@ -17,18 +17,18 @@ class GetReviewCollectionResponse
         $this->perPage = $perPage;
     }
 
-    public function getReviewCollection(): array
+    public function getReviewCollection(): Collection
     {
-        return $this->reviewCollection->toArray();
+        return $this->reviewCollection;
     }
 
     public function getPaginationMetaInfo(): array
     {
         return [
-          'pagination' => [
-              'perPage' => $this->perPage,
-              'total' => $this->totalCount
-          ]
+            'pagination' => [
+                'perPage' => $this->perPage,
+                'total' => $this->totalCount
+            ]
         ];
     }
 }

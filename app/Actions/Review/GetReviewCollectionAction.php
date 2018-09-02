@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Review;
 
-use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Repositories\Review\Criterias\DefaultSortCriteria;
 use Hedonist\Repositories\Review\Criterias\GetReviewsByTextCriteria;
 use Hedonist\Repositories\Review\Criterias\GetReviewsByPlaceCriteria;
@@ -16,12 +15,10 @@ class GetReviewCollectionAction
     private const DEFAULT_ORDER = 'desc';
 
     private $reviewRepository;
-    private $reviewPresenter;
 
-    public function __construct(ReviewRepositoryInterface $repository, ReviewPresenter $reviewPresenter)
+    public function __construct(ReviewRepositoryInterface $repository)
     {
         $this->reviewRepository = $repository;
-        $this->reviewPresenter = $reviewPresenter;
     }
 
     public function execute(GetReviewCollectionRequest $request): GetReviewCollectionResponse
@@ -49,15 +46,11 @@ class GetReviewCollectionAction
             $criterias[] = new DefaultSortCriteria;
         }
 
-        $reviews = $this->reviewRepository
-            ->findCollectionByCriterias(
-                new SortCriteria($sort, $order),
-                new ReviewPaginationCriteria($page),
-                ...$criterias
-            )
-            ->map(function ($review) {
-                return $this->reviewPresenter->present($review);
-            });
+        $reviews = $this->reviewRepository->findCollectionByCriterias(
+            new SortCriteria($sort, $order),
+            new ReviewPaginationCriteria($page),
+            ...$criterias
+        );
 
         return new GetReviewCollectionResponse($reviews, $totalCount, ReviewPaginationCriteria::LIMIT);
     }

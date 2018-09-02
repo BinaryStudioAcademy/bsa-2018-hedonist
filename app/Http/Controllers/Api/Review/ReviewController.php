@@ -2,6 +2,7 @@
 
 namespace Hedonist\Http\Controllers\Api\Review;
 
+use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Review\{
     GetReviewAction,
     UpdateReviewDescriptionAction,
@@ -44,6 +45,7 @@ class ReviewController extends ApiController
     private $getUsersWhoLikedReviewAction;
     private $getUsersWhoDislikedReviewAction;
     private $getReviewPhotoByPlaceAction;
+    private $reviewPresenter;
 
     public function __construct(
         GetReviewAction $getReviewAction,
@@ -54,7 +56,8 @@ class ReviewController extends ApiController
         GetReviewPhotoByReviewAction $getReviewPhotosByReviewAction,
         GetUsersWhoLikedReviewAction $getUsersWhoLikedReviewAction,
         GetUsersWhoDislikedReviewAction $getUsersWhoDislikedReviewAction,
-        GetReviewPhotoByPlaceAction $getReviewPhotoByPlaceAction
+        GetReviewPhotoByPlaceAction $getReviewPhotoByPlaceAction,
+        ReviewPresenter $reviewPresenter
     ) {
         $this->getReviewAction = $getReviewAction;
         $this->updateReviewAction = $updateReviewAction;
@@ -65,6 +68,7 @@ class ReviewController extends ApiController
         $this->getUsersWhoLikedReviewAction = $getUsersWhoLikedReviewAction;
         $this->getUsersWhoDislikedReviewAction = $getUsersWhoDislikedReviewAction;
         $this->getReviewPhotoByPlaceAction = $getReviewPhotoByPlaceAction;
+        $this->reviewPresenter = $reviewPresenter;
     }
 
     public function getReview(int $id)
@@ -93,7 +97,7 @@ class ReviewController extends ApiController
             );
 
             return $this->successResponseWithMeta(
-                $getReviewCollectionResponse->getReviewCollection(),
+                $this->reviewPresenter->presentReviews($getReviewCollectionResponse),
                 $getReviewCollectionResponse->getPaginationMetaInfo()
             );
         } catch (DomainException $e) {
