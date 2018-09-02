@@ -17,4 +17,10 @@ interface ReviewRepositoryInterface
     public function deleteById(int $id): void;
 
     public function findByCriteria(CriteriaInterface $criteria): Collection;
+
+    public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection;
+
+    public function setOrderBy(?string $column = 'id', ?string $direction = 'asc'): self;
+
+    public function getTotalCountByPlace(int $placeId): int;
 }
