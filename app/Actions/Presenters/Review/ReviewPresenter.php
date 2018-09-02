@@ -17,15 +17,15 @@ class ReviewPresenter
         $this->usersPresenter = $presenter;
     }
 
-    public function present(Review $review): array
+    public function presentCollection(Review $review): array
     {
         return [
             'id' => $review->id,
-            'created_at' => $review->created_at->format('Y-m-d'),
+            'created_at' => $review->created_at->format('Y-m-d H:i:s'),
             'description' => $review->description,
             'user' => $this->usersPresenter->present($review->user),
-            'likes' => $review->likes->count(),
-            'dislikes' => $review->dislikes->count(),
+            'likes' => $review->likes_count,
+            'dislikes' => $review->dislikes_count,
         ];
     }
 }

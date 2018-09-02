@@ -47,7 +47,7 @@ class GetReviewCollectionAction
             new ReviewPaginationCriteria($page),
             ...$criterias
         )->map(function ($review) {
-            return $this->reviewPresenter->present($review);
+            return $this->reviewPresenter->presentCollection($review);
         });
 
         $totalCount = $this->reviewRepository->getTotalCountByPlace($placeId);

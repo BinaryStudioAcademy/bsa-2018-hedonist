@@ -71,7 +71,7 @@ class GetUserListPresenter
         if (is_null($review)) {
             return null;
         }
-        $presented = $this->reviewPresenter->present($review);
+        $presented = $this->reviewPresenter->presentCollection($review);
         $presented['like'] = $review->getLikedStatus($user->id)->value();
 
         return $presented;
