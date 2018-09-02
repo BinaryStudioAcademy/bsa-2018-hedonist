@@ -35,7 +35,6 @@ export default {
     },
     created() {
         this.getUsersLists(this.$route.params.id);
-        this.$store.dispatch('place/fetchPlaces', this.$route.query);
     },
     methods: {
         ...mapActions({
