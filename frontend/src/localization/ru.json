@@ -63,7 +63,12 @@
     "email_exists": "Пользователь с таким email уже существует."
   },
   "search": {
-    "current_location": "Текущее местоположение"
+    "current_location": "Текущее местоположение",
+    "no_results": "Извините, результатов не найдено.",
+    "may_try": "Вы можете попробовать",
+    "removing_your_filters": "удалить ваши фильтры",
+    "search_in_different_location": "искать в другой локации",
+    "search_for_something_more_general": "искать что-то более общее"
   },
   "check-ins_page": {
     "no-check-ins": "Вы не зарегистрировались ни в каком месте. Посетите какое-то из них и сделайте \"чек-ин\" на его странице."
