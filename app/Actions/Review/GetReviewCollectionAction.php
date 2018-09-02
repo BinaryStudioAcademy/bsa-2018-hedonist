@@ -51,7 +51,7 @@ class GetReviewCollectionAction
                 ...$criterias
             )
             ->map(function ($review) {
-                return $this->reviewPresenter->presentCollection($review);
+                return $this->reviewPresenter->present($review);
             });
 
         return new GetReviewCollectionResponse($reviews, $totalCount, ReviewPaginationCriteria::LIMIT);

@@ -17,7 +17,7 @@ class ReviewPresenter
         $this->usersPresenter = $presenter;
     }
 
-    public function presentCollection(Review $review): array
+    public function present(Review $review): array
     {
         return [
             'id' => $review->id,
