@@ -4,6 +4,11 @@
             :access-token="mapboxToken"
             :map-options="{
                 style: mapboxStyle,
+                center: {
+                    lat: 48.26,
+                    lng: 31.31
+                },
+                zoom: 4.7
             }"
             :fullscreen-control="{
                 show: true,
@@ -50,30 +55,22 @@ export default {
 
         ...mapState('history', [
             'places',
-            'currentLatitude',
-            'currentLongitude',
             'mapInitialized',
         ]),
     },
 
     created() {
-        this.$store.dispatch('history/setLoadingState', true);
-        this.loadUserCoords().then((coords) => {
-            this.setCurrentMapCenter(coords);
-        });
+        if (this.placeList.length < 1) {
+            this.setLoadingState(true);
+        }
 
         this.loadCheckInPlaces()
             .then(() => {
                 this.isPlacesLoaded = true;
-                this.setCurrentMapCenter(
-                    mapSettingsService.getMapboxCenter(
-                        this.places.byId,
-                        this.places.allIds
-                    )
-                );
+                this.setLoadingState(false);
             })
             .catch((err) => {
-                this.isPlacesLoaded = false;
+                this.setLoadingState(false);
             });
     },
 
@@ -90,7 +87,6 @@ export default {
     methods: {
         ...mapActions('history', [
             'loadCheckInPlaces',
-            'setCurrentMapCenter',
             'mapInitialization',
             'setLoadingState'
         ]),
@@ -101,24 +97,10 @@ export default {
         },
 
         updateMap(places) {
-            if (this.isMapLoaded && this.isPlacesLoaded) {
+            if (this.isMapLoaded && places.length > 1) {
                 this.markerManager.setMarkersFromPlacesAndFit(...places);
             }
         },
-
-        loadUserCoords() {
-            return new Promise((resolve, reject) => {
-                LocationService.getUserLocationData()
-                    .then(coordinates => {
-                        this.userCoordinates.lat = coordinates.lat;
-                        this.userCoordinates.lng = coordinates.lng;
-                        resolve({
-                            latitude: coordinates.lat,
-                            longitude: coordinates.lng
-                        });
-                    });
-            });
-        }
     }
 };
 </script>

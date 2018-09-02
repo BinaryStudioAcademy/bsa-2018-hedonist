@@ -2,16 +2,23 @@
     <div class="places">
         <div
             v-click-outside="hideSearchList"
-            :class="['search-places control', searchInputLoadingClass]"
+            class="search-places"
         >
-            <input
-                placeholder="Search places"
-                type="text"
-                v-model.trim="searchName"
-                @focus="searchPlaces()"
-                class="search-field input"
-                @input="searchPlaces()"
-            >
+            <div class="search-inputs">
+                <div :class="['search-inputs__name', 'control', searchInputLoadingClass]">
+                    <input
+                        placeholder="Search places"
+                        type="text"
+                        v-model.trim="searchName"
+                        @focus="searchPlaces()"
+                        class="search-field input"
+                        @input="searchPlaces()"
+                    >
+                </div>
+                <div class="search-inputs__location">
+                    <SearchCity @select="selectCity" />
+                </div>
+            </div>
             <div class="search-places__list" v-show="displayList && !isPlaceFetching">
                 <ul v-if="places.length > 0">
                     <li
@@ -85,23 +92,38 @@
 
 <script>
 import { mapActions } from 'vuex';
+import SearchCity from '@/components/navbar/SearchCity';
+import LocationService from '@/services/location/locationService';
+import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     name: 'SearchPlaces',
+    components: {
+        SearchCity
+    },
     props: {
         attachedPlaces: {
             type: Array,
             required: true
-        }
+        },
     },
     data: function() {
         return {
             searchName: '',
             displayList: false,
-            placesLocation: '30.5241,50.4501',
+            location: {
+                lat: 50.4547,
+                lng: 30.5238
+            },
             places: [],
             isPlaceFetching: false,
         };
+    },
+    created() {
+        LocationService.getUserLocationData()
+            .then(({lng, lat}) => {
+                this.location = {lng, lat};
+            });
     },
     computed: {
         searchInputLoadingClass() {
@@ -119,7 +141,7 @@ export default {
             _.debounce(() => {
                 this.isPlaceFetching = true;
                 this.fetchPlaces({
-                    location: this.placesLocation,
+                    location: `${this.location.lng},${this.location.lat}`,
                     searchName: this.searchName
                 }).then((res) => {
                     this.displayList = true;
@@ -161,9 +183,26 @@ export default {
         getPlacePhotoDescription(place) {
             return place.photos[0]['description'];
         },
+        selectCity(city) {
+            if (city && city.center) {
+                this.location = {
+                    lng: city.center[0],
+                    lat: city.center[1]
+                };
+                this.searchPlaces();
+            }
+        }
     }
 };
 </script>
+
+<style lang="scss">
+    .search-inputs__location {
+        p.control {
+            display: none;
+        }
+    }
+</style>
 
 <style lang="scss" scoped>
     .place-rating {
@@ -185,11 +224,6 @@ export default {
         }
     }
 
-    .control.is-loading::after {
-        right: 1.625em;
-        top: 30px;
-    }
-
     .place-image {
         border-radius: 5px;
         width: 100%;
@@ -208,22 +242,20 @@ export default {
             background: #f0f4f5;
             border-bottom: 1px solid #dae4e6;
             border-top: 1px solid #dae4e6;
-            padding: 20px;
+            padding: 10px;
 
-            .search-field {
-                padding: 10px;
-                width: 100%;
-                font-size: 1.1rem;
-                transition-duration: .33s;
-                transition-property: background, border, color, opacity, box-shadow;
-                border-radius: 3px;
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
-                color: #000;
-                letter-spacing: 0;
-                background: #fff;
-                border: 1px solid #c7cdcf;
-                outline: none;
+            .search-inputs {
+                display: flex;
+
+                &__name {
+                    position: relative;
+                    width: 80%
+                }
+
+                &__location {
+                    position: relative;
+                    width: 20%;
+                }
             }
 
             &__none {
@@ -248,10 +280,10 @@ export default {
             &__list {
                 z-index: 1;
                 position: absolute;
-                width: calc(100% - 40px);
+                width: calc(100% - 20px);
                 max-height: 200px;
                 overflow-y: auto;
-                top: 64px;
+                top: 47px;
                 background: #fff;
                 border: 1px solid #3990bb;
                 border-top: none !important;
