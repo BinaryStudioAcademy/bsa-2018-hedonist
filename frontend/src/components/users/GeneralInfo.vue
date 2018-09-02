@@ -21,7 +21,8 @@
                     <div class="user-stats-title">
                         <h1 class="subtitle is-3">{{ userProfile.first_name + ' ' + userProfile.last_name }}</h1>
                         <div class="user-social">
-                            <a 
+                            <a
+                                v-if="userProfile.facebook_url"
                                 v-show="userProfile.facebook_url" 
                                 :href="userProfile.facebook_url" 
                                 class="facebbok-link"
@@ -29,13 +30,23 @@
                             >
                                 <i class="fa-2x fab fa-facebook-square" />
                             </a>
-                            <a 
+                            <a
+                                v-if="userProfile.twitter_url"
                                 v-show="userProfile.twitter_url" 
                                 :href="userProfile.twitter_url" 
                                 class="twitter-link"
                                 target="_blank"
                             >
                                 <i class="fa-2x fab fa-twitter-square" />
+                            </a>
+                            <a
+                                v-if="userProfile.instagram_url"
+                                v-show="userProfile.instagram_url"
+                                :href="userProfile.instagram_url"
+                                class="instagram-link"
+                                target="_blank"
+                            >
+                                <i class="fa-2x fab fa-instagram" />
                             </a>
                         </div>
                     </div>
@@ -186,6 +197,11 @@ export default {
 
                 .twitter-link {
                     color: #1CB6EA;
+                    margin-right: 7px;
+                }
+
+                instagram-link{
+                    color: #c557d5;
                 }
             }
 

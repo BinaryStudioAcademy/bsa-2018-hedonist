@@ -6,5 +6,6 @@ export default {
         avatar_url: '',
         facebook_url: '',
         twitter_url: '',
+        instagram_url: '',
     }
 };
