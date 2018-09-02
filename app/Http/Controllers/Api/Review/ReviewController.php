@@ -78,7 +78,6 @@ class ReviewController extends ApiController
     public function getReviewCollection(ReviewSearchRequest $request): JsonResponse
     {
         try {
-
             $getReviewCollectionResponse = $this->getReviewCollectionAction->execute(
                 new GetReviewCollectionRequest(
                     $request->input('page'),
@@ -93,11 +92,9 @@ class ReviewController extends ApiController
                 $getReviewCollectionResponse->getReviewCollection(),
                 $getReviewCollectionResponse->getPaginationMetaInfo()
             );
-
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage());
         }
-
     }
 
     public function createReview(SaveReviewRequest $request)
