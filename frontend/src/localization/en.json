@@ -64,5 +64,11 @@
   },
   "search": {
     "current_location": "Current position"
+  },
+  "check-ins_page": {
+    "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page."
+  },
+  "my-lists_page": {
+    "no-lists": "You have not got any place lists yet. You may add some and grouped your chosen places."
   }
 }
