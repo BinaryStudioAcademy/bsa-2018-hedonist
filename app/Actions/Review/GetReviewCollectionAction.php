@@ -33,7 +33,10 @@ class GetReviewCollectionAction
         $criterias = [];
 
         if (!is_null($placeId)) {
+            $totalCount = $this->reviewRepository->getTotalCountByPlace($placeId);
             $criterias[] = new GetReviewsByPlaceCriteria($placeId);
+        } else {
+            $totalCount = $this->reviewRepository->getTotalCount();
         }
 
         if (!is_null($text)) {
@@ -44,13 +47,12 @@ class GetReviewCollectionAction
             ->setOrderBy($sort, $order)
             ->setOrderBy($defaultSort, $defaultOrder) //reviews needs multiply sort
             ->findCollectionByCriterias(
-            new ReviewPaginationCriteria($page),
-            ...$criterias
-        )->map(function ($review) {
-            return $this->reviewPresenter->presentCollection($review);
-        });
-
-        $totalCount = $this->reviewRepository->getTotalCountByPlace($placeId);
+                new ReviewPaginationCriteria($page),
+                ...$criterias
+            )->map(function ($review) {
+                    return $this->reviewPresenter->presentCollection($review);
+                }
+            );
 
         return new GetReviewCollectionResponse($reviews, $totalCount, ReviewPaginationCriteria::LIMIT);
     }
