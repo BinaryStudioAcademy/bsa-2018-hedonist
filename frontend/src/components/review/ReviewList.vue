@@ -59,7 +59,6 @@
                     <infinite-loading @infinite="loadNextReviewsPage">
                         <span slot="no-more" />
                         <span slot="no-results" />
-                    </span>
                     </infinite-loading>
                 </div>
             </div>
@@ -89,9 +88,9 @@ export default {
 
     data() {
         return {
-            sort: "recent",
+            sort: 'recent',
             visibleReviewsIds: [],
-            search: "",
+            search: '',
             page: 1
         };
     },
@@ -114,9 +113,10 @@ export default {
 
     methods: {
         ...mapActions('review', ['loadReviewsWithParams']),
+
         searchReview: _.debounce(function () {
             this.initialLoad();
-            }, 250),
+        }, 250),
 
         loadNextReviewsPage($state) {
             _.debounce(() => {

@@ -219,14 +219,16 @@ export default {
     loadReviewsWithParams: (context, params) => {
         const order = 'desc';
         let sort = 'created_at';
+
         switch(params.sort) {
-            case 'recent':
-                sort = 'created_at';
-                break;
-            case 'popular':
-                sort =  'likes_count';
-                break;
+        case 'recent':
+            sort = 'created_at';
+            break;
+        case 'popular':
+            sort =  'likes_count';
+            break;
         }
+
         let queryUrl = httpService.makeQueryUrl(
             '/reviews',
             {

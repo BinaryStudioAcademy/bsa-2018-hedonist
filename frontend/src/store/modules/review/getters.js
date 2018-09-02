@@ -30,7 +30,7 @@ export default {
                     sortComparator(
                         new Date(reviews.byId[b].created_at),
                         new Date(reviews.byId[a].created_at)
-                    )
+                    );
                 }
             })
             .slice(0, state.reviews.reviewsPerPage);
@@ -43,7 +43,7 @@ export default {
             return {
                 ...review,
                 user: state.users.byId[review.user_id]
-            }
+            };
         });
     },
 
