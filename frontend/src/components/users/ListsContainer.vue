@@ -44,6 +44,14 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+.user-cities{
+    margin-top: 30px;
+    h3{
+        @media screen and (max-width: 768px) {
+            text-align: center;
+        }
 
+    }
+}
 </style>
