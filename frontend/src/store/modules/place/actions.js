@@ -32,8 +32,8 @@ export default {
             data.append('worktime', JSON.stringify(payload.place.worktime));
 
             httpService.post('/places', data)
-                .then(() => {
-                    resolve();
+                .then((result) => {
+                    resolve(result.data.data);
                 })
                 .catch((error) => {
                     reject(error);

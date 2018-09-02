@@ -36,13 +36,13 @@ class AddPlaceRequest
         int $zip,
         string $address,
         string $phone,
-        string $website,
-        string $facebook,
-        string $instagram,
-        string $twitter,
-        string $menu_url,
+        ?string $website,
+        ?string $facebook,
+        ?string $instagram,
+        ?string $twitter,
+        ?string $menu_url,
         int $work_weekend,
-        ?array $photos,
+        array $photos,
         String $worktime
     ) {
         $this->creatorId = $creatorId;
@@ -126,27 +126,27 @@ class AddPlaceRequest
         return $this->phone;
     }
 
-    public function getWebsite(): string
+    public function getWebsite(): ?string
     {
         return $this->website;
     }
 
-    public function getFacebook(): string
+    public function getFacebook(): ?string
     {
         return $this->facebook;
     }
 
-    public function getInstagram(): string
+    public function getInstagram(): ?string
     {
         return $this->instagram;
     }
 
-    public function getTwitter(): string
+    public function getTwitter(): ?string
     {
         return $this->twitter;
     }
 
-    public function getMenuUrl(): string
+    public function getMenuUrl(): ?string
     {
         return $this->menu_url;
     }

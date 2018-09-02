@@ -4,12 +4,6 @@
 
             <b-tabs v-model="activeTab" position="is-centered" class="block">
                 <b-tab-item label="General" :disabled="activeTab !== 0">
-                    <div v-if="$v.newPlace.$error" class="level">
-                        <div class="level-item">
-                            <h6 class="error title is-6">Please, fill in the highlighted fields.</h6>
-                        </div>
-                    </div>
-
                     <div class="field is-horizontal">
                         <div class="field-label is-medium">
                             <label v-if="!$v.newPlace.localization.en.name.$error" class="label">Name</label>
@@ -177,7 +171,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Website</label>
+                            <label v-if="!$v.newPlace.website.$error" class="label">Website</label>
+                            <label v-else class="label error">Website</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -187,7 +182,13 @@
                                         class="input"
                                         type="text"
                                         placeholder="Place's website"
+                                        @input="$v.$reset()"
                                     >
+                                </div>
+                                <div v-if="$v.newPlace.website.$error" class="level">
+                                    <div class="level-item">
+                                        <p v-if="!$v.newPlace.website.url" class="error">NOT url!</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -279,7 +280,7 @@
 
                     <div class="buttons is-centered">
                         <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="onNextCheck(newPlace.photos)" class="button is-success">Next</span>
                     </div>
                 </b-tab-item>
 
@@ -371,7 +372,7 @@
 
                     <div class="buttons is-centered">
                         <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="onNextCheck(newPlace.tags)" class="button is-success">Next</span>
                     </div>
                 </b-tab-item>
 
@@ -396,7 +397,7 @@
 
                     <div class="buttons is-centered">
                         <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="onNextCheck(newPlace.features)" class="button is-success">Next</span>
                     </div>
                 </b-tab-item>
 
@@ -534,7 +535,7 @@ import { mapState, mapGetters } from 'vuex';
 import moment from 'moment';
 import Mapbox from 'mapbox-gl-vue';
 import SearchCity from '../navbar/SearchCity';
-import { required, minLength, numeric } from 'vuelidate/lib/validators';
+import { required, minLength, numeric, url } from 'vuelidate/lib/validators';
 import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
@@ -622,7 +623,8 @@ export default {
             city: { required },
             zip: { required, numeric },
             address: { required },
-            phone: { required, numeric }
+            phone: { required, numeric },
+            website: { required, url }
         }
     },
 
@@ -755,7 +757,23 @@ export default {
 
         onNextGeneral() {
             this.$v.$touch();
-            if (!this.$v.$invalid) {
+            if (this.$v.$invalid) {
+                this.$toast.open({
+                    type: 'is-danger',
+                    message: 'Please, fill in the highlighted fields.'
+                });
+            } else {
+                this.activeTab++;
+            }
+        },
+
+        onNextCheck(array) {
+            if (!array.length) {
+                this.$toast.open({
+                    type: 'is-danger',
+                    message: 'Please, add data.'
+                });
+            } else {
                 this.activeTab++;
             }
         },
@@ -765,16 +783,16 @@ export default {
             this.$store.dispatch('place/addNewPlace', {
                 user: this.user,
                 place: this.newPlace
-            }).then(() => {
+            }).then((result) => {
                 this.$toast.open({
                     type: 'is-success',
                     message: 'Place added!'
                 });
-
-            }).catch(() => {
+                this.$router.push(`/places/${result.id}`);
+            }).catch((error) => {
                 this.$toast.open({
                     type: 'is-danger',
-                    message: 'Error!'
+                    message: error.message
                 });
             });
         }
@@ -829,3 +847,5 @@ export default {
         color: #E50000;
     }
 </style>
+
+
