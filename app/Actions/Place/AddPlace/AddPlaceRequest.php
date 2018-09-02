@@ -42,7 +42,7 @@ class AddPlaceRequest
         ?string $twitter,
         ?string $menu_url,
         int $work_weekend,
-        array $photos,
+        ?array $photos,
         String $worktime
     ) {
         $this->creatorId = $creatorId;

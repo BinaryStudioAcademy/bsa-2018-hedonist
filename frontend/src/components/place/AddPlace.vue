@@ -114,13 +114,8 @@
                                         placeholder="Place's phone"
                                         :status="$v.newPlace.phone.$error ? 'error' : null"
                                         @input="$v.$reset()"
-                                    />
+                                    >
                                 </p>
-                                <div v-if="$v.newPlace.phone.$error" class="level">
-                                    <div class="level-item">
-                                        <p v-if="!$v.newPlace.phone.numeric" class="error">Only digits!</p>
-                                    </div>
-                                </div>
                             </div>
                             <div class="field-label is-normal">
                                 <label class="label">Twitter</label>
@@ -221,11 +216,11 @@
                             <div class="field">
                                 <div class="control">
                                     <textarea
-                                            v-model="newPlace.localization.en.description"
-                                            class="textarea"
-                                            placeholder="Place's description.."
-                                            :status="$v.newPlace.localization.en.description.$error ? 'error' : null"
-                                            @input="$v.$reset()"
+                                        v-model="newPlace.localization.en.description"
+                                        class="textarea"
+                                        placeholder="Place's description.."
+                                        :status="$v.newPlace.localization.en.description.$error ? 'error' : null"
+                                        @input="$v.$reset()"
                                     />
                                     <div v-if="$v.newPlace.localization.en.description.$error" class="level">
                                         <div class="level-item">
@@ -623,7 +618,7 @@ export default {
             city: { required },
             zip: { required, numeric },
             address: { required },
-            phone: { required, numeric },
+            phone: { required },
             website: { required, url }
         }
     },

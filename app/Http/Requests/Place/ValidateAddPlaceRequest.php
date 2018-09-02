@@ -31,7 +31,7 @@ class ValidateAddPlaceRequest extends JsonRequest
             'zip'          => 'required|numeric',
             'address'      => 'required|max:255',
             'localization' => 'required|string',
-            'photos'       => 'required|array',
+            'photos'       => 'array',
             'phone'        => [new Phone()],
             'website'      => 'required|max:255',
             'facebook'     => 'max:255',
