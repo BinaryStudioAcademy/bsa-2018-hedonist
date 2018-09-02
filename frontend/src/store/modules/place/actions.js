@@ -76,11 +76,29 @@ export default {
     },
 
     fetchPlaces: (context, filters) => {
+        if(filters.location){
+            let queryUrl = createSearchQueryUrl('/places/search', filters);
+            return new Promise((resolve, reject) => {
+                httpService.get(queryUrl)
+                    .then(function (res) {
+                        context.commit('SET_PLACES', res.data.data);
+                        resolve(res);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+            });
+        } else {
+            Promise.resolve();
+        }
+    },
+
+    loadMorePlaces: (context, {filters = {}, page}) => {
+        filters.page = page;
         let queryUrl = createSearchQueryUrl('/places/search', filters);
         return new Promise((resolve, reject) => {
             httpService.get(queryUrl)
                 .then(function (res) {
-                    context.commit('SET_PLACES', res.data.data);
+                    context.commit('LOAD_MORE_PLACES', res.data.data);
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);
@@ -122,6 +140,14 @@ export default {
             .catch((err) => {
                 return Promise.reject(err);
             });
+    },
+
+    addTasteToPlace: (context, data) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/place/add-taste', data)
+                .then(function (res) { resolve(res); })
+                .catch(function (err) { reject(err); });
+        });
     }
 };
 
@@ -134,12 +160,12 @@ const createSearchQueryUrl = (url, filters) => {
     }
     let params = {
         'filter[category]': filters.category,
+        'filter[name]': filters.name,
         'filter[location]': filters.location,
         'filter[top_rated]': filters.top_rated,
         'filter[top_reviewed]': filters.top_reviewed,
         'filter[checkin]': filters.checkin,
         'filter[saved]': filters.saved,
-        'filter[name]': filters.searchName,
         'filter[polygon]': polygon,
         'page': filters.page
     };

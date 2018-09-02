@@ -11,7 +11,8 @@ use Hedonist\Actions\Review\{
     GetUsersWhoLikedReviewAction,
     GetUsersWhoDislikedReviewAction
 };
-use Hedonist\Actions\Review\{
+use Hedonist\Actions\Review\{GetReviewPhotoByPlaceAction,
+    GetReviewPhotoByPlaceRequest,
     GetReviewPhotoByReviewAction,
     GetReviewPhotoByReviewRequest,
     GetReviewRequest,
@@ -42,6 +43,7 @@ class ReviewController extends ApiController
     private $getReviewPhotosByReviewAction;
     private $getUsersWhoLikedReviewAction;
     private $getUsersWhoDislikedReviewAction;
+    private $getReviewPhotoByPlaceAction;
 
     public function __construct(
         GetReviewAction $getReviewAction,
@@ -51,7 +53,8 @@ class ReviewController extends ApiController
         GetReviewCollectionAction $getReviewCollectionAction,
         GetReviewPhotoByReviewAction $getReviewPhotosByReviewAction,
         GetUsersWhoLikedReviewAction $getUsersWhoLikedReviewAction,
-        GetUsersWhoDislikedReviewAction $getUsersWhoDislikedReviewAction
+        GetUsersWhoDislikedReviewAction $getUsersWhoDislikedReviewAction,
+        GetReviewPhotoByPlaceAction $getReviewPhotoByPlaceAction
     ) {
         $this->getReviewAction = $getReviewAction;
         $this->updateReviewAction = $updateReviewAction;
@@ -61,6 +64,7 @@ class ReviewController extends ApiController
         $this->getReviewPhotosByReviewAction = $getReviewPhotosByReviewAction;
         $this->getUsersWhoLikedReviewAction = $getUsersWhoLikedReviewAction;
         $this->getUsersWhoDislikedReviewAction = $getUsersWhoDislikedReviewAction;
+        $this->getReviewPhotoByPlaceAction = $getReviewPhotoByPlaceAction;
     }
 
     public function getReview(int $id)
@@ -145,7 +149,7 @@ class ReviewController extends ApiController
                 new GetReviewPhotoByReviewRequest($reviewId)
             );
             return $this->successResponse($reviewPhotosByReviewResponse->toArray(), 200);
-        } catch (\Exception $exception) {
+        } catch (DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
     }
@@ -162,7 +166,7 @@ class ReviewController extends ApiController
                 $presented[] = $presenter->present($user);
             }
             return $this->successResponse($presented, 200);
-        } catch (\Exception $exception) {
+        } catch (DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
     }
@@ -179,7 +183,20 @@ class ReviewController extends ApiController
                 $presented[] = $presenter->present($user);
             }
             return $this->successResponse($presented, 200);
-        } catch (\Exception $exception) {
+        } catch (DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
+        }
+    }
+
+    public function getReviewPhotosByPlaceId(int $placeId)
+    {
+        try {
+            $reviewPhotosByReviewResponse = $this->getReviewPhotoByPlaceAction->execute(
+                new GetReviewPhotoByPlaceRequest($placeId)
+            );
+
+            return $this->successResponse($reviewPhotosByReviewResponse->toArray(), 200);
+        } catch (DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
     }

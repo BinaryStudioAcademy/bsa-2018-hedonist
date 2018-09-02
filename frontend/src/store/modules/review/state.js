@@ -10,5 +10,6 @@ export default {
     reviewsPerPage: 10,
     usersWhoLikedReview: [],
     usersWhoDislikedReview: [],
-    isUsersModalLoading: false
+    isUsersModalLoading: false,
+    placeReviewPhotos: []
 };

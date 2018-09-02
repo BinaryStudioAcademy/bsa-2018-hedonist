@@ -7,8 +7,6 @@ export default {
         byId: {},
         allIds: []
     },
-    currentLatitude: null,
-    currentLongitude : null,
     mapInitialized : false,
     isLoading : true
 };
