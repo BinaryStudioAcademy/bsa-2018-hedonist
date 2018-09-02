@@ -26,9 +26,9 @@ class AddPlaceRequest
 
     public function __construct(
         int $creatorId,
-        String $localization,
+        string $localization,
         int $categoryId,
-        String $city,
+        string $city,
         float $longitude,
         float $latitude,
         int $zip,
@@ -40,7 +40,7 @@ class AddPlaceRequest
         string $twitter,
         string $menu_url,
         int $work_weekend,
-        String $worktime,
+        string $worktime,
         ?array $tags,
         ?array $features,
         ?array $photos
