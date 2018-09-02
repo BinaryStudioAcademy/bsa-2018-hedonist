@@ -15,6 +15,9 @@ class ReviewRelationScope implements Scope
             'dislikes',
             'user',
             'user.info'
+        ])->withCount([
+            'likes',
+            'dislikes',
         ]);
     }
 }
