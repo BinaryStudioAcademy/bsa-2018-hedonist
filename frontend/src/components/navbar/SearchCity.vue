@@ -39,8 +39,9 @@ export default {
                 query: '',
                 isFetching: false
             },
-            userLocation: {
-                center: []
+            selectedCity: {
+                center: [],
+                name: ''
             },
             searchPushed: false
         };
@@ -64,8 +65,8 @@ export default {
 
         findByCurrentLocation() {
             this.findCity.query = this.$t('search.current_location');
-            this.$emit('select', this.userLocation);
-            this.setCity(this.userLocation);
+            this.$emit('select', this.selectedCity);
+            this.setCity(this.selectedCity);
             this.updateQueryFilters();
         },
     },
@@ -73,8 +74,9 @@ export default {
         LocationService.getUserLocationData()
             .then(coordinates => {
                 this.setLocationAvailable(true);
-                this.userLocation.center[0] = coordinates.lng;
-                this.userLocation.center[1] = coordinates.lat;
+                this.findCity.query = this.$t('search.current_location');
+                this.selectedCity.center[0] = coordinates.lng;
+                this.selectedCity.center[1] = coordinates.lat;
             })
             .catch(error => {
                 this.setLocationAvailable(false);
