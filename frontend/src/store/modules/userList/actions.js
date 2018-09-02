@@ -122,7 +122,7 @@ export default {
                 context.commit('SET_LOADING_STATE', false);
             });
     },
-    addUserList: (context, {userList, attachedPlaces}) => {
+    addUserList: ({ commit }, {userList, attachedPlaces}) => {
         const formData = new FormData();
         formData.append('image', userList.image);
         formData.append('name', userList.name);
@@ -131,11 +131,14 @@ export default {
         });
 
         return httpService.post('/user-lists/', formData)
-            .then((result) => {
-                return result.data.data;
+            .then(({ data }) => {
+                let userList = data.data;
+                userList.places = [];
+                commit('ADD_NEW_LIST', userList);
+                return userList;
             });
     },
-    updateUserList: (context, {userList, attachedPlaces, id}) => {
+    updateUserList: ({ commit }, {userList, attachedPlaces, id}) => {
         const formData = new FormData();
         formData.append('_method', 'PUT');
         if (userList.image !== null) {
@@ -151,8 +154,10 @@ export default {
         });
 
         return httpService.post(`/user-lists/${id}`, formData)
-            .then((result) => {
-                return result.data.data;
+            .then(({ data }) => {
+                const userList = data.data;
+                commit('UPDATE_LIST_PHOTO_AND_NAME', userList);
+                return userList;
             });
     },
     deleteUserList: (context, id) => {

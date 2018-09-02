@@ -72,4 +72,12 @@ export default {
             }
         });
     },
+    ADD_NEW_LIST: (state, userList) => {
+        state.userLists.byId[userList.id] = userList;
+        state.userLists.allIds.push(userList.id);
+    },
+    UPDATE_LIST_PHOTO_AND_NAME: (state, userList) => {
+        state.userLists.byId[userList.id].name = userList.name;
+        state.userLists.byId[userList.id]['img_url'] = userList['img_url'];
+    },
 };
