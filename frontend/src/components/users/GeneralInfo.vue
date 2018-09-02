@@ -1,7 +1,6 @@
 <template>
     <div class="container is-fullhd is-fluid">
         <div class="container">
-
             <div class="columns user-info">
 
                 <div class="column is-narrow">
@@ -55,7 +54,7 @@
                     <ul class="level">
                         <li class="level-item has-text-centered">
                             <div>
-                                <p class="relation-count">{{ this.reviewsCount }}</p>
+                                <p class="relation-count">{{ AllReviewUserLength }}</p>
                                 <p class="relation-title">Reviews</p>
                             </div>
                         </li>
@@ -74,7 +73,7 @@
                         </li>
                         <li class="level-item has-text-centered">
                             <div>
-                                <p class="relation-count">3</p>
+                                <p class="relation-count">{{ UserListsLength }}</p>
                                 <p class="relation-title">Lists</p>
                             </div>
                         </li>
@@ -102,13 +101,9 @@ import {mapState, mapActions, mapGetters} from 'vuex';
 export default {
     name: 'GeneralInfo',
     data() {
-        return {};
-    },
-    props: {
-        reviewsCount: {
-            required: true,
-            type: Number,
-        },
+        return {
+
+        };
     },
     created() {
         this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
@@ -116,12 +111,22 @@ export default {
     computed: {
         ...mapGetters({
             userProfile: 'users/getUserProfile'
-        })
+        }),
+        ...mapGetters('place', ['getUserReviewsAll']),
+        AllReviewUserLength: function () {
+            return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
+        },
+        ...mapState('userList', {
+            userLists: 'userLists',
+        }),
+        UserListsLength: function () {
+            return this.userLists ? this.userLists.allIds.length : null;
+        }
     },
     methods: {
         ...mapActions({
             getUsersProfile: 'users/getUsersProfile',
-        }),
+        })
     }
 };
 </script>
