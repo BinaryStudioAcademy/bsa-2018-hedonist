@@ -1,6 +1,6 @@
 export default {
     SET_SEARCH_CITY: (state, searchCity) => {
-        if (searchCity !== null) {
+        if (!_.isEmpty(searchCity)) {
             state.city = {
                 name: searchCity.text,
                 longitude: searchCity.center[0],
@@ -18,7 +18,7 @@ export default {
     },
 
     SET_SEARCH_PLACE_CATEGORY: (state, searchPlaceCategory) => {
-        if (searchPlaceCategory !== null) {
+        if (!_.isEmpty(searchPlaceCategory)) {
             state.placeCategory = {
                 id: searchPlaceCategory.id,
                 name: searchPlaceCategory.name

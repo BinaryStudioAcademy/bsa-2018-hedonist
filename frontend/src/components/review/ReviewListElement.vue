@@ -4,7 +4,13 @@
             <article class="media">
                 <figure class="media-left">
                     <p class="image is-32x32">
-                        <img :src="review.user.avatar_url">
+                        <img v-if="review.user.avatar_url" :src="review.user.avatar_url">
+                        <img
+                            v-else
+                            src="/assets/add_review_default_avatar.png"
+                            height="32"
+                            width="32"
+                        >
                     </p>
                 </figure>
                 <div class="media-content">

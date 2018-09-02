@@ -1,7 +1,7 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-            <SearchFilterPlace />
+            <SearchFilterPlace :is-places-loaded="isPlacesLoaded" />
             <CategoryTagsContainer
                 v-if="categoryTagsList.length"
                 :tags="categoryTagsList"
