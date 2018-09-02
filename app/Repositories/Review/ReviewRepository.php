@@ -59,7 +59,7 @@ class ReviewRepository extends BaseRepository implements ReviewRepositoryInterfa
 
     public function getTotalCountByPlace(int $placeId): int
     {
-        return $this->findByCriteria(new GetReviewsByPlaceCriteria($placeId))->count();
+        return Review::where('place_id', $placeId)->count();
     }
 
     public function getTotalCount(): int

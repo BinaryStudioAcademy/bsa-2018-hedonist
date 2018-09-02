@@ -10,6 +10,9 @@ use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 
 class GetReviewCollectionAction
 {
+    private const DEFAULT_SORT = 'created_at';
+    private const DEFAULT_ORDER = 'desc';
+
     private $reviewRepository;
     private $reviewPresenter;
 
@@ -23,12 +26,9 @@ class GetReviewCollectionAction
     {
         $page = $request->getPage() ?? GetReviewCollectionRequest::DEFAULT_PAGE;
         $placeId = $request->getPlaceId();
-        $defaultSort = 'created_at';
-        $defaultOrder = 'desc';
-        $sort = $request->getSort() ?? $defaultSort;
-        $order = $request->getOrder() ?? $defaultOrder;
+        $sort = $request->getSort() ?? self::DEFAULT_SORT;
+        $order = $request->getOrder() ?? self::DEFAULT_ORDER;
         $text = $request->getText();
-
 
         $criterias = [];
 
@@ -45,7 +45,7 @@ class GetReviewCollectionAction
 
         $reviews = $this->reviewRepository
             ->setOrderBy($sort, $order)
-            ->setOrderBy($defaultSort, $defaultOrder)//reviews needs multiply sort
+            ->setOrderBy(self::DEFAULT_SORT, self::DEFAULT_ORDER)//reviews needs multiply sort
             ->findCollectionByCriterias(
                 new ReviewPaginationCriteria($page),
                 ...$criterias
