@@ -1,23 +1,24 @@
-import httpService from '../../../services/common/httpService';
+import httpService from '@/services/common/httpService';
+import normalizerService from '@/services/common/normalizerService';
 import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
 export default {
-    addReview: (context, review) => {
+    addReview: (context, {review, user}) => {
         return new Promise((resolve, reject) => {
             httpService.post('reviews', {
                 user_id: review.user_id,
                 place_id: review.place_id,
                 description: review.description
             })
-                .then(function (res) {
+                .then((res) => {
                     context.commit('ADD_REVIEW_USER', {
-                        data: context.rootState.auth.currentUser
+                        data: user
                     });
-                    const review = Object.assign({}, res.data.data);
-                    context.commit('ADD_REVIEW', review);
+                    let reviewData = Object.assign({}, res.data.data);
+                    context.commit('ADD_REVIEW', reviewData);
                     resolve(res.data);
                 })
-                .catch(function (err) {
+                .catch((err) => {
                     reject(err);
                 });
         });
@@ -194,6 +195,54 @@ export default {
                     resolve(res.data);
                 })
                 .catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
+
+    loadReviewsWithParams: (context, params) => {
+        const order = 'desc';
+        let sort = 'created_at';
+        switch(params.sort) {
+            case 'recent':
+                sort = 'created_at';
+                break;
+            case 'popular':
+                sort =  'likes_count';
+                break;
+        }
+        let queryUrl = httpService.makeQueryUrl(
+            '/reviews',
+            {
+                'filter[place_id]': params.placeId,
+                'filter[text]': params.text,
+                'page': params.page,
+                sort,
+                order
+            }
+        );
+
+        return new Promise((resolve, reject) => {
+
+            httpService.get(queryUrl)
+                .then((response) => {
+                    const reviews = normalizerService.normalizeReviews(response.data.data);
+                    const totalCount = _.get(response, 'data.meta.pagination.total', 0);
+                    const perPage = _.get(response, 'data.meta.pagination.perPage', 10);
+                    const users = normalizerService.normalizeReviewUsers(reviews);
+
+                    context.commit('SET_PLACE_REVIEWS',
+                        {
+                            placeId: params.placeId,
+                            reviews,
+                            totalCount,
+                            perPage
+                        }
+                    );
+                    context.commit('SET_PLACE_REVIEWS_USERS', users);
+                    resolve({reviews: reviews.allIds, total: totalCount});
+                })
+                .catch((err) => {
                     reject(err);
                 });
         });
