@@ -20,7 +20,7 @@ export default {
     getUniqueCities: (state, getters) => userList => {
         let cities = {};
         userList.places
-            .map(id => state.places.byId[id].city_id)
+            .map(id => state.places.byId[id].city)
             .forEach((id) => {
                 cities[id] = state.cities.byId[id];
             });
@@ -59,5 +59,7 @@ export default {
                 category: state.categories.byId[place.category]
             };
         });
-    }
+    },
+
+    getUserLists: (state) => _.map(state.userLists.allIds, (id) => state.userLists.byId[id])
 };

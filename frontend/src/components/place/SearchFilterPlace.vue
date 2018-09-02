@@ -23,6 +23,12 @@
 import { mapActions, mapGetters } from 'vuex';
 export default {
     name: 'SearchFilterPlace',
+    props: {
+        isPlacesLoaded: {
+            type: Boolean,
+            required: true
+        }
+    },
     data() {
         return {
             timeDelay: 0,
@@ -64,22 +70,30 @@ export default {
             initFilters: 'search/initFilters'
         }),
         checkFilter(index) {
+            if (!this.isPlacesLoaded) {
+                return;
+            }
             let filterPlaces = this.filterPlaces[index];
 
             if (filterPlaces.check === false) {
                 filterPlaces.isLoading = true;
-                setTimeout(()=>{
-                    filterPlaces.isLoading = false;
-                    filterPlaces.check = !filterPlaces.check;
-                    this.setFilters({[index]: filterPlaces.check});
-                }, 300);
+                filterPlaces.check = !filterPlaces.check;
+                this.setFilters({[index]: filterPlaces.check})
+                    .then(() => {
+                        setTimeout(() => {
+                            filterPlaces.isLoading = false;
+                        }, 300);
+                    });
+
             } else {
                 filterPlaces.check = !filterPlaces.check;
                 filterPlaces.isLoading = true;
-                setTimeout(()=> {
-                    filterPlaces.isLoading = false;
-                    this.setFilters({[index]: filterPlaces.check});
-                }, 300);
+                this.setFilters({[index]: filterPlaces.check})
+                    .then(() => {
+                        setTimeout(()=> {
+                            filterPlaces.isLoading = false;
+                        }, 300);
+                    });
             }
         },
         init() {
