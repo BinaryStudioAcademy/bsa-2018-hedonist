@@ -29,9 +29,4 @@ class ReviewPresenter
             'dislikes' => $review->dislikes_count,
         ];
     }
-
-    public function presentReviews(GetReviewCollectionResponse $response): array
-    {
-        return $this->presentCollection($response->getReviewCollection());
-    }
 }

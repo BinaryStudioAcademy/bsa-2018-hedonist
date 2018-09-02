@@ -97,7 +97,7 @@ class ReviewController extends ApiController
             );
 
             return $this->successResponseWithMeta(
-                $this->reviewPresenter->presentReviews($getReviewCollectionResponse),
+                $this->reviewPresenter->presentCollection($getReviewCollectionResponse->getReviewCollection()),
                 $getReviewCollectionResponse->getPaginationMetaInfo()
             );
         } catch (DomainException $e) {
