@@ -1,6 +1,6 @@
 <template>
     <section class="container">
-        <b-loading :active.sync="isLoading" />
+        <Preloader :active="isLoading" />
         <div class="has-text-right">
             <router-link
                 role="button"
@@ -22,23 +22,29 @@
 
 <script>
 import ListPreview from './ListPreview';
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
+import Preloader from '@/components/misc/Preloader';
+
 export default {
     name: 'ListPreviewItems',
     components: {
-        ListPreview
+        ListPreview,
+        Preloader
     },
     data() {
         return {
-            isLoading: true,
+            isLoading: false,
             filterBy: {
                 cityId: null,
             },
         };
     },
     created() {
-        this.$store
-            .dispatch('userList/getListsByUser', this.Auth.id)
+        if (this.getUserLists.length < 1) {
+            this.isLoading = true;
+        }
+
+        this.getListsByUser(this.Auth.id)
             .then(()=>{
                 this.isLoading = false;
             })
@@ -54,9 +60,10 @@ export default {
         ...mapGetters('auth', {
             Auth: 'getAuthenticatedUser'
         }),
-        ...mapGetters('userList', {
-            getFilteredByCity: 'getFilteredByCity',
-        }),
+        ...mapGetters('userList', [
+            'getFilteredByCity',
+            'getUserLists'
+        ]),
         isLoaded: function () {
             return !!(this.userLists);
         },
@@ -71,6 +78,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions('userList', ['getListsByUser']),
         setCityFilter(cityId) {
             this.filterBy.cityId = cityId;
         },
