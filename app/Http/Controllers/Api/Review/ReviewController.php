@@ -19,14 +19,18 @@ use Hedonist\Actions\Review\{
     DeleteReviewRequest,
     UpdateReviewDescriptionRequest,
     GetUsersWhoLikedReviewRequest,
-    GetUsersWhoDislikedReviewRequest
+    GetUsersWhoDislikedReviewRequest,
+    GetReviewCollectionRequest
 };
+use Hedonist\Exceptions\DomainException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Http\Requests\Review\SaveReviewRequest;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
+use Hedonist\Http\Requests\Review\ReviewSearchRequest;
 use Hedonist\Actions\Presenters\User\UserPresenter;
+use Illuminate\Http\JsonResponse;
 
 class ReviewController extends ApiController
 {
@@ -71,10 +75,29 @@ class ReviewController extends ApiController
         }
     }
 
-    public function getReviewCollection()
+    public function getReviewCollection(ReviewSearchRequest $request): JsonResponse
     {
-        $getReviewCollectionResponse = $this->getReviewCollectionAction->execute();
-        return $this->successResponse($getReviewCollectionResponse->getReviewCollection());
+        try {
+
+            $getReviewCollectionResponse = $this->getReviewCollectionAction->execute(
+                new GetReviewCollectionRequest(
+                    $request->input('page'),
+                    $request->input('filter.place_id'),
+                    $request->input('sort'),
+                    $request->input('order'),
+                    $request->input('filter.text')
+                )
+            );
+
+            return $this->successResponseWithMeta(
+                $getReviewCollectionResponse->getReviewCollection(),
+                $getReviewCollectionResponse->getPaginationMetaInfo()
+            );
+
+        } catch (DomainException $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+
     }
 
     public function createReview(SaveReviewRequest $request)
