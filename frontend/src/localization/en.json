@@ -63,6 +63,11 @@
     "email_exists": "This email is already registered."
   },
   "search": {
-    "current_location": "Current position"
+    "current_location": "Current position",
+    "no_results": "Sorry, no results are found.",
+    "may_try": "You may try",
+    "removing_your_filters": "removing your filters",
+    "search_in_different_location": "search in different location",
+    "search_for_something_more_general": "search for something more general"
   }
 }
