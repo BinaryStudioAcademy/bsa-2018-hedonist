@@ -45,7 +45,7 @@ class GetReviewCollectionAction
             $criterias[] = new GetReviewsByTextCriteria($text);
         }
 
-        if($sort !== self::DEFAULT_SORT) {
+        if ($sort !== self::DEFAULT_SORT) {
             $criterias[] = new DefaultSortCriteria;
         }
 
