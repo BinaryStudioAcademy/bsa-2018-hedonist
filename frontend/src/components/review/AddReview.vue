@@ -124,15 +124,15 @@ export default {
         onAddReview () {
             this.newReview.user_id = this.userId;
             this.newReview.place_id = this.placeId;
-
-            this.addReview(this.newReview).then((res) => {
-                this.photos.forEach((item, i, arr) => {
+            this.addReview({review: this.newReview, user: this.getAuthenticatedUser}).then((res) => {
+                this.photos.forEach((item) => {
                     this.addReviewPhoto({
                         review_id: res.data.id,
-                        description: 'test',
+                        description: '',
                         img: item
                     });
                 });
+                this.$emit('add', res.data.id);
                 this.refreshInput();
                 this.onSuccess({
                     message: 'Your review has been added'
