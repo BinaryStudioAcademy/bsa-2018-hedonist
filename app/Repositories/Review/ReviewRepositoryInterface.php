@@ -20,8 +20,6 @@ interface ReviewRepositoryInterface
 
     public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection;
 
-    public function setOrderBy(?string $column = 'id', ?string $direction = 'asc'): self;
-
     public function getTotalCountByPlace(int $placeId): int;
 
     public function getTotalCount(): int;

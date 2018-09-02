@@ -52,11 +52,6 @@ class ReviewRepository extends BaseRepository implements ReviewRepositoryInterfa
         return $result;
     }
 
-    public function setOrderBy(?string $column = 'id', ?string $direction = 'asc'): ReviewRepositoryInterface
-    {
-        return $this->orderBy($column, $direction);
-    }
-
     public function getTotalCountByPlace(int $placeId): int
     {
         return Review::where('place_id', $placeId)->count();

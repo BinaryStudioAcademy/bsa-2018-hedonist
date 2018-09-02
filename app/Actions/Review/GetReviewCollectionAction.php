@@ -3,9 +3,11 @@
 namespace Hedonist\Actions\Review;
 
 use Hedonist\Actions\Presenters\Review\ReviewPresenter;
+use Hedonist\Repositories\Review\Criterias\DefaultSortCriteria;
 use Hedonist\Repositories\Review\Criterias\GetReviewsByTextCriteria;
 use Hedonist\Repositories\Review\Criterias\GetReviewsByPlaceCriteria;
 use Hedonist\Repositories\Review\Criterias\ReviewPaginationCriteria;
+use Hedonist\Repositories\Review\Criterias\SortCriteria;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 
 class GetReviewCollectionAction
@@ -43,10 +45,13 @@ class GetReviewCollectionAction
             $criterias[] = new GetReviewsByTextCriteria($text);
         }
 
+        if($sort !== self::DEFAULT_SORT) {
+            $criterias[] = new DefaultSortCriteria;
+        }
+
         $reviews = $this->reviewRepository
-            ->setOrderBy($sort, $order)
-            ->setOrderBy(self::DEFAULT_SORT, self::DEFAULT_ORDER)//reviews needs multiply sort
             ->findCollectionByCriterias(
+                new SortCriteria($sort, $order),
                 new ReviewPaginationCriteria($page),
                 ...$criterias
             )
