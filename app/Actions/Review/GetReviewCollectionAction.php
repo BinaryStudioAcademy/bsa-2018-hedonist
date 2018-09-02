@@ -45,14 +45,14 @@ class GetReviewCollectionAction
 
         $reviews = $this->reviewRepository
             ->setOrderBy($sort, $order)
-            ->setOrderBy($defaultSort, $defaultOrder) //reviews needs multiply sort
+            ->setOrderBy($defaultSort, $defaultOrder)//reviews needs multiply sort
             ->findCollectionByCriterias(
                 new ReviewPaginationCriteria($page),
                 ...$criterias
-            )->map(function ($review) {
-                    return $this->reviewPresenter->presentCollection($review);
-                }
-            );
+            )
+            ->map(function ($review) {
+                return $this->reviewPresenter->presentCollection($review);
+            });
 
         return new GetReviewCollectionResponse($reviews, $totalCount, ReviewPaginationCriteria::LIMIT);
     }
