@@ -17,6 +17,9 @@
                 @loading="loading"
             />
         </ul>
+        <div class="no-lists-text" v-if="filteredUserLists.length < 1">
+            {{ $t('my-lists_page.no-lists') }}
+        </div>
     </section>
 </template>
 
@@ -104,5 +107,12 @@ export default {
         background: #FFF;
         padding: 50px 10%;
         min-height: calc(100vh - 59px);
+    }
+
+    .no-lists-text {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 50px;
     }
 </style>
