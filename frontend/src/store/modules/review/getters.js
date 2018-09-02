@@ -50,4 +50,8 @@ export default {
     getTotalReviewCount: state => placeId => {
         return _.get(state.reviews, ['byPlaces', placeId, 'totalCount'], 0);
     },
+  
+    getPlaceReviewPhotos: (state) => {
+        return state.placeReviewPhotos;
+    }
 };

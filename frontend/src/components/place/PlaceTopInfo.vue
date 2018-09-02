@@ -19,18 +19,10 @@
                 </div>
             </div>
             <div class="column is-one-third place-venue__actions">
-                <b-dropdown>
-                    <button class="button is-success" slot="trigger">
-                        <i class="far fa-save" />Save
-                        <b-icon icon="menu-down" />
-                    </button>
-                    <template v-for="list in userList">
-                        <b-dropdown-item :key="list.id" @click="addPlaceToList(list.id)">{{ list.name }}
-                        </b-dropdown-item>
-                    </template>
-                </b-dropdown>
-
-
+                <TopInfoUserListItem
+                    :place="place"
+                    :lists="userList"
+                />
                 <ShareDropdown
                     :link="pageLink"
                     :text="localizedName"
@@ -51,7 +43,7 @@
                             @click="changeTab(2)"
                             :class="{ 'is-active' : activeTab === 2}"
                         >
-                            <a><span>Photos ({{ photosCount }})</span></a>
+                            <a><span>Photos <template v-if="loaded">({{ photosCount }})</template></span></a>
                         </li>
                     </ul>
                 </nav>
@@ -84,12 +76,13 @@
 <script>
 import PlacePhotoList from './PlacePhotoList';
 import PlaceRatingModal from './PlaceRatingModal';
-import { STATUS_NONE } from '@/services/api/codes';
+import {STATUS_NONE} from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
-import { mapGetters, mapState } from 'vuex';
+import {mapGetters, mapState} from 'vuex';
 import PlaceRating from './PlaceRating';
 import PlaceCheckin from './PlaceCheckin';
 import ShareDropdown from '@/components/misc/ShareDropdown';
+import TopInfoUserListItem from './TopInfoUserListItem';
 
 export default {
     name: 'PlaceTopInfo',
@@ -99,12 +92,17 @@ export default {
         PlaceRatingModal,
         PlaceRating,
         PlaceCheckin,
-        ShareDropdown
+        ShareDropdown,
+        TopInfoUserListItem
     },
 
     props: {
         place: {
             type: Object,
+            required: true
+        },
+        isLoadingReviewPhoto: {
+            type: Boolean,
             required: true
         }
     },
@@ -132,7 +130,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters('review', [ 'getTotalReviewCount' ]),
+        ...mapGetters('review', ['getTotalReviewCount', 'getPlaceReviewPhotos']),
         ...mapState('userList', ['userLists']),
 
         user() {
@@ -144,7 +142,7 @@ export default {
         },
 
         photosCount() {
-            return this.place.photos.length;
+            return this.place.photos.length + this.getPlaceReviewPhotos.length;
         },
 
         liked() {
@@ -158,7 +156,7 @@ export default {
         dislikes() {
             return this.$store.getters['place/getDislikes'];
         },
-        
+
         pageLink() {
             return location.href;
         },
@@ -167,9 +165,13 @@ export default {
             return defaultMarker;
         },
 
-        userList(){
+        userList() {
             return this.userLists ? Object.values(this.userLists.byId) : [];
-        }
+        },
+
+        loaded() {
+            return !(this.isLoadingReviewPhoto) && !!(this.getPlaceReviewPhotos);
+        },
     },
 
     methods: {
@@ -196,14 +198,13 @@ export default {
             this.$store.dispatch('place/dislikePlace', this.place.id);
             this.updateLikesDislikes();
         },
-
         addPlaceToList: function (listId) {
             this.$store.dispatch('userList/addPlaceToList', {
                 listId: listId,
                 placeId: this.place.id,
                 userId: this.user.id
             });
-        }
+        },
     }
 };
 </script>
@@ -283,7 +284,7 @@ export default {
         .place-top-info {
             &__sidebar {
                 .place-rate {
-                    &__mark-count{
+                    &__mark-count {
                         display: none;
                     }
                 }

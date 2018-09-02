@@ -2,14 +2,38 @@
     <section class="columns">
         <section class="column is-half">
             <SearchFilterPlace />
-            <template v-for="(place, index) in places">
-                <PlacePreview
-                    v-if="isPlacesLoaded"
-                    :key="place.id"
-                    :place="place"
-                    :timer="50 * (index+1)"
-                />
-            </template>
+            <CategoryTagsContainer
+                v-if="categoryTagsList.length"
+                :tags="categoryTagsList"
+                @onSelectTag="onSelectTag"
+            />
+            <div
+                v-infinite-scroll="loadMore"
+                :infinite-scroll-disabled="scrollBusy"
+            >
+                <template v-if="places.length">   
+                    <template v-for="(place, index) in places">
+                        <PlacePreview
+                            v-if="isPlacesLoaded"
+                            :key="place.id"
+                            :place="place"
+                            :timer="50 * (index+1)"
+                        />
+                    </template>
+                </template>
+                <template v-else>
+                    <div class="no-results">
+                        <div class="no-results__title has-text-weight-bold">Sorry, no results are found.</div>
+
+                        <div class="no-results__try">You may try:</div>
+                        <ul>
+                            <li>removing your filters</li>
+                            <li>search in different location</li>
+                            <li>search for something more general</li>
+                        </ul>
+                    </div>
+                </template>
+            </div>
         </section>
         <section class="column mapbox-wrapper right-side">
             <mapbox
@@ -36,13 +60,19 @@ import LocationService from '@/services/location/locationService';
 import markerManager from '@/services/map/markerManager';
 import placeholderImg from '@/assets/placeholder_128x128.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
+import infiniteScroll from 'vue-infinite-scroll';
+import CategoryTagsContainer from './CategoryTagsContainer';
 
 export default {
     name: 'SearchPlace',
     components: {
         PlacePreview,
         Mapbox,
-        SearchFilterPlace
+        SearchFilterPlace,
+        CategoryTagsContainer,
+    },
+    directives: {
+        infiniteScroll
     },
     data() {
         return {
@@ -53,20 +83,27 @@ export default {
             markerManager: null,
             mapboxToken: mapSettingsService.getMapboxToken(),
             mapboxStyle: mapSettingsService.getMapboxStyle(),
-            draw: {}
+            draw: {},
+            currentPage: 1,
+            scrollBusy: false
         };
     },
     created() {
-        this.$store.dispatch('place/fetchPlaces', this.$route.query)
+        this.$store.dispatch('search/updateStateFromQuery', this.$route.query)
             .then(() => {
-                this.isPlacesLoaded = true;
+                this.$store.dispatch('search/updateQueryFilters')
+                    .then(() => {
+                        this.$store.dispatch('place/fetchPlaces', this.$route.query)
+                            .then(() => {
+                                this.isPlacesLoaded = true;
+                            });
+                    });
             });
-
     },
     methods: {
-        ...mapActions('search', ['setCurrentPosition', 'mapInitialization']),
+        ...mapActions('search', ['setCurrentPosition', 'mapInitialization', 'updateStateFromQuery']),
         ...mapMutations('search', {
-            setLoadingState: 'SET_LOADING_STATE',
+            setLoadingState: 'SET_LOADING_STATE'
         }),
 
         mapInitialize(map) {
@@ -75,13 +112,14 @@ export default {
             }
 
             this.map = map;
-            LocationService.getUserLocationData()
-                .then(coordinates => {
-                    this.setCurrentPosition({
-                        latitude: coordinates.lat,
-                        longitude: coordinates.lng
+            if(!this.$route.query.location)
+                LocationService.getUserLocationData()
+                    .then(coordinates => {
+                        this.setCurrentPosition({
+                            latitude: coordinates.lat,
+                            longitude: coordinates.lng
+                        });
                     });
-                });
             this.mapInitialization();
         },
         mapLoaded(map) {
@@ -126,20 +164,41 @@ export default {
 
             return map;
         },
-        updateSearchArea() {
+        getQuery() {
             let data = this.draw.getAll();
             let query = this.$route.query;
             if (data.features.length > 0) {
                 query.polygon = data.features.map(item => item.geometry.coordinates[0]);
             }
-
+            return query;
+        },
+        updateSearchArea() {
+            let query = this.getQuery();
             this.isPlacesLoaded = false;
             this.$store.dispatch('place/fetchPlaces', query)
                 .then(() => {
                     this.isPlacesLoaded = true;
                     this.draw.deleteAll();
                 });
-        }
+        },
+        loadMore: function () {
+            if (this.isPlacesLoaded) {
+                let query = this.getQuery();
+                this.scrollBusy = true;
+                this.currentPage++;
+                this.$store.dispatch('place/loadMorePlaces', {
+                    filters: this.$route.query,
+                    page: this.currentPage
+                })
+                    .then(() => {
+                        this.scrollBusy = false;
+                        this.updateMap();
+                    });
+            }
+        },
+        onSelectTag(tagId, isTagActive) {
+            // TODO
+        },
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {
@@ -159,16 +218,21 @@ export default {
                 .then(() => {
                     this.isPlacesLoaded = true;
                     this.setLoadingState(false);
+                    this.currentPage = 1;
                 });
         }
     },
     computed: {
         ...mapState('place', ['places']),
-        ...mapState('search', ['currentPosition', 'mapInitialized']),
+        ...mapState('search', [
+            'currentPosition',
+            'mapInitialized'
+        ]),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters({
             user: 'auth/getAuthenticatedUser'
         }),
+        ...mapGetters('category', ['categoryTagsList']),
 
         currentCenter() {
             return {
@@ -225,6 +289,26 @@ export default {
         height: 100vh;
         right: 4px;
         width: 49%;
+    }
+
+    .no-results {
+        padding: 30px 50px;
+
+        &__title {
+            margin-bottom: 20px;
+        }
+        &__try {
+            font-weight: 500;
+        }
+
+        ul {
+            margin-left: 20px;
+
+            li {
+                font-size: 0.9rem;
+                list-style: disc;
+            }
+        }
     }
 
     @media screen and (max-width: 769px) {
