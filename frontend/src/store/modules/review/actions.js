@@ -2,6 +2,15 @@ import httpService from '@/services/common/httpService';
 import normalizerService from '@/services/common/normalizerService';
 import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
+const DEFAULT_ORDER_API = 'desc';
+const DEFAULT_SORT_API = 'created_at';
+
+const RECENT_SORT = 'recent';
+const RECENT_SORT_API = 'created_at';
+
+const POPULAR_SORT = 'popular';
+const POPULAR_SORT_API = 'likes_count';
+
 export default {
     addReview: (context, {review, user}) => {
         return new Promise((resolve, reject) => {
@@ -217,15 +226,15 @@ export default {
     },
 
     loadReviewsWithParams: (context, params) => {
-        const order = 'desc';
-        let sort = 'created_at';
+        const order = DEFAULT_ORDER_API;
+        let sort = DEFAULT_SORT_API;
 
         switch(params.sort) {
-        case 'recent':
-            sort = 'created_at';
+        case RECENT_SORT:
+            sort = RECENT_SORT_API;
             break;
-        case 'popular':
-            sort =  'likes_count';
+        case POPULAR_SORT:
+            sort = POPULAR_SORT_API;
             break;
         }
 
