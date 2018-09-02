@@ -28,8 +28,6 @@ class AddPlaceRequest
         int $creatorId,
         String $localization,
         int $categoryId,
-        array $tags,
-        array $features,
         String $city,
         float $longitude,
         float $latitude,
@@ -42,8 +40,10 @@ class AddPlaceRequest
         string $twitter,
         string $menu_url,
         int $work_weekend,
-        ?array $photos,
-        String $worktime
+        String $worktime,
+        ?array $tags,
+        ?array $features,
+        ?array $photos
     ) {
         $this->creatorId = $creatorId;
         $this->localization = $localization;
