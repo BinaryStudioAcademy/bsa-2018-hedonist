@@ -90,10 +90,7 @@ export default {
     created() {
         this.$store.dispatch('search/updateStateFromQuery', this.$route.query)
             .then(() => {
-                this.$store.dispatch('search/updateQueryFilters')
-                    .then(() => {
-                        this.setIsPlacesLoaded(true);
-                    });
+                this.$store.dispatch('search/updateQueryFilters');
             });
     },
     methods: {

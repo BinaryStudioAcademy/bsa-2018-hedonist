@@ -91,7 +91,7 @@ export default {
         });
 
         dispatch('setIsPlacesLoaded', false);
-        return dispatch('place/fetchPlaces', query, {root:true}).then(() => {
+        dispatch('place/fetchPlaces', query, {root:true}).then(() => {
             dispatch('setIsPlacesLoaded', true);
         });
     },
