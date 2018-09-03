@@ -22,6 +22,7 @@ use Hedonist\Repositories\Place\Criterias\TopRatedCriteria;
 use Hedonist\Repositories\Place\Criterias\TopReviewedCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 
 class GetPlaceCollectionByFiltersAction
 {
@@ -34,13 +35,18 @@ class GetPlaceCollectionByFiltersAction
 
     public function execute(GetPlaceCollectionByFiltersRequest $request): GetPlaceCollectionResponse
     {
+        $uniqId = $this->generateUniqKeyByPlaceSearch($request);
+        $redisPlaces = Redis::get('search_places-' . $uniqId);
+        if ($redisPlaces) {
+            return unserialize($redisPlaces);
+        }
+
         $categoryId = $request->getCategoryId();
         $name = $request->getName();
         $location = $request->getLocation();
         $page = $request->getPage() ?: GetPlaceCollectionByFiltersRequest::DEFAULT_PAGE;
         $polygon = $request->getPolygon();
         $criterias = [];
-
 
         /** @var User $user */
         $user = Auth::user();
@@ -93,6 +99,30 @@ class GetPlaceCollectionByFiltersAction
             ...$criterias
         );
 
-        return new GetPlaceCollectionResponse($places, $user);
+        $placeCollection = new GetPlaceCollectionResponse($places, $user);
+        Redis::set('search_places-' . $uniqId, serialize($placeCollection));
+        return $placeCollection;
+    }
+
+    private function generateUniqKeyByPlaceSearch(GetPlaceCollectionByFiltersRequest $request)
+    {
+        $baseRequest = [
+            $request->getPage(),
+            $request->getCategoryId(),
+            $request->getLocation(),
+            $request->getName()
+        ];
+        $fPolygon = $request->getPolygon();
+        $fTopReviewed = $request->isTopReviewed();
+        $fTopRated = $request->isTopRated();
+        $fCheckin = $request->isCheckin();
+        $fSaved = $request->isSaved();
+
+        if ($fPolygon || $fTopReviewed || $fTopRated || $fCheckin || $fSaved) {
+            $arrAdditional = [ $fPolygon, $fTopReviewed, $fTopRated, $fCheckin, $fSaved, Auth::id()];
+            $baseRequest = array_merge($baseRequest, $arrAdditional);
+        }
+
+        return implode('_', $baseRequest);
     }
 }

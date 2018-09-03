@@ -39,8 +39,6 @@ use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
 
 class PlaceController extends ApiController
 {
@@ -176,27 +174,19 @@ class PlaceController extends ApiController
     public function searchByFilters(PlaceSearchRequest $request, GetPlaceCollectionPresenter $presenter): JsonResponse
     {
         try {
-            $uniqId = $this->generateUniqKeyByPlaceSearch($request);
-            $redisPlaces = Redis::get('search_places-' . $uniqId);
-
-            if (!$redisPlaces) {
-                $placeResponse = $this->getPlaceCollectionByFiltersAction->execute(
-                    new GetPlaceCollectionByFiltersRequest(
-                        $request->input('page'),
-                        $request->input('filter.category'),
-                        $request->input('filter.location'),
-                        $request->input('filter.name'),
-                        $request->input('filter.polygon'),
-                        $request->input('filter.top_reviewed'),
-                        $request->input('filter.top_rated'),
-                        $request->input('filter.checkin'),
-                        $request->input('filter.saved')
-                    )
-                );
-                Redis::set('search_places-' . $uniqId, serialize($placeResponse));
-            } else {
-                $placeResponse = unserialize(Redis::get('search_places-' . $uniqId));
-            }
+            $placeResponse = $this->getPlaceCollectionByFiltersAction->execute(
+                new GetPlaceCollectionByFiltersRequest(
+                    $request->input('page'),
+                    $request->input('filter.category'),
+                    $request->input('filter.location'),
+                    $request->input('filter.name'),
+                    $request->input('filter.polygon'),
+                    $request->input('filter.top_reviewed'),
+                    $request->input('filter.top_rated'),
+                    $request->input('filter.checkin'),
+                    $request->input('filter.saved')
+                )
+            );
 
             return $this->successResponse($presenter->present($placeResponse), 200);
         } catch (DomainException $e) {
@@ -234,27 +224,5 @@ class PlaceController extends ApiController
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage());
         }
-    }
-
-    private function generateUniqKeyByPlaceSearch(PlaceSearchRequest $request)
-    {
-        $baseRequest = [
-            $request->input('page'),
-            $request->input('filter.category'),
-            $request->input('filter.location'),
-            $request->input('filter.name')
-        ];
-        $fPolygon = $request->input('filter.polygon');
-        $fTopReviewed = $request->input('filter.top_reviewed');
-        $fTopRated = $request->input('filter.top_rated');
-        $fCheckin = $request->input('filter.checkin');
-        $fSaved = $request->input('filter.saved');
-
-        if ($fPolygon || $fTopReviewed || $fTopRated || $fCheckin || $fSaved) {
-            $arrAdditional = [ $fPolygon, $fTopReviewed, $fTopRated, $fCheckin, $fSaved, Auth::id()];
-            $baseRequest = array_merge($baseRequest, $arrAdditional);
-        }
-
-        return implode('_', $baseRequest);
     }
 }
