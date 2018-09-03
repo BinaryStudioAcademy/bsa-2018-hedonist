@@ -35,20 +35,12 @@ export default {
         return Promise.resolve();
     },
     selectSearchCity: ({commit}, city) => {
-        if (!_.isEmpty(city)) {
-            commit('SET_SEARCH_CITY', city);
-        } else {
-            commit('DELETE_SEARCH_CITY');
-        }
+        commit('SET_SEARCH_CITY', city);
     },
 
     selectSearchCategory: ({commit}, item) => {
-        if (!_.isEmpty(item)) {
-            commit('SET_SEARCH_PLACE_CATEGORY', item);
-            commit('DELETE_SEARCH_PLACE');
-        } else {
-            commit('DELETE_SEARCH_PLACE_CATEGORY');
-        }
+        commit('SET_SEARCH_PLACE_CATEGORY', item);
+        commit('DELETE_SEARCH_PLACE');
     },
 
     selectSearchPlace: ({commit}, searchPlace) => {
