@@ -20,7 +20,7 @@ class AddTasteAction
         $name = $addTasteRequest->getName();
         $taste = $this->tasteRepository->getByName($name);
 
-        if($taste === null) {
+        if ($taste === null) {
             $taste = $this->tasteRepository->save(new Taste([
                 'name' => $addTasteRequest->getName(),
                 'user_id' => Auth::id()

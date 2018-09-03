@@ -19,8 +19,8 @@ class GetTasteNamesCriteria implements CriteriaInterface
     public function apply($model, RepositoryInterface $repository)
     {
         return $model->whereDoesntHave('users', function ($query) {
-                $query->where('user_id', $this->userId);
-            })->where(
+            $query->where('user_id', $this->userId);
+        })->where(
             [
                 ['is_default', false],
                 ['name', 'like', "%{$this->query}%"
