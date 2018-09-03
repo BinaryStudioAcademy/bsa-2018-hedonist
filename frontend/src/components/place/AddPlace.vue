@@ -263,7 +263,7 @@
                                 <div :key="index" class="column is-one-third">
                                     <div class="photo">
                                         <figure :key="index" class="image is-square">
-                                            <img :src="getPreview(photo)">
+                                            <img class="image-preview" :src="getPreview(photo)">
                                         </figure>
                                         <div class="level">
                                             <div class="level-item">
@@ -854,6 +854,13 @@ export default {
         figure {
             margin-bottom: 10px;
         }
+    }
+
+    .image-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
     }
 
     /* Location tab */
