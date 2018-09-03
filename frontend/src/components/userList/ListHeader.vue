@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper-list">
         <figure class="image is-5by3 list-image">
-            <img :src="listItem.img_url">
+            <img class="list-image__image" :src="listItem.img_url">
         </figure>
         <div class="level list-data is-mobile">
             <div class="level-left">
@@ -69,6 +69,13 @@ export default {
 
     .list-image{
         margin-bottom:1rem;
+
+        &__image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
     }
 
     .title{
