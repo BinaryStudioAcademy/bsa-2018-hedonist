@@ -102,7 +102,7 @@ export default {
     initFilters: ({commit}) => {
         let query = router.currentRoute.query;
         let filters = {
-            checkin: !!query['checkin'],
+            visited: !!query['visited'],
             saved: !!query['saved'],
             top_rated: !!query['top_rated'],
             top_reviewed: !!query['top_reviewed'],
