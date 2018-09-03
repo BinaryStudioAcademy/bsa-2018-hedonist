@@ -33,7 +33,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control is-expanded">
-                                    <SearchCity @select="newPlace.city = $event" :placeholder="$t('add_place_page.tabs.general.placeholders.city')"/>
+                                    <SearchCity @select="newPlace.city = $event" :placeholder="$t('add_place_page.tabs.general.placeholders.city')" />
                                 </div>
                             </div>
                         </div>

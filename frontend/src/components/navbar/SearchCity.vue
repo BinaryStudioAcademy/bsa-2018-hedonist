@@ -35,6 +35,7 @@ export default {
     name: 'SearchCity',
     props: {
         placeholder: {
+            type: String,
             default: 'Location'
         }
     },
