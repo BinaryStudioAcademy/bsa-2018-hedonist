@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <div class="columns">
-            <div class="column is-half">
+            <div class="column is-half left-side">
                 <div class="page-content" v-if="!isLoading">
                     <ListHeader
                         :list-item="userList"
@@ -13,7 +13,7 @@
                     />
                 </div>
             </div>
-            <div class="column is-half">
+            <div class="column is-half right-side">
                 <mapbox
                     :access-token="mapboxToken"
                     :map-options="{
@@ -105,5 +105,34 @@ export default {
         height: 100vh;
         right: 4px;
         width: 49%;
+    }
+
+    @media screen and (max-width: 769px) {
+        .columns {
+            display: grid;
+            grid-template-areas: "right" "left";
+
+            .left-side {
+                grid-area: left;
+            }
+            .right-side {
+                grid-area: right;
+            }
+        }
+        #map {
+            text-align: justify;
+            vertical-align: top;
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 500px;
+        }
+    }
+
+    @media screen and (max-width: 520px) {
+        #map {
+            height: 300px;
+        }
     }
 </style>

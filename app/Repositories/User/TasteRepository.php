@@ -21,6 +21,11 @@ class TasteRepository extends BaseRepository implements TasteRepositoryInterface
         return Taste::find($id);
     }
 
+    public function getByName(string $name): ?Taste
+    {
+        return Taste::where('name', $name)->first();
+    }
+
     public function findAll(): Collection
     {
         return Taste::all();

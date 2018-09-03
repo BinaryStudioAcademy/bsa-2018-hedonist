@@ -29,7 +29,6 @@ export default {
                         ids: allCheckinIds
                     });
                     context.commit('SET_PLACES', checkInPlaces);
-                    context.commit('SET_LOADING_STATE' , false);
                     resolve({checkIns, checkInPlaces});
                 })
                 .catch(function (err) {
@@ -40,10 +39,6 @@ export default {
 
     setLoadingState: ({commit} ,loadState) => {
         commit('SET_LOADING_STATE' , loadState);
-    },
-
-    setCurrentMapCenter: ({ commit }, currentCenter) => {
-        commit('SET_CURRENT_MAP_CENTER', currentCenter);
     },
 
     mapInitialization: ({ commit }) => {

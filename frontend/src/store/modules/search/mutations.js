@@ -1,6 +1,6 @@
 export default {
     SET_SEARCH_CITY: (state, searchCity) => {
-        if (searchCity !== null) {
+        if (!_.isEmpty(searchCity)) {
             state.city = {
                 name: searchCity.text,
                 longitude: searchCity.center[0],
@@ -18,7 +18,7 @@ export default {
     },
 
     SET_SEARCH_PLACE_CATEGORY: (state, searchPlaceCategory) => {
-        if (searchPlaceCategory !== null) {
+        if (!_.isEmpty(searchPlaceCategory)) {
             state.placeCategory = {
                 id: searchPlaceCategory.id,
                 name: searchPlaceCategory.name
@@ -35,9 +35,17 @@ export default {
         state.isLoading = loadState;
     },
 
+    SET_IS_PLACES_LOADED: (state, isPlacesLoaded) => {
+        state.isPlacesLoaded = isPlacesLoaded;
+    },
+
     SET_CURRENT_POSITION: (state, currentPosition) => {
         state.location = true;
         state.currentPosition = currentPosition;
+    },
+
+    SET_LOCATION_AVAILABLE: (state, locationAvailable) => {
+        state.locationAvailable = locationAvailable;
     },
 
     SET_FILTERS: (state, filters) => {
@@ -56,10 +64,7 @@ export default {
     },
 
     SET_SEARCH_PLACE: (state, searchPlace) => {
-        state.place = {
-            id: searchPlace.id,
-            name: searchPlace.name
-        };
+        state.place = searchPlace;
     },
 
     DELETE_SEARCH_PLACE_CATEGORY: (state) => {
@@ -70,7 +75,7 @@ export default {
     },
 
     DELETE_SEARCH_PLACE: (state) => {
-        state.place = null;
+        state.place = '';
     },
 
     DELETE_SEARCH_CITY: (state) => {

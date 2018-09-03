@@ -11,7 +11,7 @@ class SaveReviewPhotoRequest
     private $img;
     private $review_id;
 
-    public function __construct(int $review_id, string $description, UploadedFile $img, int $id = null)
+    public function __construct(int $review_id, ?string $description, UploadedFile $img, int $id = null)
     {
         $this->id = $id;
         $this->description = $description;
@@ -24,7 +24,7 @@ class SaveReviewPhotoRequest
         return $this->id;
     }
 
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
