@@ -11,10 +11,7 @@ export default {
         id: null,
         name: ''
     },
-    place: {
-        id: null,
-        name: ''
-    },
+    place: '',
     page: 1,
     location: null,
     currentPosition: {

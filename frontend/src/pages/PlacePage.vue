@@ -57,26 +57,30 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
-            .then((response) => {
-                this.isLoading = false;
-                this.$store.dispatch('review/getReviewPhotosByPlace', this.place.id)
-                    .then((response) => {
-                        this.isLoadingReviewPhoto = false;
-                    })
-                    .catch((err) => {
-                        this.isLoadingReviewPhoto = false;
-                    });
-            })
-            .catch((err) => {
-                this.isLoading = false;
-            });
-
+        this.loadPlace(this.$route.params.id);
     },
 
     methods: {
         tabChanged(activeTab) {
             this.activeTab = activeTab;
+        },
+        loadPlace(id) {
+            this.isLoading = true;
+            this.isLoadingReviewPhoto = true;
+            this.$store.dispatch('place/loadCurrentPlace', id)
+                .then((response) => {
+                    this.isLoading = false;
+                    this.$store.dispatch('review/getReviewPhotosByPlace', this.place.id)
+                        .then((response) => {
+                            this.isLoadingReviewPhoto = false;
+                        })
+                        .catch((err) => {
+                            this.isLoadingReviewPhoto = false;
+                        });
+                })
+                .catch((err) => {
+                    this.isLoading = false;
+                });
         }
     },
 
@@ -89,6 +93,12 @@ export default {
             return !!(this.place) && !(this.isLoading);
         }
     },
+
+    watch: {
+        '$route' (to, from) {
+            this.loadPlace(to.params.id);
+        }
+    }
 };
 </script>
 

@@ -35,27 +35,17 @@ export default {
         return Promise.resolve();
     },
     selectSearchCity: ({commit}, city) => {
-        if (!_.isEmpty(city)) {
-            commit('SET_SEARCH_CITY', city);
-        } else {
-            commit('DELETE_SEARCH_CITY');
-        }
+        commit('SET_SEARCH_CITY', city);
     },
 
-    selectSearchPlaceOrCategory: ({commit}, item) => {
-        if (!_.isEmpty(item)) {
-            if (item.place !== undefined) {
-                commit('SET_SEARCH_PLACE', item);
-                commit('DELETE_SEARCH_PLACE_CATEGORY');
-            } else {
-                commit('SET_SEARCH_PLACE_CATEGORY', item);
-                commit('DELETE_SEARCH_PLACE');
-            }
-        } else {
-            commit('DELETE_SEARCH_PLACE');
-            commit('DELETE_SEARCH_PLACE_CATEGORY');
-        }
+    selectSearchCategory: ({commit}, item) => {
+        commit('SET_SEARCH_PLACE_CATEGORY', item);
+        commit('DELETE_SEARCH_PLACE');
+    },
 
+    selectSearchPlace: ({commit}, searchPlace) => {
+        commit('SET_SEARCH_PLACE', searchPlace);
+        commit('DELETE_SEARCH_PLACE_CATEGORY');
     },
 
     loadCategories({context , commit}, name) {
@@ -72,7 +62,7 @@ export default {
         let query = {
             category: state.placeCategory && state.placeCategory.id,
             page: state.page,
-            name: state.place && state.place.name,
+            name: state.place,
             location: location,
             ...state.filters
         };
