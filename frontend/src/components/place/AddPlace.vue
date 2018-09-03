@@ -34,7 +34,7 @@
                         <h4>Address and Location</h4>
                     </div>
 
-                    <div class="field is-horizontal">
+                    <div class="field is-horizontal place-location">
                         <div class="field-label is-normal">
                             <label v-if="!$v.newPlace.city.$error" class="label">City</label>
                             <label v-else class="label error">City</label>
@@ -815,6 +815,14 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+    .place-location {
+        .location-search {
+            display: none;
+        }
+    }
+</style>
 
 <style lang="scss" scoped>
     .section {
