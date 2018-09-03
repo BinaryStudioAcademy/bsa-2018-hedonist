@@ -24,6 +24,7 @@ export default {
                 });
         }
         if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
+        if(query.category) commit('SET_SEARCH_PLACE_CATEGORY', {id: query.category, name: ''});
         if(query.page) commit('SET_PAGE', query.page);
         return Promise.resolve();
     },
