@@ -11,6 +11,8 @@ interface TasteRepositoryInterface
 {
     public function getById(int $id): ?Taste;
 
+    public function getByName(string $name): ?Taste;
+
     public function findAll(): Collection;
 
     public function save(Taste $taste): Taste;
