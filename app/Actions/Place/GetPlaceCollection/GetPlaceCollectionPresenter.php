@@ -78,6 +78,7 @@ class GetPlaceCollectionPresenter
     public function presentForAutoComplete(GetPlaceCollectionForAutoCompleteResponse $placeResponse): array
     {
         return $placeResponse->getPlaceCollection()->map(function (Place $place) use ($placeResponse) {
+            $result['id'] = $place->id;
             $result['photo']['img_url'] = '';
             if (!empty($place->photos)) {
                 $result['photo'] = $this->photoPresenter->present($place->photos[0]);

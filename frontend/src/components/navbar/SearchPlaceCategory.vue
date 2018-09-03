@@ -10,14 +10,20 @@
             field="name"
             @input="loadItems"
             @select="option => this.$emit('select', option)"
+            ref="autocomplete"
         >
 
             <template slot-scope="props">
-                <div class="search-block">
+                <div class="search-block" v-if="props.option.place === undefined">
                     <img :src="props.option.logo">
-                    <span>{{ props.option.nameForAutoComplete }}</span>
+                    <span>{{ props.option.name }}</span>
                 </div>
-
+                <router-link v-else :to="`/places/${props.option.id}`">
+                    <div class="search-block">
+                        <img :src="props.option.logo">
+                        <span>{{ props.option.nameForAutoComplete }}</span>
+                    </div>
+                </router-link>
             </template>
         </b-autocomplete>
     </div>
@@ -56,16 +62,7 @@ export default {
             if (this.findItems.query === '') {
                 this.loadCategoriesByName(this.findItems.query)
                     .then( res => {
-                        let data = [];
-                        res.forEach(function (item, index) {
-                            data[index] = {
-                                id: item['id'],
-                                nameForAutoComplete: item['name'],
-                                name: item['name'],
-                                logo: item['logo']
-                            };
-                        });
-                        this.findItems.data = data;
+                        this.findItems.data = res;
                         this.findItems.isFetching = false;
                     }, response => {
                         this.findItems.isFetching = false;
@@ -80,10 +77,10 @@ export default {
                         let data = [];
                         res.forEach(function (item, index) {
                             data[index] = {
+                                id: item['id'],
                                 logo: item['photo']['img_url'],
                                 nameForAutoComplete: item['localization'][0]['name'] + ' - ' + item['city']['name'],
                                 name: item['localization'][0]['name'],
-                                city: item['city'],
                                 place: true
                             };
                         });
@@ -98,16 +95,7 @@ export default {
         init() {
             this.loadCategoriesByName(this.findItems.query)
                 .then( res => {
-                    let data = [];
-                    res.forEach(function (item, index) {
-                        data[index] = {
-                            id: item['id'],
-                            nameForAutoComplete: item['name'],
-                            name: item['name'],
-                            logo: item['logo']
-                        };
-                    });
-                    this.findItems.data = data;
+                    this.findItems.data = res;
                 });
         },
     },
@@ -121,6 +109,12 @@ export default {
     .search-block{
         display: flex;
         align-items: center;
+        cursor: pointer;
+        color: #4a4a4a;
+        margin: -0.375rem -1rem;
+        margin-right: -3rem;
+        padding: 0.375rem 1rem;
+        padding-right: 3rem;
     }
 
     .search-block img{

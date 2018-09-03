@@ -2,10 +2,10 @@
     <div class="navbar-start">
         <Preloader :active="isLoading" />
         <div class="navbar-item">
-            <SearchPlaceCategory @select="onSelect" :select-city="location" />
+            <SearchPlaceCategory @select="onSelect" ref="selectPlaceCategoryComponent" :select-city="location" />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="selectCity" ref="selectCityComponent" />
+            <SearchCity @select="selectCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
@@ -29,7 +29,7 @@ export default {
     data: function(){
         return {
             location: {},
-            categoryOrPlace: {},
+            category: {},
         };
     },
     computed: {
@@ -49,8 +49,9 @@ export default {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
             updateQueryFilters: 'search/updateQueryFilters',
-            selectSearchPlaceOrCategory: 'search/selectSearchPlaceOrCategory',
+            selectSearchCategory: 'search/selectSearchCategory',
             setCategoryTags: 'category/fetchCategoryTags',
+            selectSearchPlace: 'search/selectSearchPlace',
         }),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE',
@@ -58,34 +59,24 @@ export default {
         selectCity(city){
             this.location = city ? city : {};
         },
-        selectPlaceOrCategory(categoryOrPlace){
-            this.categoryOrPlace = categoryOrPlace ? categoryOrPlace : {};
-            if (categoryOrPlace !== null &&
-                categoryOrPlace.place !== undefined &&
-                categoryOrPlace.city.longitude &&
-                categoryOrPlace.city.latitude) {
-                let city = {
-                    text: categoryOrPlace.city.name,
-                    center: [
-                        categoryOrPlace.city.longitude,
-                        categoryOrPlace.city.latitude
-                    ],
-                    place_name: categoryOrPlace.city.name
-                };
-                this.$refs.selectCityComponent.$refs.autocompleteCity.setSelected(city);
-            }
+        selectCategory(category){
+            this.category = category ? category : {};
         },
         search() {
             this.setLoadingState(true);
             if(!_.isEmpty(this.location)) {
                 this.selectSearchCity(this.location);
             }
-            this.selectSearchPlaceOrCategory(this.categoryOrPlace);
+            if (!_.isEmpty(this.category)) {
+                this.selectSearchCategory(this.category);
+            } else {
+                this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.$refs.autocomplete.value);
+            }
             this.updateQueryFilters();
             this.setLoadingState(false);
         },
         onSelect(query) {
-            this.selectPlaceOrCategory(query);
+            this.selectCategory(query);
 
             if (query !== null && query.id) {
                 this.setCategoryTags(query.id);
