@@ -55,7 +55,6 @@ class GetPlaceItemPresenter
         $place = $placeResponse->getPlace();
         $result = $this->placePresenter->present($place);
         $result['placeInfo'] = $this->placeInfoPresenter->present($place->placeInfo);
-        $result['reviews'] = $this->presentReviews($place->reviews, $placeResponse->getUser());
         $result['photos'] = $this->photoPresenter->presentCollection($place->photos);
         $result['city'] = $this->cityPresenter->present($place->city);
         $result['features'] = $this->featurePresenter->presentCollection($place->features);
@@ -74,14 +73,5 @@ class GetPlaceItemPresenter
         $result['myRating'] = $userRating;
 
         return $result;
-    }
-
-    private function presentReviews(Collection $reviews, User $user): array
-    {
-        return $reviews->map(function (Review $item) use ($user) {
-            $presented = $this->reviewPresenter->present($item);
-            $presented['like'] = $item->getLikedStatus($user->id)->value();
-            return $presented;
-        })->toArray();
     }
 }

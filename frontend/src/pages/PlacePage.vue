@@ -11,11 +11,11 @@
             <div class="column is-two-thirds">
                 <div class="main">
                     <ReviewList 
-                        v-if="loaded && (activeTab === 1) && place.reviews"
+                        v-if="loaded && (activeTab === 1)"
                         :place="place"
                     />
                     <ReviewPhotoGallery 
-                        v-if="loaded && (activeTab === 2) && place.photos"
+                        v-if="loaded && (activeTab === 2)"
                         :place="place"
                         :is-loading-review-photo="isLoadingReviewPhoto"
                     />
