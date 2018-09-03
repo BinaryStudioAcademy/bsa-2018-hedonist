@@ -13,7 +13,6 @@ use Illuminate\Http\Response;
 use Tests\Feature\Api\ApiTestCase;
 use Hedonist\Entities\Place\Tag;
 use Hedonist\Entities\Place\PlaceFeature;
-use Illuminate\Support\Facades\Redis;
 
 class PlaceControllerTest extends ApiTestCase
 {
@@ -27,7 +26,6 @@ class PlaceControllerTest extends ApiTestCase
     {
         parent::setUp();
 
-        Redis::flushall();
         $this->place = factory(Place::class)->create();
     }
 
