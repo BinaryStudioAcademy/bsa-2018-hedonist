@@ -2,18 +2,22 @@ import httpService from '@/services/common/httpService';
 import router from '@/router';
 import LocationService from '@/services/location/locationService';
 import mapSettingsService from '@/services/map/mapSettingsService';
+import { KIEV_LATITUDE, KIEV_LONGITUDE } from '@/services/location/positions';
 
 export default {
-    updateStateFromQuery: ({commit}, query) => {
+    updateStateFromQuery: ({commit, dispatch}, query) => {
+        if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
+        if(query.page) commit('SET_PAGE', query.page);
+        if(query.category) commit('SET_SEARCH_PLACE_CATEGORY', {id: query.category, name: ''});
         if(query.location) {
             let location = query.location.split(',');
             commit('SET_SEARCH_CITY', {center: location});
             commit('SET_CURRENT_POSITION', {
-                latitude: location[0],
-                longitude: location[1]
+                latitude: location[1],
+                longitude: location[0]
             });
         } else {
-            LocationService.getUserLocationData()
+            return LocationService.getUserLocationData()
                 .then(coordinates => {
                     let city = {center: [coordinates.lng, coordinates.lat]};
                     commit('SET_SEARCH_CITY', city);
@@ -21,11 +25,13 @@ export default {
                         latitude: coordinates.lat,
                         longitude: coordinates.lng
                     });
+                })
+                .catch(() => {
+                    dispatch('setLocationAvailable', false);
+                    let city = {center: [KIEV_LONGITUDE, KIEV_LATITUDE]};
+                    commit('SET_SEARCH_CITY', city);
                 });
         }
-        if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
-        if(query.category) commit('SET_SEARCH_PLACE_CATEGORY', {id: query.category, name: ''});
-        if(query.page) commit('SET_PAGE', query.page);
         return Promise.resolve();
     },
     selectSearchCity: ({commit}, city) => {
@@ -58,7 +64,7 @@ export default {
             .catch(error => Promise.reject(error));
     },
 
-    updateQueryFilters({state}) {
+    updateQueryFilters({state, dispatch}) {
         if (state.place.id !== null) {
             router.push({
                 name: 'PlacePage',
@@ -69,13 +75,16 @@ export default {
             Promise.resolve();
             return;
         }
+
+        let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
+        if (state.city.longitude && state.city.latitude) {
+            location = state.city.longitude + ',' + state.city.latitude;
+        }
         let query = {
             category: state.placeCategory && state.placeCategory.id,
             page: state.page,
-            location:
-                state.city.longitude &&
-                state.city.latitude &&
-                (state.city.longitude + ',' + state.city.latitude),
+            // name: state.place && state.place.name,
+            location: location,
             ...state.filters
         };
         Object.keys(query).map((param) => { //convert bool to int, remove empty
@@ -92,11 +101,18 @@ export default {
             query
         });
 
-        Promise.resolve();
+        dispatch('setIsPlacesLoaded', false);
+        dispatch('place/fetchPlaces', query, {root:true}).then(() => {
+            dispatch('setIsPlacesLoaded', true);
+        });
     },
 
     setCurrentPosition: ({commit}, currentPosition) => {
         commit('SET_CURRENT_POSITION', currentPosition);
+    },
+
+    setLocationAvailable: ({commit}, locationAvailable) => {
+        commit('SET_LOCATION_AVAILABLE', locationAvailable);
     },
 
     setFilters: ({commit, dispatch}, filters) => {
@@ -104,7 +120,7 @@ export default {
         dispatch('updateQueryFilters');
     },
 
-    initFilters: ({dispatch}) => {
+    initFilters: ({commit}) => {
         let query = router.currentRoute.query;
         let filters = {
             checkin: !!query['checkin'],
@@ -113,7 +129,7 @@ export default {
             top_reviewed: !!query['top_reviewed'],
         };
 
-        dispatch('setFilters', filters);
+        commit('SET_FILTERS', filters);
     },
 
     mapInitialization: ({commit}) => {
@@ -124,5 +140,9 @@ export default {
         return httpService.get('/places/autocomplete/search?filter[name]=' + filters.name + '&filter[location]=' + filters.location)
             .then( result => Promise.resolve(result.data.data))
             .catch( error  => Promise.reject(error));
+    },
+
+    setIsPlacesLoaded: ({commit}, isPlacesLoaded) => {
+        commit('SET_IS_PLACES_LOADED', isPlacesLoaded);
     },
 };

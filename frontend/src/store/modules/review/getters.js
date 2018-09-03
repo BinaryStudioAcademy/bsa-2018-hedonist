@@ -27,11 +27,12 @@ export default {
             .sort((a, b) => {
                 let result = reviews.byId[b].likes - reviews.byId[a].likes;
                 if(result === 0){
-                    sortComparator(
+                    result = sortComparator(
                         new Date(reviews.byId[b].created_at),
                         new Date(reviews.byId[a].created_at)
                     );
                 }
+                return result;
             })
             .slice(0, state.reviews.reviewsPerPage);
     },
