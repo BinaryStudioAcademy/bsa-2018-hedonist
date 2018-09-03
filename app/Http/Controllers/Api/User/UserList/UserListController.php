@@ -108,7 +108,7 @@ class UserListController extends ApiController
         try {
             $this->deleteUserListAction->execute(new DeleteUserListRequest($id));
         } catch (UserListPermissionDeniedException | \Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+            return $this->errorResponse($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 }

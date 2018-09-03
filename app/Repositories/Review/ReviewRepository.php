@@ -3,6 +3,7 @@
 namespace Hedonist\Repositories\Review;
 
 use Hedonist\Entities\Review\Review;
+use Hedonist\Repositories\Review\Criterias\GetReviewsByPlaceCriteria;
 use Illuminate\Database\Eloquent\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -38,5 +39,26 @@ class ReviewRepository extends BaseRepository implements ReviewRepositoryInterfa
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
+    }
+
+    public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection
+    {
+        foreach ($criterias as $criteria) {
+            $this->pushCriteria($criteria);
+        }
+        $result = $this->all();
+        $this->resetCriteria();
+
+        return $result;
+    }
+
+    public function getTotalCountByPlace(int $placeId): int
+    {
+        return Review::where('place_id', $placeId)->count();
+    }
+
+    public function getTotalCount(): int
+    {
+        return Review::count();
     }
 }

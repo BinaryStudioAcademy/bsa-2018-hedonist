@@ -198,7 +198,7 @@ export default {
 
 <style lang="scss">
     .search-inputs__location {
-        p.control {
+        .location-search {
             display: none;
         }
     }

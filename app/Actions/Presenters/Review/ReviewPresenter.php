@@ -4,6 +4,7 @@ namespace Hedonist\Actions\Presenters\Review;
 
 use Hedonist\Actions\Presenters\PresentsCollection;
 use Hedonist\Actions\Presenters\User\UserPresenter;
+use Hedonist\Actions\Review\GetReviewCollectionResponse;
 use Hedonist\Entities\Review\Review;
 
 class ReviewPresenter
@@ -21,11 +22,11 @@ class ReviewPresenter
     {
         return [
             'id' => $review->id,
-            'created_at' => $review->created_at->format('Y-m-d'),
+            'created_at' => $review->created_at->format('Y-m-d H:i:s'),
             'description' => $review->description,
             'user' => $this->usersPresenter->present($review->user),
-            'likes' => $review->likes->count(),
-            'dislikes' => $review->dislikes->count(),
+            'likes' => $review->likes_count,
+            'dislikes' => $review->dislikes_count,
         ];
     }
 }
