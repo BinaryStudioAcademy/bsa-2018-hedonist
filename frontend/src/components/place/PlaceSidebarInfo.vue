@@ -26,10 +26,35 @@
                         {{ tag.name }}
                     </span>
                 </div>
+
                 <div class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock" />
-                    <span class="worktime-info--red">Закрыто до 15:00</span>
+                    <div class="level">
+                        <div class="level-left">
+                            <span v-if="isOpen() === true" class="worktime-info--green">{{ $t('place_page.sidebar.open') }}</span>
+                            <span v-else class="worktime-info--red">{{ $t('place_page.sidebar.close') }}</span>
+                        </div>
+                        <div class="level-right">
+                            <a @click="isShowSchedule = !isShowSchedule">{{ $t('place_page.sidebar.schedule') }}</a>
+                        </div>
+                    </div>
+                    <b-collapse :open="isShowSchedule">
+                        <div class="notification">
+                            <template v-for="item in place.worktime">
+                                <div :key="item.id" class="level">
+                                    <div class="level-left">
+                                        <!--{{ item.day }}-->
+                                        {{ $t('place_page.sidebar.days.' + item.day) }}
+                                    </div>
+                                    <div class="level-right">
+                                        {{ displayTime(item.start) }} - {{ displayTime(item.end) }}
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </b-collapse>
                 </div>
+
                 <div class="place-sidebar__phone">
                     <i class="place-sidebar__icon fas fa-phone" />
                     <a 
@@ -79,19 +104,45 @@
 </template>
 
 <script>
+import moment from 'moment';
 import PlaceMapMarker from './PlaceMapMarker';
 
 export default {
     name: 'PlaceSidebarInfo',
-
     components: {
         PlaceMapMarker
     },
-
     props: {
         place: {
             type: Object,
             required: true
+        }
+    },
+    data() {
+        return {
+            isShowSchedule: false
+        };
+    },
+    methods: {
+        isOpen() {
+            let today = moment().format('dd').toLowerCase();
+            let now = this.getMinutes(moment());
+            let today_schedule = this.place.worktime.find(function(item) {
+                return item.day === today;
+            });
+            return this.getMinutes(this.getLocalMoment(today_schedule.start)) < now
+                && now < this.getMinutes(this.getLocalMoment(today_schedule.end));
+        },
+        displayTime(time) {
+            let localTime = this.getLocalMoment(time);
+            return localTime.format('HH:mm');
+        },
+        getLocalMoment(time) {
+            let utcTime = moment.utc(time);
+            return utcTime.local();
+        },
+        getMinutes(momentObj) {
+            return momentObj.hours() * 60 + momentObj.minutes();
         }
     }
 };
@@ -130,10 +181,16 @@ export default {
     }
 
     &__worktime {
+        .level {
+            margin-bottom: 5px;
+        }
 
         .worktime-info {
             &--red {
                 color: red;
+            }
+            &--green {
+                color: green;
             }
         }
     }
