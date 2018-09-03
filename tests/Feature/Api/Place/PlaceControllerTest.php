@@ -2,15 +2,22 @@
 
 namespace tests\Feature\Api\Place;
 
+use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\Place\PlaceCategory;
+use Hedonist\Entities\Place\PlaceTaste;
+use Hedonist\Entities\User\Taste;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Route;
 use Tests\Feature\Api\ApiTestCase;
+use Hedonist\Entities\Place\Tag;
+use Hedonist\Entities\Place\PlaceFeature;
 
 class PlaceControllerTest extends ApiTestCase
 {
     use DatabaseTransactions;
+    use WithFaker;
 
     private $place;
     const ENDPOINT = '/api/v1/places';
@@ -24,17 +31,15 @@ class PlaceControllerTest extends ApiTestCase
 
     public function testGetCollection()
     {
-        $routeName = 'getPlaceCollection';
         $response =  $this->actingWithToken()->json(
             'GET',
             self::ENDPOINT
         );
         $arrayContent = $response->getOriginalContent();
-
         $this->assertTrue(isset(
             $arrayContent['data'][0]['id'],
             $arrayContent['data'][0]['city'],
-            $arrayContent['data'][0]['creator'])
+            $arrayContent['data'][0]['address'])
         );
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
@@ -60,18 +65,58 @@ class PlaceControllerTest extends ApiTestCase
     public function testAddPlace()
     {
         $routeName = 'addPlace';
+
+        Language::create([
+            'code'    => 'en',
+            'active'  => 1,
+            'default' => 1
+        ]);
+
+        Tag::create([
+            'name' => 'Ice-cream cafe'
+        ]);
+
+        PlaceFeature::create([
+            'name' => 'Live music'
+        ]);
+
         $response = $this->actingWithToken()->json(
             'POST', route($routeName),
             [
-                'creator_id' => $this->place->creator->id,
-                'category_id' => $this->place->category->id,
-                'city_id' => $this->place->city->id,
-                'longitude' => -20,
-                'latitude' => 32.3,
-                'zip' => 3322,
-                'address' => 'sdf',
-                'phone' => +380636678400,
-                'website' => 'http://beef.kiev.ua/'
+                'creator_id'   => $this->place->creator->id,
+                'localization' => json_encode([
+                    'en' => [
+                        'name'        => 'Test',
+                        'description' => 'Test description....'
+                    ]
+                ]),
+                'category_id'  => $this->place->category->id,
+                'tags'         => [1],
+                'features'     => [1],
+                'city'         => json_encode([
+                    'text_en' => 'Kyiv',
+                    'center'  => [
+                        '30.5241',
+                        '50.4501'
+                    ]
+                ]),
+                'longitude'    => -20,
+                'latitude'     => 32.3,
+                'zip'          => 3322,
+                'address'      => 'Test address',
+                'phone'        => +380636678400,
+                'website'      => 'http://beef.kiev.ua/',
+                'facebook'     => 'https://facebook.com/',
+                'instagram'    => 'https://instagram.com/',
+                'twitter'      => 'https://twitter.com/',
+                'menu_url'     => 'https://menu.com/',
+                'work_weekend' => 1,
+                'worktime'     => json_encode([
+                        'mo' => [
+                            'start' => '2018-08-30UTC07:00:10.2390',
+                            'end'   => '2018-08-30UTC18:00:10.2390'
+                        ]
+                    ])
             ]
         );
         $newPlace = $response->getOriginalContent();
@@ -82,6 +127,26 @@ class PlaceControllerTest extends ApiTestCase
         $this->checkJsonStructure($response);
         $response->assertStatus(201);
         $response->assertHeader('Content-Type', 'application/json');
+
+        /* PlaceLocalization */
+        $this->assertDatabaseHas('places_tr', [
+            'place_name' => 'Test'
+        ]);
+
+        /* PlaceTags */
+        $this->assertDatabaseHas('place_tag', [
+            'place_id' => $newPlace['data']['id']
+        ]);
+
+        /* PlaceFeatures */
+        $this->assertDatabaseHas('places_places_features', [
+            'place_id' => $newPlace['data']['id']
+        ]);
+
+        /* PlaceWorktime */
+        $this->assertDatabaseHas('place_worktime', [
+            'place_id' => $newPlace['data']['id']
+        ]);
     }
 
     public function testUpdatePlace()
@@ -178,9 +243,6 @@ class PlaceControllerTest extends ApiTestCase
         /* @var \Illuminate\Foundation\Testing\TestResponse $response */
         $response->assertJsonStructure(['data' => [
             'id',
-            'creator_id',
-            'category_id',
-            'city_id',
             'longitude',
             'latitude',
             'zip',
@@ -188,5 +250,111 @@ class PlaceControllerTest extends ApiTestCase
             'phone',
             'website'
         ]]);
+    }
+
+    public function testGetPlaceCollectionSearchByFilters()
+    {
+        $category = factory(PlaceCategory::class)->create();
+        $longitude = 24;
+        $latitude = 50;
+
+        factory(Place::class)->create([
+            'latitude' => 49.8258,
+            'longitude' => 24.0335,
+            'category_id' => $category->id,
+        ]);
+        $polygon = '24.45513654618651,50.27748174666036;24.481544578315862,49.53768103435635;23.200755020088906,49.53768103435635;23.21395903614922,50.07453177140417;24.45513654618651,50.27748174666036';
+
+        $response =  $this->actingWithToken()->json(
+            'GET',
+            "/api/v1/places/search?filter[category]=$category->id&filter[location]=$longitude,$latitude&filter[polygon]=$polygon&page=1"
+        );
+        $arrayContent = $response->getOriginalContent();
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'longitude',
+                    'latitude',
+                    'zip',
+                    'address',
+                    'phone',
+                    'website'
+                ]
+            ]
+        ]);
+
+        $this->assertEquals(count($arrayContent['data']), 1);
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/json');
+    }
+
+    public function testGetPlaceCollectionSearchWithoutFilters()
+    {
+        $category = factory(PlaceCategory::class)->create();
+
+        factory(Place::class)->create([
+            'latitude' => 49.8258,
+            'longitude' => 24.0335,
+            'category_id' => $category->id,
+        ]);
+
+        $response =  $this->actingWithToken()->json(
+            'GET',
+            "/api/v1/places/search?filter[category]=&filter[location]=&filter[polygon]=&page=1"
+        );
+        $arrayContent = $response->getOriginalContent();
+        $response->assertJsonStructure([
+            'data' => [
+                0 => [
+                    'id',
+                    'longitude',
+                    'latitude',
+                    'zip',
+                    'address',
+                    'phone',
+                    'website'
+                ]
+            ]
+        ]);
+
+        $this->assertEquals(count($arrayContent['data']), 2);
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/json');
+    }
+
+    public function testAddTasteToPlace()
+    {
+        $taste = factory(Taste::class)->create();
+        $data = [
+            'place_id' => $this->place->id,
+            'taste_id' => $taste->id,
+        ];
+        $response =  $this->actingWithToken()->json(
+            'POST',
+            "/api/v1/place/add-taste",
+            $data
+        );
+
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/json');
+        $this->assertDatabaseHas('place_tastes', $data);
+    }
+
+    public function testAddTasteToPlaceIfPlaceTasteExist()
+    {
+        $placeTaste = factory(PlaceTaste::class)->create();
+        $data = [
+            'place_id' => $placeTaste->place_id,
+            'taste_id' => $placeTaste->taste_id,
+        ];
+        $response =  $this->actingWithToken()->json(
+            'POST',
+            "/api/v1/place/add-taste",
+            $data
+        );
+
+        $response->assertStatus(400);
+        $response->assertHeader('Content-Type', 'application/json');
     }
 }

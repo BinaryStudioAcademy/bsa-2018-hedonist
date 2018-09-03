@@ -2,26 +2,37 @@
 
 namespace Hedonist\Http\Controllers\Api\Review;
 
+use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Review\{
     GetReviewAction,
     UpdateReviewDescriptionAction,
     CreateReviewAction,
     DeleteReviewAction,
-    GetReviewCollectionAction
+    GetReviewCollectionAction,
+    GetUsersWhoLikedReviewAction,
+    GetUsersWhoDislikedReviewAction
 };
-use Hedonist\Actions\Review\{
+use Hedonist\Actions\Review\{GetReviewPhotoByPlaceAction,
+    GetReviewPhotoByPlaceRequest,
     GetReviewPhotoByReviewAction,
     GetReviewPhotoByReviewRequest,
     GetReviewRequest,
     CreateReviewRequest,
     DeleteReviewRequest,
-    UpdateReviewDescriptionRequest
+    UpdateReviewDescriptionRequest,
+    GetUsersWhoLikedReviewRequest,
+    GetUsersWhoDislikedReviewRequest,
+    GetReviewCollectionRequest
 };
+use Hedonist\Exceptions\DomainException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Http\Requests\Review\SaveReviewRequest;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
+use Hedonist\Http\Requests\Review\ReviewSearchRequest;
+use Hedonist\Actions\Presenters\User\UserPresenter;
+use Illuminate\Http\JsonResponse;
 
 class ReviewController extends ApiController
 {
@@ -31,6 +42,10 @@ class ReviewController extends ApiController
     private $deleteReviewAction;
     private $getReviewCollectionAction;
     private $getReviewPhotosByReviewAction;
+    private $getUsersWhoLikedReviewAction;
+    private $getUsersWhoDislikedReviewAction;
+    private $getReviewPhotoByPlaceAction;
+    private $reviewPresenter;
 
     public function __construct(
         GetReviewAction $getReviewAction,
@@ -38,7 +53,11 @@ class ReviewController extends ApiController
         DeleteReviewAction $deleteReviewAction,
         UpdateReviewDescriptionAction $updateReviewAction,
         GetReviewCollectionAction $getReviewCollectionAction,
-        GetReviewPhotoByReviewAction $getReviewPhotosByReviewAction
+        GetReviewPhotoByReviewAction $getReviewPhotosByReviewAction,
+        GetUsersWhoLikedReviewAction $getUsersWhoLikedReviewAction,
+        GetUsersWhoDislikedReviewAction $getUsersWhoDislikedReviewAction,
+        GetReviewPhotoByPlaceAction $getReviewPhotoByPlaceAction,
+        ReviewPresenter $reviewPresenter
     ) {
         $this->getReviewAction = $getReviewAction;
         $this->updateReviewAction = $updateReviewAction;
@@ -46,6 +65,10 @@ class ReviewController extends ApiController
         $this->deleteReviewAction = $deleteReviewAction;
         $this->getReviewCollectionAction = $getReviewCollectionAction;
         $this->getReviewPhotosByReviewAction = $getReviewPhotosByReviewAction;
+        $this->getUsersWhoLikedReviewAction = $getUsersWhoLikedReviewAction;
+        $this->getUsersWhoDislikedReviewAction = $getUsersWhoDislikedReviewAction;
+        $this->getReviewPhotoByPlaceAction = $getReviewPhotoByPlaceAction;
+        $this->reviewPresenter = $reviewPresenter;
     }
 
     public function getReview(int $id)
@@ -60,10 +83,26 @@ class ReviewController extends ApiController
         }
     }
 
-    public function getReviewCollection()
+    public function getReviewCollection(ReviewSearchRequest $request): JsonResponse
     {
-        $getReviewCollectionResponse = $this->getReviewCollectionAction->execute();
-        return $this->successResponse($getReviewCollectionResponse->getReviewCollection());
+        try {
+            $getReviewCollectionResponse = $this->getReviewCollectionAction->execute(
+                new GetReviewCollectionRequest(
+                    $request->input('page'),
+                    $request->input('filter.place_id'),
+                    $request->input('sort'),
+                    $request->input('order'),
+                    $request->input('filter.text')
+                )
+            );
+
+            return $this->successResponseWithMeta(
+                $this->reviewPresenter->presentCollection($getReviewCollectionResponse->getReviewCollection()),
+                $getReviewCollectionResponse->getPaginationMetaInfo()
+            );
+        } catch (DomainException $e) {
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     public function createReview(SaveReviewRequest $request)
@@ -110,9 +149,58 @@ class ReviewController extends ApiController
     public function getPhotosByReviewId(int $reviewId)
     {
         try {
-            $reviewPhotosByReviewResponse = $this->getReviewPhotosByReviewAction->execute(new GetReviewPhotoByReviewRequest($reviewId));
+            $reviewPhotosByReviewResponse = $this->getReviewPhotosByReviewAction->execute(
+                new GetReviewPhotoByReviewRequest($reviewId)
+            );
             return $this->successResponse($reviewPhotosByReviewResponse->toArray(), 200);
-        } catch (\Exception $exception) {
+        } catch (DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
+        }
+    }
+
+    public function getUsersWhoLikedReview(int $id, UserPresenter $presenter)
+    {
+        try {
+            $getUsersWhoLikedReviewResponse = $this->getUsersWhoLikedReviewAction->execute(
+                new GetUsersWhoLikedReviewRequest($id)
+            );
+            $users = $getUsersWhoLikedReviewResponse->getUsers();
+            $presented = [];
+            foreach ($users as $user) {
+                $presented[] = $presenter->present($user);
+            }
+            return $this->successResponse($presented, 200);
+        } catch (DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
+        }
+    }
+
+    public function getUsersWhoDislikedReview(int $id, UserPresenter $presenter)
+    {
+        try {
+            $getUsersWhoDislikedReviewResponse = $this->getUsersWhoDislikedReviewAction->execute(
+                new GetUsersWhoDislikedReviewRequest($id)
+            );
+            $users = $getUsersWhoDislikedReviewResponse->getUsers();
+            $presented = [];
+            foreach ($users as $user) {
+                $presented[] = $presenter->present($user);
+            }
+            return $this->successResponse($presented, 200);
+        } catch (DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
+        }
+    }
+
+    public function getReviewPhotosByPlaceId(int $placeId)
+    {
+        try {
+            $reviewPhotosByReviewResponse = $this->getReviewPhotoByPlaceAction->execute(
+                new GetReviewPhotoByPlaceRequest($placeId)
+            );
+
+            return $this->successResponse($reviewPhotosByReviewResponse->toArray(), 200);
+        } catch (DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }
     }

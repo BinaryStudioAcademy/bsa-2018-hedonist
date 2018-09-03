@@ -5,6 +5,20 @@ use Hedonist\Entities\User\Taste;
 
 class UserTasteSeeder extends Seeder
 {
+    const TASTES = [
+        'spicy food',
+        'vegetarian food',
+        'italian food',
+        'fast food',
+        'asian food',
+        'rolls',
+        'coffee',
+        'quite places',
+        'anti cafe',
+        'good service',
+        'no queues'
+    ];
+
     /**
      * Run the database seeds.
      *
@@ -12,19 +26,11 @@ class UserTasteSeeder extends Seeder
      */
     public function run()
     {
-        Taste::create('spicy food');
-        Taste::create('live music');
-        Taste::create('electronic music');
-        Taste::create('jazz');
-        Taste::create('vegetarian food');
-        Taste::create('italian food');
-        Taste::create('fast food');
-        Taste::create('asian food');
-        Taste::create('rolls');
-        Taste::create('coffee');
-        Taste::create('quite places');
-        Taste::create('anti cafe');
-        Taste::create('good service');
-        Taste::create('no queues');
+        foreach (self::TASTES as $taste) {
+            Taste::create([
+                'name' => $taste,
+                'is_default' => true
+            ]);
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace Hedonist\Repositories\User;
 
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\Taste;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Eloquent\BaseRepository;
@@ -60,5 +61,24 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     public function setTastes(User $user, Collection $tastes): void
     {
         $user->tastes()->sync($tastes);
+    }
+
+    public function getUserBySocialAuthCredentials(string $provider, string $token): ?User
+    {
+        return User::whereHas(
+            'socialAccounts',
+            function (Builder $query) use ($provider, $token) {
+                $query->where([
+                    'provider' => $provider,
+                    'provider_user_id' => $token
+                ]);
+            }
+        )->first();
+    }
+
+    public function isEmailUnique(string $email): bool
+    {
+        $user = User::where(["email" => $email])->first();
+        return $user ? false : true;
     }
 }

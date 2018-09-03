@@ -2,53 +2,63 @@
     <div class="reviews-photos-wrp">
         <div class="review-title">
             <div class="left-side-review-title">
-                <img src="https://ss0.4sqi.net/img/venuepage/v2/section_title_photos-8f94fe369722d78e2322dec97fa9488d.png" height="25" width="25">
-                <span>321 Photos</span>
+                <img 
+                    src="https://ss0.4sqi.net/img/venuepage/v2/section_title_photos-8f94fe369722d78e2322dec97fa9488d.png" 
+                    height="25" 
+                    width="25"
+                >
+                <span v-if="loaded">{{ photosCount }} Photos</span>
             </div>
         </div>
-        <ul class="reviews-photo-list">
-            <li v-for="photo in photos" :key="photo.id">
-                <ReviewPhoto :key="photo.id" :photo="photo" />
+        <ul v-if="loaded" class="reviews-photo-list">
+            <li
+                v-for="(photo, index) in photos"
+                :key="index"
+            >
+                <ReviewPhoto
+                    :photo="photo"
+                />
             </li>
         </ul>
     </div>
 </template>
 
 <script>
-    import ReviewPhoto from './ReviewPhoto';
+import ReviewPhoto from './ReviewPhoto';
+import { mapGetters } from 'vuex';
 
-    export default {
-        name: "ReviewPhotoGallery",
-
-        components: { 
-            ReviewPhoto 
+export default {
+    name: 'ReviewPhotoGallery',
+    components: { 
+        ReviewPhoto 
+    },
+    props: {
+        place: {
+            type: Object,
+            required: true
         },
-
-        props: {
-            place: {
-                type: Object,
-                required: true
-            }
+        isLoadingReviewPhoto: {
+            type: Boolean,
+            required: true
+        }
+    },
+    computed: {
+        ...mapGetters({
+            placeReviewPhotos: 'review/getPlaceReviewPhotos',
+        }),
+        photosCount() {
+            return this.place.photos.length + this.placeReviewPhotos.length;
         },
-
-        data() {
-            return {
-                photos: [
-                    {id: 1, url: 'https://goo.gl/Ch8Ke9'},
-                    {id: 2, url: 'https://goo.gl/x3AmSY'},
-                    {id: 3, url: 'https://goo.gl/WfviVp'},
-                    {id: 4, url: 'https://goo.gl/QwdfPG'},
-                    {id: 5, url: 'https://goo.gl/TAVDcL'},
-                    {id: 6, url: 'https://goo.gl/f7zX7n'},
-                    {id: 7, url: 'https://goo.gl/LYwf2U'},
-                    {id: 8, url: 'https://goo.gl/mjRgka'},
-                    {id: 9, url: 'https://goo.gl/jbeku1'},
-                    {id: 10, url: 'https://goo.gl/K6Zjgc'},
-                    {id: 11, url: 'https://goo.gl/5KJYTS'},
-                ]
-            };
+        loaded() {
+            return !(this.isLoadingReviewPhoto) && !!(this.placeReviewPhotos);
         },
-    }   
+        photos() {
+            let placePhotos = Object.values(this.place.photos);
+            let placeReviewPhotos = Object.values(this.placeReviewPhotos);
+            return placePhotos.concat(placeReviewPhotos);
+        }
+    }
+};
 </script>
 
 <style lang="scss" scoped>

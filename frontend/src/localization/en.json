@@ -1,0 +1,79 @@
+{
+  "login_page": {
+    "title": "Login into your account",
+    "register": {
+      "title": "Don't have an account?",
+      "link": "Create new"
+    },
+    "forgot": {
+      "link": "Forgot Password?"
+    },
+    "buttons": {
+      "submit": "Login"
+    }
+  },
+  "recover_page": {
+    "title": "Recover your password",
+    "buttons": {
+      "submit": "Recover"
+    }
+  },
+  "signup_page": {
+    "title": "Create new account",
+    "buttons": {
+      "submit": "Create"
+    }
+  },
+  "reset_page": {
+    "title": "Reset your password",
+    "buttons": {
+      "submit": "Reset"
+    }
+  },
+  "inputs": {
+    "auth": {
+      "first_name": {
+        "field_name": "First name",
+        "placeholder": "Your First name"
+      },
+      "last_name": {
+        "field_name": "Last name",
+        "placeholder": "Your Last name"
+      },
+      "email": {
+        "field_name": "Email",
+        "placeholder": "Your Email"
+      },
+      "password": {
+        "field_name": "Password",
+        "placeholder": "Your Password",
+        "description": "(at least 6 characters)"
+      },
+      "new_password": {
+        "field_name": "Confirm new password",
+        "placeholder": "New password"
+      }
+    }
+  },
+  "validation": {
+    "required": "{field} is required",
+    "wrong_email_format": "Wrong email format",
+    "letters_only": "Only letters are allowed",
+    "min_length": "Should be {min} symbols at least",
+    "email_exists": "This email is already registered."
+  },
+  "search": {
+    "current_location": "Current position",
+    "no_results": "Sorry, no results are found.",
+    "may_try": "You may try",
+    "removing_your_filters": "removing your filters",
+    "search_in_different_location": "search in different location",
+    "search_for_something_more_general": "search for something more general"
+  },
+  "check-ins_page": {
+    "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page."
+  },
+  "my-lists_page": {
+    "no-lists": "You do not have a list of places yet. You can add places to a list and group the selected places"
+  }
+}

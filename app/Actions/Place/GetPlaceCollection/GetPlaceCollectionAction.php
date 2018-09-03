@@ -3,10 +3,13 @@
 namespace Hedonist\Actions\Place\GetPlaceCollection;
 
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
+use Hedonist\Repositories\Review\Criterias\GetLastReviewByPlaceIdsCriteria;
+use Hedonist\Repositories\Review\ReviewRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class GetPlaceCollectionAction
 {
-    protected $placeRepository;
+    private $placeRepository;
 
     public function __construct(PlaceRepositoryInterface $placeRepository)
     {
@@ -15,8 +18,8 @@ class GetPlaceCollectionAction
 
     public function execute(GetPlaceCollectionRequest $request): GetPlaceCollectionResponse
     {
-        $places = $this->placeRepository->findAll();
+        $places = $this->placeRepository->getAllWithRelations();
 
-        return new GetPlaceCollectionResponse($places);
+        return new GetPlaceCollectionResponse($places, Auth::user());
     }
 }

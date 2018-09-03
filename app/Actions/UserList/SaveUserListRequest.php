@@ -2,19 +2,28 @@
 
 namespace Hedonist\Actions\UserList;
 
+use Illuminate\Http\UploadedFile;
+
 class SaveUserListRequest
 {
     private $id;
-    private $imgUrl;
+    private $image;
     private $name;
     private $userId;
+    private $attachedPlaces;
 
-    public function __construct(int $userId, string $name, string $imgUrl, int $id = null)
-    {
+    public function __construct(
+        int $userId,
+        ?string $name,
+        ?UploadedFile $image,
+        ?array $attachedPlaces,
+        int $id = null
+    ) {
         $this->id = $id;
         $this->userId = $userId;
         $this->name = $name;
-        $this->imgUrl = $imgUrl;
+        $this->image = $image;
+        $this->attachedPlaces = $attachedPlaces;
     }
 
     public function getId(): ?int
@@ -22,12 +31,12 @@ class SaveUserListRequest
         return $this->id;
     }
 
-    public function getImgUrl(): string
+    public function getImage(): ?UploadedFile
     {
-        return $this->imgUrl;
+        return $this->image;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -35,5 +44,10 @@ class SaveUserListRequest
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    public function getAttachedPlaces(): ?array
+    {
+        return $this->attachedPlaces;
     }
 }

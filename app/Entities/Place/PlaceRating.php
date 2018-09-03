@@ -3,7 +3,6 @@
 namespace Hedonist\Entities\Place;
 
 use Illuminate\Database\Eloquent\Model;
-use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\User\User;
 
 class PlaceRating extends Model
@@ -13,6 +12,10 @@ class PlaceRating extends Model
     protected $table = 'place_rating';
 
     protected $fillable = ['user_id', 'place_id', 'rating'];
+
+    const MIN = 1;
+
+    const MAX = 10;
 
     public function user()
     {

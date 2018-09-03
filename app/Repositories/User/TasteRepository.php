@@ -2,6 +2,7 @@
 
 namespace Hedonist\Repositories\User;
 
+use Hedonist\Entities\User\CustomTaste;
 use Hedonist\Entities\User\Taste;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -18,6 +19,11 @@ class TasteRepository extends BaseRepository implements TasteRepositoryInterface
     public function getById(int $id): ?Taste
     {
         return Taste::find($id);
+    }
+
+    public function getByName(string $name): ?Taste
+    {
+        return Taste::where('name', $name)->first();
     }
 
     public function findAll(): Collection

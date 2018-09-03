@@ -1,0 +1,79 @@
+{
+  "login_page": {
+    "title": "Войдите в свой аккаунт",
+    "register": {
+      "title": "Нет аккаунта?",
+      "link": "Создать"
+    },
+    "forgot": {
+      "link": "Забыли пароль?"
+    },
+    "buttons": {
+      "submit": "Войти"
+    }
+  },
+  "recover_page": {
+    "title": "Восстановить ваш пароль",
+    "buttons": {
+      "submit": "Восстановить"
+    }
+  },
+  "signup_page": {
+    "title": "Создать новый аккаунт",
+    "buttons": {
+      "submit": "Зарегистрироваться"
+    }
+  },
+  "reset_page": {
+    "title": "Сбросить ваш пароль",
+    "buttons": {
+      "submit": "Сбросить"
+    }
+  },
+  "inputs": {
+    "auth": {
+      "first_name": {
+        "field_name": "Имя",
+        "placeholder": "Ваше Имя"
+      },
+      "last_name": {
+        "field_name": "Фамилия",
+        "placeholder": "Ваша Фамилия"
+      },
+      "email": {
+        "field_name": "Email",
+        "placeholder": "Ваш Email"
+      },
+      "password": {
+        "field_name": "Пароль",
+        "placeholder": "Ваш Пароль",
+        "description": "(минимум 6 символов)"
+      },
+      "new_password": {
+        "field_name": "Подтвердите новый пароль",
+        "placeholder": "Новый пароль"
+      }
+    }
+  },
+  "validation": {
+    "required": "{field} - обязательное поле",
+    "wrong_email_format": "Неправильный формат email",
+    "letters_only": "Допускаются только буквы",
+    "min_length": "Должно быть не менее чем {min} символов",
+    "email_exists": "Пользователь с таким email уже существует."
+  },
+  "search": {
+    "current_location": "Текущее местоположение",
+    "no_results": "Извините, результатов не найдено.",
+    "may_try": "Вы можете попробовать",
+    "removing_your_filters": "удалить ваши фильтры",
+    "search_in_different_location": "искать в другой локации",
+    "search_for_something_more_general": "искать что-то более общее"
+  },
+  "check-ins_page": {
+    "no-check-ins": "Вы не зарегистрировались ни в каком месте. Посетите какое-то из них и сделайте \"чек-ин\" на его странице."
+  },
+  "my-lists_page": {
+    "no-lists": "У вас пока нет списков мест. Вы можете добавить некоторые и сгруппировать выбранные вами места."
+  }
+}

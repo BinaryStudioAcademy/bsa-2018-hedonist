@@ -20,5 +20,9 @@ interface PlaceRatingRepositoryInterface
 
     public function getByPlaceUser(int $placeId, int $userId) : ?PlaceRating;
 
-    public function getAverage(int $placeId) : ?Float;
+    public function getAverage(int $placeId) : ?float;
+
+    public function getVotesCount(int $placeId) : ?int;
+
+    public function getAvgByPlaceIds(array $ids): Collection;
 }

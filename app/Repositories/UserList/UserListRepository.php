@@ -14,37 +14,69 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
     public function save(UserList $userList): UserList
     {
         $userList->save();
-        
+
         return $userList;
     }
-    
+
     public function getById(int $id): ?UserList
     {
         return UserList::find($id);
     }
-    
+
+    public function findUserLists(int $userId): Collection
+    {
+        return UserList::where('user_id', $userId)->get();
+    }
+
+    public function findUserListsWithPlaces(int $userId): Collection
+    {
+        return UserList::with('places', 'places.tags')
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+    }
+
     public function findAll(): Collection
     {
         return UserList::all();
     }
-     
+
     public function findByCriteria(CriteriaInterface $criteria): Collection
     {
         return $this->getByCriteria($criteria);
     }
-    
-    public function deleteById(int $id)
+
+    public function deleteById(int $id): void
     {
+        $userList = $this->getById($id);
+        $userList->places()->detach();
         $this->delete($id);
     }
-    
+
     public function model()
     {
         return UserList::class;
     }
 
-    public function attachPlace(UserList $userList, Place $place)
+    public function attachPlace(UserList $list, Place $place): void
     {
-        $this->getById($userList->id)->places()->attach($place->pluck('id'));
+        $list->places()->attach($place->id);
+    }
+
+
+    public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection
+    {
+        foreach ($criterias as $criteria) {
+            $this->pushCriteria($criteria);
+        }
+        $result = $this->all();
+        $this->resetCriteria();
+
+        return $result;
+    }
+
+    public function syncPlaces(UserList $list, array $placeIds): void
+    {
+        $list->places()->sync($placeIds);
     }
 }

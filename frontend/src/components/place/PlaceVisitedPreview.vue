@@ -1,85 +1,93 @@
 <template>
     <transition name="slide-fade">
-        <article v-if="active">
-            <div class="entry-media">
-                <img class="image" :src="visitedPlace.place_photo.url"/>
-            </div>
-            <div class="item-description">
-                <div class="rating-wrapper">
-                    <div class="rating">
-                        {{visitedPlace.ratings.rating}}
-                    </div>
-                </div>
-                <h2 class="title">{{ index }}.{{ visitedPlace.places_tr.place_name }}</h2>
-                <p>{{ cityAddress }}</p>
-                <p>{{ visitedPlace.categories.name }} - Tips and feedback: {{reviewCount}}</p>
+        <div class="container place-item" v-if="active">
+            <div class="media">
+                <figure v-if="hasPhotos" class="media-left image is-96x96">
+                    <img 
+                        v-for="(photo, index) in place.photos"
+                        v-img="{group: place.id}"
+                        v-show="index === 0"
+                        :src="photo.img_url"
+                        :key="photo.id"
+                    >
+                </figure>
+                <figure v-else class="media-left image is-96x96">
+                    <img :src="notFoundPhoto">
+                </figure>
+                <div class="media-content">
+                    <p class="address">
+                        You were here on {{ checkin.createdAt | timeDate }}
+                    </p>
+                    <h3
+                        class="title has-text-primary"
+                    >
+                        <router-link :to="`/places/${place.id}`">
+                            {{ localizedName }}
+                        </router-link>
 
-                <button class="saved"><i class="fa fa-bookmark"></i>Saved</button>
+                    </h3>
+                    <p class="address">
+                        <strong>{{ place.city.name }}</strong>, {{ place.address }}
+                    </p>
+                </div>
+                <div class="media-right rating-wrapper">
+                    <PlaceRating
+                        v-if="place.rating"
+                        :value="Number(place.rating)"
+                    />
+                </div>
             </div>
-        </article>
+        </div>
     </transition>
 </template>
 
 <style lang="scss" scoped>
-
-    article {
-        margin: 1.5rem auto;
-        text-align: left;
-        width: 600px;
-        background-color: #FFF;
+    .place-item {
+        background: #FFF;
+        color: grey;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        padding: 10px;
     }
 
-    .entry-media {
-        height: 300px;
-        width: 600px;
+    .columns {
+        width: 100%;
+        margin: 0;
     }
 
-    .image {
-        margin: 0 auto;
-        max-width: 400px;
-        max-height: 300px;
+    .title {
+        margin-bottom: 0.5rem;
+        font-size: 1.3rem;
     }
 
-    .item-description {
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
+    .image > img {
+        border-radius: 5px;
+    }
 
-        .rating-wrapper {
-            float: right;
-        }
+    .place-category {
+        margin-bottom: 0.25rem;
+        a {
+            color: grey;
+            -webkit-transition: color 0.3s;
+            -moz-transition: color 0.3s;
+            -ms-transition: color 0.3s;
+            -o-transition: color 0.3s;
+            transition: color 0.3s;
 
-        p {
-            padding-left: 0.5rem;
-        }
-
-        .saved {
-            padding-top: 0.3rem;
-            padding-bottom: 0.3rem;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-
-            i {
-                padding-right: 0.6rem;
-                color: #00E676;
+            &:hover {
+                color: black;
+                text-decoration: underline;
             }
         }
     }
 
-    .title {
-        margin-top: 1.5rem;
-        padding-left: 0.5rem;
+    .address {
+        margin-bottom: 0.5rem;
     }
 
-    .rating {
-        width: 48px;
-        height: 48px;
-        background: #00E676;
-        border-radius: 7px;
-        margin: auto;
-        line-height: 48px;
-        font-size: 1.5rem;
-        color: #FFF;
-        text-align: center;
+    hr {
+        color: grey;
+        border-width: 3px;
     }
 
     .slide-fade-enter-active {
@@ -90,41 +98,76 @@
         transform: translateX(300px);
         opacity: 0;
     }
+
 </style>
 
 <script>
-    export default {
-        name: "PlaceVisitedPreview",
-        data() {
-            return {
-                active: false
-            }
+import Review from '@/components/review/PlacePreviewReviewItem';
+import imagePlaceholder from '@/assets/placeholder_128x128.png';
+import PlaceRating from './PlaceRating';
+import moment from 'moment';
+
+export default {
+    name: 'PlaceVisitedPreview',
+    components: {
+        Review,
+        PlaceRating,
+    },
+    data() {
+        return {
+            active: false
+        };
+    },
+    filters: {
+        timeDate: function(dateTime){
+            return moment.utc(dateTime).local().format('MMMM DD, HH:mm');
         },
-        props: {
-            visitedPlace: {
-                required: true,
-                type: Object,
-            },
-            index: {
-                type: Number
-            },
-            timer: {
-                required: true,
-                type: Number
-            }
+    },
+    props: {
+        place: {
+            required: true,
+            type: Object,
         },
-        computed: {
-            cityAddress: function() {
-                return this.visitedPlace.address + ', ' + this.visitedPlace.cities.name;
-            },
-            reviewCount: function() {
-                return this.visitedPlace.reviews.length || 0;
-            }
+        checkin: {
+            required: true,
+            type: Object,
         },
-        created() {
-            setTimeout(() => {
-                this.active = true
-            }, this.timer)
+        timer: {
+            required: true,
+            type: Number,
         }
+    },
+    computed: {
+        localizedName(){
+            return this.place.localization[0].name;
+        },
+        hasPhotos() {
+            return this.place.photos !== undefined && this.place.photos.length;
+        },
+        notFoundPhoto() {
+            return imagePlaceholder;
+        },
+    },
+    methods: {
+        like() {
+            this.$toast.open({
+                message: 'You liked this review!',
+                type: 'is-info',
+                position: 'is-bottom'
+            });
+        },
+        dislike() {
+            this.$toast.open({
+                message: 'You disliked this review',
+                position: 'is-bottom',
+                type: 'is-info'
+            });
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
     }
+};
 </script>

@@ -1,13 +1,17 @@
 <template>
-  <form class="form" @submit.prevent novalidate="true">
-    <slot></slot>  
-  </form>  
+    <form 
+        class="form" 
+        @submit.prevent 
+        novalidate="true"
+    >
+        <slot />  
+    </form>  
 </template>
 
 <script>
 export default {
   
-}
+};
 </script>
 
 <style scoped>

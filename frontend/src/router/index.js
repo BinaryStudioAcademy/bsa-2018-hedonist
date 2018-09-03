@@ -2,24 +2,26 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import PlacePage from '@/pages/PlacePage';
 import ProfilePage from '@/pages/ProfilePage';
-import ReviewList from '@/components/review/ReviewList';
+import NewPlacePage from '@/pages/NewPlacePage';
 import UserListsPage from '@/pages/UserListsPage';
-import PlacesList from  '@/components/placesList/PlacesList';
-import HistoryPage from '@/pages/HistoryPage';
-import SeachPlacePage from  '@/pages/SeachPlacePage';
+import PlaceListPage from  '@/pages/PlaceListPage';
+import CheckinsPage from '@/pages/CheckinsPage';
+import SearchPlacePage from  '@/pages/SearchPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
-import UserListAddPage from '@/pages/UserListAddPage';
+import ListPage from '@/pages/ListPage';
+import UserListAddUpdatePage from '@/pages/UserListAddUpdatePage';
 import SignUpPage from '@/pages/SignUpPage';
 import LoginPage from '@/pages/LoginPage';
 import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
-import TastesAdd from '@/components/taste/TastesAdd';
+import MyTastesPage from '@/pages/MyTastesPage';
+import SocialAuthPage from '@/pages/SocialAuthPage';
 
 Vue.use(Router);
 
 const middleware = handler => (
-    routes => routes.map(route => Object.assign({}, route, { beforeEnter: handler }))
+    routes => routes.map(route => Object.assign({}, route, {beforeEnter: handler}))
 );
 
 export default new Router({
@@ -39,14 +41,24 @@ export default new Router({
                 component: ProfilePage,
             },
             {
-                path: '/places/list',
+                path: '/my-places',
                 name: 'PlacesList',
-                component: PlacesList
+                component: PlaceListPage
+            },
+            {
+                path: '/my-tastes',
+                name: 'MyTastesPage',
+                component: MyTastesPage
+            },
+            {
+                path: '/places/add',
+                name: 'NewPlacePage',
+                component: NewPlacePage
             },
             {
                 path: '/search',
-                name: 'SeachPlacePage',
-                component: SeachPlacePage
+                name: 'SearchPlacePage',
+                component: SearchPlacePage
             },
             {
                 path: '/places/:id',
@@ -54,29 +66,33 @@ export default new Router({
                 component: PlacePage
             },
             {
-                path: '/reviews',
-                name: 'ReviewList',
-                component: ReviewList
+                path: '/my-lists/add',
+                name: 'UserListAdd',
+                component: UserListAddUpdatePage
             },
             {
-                path: '/users/lists/add',
-                name: 'UserListAddPage',
-                component: UserListAddPage
+                path: '/my-lists/:id/edit',
+                name: 'UserListUpdate',
+                component: UserListAddUpdatePage
             },
             {
-                path: '/user/lists',
+                path: '/my-lists',
                 name: 'UserListsPage',
                 component: UserListsPage
             },
             {
-                path: '/tastes/add',
-                name: 'Tastes',
-                component: TastesAdd
+                path: '/list/:id',
+                name: 'ListPage',
+                component: ListPage
             },
             {
-                path: '/history',
-                name: 'HistoryPage',
-                component: HistoryPage
+                path: '/checkins',
+                name: 'CheckinsPage',
+                component: CheckinsPage
+            },
+            {
+                path: '*',
+                redirect: '/'
             }
         ]),
         ...middleware(middlewares.guest(store))([
@@ -99,6 +115,12 @@ export default new Router({
                 path: '/recover',
                 name: 'RecoverPasswordPage',
                 component: RecoverPasswordPage
+            },
+
+            {
+                path: '/auth/social/:provider',
+                name: 'SocialAuthPage',
+                component: SocialAuthPage
             },
         ])
     ]

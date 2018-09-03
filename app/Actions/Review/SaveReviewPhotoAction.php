@@ -5,10 +5,13 @@ namespace Hedonist\Actions\Review;
 use Hedonist\Entities\Review\ReviewPhoto;
 use Hedonist\Repositories\Review\ReviewPhotoRepository;
 use Hedonist\Repositories\Review\ReviewPhotoRepositoryInterface;
+use Hedonist\Services\FileNameGenerator;
 use Illuminate\Support\Facades\Storage;
 
 class SaveReviewPhotoAction
 {
+    const FILE_STORAGE = 'upload/review/';
+
     private $reviewPhotoRepository;
 
     public function __construct(ReviewPhotoRepositoryInterface $reviewPhotoRepository)
@@ -25,11 +28,15 @@ class SaveReviewPhotoAction
             $reviewPhoto = $this->reviewPhotoRepository->getById($id);
         }
         $file = $request->getImg();
-        $newFileName = time() . '.' . $file->extension();
-        $file->storeAs('upload/review', $newFileName, 'public');
+        $fileNameGenerator = new FileNameGenerator($file);
+        $newFileName = $fileNameGenerator->generateFileName();
+        Storage::disk()->putFileAs(self::FILE_STORAGE, $file, $newFileName, 'public');
+        list($width, $height) = getimagesize($file);
         $reviewPhoto->review_id = $request->getReviewId();
         $reviewPhoto->description = $request->getDescription();
-        $reviewPhoto->img_url = Storage::url('upload/review/' . $newFileName);
+        $reviewPhoto->img_url = Storage::disk()->url(self::FILE_STORAGE . $newFileName);
+        $reviewPhoto->width = $width;
+        $reviewPhoto->height = $height;
         $reviewPhoto = $this->reviewPhotoRepository->save($reviewPhoto);
 
         return new SaveReviewPhotoResponse($reviewPhoto);

@@ -25,15 +25,24 @@ class ValidateAddPlaceRequest extends JsonRequest
     public function rules()
     {
         return [
-            'longitude'   => 'required|numeric',
-            'latitude'    => 'required|numeric',
-            'zip'         => 'required|numeric',
-            'address'     => 'required|max:255',
-            'creator_id'  => 'required|numeric',
-            'category_id' => 'required|numeric',
-            'city_id'     => 'required|numeric',
-            'phone'       => [new Phone()],
-            'website'     => 'url|max:255'
+            'longitude'    => 'required|numeric',
+            'latitude'     => 'required|numeric',
+            'city'         => 'required|string',
+            'zip'          => 'required|numeric',
+            'address'      => 'required|max:255',
+            'localization' => 'required|string',
+            'photos'       => 'array',
+            'phone'        => [new Phone()],
+            'website'      => 'required|max:255',
+            'facebook'     => 'max:255',
+            'instagram'    => 'max:255',
+            'twitter'      => 'max:255',
+            'menu_url'     => 'max:255',
+            'category_id'  => 'required|numeric',
+            'tags'         => 'required|array',
+            'features'     => 'required|array',
+            'creator_id'   => 'required|numeric',
+            'worktime'     => 'required|string'
         ];
     }
 }

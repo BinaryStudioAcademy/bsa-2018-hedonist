@@ -14,11 +14,6 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('users')->truncate();
-        DB::table('user_info')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
         UserInfo::create([
             'user_id' => factory(User::class)->create([
                 'email' => 'vladimir.kudinov@gmail.com'
@@ -27,6 +22,19 @@ class UserTableSeeder extends Seeder
             'last_name' => 'Kudinov',
             'date_of_birth' => '1986-10-11',
             'phone_number' => '+380999192991',
+            'avatar_url' => 'https://instagram.fhrk1-1.fna.fbcdn.net/vp/f9472104c184408f7e566fce7942d9b3/5BFFDA1C/t51.2885-19/s150x150/18644930_364022684000162_4610752073493905408_a.jpg',
+            'facebook_url' => 'https://www.facebook.com/vladimir.kudinov.madbyte?ref=br_rs',
+            'instagram_url' => 'https://www.instagram.com/madbyte/',
+            'twitter_url' => 'https://twitter.com/stsilent',
+        ]);
+        UserInfo::create([
+            'user_id' => factory(User::class)->create([
+                'email' => 'stas.fadeev@gmail.com'
+            ])->id,
+            'first_name' => 'Stas',
+            'last_name' => 'Fadeev',
+            'date_of_birth' => '1986-10-11',
+            'phone_number' => '+380504449999',
             'avatar_url' => 'https://instagram.fhrk1-1.fna.fbcdn.net/vp/f9472104c184408f7e566fce7942d9b3/5BFFDA1C/t51.2885-19/s150x150/18644930_364022684000162_4610752073493905408_a.jpg',
             'facebook_url' => 'https://www.facebook.com/vladimir.kudinov.madbyte?ref=br_rs',
             'instagram_url' => 'https://www.instagram.com/madbyte/',

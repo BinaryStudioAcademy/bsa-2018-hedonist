@@ -3,88 +3,180 @@
         <div class="review-title-wrp">
             <div class="review-title">
                 <div class="left-side-review-title">
-                    <img src="https://ss1.4sqi.net/img/venuepage/v2/section_title_tips@2x-6449ea09a26b1d885184e709e2c8f693.png" height="25" width="25">
-                    <span>21 Reviews</span>
+                    <img 
+                        src="https://ss1.4sqi.net/img/venuepage/v2/section_title_tips@2x-6449ea09a26b1d885184e709e2c8f693.png" 
+                        height="25" 
+                        width="25"
+                    >
+                    <span>{{ this.getTotalReviewCount(this.place.id) }} Reviews</span>
                 </div>
                 <div class="review-title-search">
                     <div class="control has-icons-left">
-                        <input class="input is-small" type="search" placeholder="Find review..">
+                        <input
+                            v-model.trim="search"
+                            @input="searchReview"
+                            class="input is-small" 
+                            type="search" 
+                            placeholder="Find review.."
+                        >
                         <span class="icon is-small is-left">
-                            <i class="fas fa-search"></i>
+                            <i class="fas fa-search" />
                         </span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="add-review-wrp">
-            <div class="add-review">
-                <div class="left-side-add-review">
-                    <img src="https://ss0.4sqi.net/img/venuepage/v2/add_tip_blank_avatar@2x-4321684c656168f26ae9208901a9d83e.png" height="32" width="32">
-                    <span><a>Login</a>, to leave a review.</span>
-                </div>
-                <div class="add-review-btn">
-                    <button class="button" disabled>Post</button>
-                </div>
-            </div>
+            <AddReview
+                :place-id="place.id"
+                @add="onAddReview"
+            />
         </div>
-        <div class="reviews-section-wrp">
-            <div class="reviews-section-header">
-                <div class="filter-area">
-                    <ul>
-                        <li class="sort-word">Sort by:</li>
-                        <li v-on:click="onSortFilter('popular')" :class="{ active: isActive.popular }"><a>Popular</a></li>
-                        <li v-on:click="onSortFilter('recent')" :class="{ active: isActive.recent }"><a>Recent</a></li>
-                    </ul>
+        <template v-if="isReviewsExist">
+            <div class="reviews-section-wrp">
+                <div class="reviews-section-header">
+                    <div class="filter-area">
+                        <ul>
+                            <li class="sort-word">Sort by:</li>
+                            <li
+                                @click="onSortFilter('popular')"
+                                :class="{ active: sort === 'popular' }"
+                            ><a>Popular</a></li>
+                            <li
+                                @click="onSortFilter('recent')"
+                                :class="{ active: sort === 'recent' }"
+                            ><a>Recent</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="reviews-section-list">
+                    <template v-for="review in reviews">
+                        <Review
+                            :key="review.id"
+                            :review="review"
+                        />
+                    </template>
+                    <infinite-loading @infinite="loadNextReviewsPage">
+                        <span slot="no-more" />
+                        <span slot="no-results" />
+                    </infinite-loading>
                 </div>
             </div>
-            <div class="reviews-section-list">
-                <template v-for="review in place.reviews">
-                    <Review :key="review.id" :review="review"></Review>
-                </template>
-            </div>
-        </div>
+        </template>
     </div>
 </template>
 
 <script>
-    import Review from './ReviewListElement';
+import { mapActions, mapGetters } from 'vuex';
+import Review from './ReviewListElement';
+import AddReview from './AddReview';
+import InfiniteLoading from 'vue-infinite-loading';
 
-    export default {
-        components: {
-            Review
-        },
+export default {
+    components: {
+        Review,
+        AddReview,
+        InfiniteLoading
+    },
 
-        props: {
-            place: {
-                type: Object,
-                required: true
-            }
-        },
-
-        data() {
-            return {
-                isActive: {
-                    popular: true,
-                    recent: false
-                }
-            };
-        },
-
-        computed: {
-        },
-
-        methods: {
-            onSortFilter(name) {
-                for (let item in this.isActive) {
-                    if (item === name) {
-                        this.isActive[item] = true;
-                    } else {
-                        this.isActive[item] = false;
-                    }
-                }
-            }
+    props: {
+        place: {
+            type: Object,
+            required: true
         }
+    },
+
+    data() {
+        return {
+            sort: 'recent',
+            visibleReviewsIds: [],
+            search: '',
+            page: 1
+        };
+    },
+
+    computed: {
+        ...mapGetters('review', [
+            'getPlaceReviewsByIds',
+            'getPreloadedRecentPlaceReviewsIds',
+            'getPreloadedPopularPlaceReviewsIds',
+            'getTotalReviewCount'
+        ]),
+
+        reviews() {
+            return this.getPlaceReviewsByIds(this.place.id, this.visibleReviewsIds);
+        },
+        isReviewsExist() {
+            return !_.isEmpty(this.reviews);
+        },
+    },
+
+    methods: {
+        ...mapActions('review', ['loadReviewsWithParams']),
+
+        searchReview: _.debounce(function () {
+            this.initialLoad();
+        }, 250),
+
+        loadNextReviewsPage($state) {
+            _.debounce(() => {
+                this.loadReviewsWithParams(
+                    {
+                        placeId: this.place.id,
+                        sort: this.sort,
+                        text: this.search,
+                        page: this.page + 1
+
+                    }
+                ).then( res => {
+                    if(res.reviews.length === 0){
+                        $state.complete();
+                    } else{
+                        res.reviews.forEach(reviewId => {
+                            if (this.visibleReviewsIds.indexOf(reviewId) === -1) {
+                                this.visibleReviewsIds.push(reviewId);
+                            }
+                        });
+                        this.page += 1;
+                        $state.loaded();
+                    }
+                }, err => {
+                    $state.loaded();
+                });
+            }, 250)();
+        },
+        onSortFilter(name) {
+            if(this.sort !== name){
+                this.sort = name;
+                this.initialLoad();
+            }
+        },
+        onAddReview(reviewId) {
+            this.visibleReviewsIds.unshift(reviewId);
+        },
+        initialLoad() {
+            if(this.sort === 'popular') {
+                this.visibleReviewsIds = this.getPreloadedPopularPlaceReviewsIds(this.place.id);
+            }else {
+                this.visibleReviewsIds = this.getPreloadedRecentPlaceReviewsIds(this.place.id);
+            }
+            this.loadReviewsWithParams(
+                {
+                    placeId: this.place.id,
+                    sort: this.sort,
+                    text: this.search,
+                    page: 1
+                }
+            ).then( res => {
+                this.visibleReviewsIds = res.reviews;
+                this.page = 1;
+            });
+        }
+    },
+    created(){
+        this.initialLoad();
     }
+};
 
 </script>
 
@@ -138,33 +230,6 @@
         margin-bottom: 15px;
         border: 1px solid #efeff4;
     }
-
-    .add-review {
-        padding: 15px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .add-review-btn {
-        width: 30%;
-        display: flex;
-        justify-content: flex-end;
-    }
-
-    .left-side-add-review {
-        width: 50%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-    }
-
-    .left-side-add-review > img {
-        margin-right: 15px;
-    }
-
 
     /* Review list part. */
     .reviews-section-wrp {

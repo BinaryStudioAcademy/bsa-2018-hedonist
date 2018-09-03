@@ -1,19 +1,24 @@
 <template>
     <div class="reviews-photo">
-        <img class="reviews-photo__image" :src="photo.url" alt="reviews image">
+        <img
+            v-img:review-group
+            class="reviews-photo__image" 
+            :src="photo['img_url']"
+            :alt="photo.description"
+        >
     </div>
 </template>
 
 <script>
-    export default {
-        name: "ReviewPhoto",
-        props: {
-            photo: {
-                type: Object,
-                required: true
-            }
-        },
-}
+export default {
+    name: 'ReviewPhoto',
+    props: {
+        photo: {
+            type: Object,
+            required: true
+        }
+    },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -26,7 +31,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: 0 0;
+        object-position: 50% 50%;
     }
 }
 

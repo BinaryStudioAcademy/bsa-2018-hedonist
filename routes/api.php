@@ -28,17 +28,29 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/refresh', 'AuthController@refresh');
 
+        Route::get('/unique', 'AuthController@checkEmailUnique');
+
         Route::get('/me', 'AuthController@me')->middleware('custom.jwt.auth');
 
         Route::post('/reset-password', 'AuthController@changePassword');
+
+        Route::group(['prefix' => '/social'], function () {
+            Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
+
+            Route::get('/{provider}/callback', 'SocialAuthController@oauthCallback');
+        });
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
-        Route::resource('user-list', 'Api\UserList\UserListController')->except([
+        Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
+            ->name('user-list.lists');
+
+        Route::resource('user-lists', 'Api\User\UserList\UserListController')->except([
             'create', 'edit'
         ]);
 
-        Route::namespace('Api\\Places')->group(function () {
+
+        Route::namespace('Api\\Place')->group(function () {
             Route::get('places', 'PlaceController@getCollection')->name('getPlaceCollection');
             Route::get('places/{id}', 'PlaceController@getPlace')
                 ->where('id', '[0-9]+')
@@ -50,6 +62,12 @@ Route::prefix('v1')->group(function () {
             Route::delete('places/{id}', 'PlaceController@removePlace')
                 ->where('id', '[0-9]+')
                 ->name('removePlace');
+
+            Route::get('/places/search', 'PlaceController@searchByFilters');
+
+            Route::get('/places/autocomplete/search', 'PlaceController@getCollectionForAutocomplete');
+
+            Route::post('/place/add-taste', 'PlaceController@addTaste');
         });
 
         Route::prefix('reviews')->group(function () {
@@ -67,19 +85,34 @@ Route::prefix('v1')->group(function () {
             Route::post('/photos', 'Api\Review\ReviewPhotoController@upload')->name('review.photo.upload');
             Route::delete('/photos/{id}', 'Api\Review\ReviewPhotoController@destroy')->name('review.photo.destroy');
 
-            Route::post('/{id}/like', 'Api\LikeController@likeReview')->name('review.like');
-            Route::post('/{id}/dislike', 'Api\DislikeController@dislikeReview')->name('review.dislike');
+            Route::post('/{id}/like', 'Api\Like\LikeController@likeReview')->name('review.like');
+            Route::post('/{id}/dislike', 'Api\Like\DislikeController@dislikeReview')->name('review.dislike');
+            
+            Route::get('/{id}/users-liked', 'Api\Review\ReviewController@getUsersWhoLikedReview');
+            Route::get('/{id}/users-disliked', 'Api\Review\ReviewController@getUsersWhoDislikedReview');
+
+            Route::get('/photos/{placeId}', 'Api\Review\ReviewController@getReviewPhotosByPlaceId');
         });
 
-        Route::post('/places/{id}/like', 'Api\LikeController@likePlace')->name('place.like');
-        Route::post('/places/{id}/dislike', 'Api\DislikeController@dislikePlace')->name('place.dislike');
+        Route::post('/places/{id}/like', 'Api\Like\LikeController@likePlace')->name('place.like');
+        Route::post('/places/{id}/dislike', 'Api\Like\DislikeController@dislikePlace')->name('place.dislike');
+        Route::get('/places/{id}/liked', 'Api\Like\LikeController@getLikedPlace')->name('place.liked');
 
-        Route::get('/places/{id}/rating', 'Api\Places\PlaceRatingController@getPlaceRatingAvg')
+        Route::post('/places/{id}/ratings', 'Api\Place\PlaceRatingController@setRating')
+            ->name('place.rating.setPlaceRating');
+
+        Route::get('/places/{id}/ratings/avg', 'Api\Place\PlaceRatingController@getPlaceRatingAvg')
             ->name('place.rating.getPlaceRatingAvg');
 
         Route::prefix('tastes')->group(function () {
-            Route::get('/', 'Api\UserTaste\TasteController@getTastes')
+            Route::get('/', 'Api\User\UserTaste\TasteController@getTastes')
                 ->name('tastes.getTastes');
+            Route::get('/autocomplete', 'Api\User\UserTaste\TasteController@getTastesAutocomplete')
+                ->name('taste.getTastesAutocomplete');
+            Route::post('/custom', 'Api\User\UserTaste\TasteController@addTaste')
+                ->name('tastes.addCustomTaste');
+            Route::delete('/custom/{id}', 'Api\User\UserTaste\TasteController@deleteTaste')
+                ->name('tastes.deleteCustomTaste');
             Route::get('/my', 'Api\User\UserTasteController@getTastes')
                 ->name('user.tastes.getTastes');
             Route::post('/my', 'Api\User\UserTasteController@addTaste')
@@ -88,38 +121,38 @@ Route::prefix('v1')->group(function () {
                 ->name('user.tastes.deleteTaste');
         });
 
-        Route::post('/user-lists/{id}/attach-place', 'Api\UserList\UserListPlaceController@attachPlace')
+        Route::post('/user-lists/{id}/attach-place', 'Api\User\UserList\UserListPlaceController@attachPlace')
             ->name('user-list.place.attach');
 
-        Route::get('/places/features/', 'Api\Places\PlaceFeaturesController@indexPlaceFeature')
+        Route::get('/places/features/', 'Api\Place\PlaceFeaturesController@indexPlaceFeature')
             ->name('place.features.indexFeature');
 
-        Route::post('/places/features', 'Api\Places\PlaceFeaturesController@storePlaceFeature')
+        Route::post('/places/features', 'Api\Place\PlaceFeaturesController@storePlaceFeature')
             ->name('place.features.storeFeature');
 
-        Route::get('/places/features/{id}', 'Api\Places\PlaceFeaturesController@showPlaceFeature')
+        Route::get('/places/features/{id}', 'Api\Place\PlaceFeaturesController@showPlaceFeature')
             ->name('place.features.showFeature');
 
-        Route::delete('/places/features/{id}', 'Api\Places\PlaceFeaturesController@destroyPlaceFeature')
+        Route::delete('/places/features/{id}', 'Api\Place\PlaceFeaturesController@destroyPlaceFeature')
             ->name('place.features.deleteFeature');
 
-        Route::get('/users/{userId}/info/', 'Api\Users\UserInfoController@show')
+        Route::get('/users/{userId}/profile', 'Api\User\UserInfoController@show')
             ->name('user.info.show');
-        Route::put('/users/{userId}/info/', 'Api\Users\UserInfoController@update')
+        Route::post('/users/{userId}/profile', 'Api\User\UserInfoController@update')
             ->name('user.info.update');
-      
-        Route::post('/users/me/checkins', 'Api\Places\PlaceCheckinController@setCheckin')
+        Route::delete('/users/{userId}/profile/avatar', 'Api\User\UserInfoController@deleteAvatar');
+
+        Route::post('/users/me/checkins', 'Api\Place\PlaceCheckinController@setCheckin')
             ->name('user.me.checkin');
+        Route::get('/users/me/checkins', 'Api\Place\PlaceCheckinController@getUserCheckInCollection')
+            ->name('user.me.getUserCheckins');
 
-        Route::post('/places/rating', 'Api\Places\PlaceRatingController@setRating')
-            ->name('place.rating.setPlaceRating');
+        Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 
-        Route::get('/places/rating/byPlaceUser', 'Api\Places\PlaceRatingController@getRating')
-            ->name('place.rating.getPlaceRatingByPlaceUser');
+        Route::resource('/places/categories', 'Api\Place\PlaceCategoryController')->except([
+            'create', 'edit'
+        ]);
 
-        Route::get('/places/rating/{id}', 'Api\Places\PlaceRatingController@getRating')
-            ->name('place.rating.getPlaceRating');
-
-        /* Routes here.. */
+        Route::get('/places/categories/{id}/tags', 'Api\Place\TagsController@getTagsByCategoryId');
     });
 });

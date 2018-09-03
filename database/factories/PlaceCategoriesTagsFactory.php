@@ -1,9 +1,9 @@
 <?php
 
 use Faker\Generator as Faker;
-use Hedonist\Entities\Place\PlaceCategoryTag;
+use Hedonist\Entities\Place\Tag;
 
-$factory->define(PlaceCategoryTag::class, function (Faker $faker) {
+$factory->define(Tag::class, function (Faker $faker) {
     $tags = [
         'asian cuisine',
         'authentic',
@@ -38,7 +38,6 @@ $factory->define(PlaceCategoryTag::class, function (Faker $faker) {
     ];
     
     return [
-        'name' => $faker->unique()->randomElement($tags),
-        'category_id' => $faker->numberBetween(1, 6)
+        'name' => $faker->unique()->randomElement($tags)
     ];
 });

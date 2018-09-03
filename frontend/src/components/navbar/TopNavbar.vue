@@ -1,60 +1,97 @@
 <template>
     <div class="is-paddingless">
-        <nav class="navbar is-info">
+        <nav class="navbar is-info is-fixed-top">
             <div class="navbar-wrapper container is-flex">
                 <div class="navbar-brand navbar-brand-name">
-                    <router-link class="navbar-item" to="/">Hedonist</router-link>
+                    <router-link
+                        class="navbar-item"
+                        to="/"
+                    >Hedonist</router-link>
+
+                    <a 
+                        role="button" 
+                        class="navbar-burger" 
+                        aria-label="menu" 
+                        aria-expanded="false"
+                        @click="toggleMenu" 
+                        :class="{'is-active': navIsActive}"
+                    >
+
+                        <span aria-hidden="true" />
+                        <span aria-hidden="true" />
+                        <span aria-hidden="true" />
+                    </a>
                 </div>
 
-                <div class="navbar-menu">
-                    <div class="navbar-start">
-                        <div class="navbar-item">
-                            <div class="control has-icons-right">
-                                <input class="input" type="search" placeholder="I'm looking for...">
-                                <span class="icon is-right">
-                                    <i class="fas fa-caret-down"></i>
-                               </span>
-                            </div>
-                        </div>
-                        <div class="navbar-item">
-                            <div class="control">
-                                <input class="input" type="search" value="Lviv, UA">
-                            </div>
-                        </div>
-                        <div class="navbar-item is-paddingless navbar-search-btn">
-                           <span class="icon is-large">
-                               <i class="fas fa-lg fa-search"></i>
-                           </span>
-                        </div>
-
+                <div class="navbar-menu" :class="{'is-active': navIsActive}">
+                    <NavbarSearchPanel v-if="isUserLoggedIn" />
+                    <div
+                        v-if="!isUserLoggedIn"
+                        class="navbar-end"
+                    >
+                        <router-link
+                            class="navbar-item"
+                            to="/login"
+                        >Log In</router-link>
+                        <router-link
+                            class="navbar-item"
+                            to="/signup"
+                        >Sign Up</router-link>
                     </div>
 
-                    <div v-if="!this.isUserLoggedIn" class="navbar-end">
-                        <router-link class="navbar-item" to="/login">Log In</router-link>
-                        <router-link class="navbar-item" to="/signup">Sign Up</router-link>
-                    </div>
-                    
-                    <div v-if="this.isUserLoggedIn" class="navbar-end">
+                    <div
+                        v-if="isUserLoggedIn"
+                        class="navbar-end"
+                    >
                         <div class="navbar-item is-paddingless">
-                            <span class="navbar-notification-btn"></span>
+                            <span class="navbar-notification-btn" />
                         </div>
-                        <div  class="navbar-item has-dropdown is-hoverable">
-                            <div class="navbar-link navbar-dropdown-menu">
-                                <img class="navbar-avatar" :src="user.avatarUrl"
-                                     :title="user.firstName+' '+user.lastName"
-                                     :alt="user.firstName+' '+user.lastName">
-                                <span>{{user.firstName}}</span>
-                                <span class="icon">
-                                    <i class="fas fa-caret-down"></i>
-                               </span>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <div v-if="user" class="navbar-link navbar-dropdown-menu">
+                                <img
+                                    v-if="user.avatar_url"
+                                    class="navbar-avatar"
+                                    :src="user.avatar_url"
+                                    :title="user.first_name+' '+user.last_name"
+                                    :alt="user.first_name+' '+user.last_name"
+                                >
+                                <span v-else class="icon">
+                                    <i class="fas fa-file-image fa-lg" />
+                                </span>
+                                <span>{{ user.first_name }}</span>
                             </div>
                             <div class="navbar-dropdown">
-                                <router-link class="navbar-item" to="/profile">Profile</router-link>
-                                <router-link class="navbar-personal-link navbar-item" to="/places/list">My places</router-link>
-                                <router-link class="navbar-personal-link navbar-item" to="/user/lists">My lists</router-link>
-                                <a class="navbar-item" @click="onLogOut">Logout</a>
+                                <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'ProfilePage' }"
+                                >Profile</router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'NewPlacePage' }"
+                                >Add place</router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'MyTastesPage' }"
+                                >My tastes</router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'UserListsPage' }"
+                                >My lists
+                                </router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'CheckinsPage' }"
+                                >Checkins
+                                </router-link>
+                                <a
+                                    class="navbar-item"
+                                    @click="onLogOut"
+                                >Logout</a>
                             </div>
                         </div>
+                    </div>
+                    <div class="navbar-item navbar-lang">
+                        <LanguageSelector />
                     </div>
                 </div>
             </div>
@@ -64,66 +101,149 @@
 </template>
 
 <script>
-    import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+import NavbarSearchPanel from './NavbarSearchPanel';
+import LanguageSelector from './LanguageSelector';
 
-    export default {
-        name: "TopNavbar",
-        computed: mapGetters({
-            isUserLoggedIn: "isLoggedIn"
+export default {
+    name: 'TopNavbar',
+    data () {
+        return {
+            navIsActive: false
+        };
+    },
+    computed: {
+        ...mapGetters({
+            isUserLoggedIn: 'auth/isLoggedIn',
+            user: 'auth/getAuthenticatedUser'
+        })
+    },
+    methods: {
+        ...mapActions({
+            logout: 'auth/logout'
         }),
-        data() {
-            return {
-                user: {
-                    firstName: 'John',
-                    lastName: 'Carter',
-                    avatarUrl:'http://via.placeholder.com/200x200'
-                }
-            }
+        onLogOut () {
+            this.logout()
+                .then(()=>{
+                    this.$router.push({name: 'LoginPage'});
+                });
         },
-        methods: {
-            ...mapActions(['logout']),
-
-            onLogOut () {
-                this.logout()
-                    .then(()=>{
-                        this.$router.push({name: 'LoginPage'});
-                    });
-            }
-        },
+        toggleMenu () {
+            this.navIsActive = !this.navIsActive;
+        }
+    },
+    components: {
+        NavbarSearchPanel,
+        LanguageSelector
     }
+};
 </script>
 
-<style scoped>
-    .navbar-wrapper{
-        width:1060px;
-    }
-    .navbar-brand-name{
+<style lang="scss" scoped>
+    .navbar-brand-name {
         text-transform: uppercase;
         font-weight: bold;
         letter-spacing: 0.2rem;
     }
-    .navbar-search-btn{
-        cursor:pointer;
-    }
-    .navbar-dropdown-menu{
+    .navbar-dropdown-menu {
         padding-right: .75rem;
+
         &:after{
-            border: none;
+             border: none;
         }
     }
-    .navbar-personal-link{
+    .navbar-personal-link {
         text-indent: 15px;
     }
-    .navbar-avatar{
+    .navbar-avatar {
         margin:0 10px;
         border-radius:4px;
     }
-    .navbar-notification-btn{
-        cursor:pointer;
+    .navbar-notification-btn {
+        cursor: pointer;
         background: url("../../assets/icon-notifications.png") top left no-repeat;
         font-weight: bold;
         height: 24px;
         width: 27px;
         align-self: center;
     }
+    .navbar-burger {
+        color: #fff;
+    }
+    .navbar-brand {
+        @media screen and (max-width: 1087px) {
+            width: 100%;
+        }
+    }
+    .navbar-wrapper {
+        position: static;
+    }
+    .navbar-menu {
+        @media screen and (max-width: 1087px) {
+           position: absolute;
+           right: 0;
+           top: 52px;
+           width: 200px;
+        }
+    }
+
+    .navbar-start {
+        @media screen and (max-width: 1087px) {
+           margin-bottom: 10%;
+        }
+    }
+
+    .navbar-end {
+        padding-right:0;
+
+        @media screen and (max-width: 1600px) {
+            padding-right:50px;
+        }
+
+        @media screen and (max-width: 1087px) {
+            padding-right:0;
+        }
+    }
+
+    .navbar-dropdown-menu {
+        padding-right: 20px;
+
+        @media screen and (max-width: 1087px) {
+           text-align: center;
+        }
+
+        &:after {
+            content: '\f0d7';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 20px;
+            right: 5px;
+            display: inline-block;
+            transform: rotate(0deg);
+
+            @media screen and (max-width: 1087px) {
+                display: none;
+            }
+        }
+    }
+
+    .navbar-dropdown > a {
+        @media screen and (max-width: 1087px) {
+            text-indent: 36px;
+        }
+    }
+
+    .navbar-lang {
+        position:absolute;
+        right:0px;
+
+        @media screen and (max-width: 1087px) {
+            height: 60px;
+            position:static;
+            padding: 0;
+            overflow: hidden;
+        }
+    }
+
 </style>
