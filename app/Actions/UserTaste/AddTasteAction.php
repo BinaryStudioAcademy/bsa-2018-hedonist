@@ -17,10 +17,15 @@ class AddTasteAction
 
     public function execute(AddTasteRequest $addTasteRequest): AddTasteResponse
     {
-        $taste = $this->tasteRepository->save(new Taste([
-            'name' => $addTasteRequest->getName(),
-            'user_id' => Auth::id()
-        ]));
+        $name = $addTasteRequest->getName();
+        $taste = $this->tasteRepository->getByName($name);
+
+        if($taste === null) {
+            $taste = $this->tasteRepository->save(new Taste([
+                'name' => $addTasteRequest->getName(),
+                'user_id' => Auth::id()
+            ]));
+        }
 
         return new AddTasteResponse($taste);
     }
