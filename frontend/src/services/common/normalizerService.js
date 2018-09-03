@@ -47,7 +47,59 @@ export const normalizerService = {
             targetNormalized.allIds.push(parseInt(el));
         }
         return targetNormalized;
-    }
+    },
+
+    normalizeReviews(reviews) {
+        let allIds = [];
+        reviews.forEach(function (review) {
+            review.user_id = review.user.id;
+            allIds.push(review.id);
+        });
+        let transformedCurrentPlaceReviews = normalizerService.normalize(
+            {data: reviews},
+            this.getReviewSchema()
+        );
+        transformedCurrentPlaceReviews.allIds = allIds;
+
+        return transformedCurrentPlaceReviews;
+    },
+
+    normalizeReviewUsers(reviews) {
+        let allUserIds = [];
+        let users = [];
+        for (let key in reviews.byId) {
+            if (!reviews.byId.hasOwnProperty(key)) continue;
+            let userId = reviews.byId[key].user.id;
+            if (!allUserIds.includes(userId)) {
+                users.push(reviews.byId[key].user);
+                allUserIds.push(userId);
+            }
+        }
+
+        let normalizeUsers = normalizerService.normalize({data: users}, {
+            first_name: '',
+            last_name: '',
+            avatar_url: ''
+        });
+        normalizeUsers.allIds = [];
+        for (let k in normalizeUsers.byId){
+            normalizeUsers.allIds.push(parseInt(k));
+        }
+
+        return normalizeUsers;
+    },
+
+    getReviewSchema: () => {
+        return {
+            created_at: '',
+            description: '',
+            dislikes: 0,
+            like: 'NONE',
+            likes: 0,
+            user_id: 0,
+            photos: []
+        };
+    },
 };
 
 export default normalizerService;

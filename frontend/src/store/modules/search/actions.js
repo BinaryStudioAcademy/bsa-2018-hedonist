@@ -7,6 +7,7 @@ export default {
     updateStateFromQuery: ({commit}, query) => {
         if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
         if(query.page) commit('SET_PAGE', query.page);
+        if(query.category) commit('SET_SEARCH_PLACE_CATEGORY', {id: query.category, name: ''});
         if(query.location) {
             let location = query.location.split(',');
             commit('SET_SEARCH_CITY', {center: location});

@@ -37,7 +37,7 @@
                             @click="changeTab(1)"
                             :class="{ 'is-active' : activeTab === 1}"
                         >
-                            <a><span>Reviews ({{ getReviewsCount }})</span></a>
+                            <a><span>Reviews ({{ this.getTotalReviewCount(this.place.id) }})</span></a>
                         </li>
                         <li
                             @click="changeTab(2)"
@@ -130,7 +130,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters('review', ['getReviewsCount', 'getPlaceReviewPhotos']),
+        ...mapGetters('review', ['getTotalReviewCount', 'getPlaceReviewPhotos']),
         ...mapState('userList', ['userLists']),
 
         user() {
