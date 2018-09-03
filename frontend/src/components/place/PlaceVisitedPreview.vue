@@ -16,7 +16,7 @@
                 </figure>
                 <div class="media-content">
                     <p class="address">
-                        You were here at {{ checkin.createdAt | timeDate }}
+                        You were here on {{ checkin.createdAt | timeDate }}
                     </p>
                     <h3
                         class="title has-text-primary"
@@ -120,7 +120,7 @@ export default {
     },
     filters: {
         timeDate: function(dateTime){
-            return moment(dateTime).format('MMMM DD, HH:mm');
+            return moment.utc(dateTime).local().format('MMMM DD, HH:mm');
         },
     },
     props: {
