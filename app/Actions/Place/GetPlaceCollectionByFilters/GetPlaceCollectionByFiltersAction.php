@@ -23,7 +23,7 @@ use Hedonist\Repositories\Place\Criterias\TopReviewedCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
-
+use Illuminate\Support\Facades\Log;
 class GetPlaceCollectionByFiltersAction
 {
     private $placeRepository;
@@ -38,8 +38,10 @@ class GetPlaceCollectionByFiltersAction
         $uniqId = $this->generateUniqKeyByPlaceSearch($request);
         $redisPlaces = Redis::get('search_places-' . $uniqId);
         if ($redisPlaces) {
+            Log::debug('redis');
             return unserialize($redisPlaces);
         }
+        Log::debug('not a redis');
 
         $categoryId = $request->getCategoryId();
         $name = $request->getName();
@@ -100,7 +102,9 @@ class GetPlaceCollectionByFiltersAction
         );
 
         $placeCollection = new GetPlaceCollectionResponse($places, $user);
-        Redis::set('search_places-' . $uniqId, serialize($placeCollection));
+        if (! $this->hasFilterParameters($request)) {
+            Redis::setex('search_places-' . $uniqId, 1800, serialize($placeCollection));
+        }
         return $placeCollection;
     }
 
@@ -112,17 +116,23 @@ class GetPlaceCollectionByFiltersAction
             $request->getLocation(),
             $request->getName()
         ];
+
+        return implode('_', $baseRequest);
+    }
+
+    private function hasFilterParameters(GetPlaceCollectionByFiltersRequest $request)
+    {
         $fPolygon = $request->getPolygon();
         $fTopReviewed = $request->isTopReviewed();
         $fTopRated = $request->isTopRated();
         $fCheckin = $request->isCheckin();
         $fSaved = $request->isSaved();
 
+        return $fPolygon || $fTopReviewed || $fTopRated || $fCheckin || $fSaved;
+
         if ($fPolygon || $fTopReviewed || $fTopRated || $fCheckin || $fSaved) {
             $arrAdditional = [ $fPolygon, $fTopReviewed, $fTopRated, $fCheckin, $fSaved, Auth::id()];
             $baseRequest = array_merge($baseRequest, $arrAdditional);
         }
-
-        return implode('_', $baseRequest);
     }
 }
