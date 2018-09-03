@@ -102,7 +102,7 @@ export default {
         dispatch('updateQueryFilters');
     },
 
-    initFilters: ({commit, dispatch}) => {
+    initFilters: ({commit}) => {
         let query = router.currentRoute.query;
         let filters = {
             checkin: !!query['checkin'],
