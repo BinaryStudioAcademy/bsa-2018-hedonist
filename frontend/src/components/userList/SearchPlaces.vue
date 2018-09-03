@@ -102,7 +102,7 @@ export default {
         SearchCity
     },
     props: {
-        attachedPlaces: {
+        listAttachedPlaces: {
             type: Array,
             required: true
         },
@@ -111,6 +111,7 @@ export default {
         return {
             searchName: '',
             displayList: false,
+            attachedPlaces: [],
             location: {
                 lat: 50.4547,
                 lng: 30.5238
@@ -133,6 +134,9 @@ export default {
     watch: {
         'attachedPlaces': function() {
             this.$emit('changeAttachedPlaces', this.attachedPlaces);
+        },
+        'listAttachedPlaces': function() {
+            this.attachedPlaces = this.listAttachedPlaces
         }
     },
     methods: {
