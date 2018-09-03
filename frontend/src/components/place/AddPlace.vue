@@ -18,7 +18,7 @@
                                         type="text"
                                         placeholder="Place's name"
                                         :status="$v.newPlace.localization.en.name.$error ? 'error' : null"
-                                        @input="$v.$reset()"
+                                        @input="$v.newPlace.localization.en.name.$reset()"
                                     >
                                     <div v-if="$v.newPlace.localization.en.name.$error" class="level">
                                         <div class="level-item">
@@ -62,7 +62,7 @@
                                         type="text"
                                         placeholder="Place's postal code"
                                         :status="$v.newPlace.zip.$error ? 'error' : null"
-                                        @input="$v.$reset()"
+                                        @input="$v.newPlace.zip.$reset()"
                                     >
                                     <div v-if="$v.newPlace.zip.$error" class="level">
                                         <div class="level-item">
@@ -88,7 +88,7 @@
                                         type="text"
                                         placeholder="Place's address"
                                         :status="$v.newPlace.address.$error ? 'error' : null"
-                                        @input="$v.$reset()"
+                                        @input="$v.newPlace.address.$reset()"
                                     >
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.phone.$error" class="label">Phone</label>
+                            <label v-if="!$v.newPlace.phone.$error && !phoneInvalid" class="label">Phone</label>
                             <label v-else class="label error">Phone</label>
                         </div>
                         <div class="field-body">
@@ -113,9 +113,14 @@
                                         type="tel"
                                         placeholder="Place's phone"
                                         :status="$v.newPlace.phone.$error ? 'error' : null"
-                                        @input="$v.$reset()"
+                                        @input="$v.newPlace.phone.$reset(); resetPhone()"
                                     >
                                 </p>
+                                <div v-if="!$v.newPlace.phone.$error" class="level">
+                                    <div v-if="phoneInvalid" class="level-item">
+                                        <p class="error">Ex. +380950000000 or 380950000000.</p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="field-label is-normal">
                                 <label class="label">Twitter</label>
@@ -177,7 +182,7 @@
                                         class="input"
                                         type="text"
                                         placeholder="Place's website"
-                                        @input="$v.$reset()"
+                                        @input="$v.newPlace.website.$reset()"
                                     >
                                 </div>
                                 <div v-if="$v.newPlace.website.$error" class="level">
@@ -220,7 +225,7 @@
                                         class="textarea"
                                         placeholder="Place's description.."
                                         :status="$v.newPlace.localization.en.description.$error ? 'error' : null"
-                                        @input="$v.$reset()"
+                                        @input="$v.newPlace.localization.en.description.$reset()"
                                     />
                                     <div v-if="$v.newPlace.localization.en.description.$error" class="level">
                                         <div class="level-item">
@@ -529,9 +534,10 @@
 import { mapState, mapGetters } from 'vuex';
 import moment from 'moment';
 import Mapbox from 'mapbox-gl-vue';
+import mapSettingsService from '@/services/map/mapSettingsService';
 import SearchCity from '../navbar/SearchCity';
 import { required, minLength, numeric, url } from 'vuelidate/lib/validators';
-import mapSettingsService from '@/services/map/mapSettingsService';
+import phoneValidationService from '@/services/common/phoneValidationService';
 
 export default {
     name: 'NewPlacePage',
@@ -600,6 +606,7 @@ export default {
                 },
                 workWeekend: 1
             },
+            phoneInvalid: false,
             selectedTag: '',
             weekdays: [],
             timeStart: moment().set({'hours': 10, 'minutes': 0}).toDate(),
@@ -752,14 +759,28 @@ export default {
 
         onNextGeneral() {
             this.$v.$touch();
+            this.validatePhone();
             if (this.$v.$invalid) {
                 this.$toast.open({
                     type: 'is-danger',
                     message: 'Please, fill in the highlighted fields.'
                 });
+            } else if (this.phoneInvalid) {
+                this.$toast.open({
+                    type: 'is-danger',
+                    message: 'Please, correct phone format.'
+                });
             } else {
                 this.activeTab++;
             }
+        },
+        validatePhone() {
+            if (!phoneValidationService.isPhone(this.newPlace.phone)) {
+                this.phoneInvalid = true;
+            }
+        },
+        resetPhone() {
+            this.phoneInvalid = false;
         },
 
         onNextCheck(array) {
