@@ -64,10 +64,7 @@ export default {
     },
 
     SET_SEARCH_PLACE: (state, searchPlace) => {
-        state.place = {
-            id: searchPlace.id,
-            name: searchPlace.name
-        };
+        state.place = searchPlace;
     },
 
     DELETE_SEARCH_PLACE_CATEGORY: (state) => {
@@ -78,10 +75,7 @@ export default {
     },
 
     DELETE_SEARCH_PLACE: (state) => {
-        state.place = {
-            id: null,
-            name: ''
-        };
+        state.place = '';
     },
 
     DELETE_SEARCH_CITY: (state) => {

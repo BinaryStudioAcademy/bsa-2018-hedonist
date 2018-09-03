@@ -42,20 +42,18 @@ export default {
         }
     },
 
-    selectSearchPlaceOrCategory: ({commit}, item) => {
+    selectSearchCategory: ({commit}, item) => {
         if (!_.isEmpty(item)) {
-            if (item.place !== undefined) {
-                commit('SET_SEARCH_PLACE', item);
-                commit('DELETE_SEARCH_PLACE_CATEGORY');
-            } else {
-                commit('SET_SEARCH_PLACE_CATEGORY', item);
-                commit('DELETE_SEARCH_PLACE');
-            }
-        } else {
+            commit('SET_SEARCH_PLACE_CATEGORY', item);
             commit('DELETE_SEARCH_PLACE');
+        } else {
             commit('DELETE_SEARCH_PLACE_CATEGORY');
         }
+    },
 
+    selectSearchPlace: ({commit}, searchPlace) => {
+        commit('SET_SEARCH_PLACE', searchPlace);
+        commit('DELETE_SEARCH_PLACE_CATEGORY');
     },
 
     loadCategories({context , commit}, name) {
@@ -65,17 +63,6 @@ export default {
     },
 
     updateQueryFilters({state, dispatch}) {
-        if (state.place.id !== null) {
-            router.push({
-                name: 'PlacePage',
-                params: {
-                    id: state.place.id
-                }
-            });
-            Promise.resolve();
-            return;
-        }
-
         let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
         if (state.city.longitude && state.city.latitude) {
             location = state.city.longitude + ',' + state.city.latitude;
@@ -83,7 +70,7 @@ export default {
         let query = {
             category: state.placeCategory && state.placeCategory.id,
             page: state.page,
-            // name: state.place && state.place.name,
+            name: state.place,
             location: location,
             ...state.filters
         };

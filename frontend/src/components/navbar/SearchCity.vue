@@ -10,7 +10,6 @@
                 field="text"
                 class="navbar__search-autocomplete"
                 @input="loadCities"
-                ref="autocompleteCity"
                 @select="option => this.$emit('select', option)"
             />
             <p v-if="locationAvailable" class="control location-search">
