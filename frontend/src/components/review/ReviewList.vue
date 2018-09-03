@@ -8,11 +8,13 @@
                         height="25" 
                         width="25"
                     >
-                    <span>{{ getReviewsCount }} Reviews</span>
+                    <span>{{ this.getTotalReviewCount(this.place.id) }} Reviews</span>
                 </div>
                 <div class="review-title-search">
                     <div class="control has-icons-left">
-                        <input 
+                        <input
+                            v-model.trim="search"
+                            @input="searchReview"
                             class="input is-small" 
                             type="search" 
                             placeholder="Find review.."
@@ -27,6 +29,7 @@
         <div class="add-review-wrp">
             <AddReview
                 :place-id="place.id"
+                @add="onAddReview"
             />
         </div>
         <template v-if="isReviewsExist">
@@ -37,22 +40,26 @@
                             <li class="sort-word">Sort by:</li>
                             <li
                                 @click="onSortFilter('popular')"
-                                :class="{ active: isActive.popular }"
+                                :class="{ active: sort === 'popular' }"
                             ><a>Popular</a></li>
                             <li
                                 @click="onSortFilter('recent')"
-                                :class="{ active: isActive.recent }"
+                                :class="{ active: sort === 'recent' }"
                             ><a>Recent</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="reviews-section-list">
-                    <template v-for="review in getAllReviews">
+                    <template v-for="review in reviews">
                         <Review
                             :key="review.id"
                             :review="review"
                         />
                     </template>
+                    <infinite-loading @infinite="loadNextReviewsPage">
+                        <span slot="no-more" />
+                        <span slot="no-results" />
+                    </infinite-loading>
                 </div>
             </div>
         </template>
@@ -60,14 +67,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
+import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
     components: {
         Review,
-        AddReview
+        AddReview,
+        InfiniteLoading
     },
 
     props: {
@@ -79,31 +88,93 @@ export default {
 
     data() {
         return {
-            isActive: {
-                popular: true,
-                recent: false
-            }
+            sort: 'recent',
+            visibleReviewsIds: [],
+            search: '',
+            page: 1
         };
     },
 
     computed: {
-        ...mapGetters('review', [ 'getAllReviews', 'getReviewsCount' ]),
+        ...mapGetters('review', [
+            'getPlaceReviewsByIds',
+            'getPreloadedRecentPlaceReviewsIds',
+            'getPreloadedPopularPlaceReviewsIds',
+            'getTotalReviewCount'
+        ]),
 
+        reviews() {
+            return this.getPlaceReviewsByIds(this.place.id, this.visibleReviewsIds);
+        },
         isReviewsExist() {
-            return !_.isEmpty(this.place.reviews);
+            return !_.isEmpty(this.reviews);
         },
     },
 
     methods: {
+        ...mapActions('review', ['loadReviewsWithParams']),
+
+        searchReview: _.debounce(function () {
+            this.initialLoad();
+        }, 250),
+
+        loadNextReviewsPage($state) {
+            _.debounce(() => {
+                this.loadReviewsWithParams(
+                    {
+                        placeId: this.place.id,
+                        sort: this.sort,
+                        text: this.search,
+                        page: this.page + 1
+
+                    }
+                ).then( res => {
+                    if(res.reviews.length === 0){
+                        $state.complete();
+                    } else{
+                        res.reviews.forEach(reviewId => {
+                            if (this.visibleReviewsIds.indexOf(reviewId) === -1) {
+                                this.visibleReviewsIds.push(reviewId);
+                            }
+                        });
+                        this.page += 1;
+                        $state.loaded();
+                    }
+                }, err => {
+                    $state.loaded();
+                });
+            }, 250)();
+        },
         onSortFilter(name) {
-            for (let item in this.isActive) {
-                if (item === name) {
-                    this.isActive[item] = true;
-                } else {
-                    this.isActive[item] = false;
-                }
+            if(this.sort !== name){
+                this.sort = name;
+                this.initialLoad();
             }
+        },
+        onAddReview(reviewId) {
+            this.visibleReviewsIds.unshift(reviewId);
+        },
+        initialLoad() {
+            if(this.sort === 'popular') {
+                this.visibleReviewsIds = this.getPreloadedPopularPlaceReviewsIds(this.place.id);
+            }else {
+                this.visibleReviewsIds = this.getPreloadedRecentPlaceReviewsIds(this.place.id);
+            }
+            this.loadReviewsWithParams(
+                {
+                    placeId: this.place.id,
+                    sort: this.sort,
+                    text: this.search,
+                    page: 1
+                }
+            ).then( res => {
+                this.visibleReviewsIds = res.reviews;
+                this.page = 1;
+            });
         }
+    },
+    created(){
+        this.initialLoad();
     }
 };
 

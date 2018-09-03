@@ -1,7 +1,7 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-            <SearchFilterPlace />
+            <SearchFilterPlace :is-places-loaded="isPlacesLoaded" />
             <CategoryTagsContainer
                 v-if="categoryTagsList.length"
                 :tags="categoryTagsList"
@@ -23,13 +23,13 @@
                 </template>
                 <template v-else>
                     <div class="no-results">
-                        <div class="no-results__title has-text-weight-bold">Sorry, no results are found.</div>
+                        <div class="no-results__title has-text-weight-bold">{{ $t('search.no_results') }}</div>
 
-                        <div class="no-results__try">You may try:</div>
+                        <div class="no-results__try">{{ $t('search.may_try') }}:</div>
                         <ul>
-                            <li>removing your filters</li>
-                            <li>search in different location</li>
-                            <li>search for something more general</li>
+                            <li>{{ $t('search.removing_your_filters') }}</li>
+                            <li>{{ $t('search.search_in_different_location') }}</li>
+                            <li>{{ $t('search.search_for_something_more_general') }}</li>
                         </ul>
                     </div>
                 </template>
@@ -78,7 +78,6 @@ export default {
         return {
             filterQuery: '',
             isMapLoaded: false,
-            isPlacesLoaded: false,
             map: {},
             markerManager: null,
             mapboxToken: mapSettingsService.getMapboxToken(),
@@ -91,17 +90,16 @@ export default {
     created() {
         this.$store.dispatch('search/updateStateFromQuery', this.$route.query)
             .then(() => {
-                this.$store.dispatch('search/updateQueryFilters')
-                    .then(() => {
-                        this.$store.dispatch('place/fetchPlaces', this.$route.query)
-                            .then(() => {
-                                this.isPlacesLoaded = true;
-                            });
-                    });
+                this.$store.dispatch('search/updateQueryFilters');
             });
     },
     methods: {
-        ...mapActions('search', ['setCurrentPosition', 'mapInitialization', 'updateStateFromQuery']),
+        ...mapActions('search', [
+            'setCurrentPosition',
+            'mapInitialization',
+            'updateStateFromQuery',
+            'setIsPlacesLoaded'
+        ]),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE'
         }),
@@ -174,10 +172,10 @@ export default {
         },
         updateSearchArea() {
             let query = this.getQuery();
-            this.isPlacesLoaded = false;
+            this.setIsPlacesLoaded(false);
             this.$store.dispatch('place/fetchPlaces', query)
                 .then(() => {
-                    this.isPlacesLoaded = true;
+                    this.setIsPlacesLoaded(true);
                     this.draw.deleteAll();
                 });
         },
@@ -210,23 +208,14 @@ export default {
             if (this.isPlacesLoaded) {
                 this.updateMap();
             }
-        },
-        '$route' (to, from) {
-            this.isPlacesLoaded = false;
-
-            this.$store.dispatch('place/fetchPlaces', to.query)
-                .then(() => {
-                    this.isPlacesLoaded = true;
-                    this.setLoadingState(false);
-                    this.currentPage = 1;
-                });
         }
     },
     computed: {
         ...mapState('place', ['places']),
         ...mapState('search', [
             'currentPosition',
-            'mapInitialized'
+            'mapInitialized',
+            'isPlacesLoaded'
         ]),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters({

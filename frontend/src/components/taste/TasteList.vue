@@ -25,6 +25,8 @@
             @input="loadTags"
             @select="option => selected = option"
             @keyup.native.enter="addCustomTaste(tasteInput.text)"
+            maxlength="20"
+            minlength="3"
         />
     </div>
 </template>
@@ -56,9 +58,7 @@ export default {
                 };
             }
             let tasteData = this.tastesData[id];
-            if (this.selectedIds.includes(id)) {
-                this.deleteTaste(id);
-            } else {
+            if (!this.selectedIds.includes(id)) {
                 this.addTaste(id);
             }
             if (this.allTastes.byId[id].is_default) {
@@ -86,10 +86,16 @@ export default {
             this.selectedIds.push(id);
         },
         addCustomTaste(name) {
-            this.$store.dispatch('taste/addCustomTaste', name).then((res) => {
-                this.checkTaste(res.id);
-                this.tasteInput.text = '';
-            });
+            if (name.length >= 3) {
+                this.$store.dispatch('taste/addCustomTaste', name).then((res) => {
+                    this.checkTaste(res.id);
+                    this.tasteInput.text = '';
+                }).catch(
+                    err => this.onError()
+                );
+            } else {
+                this.onError('Taste name must have at least 3 characters length');
+            }
         },
         deleteCustomTaste(id) {
             this.$store.dispatch('taste/deleteCustomTaste', id).then(() => {
@@ -105,17 +111,25 @@ export default {
         isClicked(id) {
             return this.tastesData !== undefined || this.tastesData[id].isClick;
         },
+        onError(msg = 'Taste name length is incorrect') {
+            this.$toast.open({
+                message: msg,
+                type: 'is-danger'
+            });
+        },
         loadTags: _.debounce(function () {
-            this.tasteInput.data = [];
-            this.tasteInput.isFetching = true;
-            this.$store.dispatch('taste/getTasteAutocomplete', this.tasteInput.text)
-                .then(res => {
-                    this.tasteInput.data = res;
-                    this.tasteInput.isFetching = false;
-                })
-                .catch(err => {
-                    this.tasteInput.isFetching = false;
-                });
+            if(this.tasteInput.text !== '') {
+                this.tasteInput.data = [];
+                this.tasteInput.isFetching = true;
+                this.$store.dispatch('taste/getTasteAutocomplete', this.tasteInput.text)
+                    .then(res => {
+                        this.tasteInput.data = res;
+                        this.tasteInput.isFetching = false;
+                    })
+                    .catch(err => {
+                        this.tasteInput.isFetching = false;
+                    });
+            }
         }, 250),
     },
     computed: {
