@@ -27,6 +27,20 @@ export class LocationService {
         });
     }
 
+    getCityByLocation(mapboxToken, lng, lat){
+        return new Promise((resolve, reject) => {
+            let mapboxCitiesApiUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${mapboxToken}&country=ua&types=place&language=en`;
+
+            httpService.get(mapboxCitiesApiUrl)
+                .then(({ data }) => {
+                    resolve(data.features);
+                })
+                .catch(function (err) {
+                    reject(err);
+                });
+        });
+    }
+
 }
 
 export default new LocationService();
