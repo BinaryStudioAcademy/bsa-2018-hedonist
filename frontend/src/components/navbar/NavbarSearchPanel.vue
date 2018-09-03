@@ -2,7 +2,7 @@
     <div class="navbar-start">
         <Preloader :active="isLoading" />
         <div class="navbar-item">
-            <SearchPlaceCategory @select="selectPlaceOrCategory" />
+            <SearchPlaceCategory @select="onSelect" ref="selectPlaceCategoryComponent" :select-city="location" />
         </div>
         <div class="navbar-item">
             <SearchCity @select="selectCity" />
@@ -28,8 +28,8 @@ export default {
     name: 'NavbarSearchPanel',
     data: function(){
         return {
-            location: null,
-            category: null,
+            location: {},
+            category: {},
         };
     },
     computed: {
@@ -49,23 +49,39 @@ export default {
         ...mapActions({
             selectSearchCity: 'search/selectSearchCity',
             updateQueryFilters: 'search/updateQueryFilters',
-            selectSearchPlaceOrCategory: 'search/selectSearchPlaceOrCategory'
+            selectSearchCategory: 'search/selectSearchCategory',
+            setCategoryTags: 'category/fetchCategoryTags',
+            selectSearchPlace: 'search/selectSearchPlace',
         }),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE',
         }),
         selectCity(city){
-            this.location = city;
+            this.location = city ? city : {};
         },
-        selectPlaceOrCategory(category){
-            this.category = category;
+        selectCategory(category){
+            this.category = category ? category : {};
         },
         search() {
             this.setLoadingState(true);
-            this.selectSearchCity(this.location);
-            this.selectSearchPlaceOrCategory(this.category);
+            if(!_.isEmpty(this.location)) {
+                this.selectSearchCity(this.location);
+            }
+            if (!_.isEmpty(this.category)) {
+                this.selectSearchCategory(this.category);
+            } else {
+                this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.$refs.autocomplete.value);
+            }
             this.updateQueryFilters();
-        }
+            this.setLoadingState(false);
+        },
+        onSelect(query) {
+            this.selectCategory(query);
+
+            if (query !== null && query.id) {
+                this.setCategoryTags(query.id);
+            }
+        },
     }
 };
 </script>

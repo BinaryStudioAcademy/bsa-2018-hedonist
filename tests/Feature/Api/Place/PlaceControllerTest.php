@@ -5,6 +5,8 @@ namespace tests\Feature\Api\Place;
 use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\PlaceCategory;
+use Hedonist\Entities\Place\PlaceTaste;
+use Hedonist\Entities\User\Taste;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
@@ -85,7 +87,7 @@ class PlaceControllerTest extends ApiTestCase
                 'localization' => json_encode([
                     'en' => [
                         'name'        => 'Test',
-                        'description' => 'Test description'
+                        'description' => 'Test description....'
                     ]
                 ]),
                 'category_id'  => $this->place->category->id,
@@ -318,6 +320,41 @@ class PlaceControllerTest extends ApiTestCase
 
         $this->assertEquals(count($arrayContent['data']), 2);
         $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/json');
+    }
+
+    public function testAddTasteToPlace()
+    {
+        $taste = factory(Taste::class)->create();
+        $data = [
+            'place_id' => $this->place->id,
+            'taste_id' => $taste->id,
+        ];
+        $response =  $this->actingWithToken()->json(
+            'POST',
+            "/api/v1/place/add-taste",
+            $data
+        );
+
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/json');
+        $this->assertDatabaseHas('place_tastes', $data);
+    }
+
+    public function testAddTasteToPlaceIfPlaceTasteExist()
+    {
+        $placeTaste = factory(PlaceTaste::class)->create();
+        $data = [
+            'place_id' => $placeTaste->place_id,
+            'taste_id' => $placeTaste->taste_id,
+        ];
+        $response =  $this->actingWithToken()->json(
+            'POST',
+            "/api/v1/place/add-taste",
+            $data
+        );
+
+        $response->assertStatus(400);
         $response->assertHeader('Content-Type', 'application/json');
     }
 }

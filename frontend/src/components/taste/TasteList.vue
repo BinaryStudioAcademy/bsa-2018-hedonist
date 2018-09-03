@@ -15,17 +15,19 @@
                 </div>
             </li>
         </ul>
-        <b-field label="My own">
-            <b-taginput
-                v-model="customTastesInput"
-                ellipsis
-                icon="label"
-                type="is-info"
-                placeholder="Add a taste"
-                @add="addCustomTaste"
-                @remove="deleteCustomTaste"
-            />
-        </b-field>
+        <b-autocomplete
+            class="taste-input"
+            rounded
+            v-model.trim="tasteInput.text"
+            placeholder="Enter a tag"
+            :loading="tasteInput.isFetching"
+            :data="tasteInput.data"
+            @input="loadTags"
+            @select="option => selected = option"
+            @keyup.native.enter="addCustomTaste(tasteInput.text)"
+            maxlength="20"
+            minlength="3"
+        />
     </div>
 </template>
 
@@ -39,7 +41,11 @@ export default {
             timeDelay: 0,
             selectedIds: [],
             tastesData: [],
-            customTastesInput: []
+            tasteInput: {
+                data: [],
+                text: '',
+                isFetching: false
+            },
         };
     },
     methods: {
@@ -52,21 +58,27 @@ export default {
                 };
             }
             let tasteData = this.tastesData[id];
-            if (this.selectedIds.includes(id)) {
-                this.deleteTaste(id);
-            } else {
+            if (!this.selectedIds.includes(id)) {
                 this.addTaste(id);
             }
-            tasteData.isClick = true;
-            tasteData.isAnimate = true;
-            setTimeout(function () {
-                tasteData.isAnimate = false;
-            }, 200);
+            if (this.allTastes.byId[id].is_default) {
+                tasteData.isClick = true;
+                tasteData.isAnimate = true;
+                setTimeout(function () {
+                    tasteData.isAnimate = false;
+                }, 200);
+            }
         },
         deleteTaste(id) {
-            this.tastesData[id].check = false;
-            this.$store.dispatch('taste/deleteMyTaste', id);
-            this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
+            let taste = this.allTastes.byId[id];
+            if (taste && taste.is_default) {
+                this.tastesData[id].check = false;
+                this.$store.dispatch('taste/deleteMyTaste', id).then(() => {
+                    this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
+                });
+            } else {
+                this.deleteCustomTaste(id);
+            }
         },
         addTaste(id) {
             this.tastesData[id].check = true;
@@ -74,13 +86,21 @@ export default {
             this.selectedIds.push(id);
         },
         addCustomTaste(name) {
-            this.$store.dispatch('taste/addCustomTaste', name);
-        },
-        deleteCustomTaste(name) {
-            let taste = this.getCustomTasteByName(name);
-            if (taste) {
-                this.$store.dispatch('taste/deleteCustomTaste', taste.id);
+            if (name.length >= 3) {
+                this.$store.dispatch('taste/addCustomTaste', name).then((res) => {
+                    this.checkTaste(res.id);
+                    this.tasteInput.text = '';
+                }).catch(
+                    err => this.onError()
+                );
+            } else {
+                this.onError('Taste name must have at least 3 characters length');
             }
+        },
+        deleteCustomTaste(id) {
+            this.$store.dispatch('taste/deleteCustomTaste', id).then(() => {
+                this.selectedIds.splice(this.selectedIds.indexOf(id), 1);
+            });
         },
         isChecked(id) {
             return this.selectedIds.includes(id);
@@ -90,30 +110,39 @@ export default {
         },
         isClicked(id) {
             return this.tastesData !== undefined || this.tastesData[id].isClick;
-        }
+        },
+        onError(msg = 'Taste name length is incorrect') {
+            this.$toast.open({
+                message: msg,
+                type: 'is-danger'
+            });
+        },
+        loadTags: _.debounce(function () {
+            if(this.tasteInput.text !== '') {
+                this.tasteInput.data = [];
+                this.tasteInput.isFetching = true;
+                this.$store.dispatch('taste/getTasteAutocomplete', this.tasteInput.text)
+                    .then(res => {
+                        this.tasteInput.data = res;
+                        this.tasteInput.isFetching = false;
+                    })
+                    .catch(err => {
+                        this.tasteInput.isFetching = false;
+                    });
+            }
+        }, 250),
     },
     computed: {
-        ...mapState('taste', ['allTastes', 'customTastes', 'myTastes']),
+        ...mapState('taste', ['allTastes', 'myTastes']),
         ...mapGetters('taste', [
             'getMyTastesIds',
-            'getAllTastesIds',
-            'getCustomTastesIds',
-            'getTasteByName',
-            'getCustomTasteByName'
+            'getAllTastesIds'
         ])
     },
     created() {
         this.$store.dispatch('taste/fetchTastes');
-        this.$store.dispatch('taste/fetchCustomTastes').then(() => {
-            let customTastes = [];
-            this.getCustomTastesIds.forEach((id) => {
-                customTastes.push(this.customTastes.byId[id].name);
-            });
-            this.customTastesInput = customTastes;
-        });
         this.$store.dispatch('taste/fetchMyTastes').then(() => {
-            this.selectedIds = this.getMyTastesIds;
-            this.selectedIds.forEach((item, i) => { this.selectedIds[i] = parseInt(item); });
+            this.selectedIds = this.getMyTastesIds.map(id => parseInt(id));
         });
     },
 };
@@ -214,5 +243,10 @@ export default {
 
     .doneButton:hover {
         background-color: #426be6;
+    }
+
+    .taste-input {
+        max-width: 300px;
+        margin: 30px auto;
     }
 </style>

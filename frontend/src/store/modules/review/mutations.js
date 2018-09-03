@@ -3,13 +3,15 @@ import {STATUS_LIKED, STATUS_DISLIKED, STATUS_NONE} from '@/services/api/codes';
 
 export default {
     ADD_REVIEW: (state, review) => {
-        const newReview = normalizer.normalize( { data: review }, state.getReviewSchema());
+        const placeReviewsData = state.reviews.byPlaces[review.place_id];
+        const newReview = normalizer.normalize( { data: review }, normalizer.getReviewSchema());
         state.reviews.byId = Object.assign(
             {},
             state.reviews.byId,
             newReview.byId
         );
-        state.reviews.allIds.push(review.id);
+        placeReviewsData.reviews.push(review.id);
+        placeReviewsData.totalCount += 1;
     },
 
     SET_USERS_WHO_LIKED_REVIEW: (state, users) => {
@@ -26,9 +28,6 @@ export default {
         state.isUsersModalLoading = loading;
     },
 
-    SET_CURRENT_PLACE_REVIEWS: (state, reviews) => {
-        state.reviews = reviews;
-    },
 
     SET_CURRENT_PLACE_REVIEW_LIKE_STATE: (state, { reviewId, likeState }) => {
         state.reviews.byId[reviewId].like = likeState;
@@ -42,8 +41,36 @@ export default {
         state.reviews.byId[reviewId].dislikes = count;
     },
 
-    SET_CURRENT_PLACE_REVIEWS_USERS: (state, users) => {
-        state.users = users;
+    SET_PLACE_REVIEWS: (state, {placeId, reviews, totalCount, perPage}) => {
+        let placeReviews = _.get(state.reviews.byPlaces[placeId], 'reviews', []);
+        reviews.allIds.forEach(reviewId => {
+            if (placeReviews.indexOf(reviewId) === -1) {
+                placeReviews.push(reviewId);
+            }
+        });
+        state.reviews.byPlaces[placeId] = {
+            reviews: placeReviews,
+            totalCount
+        };
+        state.reviews.byId ={
+            ...state.reviews.byId,
+            ...reviews.byId
+        };
+
+        state.reviewsPerPage = perPage;
+    },
+
+    SET_PLACE_REVIEWS_USERS: (state, users) => {
+        state.users = {
+            allIds:[
+                ...state.users.allIds,
+                ...users.allIds
+            ],
+            byId: {
+                ...state.users.byId,
+                ...users.byId
+            },
+        };
     },
 
     ADD_REVIEW_USER: (state, user) => {
@@ -69,5 +96,13 @@ export default {
 
     SET_REVIEW_PHOTOS: (state, {reviewId, photos}) => {
         state.reviews.byId[reviewId].photos = photos;
-    }
+    },
+
+    SET_PLACE_REVIEW_PHOTOS: (state, photos) => {
+        state.placeReviewPhotos = photos;
+    },
+
+    ADD_PLACE_REVIEW_PHOTO: (state, photo) => {
+        state.placeReviewPhotos.push(photo);
+    },
 };

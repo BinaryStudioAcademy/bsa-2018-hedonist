@@ -32,8 +32,8 @@ export default {
             data.append('worktime', JSON.stringify(payload.place.worktime));
 
             httpService.post('/places', data)
-                .then(() => {
-                    resolve();
+                .then((result) => {
+                    resolve(result.data.data);
                 })
                 .catch((error) => {
                     reject(error);
@@ -67,13 +67,6 @@ export default {
                 .then((response) => {
                     const currentPlace = response.data.data;
                     context.commit('SET_CURRENT_PLACE', currentPlace);
-
-                    let normalizeReviewsObj = normalizeReviews(context, currentPlace.reviews);
-                    context.commit('review/SET_CURRENT_PLACE_REVIEWS', normalizeReviewsObj, {root: true});
-
-                    let normalizeUsersObj = normalizeUsers(normalizeReviewsObj);
-                    context.commit('review/SET_CURRENT_PLACE_REVIEWS_USERS', normalizeUsersObj, {root: true});
-
                     resolve();
                 })
                 .catch((err) => {
@@ -83,11 +76,29 @@ export default {
     },
 
     fetchPlaces: (context, filters) => {
+        if(filters.location){
+            let queryUrl = createSearchQueryUrl('/places/search', filters);
+            return new Promise((resolve, reject) => {
+                httpService.get(queryUrl)
+                    .then(function (res) {
+                        context.commit('SET_PLACES', res.data.data);
+                        resolve(res);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+            });
+        } else {
+            Promise.resolve();
+        }
+    },
+
+    loadMorePlaces: (context, {filters = {}, page}) => {
+        filters.page = page;
         let queryUrl = createSearchQueryUrl('/places/search', filters);
         return new Promise((resolve, reject) => {
             httpService.get(queryUrl)
                 .then(function (res) {
-                    context.commit('SET_PLACES', res.data.data);
+                    context.commit('LOAD_MORE_PLACES', res.data.data);
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);
@@ -129,6 +140,14 @@ export default {
             .catch((err) => {
                 return Promise.reject(err);
             });
+    },
+
+    addTasteToPlace: (context, data) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/place/add-taste', data)
+                .then(function (res) { resolve(res); })
+                .catch(function (err) { reject(err); });
+        });
     }
 };
 
@@ -141,12 +160,12 @@ const createSearchQueryUrl = (url, filters) => {
     }
     let params = {
         'filter[category]': filters.category,
+        'filter[name]': filters.name,
         'filter[location]': filters.location,
         'filter[top_rated]': filters.top_rated,
         'filter[top_reviewed]': filters.top_reviewed,
         'filter[checkin]': filters.checkin,
         'filter[saved]': filters.saved,
-        'filter[name]': filters.searchName,
         'filter[polygon]': polygon,
         'page': filters.page
     };
@@ -154,37 +173,3 @@ const createSearchQueryUrl = (url, filters) => {
     return httpService.makeQueryUrl(url, params);
 };
 
-function normalizeReviews(context, reviews) {
-    reviews.forEach(function (review) {
-        review.user_id = review.user.id;
-    });
-    let transformedCurrentPlaceReviews = normalizerService.normalize({data: reviews}, context.rootState.review.getReviewSchema());
-    transformedCurrentPlaceReviews.allIds = [];
-    for (let k in transformedCurrentPlaceReviews.byId)
-        transformedCurrentPlaceReviews.allIds.push(parseInt(k));
-    return transformedCurrentPlaceReviews;
-}
-
-function normalizeUsers(reviews) {
-    let allUserIds = [];
-    let users = [];
-    for (let key in reviews.byId) {
-        if (!reviews.byId.hasOwnProperty(key)) continue;
-        let userId = reviews.byId[key].user.id;
-        if (!allUserIds.includes(userId)) {
-            users.push(reviews.byId[key].user);
-            allUserIds.push(userId);
-        }
-    }
-
-    let normalizeUsers = normalizerService.normalize({data: users}, {
-        first_name: '',
-        last_name: '',
-        avatar_url: ''
-    });
-    normalizeUsers.allIds = [];
-    for (let k in normalizeUsers.byId)
-        normalizeUsers.allIds.push(parseInt(k));
-
-    return normalizeUsers;
-}

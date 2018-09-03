@@ -4,18 +4,20 @@
         <PlaceTopInfo 
             v-if="loaded"
             :place="place"
+            :is-loading-review-photo="isLoadingReviewPhoto"
             @tabChanged="tabChanged"
         />
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
                     <ReviewList 
-                        v-if="loaded && (activeTab === 1) && place.reviews"
+                        v-if="loaded && (activeTab === 1)"
                         :place="place"
                     />
                     <ReviewPhotoGallery 
-                        v-if="loaded && (activeTab === 2) && place.photos"
+                        v-if="loaded && (activeTab === 2)"
                         :place="place"
+                        :is-loading-review-photo="isLoadingReviewPhoto"
                     />
                 </div>
             </div>
@@ -49,23 +51,36 @@ export default {
     data() {
         return {
             isLoading: true,
+            isLoadingReviewPhoto: true,
             activeTab: 1,
         };
     },
 
     created() {
-        this.$store.dispatch('place/loadCurrentPlace', this.$route.params.id)
-            .then((response) => {
-                this.isLoading = false;
-            })
-            .catch((err) => {
-                this.isLoading = false;
-            });
+        this.loadPlace(this.$route.params.id);
     },
 
     methods: {
         tabChanged(activeTab) {
             this.activeTab = activeTab;
+        },
+        loadPlace(id) {
+            this.isLoading = true;
+            this.isLoadingReviewPhoto = true;
+            this.$store.dispatch('place/loadCurrentPlace', id)
+                .then((response) => {
+                    this.isLoading = false;
+                    this.$store.dispatch('review/getReviewPhotosByPlace', this.place.id)
+                        .then((response) => {
+                            this.isLoadingReviewPhoto = false;
+                        })
+                        .catch((err) => {
+                            this.isLoadingReviewPhoto = false;
+                        });
+                })
+                .catch((err) => {
+                    this.isLoading = false;
+                });
         }
     },
 
@@ -78,6 +93,12 @@ export default {
             return !!(this.place) && !(this.isLoading);
         }
     },
+
+    watch: {
+        '$route' (to, from) {
+            this.loadPlace(to.params.id);
+        }
+    }
 };
 </script>
 

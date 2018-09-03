@@ -21,6 +21,11 @@ class TasteRepository extends BaseRepository implements TasteRepositoryInterface
         return Taste::find($id);
     }
 
+    public function getByName(string $name): ?Taste
+    {
+        return Taste::where('name', $name)->first();
+    }
+
     public function findAll(): Collection
     {
         return Taste::all();
@@ -51,32 +56,5 @@ class TasteRepository extends BaseRepository implements TasteRepositoryInterface
                 $query->where('user_id', $userId);
             }
         )->get();
-    }
-
-    public function getDefault(): Collection
-    {
-        return Taste::all();
-    }
-
-    public function getCustomById(int $id): ?CustomTaste
-    {
-        return CustomTaste::find($id);
-    }
-
-    public function getCustomByUserId(int $userId): Collection
-    {
-        return CustomTaste::where('user_id', $userId)->get();
-    }
-
-    public function saveCustom(CustomTaste $customTaste): CustomTaste
-    {
-        $customTaste->save();
-
-        return $customTaste;
-    }
-
-    public function deleteCustomById(int $id): void
-    {
-        CustomTaste::destroy($id);
     }
 }

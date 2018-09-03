@@ -57,6 +57,7 @@ class GetPlaceCollectionPresenter
             $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
             $result['category'] = $this->categoryPresenter->present($place->category);
             $result['category']['tags'] = $this->tagsPresenter->presentCollection($place->category->tags);
+            $result['tags'] = $this->tagsPresenter->presentCollection($place->tags);
 
             return $result;
         })->toArray();
@@ -77,6 +78,7 @@ class GetPlaceCollectionPresenter
     public function presentForAutoComplete(GetPlaceCollectionForAutoCompleteResponse $placeResponse): array
     {
         return $placeResponse->getPlaceCollection()->map(function (Place $place) use ($placeResponse) {
+            $result['id'] = $place->id;
             $result['photo']['img_url'] = '';
             if (!empty($place->photos)) {
                 $result['photo'] = $this->photoPresenter->present($place->photos[0]);

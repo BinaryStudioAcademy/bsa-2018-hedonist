@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCustomTastesTable extends Migration
+class ChangeDescriptionColumnInReviewPhotosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateCustomTastesTable extends Migration
      */
     public function up()
     {
-        Schema::create('custom_tastes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->unsignedInteger('user_id')->nullable();
-
-            $table->foreign('user_id')->references('id')->on('users');
+        Schema::table('review_photos', function (Blueprint $table) {
+            $table->text('description')->nullable()->change();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateCustomTastesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('custom_tastes');
+        Schema::table('review_photos', function (Blueprint $table) {
+            $table->text('description')->change();
+        });
     }
 }

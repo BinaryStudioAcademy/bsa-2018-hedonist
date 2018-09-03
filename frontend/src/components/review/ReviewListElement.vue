@@ -4,7 +4,13 @@
             <article class="media">
                 <figure class="media-left">
                     <p class="image is-32x32">
-                        <img :src="review.user.avatar_url">
+                        <img v-if="review.user.avatar_url" :src="review.user.avatar_url">
+                        <img
+                            v-else
+                            src="/assets/add_review_default_avatar.png"
+                            height="32"
+                            width="32"
+                        >
                     </p>
                 </figure>
                 <div class="media-content">
@@ -18,12 +24,16 @@
 
                     <template v-if="isImageAttached">
                         <div class="review-photos">
-                            <img 
+                            <div
+                                class="review-image"
                                 v-for="(photo, index) in review.photos"
-                                :src="photo"
                                 :key="index"
-                                v-img="{ group: review.id}"
                             >
+                                <img
+                                    :src="photo"
+                                    v-img="{ group: review.id}"
+                                >
+                            </div>
                         </div>
                     </template>
 
@@ -103,7 +113,7 @@ export default {
     methods: {
         ...mapActions('review', [
             'getReviewPhotos',
-            'likeReview', 
+            'likeReview',
             'dislikeReview',
             'getUsersWhoLikedReview',
             'getUsersWhoDislikedReview'
@@ -172,9 +182,20 @@ export default {
     }
 
     .review-photos {
+        display: inline-flex;
+    }
+
+    .review-image {
+        width: 180px;
+        height: 128px;
+        flex-shrink: 0;
+        padding: 5px;
+
         img {
-            height: 150px;
-            width: 150px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
 
             &:not(:last-child) {
                 margin-right: 15px;

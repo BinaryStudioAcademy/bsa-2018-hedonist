@@ -12,6 +12,14 @@ abstract class ApiController extends Controller
         return JsonResponse::create(['data' => $data], $statusCode);
     }
 
+    protected function successResponseWithMeta(array $data, array $meta = [], int $statusCode = JsonResponse::HTTP_OK) : JsonResponse
+    {
+        return JsonResponse::create([
+            'data' => $data,
+            'meta' => $meta
+        ], $statusCode);
+    }
+
     protected function errorResponse(string $data, int $statusCode = JsonResponse::HTTP_BAD_REQUEST) : JsonResponse
     {
         $errorData = [
