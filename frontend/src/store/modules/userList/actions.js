@@ -124,8 +124,9 @@ export default {
     },
     addUserList: (context, {userList, attachedPlaces}) => {
         const formData = new FormData();
-        if(userList.image)
+        if(userList.image){
             formData.append('image', userList.image);
+        }
         formData.append('name', userList.name);
         _.forEach(attachedPlaces, function(place) {
             formData.append('attached_places[]', place.id);
