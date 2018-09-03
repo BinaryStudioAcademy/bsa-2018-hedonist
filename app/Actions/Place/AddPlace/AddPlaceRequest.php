@@ -26,11 +26,9 @@ class AddPlaceRequest
 
     public function __construct(
         int $creatorId,
-        String $localization,
+        string $localization,
         int $categoryId,
-        array $tags,
-        array $features,
-        String $city,
+        string $city,
         float $longitude,
         float $latitude,
         int $zip,
@@ -42,8 +40,10 @@ class AddPlaceRequest
         string $twitter,
         string $menu_url,
         int $work_weekend,
-        ?array $photos,
-        String $worktime
+        string $worktime,
+        ?array $tags,
+        ?array $features,
+        ?array $photos
     ) {
         $this->creatorId = $creatorId;
         $this->localization = $localization;

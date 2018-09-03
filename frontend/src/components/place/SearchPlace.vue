@@ -1,7 +1,7 @@
 <template>
     <section class="columns">
         <section class="column is-half">
-            <SearchFilterPlace />
+            <SearchFilterPlace :is-places-loaded="isPlacesLoaded" />
             <CategoryTagsContainer
                 v-if="categoryTagsList.length"
                 :tags="categoryTagsList"
@@ -23,13 +23,13 @@
                 </template>
                 <template v-else>
                     <div class="no-results">
-                        <div class="no-results__title has-text-weight-bold">Sorry, no results are found.</div>
+                        <div class="no-results__title has-text-weight-bold">{{ $t('search.no_results') }}</div>
 
-                        <div class="no-results__try">You may try:</div>
+                        <div class="no-results__try">{{ $t('search.may_try') }}:</div>
                         <ul>
-                            <li>removing your filters</li>
-                            <li>search in different location</li>
-                            <li>search for something more general</li>
+                            <li>{{ $t('search.removing_your_filters') }}</li>
+                            <li>{{ $t('search.search_in_different_location') }}</li>
+                            <li>{{ $t('search.search_for_something_more_general') }}</li>
                         </ul>
                     </div>
                 </template>
