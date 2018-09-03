@@ -115,6 +115,21 @@
         "label": "Photos",
         "upload": "Drop photos here or click to upload",
         "delete": "delete"
+      },
+      "location": {
+        "label": "Location"
+      },
+      "categories": {
+        "label": "Categories"
+      },
+      "features": {
+        "label": "Features"
+      },
+      "hours": {
+        "label": "Hours"
+      },
+      "add": {
+        "label": "Add place"
       }
     },
     "buttons": {

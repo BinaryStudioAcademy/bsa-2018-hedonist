@@ -237,7 +237,7 @@
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Location" :disabled="activeTab !== 2">
+                <b-tab-item :label="$t('add_place_page.tabs.location.label')" :disabled="activeTab !== 2">
                     <div class="tab-wrp">
                         <div class="map-wrp">
                             <mapbox
@@ -260,12 +260,12 @@
                     </div>
 
                     <div class="buttons is-centered location-buttons">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                        <span @click="activeTab++" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Categories" :disabled="activeTab !== 3">
+                <b-tab-item :label="$t('add_place_page.tabs.categories.label')" :disabled="activeTab !== 3">
                     <div class="tab-wrp">
                         <div class="level">
                             <div class="level-item">
@@ -324,12 +324,12 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                        <span @click="activeTab++" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Features" :disabled="activeTab !== 4">
+                <b-tab-item :label="$t('add_place_page.tabs.features.label')" :disabled="activeTab !== 4">
                     <div class="columns is-centered">
                         <div class="column is-half">
                             <template v-for="feature in allFeatures">
@@ -349,12 +349,12 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                        <span @click="activeTab++" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Hours" :disabled="activeTab !== 5">
+                <b-tab-item :label="$t('add_place_page.tabs.hours.label')" :disabled="activeTab !== 5">
                     <div class="tab-wrp">
                         <div class="columns is-vcentered">
                             <div class="column is-half is-left">
@@ -460,12 +460,12 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                        <span @click="activeTab++" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Add place" :disabled="activeTab !== 6">
+                <b-tab-item :label="$t('add_place_page.tabs.add.label')" :disabled="activeTab !== 6">
                     <div class="box">
                         <div class="level">
                             <div class="level-item">
@@ -473,8 +473,8 @@
                             </div>
                         </div>
                         <div class="buttons is-centered">
-                            <span @click="activeTab--" class="button is-warning">Previous</span>
-                            <span @click="onAdd()" class="button is-success">Add</span>
+                            <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                            <span @click="onAdd()" class="button is-success">{{ $t('add_place_page.buttons.add') }}</span>
                         </div>
                     </div>
                 </b-tab-item>
