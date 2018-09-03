@@ -75,5 +75,55 @@
   },
   "my-lists_page": {
     "no-lists": "You do not have a list of places yet. You can add places to a list and group the selected places"
+  },
+  "add_place_page": {
+    "tabs": {
+      "general": {
+        "label": "General",
+        "labels": {
+          "name": "Name",
+          "city": "City",
+          "zip": "Zip",
+          "address": "Address",
+          "phone": "Phone",
+          "twitter": "Twitter",
+          "facebook": "Facebook",
+          "instagram": "Instagram",
+          "website": "Website",
+          "menu": "Menu link",
+          "description": "Description"
+        },
+        "dividers": {
+          "first": "Address and Location",
+          "second": "Contact and Other Info"
+        },
+        "placeholders": {
+          "name": "the Best place",
+          "city": "Kiev",
+          "zip": "09678",
+          "address": "Khreschatyk St., 14",
+          "phone": "+380961112233",
+          "twitter": "http://twitter.com/",
+          "facebook": "http://facebook.com/",
+          "instagram": "http://instagram.com/",
+          "website": "http://the-best-place.com/",
+          "menu": "http://the-best-place.com/menu",
+          "description": "We are the Best place, that you could visit.."
+        }
+      },
+      "photos": {
+        "label": "Photos",
+        "upload": "Drop photos here or click to upload",
+        "delete": "delete"
+      }
+    },
+    "buttons": {
+      "next": "Next",
+      "previous": "Previous",
+      "add": "Add"
+    },
+    "validators": {
+
+    }
   }
 }

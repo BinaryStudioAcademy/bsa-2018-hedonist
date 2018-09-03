@@ -3,10 +3,10 @@
         <div class="container main-wrp">
 
             <b-tabs v-model="activeTab" position="is-centered" class="block">
-                <b-tab-item label="General" :disabled="activeTab !== 0">
+                <b-tab-item :label="$t('add_place_page.tabs.general.label')" :disabled="activeTab !== 0">
                     <div class="field is-horizontal">
                         <div class="field-label is-medium">
-                            <label class="label">Name</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.name') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -15,7 +15,7 @@
                                         v-model="newPlace.localization.en.name"
                                         class="input is-medium"
                                         type="text"
-                                        placeholder="Place's name"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.name')"
                                     >
                                 </div>
                             </div>
@@ -23,12 +23,12 @@
                     </div>
 
                     <div class="section-divider">
-                        <h4>Address and Location</h4>
+                        <h4>{{ $t('add_place_page.tabs.general.dividers.first') }}</h4>
                     </div>
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">City</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.city') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -41,7 +41,7 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Zip</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.zip') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -50,7 +50,7 @@
                                         v-model="newPlace.zip"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's postal code"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.zip')"
                                     >
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Address</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.address') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -68,7 +68,7 @@
                                         v-model="newPlace.address"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's address"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.address')"
                                     >
                                 </div>
                             </div>
@@ -76,12 +76,12 @@
                     </div>
 
                     <div class="section-divider">
-                        <h4>Contact and Other Info</h4>
+                        <h4>{{ $t('add_place_page.tabs.general.dividers.second') }}</h4>
                     </div>
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Phone</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.phone') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -90,12 +90,12 @@
                                         v-model="newPlace.phone"
                                         class="input"
                                         type="tel"
-                                        placeholder="Place's phone"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.phone')"
                                     >
                                 </p>
                             </div>
                             <div class="field-label is-normal">
-                                <label class="label">Twitter</label>
+                                <label class="label">{{ $t('add_place_page.tabs.general.labels.twitter') }}</label>
                             </div>
                             <div class="field">
                                 <p class="control is-expanded">
@@ -103,7 +103,7 @@
                                         v-model="newPlace.twitter"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's twitter"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.twitter')"
                                     >
                                 </p>
                             </div>
@@ -112,7 +112,7 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Facebook</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.facebook') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -121,12 +121,12 @@
                                         v-model="newPlace.facebook"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's facebook"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.facebook')"
                                     >
                                 </p>
                             </div>
                             <div class="field-label is-normal">
-                                <label class="label">Instagram</label>
+                                <label class="label">{{ $t('add_place_page.tabs.general.labels.instagram') }}</label>
                             </div>
                             <div class="field">
                                 <p class="control is-expanded">
@@ -134,7 +134,7 @@
                                         v-model="newPlace.instagram"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's instagram"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.instagram')"
                                     >
                                 </p>
                             </div>
@@ -143,7 +143,7 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Website</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.website') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -152,7 +152,7 @@
                                         v-model="newPlace.website"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's website"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.website')"
                                     >
                                 </div>
                             </div>
@@ -161,7 +161,7 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Menu link</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.menu') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -170,7 +170,7 @@
                                         v-model="newPlace.menu"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's menu"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.menu')"
                                     >
                                 </div>
                             </div>
@@ -179,23 +179,23 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Description</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.description') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control">
-                                    <textarea v-model="newPlace.localization.en.description" class="textarea" placeholder="Place's description.." />
+                                    <textarea v-model="newPlace.localization.en.description" class="textarea" :placeholder="$t('add_place_page.tabs.general.placeholders.description')" />
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="activeTab++" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Photos" :disabled="activeTab !== 1">
+                <b-tab-item :label="$t('add_place_page.tabs.photos.label')" :disabled="activeTab !== 1">
                     <div class="tab-wrp">
                         <div class="level">
                             <div class="level-item">
@@ -204,7 +204,7 @@
                                         <section class="section">
                                             <div class="content has-text-centered">
                                                 <p><b-icon icon="upload" size="is-large" /></p>
-                                                <p>Drop photos here or click to upload</p>
+                                                <p>{{ $t('add_place_page.tabs.photos.upload') }}</p>
                                             </div>
                                         </section>
                                     </b-upload>
@@ -221,7 +221,7 @@
                                         <div class="level">
                                             <div class="level-item">
                                                 <span class="tag is-small is-light id-center" @click="deletePhoto(index)">
-                                                    <a>delete</a>
+                                                    <a>{{ $t('add_place_page.tabs.photos.delete') }}</a>
                                                 </span>
                                             </div>
                                         </div>
@@ -232,8 +232,8 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                        <span @click="activeTab++" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 

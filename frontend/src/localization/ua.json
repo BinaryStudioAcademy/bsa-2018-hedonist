@@ -75,5 +75,55 @@
   },
   "my-lists_page": {
     "no-lists": "У вас ще немає списків місць. Ви можете додати деякі та згрупувати вибрані вами місця."
+  },
+  "add_place_page": {
+    "tabs": {
+      "general": {
+        "label": "Основні",
+        "labels": {
+          "name": "Назва",
+          "city": "Місто",
+          "zip": "Код",
+          "address": "Адреса",
+          "phone": "Телефон",
+          "twitter": "Twitter",
+          "facebook": "Facebook",
+          "instagram": "Instagram",
+          "website": "Сайт",
+          "menu": "Меню",
+          "description": "Опис"
+        },
+        "dividers": {
+          "first": "Адреса та розташування",
+          "second": "Контактні дані та ін."
+        },
+        "placeholders": {
+          "name": "the Best place",
+          "city": "Київ",
+          "zip": "09678",
+          "address": "вул. Хрещатик, б.14",
+          "phone": "+380961112233",
+          "twitter": "http://twitter.com/",
+          "facebook": "http://facebook.com/",
+          "instagram": "http://instagram.com/",
+          "website": "http://the-best-place.com/",
+          "menu": "http://the-best-place.com/menu",
+          "description": "Ми - the Best place, яке Ви можете відвідати.."
+        }
+      },
+      "photos": {
+        "label": "Фото",
+        "upload": "Перетягніть або клацніть, щоб завантажити",
+        "delete": "видалити"
+      }
+    },
+    "buttons": {
+      "next": "Далі",
+      "previous": "Назад",
+      "add": "Додати"
+    },
+    "validators": {
+
+    }
   }
 }
