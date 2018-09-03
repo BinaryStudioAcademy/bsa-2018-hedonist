@@ -29,24 +29,24 @@ export default {
                     }
                     places = normalizerService.updateAllIds(places);
 
-                    for (let place in places.byId) {
-                        let id = parseInt(place);
+                    for (let placeId in places.byId) {
+                        const place = places.byId[parseInt(placeId)];
 
                         cities = normalizerService.updateNormalizedData(
                             cities,
                             normalizerService.normalize({
-                                data: places.byId[id].city
+                                data: place.city
                             })
                         );
-                        delete places.byId[id].city;
+                        place.city = place.city.id;
 
                         categories = normalizerService.updateNormalizedData(
                             categories,
                             normalizerService.normalize({
-                                data: places.byId[id].category
+                                data: place.category
                             })
                         );
-                        delete places.byId[id].category;
+                        place.category = place.category.id;
                     }
                     cities = normalizerService.updateAllIds(cities);
                     categories = normalizerService.updateAllIds(categories);
@@ -112,17 +112,17 @@ export default {
                 allLists.byId[list.id] = list;
                 allLists.allIds.push(list.id);
 
-                context.commit('SET_PLACES', normalizerService.updateAllIds(places));
-                context.commit('SET_CITIES', normalizerService.updateAllIds(cities));
-                context.commit('SET_CATEGORIES', normalizerService.updateAllIds(categories));
-                context.commit('SET_REVIEWS', normalizerService.updateAllIds(reviews));
-                context.commit('SET_USER_LISTS', allLists);
-                context.commit('SET_PHOTOS',  normalizerService.updateAllIds(photos));
+                context.commit('UPDATE_PLACES', normalizerService.updateAllIds(places));
+                context.commit('UPDATE_CITIES', normalizerService.updateAllIds(cities));
+                context.commit('UPDATE_CATEGORIES', normalizerService.updateAllIds(categories));
+                context.commit('UPDATE_REVIEWS', normalizerService.updateAllIds(reviews));
+                context.commit('UPDATE_USER_LISTS', allLists);
+                context.commit('UPDATE_PHOTOS',  normalizerService.updateAllIds(photos));
 
                 context.commit('SET_LOADING_STATE', false);
             });
     },
-    addUserList: (context, {userList, attachedPlaces}) => {
+    addUserList: ({ commit }, {userList, attachedPlaces}) => {
         const formData = new FormData();
         formData.append('image', userList.image);
         formData.append('name', userList.name);
@@ -131,11 +131,14 @@ export default {
         });
 
         return httpService.post('/user-lists/', formData)
-            .then((result) => {
-                return result.data.data;
+            .then(({ data }) => {
+                let userList = data.data;
+                userList.places = [];
+                commit('ADD_NEW_LIST', userList);
+                return userList;
             });
     },
-    updateUserList: (context, {userList, attachedPlaces, id}) => {
+    updateUserList: ({ commit }, {userList, attachedPlaces, id}) => {
         const formData = new FormData();
         formData.append('_method', 'PUT');
         if (userList.image !== null) {
@@ -151,8 +154,10 @@ export default {
         });
 
         return httpService.post(`/user-lists/${id}`, formData)
-            .then((result) => {
-                return result.data.data;
+            .then(({ data }) => {
+                const userList = data.data;
+                commit('UPDATE_LIST_PHOTO_AND_NAME', userList);
+                return userList;
             });
     },
     deleteUserList: (context, id) => {

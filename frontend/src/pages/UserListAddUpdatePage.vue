@@ -20,10 +20,10 @@
                     :map-options="{
                         style: mapboxStyle,
                         center: {
-                            lat: 50.4547,
-                            lng: 30.5238
+                            lat: 48.26,
+                            lng: 31.31
                         },
-                        zoom: 9
+                        zoom: 4.2
                     }"
                     :scale-control="{
                         show: true,

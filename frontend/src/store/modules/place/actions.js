@@ -83,11 +83,29 @@ export default {
     },
 
     fetchPlaces: (context, filters) => {
+        if(filters.location){
+            let queryUrl = createSearchQueryUrl('/places/search', filters);
+            return new Promise((resolve, reject) => {
+                httpService.get(queryUrl)
+                    .then(function (res) {
+                        context.commit('SET_PLACES', res.data.data);
+                        resolve(res);
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+            });
+        } else {
+            Promise.resolve();
+        }
+    },
+
+    loadMorePlaces: (context, {filters = {}, page}) => {
+        filters.page = page;
         let queryUrl = createSearchQueryUrl('/places/search', filters);
         return new Promise((resolve, reject) => {
             httpService.get(queryUrl)
                 .then(function (res) {
-                    context.commit('SET_PLACES', res.data.data);
+                    context.commit('LOAD_MORE_PLACES', res.data.data);
                     resolve(res);
                 }).catch(function (err) {
                     reject(err);

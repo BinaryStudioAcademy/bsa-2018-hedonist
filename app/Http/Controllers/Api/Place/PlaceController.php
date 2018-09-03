@@ -126,8 +126,6 @@ class PlaceController extends ApiController
                 $request->creator_id,
                 $request->localization,
                 $request->category_id,
-                $request->tags,
-                $request->features,
                 $request->city,
                 $request->longitude,
                 $request->latitude,
@@ -140,8 +138,10 @@ class PlaceController extends ApiController
                 $request->twitter,
                 $request->menu_url,
                 $request->work_weekend,
-                $request->photos,
-                $request->worktime
+                $request->worktime,
+                $request->tags,
+                $request->features,
+                $request->photos
             ));
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage(), $e->getCode());
