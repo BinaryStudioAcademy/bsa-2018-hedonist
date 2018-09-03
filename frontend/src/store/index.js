@@ -14,6 +14,7 @@ import userList from './modules/userList';
 import taste from './modules/taste';
 import profile from './modules/profile';
 import history from './modules/history';
+import users from './modules/users';
 
 Vue.use(Vuex);
 
@@ -33,6 +34,7 @@ export default new Vuex.Store({
         userList,
         taste,
         profile,
-        history
+        history,
+        users
     }
 });
