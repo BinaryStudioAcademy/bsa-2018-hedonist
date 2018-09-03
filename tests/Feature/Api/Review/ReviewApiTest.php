@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Hedonist\Entities\Review\ReviewPhoto;
 use Hedonist\Entities\User\User;
+use Hedonist\Entities\User\UserInfo;
 use Tests\Feature\Api\ApiTestCase;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Review\Review;
@@ -21,6 +22,9 @@ class ReviewApiTest extends ApiTestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
+        factory(UserInfo::class)->create([
+            'user_id' => $this->user->id,
+        ]);
         $this->place = factory(Place::class)->create();
         $this->actingWithToken($this->user);
     }
@@ -35,8 +39,6 @@ class ReviewApiTest extends ApiTestCase
                 'description'   => 'test test test'
             ]
         );
-
-        // dd($response);
         
         $response->assertStatus(200);
         $this->assertDatabaseHas('reviews',
