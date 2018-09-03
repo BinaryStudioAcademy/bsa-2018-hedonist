@@ -11,9 +11,6 @@ use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 
 class GetReviewCollectionAction
 {
-    private const DEFAULT_SORT = 'created_at';
-    private const DEFAULT_ORDER = 'desc';
-
     private $reviewRepository;
 
     public function __construct(ReviewRepositoryInterface $repository)
@@ -25,8 +22,8 @@ class GetReviewCollectionAction
     {
         $page = $request->getPage() ?? GetReviewCollectionRequest::DEFAULT_PAGE;
         $placeId = $request->getPlaceId();
-        $sort = $request->getSort() ?? self::DEFAULT_SORT;
-        $order = $request->getOrder() ?? self::DEFAULT_ORDER;
+        $sort = $request->getSort() ?? DefaultSortCriteria::DEFAULT_SORT;
+        $order = $request->getOrder() ?? DefaultSortCriteria::DEFAULT_ORDER;
         $text = $request->getText();
 
         $criterias = [];
@@ -42,7 +39,7 @@ class GetReviewCollectionAction
             $criterias[] = new GetReviewsByTextCriteria($text);
         }
 
-        if ($sort !== self::DEFAULT_SORT) {
+        if ($sort !== DefaultSortCriteria::DEFAULT_SORT) {
             $criterias[] = new DefaultSortCriteria;
         }
 
