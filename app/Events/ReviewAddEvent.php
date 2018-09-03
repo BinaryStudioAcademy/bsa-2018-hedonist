@@ -27,7 +27,7 @@ class ReviewAddEvent implements ShouldBroadcast
         return 'review.added';
     }
 
-    public function broadcastWith(): Array
+    public function broadcastWith(): array
     {
         return [
             'review' => [
