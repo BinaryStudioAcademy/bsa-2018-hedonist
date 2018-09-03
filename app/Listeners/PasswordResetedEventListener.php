@@ -16,8 +16,7 @@ class PasswordResetedEventListener
         $token = $event->getToken();
 
         $message = (new ResetPasswordLinkSent($user, $token))
-            ->onConnection('rabbitmq')
-            ->onQueue('rabbit');
+            ->onConnection('beanstalkd');
         
         Mail::to($user)->queue($message);
     }
