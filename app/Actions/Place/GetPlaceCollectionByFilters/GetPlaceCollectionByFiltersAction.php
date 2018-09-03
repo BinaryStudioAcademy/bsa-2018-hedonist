@@ -38,10 +38,8 @@ class GetPlaceCollectionByFiltersAction
         $uniqId = $this->generateUniqKeyByPlaceSearch($request);
         $redisPlaces = Redis::get('search_places-' . $uniqId);
         if ($redisPlaces) {
-            Log::debug('redis');
             return unserialize($redisPlaces);
         }
-        Log::debug('not a redis');
 
         $categoryId = $request->getCategoryId();
         $name = $request->getName();
