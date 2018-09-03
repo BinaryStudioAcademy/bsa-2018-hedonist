@@ -2,9 +2,10 @@ import httpService from '@/services/common/httpService';
 import router from '@/router';
 import LocationService from '@/services/location/locationService';
 import mapSettingsService from '@/services/map/mapSettingsService';
+import { KIEV_LATITUDE, KIEV_LONGITUDE } from '@/services/location/positions';
 
 export default {
-    updateStateFromQuery: ({commit}, query) => {
+    updateStateFromQuery: ({commit, dispatch}, query) => {
         if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
         if(query.page) commit('SET_PAGE', query.page);
         if(query.category) commit('SET_SEARCH_PLACE_CATEGORY', {id: query.category, name: ''});
@@ -24,6 +25,11 @@ export default {
                         latitude: coordinates.lat,
                         longitude: coordinates.lng
                     });
+                })
+                .catch(() => {
+                    dispatch('setLocationAvailable', false);
+                    let city = {center: [KIEV_LONGITUDE, KIEV_LATITUDE]};
+                    commit('SET_SEARCH_CITY', city);
                 });
         }
         return Promise.resolve();
