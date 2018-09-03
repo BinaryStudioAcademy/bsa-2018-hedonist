@@ -7,8 +7,8 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 
 class DefaultSortCriteria implements CriteriaInterface
 {
-    private const DEFAULT_SORT = 'created_at';
-    private const DEFAULT_ORDER = 'desc';
+    const DEFAULT_SORT = 'created_at';
+    const DEFAULT_ORDER = 'desc';
 
     public function apply($model, RepositoryInterface $repository)
     {
