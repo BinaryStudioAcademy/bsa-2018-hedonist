@@ -64,7 +64,10 @@
                         <span slot="no-results" />
                     </infinite-loading>
                 </div>
-                <div v-else>
+                <div
+                    v-else
+                    class="preloader"
+                >
                     <SmallPreloader :active="isLoadingReviews" />
                 </div>
             </div>
@@ -281,6 +284,10 @@ export default {
 
     .sort-word {
         color: #808080;
+    }
+
+    .preloader {
+        padding: 20px;
     }
 
 </style>
