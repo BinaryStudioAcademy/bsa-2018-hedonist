@@ -18,10 +18,10 @@ class GetTasteNamesCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->where([
+        return $model->select('name')->where([
             ['user_id', '!=', $this->userId],
             ['is_default', false],
             ['name', 'like', "%{$this->query}%"]
-        ]);
+        ])->distinct();
     }
 }
