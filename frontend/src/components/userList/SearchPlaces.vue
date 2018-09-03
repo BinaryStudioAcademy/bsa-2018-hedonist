@@ -136,7 +136,7 @@ export default {
             this.$emit('changeAttachedPlaces', this.attachedPlaces);
         },
         'listAttachedPlaces': function() {
-            this.attachedPlaces = this.listAttachedPlaces
+            this.attachedPlaces = this.listAttachedPlaces;
         }
     },
     methods: {
