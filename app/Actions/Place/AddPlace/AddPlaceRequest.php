@@ -36,7 +36,7 @@ class AddPlaceRequest
         int $zip,
         string $address,
         string $phone,
-        ?string $website,
+        string $website,
         ?string $facebook,
         ?string $instagram,
         ?string $twitter,
@@ -126,7 +126,7 @@ class AddPlaceRequest
         return $this->phone;
     }
 
-    public function getWebsite(): ?string
+    public function getWebsite(): string
     {
         return $this->website;
     }
