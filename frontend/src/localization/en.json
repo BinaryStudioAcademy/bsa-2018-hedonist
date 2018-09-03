@@ -64,5 +64,21 @@
   },
   "search": {
     "current_location": "Current position"
+  },
+  "place_page": {
+    "sidebar": {
+      "schedule": "Schedule",
+      "open": "Open now",
+      "close": "Close",
+      "days": {
+        "mo": "Monday",
+        "tu": "Tuesday",
+        "we": "Wednesday",
+        "th": "Thursday",
+        "fr": "Friday",
+        "sa": "Saturday",
+        "su": "Sunday"
+      }
+    }
   }
 }

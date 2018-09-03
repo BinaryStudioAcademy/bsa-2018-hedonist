@@ -31,11 +31,11 @@
                     <i class="place-sidebar__icon far fa-clock" />
                     <div class="level">
                         <div class="level-left">
-                            <span v-if="isOpen() === true" class="worktime-info--green">Open now</span>
-                            <span v-else class="worktime-info--red">Closed</span>
+                            <span v-if="isOpen() === true" class="worktime-info--green">{{ $t('place_page.sidebar.open') }}</span>
+                            <span v-else class="worktime-info--red">{{ $t('place_page.sidebar.close') }}</span>
                         </div>
                         <div class="level-right">
-                            <a @click="isShowSchedule = !isShowSchedule">Schedule</a>
+                            <a @click="isShowSchedule = !isShowSchedule">{{ $t('place_page.sidebar.schedule') }}</a>
                         </div>
                     </div>
                     <b-collapse :open="isShowSchedule">
@@ -43,7 +43,8 @@
                             <template v-for="item in place.worktime">
                                 <div :key="item.id" class="level">
                                     <div class="level-left">
-                                        {{ item.day }}
+                                        <!--{{ item.day }}-->
+                                        {{ $t('place_page.sidebar.days.' + item.day) }}
                                     </div>
                                     <div class="level-right">
                                         {{ displayTime(item.start) }} - {{ displayTime(item.end) }}
@@ -124,16 +125,13 @@ export default {
     },
     methods: {
         isOpen() {
-            let today = moment().format('dddd');
+            let today = moment().format('dd').toLowerCase();
             let now = this.getMinutes(moment());
-            let isOpen = false;
-            _.forEach(this.place.worktime, (item) => {
-                if (item.day === today) {
-                    isOpen = this.getMinutes(this.getLocalMoment(item.start)) < now
-                        && now < this.getMinutes(this.getLocalMoment(item.end));
-                }
+            let today_schedule = this.place.worktime.find(function(item) {
+                return item.day === today;
             });
-            return isOpen;
+            return this.getMinutes(this.getLocalMoment(today_schedule.start)) < now
+                && now < this.getMinutes(this.getLocalMoment(today_schedule.end));
         },
         displayTime(time) {
             let localTime = this.getLocalMoment(time);
