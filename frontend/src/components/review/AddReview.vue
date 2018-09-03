@@ -151,7 +151,7 @@ export default {
                 this.photos.forEach((item) => {
                     this.addReviewPhoto({
                         review_id: res.data.id,
-                        description: '',
+                        description: res.data.description,
                         img: item
                     });
                 });
