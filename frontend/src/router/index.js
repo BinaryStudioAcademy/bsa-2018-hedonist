@@ -5,7 +5,7 @@ import ProfilePage from '@/pages/ProfilePage';
 import NewPlacePage from '@/pages/NewPlacePage';
 import UserListsPage from '@/pages/UserListsPage';
 import PlaceListPage from  '@/pages/PlaceListPage';
-import CheckinsPage from '@/pages/CheckinsPage';
+import VisitedPage from '@/pages/VisitedPage';
 import SearchPlacePage from  '@/pages/SearchPlacePage';
 import store from '../store/index';
 import middlewares from './middlewares';
@@ -86,9 +86,9 @@ export default new Router({
                 component: ListPage
             },
             {
-                path: '/checkins',
-                name: 'CheckinsPage',
-                component: CheckinsPage
+                path: '/visited',
+                name: 'VisitedPage',
+                component: VisitedPage
             },
             {
                 path: '*',
