@@ -81,8 +81,10 @@ export default {
         });
 
         dispatch('setIsPlacesLoaded', false);
+        dispatch('setLoadingState', true);
         dispatch('place/fetchPlaces', query, {root:true}).then(() => {
             dispatch('setIsPlacesLoaded', true);
+            dispatch('setLoadingState', false);
         });
     },
 
@@ -92,6 +94,10 @@ export default {
 
     setLocationAvailable: ({commit}, locationAvailable) => {
         commit('SET_LOCATION_AVAILABLE', locationAvailable);
+    },
+
+    setLoadingState: ({commit}, isLoading) => {
+        commit('SET_LOADING_STATE', isLoading);
     },
 
     setFilters: ({commit, dispatch}, filters) => {
