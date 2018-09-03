@@ -78,7 +78,6 @@ export default {
         return {
             filterQuery: '',
             isMapLoaded: false,
-            isPlacesLoaded: false,
             map: {},
             markerManager: null,
             mapboxToken: mapSettingsService.getMapboxToken(),
@@ -93,15 +92,17 @@ export default {
             .then(() => {
                 this.$store.dispatch('search/updateQueryFilters')
                     .then(() => {
-                        this.$store.dispatch('place/fetchPlaces', this.$route.query)
-                            .then(() => {
-                                this.isPlacesLoaded = true;
-                            });
+                        this.setIsPlacesLoaded(true);
                     });
             });
     },
     methods: {
-        ...mapActions('search', ['setCurrentPosition', 'mapInitialization', 'updateStateFromQuery']),
+        ...mapActions('search', [
+            'setCurrentPosition',
+            'mapInitialization',
+            'updateStateFromQuery',
+            'setIsPlacesLoaded'
+        ]),
         ...mapMutations('search', {
             setLoadingState: 'SET_LOADING_STATE'
         }),
@@ -174,10 +175,10 @@ export default {
         },
         updateSearchArea() {
             let query = this.getQuery();
-            this.isPlacesLoaded = false;
+            this.setIsPlacesLoaded(false);
             this.$store.dispatch('place/fetchPlaces', query)
                 .then(() => {
-                    this.isPlacesLoaded = true;
+                    this.setIsPlacesLoaded(true);
                     this.draw.deleteAll();
                 });
         },
@@ -210,23 +211,14 @@ export default {
             if (this.isPlacesLoaded) {
                 this.updateMap();
             }
-        },
-        '$route' (to, from) {
-            this.isPlacesLoaded = false;
-
-            this.$store.dispatch('place/fetchPlaces', to.query)
-                .then(() => {
-                    this.isPlacesLoaded = true;
-                    this.setLoadingState(false);
-                    this.currentPage = 1;
-                });
         }
     },
     computed: {
         ...mapState('place', ['places']),
         ...mapState('search', [
             'currentPosition',
-            'mapInitialized'
+            'mapInitialized',
+            'isPlacesLoaded'
         ]),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters({

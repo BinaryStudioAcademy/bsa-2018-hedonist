@@ -57,7 +57,7 @@ export default {
             .catch(error => Promise.reject(error));
     },
 
-    updateQueryFilters({state}) {
+    updateQueryFilters({state, dispatch}) {
         let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
         if (state.city.longitude && state.city.latitude) {
             location = state.city.longitude + ',' + state.city.latitude;
@@ -83,7 +83,10 @@ export default {
             query
         });
 
-        Promise.resolve();
+        dispatch('setIsPlacesLoaded', false);
+        return dispatch('place/fetchPlaces', query, {root:true}).then(() => {
+            dispatch('setIsPlacesLoaded', true);
+        });
     },
 
     setCurrentPosition: ({commit}, currentPosition) => {
@@ -99,7 +102,7 @@ export default {
         dispatch('updateQueryFilters');
     },
 
-    initFilters: ({dispatch}) => {
+    initFilters: ({commit, dispatch}) => {
         let query = router.currentRoute.query;
         let filters = {
             checkin: !!query['checkin'],
@@ -108,7 +111,7 @@ export default {
             top_reviewed: !!query['top_reviewed'],
         };
 
-        dispatch('setFilters', filters);
+        commit('SET_FILTERS', filters);
     },
 
     mapInitialization: ({commit}) => {
@@ -119,5 +122,9 @@ export default {
         return httpService.get('/places/autocomplete/search?filter[name]=' + filters.name + '&filter[location]=' + filters.location)
             .then( result => Promise.resolve(result.data.data))
             .catch( error  => Promise.reject(error));
+    },
+
+    setIsPlacesLoaded: ({commit}, isPlacesLoaded) => {
+        commit('SET_IS_PLACES_LOADED', isPlacesLoaded);
     },
 };
