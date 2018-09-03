@@ -120,16 +120,24 @@
         "label": "Location"
       },
       "categories": {
-        "label": "Categories"
+        "label": "Categories",
+        "select_cat": "Select a category",
+        "select_tag": "Add tags"
       },
       "features": {
         "label": "Features"
       },
       "hours": {
-        "label": "Hours"
+        "label": "Hours",
+        "from": "from",
+        "till": "till",
+        "clock": "o'clock",
+        "day_off": "Day off?",
+        "add": "Add"
       },
       "add": {
-        "label": "Add place"
+        "label": "Add place",
+        "confirmation": "Confirm add place"
       }
     },
     "buttons": {
@@ -140,5 +148,14 @@
     "validators": {
 
     }
+  },
+  "weekdays": {
+    "mo": "Monday",
+    "tu": "Tuesday",
+    "we": "Wednesday",
+    "th": "Thursday",
+    "fr": "Friday",
+    "sa": "Saturday",
+    "su": "Sunday"
   }
 }

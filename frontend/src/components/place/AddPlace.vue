@@ -33,7 +33,7 @@
                         <div class="field-body">
                             <div class="field">
                                 <div class="control is-expanded">
-                                    <SearchCity @select="newPlace.city = $event" />
+                                    <SearchCity @select="newPlace.city = $event" :placeholder="$t('add_place_page.tabs.general.placeholders.city')"/>
                                 </div>
                             </div>
                         </div>
@@ -271,7 +271,7 @@
                             <div class="level-item">
                                 <b-field>
                                     <b-select v-model="newPlace.category">
-                                        <option value="" selected disabled>Select a category</option>
+                                        <option value="" selected disabled>{{ $t('add_place_page.tabs.categories.select_cat') }}</option>
                                         <option
                                             v-for="option in allCategories"
                                             :key="option.id"
@@ -288,7 +288,7 @@
                                 <div class="level-item">
                                     <b-field>
                                         <b-select v-model="selectedTag">
-                                            <option value="" selected disabled>Add tags</option>
+                                            <option value="" selected disabled>{{ $t('add_place_page.tabs.categories.select_tag') }}</option>
                                             <option
                                                 v-for="option in categoryTags.byId"
                                                 :key="option.id"
@@ -360,25 +360,74 @@
                             <div class="column is-half is-left">
                                 <div class="worktime-wrp">
                                     <b-message :type="isDayWorking(newPlace.worktime['mo'].start, newPlace.worktime['mo'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Monday:  </strong>from <strong>{{ displayTime(newPlace.worktime['mo'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['mo'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.mo') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['mo'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['mo'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['tu'].start, newPlace.worktime['tu'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Tuesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['tu'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['tu'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.tu') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['tu'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['tu'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['we'].start, newPlace.worktime['we'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Wednesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['we'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['we'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.we') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['we'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['we'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['th'].start, newPlace.worktime['th'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Thursday:  </strong>from <strong>{{ displayTime(newPlace.worktime['th'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['th'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.th') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['th'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['th'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['fr'].start, newPlace.worktime['fr'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Friday:  </strong>from <strong>{{ displayTime(newPlace.worktime['fr'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['fr'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.fr') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['fr'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['fr'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['sa'].start, newPlace.worktime['sa'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Saturday:  </strong>from <strong>{{ displayTime(newPlace.worktime['sa'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['sa'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.sa') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['sa'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['sa'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['su'].start, newPlace.worktime['su'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Sunday:  </strong>from <strong>{{ displayTime(newPlace.worktime['su'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['su'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.su') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['su'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['su'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                 </div>
                             </div>
@@ -392,65 +441,65 @@
                                                 v-model="weekdays"
                                                 native-value="mo"
                                             >
-                                                Monday
+                                                {{ $t('weekdays.mo') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="tu"
                                             >
-                                                Tuesday
+                                                {{ $t('weekdays.tu') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="we"
                                             >
-                                                Wednesday
+                                                {{ $t('weekdays.we') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="th"
                                             >
-                                                Thursday
+                                                {{ $t('weekdays.th') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="fr"
                                             >
-                                                Friday
+                                                {{ $t('weekdays.fr') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="sa"
                                             >
-                                                Saturday
+                                                {{ $t('weekdays.sa') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="su"
                                             >
-                                                Sunday
+                                                {{ $t('weekdays.su') }}
                                             </b-checkbox-button>
                                         </b-field>
 
                                         <div class="level">
-                                            <div class="level-item"><a @click="onDayOff" class="button is-danger" :disabled="isDaySelected">Day(s) off?</a></div>
+                                            <div class="level-item"><a @click="onDayOff" class="button is-danger" :disabled="isDaySelected">{{ $t('add_place_page.tabs.hours.day_off') }}</a></div>
                                         </div>
 
-                                        <b-field label="from">
+                                        <b-field :label="$t('add_place_page.tabs.hours.from')">
                                             <b-timepicker v-model="timeStart" :disabled="isDaySelected" />
                                         </b-field>
-                                        <b-field label="till">
+                                        <b-field :label="$t('add_place_page.tabs.hours.till')">
                                             <b-timepicker v-model="timeEnd" :disabled="isDaySelected" />
                                         </b-field>
 
                                         <div class="level">
-                                            <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary" :disabled="isDaySelected">Add</a></div>
+                                            <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary" :disabled="isDaySelected">{{ $t('add_place_page.tabs.hours.add') }}</a></div>
                                         </div>
 
                                     </div>
@@ -469,7 +518,7 @@
                     <div class="box">
                         <div class="level">
                             <div class="level-item">
-                                <h1>{{ confirmText }}</h1>
+                                <h5 class="title is-5">{{ confirmText }}</h5>
                             </div>
                         </div>
                         <div class="buttons is-centered">
@@ -607,7 +656,7 @@ export default {
         },
 
         confirmText: function() {
-            return 'Confirm add place "' + this.newPlace.localization.en.name.trim() + '"?';
+            return this.$t('add_place_page.tabs.add.confirmation') + ' "' + this.newPlace.localization.en.name.trim() + '"?';
         }
     },
 
