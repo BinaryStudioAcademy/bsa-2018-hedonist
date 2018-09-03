@@ -13,7 +13,7 @@
                 ref="autocompleteCity"
                 @select="option => this.$emit('select', option)"
             />
-            <p v-if="locationAvailable" class="control">
+            <p v-if="locationAvailable" class="control location-search">
                 <button
                     class="button location"
                     @click="findByCurrentLocation"
