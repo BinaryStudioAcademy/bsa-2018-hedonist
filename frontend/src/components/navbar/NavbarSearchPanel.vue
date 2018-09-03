@@ -2,10 +2,10 @@
     <div class="navbar-start">
         <Preloader :active="isLoading" />
         <div class="navbar-item">
-            <SearchPlaceCategory @select="onSelect" />
+            <SearchPlaceCategory @select="onSelect" :select-city="location" />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="selectCity" />
+            <SearchCity @select="selectCity" ref="selectCityComponent" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
@@ -28,8 +28,8 @@ export default {
     name: 'NavbarSearchPanel',
     data: function(){
         return {
-            location: null,
-            category: null,
+            location: {},
+            categoryOrPlace: {},
         };
     },
     computed: {
@@ -56,22 +56,31 @@ export default {
             setLoadingState: 'SET_LOADING_STATE',
         }),
         selectCity(city){
-            this.location = city;
+            this.location = city ? city : {};
         },
-        selectPlaceOrCategory(category){
-            this.category = category;
+        selectPlaceOrCategory(categoryOrPlace){
+            this.categoryOrPlace = categoryOrPlace ? categoryOrPlace : {};
+            if (categoryOrPlace !== null &&
+                categoryOrPlace.place !== undefined &&
+                categoryOrPlace.city.longitude &&
+                categoryOrPlace.city.latitude) {
+                let city = {
+                    text: categoryOrPlace.city.name,
+                    center: [
+                        categoryOrPlace.city.longitude,
+                        categoryOrPlace.city.latitude
+                    ],
+                    place_name: categoryOrPlace.city.name
+                };
+                this.$refs.selectCityComponent.$refs.autocompleteCity.setSelected(city);
+            }
         },
         search() {
             this.setLoadingState(true);
-            this.selectSearchCity(this.location);
-
-            let searchParam = this.city.longitude + ',' + this.city.latitude;
-            if (this.$route.query.location === searchParam) {
-                this.setLoadingState(false);
-                return;
+            if(!_.isEmpty(this.location)) {
+                this.selectSearchCity(this.location);
             }
-
-            this.selectSearchPlaceOrCategory(this.category);
+            this.selectSearchPlaceOrCategory(this.categoryOrPlace);
             this.updateQueryFilters();
             this.setLoadingState(false);
         },

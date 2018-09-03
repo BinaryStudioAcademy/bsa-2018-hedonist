@@ -13,6 +13,7 @@ use Hedonist\Actions\UserTaste\GetTastesAutocompleteRequest;
 use Hedonist\Exceptions\DomainException;
 use Hedonist\Exceptions\User\TasteNotFoundException;
 use Hedonist\Http\Controllers\Api\ApiController;
+use Hedonist\Http\Requests\UserTaste\AddTasteHttpRequest;
 use Illuminate\Http\Request;
 
 class TasteController extends ApiController
@@ -49,7 +50,7 @@ class TasteController extends ApiController
         return $this->successResponse($presenter->present($getTastesAutocompleteResponse));
     }
 
-    public function addTaste(Request $request)
+    public function addTaste(AddTasteHttpRequest $request)
     {
         try {
             $addTasteResponse = $this->addTasteAction->execute(
