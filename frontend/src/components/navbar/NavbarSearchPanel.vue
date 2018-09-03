@@ -77,8 +77,9 @@ export default {
         },
         search() {
             this.setLoadingState(true);
-            if(!_.isEmpty(this.location))
+            if(!_.isEmpty(this.location)) {
                 this.selectSearchCity(this.location);
+            }
             this.selectSearchPlaceOrCategory(this.categoryOrPlace);
             this.updateQueryFilters();
             this.setLoadingState(false);
