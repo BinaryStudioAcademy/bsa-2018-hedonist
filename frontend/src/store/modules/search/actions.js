@@ -59,10 +59,19 @@ export default {
     },
 
     updateQueryFilters({state}) {
+        if (state.place.id !== null) {
+            router.push({
+                name: 'PlacePage',
+                params: {
+                    id: state.place.id
+                }
+            });
+            Promise.resolve();
+            return;
+        }
         let query = {
             category: state.placeCategory && state.placeCategory.id,
             page: state.page,
-            name: state.place && state.place.name,
             location:
                 state.city.longitude &&
                 state.city.latitude &&

@@ -70,7 +70,10 @@ export default {
     },
 
     DELETE_SEARCH_PLACE: (state) => {
-        state.place = null;
+        state.place = {
+            id: null,
+            name: ''
+        };
     },
 
     DELETE_SEARCH_CITY: (state) => {

@@ -80,6 +80,7 @@ export default {
                         let data = [];
                         res.forEach(function (item, index) {
                             data[index] = {
+                                id: item['id'],
                                 logo: item['photo']['img_url'],
                                 nameForAutoComplete: item['localization'][0]['name'] + ' - ' + item['city']['name'],
                                 name: item['localization'][0]['name'],
