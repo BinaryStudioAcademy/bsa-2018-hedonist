@@ -148,7 +148,7 @@ export default {
             };
         },
         updateMap() {
-            if (this.isMapLoaded && this.isPlacesLoaded) {
+            if (this.isMapLoaded && this.places.length) {
                 this.markerManager.setMarkersFromPlacesAndFit(...this.places);
             }
         },
@@ -202,7 +202,7 @@ export default {
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {
-            if (this.isPlacesLoaded) {
+            if (this.places.length) {
                 this.updateMap();
             }
         },
