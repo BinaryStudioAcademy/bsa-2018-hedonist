@@ -73,13 +73,10 @@
                                 v-if="place.features.map((el) => el.name).indexOf(feature.name)>=0"
                                 class="feature-info"
                             >
-                                <i class="fas fa-check"/>
+                                <i class="fas fa-check" />
                             </div>
-                            <div
-                                v-else
-                                class="feature-info-absent"
-                            >
-                                <i class="fas fa-times"/>
+                            <div v-else class="feature-info-absent">
+                                <i class="fas fa-times" />
                             </div>
                         </div>
                     </div>
