@@ -23,7 +23,7 @@ use Hedonist\Repositories\Place\Criterias\TopReviewedCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Log;
+
 class GetPlaceCollectionByFiltersAction
 {
     private $placeRepository;
