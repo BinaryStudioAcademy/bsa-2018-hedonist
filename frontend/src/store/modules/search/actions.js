@@ -28,7 +28,7 @@ export default {
         return Promise.resolve();
     },
     selectSearchCity: ({commit}, city) => {
-        if (city !== null) {
+        if (!_.isEmpty(city)) {
             commit('SET_SEARCH_CITY', city);
         } else {
             commit('DELETE_SEARCH_CITY');
@@ -36,18 +36,9 @@ export default {
     },
 
     selectSearchPlaceOrCategory: ({commit}, item) => {
-        if (item !== null) {
+        if (!_.isEmpty(item)) {
             if (item.place !== undefined) {
                 commit('SET_SEARCH_PLACE', item);
-
-                LocationService.getCityList(mapSettingsService.getMapboxToken(), item.city.name)
-                    .then( res => {
-                        if (res.length > 0) {
-                            commit('SET_SEARCH_CITY', res[0]);
-                        } else {
-                            commit('DELETE_SEARCH_CITY');
-                        }
-                    });
                 commit('DELETE_SEARCH_PLACE_CATEGORY');
             } else {
                 commit('SET_SEARCH_PLACE_CATEGORY', item);

@@ -1,6 +1,6 @@
 <template>
     <section class="container">
-        <b-loading :active.sync="isLoading" />
+        <Preloader :active="isLoading" />
         <div class="has-text-right">
             <router-link
                 role="button"
@@ -17,28 +17,37 @@
                 @loading="loading"
             />
         </ul>
+        <div class="no-lists-text" v-if="filteredUserLists.length < 1">
+            {{ $t('my-lists_page.no-lists') }}
+        </div>
     </section>
 </template>
 
 <script>
 import ListPreview from './ListPreview';
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
+import Preloader from '@/components/misc/Preloader';
+
 export default {
     name: 'ListPreviewItems',
     components: {
-        ListPreview
+        ListPreview,
+        Preloader
     },
     data() {
         return {
-            isLoading: true,
+            isLoading: false,
             filterBy: {
                 cityId: null,
             },
         };
     },
     created() {
-        this.$store
-            .dispatch('userList/getListsByUser', this.Auth.id)
+        if (this.getUserLists.length < 1) {
+            this.isLoading = true;
+        }
+
+        this.getListsByUser(this.Auth.id)
             .then(()=>{
                 this.isLoading = false;
             })
@@ -54,9 +63,10 @@ export default {
         ...mapGetters('auth', {
             Auth: 'getAuthenticatedUser'
         }),
-        ...mapGetters('userList', {
-            getFilteredByCity: 'getFilteredByCity',
-        }),
+        ...mapGetters('userList', [
+            'getFilteredByCity',
+            'getUserLists'
+        ]),
         isLoaded: function () {
             return !!(this.userLists);
         },
@@ -71,6 +81,7 @@ export default {
         }
     },
     methods: {
+        ...mapActions('userList', ['getListsByUser']),
         setCityFilter(cityId) {
             this.filterBy.cityId = cityId;
         },
@@ -96,5 +107,12 @@ export default {
         background: #FFF;
         padding: 50px 10%;
         min-height: calc(100vh - 59px);
+    }
+
+    .no-lists-text {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 50px;
     }
 </style>

@@ -10,7 +10,9 @@ class CityPresenter
     {
         return [
             'id' =>$city->id,
-            'name' => $city->name
+            'name' => $city->name,
+            'longitude' => $city->longitude,
+            'latitude' => $city->latitude,
         ];
     }
 }

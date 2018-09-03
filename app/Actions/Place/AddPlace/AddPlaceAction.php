@@ -54,7 +54,6 @@ class AddPlaceAction
                 $creator = $this->userRepository->getById($placeRequest->getCreatorId());
                 $category = $this->placeCategoryRepository->getById($placeRequest->getCategoryId());
 
-                /* City - firstOrCreate */
                 $city = $this->cityRepository->findByNameAndLocation(
                     $placeRequest->getCity()['name'],
                     $placeRequest->getCity()['lng'],
@@ -75,7 +74,6 @@ class AddPlaceAction
                     throw new PlaceCategoryDoesNotExistException;
                 }
 
-                /* Delete? with Exception, city CANNOT be null */
                 if (!$city) {
                     throw new PlaceCityDoesNotExistException;
                 }
@@ -92,10 +90,8 @@ class AddPlaceAction
                     'website'     => $placeRequest->getWebsite(),
                 ]));
 
-                /* PlaceLocalization */
                 $this->placeRepository->setTranslations($place, $placeRequest->getLocalization());
 
-                /* PlaceInfo */
                 $place->placeInfo()->create([
                     'place_id'     => $place->id,
                     'work_weekend' => $placeRequest->getWorkWeekend(),
@@ -105,34 +101,39 @@ class AddPlaceAction
                     'menu_url'     => $placeRequest->getMenuUrl()
                 ]);
 
-                /* PlaceTags */
-                $this->placeRepository->syncTags($place, $placeRequest->getTags());
-
-                /* PlaceFeatures */
-                $this->placeRepository->syncFeatures($place, $placeRequest->getFeatures());
-
-                /* PlacePhotos */
-                if ($photos = $placeRequest->getPhotos()) {
-                    foreach ($photos as $photo) {
-                        $fileNameGenerator = new FileNameGenerator($photo);
-                        $fileName = $fileNameGenerator->generateFileName();
-                        Storage::disk()->putFileAs(self::FILE_STORAGE, $photo, $fileName, 'public');
-                        list($width, $height) = getimagesize($photo);
-                        $this->placePhotoRepository->save(new PlacePhoto([
-                            'creator_id' => $creator->id,
-                            'img_url' => Storage::disk()->url(self::FILE_STORAGE . '/' . $fileName),
-                            'description' => self::DESCRIPTION_DEFAULT,
-                            'place_id' => $place->id,
-                            'width' => $width,
-                            'height' => $height
-                        ]));
-                    }
+                if ($placeRequest->getTags()) {
+                    $this->placeRepository->syncTags($place, $placeRequest->getTags());
                 }
 
-                /* PlaceWorktime */
+                if ($placeRequest->getFeatures()) {
+                    $this->placeRepository->syncFeatures($place, $placeRequest->getFeatures());
+                }
+
+                if ($placeRequest->getPhotos()) {
+                    $this->savePhotos($placeRequest->getPhotos(), $place->id, $creator->id);
+                }
+
                 $this->placeRepository->setWorktime($place, $placeRequest->getWorktime());
 
                 return new AddPlaceResponse($place);
             });
+    }
+
+    public function savePhotos(array $photos, int $placeId, int $creatorId): void
+    {
+        foreach ($photos as $photo) {
+            $fileNameGenerator = new FileNameGenerator($photo);
+            $fileName = $fileNameGenerator->generateFileName();
+            Storage::disk()->putFileAs(self::FILE_STORAGE, $photo, $fileName, 'public');
+            list($width, $height) = getimagesize($photo);
+            $this->placePhotoRepository->save(new PlacePhoto([
+                'creator_id' => $creatorId,
+                'img_url' => Storage::disk()->url(self::FILE_STORAGE . '/' . $fileName),
+                'description' => self::DESCRIPTION_DEFAULT,
+                'place_id' => $placeId,
+                'width' => $width,
+                'height' => $height
+            ]));
+        }
     }
 }
