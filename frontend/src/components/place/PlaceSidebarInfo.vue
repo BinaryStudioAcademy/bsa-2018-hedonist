@@ -53,7 +53,7 @@
                             </template>
                         </div>
                     </b-collapse>
-                    </div>
+                </div>
 
                 <div class="place-sidebar__phone">
                     <i class="place-sidebar__icon fas fa-phone" />
