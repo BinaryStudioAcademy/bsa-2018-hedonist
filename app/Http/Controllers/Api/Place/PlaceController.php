@@ -102,6 +102,7 @@ class PlaceController extends ApiController
                 null,
                 null,
                 null,
+                null,
                 null
             )
         );
