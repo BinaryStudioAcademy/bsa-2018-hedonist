@@ -43,7 +43,6 @@
                             <template v-for="item in place.worktime">
                                 <div :key="item.id" class="level">
                                     <div class="level-left">
-                                        <!--{{ item.day }}-->
                                         {{ $t('weekdays.' + item.day) }}
                                     </div>
                                     <div class="level-right">
