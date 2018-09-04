@@ -55,8 +55,8 @@ class LikeReviewAction
                 'user_id' => $userId
             ]);
             $this->likeRepository->save($like);
-//            event(new LikeAddEvent($review, $userId));
-            auth()->user()->notify(new UserNotification($like));
+            event(new LikeAddEvent($review, $userId));
+//            auth()->user()->notify(new UserNotification($like));
         } else {
             $this->likeRepository->deleteById($like->id);
         }

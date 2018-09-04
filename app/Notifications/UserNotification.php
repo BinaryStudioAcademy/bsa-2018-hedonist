@@ -3,6 +3,8 @@
 namespace Hedonist\Notifications;
 
 use Hedonist\Entities\Like\Like;
+use Hedonist\Entities\Review\Review;
+use Hedonist\Events\Review\LikeAddEvent;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;

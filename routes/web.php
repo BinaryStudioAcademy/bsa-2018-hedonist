@@ -11,7 +11,7 @@
 |
 */
 
-Broadcast::routes(['middleware' => 'custom.jwt.auth']);
+Broadcast::routes(['middleware' => ['custom.jwt.auth']]);
 
 Route::get('/{any?}', function () {
     return view('index');

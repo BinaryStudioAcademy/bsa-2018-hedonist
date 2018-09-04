@@ -222,7 +222,6 @@ export default {
 
         &__wrapper {
             position: absolute;
-            padding: 10px;
             top: 38px;
             right: 0;
             color: black;
@@ -233,15 +232,27 @@ export default {
             background-color: #fff;
             width: 300px;
             max-height: 150px;
-            overflow: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         &__item {
             border-bottom: 1px solid black;
+            padding: 10px;
+            word-break: break-word;
+            cursor: pointer;
+
+            &:hover {
+                background-color: darken(#fff, 10%);
+            }
 
             &:last-child {
                 border-bottom: none;
             }
+        }
+
+        &__none {
+            padding: 10px;
         }
     }
 
