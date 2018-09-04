@@ -637,7 +637,9 @@ export default {
 
         LocationService.getUserLocationData()
             .then(coordinates => {
-                LocationService.getCityByLocation(mapSettingsService.getMapboxToken(), coordinates.lng, coordinates.lat)
+                let params = coordinates.lng + ',' + coordinates.lat;
+                let mapboxCitiesApiUrl = mapSettingsService.getMapboxCitiesApiUrl(mapSettingsService.getMapboxToken(), params);
+                LocationService.getCityList(mapboxCitiesApiUrl)
                     .then((res) => {
                         if (res.length) {
                             this.newPlace.city = res[0];

@@ -15,4 +15,9 @@ export default {
             latitude: (totalLatitude / count)
         };
     },
+    getMapboxCitiesApiUrl: (mapboxToken, params) => {
+        return `${apiUrl}${params}.json?access_token=${mapboxToken}&country=ua&types=place&autocomplete=true&language=en`;
+    }
 };
+
+const apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
