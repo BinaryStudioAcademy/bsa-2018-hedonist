@@ -46,13 +46,6 @@ export default {
                 'fa-angry',
                 'fa-meh-rolling-eyes',
                 'fa-meh',
-
-                // 'fa-frown-open',
-                // 'fa-frown',
-                // 'fa-grin',
-                // 'fa-smile-beam',
-                // 'fa-laugh',
-
                 'fa-smile',
                 'fa-laugh-beam'
             ]
