@@ -12,13 +12,9 @@
                         :value="index + 1"
                         :icon="icon"
                         :selected="isSelected(index + 1)"
-                        @onHover="onHover"
-                        @onOut="onOut"
                         @onSelect="onSelect"
                     />
                 </div>
-
-                <span class="rating">{{ userRating || place.myRating || 0 }}/5</span>
             </section>
             <footer class="modal-card-foot">
                 <button class="button" type="button" @click="$parent.close()">Close</button>
@@ -40,8 +36,6 @@ export default {
 
     data: function() {
         return {
-            userRating: '',
-
             icons: [
                 'fa-angry',
                 'fa-circle',
@@ -73,14 +67,6 @@ export default {
                 return 'chosenRating';
             }
             return '';
-        },
-
-        onHover: function(value) {
-            this.userRating = value;
-        },
-
-        onOut: function(value) {
-            this.userRating = this.place.myRating;
         },
 
         onSelect: function(value) {
@@ -118,15 +104,11 @@ export default {
     
     .modal-card-body {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         width: 280px;
 
         .smileys {
             display: flex;
-        }
-
-        .rating {
-            align-self: center;
         }
     }
 </style>
