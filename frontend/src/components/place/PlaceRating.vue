@@ -46,9 +46,9 @@ export default {
         ratingCategory() {
             let placeRating = this.value;
 
-            if (placeRating < 1.5) return 'bad';
-            if (placeRating >= 1.5 && placeRating < 3.5) return 'okay';
-            if (placeRating >= 3.5) return 'good';
+            if (placeRating < 3) return 'bad';
+            if (placeRating >= 3 && placeRating < 4) return 'okay';
+            if (placeRating >= 4) return 'good';
         },
     },
 
