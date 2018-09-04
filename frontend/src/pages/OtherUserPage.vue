@@ -25,7 +25,6 @@ export default {
     data(){
         return{
             isLoading: true,
-            loadingTime: 2000
         };
     },
 };
