@@ -4,7 +4,6 @@ namespace Tests\Feature\Api\UserFollows;
 
 use Hedonist\Entities\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Log;
 use Tests\Feature\Api\ApiTestCase;
 
 class UserFollowsTest extends ApiTestCase
@@ -31,9 +30,6 @@ class UserFollowsTest extends ApiTestCase
             '/api/v1/user/' . $this->followed->id . '/follow'
         );
         $response->assertStatus(200);
-
-        Log::debug($this->followed->followers);
-        Log::debug($this->follower);
 
         $this->assertDatabaseHas('follows',
             [
