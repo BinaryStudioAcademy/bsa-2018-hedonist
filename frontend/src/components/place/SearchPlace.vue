@@ -1,5 +1,6 @@
 <template>
     <section class="columns">
+        <Preloader :active="isLoading" />
         <section class="column is-half">
             <SearchFilterPlace :is-places-loaded="isPlacesLoaded" />
             <CategoryTagsContainer
@@ -62,6 +63,7 @@ import placeholderImg from '@/assets/placeholder_128x128.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
 import infiniteScroll from 'vue-infinite-scroll';
 import CategoryTagsContainer from './CategoryTagsContainer';
+import Preloader from '@/components/misc/Preloader';
 
 export default {
     name: 'SearchPlace',
@@ -98,11 +100,9 @@ export default {
             'setCurrentPosition',
             'mapInitialization',
             'updateStateFromQuery',
-            'setIsPlacesLoaded'
+            'setIsPlacesLoaded',
+            'setLoadingState'
         ]),
-        ...mapMutations('search', {
-            setLoadingState: 'SET_LOADING_STATE'
-        }),
 
         mapInitialize(map) {
             if (this.mapInitialized) {
@@ -215,7 +215,8 @@ export default {
         ...mapState('search', [
             'currentPosition',
             'mapInitialized',
-            'isPlacesLoaded'
+            'isPlacesLoaded',
+            'isLoading'
         ]),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters({

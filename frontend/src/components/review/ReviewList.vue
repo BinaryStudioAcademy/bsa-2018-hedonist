@@ -49,7 +49,10 @@
                         </ul>
                     </div>
                 </div>
-                <div class="reviews-section-list">
+                <div
+                    v-if="!isLoadingReviews"
+                    class="reviews-section-list"
+                >
                     <template v-for="review in reviews">
                         <Review
                             :key="review.id"
@@ -61,6 +64,12 @@
                         <span slot="no-results" />
                     </infinite-loading>
                 </div>
+                <div
+                    v-else
+                    class="preloader"
+                >
+                    <SmallPreloader :active="isLoadingReviews" />
+                </div>
             </div>
         </template>
     </div>
@@ -71,12 +80,14 @@ import { mapActions, mapGetters } from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
 import InfiniteLoading from 'vue-infinite-loading';
+import SmallPreloader from '@/components/misc/SmallPreloader';
 
 export default {
     components: {
         Review,
         AddReview,
-        InfiniteLoading
+        InfiniteLoading,
+        SmallPreloader
     },
 
     props: {
@@ -91,7 +102,8 @@ export default {
             sort: 'recent',
             visibleReviewsIds: [],
             search: '',
-            page: 1
+            page: 1,
+            isLoadingReviews: false
         };
     },
 
@@ -155,6 +167,7 @@ export default {
             this.visibleReviewsIds.unshift(reviewId);
         },
         initialLoad() {
+            this.isLoadingReviews = true;
             if(this.sort === 'popular') {
                 this.visibleReviewsIds = this.getPreloadedPopularPlaceReviewsIds(this.place.id);
             }else {
@@ -170,6 +183,7 @@ export default {
             ).then( res => {
                 this.visibleReviewsIds = res.reviews;
                 this.page = 1;
+                this.isLoadingReviews = false;
             });
         }
     },
@@ -270,6 +284,10 @@ export default {
 
     .sort-word {
         color: #808080;
+    }
+
+    .preloader {
+        padding: 20px;
     }
 
 </style>
