@@ -27,7 +27,7 @@ class UserFollowsController extends ApiController
         }
     }
 
-    public function getFollowedUsers(int $userId,  GetFollowedUsersAction $action, UserPresenter $presenter)
+    public function getFollowedUsers(int $userId, GetFollowedUsersAction $action, UserPresenter $presenter)
     {
         try {
             $result = $action->execute(new GetFollowedUsersRequest($userId));

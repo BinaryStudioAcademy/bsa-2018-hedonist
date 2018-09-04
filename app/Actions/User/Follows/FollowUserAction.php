@@ -20,11 +20,11 @@ class FollowUserAction
 
     public function execute(FollowUserRequest $request): void
     {
-        if($request->getFollowedId() === Auth::id()){
+        if ($request->getFollowedId() === Auth::id()) {
             throw FollowYourselfException::create();
         }
         $followed = $this->repository->getById($request->getFollowedId());
-        if(is_null($followed)){
+        if (is_null($followed)) {
             throw new UserNotFoundException();
         }
         $this->repository->followUser($followed, Auth::user());

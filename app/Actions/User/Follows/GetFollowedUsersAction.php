@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\User\Follows;
 
 
+use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +19,7 @@ class GetFollowedUsersAction
     public function execute(GetFollowedUsersRequest $request): GetFollowedUsersResponse
     {
         $user = $this->repository->getById($request->getUserId());
-        if(is_null($user)){
+        if (is_null($user)) {
             throw new UserNotFoundException();
         }
         $users = $this->repository->getFollowedUsers($user);

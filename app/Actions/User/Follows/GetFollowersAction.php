@@ -17,7 +17,7 @@ class GetFollowersAction
     public function execute(GetFollowersRequest $request)
     {
         $user = $this->repository->getById($request->getUserId());
-        if(is_null($user)){
+        if (is_null($user)) {
             throw new UserNotFoundException();
         }
         $users = $this->repository->getFollowers($user);

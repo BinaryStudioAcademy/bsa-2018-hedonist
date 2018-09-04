@@ -8,6 +8,6 @@ class FollowYourselfException extends DomainException
 {
     public static function create()
     {
-      return new self('You can\'t follow yourself');
+        return new self('You can\'t follow yourself');
     }
 }

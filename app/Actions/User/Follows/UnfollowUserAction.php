@@ -18,7 +18,7 @@ class UnfollowUserAction
     public function execute(UnfollowUserRequest $request): void
     {
         $followed = $this->repository->getById($request->getFollowedId());
-        if(is_null($followed)){
+        if (is_null($followed)) {
             throw new UserNotFoundException();
         }
         $this->repository->unfollowUser($followed, Auth::user());
