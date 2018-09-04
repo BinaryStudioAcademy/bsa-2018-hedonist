@@ -26,5 +26,6 @@ export default {
         top_rated: false,
         top_reviewed: false
     },
+    selectedTags: [],
     isLoading: false
 };
