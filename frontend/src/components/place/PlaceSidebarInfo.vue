@@ -74,11 +74,11 @@
                     </a>
                 </div>
                 <template v-if="place.placeInfo">
-                    <div class="place-sidebar__facebook" v-if="place.placeInfo.facebook">
+                    <div class="place-sidebar__social" v-if="place.placeInfo.facebook">
                         <i class="place-sidebar__icon fab fa-facebook-square" />
                         <a :href="place.placeInfo.facebook">{{ place.placeInfo.facebook }}</a>
                     </div>
-                    <div class="place-sidebar__facebook" v-if="place.placeInfo.instagram">
+                    <div class="place-sidebar__social" v-if="place.placeInfo.instagram">
                         <i class="place-sidebar__icon fab fa-instagram" />
                         <a :href="place.placeInfo.instagram">{{ place.placeInfo.instagram }}</a>
                     </div>
@@ -221,6 +221,10 @@ export default {
                 color: greenyellow;
             }
         }
+    }
+
+    &__social a {
+        word-wrap: break-word;
     }
 
     &__tags {
