@@ -53,6 +53,6 @@ class ReviewAddEvent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('reviews');
+        return new PrivateChannel('reviews');
     }
 }

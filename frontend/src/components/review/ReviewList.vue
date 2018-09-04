@@ -187,11 +187,13 @@ export default {
             });
         }
     },
-    mounted() {
-        Echo.channel('reviews').listen('.review.added', (payload) => {
+    created(){
+        this.initialLoad();
+
+        Echo.private('reviews').listen('.review.added', (payload) => {
             this.$store.commit('review/ADD_REVIEW', payload.review);
             this.$store.commit('review/ADD_REVIEW_USER', payload.user);
-            
+
             payload.review.photos.forEach((photo) => {
                 this.$store.commit('review/ADD_REVIEW_PHOTO', {
                     reviewId: photo.review_id,
@@ -202,9 +204,6 @@ export default {
 
             this.visibleReviewsIds.unshift(payload.review.id);
         });
-    },
-    created(){
-        this.initialLoad();
     }
 };
 
