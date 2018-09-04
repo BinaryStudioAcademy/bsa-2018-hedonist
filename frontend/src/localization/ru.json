@@ -83,7 +83,7 @@
         "labels": {
           "name": "Имя",
           "city": "Город",
-          "zip": "Код",
+          "zip": "Индекс",
           "address": "Адрес",
           "phone": "Телефон",
           "twitter": "Twitter",
