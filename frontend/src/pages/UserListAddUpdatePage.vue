@@ -10,7 +10,7 @@
             @loading="loading"
         />
         <SearchPlaces
-            :attached-places="attachedPlaces"
+            :list-attached-places="attachedPlaces"
             @changeAttachedPlaces="changeAttachedPlaces"
         />
         <div class="map">

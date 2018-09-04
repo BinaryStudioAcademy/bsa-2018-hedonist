@@ -55,6 +55,11 @@ class SaveUserListAction
                         ->syncPlaces($userList, $userListRequest->getAttachedPlaces());
                 }
 
+                if ($userListRequest->getAttachedPlaces() === null) {
+                    $this->userListRepository
+                        ->syncPlaces($userList, []);
+                }
+
                 return new SaveUserListResponse($userList);
             });
     }
