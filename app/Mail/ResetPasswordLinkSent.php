@@ -12,7 +12,7 @@ class ResetPasswordLinkSent extends Mailable implements ShouldQueue
     use Queueable, SerializesModels;
 
     private $user;
-    private $token;
+    public $token;
 
     public function __construct($user, $token)
     {
