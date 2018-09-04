@@ -15,7 +15,7 @@ class PlaceRating extends Model
 
     const MIN = 1;
 
-    const MAX = 10;
+    const MAX = 5;
 
     public function user()
     {

@@ -8,7 +8,7 @@
         >
             {{ value | formatRating }}
 
-            <sup v-if="showMax">/10</sup>
+            <sup v-if="showMax">/5</sup>
         </div>
 
         <div class="place-rate__mark-count" v-if="showRating">
@@ -46,9 +46,9 @@ export default {
         ratingCategory() {
             let placeRating = this.value;
 
-            if (placeRating < 5) return 'bad';
-            if (placeRating >= 5 && placeRating < 7) return 'okay';
-            if (placeRating >= 7) return 'good';
+            if (placeRating < 3) return 'bad';
+            if (placeRating >= 3 && placeRating < 4) return 'okay';
+            if (placeRating >= 4) return 'good';
         },
     },
 
