@@ -43,8 +43,30 @@
                         v-if="isUserLoggedIn"
                         class="navbar-end"
                     >
-                        <div class="navbar-item is-paddingless">
-                            <span class="navbar-notification-btn" />
+                        <div class="notifications navbar-item is-paddingless">
+                            <span
+                                :class="[
+                                    'navbar-notification-btn',
+                                    'notification-icon',
+                                    notificationIconActiveClass
+                                ]"
+                                @click="toggleNotifications"
+                                v-click-outside="hideNotifications"
+                            />
+                            <div v-if="notificationsDisplay" class="notifications__wrapper">
+                                <ul class="notifications__list" v-if="notifications.length > 0">
+                                    <li
+                                        class="notifications__item"
+                                        v-for="(notification, index) in notifications"
+                                        :key="index"
+                                    >
+                                        {{ notification }}
+                                    </li>
+                                </ul>
+                                <div v-else class="notifications__none">
+                                    No notifications for you
+                                </div>
+                            </div>
                         </div>
                         <div class="navbar-item has-dropdown is-hoverable">
                             <div v-if="user" class="navbar-link navbar-dropdown-menu">
@@ -109,14 +131,37 @@ export default {
     name: 'TopNavbar',
     data () {
         return {
-            navIsActive: false
+            navIsActive: false,
+            isNewNotifications: false,
+            notificationsDisplay: false,
+            notifications: []
         };
     },
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
             user: 'auth/getAuthenticatedUser'
-        })
+        }),
+        notificationIconActiveClass() {
+            return this.isNewNotifications
+                ? 'notification-icon--active'
+                : null;
+        }
+    },
+    watch: {
+        'user': function() {
+            if (this.user.id) {
+                window.Echo.channel(`App.User.${this.user.id}`)
+                    .listen('Review.LikeAddEvent', (payload) => {
+                        console.log(payload.message);
+                        if (!this.notificationsDisplay) {
+                            this.isNewNotifications = true;
+                        }
+
+                        this.notifications.push(payload.message);
+                    });
+            }
+        }
     },
     methods: {
         ...mapActions({
@@ -130,16 +175,76 @@ export default {
         },
         toggleMenu () {
             this.navIsActive = !this.navIsActive;
+        },
+        toggleNotifications() {
+            this.isNewNotifications = false;
+            this.notificationsDisplay = !this.notificationsDisplay;
+        },
+        hideNotifications() {
+            this.notificationsDisplay = false;
         }
     },
     components: {
         NavbarSearchPanel,
         LanguageSelector
-    }
+    },
+    created() {
+        // window.Echo.private(`App.User.1`)
+        //     .listen((notification) => {
+        //         console.log(notification);
+        //     });
+        window.Echo.channel('my-channel').listen('.my-event', (payload) => {
+            console.log(payload);
+        });
+    },
 };
 </script>
 
 <style lang="scss" scoped>
+    .notification-icon {
+        position: relative;
+
+        &--active:after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: red;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+        }
+    }
+
+    .notifications {
+        position: relative;
+
+        &__wrapper {
+            position: absolute;
+            padding: 10px;
+            top: 38px;
+            right: 0;
+            color: black;
+            border: 1px solid black;
+            border-top: none;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            background-color: #fff;
+            width: 300px;
+            max-height: 150px;
+            overflow: auto;
+        }
+
+        &__item {
+            border-bottom: 1px solid black;
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+
     .navbar-brand-name {
         text-transform: uppercase;
         font-weight: bold;

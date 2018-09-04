@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Like;
 
+use Hedonist\Events\Review\LikeAddEvent;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Repositories\Like\{LikeRepositoryInterface,LikeReviewCriteria};
 use Hedonist\Repositories\Dislike\{DislikeRepositoryInterface,DislikeReviewCriteria};
@@ -53,10 +54,11 @@ class LikeReviewAction
                 'user_id' => $userId
             ]);
             $this->likeRepository->save($like);
+            event(new LikeAddEvent($review, $userId));
         } else {
             $this->likeRepository->deleteById($like->id);
         }
-        
+
         return new LikeReviewResponse();
     }
 }
