@@ -81,7 +81,7 @@
                                 <router-link
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'CheckinsPage' }"
-                                >Checkins
+                                >Visited
                                 </router-link>
                                 <a
                                     class="navbar-item"
