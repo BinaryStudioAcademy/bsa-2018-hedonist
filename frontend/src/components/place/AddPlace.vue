@@ -22,7 +22,7 @@
                                     >
                                     <div v-if="$v.newPlace.localization.en.name.$error" class="level">
                                         <div class="level-item">
-                                            <p v-if="!$v.newPlace.localization.en.name.minLength" class="error">Minimum 4 chars!</p>
+                                            <p v-if="!$v.newPlace.localization.en.name.minLength || !$v.newPlace.localization.en.name.maxLength" class="error">From 4 to 20 chars!</p>
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +229,7 @@
                                     />
                                     <div v-if="$v.newPlace.localization.en.description.$error" class="level">
                                         <div class="level-item">
-                                            <p v-if="!$v.newPlace.localization.en.description.minLength" class="error">Minimum 20 chars!</p>
+                                            <p v-if="!$v.newPlace.localization.en.description.minLength || !$v.newPlace.localization.en.description.maxLength" class="error">From 20 to 500 chars!</p>
                                         </div>
                                     </div>
                                 </div>
@@ -536,7 +536,7 @@ import moment from 'moment';
 import Mapbox from 'mapbox-gl-vue';
 import mapSettingsService from '@/services/map/mapSettingsService';
 import SearchCity from '../navbar/SearchCity';
-import { required, minLength, numeric, url } from 'vuelidate/lib/validators';
+import { required, minLength, maxLength, numeric, url } from 'vuelidate/lib/validators';
 import phoneValidationService from '@/services/common/phoneValidationService';
 import LocationService from '@/services/location/locationService';
 
@@ -619,8 +619,8 @@ export default {
         newPlace: {
             localization: {
                 en: {
-                    name: { required, minLength: minLength(4) },
-                    description: { required, minLength: minLength(20) }
+                    name: { required, minLength: minLength(4), maxLength: maxLength(20) },
+                    description: { required, minLength: minLength(20), maxLength: maxLength(500) }
                 }
             },
             city: { required },

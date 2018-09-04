@@ -101,7 +101,6 @@ export default {
     // Boring Bit
    #preloader {
        align-items: center;
-       background-color: #FAFAFA;
        display: flex;
        flex-wrap: wrap;
        height: 150px;
