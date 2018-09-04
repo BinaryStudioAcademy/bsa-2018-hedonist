@@ -21,7 +21,7 @@ export default {
     locationAvailable: false,
     mapInitialized : false,
     filters: {
-        visited: false,
+        checkin: false,
         saved: false,
         top_rated: false,
         top_reviewed: false

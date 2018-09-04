@@ -80,7 +80,7 @@
                                 </router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'VisitedPage' }"
+                                    :to="{ name: 'CheckinsPage' }"
                                 >Visited
                                 </router-link>
                                 <a

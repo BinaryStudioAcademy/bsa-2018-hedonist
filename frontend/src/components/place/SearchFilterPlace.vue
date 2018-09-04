@@ -47,7 +47,7 @@ export default {
                     isLoading: false,
                     tooltipText: 'Click to see saved places'
                 },
-                visited:{
+                checkin:{
                     id: 3,
                     name: 'Visited',
                     check: false,

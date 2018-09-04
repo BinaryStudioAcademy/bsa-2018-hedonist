@@ -184,7 +184,7 @@ class PlaceController extends ApiController
                     $request->input('filter.polygon'),
                     $request->input('filter.top_reviewed'),
                     $request->input('filter.top_rated'),
-                    $request->input('filter.visited'),
+                    $request->input('filter.checkin'),
                     $request->input('filter.saved')
                 )
             );

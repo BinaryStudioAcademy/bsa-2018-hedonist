@@ -164,7 +164,7 @@ const createSearchQueryUrl = (url, filters) => {
         'filter[location]': filters.location,
         'filter[top_rated]': filters.top_rated,
         'filter[top_reviewed]': filters.top_reviewed,
-        'filter[visited]': filters.visited,
+        'filter[checkin]': filters.checkin,
         'filter[saved]': filters.saved,
         'filter[polygon]': polygon,
         'page': filters.page

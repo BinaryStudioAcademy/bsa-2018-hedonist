@@ -19,7 +19,7 @@ import CheckInsContainer from '@/components/history/CheckInsContainer';
 import HistoryMap from '@/components/history/HistoryMap';
 
 export default {
-    name: 'VisitedPage',
+    name: 'CheckinsPage',
     components: {
         Preloader,
         CheckInsContainer,
