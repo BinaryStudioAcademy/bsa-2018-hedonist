@@ -127,10 +127,5 @@ class GetPlaceCollectionByFiltersAction
         $fSaved = $request->isSaved();
 
         return $fPolygon || $fTopReviewed || $fTopRated || $fCheckin || $fSaved;
-
-        if ($fPolygon || $fTopReviewed || $fTopRated || $fCheckin || $fSaved) {
-            $arrAdditional = [ $fPolygon, $fTopReviewed, $fTopRated, $fCheckin, $fSaved, Auth::id()];
-            $baseRequest = array_merge($baseRequest, $arrAdditional);
-        }
     }
 }
