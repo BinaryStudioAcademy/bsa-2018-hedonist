@@ -4,11 +4,11 @@
         <div class="container main-wrp">
 
             <b-tabs v-model="activeTab" position="is-centered" class="block">
-                <b-tab-item label="General" :disabled="activeTab !== 0">
+                <b-tab-item :label="$t('add_place_page.tabs.general.label')" :disabled="activeTab !== 0">
                     <div class="field is-horizontal">
                         <div class="field-label is-medium">
-                            <label v-if="!$v.newPlace.localization.en.name.$error" class="label">Name*</label>
-                            <label v-else class="label error">Name*</label>
+                            <label v-if="!$v.newPlace.localization.en.name.$error" class="label">{{ $t('add_place_page.tabs.general.labels.name') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.name') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -17,13 +17,13 @@
                                         v-model="newPlace.localization.en.name"
                                         class="input is-medium"
                                         type="text"
-                                        placeholder="Place's name"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.name')"
                                         :status="$v.newPlace.localization.en.name.$error ? 'error' : null"
                                         @input="$v.newPlace.localization.en.name.$reset()"
                                     >
                                     <div v-if="$v.newPlace.localization.en.name.$error" class="level">
                                         <div class="level-item">
-                                            <p v-if="!$v.newPlace.localization.en.name.minLength || !$v.newPlace.localization.en.name.maxLength" class="error">From 4 to 20 chars!</p>
+                                            <p v-if="!$v.newPlace.localization.en.name.minLength || !$v.newPlace.localization.en.name.maxLength" class="error">{{ $t('add_place_page.validators.message.name') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -32,18 +32,18 @@
                     </div>
 
                     <div class="section-divider">
-                        <h4>Address and Location</h4>
+                        <h4>{{ $t('add_place_page.tabs.general.dividers.first') }}</h4>
                     </div>
 
                     <div class="field is-horizontal place-location">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.city.$error" class="label">City*</label>
-                            <label v-else class="label error">City*</label>
+                            <label v-if="!$v.newPlace.city.$error" class="label">{{ $t('add_place_page.tabs.general.labels.city') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.city') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
                                 <div class="control is-expanded">
-                                    <SearchCity @select="newPlace.city = $event" :status="$v.newPlace.city.$error ? 'error' : null" />
+                                    <SearchCity @select="newPlace.city = $event" :status="$v.newPlace.city.$error ? 'error' : null" :placeholder="$t('add_place_page.tabs.general.placeholders.city')" />
                                 </div>
                             </div>
                         </div>
@@ -51,8 +51,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.zip.$error" class="label">Zip*</label>
-                            <label v-else class="label error">Zip*</label>
+                            <label v-if="!$v.newPlace.zip.$error" class="label">{{ $t('add_place_page.tabs.general.labels.zip') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.zip') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -61,13 +61,13 @@
                                         v-model="newPlace.zip"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's postal code"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.zip')"
                                         :status="$v.newPlace.zip.$error ? 'error' : null"
                                         @input="$v.newPlace.zip.$reset()"
                                     >
                                     <div v-if="$v.newPlace.zip.$error" class="level">
                                         <div class="level-item">
-                                            <p v-if="!$v.newPlace.zip.numeric" class="error">Only digits!</p>
+                                            <p v-if="!$v.newPlace.zip.numeric" class="error">{{ $t('add_place_page.validators.message.zip') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -77,8 +77,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.address.$error" class="label">Address*</label>
-                            <label v-else class="label error">Address*</label>
+                            <label v-if="!$v.newPlace.address.$error" class="label">{{ $t('add_place_page.tabs.general.labels.address') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.address') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -87,7 +87,7 @@
                                         v-model="newPlace.address"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's address"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.address')"
                                         :status="$v.newPlace.address.$error ? 'error' : null"
                                         @input="$v.newPlace.address.$reset()"
                                     >
@@ -97,13 +97,13 @@
                     </div>
 
                     <div class="section-divider">
-                        <h4>Contact and Other Info</h4>
+                        <h4>{{ $t('add_place_page.tabs.general.dividers.second') }}</h4>
                     </div>
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.phone.$error && !phoneInvalid" class="label">Phone*</label>
-                            <label v-else class="label error">Phone*</label>
+                            <label v-if="!$v.newPlace.phone.$error && !phoneInvalid" class="label">{{ $t('add_place_page.tabs.general.labels.phone') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.phone') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -112,19 +112,19 @@
                                         v-model="newPlace.phone"
                                         class="input"
                                         type="tel"
-                                        placeholder="Place's phone"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.phone')"
                                         :status="$v.newPlace.phone.$error ? 'error' : null"
                                         @input="$v.newPlace.phone.$reset(); resetPhone()"
                                     >
                                 </p>
                                 <div v-if="!$v.newPlace.phone.$error" class="level">
                                     <div v-if="phoneInvalid" class="level-item">
-                                        <p class="error">Ex. +380950000000 or 380950000000.</p>
+                                        <p class="error">{{ $t('add_place_page.validators.message.phone') }}</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="field-label is-normal">
-                                <label class="label">Twitter</label>
+                                <label class="label">{{ $t('add_place_page.tabs.general.labels.twitter') }}</label>
                             </div>
                             <div class="field">
                                 <p class="control is-expanded">
@@ -132,7 +132,7 @@
                                         v-model="newPlace.twitter"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's twitter"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.twitter')"
                                     >
                                 </p>
                             </div>
@@ -141,7 +141,7 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Facebook</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.facebook') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -150,12 +150,12 @@
                                         v-model="newPlace.facebook"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's facebook"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.facebook')"
                                     >
                                 </p>
                             </div>
                             <div class="field-label is-normal">
-                                <label class="label">Instagram</label>
+                                <label class="label">{{ $t('add_place_page.tabs.general.labels.instagram') }}</label>
                             </div>
                             <div class="field">
                                 <p class="control is-expanded">
@@ -163,7 +163,7 @@
                                         v-model="newPlace.instagram"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's instagram"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.instagram')"
                                     >
                                 </p>
                             </div>
@@ -172,8 +172,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.website.$error" class="label">Website*</label>
-                            <label v-else class="label error">Website*</label>
+                            <label v-if="!$v.newPlace.website.$error" class="label">{{ $t('add_place_page.tabs.general.labels.website') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.website') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -182,13 +182,13 @@
                                         v-model="newPlace.website"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's website"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.website')"
                                         @input="$v.newPlace.website.$reset()"
                                     >
                                 </div>
                                 <div v-if="$v.newPlace.website.$error" class="level">
                                     <div class="level-item">
-                                        <p v-if="!$v.newPlace.website.url" class="error">NOT url!</p>
+                                        <p v-if="!$v.newPlace.website.url" class="error">{{ $t('add_place_page.validators.message.website') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label class="label">Menu link</label>
+                            <label class="label">{{ $t('add_place_page.tabs.general.labels.menu') }}</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -206,7 +206,7 @@
                                         v-model="newPlace.menu"
                                         class="input"
                                         type="text"
-                                        placeholder="Place's menu"
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.menu')"
                                     >
                                 </div>
                             </div>
@@ -215,8 +215,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.localization.en.description.$error" class="label">Description*</label>
-                            <label v-else class="label error">Description*</label>
+                            <label v-if="!$v.newPlace.localization.en.description.$error" class="label">{{ $t('add_place_page.tabs.general.labels.description') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.description') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -224,13 +224,13 @@
                                     <textarea
                                         v-model="newPlace.localization.en.description"
                                         class="textarea"
-                                        placeholder="Place's description.."
+                                        :placeholder="$t('add_place_page.tabs.general.placeholders.description')"
                                         :status="$v.newPlace.localization.en.description.$error ? 'error' : null"
                                         @input="$v.newPlace.localization.en.description.$reset()"
                                     />
                                     <div v-if="$v.newPlace.localization.en.description.$error" class="level">
                                         <div class="level-item">
-                                            <p v-if="!$v.newPlace.localization.en.description.minLength || !$v.newPlace.localization.en.description.maxLength" class="error">From 20 to 500 chars!</p>
+                                            <p v-if="!$v.newPlace.localization.en.description.minLength || !$v.newPlace.localization.en.description.maxLength" class="error">{{ $t('add_place_page.validators.message.description') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -239,11 +239,11 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="onNextGeneral()" class="button is-success">Next</span>
+                        <span @click="onNextGeneral()" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Photos" :disabled="activeTab !== 1">
+                <b-tab-item :label="$t('add_place_page.tabs.photos.label')" :disabled="activeTab !== 1">
                     <div class="tab-wrp">
                         <div class="level">
                             <div class="level-item">
@@ -252,7 +252,7 @@
                                         <section class="section">
                                             <div class="content has-text-centered">
                                                 <p><b-icon icon="upload" size="is-large" /></p>
-                                                <p>Drop photos here or click to upload</p>
+                                                <p>{{ $t('add_place_page.tabs.photos.upload') }}</p>
                                             </div>
                                         </section>
                                     </b-upload>
@@ -269,7 +269,7 @@
                                         <div class="level">
                                             <div class="level-item">
                                                 <span class="tag is-small is-light id-center" @click="deletePhoto(index)">
-                                                    <a>delete</a>
+                                                    <a>{{ $t('add_place_page.tabs.photos.delete') }}</a>
                                                 </span>
                                             </div>
                                         </div>
@@ -280,12 +280,12 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="onNextCheck(newPlace.photos)" class="button is-success">Next</span>
+                        <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                        <span @click="onNextCheck(newPlace.photos)" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Location" :disabled="activeTab !== 2">
+                <b-tab-item :label="$t('add_place_page.tabs.location.label')" :disabled="activeTab !== 2">
                     <div class="tab-wrp">
                         <div class="map-wrp">
                             <mapbox
@@ -308,18 +308,18 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                        <span @click="activeTab++" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Categories" :disabled="activeTab !== 3">
+                <b-tab-item :label="$t('add_place_page.tabs.categories.label')" :disabled="activeTab !== 3">
                     <div class="tab-wrp">
                         <div class="level">
                             <div class="level-item">
                                 <b-field>
                                     <b-select v-model="newPlace.category">
-                                        <option value="" selected disabled>Select a category</option>
+                                        <option value="" selected disabled>{{ $t('add_place_page.tabs.categories.select_cat') }}</option>
                                         <option
                                             v-for="option in allCategories"
                                             :key="option.id"
@@ -336,7 +336,7 @@
                                 <div class="level-item">
                                     <b-field>
                                         <b-select v-model="selectedTag">
-                                            <option value="" selected disabled>Add tags</option>
+                                            <option value="" selected disabled>{{ $t('add_place_page.tabs.categories.select_tag') }}</option>
                                             <option
                                                 v-for="option in categoryTags.byId"
                                                 :key="option.id"
@@ -372,12 +372,12 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="onNextCheck(newPlace.tags)" class="button is-success">Next</span>
+                        <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                        <span @click="onNextCheck(newPlace.tags)" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Features" :disabled="activeTab !== 4">
+                <b-tab-item :label="$t('add_place_page.tabs.features.label')" :disabled="activeTab !== 4">
                     <div class="columns is-centered">
                         <div class="column is-half">
                             <template v-for="feature in allFeatures">
@@ -397,36 +397,85 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="onNextCheck(newPlace.features)" class="button is-success">Next</span>
+                        <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                        <span @click="onNextCheck(newPlace.features)" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Hours" :disabled="activeTab !== 5">
+                <b-tab-item :label="$t('add_place_page.tabs.hours.label')" :disabled="activeTab !== 5">
                     <div class="tab-wrp">
                         <div class="columns is-vcentered">
                             <div class="column is-half is-left">
                                 <div class="worktime-wrp">
                                     <b-message :type="isDayWorking(newPlace.worktime['mo'].start, newPlace.worktime['mo'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Monday:  </strong>from <strong>{{ displayTime(newPlace.worktime['mo'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['mo'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.mo') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['mo'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['mo'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['tu'].start, newPlace.worktime['tu'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Tuesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['tu'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['tu'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.tu') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['tu'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['tu'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['we'].start, newPlace.worktime['we'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Wednesday:  </strong>from <strong>{{ displayTime(newPlace.worktime['we'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['we'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.we') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['we'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['we'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['th'].start, newPlace.worktime['th'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Thursday:  </strong>from <strong>{{ displayTime(newPlace.worktime['th'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['th'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.th') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['th'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['th'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['fr'].start, newPlace.worktime['fr'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Friday:  </strong>from <strong>{{ displayTime(newPlace.worktime['fr'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['fr'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.fr') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['fr'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['fr'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['sa'].start, newPlace.worktime['sa'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Saturday:  </strong>from <strong>{{ displayTime(newPlace.worktime['sa'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['sa'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.sa') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['sa'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['sa'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                     <b-message :type="isDayWorking(newPlace.worktime['su'].start, newPlace.worktime['su'].end) ? 'is-success' : 'is-danger'">
-                                        <p><strong>Sunday:  </strong>from <strong>{{ displayTime(newPlace.worktime['su'].start) }}</strong> till <strong>{{ displayTime(newPlace.worktime['su'].end) }}</strong> o'clock</p>
+                                        <p>
+                                            <strong>{{ $t('weekdays.su') }}:</strong>
+                                            {{ $t('add_place_page.tabs.hours.from') }}
+                                            <strong>{{ displayTime(newPlace.worktime['su'].start) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.till') }}
+                                            <strong>{{ displayTime(newPlace.worktime['su'].end) }}</strong>
+                                            {{ $t('add_place_page.tabs.hours.clock') }}
+                                        </p>
                                     </b-message>
                                 </div>
                             </div>
@@ -440,65 +489,65 @@
                                                 v-model="weekdays"
                                                 native-value="mo"
                                             >
-                                                Monday
+                                                {{ $t('weekdays.mo') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="tu"
                                             >
-                                                Tuesday
+                                                {{ $t('weekdays.tu') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="we"
                                             >
-                                                Wednesday
+                                                {{ $t('weekdays.we') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="th"
                                             >
-                                                Thursday
+                                                {{ $t('weekdays.th') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="fr"
                                             >
-                                                Friday
+                                                {{ $t('weekdays.fr') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="sa"
                                             >
-                                                Saturday
+                                                {{ $t('weekdays.sa') }}
                                             </b-checkbox-button>
                                             <b-checkbox-button
                                                 size="is-fullwidth"
                                                 v-model="weekdays"
                                                 native-value="su"
                                             >
-                                                Sunday
+                                                {{ $t('weekdays.su') }}
                                             </b-checkbox-button>
                                         </b-field>
 
                                         <div class="level">
-                                            <div class="level-item"><a @click="onDayOff" class="button is-danger" :disabled="isDaySelected">Day(s) off?</a></div>
+                                            <div class="level-item"><a @click="onDayOff" class="button is-danger" :disabled="isDaySelected">{{ $t('add_place_page.tabs.hours.day_off') }}</a></div>
                                         </div>
 
-                                        <b-field label="from">
+                                        <b-field :label="$t('add_place_page.tabs.hours.from')">
                                             <b-timepicker v-model="timeStart" :disabled="isDaySelected" />
                                         </b-field>
-                                        <b-field label="till">
+                                        <b-field :label="$t('add_place_page.tabs.hours.till')">
                                             <b-timepicker v-model="timeEnd" :disabled="isDaySelected" />
                                         </b-field>
 
                                         <div class="level">
-                                            <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary" :disabled="isDaySelected">Add</a></div>
+                                            <div class="level-item"><a @click="onWorkTimeAdd" class="button is-primary" :disabled="isDaySelected">{{ $t('add_place_page.tabs.hours.add') }}</a></div>
                                         </div>
 
                                     </div>
@@ -508,21 +557,21 @@
                     </div>
 
                     <div class="buttons is-centered">
-                        <span @click="activeTab--" class="button is-warning">Previous</span>
-                        <span @click="activeTab++" class="button is-success">Next</span>
+                        <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                        <span @click="activeTab++" class="button is-success">{{ $t('add_place_page.buttons.next') }}</span>
                     </div>
                 </b-tab-item>
 
-                <b-tab-item label="Add place" :disabled="activeTab !== 6">
+                <b-tab-item :label="$t('add_place_page.tabs.add.label')" :disabled="activeTab !== 6">
                     <div class="box">
                         <div class="level">
                             <div class="level-item">
-                                <h1>{{ confirmText }}</h1>
+                                <h5 class="title is-5">{{ confirmText }}</h5>
                             </div>
                         </div>
                         <div class="buttons is-centered">
-                            <span @click="activeTab--" class="button is-warning">Previous</span>
-                            <span @click="onAdd()" class="button is-success">Add</span>
+                            <span @click="activeTab--" class="button is-warning">{{ $t('add_place_page.buttons.previous') }}</span>
+                            <span @click="onAdd()" class="button is-success">{{ $t('add_place_page.buttons.add') }}</span>
                         </div>
                     </div>
                 </b-tab-item>
@@ -677,7 +726,7 @@ export default {
         },
 
         confirmText: function() {
-            return 'Confirm add place "' + this.newPlace.localization.en.name.trim() + '"?';
+            return this.$t('add_place_page.tabs.add.confirmation') + ' "' + this.newPlace.localization.en.name.trim() + '"?';
         }
     },
 
@@ -767,12 +816,12 @@ export default {
             if (this.$v.$invalid) {
                 this.$toast.open({
                     type: 'is-danger',
-                    message: 'Please, fill in the highlighted fields.'
+                    message: this.$t('add_place_page.validators.toast.general')
                 });
             } else if (this.phoneInvalid) {
                 this.$toast.open({
                     type: 'is-danger',
-                    message: 'Please, correct phone format.'
+                    message: this.$t('add_place_page.validators.toast.phone')
                 });
             } else {
                 this.activeTab++;
@@ -791,7 +840,7 @@ export default {
             if (!array.length) {
                 this.$toast.open({
                     type: 'is-danger',
-                    message: 'Please, add data.'
+                    message: this.$t('add_place_page.validators.toast.common')
                 });
             } else {
                 this.activeTab++;
@@ -806,11 +855,11 @@ export default {
                 place: this.newPlace
             }).then((result) => {
                 this.$router.push(`/places/${result.id}`);
-            }).catch((error) => {
+            }).catch(() => {
                 this.isLoading = false;
                 this.$toast.open({
                     type: 'is-danger',
-                    message: error.message
+                    message: this.$t('add_place_page.toast.error')
                 });
             });
         }
