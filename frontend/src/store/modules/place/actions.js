@@ -35,7 +35,7 @@ export default {
                 .then((result) => {
                     resolve(result.data.data);
                 })
-                .catch((error) => {
+                .catch(() => {
                     reject(error);
                 });
         });

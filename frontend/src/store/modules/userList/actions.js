@@ -124,7 +124,10 @@ export default {
     },
     addUserList: ({ commit }, {userList, attachedPlaces}) => {
         const formData = new FormData();
-        formData.append('image', userList.image);
+        if(userList.image){
+            formData.append('image', userList.image);
+        }
+        const { normCities, normCategories, normPlaces } = normalizePlaceData(attachedPlaces);
         formData.append('name', userList.name);
         _.forEach(attachedPlaces, function(place) {
             formData.append('attached_places[]', place.id);
@@ -135,16 +138,20 @@ export default {
                 let userList = data.data;
                 userList.places = [];
                 commit('ADD_NEW_LIST', userList);
+                commit('UPDATE_PLACES', normPlaces);
+                commit('UPDATE_CITIES', normCities);
+                commit('UPDATE_CATEGORIES', normCategories);
                 return userList;
             });
     },
     updateUserList: ({ commit }, {userList, attachedPlaces, id}) => {
         const formData = new FormData();
+        const { normCities, normCategories, normPlaces } = normalizePlaceData(attachedPlaces);
         formData.append('_method', 'PUT');
         if (userList.image !== null) {
             formData.append('image', userList.image);
-        }
 
+        }
         if (userList.name !== null) {
             formData.append('name', userList.name);
         }
@@ -152,11 +159,13 @@ export default {
         _.forEach(attachedPlaces, function(place) {
             formData.append('attached_places[]', place.id);
         });
-
         return httpService.post(`/user-lists/${id}`, formData)
             .then(({ data }) => {
                 const userList = data.data;
-                commit('UPDATE_LIST_PHOTO_AND_NAME', userList);
+                commit('UPDATE_LIST', { userList, placeIds: normPlaces.allIds });
+                commit('UPDATE_PLACES', normPlaces);
+                commit('UPDATE_CITIES', normCities);
+                commit('UPDATE_CATEGORIES', normCategories);
                 return userList;
             });
     },
@@ -167,4 +176,31 @@ export default {
                 return result.data.data;
             });
     }
+};
+
+const normalizePlaceData = (unnormalizedPlaces) => {
+    let cities = {byId: {}, allIds: []};
+    let categories = {byId: {}, allIds: []};
+    let places = {byId: {}, allIds: []};
+    _.forEach(unnormalizedPlaces, function(unnormalizedPlace) {
+        let place = Object.assign({}, unnormalizedPlace);
+        let normCity = normalizerService.normalize({data: place.city});
+        let normCategory = normalizerService.normalize({data: place.category});
+        Object.assign(place, {city: place.city.id});
+        Object.assign(place, {category: place.category.id});
+        let normPlace = normalizerService.normalize({data: place});
+
+        cities = normalizerService.updateNormalizedData(normCity, cities);
+        cities = normalizerService.updateAllIds(normCity, cities);
+        categories = normalizerService.updateNormalizedData(normCategory, categories);
+        categories = normalizerService.updateAllIds(normCategory, categories);
+        places = normalizerService.updateNormalizedData(normPlace, places);
+        places = normalizerService.updateAllIds(normPlace, places);
+    });
+
+    return {
+        normCities: cities,
+        normCategories: categories,
+        normPlaces: places
+    };
 };

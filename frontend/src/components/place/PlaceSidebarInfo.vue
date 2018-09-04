@@ -26,10 +26,35 @@
                         {{ tag.name }}
                     </span>
                 </div>
-                <div class="place-sidebar__worktime">
+
+                <div v-if="!!this.place.worktime.length" class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock" />
-                    <span class="worktime-info--red">Закрыто до 15:00</span>
+                    <div class="level">
+                        <div class="level-left">
+                            <span v-if="isOpen() === true" class="worktime-info--green">{{ $t('place_page.sidebar.open') }}</span>
+                            <span v-else class="worktime-info--red">{{ $t('place_page.sidebar.close') }}</span>
+                        </div>
+                        <div class="level-right">
+                            <a @click="isShowSchedule = !isShowSchedule">{{ $t('place_page.sidebar.schedule') }}</a>
+                        </div>
+                    </div>
+                    <b-collapse :open="isShowSchedule">
+                        <div class="notification">
+                            <template v-for="item in place.worktime">
+                                <div :key="item.id" class="level">
+                                    <div class="level-left">
+                                        <!--{{ item.day }}-->
+                                        {{ $t('weekdays.' + item.day) }}
+                                    </div>
+                                    <div class="level-right">
+                                        {{ displayTime(item.start) }} - {{ displayTime(item.end) }}
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </b-collapse>
                 </div>
+
                 <div class="place-sidebar__phone">
                     <i class="place-sidebar__icon fas fa-phone" />
                     <a 
@@ -63,13 +88,21 @@
                 <div class="place-sidebar__features">
                     <h2 class="feature-title">Features</h2>
                     <div
-                        v-for="feature in place.features"
+                        v-for="feature in allFeatures"
                         :key="feature.id"
                         class="place-sidebar__feature-list"
                     >
                         <div class="feature">
                             <div class="feature-name">{{ feature.name }}</div>
-                            <div class="feature-info"><i class="fas fa-check" /></div>
+                            <div
+                                v-if="isActiveFeature(feature.id)"
+                                class="feature-info"
+                            >
+                                <i class="fas fa-check" />
+                            </div>
+                            <div v-else class="feature-info-absent">
+                                <i class="fas fa-times" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,19 +112,65 @@
 </template>
 
 <script>
+import moment from 'moment';
 import PlaceMapMarker from './PlaceMapMarker';
+import {mapState, mapActions} from 'vuex';
 
 export default {
     name: 'PlaceSidebarInfo',
-
     components: {
         PlaceMapMarker
+    },
+
+    created() {
+        this.fetchAllFeatures();
     },
 
     props: {
         place: {
             type: Object,
             required: true
+        }
+    },
+
+    computed: {
+        ...mapState('features', ['allFeatures'])
+    },
+
+    data() {
+        return {
+            isShowSchedule: false
+        };
+    },
+
+    methods: {
+        ...mapActions('features', ['fetchAllFeatures']),
+
+        isActiveFeature: function (featureId) {
+            return this.place.features.map(
+                (feature) => feature.id
+            ).indexOf(featureId)>=0;
+        },
+    
+        isOpen() {
+            let today = moment().format('dd').toLowerCase();
+            let now = this.getMinutes(moment());
+            let today_schedule = this.place.worktime.find(function(item) {
+                return item.day === today;
+            });
+            return this.getMinutes(this.getLocalMoment(today_schedule.start)) < now
+                && now < this.getMinutes(this.getLocalMoment(today_schedule.end));
+        },
+        displayTime(time) {
+            let localTime = this.getLocalMoment(time);
+            return localTime.format('HH:mm');
+        },
+        getLocalMoment(time) {
+            let utcTime = moment.utc(time);
+            return utcTime.local();
+        },
+        getMinutes(momentObj) {
+            return momentObj.hours() * 60 + momentObj.minutes();
         }
     }
 };
@@ -130,10 +209,16 @@ export default {
     }
 
     &__worktime {
+        .level {
+            margin-bottom: 5px;
+        }
 
         .worktime-info {
             &--red {
                 color: red;
+            }
+            &--green {
+                color: green;
             }
         }
     }
@@ -162,6 +247,13 @@ export default {
                 flex: 20%;
                 text-align: right;
                 color: greenyellow;
+            }
+
+            .feature-info-absent {
+                flex: 20%;
+                text-align: right;
+                color: indianred;
+                padding-right: 3px;
             }
         }
     }

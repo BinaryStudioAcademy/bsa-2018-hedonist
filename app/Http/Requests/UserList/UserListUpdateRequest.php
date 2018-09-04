@@ -14,8 +14,8 @@ class UserListUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'            => 'nullable|string|max:255',
-            'image'           => 'nullable|image|max:5000',
+            'name'            => 'sometimes|nullable|string|max:255',
+            'image'           => 'sometimes|nullable|image|max:5000',
             'attached_places' => 'nullable|array',
         ];
     }

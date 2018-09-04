@@ -192,7 +192,6 @@ export default {
                 required,
             },
             image: {
-                required,
             },
         }
     }

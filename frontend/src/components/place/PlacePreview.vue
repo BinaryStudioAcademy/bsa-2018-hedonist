@@ -55,6 +55,7 @@
             <Review
                 v-if="place.review"
                 :review="place.review"
+                :show-like-dislike-btns="false"
             />
         </div>
     </transition>

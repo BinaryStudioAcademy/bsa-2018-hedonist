@@ -40,6 +40,7 @@ class SaveUserListAction
                 }
 
                 $file = $userListRequest->getImage();
+
                 if ($file !== null) {
                     $imageName = (new FileNameGenerator($file))->generateFileName();
                     Storage::disk()->putFileAs(self::FILE_STORAGE, $file, $imageName, 'public');
@@ -52,6 +53,11 @@ class SaveUserListAction
                 if ($userListRequest->getAttachedPlaces() !== null) {
                     $this->userListRepository
                         ->syncPlaces($userList, $userListRequest->getAttachedPlaces());
+                }
+
+                if ($userListRequest->getAttachedPlaces() === null) {
+                    $this->userListRepository
+                        ->syncPlaces($userList, []);
                 }
 
                 return new SaveUserListResponse($userList);

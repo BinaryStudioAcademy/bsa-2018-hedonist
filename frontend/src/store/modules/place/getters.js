@@ -8,9 +8,26 @@ export default {
     getById: state => id => {
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve(state.places.find(function (place) { return place.id === parseInt(id); }));
+                resolve(state.places.find(function (place) {
+                    return place.id === parseInt(id);
+                }));
             }, 500);
         });
+    },
+
+    getReviewsById: state => user_id => {
+        return state.places
+            .filter(
+                place => place.review.user.id === user_id
+            )
+            .slice(0,10);
+    },
+
+    getUserReviewsAll: state => user_id => {
+        return state.places
+            .filter(
+                place => place.review.user.id === user_id
+            );
     },
 
     getLikedStatus: state => {
