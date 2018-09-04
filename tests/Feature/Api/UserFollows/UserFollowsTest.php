@@ -19,11 +19,13 @@ class UserFollowsTest extends ApiTestCase
         parent::setUp();
         $this->followed = factory(User::class)->create();
         $this->follower = factory(User::class)->create();
+
+        $this->actingWithToken($this->follower);
     }
 
     public function test_follow_user_success()
     {
-        $response = $this->actingAs($this->follower)->json(
+        $response = $this->json(
             'POST',
             '/api/v1/user/'.$this->followed->id.'/follow'
         );
@@ -39,8 +41,7 @@ class UserFollowsTest extends ApiTestCase
 
     public function test_follow_invalid_user()
     {
-        $response = $this->actingAs($this->follower)
-            ->json(
+        $response = $this->json(
                 'POST',
                 '/api/v1/user/999999/follow'
             );
@@ -60,7 +61,7 @@ class UserFollowsTest extends ApiTestCase
     public function test_unfollow_user_success()
     {
         $this->followed->followers()->attach($this->follower);
-        $response = $this->actingAs($this->follower)->json(
+        $response = $this->json(
             'POST',
             '/api/v1/user/'.$this->followed->id.'/unfollow'
         );
@@ -76,8 +77,7 @@ class UserFollowsTest extends ApiTestCase
 
     public function test_unfollow_invalid_user()
     {
-        $response = $this->actingAs($this->follower)
-            ->json(
+        $response = $this->json(
                 'POST',
                 '/api/v1/user/999999/unfollow'
             );
@@ -87,7 +87,7 @@ class UserFollowsTest extends ApiTestCase
     public function test_get_followers()
     {
         $this->followed->followers()->attach($this->follower);
-        $response = $this->actingAs($this->follower)->json(
+        $response = $this->json(
             'POST',
             '/api/v1/user/'.$this->followed->id.'/followers'
         );
@@ -99,7 +99,7 @@ class UserFollowsTest extends ApiTestCase
     public function test_get_followed_users()
     {
         $this->followed->followers()->attach($this->follower);
-        $response = $this->actingAs($this->follower)->json(
+        $response = $this->json(
             'POST',
             '/api/v1/user/'.$this->follower->id.'/followed'
         );
