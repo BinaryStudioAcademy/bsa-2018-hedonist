@@ -9,6 +9,10 @@ export default {
         if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
         if(query.page) commit('SET_PAGE', query.page);
         if(query.category) commit('SET_SEARCH_PLACE_CATEGORY', {id: query.category, name: ''});
+        if (query.tags) {
+            let tagArray = query.tags.split(',');
+            commit('SET_SELECTED_TAGS', tagArray);
+        }
         if(query.location) {
             let location = query.location.split(',');
             commit('SET_SEARCH_CITY', {center: location});
@@ -56,11 +60,13 @@ export default {
 
     updateQueryFilters({state, dispatch}) {
         let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
+        let tags = state.selectedTags.join();
         if (state.city.longitude && state.city.latitude) {
             location = state.city.longitude + ',' + state.city.latitude;
         }
         let query = {
             category: state.placeCategory && state.placeCategory.id,
+            tags: tags,
             page: state.page,
             name: state.place,
             location: location,
@@ -80,9 +86,9 @@ export default {
             query
         });
 
-        dispatch('setIsPlacesLoaded', false);
+        dispatch('setLoadingState', true);
         dispatch('place/fetchPlaces', query, {root:true}).then(() => {
-            dispatch('setIsPlacesLoaded', true);
+            dispatch('setLoadingState', false);
         });
     },
 
@@ -92,6 +98,10 @@ export default {
 
     setLocationAvailable: ({commit}, locationAvailable) => {
         commit('SET_LOCATION_AVAILABLE', locationAvailable);
+    },
+
+    setLoadingState: ({commit}, isLoading) => {
+        commit('SET_LOADING_STATE', isLoading);
     },
 
     setFilters: ({commit, dispatch}, filters) => {
@@ -121,7 +131,15 @@ export default {
             .catch( error  => Promise.reject(error));
     },
 
-    setIsPlacesLoaded: ({commit}, isPlacesLoaded) => {
-        commit('SET_IS_PLACES_LOADED', isPlacesLoaded);
+    addSelectedTag: ({commit}, tagId) => {
+        commit('ADD_SELECTED_TAG', tagId);
     },
+
+    deleteSelectedTag: ({commit}, tagId) => {
+        commit('DELETE_SELECTED_TAG', tagId);
+    },
+
+    clearSelectedTags: ({commit}) => {
+        commit('CLEAR_SELECTED_TAGS');
+    }
 };

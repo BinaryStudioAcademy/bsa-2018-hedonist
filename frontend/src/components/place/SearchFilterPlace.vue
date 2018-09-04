@@ -38,7 +38,7 @@ export default {
                     name: 'Top Rated',
                     check: false,
                     isLoading: false,
-                    tooltipText: 'Click to see places with at least 8 rating'
+                    tooltipText: 'Click to see places with at least 4 rating'
                 },
                 saved:{
                     id: 2,
@@ -49,10 +49,10 @@ export default {
                 },
                 checkin:{
                     id: 3,
-                    name: 'Checkin',
+                    name: 'Visited',
                     check: false,
                     isLoading: false,
-                    tooltipText: 'Click to see checkin places'
+                    tooltipText: 'Click to see visited places'
                 },
                 top_reviewed:{
                     id: 4,

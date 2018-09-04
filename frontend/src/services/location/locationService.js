@@ -1,5 +1,6 @@
 import VueGeolocation from 'vue-browser-geolocation';
 import httpService from '../common/httpService';
+import mapSettingsService from '../map/mapSettingsService';
 
 export class LocationService {
 
@@ -9,24 +10,22 @@ export class LocationService {
         });
     }
 
-    getCityList(mapboxToken, citySearchQuery){
+    getCityList(params) {
         return new Promise((resolve, reject) => {
-            if(!citySearchQuery){
+            if(!params){
                 reject(new Error('empty query'));
             }else{
-                let mapboxCitiesApiUrl = `https://api.mapbox.com/geocoding/v5/mapbox.places/${citySearchQuery}.json?access_token=${mapboxToken}&country=ua&types=place&autocomplete=true&language=en`;
-
+                let mapboxCitiesApiUrl = mapSettingsService.getMapboxCitiesApiUrl(mapSettingsService.getMapboxToken(), params);
                 httpService.get(mapboxCitiesApiUrl)
                     .then(({ data }) => {
                         resolve(data.features);
                     })
-                    .catch(function (err) {
+                    .catch(({ err }) => {
                         reject(err);
                     });
             }
         });
     }
-
 }
 
 export default new LocationService();

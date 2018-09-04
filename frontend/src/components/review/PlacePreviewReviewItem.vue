@@ -1,6 +1,6 @@
 <template>
     <div class="media review-wrapper">
-        <figure class="image is-32x32 media-left">
+        <figure class="image is-16x16 media-left">
             <img :src="review.user.avatar_url" class="user-avatar">
         </figure>
         <div class="media-content">
@@ -17,6 +17,7 @@
                 {{ review.description }}
             </div>
             <LikeDislikeButton
+                v-if="showLikeDislikeBtns"
                 font-size="0.7rem"
                 @like="onLikeReview"
                 @dislike="onDislikeReview"
@@ -58,7 +59,11 @@ export default {
         review: {
             type: Object,
             required: true
-        }
+        },
+        showLikeDislikeBtns: {
+            type: Boolean,
+            default: true,
+        },	        
     },
     computed: {
         userName() {
@@ -136,7 +141,6 @@ export default {
 
     .review-username {
         font-weight: bolder;
-        font-size:1.2rem;
+        font-size: 0.75rem;
     }
-
 </style>

@@ -75,5 +75,108 @@
   },
   "my-lists_page": {
     "no-lists": "У вас ще немає списків місць. Ви можете додати деякі та згрупувати вибрані вами місця."
+  },
+  "add_place_page": {
+    "tabs": {
+      "general": {
+        "label": "Основні",
+        "labels": {
+          "name": "Назва",
+          "city": "Місто",
+          "zip": "Індекс",
+          "address": "Адреса",
+          "phone": "Телефон",
+          "twitter": "Twitter",
+          "facebook": "Facebook",
+          "instagram": "Instagram",
+          "website": "Сайт",
+          "menu": "Меню",
+          "description": "Опис"
+        },
+        "dividers": {
+          "first": "Адреса та розташування",
+          "second": "Контактні дані та ін."
+        },
+        "placeholders": {
+          "name": "the Best place",
+          "city": "Київ",
+          "zip": "09678",
+          "address": "вул. Хрещатик, б.14",
+          "phone": "+380961112233",
+          "twitter": "http://twitter.com/",
+          "facebook": "http://facebook.com/",
+          "instagram": "http://instagram.com/",
+          "website": "http://the-best-place.com/",
+          "menu": "http://the-best-place.com/menu",
+          "description": "Ми - the Best place, яке Ви можете відвідати.."
+        }
+      },
+      "photos": {
+        "label": "Фото",
+        "upload": "Перетягніть або клацніть, щоб завантажити",
+        "delete": "видалити"
+      },
+      "location": {
+        "label": "Розташування"
+      },
+      "categories": {
+        "label": "Категорії",
+        "select_cat": "Обрати категорію",
+        "select_tag": "Теги"
+      },
+      "features": {
+        "label": "Особливості"
+      },
+      "hours": {
+        "label": "Режим роботи",
+        "from": "з",
+        "till": "до",
+        "clock": "години",
+        "day_off": "Вихідний?",
+        "add": "Додати"
+      },
+      "add": {
+        "label": "Додати",
+        "confirmation": "Ви дійсно хочете додати місце"
+      }
+    },
+    "buttons": {
+      "next": "Далі",
+      "previous": "Назад",
+      "add": "Додати"
+    },
+    "toast": {
+      "error": "Щось пішло не так. Будь-ласка, спробуйте пізніше."
+    },
+    "validators": {
+      "toast": {
+        "general": "Будь-ласка, заповніть підсвічені поля.",
+        "phone": "Будь-ласка, виправте формат телефону.",
+        "common": "Будь-ласка, додайте дані."
+      },
+      "message": {
+        "name": "Від 4 до 20 символів!",
+        "zip": "Тільки цифри!",
+        "phone": "Напр. +380950000000 чи 380950000000.",
+        "website": "НЕ url!",
+        "description": "Від 20 до 500 символів!"
+      }
+    }
+  },
+  "weekdays": {
+    "mo": "Понеділок",
+    "tu": "Вівторок",
+    "we": "Середа",
+    "th": "Четвер",
+    "fr": "П'ятниця",
+    "sa": "Субота",
+    "su": "Неділя"
+  },
+  "place_page": {
+    "sidebar": {
+      "schedule": "Режим роботи",
+      "open": "Відчинено",
+      "close": "Зачинено"
+    }
   }
 }

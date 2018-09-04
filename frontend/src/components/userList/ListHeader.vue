@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper-list">
         <figure class="image is-5by3 list-image">
-            <img class="list-image__image" :src="listItem.img_url">
+            <img class="list-image__image" :src="listItem.img_url || imageStub">
         </figure>
         <div class="level list-data is-mobile">
             <div class="level-left">
@@ -34,6 +34,7 @@
 
 <script>
 import ShareDropdown from '@/components/misc/ShareDropdown';
+import imageStub from '@/assets/no-photo.png';
 
 export default {
     name: 'ListHeader',
@@ -46,6 +47,11 @@ export default {
             required:true,
             type: Object
         }
+    },
+    data() {
+        return {
+            imageStub: imageStub
+        };
     },
     computed: {
         userName(){
