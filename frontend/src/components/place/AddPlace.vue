@@ -6,8 +6,8 @@
                 <b-tab-item label="General" :disabled="activeTab !== 0">
                     <div class="field is-horizontal">
                         <div class="field-label is-medium">
-                            <label v-if="!$v.newPlace.localization.en.name.$error" class="label">Name</label>
-                            <label v-else class="label error">Name</label>
+                            <label v-if="!$v.newPlace.localization.en.name.$error" class="label">Name*</label>
+                            <label v-else class="label error">Name*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -36,8 +36,8 @@
 
                     <div class="field is-horizontal place-location">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.city.$error" class="label">City</label>
-                            <label v-else class="label error">City</label>
+                            <label v-if="!$v.newPlace.city.$error" class="label">City*</label>
+                            <label v-else class="label error">City*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -50,8 +50,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.zip.$error" class="label">Zip</label>
-                            <label v-else class="label error">Zip</label>
+                            <label v-if="!$v.newPlace.zip.$error" class="label">Zip*</label>
+                            <label v-else class="label error">Zip*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -76,8 +76,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.address.$error" class="label">Address</label>
-                            <label v-else class="label error">Address</label>
+                            <label v-if="!$v.newPlace.address.$error" class="label">Address*</label>
+                            <label v-else class="label error">Address*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -101,8 +101,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.phone.$error && !phoneInvalid" class="label">Phone</label>
-                            <label v-else class="label error">Phone</label>
+                            <label v-if="!$v.newPlace.phone.$error && !phoneInvalid" class="label">Phone*</label>
+                            <label v-else class="label error">Phone*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -171,8 +171,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.website.$error" class="label">Website</label>
-                            <label v-else class="label error">Website</label>
+                            <label v-if="!$v.newPlace.website.$error" class="label">Website*</label>
+                            <label v-else class="label error">Website*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -214,8 +214,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.localization.en.description.$error" class="label">Description</label>
-                            <label v-else class="label error">Description</label>
+                            <label v-if="!$v.newPlace.localization.en.description.$error" class="label">Description*</label>
+                            <label v-else class="label error">Description*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
