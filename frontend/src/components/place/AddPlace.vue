@@ -1,5 +1,6 @@
 <template>
     <div class="section">
+        <Preloader :active="isLoading" />
         <div class="container main-wrp">
 
             <b-tabs v-model="activeTab" position="is-centered" class="block">
@@ -536,6 +537,7 @@ import moment from 'moment';
 import Mapbox from 'mapbox-gl-vue';
 import mapSettingsService from '@/services/map/mapSettingsService';
 import SearchCity from '../navbar/SearchCity';
+import Preloader from '@/components/misc/Preloader';
 import { required, minLength, maxLength, numeric, url } from 'vuelidate/lib/validators';
 import phoneValidationService from '@/services/common/phoneValidationService';
 
@@ -543,7 +545,8 @@ export default {
     name: 'NewPlacePage',
     components: {
         Mapbox,
-        SearchCity
+        SearchCity,
+        Preloader
     },
 
     data() {
@@ -606,6 +609,7 @@ export default {
                 },
                 workWeekend: 1
             },
+            isLoading: false,
             phoneInvalid: false,
             selectedTag: '',
             weekdays: [],
@@ -796,16 +800,14 @@ export default {
 
         onAdd() {
             this.checkWorkTime();
+            this.isLoading = true;
             this.$store.dispatch('place/addNewPlace', {
                 user: this.user,
                 place: this.newPlace
             }).then((result) => {
-                this.$toast.open({
-                    type: 'is-success',
-                    message: 'Place added!'
-                });
                 this.$router.push(`/places/${result.id}`);
             }).catch((error) => {
+                this.isLoading = false;
                 this.$toast.open({
                     type: 'is-danger',
                     message: error.message
