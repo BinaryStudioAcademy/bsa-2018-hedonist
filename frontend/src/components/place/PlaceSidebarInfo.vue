@@ -27,7 +27,7 @@
                     </span>
                 </div>
 
-                <div class="place-sidebar__worktime">
+                <div v-if="!!this.place.worktime.length" class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock" />
                     <div class="level">
                         <div class="level-left">
@@ -44,7 +44,7 @@
                                 <div :key="item.id" class="level">
                                     <div class="level-left">
                                         <!--{{ item.day }}-->
-                                        {{ $t('place_page.sidebar.days.' + item.day) }}
+                                        {{ $t('weekdays.' + item.day) }}
                                     </div>
                                     <div class="level-right">
                                         {{ displayTime(item.start) }} - {{ displayTime(item.end) }}
