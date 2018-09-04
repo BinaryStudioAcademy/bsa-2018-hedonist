@@ -7,7 +7,7 @@ class UserFollowsSeeder extends Seeder
 {
     public function run()
     {
-        User::all()->foreach(function(User $item){
+        User::all()->map(function(User $item){
             $item->followers()->attach( User::all()->random());
         });
     }
