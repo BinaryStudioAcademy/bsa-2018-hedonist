@@ -110,6 +110,7 @@ export default {
             saved: !!query['saved'],
             top_rated: !!query['top_rated'],
             top_reviewed: !!query['top_reviewed'],
+            recommended: !!query['recommended']
         };
 
         commit('SET_FILTERS', filters);
