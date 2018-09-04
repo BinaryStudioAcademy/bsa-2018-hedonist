@@ -141,19 +141,17 @@ export default {
     },
     methods: {
         ...mapActions({ fetchPlaces: 'place/fetchPlaces' }),
-        searchPlaces() {
-            _.debounce(() => {
-                this.isPlaceFetching = true;
-                this.fetchPlaces({
-                    location: `${this.location.lng},${this.location.lat}`,
-                    name: this.searchName
-                }).then((res) => {
-                    this.displayList = true;
-                    this.isPlaceFetching = false;
-                    this.places = this.filterPlaces(res.data.data);
-                });
-            }, 500)();
-        },
+        searchPlaces: _.debounce(function() {
+            this.isPlaceFetching = true;
+            this.fetchPlaces({
+                location: `${this.location.lng},${this.location.lat}`,
+                name: this.searchName
+            }).then((res) => {
+                this.displayList = true;
+                this.isPlaceFetching = false;
+                this.places = this.filterPlaces(res.data.data);
+            });
+        }, 500),
         hideSearchList() {
             this.displayList = false;
         },
