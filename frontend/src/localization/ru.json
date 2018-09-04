@@ -76,20 +76,108 @@
   "my-lists_page": {
     "no-lists": "У вас пока нет списков мест. Вы можете добавить некоторые и сгруппировать выбранные вами места."
   },
+  "add_place_page": {
+    "tabs": {
+      "general": {
+        "label": "Основные",
+        "labels": {
+          "name": "Имя",
+          "city": "Город",
+          "zip": "Код",
+          "address": "Адрес",
+          "phone": "Телефон",
+          "twitter": "Twitter",
+          "facebook": "Facebook",
+          "instagram": "Instagram",
+          "website": "Сайт",
+          "menu": "Меню",
+          "description": "Описание"
+        },
+        "dividers": {
+          "first": "Адрес и расположение",
+          "second": "Контактные данные и пр."
+        },
+        "placeholders": {
+          "name": "the Best place",
+          "city": "Киев",
+          "zip": "09678",
+          "address": "ул. Крещатик, д.14",
+          "phone": "+380961112233",
+          "twitter": "http://twitter.com/",
+          "facebook": "http://facebook.com/",
+          "instagram": "http://instagram.com/",
+          "website": "http://the-best-place.com/",
+          "menu": "http://the-best-place.com/menu",
+          "description": "Мы - the Best place, которое Вы можете посетить.."
+        }
+      },
+      "photos": {
+        "label": "Фото",
+        "upload": "Перетащите фото или кликните, чтобы загрузить",
+        "delete": "удалить"
+      },
+      "location": {
+        "label": "Расположение"
+      },
+      "categories": {
+        "label": "Категории",
+        "select_cat": "Выбрать категорию",
+        "select_tag": "Тэги"
+      },
+      "features": {
+        "label": "Особенности"
+      },
+      "hours": {
+        "label": "Режим работы",
+        "from": "с",
+        "till": "до",
+        "clock": "часов",
+        "day_off": "Выходной?",
+        "add": "Добавить"
+      },
+      "add": {
+        "label": "Добавить",
+        "confirmation": "Вы действительно хотите добавить место"
+      }
+    },
+    "buttons": {
+      "next": "Дальше",
+      "previous": "Назад",
+      "add": "Добавить"
+    },
+    "toast": {
+      "added": "Заведение добавлено!",
+      "error": "Что-то пошло не так. Пожалуйста, попробуйте позже."
+    },
+    "validators": {
+      "toast": {
+        "general": "Пожалуйста, заполните подсвеченные поля.",
+        "phone": "Пожалуйста, исправьте формат телефона.",
+        "common": "Пожалуйста, добавьте данные."
+      },
+      "message": {
+        "name": "От 4 до 20 символов!",
+        "zip": "Только цифры!",
+        "phone": "Напр. +380950000000 или 380950000000.",
+        "website": "НЕ url!",
+        "description": "От 20 до 500 символов!"
+      }
+    }
+  },
+  "weekdays": {
+    "mo": "Понедельник",
+    "tu": "Вторник",
+    "we": "Среда",
+    "th": "Четверг",
+    "fr": "Пятница",
+    "sa": "Суббота",
+    "su": "Воскресенье"
+  },
   "place_page": {
     "sidebar": {
       "schedule": "Режим работы",
       "open": "Открыто",
-      "close": "Закрыто",
-      "days": {
-        "mo": "Понедельник",
-        "tu": "Вторник",
-        "we": "Среда",
-        "th": "Четверг",
-        "fr": "Пятница",
-        "sa": "Суббота",
-        "su": "Воскресенье"
-      }
+      "close": "Закрыто"
     }
   }
 }
