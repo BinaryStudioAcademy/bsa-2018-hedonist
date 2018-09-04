@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\User\Follows;
 
 use Hedonist\Events\Follows\UserFollowed;
+use Hedonist\Exceptions\User\FollowYourselfException;
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,9 @@ class FollowUserAction
 
     public function execute(FollowUserRequest $request): void
     {
+        if($request->getFollowedId() === Auth::id()){
+            throw FollowYourselfException::create();
+        }
         $followed = $this->repository->getById($request->getFollowedId());
         if(is_null($followed)){
             throw new UserNotFoundException();
