@@ -2,7 +2,7 @@
     <section class="columns">
         <Preloader :active="isLoading" />
         <section class="column is-half">
-            <SearchFilterPlace :is-places-loaded="isPlacesLoaded" />
+            <SearchFilterPlace :is-places-loaded="!isLoading" />
             <CategoryTagsContainer
                 v-if="categoryTagsList.length"
                 :tags="categoryTagsList"
@@ -15,7 +15,7 @@
                 <template v-if="places.length">   
                     <template v-for="(place, index) in places">
                         <PlacePreview
-                            v-if="isPlacesLoaded"
+                            v-if="!isLoading"
                             :key="place.id"
                             :place="place"
                             :timer="50 * (index+1)"
@@ -72,6 +72,7 @@ export default {
         Mapbox,
         SearchFilterPlace,
         CategoryTagsContainer,
+        Preloader
     },
     directives: {
         infiniteScroll
@@ -100,7 +101,6 @@ export default {
             'setCurrentPosition',
             'mapInitialization',
             'updateStateFromQuery',
-            'setIsPlacesLoaded',
             'setLoadingState'
         ]),
 
@@ -146,7 +146,7 @@ export default {
             };
         },
         updateMap() {
-            if (this.isMapLoaded && this.isPlacesLoaded) {
+            if (this.isMapLoaded && !this.isLoading) {
                 this.markerManager.setMarkersFromPlacesAndFit(...this.places);
             }
         },
@@ -172,15 +172,15 @@ export default {
         },
         updateSearchArea() {
             let query = this.getQuery();
-            this.setIsPlacesLoaded(false);
+            this.setLoadingState(true);
             this.$store.dispatch('place/fetchPlaces', query)
                 .then(() => {
-                    this.setIsPlacesLoaded(true);
+                    this.setLoadingState(false);
                     this.draw.deleteAll();
                 });
         },
         loadMore: function () {
-            if (this.isPlacesLoaded) {
+            if (this.isMapLoaded && !this.isLoading) {
                 let query = this.getQuery();
                 this.scrollBusy = true;
                 this.currentPage++;
@@ -200,12 +200,12 @@ export default {
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {
-            if (this.isPlacesLoaded) {
+            if (!this.isLoading) {
                 this.updateMap();
             }
         },
-        isPlacesLoaded: function (oldVal, newVal) {
-            if (this.isPlacesLoaded) {
+        isLoading: function (oldVal, newVal) {
+            if (!this.isLoading) {
                 this.updateMap();
             }
         }
@@ -215,7 +215,6 @@ export default {
         ...mapState('search', [
             'currentPosition',
             'mapInitialized',
-            'isPlacesLoaded',
             'isLoading'
         ]),
         ...mapGetters('place', ['getFilteredByName']),

@@ -76,20 +76,108 @@
   "my-lists_page": {
     "no-lists": "You have not got any place lists yet. You may add some and grouped your chosen places."
   },
+  "add_place_page": {
+    "tabs": {
+      "general": {
+        "label": "General",
+        "labels": {
+          "name": "Name",
+          "city": "City",
+          "zip": "Zip",
+          "address": "Address",
+          "phone": "Phone",
+          "twitter": "Twitter",
+          "facebook": "Facebook",
+          "instagram": "Instagram",
+          "website": "Website",
+          "menu": "Menu link",
+          "description": "Description"
+        },
+        "dividers": {
+          "first": "Address and Location",
+          "second": "Contact and Other Info"
+        },
+        "placeholders": {
+          "name": "the Best place",
+          "city": "Kiev",
+          "zip": "09678",
+          "address": "Khreschatyk St., 14",
+          "phone": "+380961112233",
+          "twitter": "http://twitter.com/",
+          "facebook": "http://facebook.com/",
+          "instagram": "http://instagram.com/",
+          "website": "http://the-best-place.com/",
+          "menu": "http://the-best-place.com/menu",
+          "description": "We are the Best place, that you could visit.."
+        }
+      },
+      "photos": {
+        "label": "Photos",
+        "upload": "Drop photos here or click to upload",
+        "delete": "delete"
+      },
+      "location": {
+        "label": "Location"
+      },
+      "categories": {
+        "label": "Categories",
+        "select_cat": "Select a category",
+        "select_tag": "Add tags"
+      },
+      "features": {
+        "label": "Features"
+      },
+      "hours": {
+        "label": "Hours",
+        "from": "from",
+        "till": "till",
+        "clock": "o'clock",
+        "day_off": "Day off?",
+        "add": "Add"
+      },
+      "add": {
+        "label": "Add place",
+        "confirmation": "Confirm add place"
+      }
+    },
+    "buttons": {
+      "next": "Next",
+      "previous": "Previous",
+      "add": "Add"
+    },
+    "toast": {
+      "added": "Place added!",
+      "error": "Something went wrong. Please, try later."
+    },
+    "validators": {
+      "toast": {
+        "general": "Please, fill in the highlighted fields.",
+        "phone": "Please, correct phone format.",
+        "common": "Please, add data."
+      },
+      "message": {
+        "name": "From 4 to 20 chars!",
+        "zip": "Only digits!",
+        "phone": "Ex. +380950000000 or 380950000000.",
+        "website": "NOT url!",
+        "description": "From 20 to 500 chars!"
+      }
+    }
+  },
+  "weekdays": {
+    "mo": "Monday",
+    "tu": "Tuesday",
+    "we": "Wednesday",
+    "th": "Thursday",
+    "fr": "Friday",
+    "sa": "Saturday",
+    "su": "Sunday"
+  },
   "place_page": {
     "sidebar": {
       "schedule": "Schedule",
       "open": "Open now",
-      "close": "Close",
-      "days": {
-        "mo": "Monday",
-        "tu": "Tuesday",
-        "we": "Wednesday",
-        "th": "Thursday",
-        "fr": "Friday",
-        "sa": "Saturday",
-        "su": "Sunday"
-      }
+      "close": "Close"
     }
   }
 }

@@ -17,6 +17,7 @@
                 {{ review.description }}
             </div>
             <LikeDislikeButton
+                v-if="showLikeDislikeBtns"
                 font-size="0.7rem"
                 @like="onLikeReview"
                 @dislike="onDislikeReview"
@@ -58,6 +59,10 @@ export default {
         review: {
             type: Object,
             required: true
+        },
+        showLikeDislikeBtns: {
+            type: Boolean,
+            default: true,
         }
     },
     computed: {

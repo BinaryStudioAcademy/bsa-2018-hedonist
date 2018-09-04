@@ -35,10 +35,6 @@ export default {
         state.isLoading = loadState;
     },
 
-    SET_IS_PLACES_LOADED: (state, isPlacesLoaded) => {
-        state.isPlacesLoaded = isPlacesLoaded;
-    },
-
     SET_CURRENT_POSITION: (state, currentPosition) => {
         state.location = true;
         state.currentPosition = currentPosition;
