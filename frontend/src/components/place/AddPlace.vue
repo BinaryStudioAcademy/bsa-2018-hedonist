@@ -22,7 +22,7 @@
                                     >
                                     <div v-if="$v.newPlace.localization.en.name.$error" class="level">
                                         <div class="level-item">
-                                            <p v-if="!$v.newPlace.localization.en.name.minLength || !$v.newPlace.localization.en.name.maxLength" class="error">From 4 to 20 chars!</p>
+                                            <p v-if="!$v.newPlace.localization.en.name.minLength || !$v.newPlace.localization.en.name.maxLength" class="error">{{ $t('add_place_page.validators.message.name') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                                     >
                                     <div v-if="$v.newPlace.zip.$error" class="level">
                                         <div class="level-item">
-                                            <p v-if="!$v.newPlace.zip.numeric" class="error">Only digits!</p>
+                                            <p v-if="!$v.newPlace.zip.numeric" class="error">{{ $t('add_place_page.validators.message.zip') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -118,7 +118,7 @@
                                 </p>
                                 <div v-if="!$v.newPlace.phone.$error" class="level">
                                     <div v-if="phoneInvalid" class="level-item">
-                                        <p class="error">Ex. +380950000000 or 380950000000.</p>
+                                        <p class="error">{{ $t('add_place_page.validators.message.phone') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@
                                 </div>
                                 <div v-if="$v.newPlace.website.$error" class="level">
                                     <div class="level-item">
-                                        <p v-if="!$v.newPlace.website.url" class="error">NOT url!</p>
+                                        <p v-if="!$v.newPlace.website.url" class="error">{{ $t('add_place_page.validators.message.website') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +229,7 @@
                                     />
                                     <div v-if="$v.newPlace.localization.en.description.$error" class="level">
                                         <div class="level-item">
-                                            <p v-if="!$v.newPlace.localization.en.description.minLength || !$v.newPlace.localization.en.description.maxLength" class="error">From 20 to 500 chars!</p>
+                                            <p v-if="!$v.newPlace.localization.en.description.minLength || !$v.newPlace.localization.en.description.maxLength" class="error">{{ $t('add_place_page.validators.message.description') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -812,12 +812,12 @@ export default {
             if (this.$v.$invalid) {
                 this.$toast.open({
                     type: 'is-danger',
-                    message: 'Please, fill in the highlighted fields.'
+                    message: this.$t('add_place_page.validators.toast.general')
                 });
             } else if (this.phoneInvalid) {
                 this.$toast.open({
                     type: 'is-danger',
-                    message: 'Please, correct phone format.'
+                    message: this.$t('add_place_page.validators.toast.phone')
                 });
             } else {
                 this.activeTab++;
@@ -836,7 +836,7 @@ export default {
             if (!array.length) {
                 this.$toast.open({
                     type: 'is-danger',
-                    message: 'Please, add data.'
+                    message: this.$t('add_place_page.validators.toast.common')
                 });
             } else {
                 this.activeTab++;
@@ -851,13 +851,13 @@ export default {
             }).then((result) => {
                 this.$toast.open({
                     type: 'is-success',
-                    message: 'Place added!'
+                    message: this.$t('add_place_page.toast.added')
                 });
                 this.$router.push(`/places/${result.id}`);
-            }).catch((error) => {
+            }).catch(() => {
                 this.$toast.open({
                     type: 'is-danger',
-                    message: error.message
+                    message: this.$t('add_place_page.toast.error')
                 });
             });
         }

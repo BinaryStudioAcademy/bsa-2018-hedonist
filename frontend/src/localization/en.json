@@ -145,8 +145,23 @@
       "previous": "Previous",
       "add": "Add"
     },
+    "toast": {
+      "added": "Place added!",
+      "error": "Something went wrong. Please, try later."
+    },
     "validators": {
-
+      "toast": {
+        "general": "Please, fill in the highlighted fields.",
+        "phone": "Please, correct phone format.",
+        "common": "Please, add data."
+      },
+      "message": {
+        "name": "From 4 to 20 chars!",
+        "zip": "Only digits!",
+        "phone": "Ex. +380950000000 or 380950000000.",
+        "website": "NOT url!",
+        "description": "From 20 to 500 chars!"
+      }
     }
   },
   "weekdays": {
