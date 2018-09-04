@@ -80,16 +80,7 @@
     "sidebar": {
       "schedule": "Schedule",
       "open": "Open now",
-      "close": "Close",
-      "days": {
-        "mo": "Monday",
-        "tu": "Tuesday",
-        "we": "Wednesday",
-        "th": "Thursday",
-        "fr": "Friday",
-        "sa": "Saturday",
-        "su": "Sunday"
-      }
+      "close": "Close"
     }
   }
 }
