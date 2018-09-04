@@ -2,10 +2,10 @@
     <div class="smileys__item">
         <span>{{ value }}</span>
         <i
-                :class="['far', 'fa-2x', icon, selected]"
-                @mouseover="$emit('onHover', value)"
-                @mouseout="$emit('onOut', value)"
-                @click="$emit('onSelect', value)"
+            :class="['far', 'fa-2x', icon, selected]"
+            @mouseover="$emit('onHover', value)"
+            @mouseout="$emit('onOut', value)"
+            @click="$emit('onSelect', value)"
         />
     </div>
 </template>
