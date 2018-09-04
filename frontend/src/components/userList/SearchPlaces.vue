@@ -102,7 +102,7 @@ export default {
         SearchCity
     },
     props: {
-        attachedPlaces: {
+        listAttachedPlaces: {
             type: Array,
             required: true
         },
@@ -111,6 +111,7 @@ export default {
         return {
             searchName: '',
             displayList: false,
+            attachedPlaces: [],
             location: {
                 lat: 50.4547,
                 lng: 30.5238
@@ -133,23 +134,24 @@ export default {
     watch: {
         'attachedPlaces': function() {
             this.$emit('changeAttachedPlaces', this.attachedPlaces);
+        },
+        'listAttachedPlaces': function() {
+            this.attachedPlaces = this.listAttachedPlaces;
         }
     },
     methods: {
         ...mapActions({ fetchPlaces: 'place/fetchPlaces' }),
-        searchPlaces() {
-            _.debounce(() => {
-                this.isPlaceFetching = true;
-                this.fetchPlaces({
-                    location: `${this.location.lng},${this.location.lat}`,
-                    searchName: this.searchName
-                }).then((res) => {
-                    this.displayList = true;
-                    this.isPlaceFetching = false;
-                    this.places = this.filterPlaces(res.data.data);
-                });
-            }, 500)();
-        },
+        searchPlaces: _.debounce(function() {
+            this.isPlaceFetching = true;
+            this.fetchPlaces({
+                location: `${this.location.lng},${this.location.lat}`,
+                name: this.searchName
+            }).then((res) => {
+                this.displayList = true;
+                this.isPlaceFetching = false;
+                this.places = this.filterPlaces(res.data.data);
+            });
+        }, 500),
         hideSearchList() {
             this.displayList = false;
         },

@@ -255,15 +255,15 @@ class PlaceControllerTest extends ApiTestCase
     public function testGetPlaceCollectionSearchByFilters()
     {
         $category = factory(PlaceCategory::class)->create();
-        $longitude = 24;
-        $latitude = 50;
+        $longitude = 36.1954606;
+        $latitude = 50.059325199999996;
 
         factory(Place::class)->create([
-            'latitude' => 49.8258,
-            'longitude' => 24.0335,
+            'latitude' => 50.0325,
+            'longitude' => 36.2261,
             'category_id' => $category->id,
         ]);
-        $polygon = '24.45513654618651,50.27748174666036;24.481544578315862,49.53768103435635;23.200755020088906,49.53768103435635;23.21395903614922,50.07453177140417;24.45513654618651,50.27748174666036';
+        $polygon = '36.22468218610891,50.032931373412566;36.226043431117205,50.03337030919096;36.227241977497954,50.03260391077478;36.22617901327993,50.03175040724011;36.22476895869954,50.03225902749995;36.22468218610891,50.032931373412566';
 
         $response =  $this->actingWithToken()->json(
             'GET',

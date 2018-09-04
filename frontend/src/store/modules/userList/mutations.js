@@ -76,8 +76,9 @@ export default {
         state.userLists.byId[userList.id] = userList;
         state.userLists.allIds.push(userList.id);
     },
-    UPDATE_LIST_PHOTO_AND_NAME: (state, userList) => {
+    UPDATE_LIST: (state, { userList, placeIds }) => {
         state.userLists.byId[userList.id].name = userList.name;
         state.userLists.byId[userList.id]['img_url'] = userList['img_url'];
+        state.userLists.byId[userList.id].places = placeIds;
     },
 };

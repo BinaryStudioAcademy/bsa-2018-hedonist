@@ -15,7 +15,7 @@ class UserListAddRequest extends FormRequest
     {
         return [
             'name'            => 'required|string|max:255',
-            'image'           => 'required|image|max:5000',
+            'image'           => 'sometimes|nullable|image|max:5000',
             'attached_places' => 'nullable|array',
         ];
     }

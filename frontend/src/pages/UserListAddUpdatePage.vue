@@ -10,7 +10,7 @@
             @loading="loading"
         />
         <SearchPlaces
-            :attached-places="attachedPlaces"
+            :list-attached-places="attachedPlaces"
             @changeAttachedPlaces="changeAttachedPlaces"
         />
         <div class="map">
@@ -51,6 +51,7 @@ import Mapbox from 'mapbox-gl-vue';
 import BackToTop from 'vue-backtotop';
 import { mapGetters, mapActions } from 'vuex';
 import Preloader from '@/components/misc/Preloader';
+import imageStub from '@/assets/no-photo.png';
 
 export default {
     name: 'UserListAddUpdatePage',
@@ -70,6 +71,7 @@ export default {
             userListName: null,
             userListImageUrl: null,
             isLoading: true,
+            imageStub: imageStub,
             id: null
         };
     },

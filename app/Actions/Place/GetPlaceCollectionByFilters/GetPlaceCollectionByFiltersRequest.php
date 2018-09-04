@@ -9,6 +9,7 @@ class GetPlaceCollectionByFiltersRequest
     private $page;
     private $name;
     private $polygon;
+    private $tags;
     private $topReviewed;
     private $topRated;
     private $checkin;
@@ -22,6 +23,7 @@ class GetPlaceCollectionByFiltersRequest
         ?string $location,
         ?string $name,
         ?string $polygon,
+        ?string $tags,
         ?bool $topReviewed = false,
         ?bool $topRated = false,
         ?bool $checkin = false,
@@ -32,6 +34,7 @@ class GetPlaceCollectionByFiltersRequest
         $this->page = $page;
         $this->name = $name;
         $this->polygon = $polygon;
+        $this->tags = $tags;
         $this->topReviewed = $topReviewed;
         $this->topRated = $topRated;
         $this->checkin = $checkin;
@@ -81,5 +84,10 @@ class GetPlaceCollectionByFiltersRequest
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getTags(): ?string
+    {
+        return $this->tags;
     }
 }

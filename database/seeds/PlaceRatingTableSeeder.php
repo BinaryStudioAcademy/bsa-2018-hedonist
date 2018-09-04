@@ -12,7 +12,6 @@ class PlaceRatingTableSeeder extends Seeder
     {
         $users = User::all();
         $places = Place::all();
-        $faker = Faker::create();
 
         $items = [];
 
@@ -21,7 +20,7 @@ class PlaceRatingTableSeeder extends Seeder
                 $items[] = [
                     'user_id' => $user->id,
                     'place_id' => $place->id,
-                    'rating' => random_int(1, 10)
+                    'rating' => random_int(1, 5)
                 ];
             }
         }

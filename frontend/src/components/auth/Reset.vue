@@ -33,7 +33,7 @@
             </b-field>
 
             <b-field
-                label="$t('inputs.auth.new_password.field_name')"
+                :label="$t('inputs.auth.new_password.field_name')"
                 :type="input.passwordConfirm.type"
             >
 
@@ -105,7 +105,7 @@ export default {
                     email: this.user.email,
                     password: this.user.password,
                     passwordConfirmation: this.user.passwordConfirm,
-                    token: this.$store.getters.getToken
+                    token: this.$store.state.route.query.token
                 });
 
                 this.refreshInput();
