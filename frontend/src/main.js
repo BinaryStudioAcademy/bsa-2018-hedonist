@@ -11,6 +11,15 @@ import VueScrollTo from 'vue-scrollto';
 import Tooltip from 'vue-directive-tooltip';
 import vuexI18n from 'vuex-i18n';
 import { enableSentryErrorReporting } from './services/common/errorReportingService';
+import Echo from 'laravel-echo';
+window.Pusher = require('pusher-js');
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '06abd5380d8cae8aac62',
+    cluster: 'eu',
+    encrypted: true,
+    namespace: 'Hedonist.Events',
+});
 
 import translationEn from './localization/en.json';
 import translationsUa from './localization/ua.json';

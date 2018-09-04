@@ -12,6 +12,9 @@ export class HttpService {
                 if (storageService.getToken()) {
                     config.headers['Authorization'] = 'Bearer ' + storageService.getToken();
                 }
+
+                config.headers['X-Socket-ID'] = Echo.socketId();
+
                 return Promise.resolve(config);
             },
             error => {
