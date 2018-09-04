@@ -72,8 +72,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(
             self::class,
             'follows',
-            'followed_id',
-            'follower_id'
+            'follower_id',
+            'followed_id'
         );
     }
 
@@ -82,8 +82,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(
             self::class,
             'follows',
-            'follower_id',
-            'followed_id'
+            'followed_id',
+            'follower_id'
         );
     }
 

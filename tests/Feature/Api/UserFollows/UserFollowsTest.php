@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Api\UserFollows;
 
-
 use Hedonist\Entities\User\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Log;
 use Tests\Feature\Api\ApiTestCase;
 
 class UserFollowsTest extends ApiTestCase
@@ -17,6 +17,7 @@ class UserFollowsTest extends ApiTestCase
     protected function setUp()
     {
         parent::setUp();
+
         $this->followed = factory(User::class)->create();
         $this->follower = factory(User::class)->create();
 
@@ -27,9 +28,12 @@ class UserFollowsTest extends ApiTestCase
     {
         $response = $this->json(
             'POST',
-            '/api/v1/user/'.$this->followed->id.'/follow'
+            '/api/v1/user/' . $this->followed->id . '/follow'
         );
         $response->assertStatus(200);
+
+        Log::debug($this->followed->followers);
+        Log::debug($this->follower);
 
         $this->assertDatabaseHas('follows',
             [
@@ -42,9 +46,9 @@ class UserFollowsTest extends ApiTestCase
     public function test_follow_invalid_user()
     {
         $response = $this->json(
-                'POST',
-                '/api/v1/user/999999/follow'
-            );
+            'POST',
+            '/api/v1/user/999999/follow'
+        );
         $response->assertStatus(400);
     }
 
@@ -53,7 +57,7 @@ class UserFollowsTest extends ApiTestCase
         $response = $this->actingAs($this->follower)
             ->json(
                 'POST',
-                '/api/v1/user/'.$this->follower->id.'/follow'
+                '/api/v1/user/' . $this->follower->id . '/follow'
             );
         $response->assertStatus(400);
     }
@@ -63,7 +67,7 @@ class UserFollowsTest extends ApiTestCase
         $this->followed->followers()->attach($this->follower);
         $response = $this->json(
             'POST',
-            '/api/v1/user/'.$this->followed->id.'/unfollow'
+            '/api/v1/user/' . $this->followed->id . '/unfollow'
         );
         $response->assertStatus(200);
 
@@ -78,9 +82,9 @@ class UserFollowsTest extends ApiTestCase
     public function test_unfollow_invalid_user()
     {
         $response = $this->json(
-                'POST',
-                '/api/v1/user/999999/unfollow'
-            );
+            'POST',
+            '/api/v1/user/999999/unfollow'
+        );
         $response->assertStatus(400);
     }
 
@@ -88,23 +92,23 @@ class UserFollowsTest extends ApiTestCase
     {
         $this->followed->followers()->attach($this->follower);
         $response = $this->json(
-            'POST',
-            '/api/v1/user/'.$this->followed->id.'/followers'
+            'GET',
+            '/api/v1/user/' . $this->followed->id . '/followers'
         );
         $response->assertStatus(200);
 
-        $this->assertEquals(1,$response->json('data')->count());
+        $this->assertEquals(1, count($response->json('data')));
     }
 
     public function test_get_followed_users()
     {
         $this->followed->followers()->attach($this->follower);
         $response = $this->json(
-            'POST',
-            '/api/v1/user/'.$this->follower->id.'/followed'
+            'GET',
+            '/api/v1/user/' . $this->follower->id . '/followed'
         );
         $response->assertStatus(200);
 
-        $this->assertEquals(1,$response->json('data')->count());
+        $this->assertEquals(1, count($response->json('data')));
     }
 }
