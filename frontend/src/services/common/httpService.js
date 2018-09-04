@@ -11,9 +11,8 @@ export class HttpService {
             config => {
                 if (storageService.getToken()) {
                     config.headers['Authorization'] = 'Bearer ' + storageService.getToken();
+                    config.headers['X-Socket-ID'] = Echo.socketId();
                 }
-
-                config.headers['X-Socket-ID'] = Echo.socketId();
 
                 return Promise.resolve(config);
             },
