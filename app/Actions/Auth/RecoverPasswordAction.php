@@ -20,6 +20,11 @@ class RecoverPasswordAction
     public function execute(RecoverPasswordRequest $request)
     {
         $user = $this->broker->getUser(['email' => $request->getEmail()]);
+
+        if (is_null($user)) {
+            throw new PasswordResetEmailSentException();
+        }
+
         $token = $this->broker->createToken($user);
 
         try {
