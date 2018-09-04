@@ -9,6 +9,10 @@ export default {
         if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
         if(query.page) commit('SET_PAGE', query.page);
         if(query.category) commit('SET_SEARCH_PLACE_CATEGORY', {id: query.category, name: ''});
+        if (query.tags) {
+            let tagArray = query.tags.split(',');
+            commit('SET_SELECTED_TAGS', tagArray);
+        }
         if(query.location) {
             let location = query.location.split(',');
             commit('SET_SEARCH_CITY', {center: location});
@@ -56,11 +60,13 @@ export default {
 
     updateQueryFilters({state, dispatch}) {
         let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
+        let tags = state.selectedTags.join();
         if (state.city.longitude && state.city.latitude) {
             location = state.city.longitude + ',' + state.city.latitude;
         }
         let query = {
             category: state.placeCategory && state.placeCategory.id,
+            tags: tags,
             page: state.page,
             name: state.place,
             location: location,
@@ -124,5 +130,17 @@ export default {
         return httpService.get('/places/autocomplete/search?filter[name]=' + filters.name + '&filter[location]=' + filters.location)
             .then( result => Promise.resolve(result.data.data))
             .catch( error  => Promise.reject(error));
+    },
+
+    addSelectedTag: ({commit}, tagId) => {
+        commit('ADD_SELECTED_TAG', tagId);
+    },
+
+    deleteSelectedTag: ({commit}, tagId) => {
+        commit('DELETE_SELECTED_TAG', tagId);
+    },
+
+    clearSelectedTags: ({commit}) => {
+        commit('CLEAR_SELECTED_TAGS');
     }
 };

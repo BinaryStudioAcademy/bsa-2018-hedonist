@@ -83,7 +83,7 @@
         "labels": {
           "name": "Имя",
           "city": "Город",
-          "zip": "Код",
+          "zip": "Индекс",
           "address": "Адрес",
           "phone": "Телефон",
           "twitter": "Twitter",
@@ -99,7 +99,7 @@
         },
         "placeholders": {
           "name": "the Best place",
-          "city": "Kiev",
+          "city": "Киев",
           "zip": "09678",
           "address": "ул. Крещатик, д.14",
           "phone": "+380961112233",
