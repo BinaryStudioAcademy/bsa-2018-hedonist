@@ -1,6 +1,6 @@
 <template>
     <div class="place-top-info">
-        <PlacePhotoList :photos="place.photos" @showAllPhotos="changeTab(2)" />
+        <PlacePhotoList :photos="photos" @showAllPhotos="changeTab(2)" />
         <div class="place-venue columns">
             <div class="column is-two-thirds">
                 <div class="place-venue__logo">
@@ -172,6 +172,12 @@ export default {
         loaded() {
             return !(this.isLoadingReviewPhoto) && !!(this.getPlaceReviewPhotos);
         },
+
+        photos() {
+            let placePhotos = Object.values(this.place.photos);
+            let placeReviewPhotos = Object.values(this.getPlaceReviewPhotos);
+            return placePhotos.concat(placeReviewPhotos);
+        }
     },
 
     methods: {

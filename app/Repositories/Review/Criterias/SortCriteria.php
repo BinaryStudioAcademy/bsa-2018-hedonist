@@ -18,6 +18,9 @@ class SortCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->orderBy($this->sort, $this->order);
+        return $model->withCount([
+            'likes',
+            'dislikes',
+        ])->orderBy($this->sort, $this->order);
     }
 }
