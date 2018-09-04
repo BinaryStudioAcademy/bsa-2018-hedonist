@@ -27,7 +27,7 @@
                     </span>
                 </div>
 
-                <div class="place-sidebar__worktime">
+                <div v-if="!!this.place.worktime.length" class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock" />
                     <div class="level">
                         <div class="level-left">
