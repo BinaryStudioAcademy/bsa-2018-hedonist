@@ -80,9 +80,9 @@ export default {
             query
         });
 
-        dispatch('setIsPlacesLoaded', false);
+        dispatch('setLoadingState', true);
         dispatch('place/fetchPlaces', query, {root:true}).then(() => {
-            dispatch('setIsPlacesLoaded', true);
+            dispatch('setLoadingState', false);
         });
     },
 
@@ -92,6 +92,10 @@ export default {
 
     setLocationAvailable: ({commit}, locationAvailable) => {
         commit('SET_LOCATION_AVAILABLE', locationAvailable);
+    },
+
+    setLoadingState: ({commit}, isLoading) => {
+        commit('SET_LOADING_STATE', isLoading);
     },
 
     setFilters: ({commit, dispatch}, filters) => {
@@ -119,9 +123,5 @@ export default {
         return httpService.get('/places/autocomplete/search?filter[name]=' + filters.name + '&filter[location]=' + filters.location)
             .then( result => Promise.resolve(result.data.data))
             .catch( error  => Promise.reject(error));
-    },
-
-    setIsPlacesLoaded: ({commit}, isPlacesLoaded) => {
-        commit('SET_IS_PLACES_LOADED', isPlacesLoaded);
-    },
+    }
 };

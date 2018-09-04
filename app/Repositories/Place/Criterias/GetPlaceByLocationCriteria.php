@@ -21,7 +21,7 @@ class GetPlaceByLocationCriteria implements CriteriaInterface
         return $model->select('*', DB::raw(
             '( ? * acos( cos( radians(?) ) * cos( radians( latitude ) ) 
             * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin(radians(latitude)) ) ) AS distance'))
-            ->having('distance', '<=', Location::RADIUS)
+            ->having('distance', '<=', Location::GEOLOCATION_RADIUS)
             ->setBindings([Location::EARTH_RADIUS_IN_KM, $this->center->getLatitude(), $this->center->getLongitude(), $this->center->getLatitude()]);
     }
 }

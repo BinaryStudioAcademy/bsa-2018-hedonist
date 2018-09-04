@@ -20,7 +20,7 @@ class RecoverPasswordAction
     {
         $success = $this->broker->sendResetLink(['email' => $request->getEmail()]);
 
-        if ($success !== Password::RESET_LINK_SENT) {
+        if ($success === Password::INVALID_USER) {
             throw new PasswordResetEmailSentException();
         }
     }
