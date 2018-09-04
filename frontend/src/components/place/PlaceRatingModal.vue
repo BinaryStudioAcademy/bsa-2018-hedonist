@@ -18,7 +18,7 @@
                     />
                 </div>
 
-                <span class="rating">{{ userRating || place.myRating || 0 }}/10</span>
+                <span class="rating">{{ userRating || place.myRating || 0 }}/5</span>
             </section>
             <footer class="modal-card-foot">
                 <button class="button" type="button" @click="$parent.close()">Close</button>
@@ -44,14 +44,16 @@ export default {
 
             icons: [
                 'fa-angry',
-                'fa-frown-open',
-                'fa-frown',
                 'fa-meh-rolling-eyes',
                 'fa-meh',
+
+                // 'fa-frown-open',
+                // 'fa-frown',
+                // 'fa-grin',
+                // 'fa-smile-beam',
+                // 'fa-laugh',
+
                 'fa-smile',
-                'fa-grin',
-                'fa-smile-beam',
-                'fa-laugh',
                 'fa-laugh-beam'
             ]
         };
@@ -124,7 +126,7 @@ export default {
     .modal-card-body {
         display: flex;
         justify-content: space-between;
-        width: 460px;
+        width: 280px;
 
         .smileys {
             display: inline-block;
