@@ -22,7 +22,7 @@ use Hedonist\Repositories\Place\Criterias\TopRatedCriteria;
 use Hedonist\Repositories\Place\Criterias\TopReviewedCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Cache;
 
 class GetPlaceCollectionByFiltersAction
 {
@@ -35,9 +35,9 @@ class GetPlaceCollectionByFiltersAction
 
     public function execute(GetPlaceCollectionByFiltersRequest $request): GetPlaceCollectionResponse
     {
-        $uniqId = $this->generateUniqKeyByPlaceSearch($request);
-        $redisPlaces = Redis::get('search_places-' . $uniqId);
-        if ($redisPlaces) {
+        $uniqId = 'search_places-' . $this->generateUniqKeyByPlaceSearch($request);
+        if (Cache::has($uniqId)) {
+            $redisPlaces = Cache::get($uniqId);
             return unserialize($redisPlaces);
         }
 
@@ -101,7 +101,7 @@ class GetPlaceCollectionByFiltersAction
 
         $placeCollection = new GetPlaceCollectionResponse($places, $user);
         if (! $this->hasFilterParameters($request)) {
-            Redis::setex('search_places-' . $uniqId, 1800, serialize($placeCollection));
+            Cache::put($uniqId, serialize($placeCollection), 30);
         }
         return $placeCollection;
     }
