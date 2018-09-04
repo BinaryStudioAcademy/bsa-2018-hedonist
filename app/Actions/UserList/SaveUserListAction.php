@@ -40,6 +40,7 @@ class SaveUserListAction
                 }
 
                 $file = $userListRequest->getImage();
+
                 if ($file !== null) {
                     $imageName = (new FileNameGenerator($file))->generateFileName();
                     Storage::disk()->putFileAs(self::FILE_STORAGE, $file, $imageName, 'public');
