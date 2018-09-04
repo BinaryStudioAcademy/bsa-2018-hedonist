@@ -28,7 +28,9 @@ import ReviewsContainerItem from '@/components/users/ReviewsContainerItem';
 export default {
     name: 'ReviewsContainer',
     data() {
-        return {};
+        return {
+            stopLoading : false
+        };
     },
     components: {
         ReviewsContainerItem
@@ -56,7 +58,7 @@ export default {
     created() {
         this.$store.dispatch('users/fetchAllPlaces')
             .then(()=>{
-                this.$parent.$data.isLoading = false;
+                this.$emit('stopLoading', this.stopLoading);
             });
     },
 
