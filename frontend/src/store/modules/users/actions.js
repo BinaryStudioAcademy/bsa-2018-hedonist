@@ -12,5 +12,16 @@ export default {
                     reject(error.response.data.error);
                 });
         });
-    }
+    },
+    fetchAllPlaces:(context) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/places/search')
+                .then(function (res) {
+                    context.commit('SET_USERS_PLACES', res.data.data);
+                    resolve(res);
+                }).catch(function (err) {
+                    reject(err);
+                });
+        });
+    },
 };

@@ -7,5 +7,6 @@ export default {
         facebook_url: '',
         twitter_url: '',
         instagram_url: '',
-    }
+    },
+    places: []
 };

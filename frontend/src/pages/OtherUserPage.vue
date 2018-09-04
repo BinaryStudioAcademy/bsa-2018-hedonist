@@ -28,14 +28,6 @@ export default {
             loadingTime: 2000
         };
     },
-    created() {
-        setTimeout(()=>{
-            this.isLoading = false;
-        },this.loadingTime);
-    },
-    loaded: function() {
-        return !(this.isLoading);
-    }
 };
 </script>
 

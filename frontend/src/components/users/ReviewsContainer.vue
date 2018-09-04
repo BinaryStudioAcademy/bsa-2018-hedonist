@@ -34,13 +34,13 @@ export default {
         ReviewsContainerItem
     },
     computed: {
-        ...mapState('place', {
+        ...mapState('users', {
             places: 'places',
         }),
         ...mapGetters({
             userProfile: 'users/getUserProfile'
         }),
-        ...mapGetters('place', ['getReviewsById' , 'getUserReviewsAll']),
+        ...mapGetters('users', ['getReviewsById' , 'getUserReviewsAll']),
         filteredUsersPlaces: function () {
             return this.getReviewsById(parseInt(this.$route.params.id));
         },
@@ -48,12 +48,20 @@ export default {
             return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
         },
     },
+    methods: {
+        ...mapActions({
+            fetchAllPlaces: 'users/fetchAllPlaces'
+        })
+    },
     created() {
-        this.$store.dispatch('place/fetchPlaces', this.$route.query);
+        this.$store.dispatch('users/fetchAllPlaces')
+            .then(()=>{
+                this.$parent.$data.isLoading = false;
+            });
     },
 
 };
 </script>
-<style >
+<style>
 
-    </style>
+</style>
