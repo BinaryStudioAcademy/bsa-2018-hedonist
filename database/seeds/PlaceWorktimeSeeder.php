@@ -16,8 +16,8 @@ class PlaceWorktimeSeeder extends Seeder
     public function run()
     {
         $places = Place::all();
-        $start_time = Carbon::parse('today 7 hours','UTC');
-        $end_time = Carbon::parse('today 18 hours','UTC');
+        $start_time = Carbon::parse('today 7 hours', 'UTC');
+        $end_time = Carbon::parse('today 18 hours', 'UTC');
 
         foreach ($places as $place) {
             foreach (self::DAYCODES as $daycode) {
