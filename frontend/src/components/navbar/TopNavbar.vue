@@ -151,15 +151,15 @@ export default {
     watch: {
         'user': function() {
             if (this.user.id) {
-                // window.Echo.channel(`App.User.${this.user.id}`)
-                //     .listen('Events.Review.LikeAddEvent', (payload) => {
-                //         console.log(payload.message);
-                //         if (!this.notificationsDisplay) {
-                //             this.isNewNotifications = true;
-                //         }
-                //
-                //         this.notifications.push(payload.message);
-                //     });
+                window.Echo.channel(`App.User.${this.user.id}`)
+                    .listen('Review.LikeAddEvent', (payload) => {
+                        console.log(payload.message);
+                        if (!this.notificationsDisplay) {
+                            this.isNewNotifications = true;
+                        }
+
+                        this.notifications.push(payload.message);
+                    });
             }
         }
     },
@@ -189,10 +189,10 @@ export default {
         LanguageSelector
     },
     created() {
-        window.Echo.private(`Entities.User.User.1`)
-            .notification((notification) => {
-                console.log(notification);
-            });
+        // window.Echo.private(`Entities.User.User.1`)
+        //     .notification((notification) => {
+        //         console.log(notification);
+        //     });
         window.Echo.channel('my-channel').listen('.my-event', (payload) => {
             console.log(payload);
         });
