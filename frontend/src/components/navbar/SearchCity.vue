@@ -54,8 +54,7 @@ export default {
         loadCities: _.debounce(function () {
             this.findCity.data = [];
             this.findCity.isFetching = true;
-            let mapboxCitiesApiUrl = mapSettingsService.getMapboxCitiesApiUrl(mapSettingsService.getMapboxToken(), this.findCity.query);
-            LocationService.getCityList(mapboxCitiesApiUrl)
+            LocationService.getCityList(this.findCity.query)
                 .then( res => {
                     this.findCity.data = res;
                     this.findCity.isFetching = false;

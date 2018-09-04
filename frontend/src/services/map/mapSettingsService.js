@@ -16,8 +16,8 @@ export default {
         };
     },
     getMapboxCitiesApiUrl: (mapboxToken, params) => {
-        return `${apiUrl}${params}.json?access_token=${mapboxToken}&country=ua&types=place&autocomplete=true&language=en`;
+        return `${API_URL}${params}.json?access_token=${mapboxToken}&country=ua&types=place&autocomplete=true&language=en`;
     }
 };
 
-const apiUrl = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
+const API_URL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
