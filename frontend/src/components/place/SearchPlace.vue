@@ -152,7 +152,7 @@ export default {
                     this.markerManager.setMarkersFromPlacesAndFit(...this.places);
                 } else if (this.$route.query.location) {
                     let location = this.$route.query.location;
-                    this.jumpTo(location.split(","), 11);
+                    this.jumpTo(location.split(','), 11);
                 }
             }
         },
