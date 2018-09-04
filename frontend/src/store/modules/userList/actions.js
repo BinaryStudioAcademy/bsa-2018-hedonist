@@ -124,8 +124,10 @@ export default {
     },
     addUserList: ({ commit }, {userList, attachedPlaces}) => {
         const formData = new FormData();
+        if(userList.image){
+            formData.append('image', userList.image);
+        }
         const { normCities, normCategories, normPlaces } = normalizePlaceData(attachedPlaces);
-        formData.append('image', userList.image);
         formData.append('name', userList.name);
         _.forEach(attachedPlaces, function(place) {
             formData.append('attached_places[]', place.id);

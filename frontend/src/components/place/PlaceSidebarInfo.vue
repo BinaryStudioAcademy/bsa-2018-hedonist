@@ -27,7 +27,7 @@
                     </span>
                 </div>
 
-                <div class="place-sidebar__worktime">
+                <div v-if="!!this.place.worktime.length" class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock" />
                     <div class="level">
                         <div class="level-left">
@@ -43,8 +43,7 @@
                             <template v-for="item in place.worktime">
                                 <div :key="item.id" class="level">
                                     <div class="level-left">
-                                        <!--{{ item.day }}-->
-                                        {{ $t('place_page.sidebar.days.' + item.day) }}
+                                        {{ $t('weekdays.' + item.day) }}
                                     </div>
                                     <div class="level-right">
                                         {{ displayTime(item.start) }} - {{ displayTime(item.end) }}
@@ -74,11 +73,11 @@
                     </a>
                 </div>
                 <template v-if="place.placeInfo">
-                    <div class="place-sidebar__facebook" v-if="place.placeInfo.facebook">
+                    <div class="place-sidebar__social" v-if="place.placeInfo.facebook">
                         <i class="place-sidebar__icon fab fa-facebook-square" />
                         <a :href="place.placeInfo.facebook">{{ place.placeInfo.facebook }}</a>
                     </div>
-                    <div class="place-sidebar__facebook" v-if="place.placeInfo.instagram">
+                    <div class="place-sidebar__social" v-if="place.placeInfo.instagram">
                         <i class="place-sidebar__icon fab fa-instagram" />
                         <a :href="place.placeInfo.instagram">{{ place.placeInfo.instagram }}</a>
                     </div>
@@ -88,13 +87,21 @@
                 <div class="place-sidebar__features">
                     <h2 class="feature-title">Features</h2>
                     <div
-                        v-for="feature in place.features"
+                        v-for="feature in allFeatures"
                         :key="feature.id"
                         class="place-sidebar__feature-list"
                     >
                         <div class="feature">
                             <div class="feature-name">{{ feature.name }}</div>
-                            <div class="feature-info"><i class="fas fa-check" /></div>
+                            <div
+                                v-if="isActiveFeature(feature.id)"
+                                class="feature-info"
+                            >
+                                <i class="fas fa-check" />
+                            </div>
+                            <div v-else class="feature-info-absent">
+                                <i class="fas fa-times" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,24 +113,44 @@
 <script>
 import moment from 'moment';
 import PlaceMapMarker from './PlaceMapMarker';
+import {mapState, mapActions} from 'vuex';
 
 export default {
     name: 'PlaceSidebarInfo',
     components: {
         PlaceMapMarker
     },
+
+    created() {
+        this.fetchAllFeatures();
+    },
+
     props: {
         place: {
             type: Object,
             required: true
         }
     },
+
+    computed: {
+        ...mapState('features', ['allFeatures'])
+    },
+
     data() {
         return {
             isShowSchedule: false
         };
     },
+
     methods: {
+        ...mapActions('features', ['fetchAllFeatures']),
+
+        isActiveFeature: function (featureId) {
+            return this.place.features.map(
+                (feature) => feature.id
+            ).indexOf(featureId)>=0;
+        },
+    
         isOpen() {
             let today = moment().format('dd').toLowerCase();
             let now = this.getMinutes(moment());
@@ -220,7 +247,18 @@ export default {
                 text-align: right;
                 color: greenyellow;
             }
+
+            .feature-info-absent {
+                flex: 20%;
+                text-align: right;
+                color: indianred;
+                padding-right: 3px;
+            }
         }
+    }
+
+    &__social a {
+        word-wrap: break-word;
     }
 
     &__tags {

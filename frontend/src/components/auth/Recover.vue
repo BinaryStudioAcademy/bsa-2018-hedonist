@@ -61,8 +61,20 @@ export default {
 
         onRecover () {
             if (!this.$v.user.$invalid) {
-                this.recoverPassword(this.user.email);
-                this.refreshInput();
+                this.recoverPassword(this.user.email)
+                    .then(response => {
+                        this.refreshInput();
+                        this.$toast.open({
+                            type: 'is-success',
+                            message: 'We have emailed you password recovery link',
+                        });
+                    })
+                    .catch(error => {
+                        this.$toast.open({
+                            type: 'is-danger',
+                            message: 'Wrong email. Check it, please.',
+                        });
+                    });
             }
         },
 

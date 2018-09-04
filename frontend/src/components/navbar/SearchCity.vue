@@ -3,7 +3,7 @@
         <b-field>
             <b-autocomplete
                 v-model.trim="findCity.query"
-                placeholder="Location"
+                :placeholder="placeholder"
                 :data="findCity.data"
                 :open-on-focus="true"
                 :loading="findCity.isFetching"
@@ -32,6 +32,12 @@ import mapSettingsService from '@/services/map/mapSettingsService';
 import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
     name: 'SearchCity',
+    props: {
+        placeholder: {
+            type: String,
+            default: 'Location'
+        }
+    },
     data() {
         return {
             findCity: {
@@ -54,7 +60,7 @@ export default {
         loadCities: _.debounce(function () {
             this.findCity.data = [];
             this.findCity.isFetching = true;
-            LocationService.getCityList(mapSettingsService.getMapboxToken(), this.findCity.query)
+            LocationService.getCityList(this.findCity.query)
                 .then( res => {
                     this.findCity.data = res;
                     this.findCity.isFetching = false;
