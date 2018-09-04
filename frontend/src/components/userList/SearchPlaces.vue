@@ -146,7 +146,7 @@ export default {
                 this.isPlaceFetching = true;
                 this.fetchPlaces({
                     location: `${this.location.lng},${this.location.lat}`,
-                    searchName: this.searchName
+                    name: this.searchName
                 }).then((res) => {
                     this.displayList = true;
                     this.isPlaceFetching = false;
