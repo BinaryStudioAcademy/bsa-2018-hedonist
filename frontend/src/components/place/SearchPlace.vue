@@ -125,9 +125,10 @@ export default {
             this.markerManager = markerManager.getService(map);
             this.isMapLoaded = true;
         },
-        jumpTo(coordinates) {
+        jumpTo(coordinates, zoom) {
             this.map.jumpTo({
                 center: coordinates,
+                zoom: zoom
             });
         },
         createUserMarker() {
@@ -147,7 +148,12 @@ export default {
         },
         updateMap() {
             if (this.isMapLoaded && this.isPlacesLoaded) {
-                this.markerManager.setMarkersFromPlacesAndFit(...this.places);
+                if (this.places.length > 0) {
+                    this.markerManager.setMarkersFromPlacesAndFit(...this.places);
+                } else if (this.$route.query.location) {
+                    let location = this.$route.query.location;
+                    this.jumpTo(location.split(","), 11);
+                }
             }
         },
         addDrawForMap(map) {
