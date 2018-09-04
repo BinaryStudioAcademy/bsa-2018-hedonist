@@ -151,7 +151,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/user/{id}/unfollow', 'Api\User\UserFollowsController@unfollowUser');
 
         Route::get('/user/{id}/followers', 'Api\User\UserFollowsController@getFollowers');
-        Route::get('/user/{id}/followed', 'Api\User\UserFollowsController@getFollowers@getFollowedUsers');
+        Route::get('/user/{id}/followed', 'Api\User\UserFollowsController@getFollowedUsers');
 
         Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 
