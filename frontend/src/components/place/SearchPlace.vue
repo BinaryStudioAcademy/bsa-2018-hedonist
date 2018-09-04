@@ -103,7 +103,8 @@ export default {
             'updateStateFromQuery',
             'setLoadingState',
             'addSelectedTag',
-            'deleteSelectedTag'
+            'deleteSelectedTag',
+            'updateQueryFilters'
         ]),
 
         mapInitialize(map) {
@@ -202,6 +203,7 @@ export default {
             } else {
                 this.deleteSelectedTag(tagId);
             }
+            this.updateQueryFilters();
         },
     },
     watch: {
