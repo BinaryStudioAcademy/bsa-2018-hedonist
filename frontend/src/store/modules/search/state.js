@@ -24,7 +24,8 @@ export default {
         checkin: false,
         saved: false,
         top_rated: false,
-        top_reviewed: false
+        top_reviewed: false,
+        opened: false
     },
     isLoading: false
 };

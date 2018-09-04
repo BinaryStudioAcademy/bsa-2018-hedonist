@@ -13,6 +13,7 @@ class GetPlaceCollectionByFiltersRequest
     private $topRated;
     private $checkin;
     private $saved;
+    private $opened;
   
     const DEFAULT_PAGE = 1;
 
@@ -25,7 +26,8 @@ class GetPlaceCollectionByFiltersRequest
         ?bool $topReviewed = false,
         ?bool $topRated = false,
         ?bool $checkin = false,
-        ?bool $saved = false
+        ?bool $saved = false,
+        ?bool $opened = false
     ) {
         $this->location = $location;
         $this->category_id = $category_id;
@@ -36,6 +38,7 @@ class GetPlaceCollectionByFiltersRequest
         $this->topRated = $topRated;
         $this->checkin = $checkin;
         $this->saved = $saved;
+        $this->opened = $opened;
     }
 
     public function getCategoryId(): ?int
@@ -71,6 +74,11 @@ class GetPlaceCollectionByFiltersRequest
     public function isSaved(): bool
     {
         return (bool) $this->saved;
+    }
+
+    public function isOpened(): bool
+    {
+        return (bool) $this->opened;
     }
   
     public function getPolygon(): ?string

@@ -61,6 +61,13 @@ export default {
                     isLoading: false,
                     tooltipText: 'Click to see places with at least 10 reviews'
                 },
+                opened:{
+                    id: 5,
+                    name: 'Opened',
+                    check: false,
+                    isLoading: false,
+                    tooltipText: 'Click to see only opened now places'
+                }
             },
         };
     },
