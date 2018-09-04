@@ -587,6 +587,7 @@ import mapSettingsService from '@/services/map/mapSettingsService';
 import SearchCity from '../navbar/SearchCity';
 import { required, minLength, maxLength, numeric, url } from 'vuelidate/lib/validators';
 import phoneValidationService from '@/services/common/phoneValidationService';
+import LocationService from '@/services/location/locationService';
 
 export default {
     name: 'NewPlacePage',
@@ -682,6 +683,17 @@ export default {
     created() {
         this.$store.dispatch('category/fetchAllCategories');
         this.$store.dispatch('features/fetchAllFeatures');
+
+        LocationService.getUserLocationData()
+            .then(coordinates => {
+                let params = coordinates.lng + ',' + coordinates.lat;
+                LocationService.getCityList(params)
+                    .then((res) => {
+                        if (res.length) {
+                            this.newPlace.city = res[0];
+                        }
+                    });
+            });
     },
 
     watch: {
