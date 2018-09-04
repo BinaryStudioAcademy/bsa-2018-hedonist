@@ -16,6 +16,7 @@ import Echo from 'laravel-echo';
 import translationEn from './localization/en.json';
 import translationsUa from './localization/ua.json';
 import translationsRu from './localization/ru.json';
+import storageService from './services/common/storageService';
 
 Vue.use(Buefy);
 Vue.use(Vuelidate);
@@ -44,7 +45,12 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.PUSHER_APP_KEY,
     cluster: process.env.PUSHER_APP_CLUSTER,
-    namespace: 'Hedonist.Events',
+    namespace: 'Hedonist',
+    auth: {
+        headers: {
+            Authorization: 'Bearer ' + storageService.getToken(),
+        },
+    },
     encrypted: true
 });
 

@@ -35,6 +35,6 @@ class LikeAddEvent implements ShouldBroadcast
     {
         $reviewId = $this->review->id;
         $likeUserId = $this->userId;
-        return ['message' => "User #{$likeUserId} like your review id {$reviewId}"];
+        return ['message' => "User #{$likeUserId} liked your review id {$reviewId}"];
     }
 }

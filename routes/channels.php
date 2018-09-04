@@ -14,5 +14,9 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+    return true; //(int) $user->id === (int) $id;
 });
+
+//Broadcast::PrivateChannel('Entities.User.User.{id}', function ($user, $id) {
+//    return true; //(int) $user->id === (int) $id;
+//});
