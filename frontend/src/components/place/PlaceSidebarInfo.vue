@@ -70,7 +70,7 @@
                         <div class="feature">
                             <div class="feature-name">{{ feature.name }}</div>
                             <div
-                                v-if="place.features.map((el) => el.name).indexOf(feature.name)>=0"
+                                v-if="isActiveFeature(feature.id)"
                                 class="feature-info"
                             >
                                 <i class="fas fa-check" />
@@ -109,11 +109,17 @@ export default {
     },
 
     computed: {
-        ...mapState('features', ['allFeatures']),
+        ...mapState('features', ['allFeatures'])
     },
 
     methods: {
         ...mapActions('features', ['fetchAllFeatures']),
+
+        isActiveFeature: function (featureId) {
+            return this.place.features.map(
+                (feature) => feature.id
+            ).indexOf(featureId)>=0;
+        }
     }
 };
 </script>
