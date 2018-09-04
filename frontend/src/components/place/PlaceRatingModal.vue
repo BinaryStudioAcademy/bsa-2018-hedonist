@@ -44,9 +44,9 @@ export default {
 
             icons: [
                 'fa-angry',
-                'fa-meh-rolling-eyes',
-                'fa-meh',
-                'fa-smile',
+                'fa-circle',
+                'fa-circle',
+                'fa-circle',
                 'fa-laugh-beam'
             ]
         };
@@ -122,23 +122,11 @@ export default {
         width: 280px;
 
         .smileys {
-            display: inline-block;
-
-            i {
-                margin-right: 5px;
-
-                &:last-child {
-                    margin-right: 0;
-                }
-            }
+            display: flex;
         }
 
         .rating {
             align-self: center;
         }
-    }
-
-    .chosenRating {
-        background-color: yellow;
     }
 </style>
