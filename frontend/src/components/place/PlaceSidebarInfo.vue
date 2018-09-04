@@ -108,12 +108,12 @@
             </template>
             <template v-if="recommendedPlaces.length">
                 <h2 class="block-title">You will also like</h2>
-                <template v-for="(place, index) in recommendedPlaces">
+                <template v-for="(recommendedPlace, index) in recommendedPlaces">
                     <PlacePreview
-                            v-if="!isLoading"
-                            :key="place.id"
-                            :place="place"
-                            :timer="50 * (index+1)"
+                        v-if="!isLoading"
+                        :key="recommendedPlace.id"
+                        :place="recommendedPlace"
+                        :timer="50 * (index+1)"
                     />
                 </template>
             </template>
@@ -140,10 +140,6 @@ export default {
             .then((res) => {
                 this.isLoading = false;
                 this.recommendedPlaces = res;
-
-            })
-            .catch((err) => {
-
             });
     },
 
@@ -256,13 +252,6 @@ export default {
     }
     
     &__features {
-        /*.feature-title {*/
-            /*font-weight: bold;*/
-            /*padding: 20px;*/
-            /*background-color: #f7f7fa;*/
-            /*border-bottom: 1px solid #efeff4;*/
-            /*border-top: 1px solid #efeff4;*/
-        /*}*/
 
         .feature {
             display: flex;
