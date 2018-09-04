@@ -180,7 +180,7 @@ export default {
                 });
         },
         loadMore: function () {
-            if (!this.isLoading) {
+            if (this.isMapLoaded && !this.isLoading) {
                 let query = this.getQuery();
                 this.scrollBusy = true;
                 this.currentPage++;
