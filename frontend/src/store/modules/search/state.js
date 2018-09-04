@@ -26,6 +26,5 @@ export default {
         top_rated: false,
         top_reviewed: false
     },
-    isLoading: false,
-    isPlacesLoaded: false
+    isLoading: false
 };
