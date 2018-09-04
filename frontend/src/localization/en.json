@@ -74,7 +74,7 @@
     "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page."
   },
   "my-lists_page": {
-    "no-lists": "You do not have a list of places yet. You can add places to a list and group the selected places"
+    "no-lists": "You have not got any place lists yet. You may add some and grouped your chosen places."
   },
   "add_place_page": {
     "tabs": {
@@ -157,5 +157,21 @@
     "fr": "Friday",
     "sa": "Saturday",
     "su": "Sunday"
+  },
+  "place_page": {
+    "sidebar": {
+      "schedule": "Schedule",
+      "open": "Open now",
+      "close": "Close",
+      "days": {
+        "mo": "Monday",
+        "tu": "Tuesday",
+        "we": "Wednesday",
+        "th": "Thursday",
+        "fr": "Friday",
+        "sa": "Saturday",
+        "su": "Sunday"
+      }
+    }
   }
 }

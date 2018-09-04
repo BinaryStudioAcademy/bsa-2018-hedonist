@@ -87,7 +87,7 @@ class PlaceControllerTest extends ApiTestCase
                 'localization' => json_encode([
                     'en' => [
                         'name'        => 'Test',
-                        'description' => 'Test description'
+                        'description' => 'Test description....'
                     ]
                 ]),
                 'category_id'  => $this->place->category->id,

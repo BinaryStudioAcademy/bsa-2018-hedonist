@@ -1,5 +1,6 @@
 <template>
     <section class="columns">
+        <Preloader :active="isLoading" />
         <section class="column is-half">
             <SearchFilterPlace :is-places-loaded="isPlacesLoaded" />
             <CategoryTagsContainer
@@ -62,6 +63,7 @@ import placeholderImg from '@/assets/placeholder_128x128.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
 import infiniteScroll from 'vue-infinite-scroll';
 import CategoryTagsContainer from './CategoryTagsContainer';
+import Preloader from '@/components/misc/Preloader';
 
 export default {
     name: 'SearchPlace',
@@ -78,7 +80,6 @@ export default {
         return {
             filterQuery: '',
             isMapLoaded: false,
-            isPlacesLoaded: false,
             map: {},
             markerManager: null,
             mapboxToken: mapSettingsService.getMapboxToken(),
@@ -91,20 +92,17 @@ export default {
     created() {
         this.$store.dispatch('search/updateStateFromQuery', this.$route.query)
             .then(() => {
-                this.$store.dispatch('search/updateQueryFilters')
-                    .then(() => {
-                        this.$store.dispatch('place/fetchPlaces', this.$route.query)
-                            .then(() => {
-                                this.isPlacesLoaded = true;
-                            });
-                    });
+                this.$store.dispatch('search/updateQueryFilters');
             });
     },
     methods: {
-        ...mapActions('search', ['setCurrentPosition', 'mapInitialization', 'updateStateFromQuery']),
-        ...mapMutations('search', {
-            setLoadingState: 'SET_LOADING_STATE'
-        }),
+        ...mapActions('search', [
+            'setCurrentPosition',
+            'mapInitialization',
+            'updateStateFromQuery',
+            'setIsPlacesLoaded',
+            'setLoadingState'
+        ]),
 
         mapInitialize(map) {
             if (this.mapInitialized) {
@@ -174,10 +172,10 @@ export default {
         },
         updateSearchArea() {
             let query = this.getQuery();
-            this.isPlacesLoaded = false;
+            this.setIsPlacesLoaded(false);
             this.$store.dispatch('place/fetchPlaces', query)
                 .then(() => {
-                    this.isPlacesLoaded = true;
+                    this.setIsPlacesLoaded(true);
                     this.draw.deleteAll();
                 });
         },
@@ -210,23 +208,15 @@ export default {
             if (this.isPlacesLoaded) {
                 this.updateMap();
             }
-        },
-        '$route' (to, from) {
-            this.isPlacesLoaded = false;
-
-            this.$store.dispatch('place/fetchPlaces', to.query)
-                .then(() => {
-                    this.isPlacesLoaded = true;
-                    this.setLoadingState(false);
-                    this.currentPage = 1;
-                });
         }
     },
     computed: {
         ...mapState('place', ['places']),
         ...mapState('search', [
             'currentPosition',
-            'mapInitialized'
+            'mapInitialized',
+            'isPlacesLoaded',
+            'isLoading'
         ]),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters({
