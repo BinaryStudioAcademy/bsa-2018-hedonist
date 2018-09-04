@@ -11,7 +11,7 @@ class Location
     const MAX_LATITUDE = 90;
 
     const EARTH_RADIUS_IN_KM = 6371;
-    const RADIUS = 5;
+    const GEOLOCATION_RADIUS = 5;
 
     const FROM_STRING_PATTERN = '/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/';
 
