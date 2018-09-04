@@ -1,13 +1,14 @@
 <template>
     <div class="section">
+        <Preloader :active="isLoading" />
         <div class="container main-wrp">
 
             <b-tabs v-model="activeTab" position="is-centered" class="block">
                 <b-tab-item :label="$t('add_place_page.tabs.general.label')" :disabled="activeTab !== 0">
                     <div class="field is-horizontal">
                         <div class="field-label is-medium">
-                            <label v-if="!$v.newPlace.localization.en.name.$error" class="label">{{ $t('add_place_page.tabs.general.labels.name') }}</label>
-                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.name') }}</label>
+                            <label v-if="!$v.newPlace.localization.en.name.$error" class="label">{{ $t('add_place_page.tabs.general.labels.name') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.name') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -36,8 +37,8 @@
 
                     <div class="field is-horizontal place-location">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.city.$error" class="label">{{ $t('add_place_page.tabs.general.labels.city') }}</label>
-                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.city') }}</label>
+                            <label v-if="!$v.newPlace.city.$error" class="label">{{ $t('add_place_page.tabs.general.labels.city') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.city') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -50,8 +51,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.zip.$error" class="label">{{ $t('add_place_page.tabs.general.labels.zip') }}</label>
-                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.zip') }}</label>
+                            <label v-if="!$v.newPlace.zip.$error" class="label">{{ $t('add_place_page.tabs.general.labels.zip') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.zip') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -76,8 +77,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.address.$error" class="label">{{ $t('add_place_page.tabs.general.labels.address') }}</label>
-                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.address') }}</label>
+                            <label v-if="!$v.newPlace.address.$error" class="label">{{ $t('add_place_page.tabs.general.labels.address') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.address') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -101,8 +102,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.phone.$error && !phoneInvalid" class="label">{{ $t('add_place_page.tabs.general.labels.phone') }}</label>
-                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.phone') }}</label>
+                            <label v-if="!$v.newPlace.phone.$error && !phoneInvalid" class="label">{{ $t('add_place_page.tabs.general.labels.phone') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.phone') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -171,8 +172,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.website.$error" class="label">{{ $t('add_place_page.tabs.general.labels.website') }}</label>
-                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.website') }}</label>
+                            <label v-if="!$v.newPlace.website.$error" class="label">{{ $t('add_place_page.tabs.general.labels.website') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.website') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -214,8 +215,8 @@
 
                     <div class="field is-horizontal">
                         <div class="field-label is-normal">
-                            <label v-if="!$v.newPlace.localization.en.description.$error" class="label">{{ $t('add_place_page.tabs.general.labels.description') }}</label>
-                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.description') }}</label>
+                            <label v-if="!$v.newPlace.localization.en.description.$error" class="label">{{ $t('add_place_page.tabs.general.labels.description') }}*</label>
+                            <label v-else class="label error">{{ $t('add_place_page.tabs.general.labels.description') }}*</label>
                         </div>
                         <div class="field-body">
                             <div class="field">
@@ -585,14 +586,17 @@ import moment from 'moment';
 import Mapbox from 'mapbox-gl-vue';
 import mapSettingsService from '@/services/map/mapSettingsService';
 import SearchCity from '../navbar/SearchCity';
+import Preloader from '@/components/misc/Preloader';
 import { required, minLength, maxLength, numeric, url } from 'vuelidate/lib/validators';
 import phoneValidationService from '@/services/common/phoneValidationService';
+import LocationService from '@/services/location/locationService';
 
 export default {
     name: 'NewPlacePage',
     components: {
         Mapbox,
-        SearchCity
+        SearchCity,
+        Preloader
     },
 
     data() {
@@ -655,6 +659,7 @@ export default {
                 },
                 workWeekend: 1
             },
+            isLoading: false,
             phoneInvalid: false,
             selectedTag: '',
             weekdays: [],
@@ -682,6 +687,17 @@ export default {
     created() {
         this.$store.dispatch('category/fetchAllCategories');
         this.$store.dispatch('features/fetchAllFeatures');
+
+        LocationService.getUserLocationData()
+            .then(coordinates => {
+                let params = coordinates.lng + ',' + coordinates.lat;
+                LocationService.getCityList(params)
+                    .then((res) => {
+                        if (res.length) {
+                            this.newPlace.city = res[0];
+                        }
+                    });
+            });
     },
 
     watch: {
@@ -845,16 +861,14 @@ export default {
 
         onAdd() {
             this.checkWorkTime();
+            this.isLoading = true;
             this.$store.dispatch('place/addNewPlace', {
                 user: this.user,
                 place: this.newPlace
             }).then((result) => {
-                this.$toast.open({
-                    type: 'is-success',
-                    message: this.$t('add_place_page.toast.added')
-                });
                 this.$router.push(`/places/${result.id}`);
             }).catch(() => {
+                this.isLoading = false;
                 this.$toast.open({
                     type: 'is-danger',
                     message: this.$t('add_place_page.toast.error')
