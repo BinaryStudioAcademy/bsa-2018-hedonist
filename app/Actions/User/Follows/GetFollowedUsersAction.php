@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\User\Follows;
 
-
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
