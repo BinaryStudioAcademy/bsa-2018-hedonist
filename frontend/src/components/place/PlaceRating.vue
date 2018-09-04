@@ -71,11 +71,11 @@ export default {
 
     .rating {
         border-radius: 7px;
-        line-height: 48px;
-        font-size: 1.5rem;
+        line-height: 32px;
+        font-size: 1rem;
         color: #FFF;
         text-align: center;
-        padding: 0 10px;
+        padding: 0 5px;
 
         &-bad {
             background-color: #FC8D9F;
