@@ -147,6 +147,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/users/me/checkins', 'Api\Place\PlaceCheckinController@getUserCheckInCollection')
             ->name('user.me.getUserCheckins');
 
+        Route::post('/user/{id}/follow');
+        Route::post('/user/{id}/unfollow');
+
+        Route::get('/user/{id}/followers');
+        Route::get('/user/{id}/followed');
+
         Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 
         Route::resource('/places/categories', 'Api\Place\PlaceCategoryController')->except([
