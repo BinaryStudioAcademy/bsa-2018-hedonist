@@ -2,9 +2,11 @@
 
 namespace Hedonist\Actions\User\Follows;
 
+use Hedonist\Events\Follows\UserFollowed;
 use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 
 class FollowUserAction
 {
@@ -22,5 +24,6 @@ class FollowUserAction
             throw new UserNotFoundException();
         }
         $this->repository->followUser($followed, Auth::user());
+        Event::dispatch(new UserFollowed($followed, Auth::user()));
     }
 }
