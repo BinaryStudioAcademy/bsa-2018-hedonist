@@ -1,8 +1,9 @@
 .mapboxgl-popup-content {
-  padding: 5px;
-  max-width: 150px;
   .small-marker-wrapper {
+    margin: 0;
+    max-width: 200px;
     text-align: center;
+
     div {
       font-size: 10px;
       line-height: normal;
