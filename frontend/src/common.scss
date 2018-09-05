@@ -1,0 +1,11 @@
+.mapboxgl-popup-content {
+  padding: 5px;
+  max-width: 150px;
+  .small-marker-wrapper {
+    text-align: center;
+    div {
+      font-size: 10px;
+      line-height: normal;
+    }
+  }
+}
