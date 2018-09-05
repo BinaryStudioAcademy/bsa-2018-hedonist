@@ -39,4 +39,6 @@ interface UserRepositoryInterface extends RepositoryInterface
     public function findByCriterias(CriteriaInterface ...$criterias): Collection;
 
     public function unfollowUser(User $followed, User $follower): void;
+
+    public function checkUserCanFollow(User $followed, User $follower);
 }

@@ -148,7 +148,7 @@
                     followedId: this.userProfile.id,
                     followerId: this.getAuthenticatedUser.id
                 };
-                if(!payload.followed){
+                if(!payload.currentStatus){
                     this.followUser(newPayload);
                 } else {
                     this.unfollowUser(newPayload);

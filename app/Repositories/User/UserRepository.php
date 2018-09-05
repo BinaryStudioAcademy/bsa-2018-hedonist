@@ -112,4 +112,9 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
         return $result;
     }
+
+    public function checkUserCanFollow(User $followed, User $follower)
+    {
+         return !$followed->followers()->where('follower_id', $follower->id)->exists();
+    }
 }

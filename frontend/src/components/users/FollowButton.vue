@@ -1,5 +1,5 @@
 <template>
-    <div class="btn-follow" @click="emit('followed',{...callbackPayload, currentStatus: followed})">
+    <div class="btn-follow" @click="buttonPressed">
         <a class="button" :class="getClass">
                             <span class="icon is-small">
                                 <template v-if="isLoading">
@@ -49,7 +49,11 @@
                 return this.followed ? ['fas', 'fa-check-circle'] : ['fas', 'fa-plus-circle'];
             }
         },
-        methods: {}
+        methods: {
+            buttonPressed() {
+                this.$emit('followed', {...this.callbackPayload, currentStatus: this.followed});
+            }
+        }
     }
 </script>
 
