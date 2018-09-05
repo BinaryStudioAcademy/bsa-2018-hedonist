@@ -71,6 +71,7 @@ export default {
                 let polygon = '';
                 if (!_.isEmpty(this.selectCity)) {
                     polygon = this.createPolygonByBBox(this.selectCity.bbox);
+                    console.log(polygon);
                 }
                 this.loadPlaces({name: this.findItems.query, polygon: polygon})
                     .then( res => {
@@ -99,25 +100,12 @@ export default {
                 });
         },
         createPolygonByBBox(bbox) {
-            let x1, y1, x2, y2, xc, yc, xd, yd, x3, y3, x4, y4;
+            const x1 = bbox[0];
+            const y1 = bbox[1];
+            const x2 = bbox[2];
+            const y2 = bbox[3];
 
-            x1 = bbox[0];
-            y1 = bbox[1];
-            x2 = bbox[2];
-            y2 = bbox[3];
-
-            xc = (x1 + x2)/2; // center
-            yc = (y1 + y2)/2; // center
-
-            xd = (x1 - x2)/2; // half diagonal
-            yd = (y1 - y2)/2; // half diagonal
-
-            x3 = xc - yd;
-            y3 = yc + xd;
-            x4 = xc + yd;
-            y4 = yc - xd;
-
-            return x1 + ',' + y1 + ';' + x3 + ',' + y3 + ';' + x2 + ',' + y2 + ';' + x4 + ',' + y4 + ';' + x1 + ',' + y1;
+            return x1 + ',' + y1 + ';' + x2 + ',' + y1 + ';' + x2 + ',' + y2 + ';' + x1 + ',' + y2 + ';' + x1 + ',' + y1;
         }
     },
     created() {
