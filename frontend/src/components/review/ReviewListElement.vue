@@ -4,19 +4,23 @@
             <div class="review">
                 <article class="media">
                     <figure class="media-left">
-                        <p class="image is-32x32">
-                            <img v-if="review.user.avatar_url" :src="review.user.avatar_url">
-                            <img
-                                v-else
-                                src="/assets/add_review_default_avatar.png"
-                                height="32"
-                                width="32"
-                            >
-                        </p>
+                        <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
+                            <p class="image is-32x32">
+                                <img v-if="review.user.avatar_url" :src="review.user.avatar_url">
+                                <img
+                                    v-else
+                                    src="/assets/add_review_default_avatar.png"
+                                    height="32"
+                                    width="32"
+                                >
+                            </p>
+                        </router-link>
                     </figure>
                     <div class="media-content">
                         <div class="top-line">
-                            <strong><a>{{ userName }}</a></strong>
+                            <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
+                                <strong>{{ userName }}</strong>
+                            </router-link>
                             <small>{{ date }}</small>
                         </div>
                         <div class="content">
