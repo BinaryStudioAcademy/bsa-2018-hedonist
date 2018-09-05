@@ -2,6 +2,8 @@
 
 namespace Hedonist\Repositories\UserList;
 
+use Hedonist\Entities\UserList\FavouriteList;
+use Illuminate\Support\Facades\Auth;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 use Prettus\Repository\Contracts\CriteriaInterface;
@@ -21,6 +23,11 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
     public function getById(int $id): ?UserList
     {
         return UserList::find($id);
+    }
+
+    public function getFavouriteList(): ?FavouriteList
+    {
+        return FavouriteList::where('user_id', Auth::id())->first();
     }
 
     public function findUserLists(int $userId): Collection
@@ -59,6 +66,11 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
     }
 
     public function attachPlace(UserList $list, Place $place): void
+    {
+        $list->places()->attach($place->id);
+    }
+
+    public function attachPlaceToFavourite(FavouriteList $list, Place $place): void
     {
         $list->places()->attach($place->id);
     }
