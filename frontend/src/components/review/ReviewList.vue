@@ -204,6 +204,16 @@ export default {
 
             this.visibleReviewsIds.unshift(payload.review.id);
         });
+
+        Echo.private(`reviews`).listen(
+            '.attitude.set',
+            payload => {
+                this.$store.dispatch('review/handleAttitude', {
+                    reviewId: payload.reviewId,
+                    attitudeType: payload.attitudeType
+                });
+            }
+        );
     }
 };
 

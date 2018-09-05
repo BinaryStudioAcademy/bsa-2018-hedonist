@@ -274,4 +274,33 @@ export default {
                 });
         });
     },
+
+    handleAttitude: (context, data) => {
+        const review = context.state.reviews.byId[data.reviewId];
+        let count = null;
+        
+        if (data.attitudeType == 'likeAdded' || data.attitudeType == 'likeRemoved') {
+            if (data.attitudeType == 'likeAdded') {       
+                count = review.likes + 1;
+            } else {
+                count = review.likes - 1;
+            }
+
+            context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
+                reviewId: data.reviewId,
+                count: count
+            });
+        } else {
+            if (data.attitudeType == 'dislikeAdded') {
+                count = review.dislikes + 1;
+            } else {
+                count = review.dislikes - 1;
+            }
+
+            context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
+                reviewId: data.reviewId,
+                count: count
+            });
+        }
+    },
 };
