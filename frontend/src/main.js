@@ -11,12 +11,10 @@ import VueScrollTo from 'vue-scrollto';
 import Tooltip from 'vue-directive-tooltip';
 import vuexI18n from 'vuex-i18n';
 import { enableSentryErrorReporting } from './services/common/errorReportingService';
-import Echo from 'laravel-echo';
 
 import translationEn from './localization/en.json';
 import translationsUa from './localization/ua.json';
 import translationsRu from './localization/ru.json';
-import storageService from './services/common/storageService';
 
 Vue.use(Buefy);
 Vue.use(Vuelidate);
@@ -39,22 +37,6 @@ Vue.config.productionTip = false;
 if (process.env.NODE_ENV === 'production') {
     enableSentryErrorReporting(Vue);
 }
-
-window.Pusher = require('pusher-js');
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.PUSHER_APP_KEY,
-    cluster: process.env.PUSHER_APP_CLUSTER,
-    namespace: 'Hedonist.Events',
-    auth: {
-        headers: {
-            Authorization: 'Bearer ' + storageService.getToken(),
-        },
-    },
-    encrypted: true
-});
-
-Pusher.log = (m) => console.log(m);
 
 /* eslint-disable no-new */
 new Vue({

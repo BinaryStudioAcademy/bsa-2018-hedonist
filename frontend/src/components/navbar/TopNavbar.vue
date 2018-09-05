@@ -60,7 +60,11 @@
                                         v-for="(notification, index) in notifications"
                                         :key="index"
                                     >
-                                        {{ notification }}
+                                        <component
+                                            :is="notificationComponent(notification)"
+                                            :notification="notification.subject"
+                                            :user="getUser(notification['subject_user'].id)"
+                                        />
                                     </li>
                                 </ul>
                                 <div v-else class="notifications__none">
@@ -123,9 +127,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
 import LanguageSelector from './LanguageSelector';
+import LikeReviewNotification from '@/components/notifications/LikeReviewNotification';
+import UnknownNotification from '@/components/notifications/LikeReviewNotification';
 
 export default {
     name: 'TopNavbar',
@@ -134,31 +140,36 @@ export default {
             navIsActive: false,
             isNewNotifications: false,
             notificationsDisplay: false,
-            notifications: []
+            notifications: [],
         };
     },
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
-            user: 'auth/getAuthenticatedUser'
+            user: 'auth/getAuthenticatedUser',
+            getUser: 'users/getById'
         }),
         notificationIconActiveClass() {
             return this.isNewNotifications
                 ? 'notification-icon--active'
                 : null;
-        }
+        },
     },
     watch: {
         'user': function() {
             if (this.user.id) {
-                window.Echo.channel(`App.User.${this.user.id}`)
-                    .listen('Review.LikeAddEvent', (payload) => {
-                        console.log(payload.message);
+                Echo.private(`App.User.${this.user.id}`)
+                    .notification(({ notification, user, type }) => {
                         if (!this.notificationsDisplay) {
                             this.isNewNotifications = true;
                         }
 
-                        this.notifications.push(payload.message);
+                        this.addUser(user);
+                        this.addUser(notification['subject_user']);
+                        this.notifications.push({
+                            ...notification,
+                            type: type
+                        });
                     });
             }
         }
@@ -166,6 +177,9 @@ export default {
     methods: {
         ...mapActions({
             logout: 'auth/logout'
+        }),
+        ...mapMutations('users', {
+            addUser: 'ADD_USER',
         }),
         onLogOut () {
             this.logout()
@@ -182,25 +196,30 @@ export default {
         },
         hideNotifications() {
             this.notificationsDisplay = false;
+        },
+        notificationComponent: function(notification) {
+            switch (notification.type) {
+                case 'Hedonist\\Notifications\\LikeReviewNotification':
+                    return 'LikeReviewNotification';
+                default:
+                    return 'UnknownNotification';
+            }
         }
     },
     components: {
         NavbarSearchPanel,
-        LanguageSelector
-    },
-    created() {
-        // window.Echo.private(`Entities.User.User.1`)
-        //     .notification((notification) => {
-        //         console.log(notification);
-        //     });
-        window.Echo.channel('my-channel').listen('.my-event', (payload) => {
-            console.log(payload);
-        });
+        LanguageSelector,
+        LikeReviewNotification,
+        UnknownNotification
     },
 };
 </script>
 
 <style lang="scss" scoped>
+    $blue: #167df0;
+    $grey: #c5c5c5;
+    $dark-grey: #4a4a4a;
+
     .notification-icon {
         position: relative;
 
@@ -222,22 +241,20 @@ export default {
 
         &__wrapper {
             position: absolute;
+            color: $dark-grey;
             top: 38px;
             right: 0;
-            color: black;
-            border: 1px solid black;
-            border-top: none;
-            border-bottom-left-radius: 5px;
-            border-bottom-right-radius: 5px;
+            border-radius: 5px;
             background-color: #fff;
             width: 300px;
             max-height: 150px;
             overflow-x: hidden;
             overflow-y: auto;
+            box-shadow: 6px 20px 40px $blue;
         }
 
         &__item {
-            border-bottom: 1px solid black;
+            border-bottom: $grey 1px solid;
             padding: 10px;
             word-break: break-word;
             cursor: pointer;
