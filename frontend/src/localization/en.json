@@ -177,6 +177,13 @@
       "schedule": "Schedule",
       "open": "Open now",
       "close": "Close"
+    },
+    "button": {
+      "save": "Save"
+    },
+    "message": {
+      "no-lists": "You have not got any place lists yet.",
+      "added-to-list": "Place added to the list!"
     }
   }
 }
