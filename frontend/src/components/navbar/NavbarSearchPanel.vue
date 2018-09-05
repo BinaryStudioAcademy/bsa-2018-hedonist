@@ -51,10 +51,7 @@ export default {
             updateQueryFilters: 'search/updateQueryFilters',
             selectSearchCategory: 'search/selectSearchCategory',
             setCategoryTags: 'category/fetchCategoryTags',
-            selectSearchPlace: 'search/selectSearchPlace',
-        }),
-        ...mapMutations('search', {
-            setLoadingState: 'SET_LOADING_STATE',
+            selectSearchPlace: 'search/selectSearchPlace'
         }),
         selectCity(city){
             this.location = city ? city : {};
@@ -63,7 +60,6 @@ export default {
             this.category = category ? category : {};
         },
         search() {
-            this.setLoadingState(true);
             if(!_.isEmpty(this.location)) {
                 this.selectSearchCity(this.location);
             }
@@ -73,7 +69,6 @@ export default {
                 this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.$refs.autocomplete.value);
             }
             this.updateQueryFilters();
-            this.setLoadingState(false);
         },
         onSelect(query) {
             this.selectCategory(query);
