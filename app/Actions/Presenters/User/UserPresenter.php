@@ -2,10 +2,13 @@
 
 namespace Hedonist\Actions\Presenters\User;
 
+use Hedonist\Actions\Presenters\PresentsCollection;
 use Illuminate\Foundation\Auth\User;
 
 class UserPresenter
 {
+    use PresentsCollection;
+
     private $userInfoPresenter;
 
     public function __construct(UserInfoPresenter $presenter)

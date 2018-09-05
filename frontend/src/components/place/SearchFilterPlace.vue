@@ -61,6 +61,13 @@ export default {
                     isLoading: false,
                     tooltipText: 'Click to see places with at least 10 reviews'
                 },
+                recommended:{
+                    id: 5,
+                    name: 'Recommended',
+                    check: false,
+                    isLoading: false,
+                    tooltipText: 'Click to see recommended places for you'
+                },
             },
         };
     },

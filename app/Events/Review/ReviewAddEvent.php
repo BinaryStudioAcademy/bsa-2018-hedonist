@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Events;
+namespace Hedonist\Events\Review;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -37,7 +37,6 @@ class ReviewAddEvent implements ShouldBroadcast
                 'description' => $this->review->description,
                 'created_at'  => $this->review->created_at->format('Y-m-d H:i:s'),
                 'updated_at'  => $this->review->updated_at->format('Y-m-d H:i:s'),
-                'photos'      => $this->review->photos,
             ],
             'user' => [
                 'data' => [
