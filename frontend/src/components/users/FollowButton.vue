@@ -3,11 +3,7 @@
         <a class="button" :class="getClass">
                             <span class="icon is-small">
                                 <template v-if="isLoading">
-                                    <b-loading
-                                            :is-full-page="false"
-                                            :active.sync="isLoading"
-                                    >
-                                    </b-loading>
+                                    <span class = 'loader'></span>
                                 </template>
                                 <template v-else>
                                     <i :class="getIconClass"></i>
@@ -64,5 +60,22 @@
         a {
             width: 250px;
         }
+    }
+    .loader {
+        border: 2px solid #d3d3d3;
+        border-top: 2px solid #636b6f;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        background: transparent;
+        animation: spin 1s linear infinite;
+    }
+    .icon {
+        margin-right:3px;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 </style>
