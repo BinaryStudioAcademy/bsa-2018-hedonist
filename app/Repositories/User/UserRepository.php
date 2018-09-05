@@ -104,7 +104,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function findByCriterias(CriteriaInterface ...$criterias): Collection
     {
-        foreach ($criterias as $criteria){
+        foreach ($criterias as $criteria) {
             $this->pushCriteria($criteria);
         }
         $result = $this->all();
@@ -115,6 +115,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     public function checkUserCanFollow(User $followed, User $follower)
     {
-         return !$followed->followers()->where('follower_id', $follower->id)->exists();
+        return !$followed->followers()->where('follower_id', $follower->id)->exists();
     }
 }

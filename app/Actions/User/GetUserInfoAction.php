@@ -2,11 +2,9 @@
 
 namespace Hedonist\Actions\User;
 
-use Hedonist\Entities\User\UserInfo;
 use Hedonist\Repositories\User\Criterias\GetUsersByIdCriteria;
 use Hedonist\Repositories\User\Criterias\WithFollowedAndFollowersCriteria;
 use Hedonist\Repositories\User\UserRepositoryInterface;
-
 
 class GetUserInfoAction
 {

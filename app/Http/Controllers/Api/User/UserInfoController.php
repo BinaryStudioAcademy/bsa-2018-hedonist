@@ -24,13 +24,14 @@ class UserInfoController extends ApiController
         SaveUserInfoAction $saveUserInfoAction,
         GetUserInfoAction $getUserInfoAction,
         DeleteAvatarAction $deleteAvatarAction
-    ) {
+    )
+    {
         $this->saveUserInfoAction = $saveUserInfoAction;
         $this->getUserInfoAction = $getUserInfoAction;
         $this->deleteAvatarAction = $deleteAvatarAction;
     }
 
-    public function show(int $userId,GetUserInfoPresenter $presenter): JsonResponse
+    public function show(int $userId, GetUserInfoPresenter $presenter): JsonResponse
     {
         try {
             $response = $this->getUserInfoAction->execute(
