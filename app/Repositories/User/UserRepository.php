@@ -101,4 +101,15 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         $followed->followers()->detach($follower);
     }
+
+    public function findByCriterias(CriteriaInterface ...$criterias): Collection
+    {
+        foreach ($criterias as $criteria){
+            $this->pushCriteria($criteria);
+        }
+        $result = $this->all();
+        $this->resetCriteria();
+
+        return $result;
+    }
 }

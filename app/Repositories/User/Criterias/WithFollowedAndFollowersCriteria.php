@@ -5,11 +5,13 @@ namespace Hedonist\Repositories\User\Criterias;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
+use Prettus\Repository\Contracts\CriteriaInterface;
+use Prettus\Repository\Contracts\RepositoryInterface;
 
-class WithFollowedAndFollowersCriteria implements Scope
+class WithFollowedAndFollowersCriteria implements CriteriaInterface
 {
-    public function apply(Builder $builder, Model $model)
+    public function apply($model, RepositoryInterface $repository)
     {
-        return $builder->with(['followers','followedUsers']);
+        return $model->with(['followers','followedUsers']);
     }
 }

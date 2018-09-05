@@ -5,6 +5,7 @@ namespace Hedonist\Http\Controllers\Api\User;
 use Hedonist\Actions\User\DeleteAvatarAction;
 use Hedonist\Actions\User\DeleteAvatarRequest;
 use Hedonist\Actions\User\GetUserInfoAction;
+use Hedonist\Actions\User\GetUserInfoPresenter;
 use Hedonist\Actions\User\GetUserInfoRequest;
 use Hedonist\Actions\User\SaveUserInfoAction;
 use Hedonist\Actions\User\SaveUserInfoRequest;
@@ -29,7 +30,7 @@ class UserInfoController extends ApiController
         $this->deleteAvatarAction = $deleteAvatarAction;
     }
 
-    public function show(int $userId): JsonResponse
+    public function show(int $userId,GetUserInfoPresenter $presenter): JsonResponse
     {
         try {
             $response = $this->getUserInfoAction->execute(
@@ -39,17 +40,7 @@ class UserInfoController extends ApiController
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
-        return $this->successResponse([
-            'user_id' => $response->getUserId(),
-            'first_name' => $response->getFirstName(),
-            'last_name' => $response->getLastName(),
-            'date_of_birth' => $response->getDateOfBirth(),
-            'phone_number' => $response->getPhoneNumber(),
-            'avatar_url' => $response->getAvatarUrl(),
-            'facebook_url' => $response->getFacebookUrl(),
-            'instagram_url' => $response->getInstagramUrl(),
-            'twitter_url' => $response->getTwitterUrl(),
-        ]);
+        return $this->successResponse($presenter->present($response));
     }
 
     public function update(UserInfoHttpRequest $httpRequest, int $userId): JsonResponse
