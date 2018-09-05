@@ -4,9 +4,17 @@
             <i class="far fa-save" />Save
             <b-icon icon="menu-down" />
         </button>
-        <template v-for="list in lists">
-            <b-dropdown-item :key="list.id" @click="addToList(list)">
-                {{ list.name }}
+        <template>
+            <b-dropdown-item v-if="!favouriteExist" @click="addToFavouriteList">
+                {{ $t('place_page.top_info.favourite') }}
+            </b-dropdown-item>
+            <b-dropdown-item v-for="list in lists" :key="list.id" @click="addToList(list)">
+                <span v-if="list.name === 'Favourite' && list.is_default">
+                    {{ $t('place_page.top_info.favourite') }}
+                </span>
+                <span v-else>
+                    {{ list.name }}
+                </span>
                 <i
                     class="fas fa-check checkmark has-text-success"
                     v-if="checkedIn(list.places)"
@@ -18,7 +26,7 @@
 
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapActions, mapState} from 'vuex';
 
 export default {
     name: 'TopInfoUserListItem',
@@ -34,13 +42,32 @@ export default {
     },
     computed: {
         ...mapGetters('auth', ['getAuthenticatedUser']),
+        ...mapState('userList', ['favouriteExist'])
     },
     methods: {
-        ...mapActions('userList', ['addPlaceToList']),
+        ...mapActions('userList', [
+            'addPlaceToList',
+            'addPlaceToFavouriteList'
+        ]),
         addToList: function (list) {
             if (this.checkedIn(list.places)) return;//no action if place already checked in
             this.addPlaceToList({
                 listId: list.id,
+                placeId: this.place.id,
+                userId: this.getAuthenticatedUser.id
+            })
+                .then(
+                    () => {
+                        this.showToast(true);
+                    },
+                    () => {
+                        this.showToast(false);
+                    }
+                );
+        },
+        addToFavouriteList: function () {
+            // if (this.checkedIn(list.places)) return;//no action if place already checked in
+            this.addPlaceToFavouriteList({
                 placeId: this.place.id,
                 userId: this.getAuthenticatedUser.id
             })

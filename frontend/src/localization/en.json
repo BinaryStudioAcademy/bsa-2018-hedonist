@@ -179,6 +179,9 @@
       "close": "Close",
       "features": "Features",
       "recommendation": "You will also like"
+    },
+    "top_info": {
+      "favourite": "Favourite"
     }
   }
 }

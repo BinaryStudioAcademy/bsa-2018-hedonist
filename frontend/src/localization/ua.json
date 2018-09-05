@@ -179,6 +179,9 @@
       "close": "Зачинено",
       "features": "Особливості",
       "recommendation": "Вам також сподобається"
+    },
+    "top_info": {
+      "favourite": "Обрані"
     }
   }
 }

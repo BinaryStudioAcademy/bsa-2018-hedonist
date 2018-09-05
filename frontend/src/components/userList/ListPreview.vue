@@ -9,7 +9,12 @@
                     <div class="media-content">
                         <h3 class="title has-text-primary">
                             <router-link :to="`/list/${userList.id}`">
-                                {{ userList.name }}
+                                <span v-if="userList.name === 'Favourite' && userList.is_default">
+                                    {{ $t('place_page.top_info.favourite') }}
+                                </span>
+                                <span v-else>
+                                    {{ userList.name }}
+                                </span>
                             </router-link>
                         </h3>
                         <p class="place-category">
