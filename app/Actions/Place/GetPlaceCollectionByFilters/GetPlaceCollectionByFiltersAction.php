@@ -126,9 +126,13 @@ class GetPlaceCollectionByFiltersAction
     private function getPlaceFilterInfoJson(User $user, GetPlaceCollectionByFiltersRequest $request): string
     {
         $info = [
-            'userId' => $user->id,
-            'name' => "{$user->info->first_name} {$user->info->last_name}"
+            'userId' => $user->id
         ];
+
+        $userInfo = $user->info;
+        if (!is_null($userInfo)) {
+            $info['name'] = "{$userInfo->first_name} {$userInfo->last_name}";
+        }
 
         $filters = $request->getActiveFiltersArray();
         $info += $filters;
