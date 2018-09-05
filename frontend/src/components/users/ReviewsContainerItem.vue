@@ -209,7 +209,7 @@ export default {
         }
 
         .user-review-place {
-            padding: 0 20px;
+            padding: 10px 20px;
             margin-top: 10px;
             display: flex;
             justify-content: space-between;

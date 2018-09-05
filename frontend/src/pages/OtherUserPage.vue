@@ -3,7 +3,7 @@
         <Preloader :active="isLoading" />
         <GeneralInfo />
         <ListsContainer />
-        <ReviewsContainer />
+        <ReviewsContainer @stopLoading="onStopLoading" />
     </div>
 </template>
 
@@ -24,18 +24,14 @@ export default {
     },
     data(){
         return{
-            isLoading: true,
-            loadingTime: 2000
+            isLoading: true
         };
     },
-    created() {
-        setTimeout(()=>{
-            this.isLoading = false;
-        },this.loadingTime);
+    methods: {
+        onStopLoading(isLoading) {
+            this.isLoading = isLoading;
+        },
     },
-    loaded: function() {
-        return !(this.isLoading);
-    }
 };
 </script>
 

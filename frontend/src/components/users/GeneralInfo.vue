@@ -123,7 +123,7 @@ export default {
         ...mapGetters({
             userProfile: 'users/getUserProfile'
         }),
-        ...mapGetters('place', ['getUserReviewsAll']),
+        ...mapGetters('users', ['getUserReviewsAll']),
         AllReviewUserLength: function () {
             return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
         },
