@@ -8,6 +8,11 @@ class UserInfoPresenter
 {
     public function present(UserInfo $info):array
     {
-        return $info->toArray();
+        $result =  $info->toArray();
+        if($info->date_of_birth){
+            $result['date_of_birth'] = $info->date_of_birth->format('Y/m/d');
+        }
+        unset($result['id']);
+        return $result;
     }
 }
