@@ -1,3 +1,3 @@
 export default {
-    getUserProfile: (state) => state.userProfile,
+    getUserProfile: state => id => state.users.byId.id,
 };
