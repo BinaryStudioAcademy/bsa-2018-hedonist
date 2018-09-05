@@ -61,12 +61,14 @@ export default {
     updateQueryFilters({state, dispatch}) {
         let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
         let tags = state.selectedTags.join();
+        let features = state.selectedFeatures.join();
         if (state.city.longitude && state.city.latitude) {
             location = state.city.longitude + ',' + state.city.latitude;
         }
         let query = {
             category: state.placeCategory && state.placeCategory.id,
-            tags: tags,
+            tags,
+            features,
             page: state.page,
             name: state.place,
             location: location,
@@ -137,6 +139,14 @@ export default {
 
     deleteSelectedTag: ({commit}, tagId) => {
         commit('DELETE_SELECTED_TAG', tagId);
+    },
+
+    addSelectedFeature: ({commit}, featureId) => {
+        commit('ADD_SELECTED_FEATURE', featureId);
+    },
+
+    deleteSelectedFeature: ({commit}, featureId) => {
+        commit('DELETE_SELECTED_FEATURE', featureId);
     },
 
     clearSelectedTags: ({commit}) => {
