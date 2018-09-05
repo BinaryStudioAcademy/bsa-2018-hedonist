@@ -24,7 +24,9 @@ export default {
         checkin: false,
         saved: false,
         top_rated: false,
-        top_reviewed: false
+        top_reviewed: false,
+        recommended: false
     },
+    selectedTags: [],
     isLoading: false
 };

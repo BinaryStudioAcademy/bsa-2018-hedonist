@@ -148,6 +148,14 @@ export default {
                 .then(function (res) { resolve(res); })
                 .catch(function (err) { reject(err); });
         });
+    },
+
+    fetchRecommendationPlaces: (context, id) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/places/recommendation/' + id)
+                .then(function (res) { resolve(res.data.data); })
+                .catch(function (err) { reject(err); });
+        });
     }
 };
 
@@ -166,7 +174,9 @@ const createSearchQueryUrl = (url, filters) => {
         'filter[top_reviewed]': filters.top_reviewed,
         'filter[checkin]': filters.checkin,
         'filter[saved]': filters.saved,
+        'filter[recommended]': filters.recommended,
         'filter[polygon]': polygon,
+        'filter[tags]': filters.tags,
         'page': filters.page
     };
 

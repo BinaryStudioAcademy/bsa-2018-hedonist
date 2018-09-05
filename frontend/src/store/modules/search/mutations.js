@@ -81,5 +81,26 @@ export default {
             latitude: null,
             fullName: ''
         };
+    },
+
+    SET_SELECTED_TAGS: (state, tags) => {
+        state.selectedTags = tags;
+    },
+
+    ADD_SELECTED_TAG: (state, tagId) => {
+        if (state.selectedTags.indexOf(tagId) === -1) {
+            state.selectedTags.push(tagId);
+        }
+    },
+
+    DELETE_SELECTED_TAG: (state, tagId) => {
+        let index = state.selectedTags.indexOf(tagId);
+        if (index > -1) {
+            state.selectedTags.splice(index, 1);
+        }
+    },
+
+    CLEAR_SELECTED_TAGS: (state) => {
+        state.selectedTags = [];
     }
 };

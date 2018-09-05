@@ -146,7 +146,6 @@
       "add": "Add"
     },
     "toast": {
-      "added": "Place added!",
       "error": "Something went wrong. Please, try later."
     },
     "validators": {

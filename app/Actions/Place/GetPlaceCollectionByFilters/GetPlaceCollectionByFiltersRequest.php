@@ -9,11 +9,13 @@ class GetPlaceCollectionByFiltersRequest
     private $page;
     private $name;
     private $polygon;
+    private $tags;
     private $topReviewed;
     private $topRated;
     private $checkin;
     private $saved;
-  
+    private $recommended;
+
     const DEFAULT_PAGE = 1;
 
     public function __construct(
@@ -22,20 +24,24 @@ class GetPlaceCollectionByFiltersRequest
         ?string $location,
         ?string $name,
         ?string $polygon,
+        ?string $tags,
         ?bool $topReviewed = false,
         ?bool $topRated = false,
         ?bool $checkin = false,
-        ?bool $saved = false
+        ?bool $saved = false,
+        ?bool $recommended = false
     ) {
         $this->location = $location;
         $this->category_id = $category_id;
         $this->page = $page;
         $this->name = $name;
         $this->polygon = $polygon;
+        $this->tags = $tags;
         $this->topReviewed = $topReviewed;
         $this->topRated = $topRated;
         $this->checkin = $checkin;
         $this->saved = $saved;
+        $this->recommended = $recommended;
     }
 
     public function getCategoryId(): ?int
@@ -72,6 +78,11 @@ class GetPlaceCollectionByFiltersRequest
     {
         return (bool) $this->saved;
     }
+
+    public function isRecommended(): bool
+    {
+        return (bool) $this->recommended;
+    }
   
     public function getPolygon(): ?string
     {
@@ -81,5 +92,10 @@ class GetPlaceCollectionByFiltersRequest
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getTags(): ?string
+    {
+        return $this->tags;
     }
 }

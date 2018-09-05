@@ -17,6 +17,6 @@ $factory->define(PlaceRating::class, function (Faker $faker) {
             return factory(Place::class)->create()->id;
         },
 
-        'rating' => $faker->biasedNumberBetween(1, 10)
+        'rating' => $faker->biasedNumberBetween(1, 5)
     ];
 });

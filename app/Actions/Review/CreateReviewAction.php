@@ -8,6 +8,7 @@ use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
+use Hedonist\Events\Review\ReviewAddEvent;
 
 class CreateReviewAction
 {
@@ -43,6 +44,9 @@ class CreateReviewAction
                 ]
             )
         );
+
+        broadcast(new ReviewAddEvent($review))->toOthers();
+
         return new CreateReviewResponse($review);
     }
 }

@@ -60,7 +60,7 @@ export default {
         loadCities: _.debounce(function () {
             this.findCity.data = [];
             this.findCity.isFetching = true;
-            LocationService.getCityList(mapSettingsService.getMapboxToken(), this.findCity.query)
+            LocationService.getCityList(this.findCity.query)
                 .then( res => {
                     this.findCity.data = res;
                     this.findCity.isFetching = false;
