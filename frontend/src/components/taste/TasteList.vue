@@ -60,6 +60,8 @@ export default {
             let tasteData = this.tastesData[id];
             if (!this.selectedIds.includes(id)) {
                 this.addTaste(id);
+            } else {
+                this.deleteTaste(id);
             }
             if (this.allTastes.byId[id].is_default) {
                 tasteData.isClick = true;
