@@ -3,7 +3,6 @@
 namespace Hedonist\Entities\User;
 
 use Hedonist\Entities\User\Scope\UserScope;
-use Hedonist\Events\Auth\PasswordResetedEvent;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -50,11 +49,6 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    public function sendPasswordResetNotification($token)
-    {
-        Event::dispatch(new PasswordResetedEvent($this, $token));
     }
 
     public function info()
