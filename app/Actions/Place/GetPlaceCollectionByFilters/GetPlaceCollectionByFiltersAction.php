@@ -15,6 +15,7 @@ use Hedonist\Repositories\Place\Criterias\GetPlaceBySpecialFeatureCriteria;
 use Hedonist\Repositories\Place\Criterias\RecommendedCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByTagCriteria;
 use Hedonist\Repositories\Place\Criterias\SavedCriteria;
+use Hedonist\Repositories\Place\Criterias\OpenedCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByCategoryCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByLocationCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByPolygonCriteria;
@@ -103,6 +104,10 @@ class GetPlaceCollectionByFiltersAction
 
         if ($request->isRecommended()) {
             $criterias[] = new RecommendedCriteria($user);
+        }
+
+        if ($request->isOpened()) {
+            $criterias[] = new OpenedCriteria;
         }
 
         $places = $this->placeRepository->findCollectionByCriterias(

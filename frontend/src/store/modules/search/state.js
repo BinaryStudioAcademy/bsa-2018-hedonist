@@ -25,7 +25,8 @@ export default {
         saved: false,
         top_rated: false,
         top_reviewed: false,
-        recommended: false
+        recommended: false,
+        opened: false
     },
     selectedTags: [],
     selectedFeatures: [],

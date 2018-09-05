@@ -68,6 +68,13 @@ export default {
                     isLoading: false,
                     tooltipText: 'Click to see recommended places for you'
                 },
+                opened:{
+                    id: 6,
+                    name: 'Opened',
+                    check: false,
+                    isLoading: false,
+                    tooltipText: 'Click to see only opened now places'
+                }
             },
         };
     },
