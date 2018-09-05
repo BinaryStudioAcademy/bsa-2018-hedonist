@@ -9,7 +9,7 @@
                                     <i :class="getIconClass"></i>
                                 </template>
                             </span>
-            <span>Follow {{ name }}</span>
+            <span>{{message}} {{ name }}</span>
         </a>
     </div>
 </template>
@@ -47,10 +47,14 @@
             },
             getIconClass() {
                 return this.followed ? ['fas', 'fa-check-circle'] : ['fas', 'fa-plus-circle'];
+            },
+            message(){
+                return this.followed ? 'Following' : 'Follow'
             }
         },
         methods: {
             buttonPressed() {
+                this.isLoading = true;
                 this.$emit('followed', {...this.callbackPayload, currentStatus: this.followed});
             }
         }
@@ -61,9 +65,9 @@
     .btn-follow {
         display: flex;
         justify-content: center;
-        transition: color 0.5s ease-out;
         a {
             width: 250px;
+            transition: background-color 0.8s ease-out;
         }
     }
 

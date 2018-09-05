@@ -25,6 +25,7 @@ export default {
                         followed: payload.followedId,
                         follower: payload.followerId}
                         );
+                    payload.successCallback();
                     resolve(result);
                 })
                 .catch((error) => {
@@ -45,6 +46,7 @@ export default {
                         followed: payload.followedId,
                         follower: payload.followerId}
                     );
+                    payload.successCallback();
                     resolve(result);
                 })
                 .catch((error) => {
