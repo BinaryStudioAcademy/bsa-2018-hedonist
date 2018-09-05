@@ -9,8 +9,8 @@
                             <img
                                 v-if="userProfile.avatar_url"
                                 :src="userProfile.avatar_url"
-                                :title="userProfile.first_name+' '+userProfile.last_name"
-                                :alt="userProfile.first_name+' '+userProfile.last_name"
+                                :title="fullName"
+                                :alt="fullName"
                             >
                         </figure>
                     </div>
@@ -19,7 +19,7 @@
                 <div class="column user-info-stats">
 
                     <div class="user-stats-title">
-                        <h1 class="subtitle is-3">{{ userProfile.first_name + ' ' + userProfile.last_name }}</h1>
+                        <h1 class="subtitle is-3">{{ fullName }}</h1>
                         <div class="user-social">
                             <a
                                 v-if="userProfile.facebook_url"
@@ -132,6 +132,9 @@ export default {
         }),
         UserListsLength: function () {
             return this.userLists ? this.userLists.allIds.length : null;
+        },
+        fullName(){
+            return this.userProfile.first_name + ' ' + this.userProfile.last_name
         }
     },
     methods: {
