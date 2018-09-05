@@ -142,8 +142,17 @@
         },
         methods: {
             ...mapActions('users', ['followUser', 'unfollowUser']),
-            followEventHandler(payload){
-
+            followEventHandler(payload) {
+                const newPayload = {
+                    ...payload,
+                    followedId: this.userProfile.id,
+                    followerId: this.getAuthenticatedUser.id
+                };
+                if(!payload.followed){
+                    this.followUser(newPayload);
+                } else {
+                    this.unfollowUser(newPayload);
+                }
             }
         }
     };
