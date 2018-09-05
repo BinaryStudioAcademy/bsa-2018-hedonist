@@ -27,7 +27,7 @@ class GetPlaceCollectionForAutoCompleteAction
 
         if (!is_null($location)) {
             try {
-                $location = Location::fromString($location);
+                $location = Location::fromString($location, 30);
             } catch (\InvalidArgumentException $e) {
                 throw new PlaceLocationInvalidException($e->getMessage());
             }

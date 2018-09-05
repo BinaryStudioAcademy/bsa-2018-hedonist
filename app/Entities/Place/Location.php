@@ -11,14 +11,14 @@ class Location
     const MAX_LATITUDE = 90;
 
     const EARTH_RADIUS_IN_KM = 6371;
-    const GEOLOCATION_RADIUS = 5;
 
     const FROM_STRING_PATTERN = '/^[0-9]+(\.[0-9]+)?,[0-9]+(\.[0-9]+)?$/';
 
     private $longitude;
     private $latitude;
+    private $geolocationRadius;
 
-    public function __construct(float $longitude, float $latitude)
+    public function __construct(float $longitude, float $latitude, int $geolocationRadius)
     {
         if ($longitude < self::MIN_LONGITUDE || $longitude > self::MAX_LONGITUDE) {
             throw new \InvalidArgumentException('Longitude is overrange');
@@ -30,6 +30,7 @@ class Location
 
         $this->longitude = $longitude;
         $this->latitude = $latitude;
+        $this->geolocationRadius = $geolocationRadius;
     }
 
     public function getLongitude(): float
@@ -42,7 +43,12 @@ class Location
         return $this->latitude;
     }
 
-    public static function fromString(string $location): self
+    public function getGeolocationRadius(): int
+    {
+        return $this->geolocationRadius;
+    }
+
+    public static function fromString(string $location, int $geolocationRadius = 5): self
     {
         if (preg_match(self::FROM_STRING_PATTERN, $location) == false) {
             throw new \InvalidArgumentException('The location has an incorrect format');
@@ -51,6 +57,6 @@ class Location
         $longitude = $locationToArray[0];
         $latitude = $locationToArray[1];
 
-        return new self($longitude, $latitude);
+        return new self($longitude, $latitude, $geolocationRadius);
     }
 }
