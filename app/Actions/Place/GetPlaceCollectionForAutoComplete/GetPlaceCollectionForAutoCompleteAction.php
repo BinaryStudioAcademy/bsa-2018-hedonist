@@ -2,11 +2,11 @@
 
 namespace Hedonist\Actions\Place\GetPlaceCollectionForAutoComplete;
 
-use Hedonist\Entities\Place\Location;
-use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
+use Hedonist\Entities\Place\Polygon;
+use Hedonist\Exceptions\Place\PlacePolygonInvalidException;
 use Hedonist\Repositories\Place\Criterias\AllPlacePhotosCriteria;
-use Hedonist\Repositories\Place\Criterias\GetPlaceByLocationCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByNameCriteria;
+use Hedonist\Repositories\Place\Criterias\GetPlaceByPolygonCriteria;
 use Hedonist\Repositories\Place\Criterias\PlaceCustomLimitCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 
@@ -22,16 +22,16 @@ class GetPlaceCollectionForAutoCompleteAction
     public function execute(GetPlaceCollectionForAutoCompleteRequest $request): GetPlaceCollectionForAutoCompleteResponse
     {
         $name = $request->getName();
-        $location = $request->getLocation();
+        $polygon = $request->getPolygon();
         $criterias = [];
 
-        if (!is_null($location)) {
+        if (!is_null($polygon)) {
             try {
-                $location = Location::fromString($location, 30);
+                $polygon = Polygon::fromString($polygon);
             } catch (\InvalidArgumentException $e) {
-                throw new PlaceLocationInvalidException($e->getMessage());
+                throw PlacePolygonInvalidException::createFromMessage($e->getMessage());
             }
-            $criterias[] = new GetPlaceByLocationCriteria($location);
+            $criterias[] = new GetPlaceByPolygonCriteria($polygon);
         }
 
         if (!is_null($name)) {

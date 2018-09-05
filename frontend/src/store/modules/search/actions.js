@@ -127,7 +127,7 @@ export default {
     },
 
     loadPlaces(context, filters) {
-        return httpService.get('/places/autocomplete/search?filter[name]=' + filters.name + '&filter[location]=' + filters.location)
+        return httpService.get('/places/autocomplete/search?filter[name]=' + filters.name + '&filter[polygon]=' + filters.polygon)
             .then( result => Promise.resolve(result.data.data))
             .catch( error  => Promise.reject(error));
     },

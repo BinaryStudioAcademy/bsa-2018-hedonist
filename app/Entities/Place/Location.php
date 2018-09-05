@@ -17,9 +17,8 @@ class Location
 
     private $longitude;
     private $latitude;
-    private $geolocationRadius;
 
-    public function __construct(float $longitude, float $latitude, int $geolocationRadius = self::GEOLOCATION_RADIUS)
+    public function __construct(float $longitude, float $latitude)
     {
         if ($longitude < self::MIN_LONGITUDE || $longitude > self::MAX_LONGITUDE) {
             throw new \InvalidArgumentException('Longitude is overrange');
@@ -31,7 +30,6 @@ class Location
 
         $this->longitude = $longitude;
         $this->latitude = $latitude;
-        $this->geolocationRadius = $geolocationRadius;
     }
 
     public function getLongitude(): float
@@ -44,12 +42,7 @@ class Location
         return $this->latitude;
     }
 
-    public function getGeolocationRadius(): int
-    {
-        return $this->geolocationRadius;
-    }
-
-    public static function fromString(string $location, int $geolocationRadius = self::GEOLOCATION_RADIUS): self
+    public static function fromString(string $location): self
     {
         if (preg_match(self::FROM_STRING_PATTERN, $location) == false) {
             throw new \InvalidArgumentException('The location has an incorrect format');
@@ -58,6 +51,6 @@ class Location
         $longitude = $locationToArray[0];
         $latitude = $locationToArray[1];
 
-        return new self($longitude, $latitude, $geolocationRadius);
+        return new self($longitude, $latitude);
     }
 }
