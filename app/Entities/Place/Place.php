@@ -6,6 +6,7 @@ use Hedonist\Entities\Dislike\Dislike;
 use Hedonist\Entities\Like\Like;
 use Hedonist\Entities\Localization\PlaceTranslation;
 use Hedonist\Entities\Review\Review;
+use Hedonist\Entities\User\Taste;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\UserList\UserList;
 use Illuminate\Database\Eloquent\Model;
@@ -80,6 +81,14 @@ class Place extends Model
     public function checkins()
     {
         return $this->hasMany(Checkin::class);
+    }
+
+    public function tastes()
+    {
+        return $this->belongsToMany(
+            Taste::class,
+            'place_tastes'
+        );
     }
 
     public function reviewers()

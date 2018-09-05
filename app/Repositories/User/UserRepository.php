@@ -81,4 +81,24 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $user = User::where(["email" => $email])->first();
         return $user ? false : true;
     }
+
+    public function getFollowers(User $user): Collection
+    {
+        return $user->followers;
+    }
+
+    public function getFollowedUsers(User $user): Collection
+    {
+        return $user->followedUsers;
+    }
+
+    public function followUser(User $followed, User $follower): void
+    {
+        $followed->followers()->attach($follower);
+    }
+
+    public function unfollowUser(User $followed, User $follower): void
+    {
+        $followed->followers()->detach($follower);
+    }
 }

@@ -1,7 +1,7 @@
 <template>
     <section class="columns">
         <Preloader :active="isLoading" />
-        <section class="column is-half">
+        <section class="column is-one-third-widescreen is-half-desktop">
             <SearchFilterPlace :is-places-loaded="!isLoading" />
             <CategoryTagsContainer
                 v-if="categoryTagsList.length"
@@ -101,7 +101,10 @@ export default {
             'setCurrentPosition',
             'mapInitialization',
             'updateStateFromQuery',
-            'setLoadingState'
+            'setLoadingState',
+            'addSelectedTag',
+            'deleteSelectedTag',
+            'updateQueryFilters'
         ]),
 
         mapInitialize(map) {
@@ -195,7 +198,12 @@ export default {
             }
         },
         onSelectTag(tagId, isTagActive) {
-            // TODO
+            if (isTagActive) {
+                this.addSelectedTag(tagId);
+            } else {
+                this.deleteSelectedTag(tagId);
+            }
+            this.updateQueryFilters();
         },
     },
     watch: {
@@ -277,7 +285,7 @@ export default {
         top: 63px;
         height: 100vh;
         right: 4px;
-        width: 49%;
+        width: 66%;
     }
 
     .no-results {
@@ -300,6 +308,12 @@ export default {
         }
     }
 
+    @media screen and (max-width: 1279px) {
+        #map {
+            width: 49%;
+        }
+    }
+    
     @media screen and (max-width: 769px) {
         .columns {
             display: grid;

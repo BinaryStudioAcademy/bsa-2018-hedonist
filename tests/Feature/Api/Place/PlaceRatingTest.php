@@ -128,7 +128,7 @@ class PlaceRatingTest extends ApiTestCase
             'rating' => $rating
         ]);
 
-        $ratingNew = 8;
+        $ratingNew = 4;
 
         $response = $this->json('POST', "api/v1/places/$placeId/ratings", [
             'rating' => $ratingNew
@@ -170,7 +170,7 @@ class PlaceRatingTest extends ApiTestCase
         $response->assertJsonFragment([
             'error' => [
                 'httpStatus' => 400,
-                'message' => 'Rating value must be between 1 and 10'
+                'message' => 'Rating value must be between 1 and 5'
             ]
         ]);
 
@@ -180,7 +180,7 @@ class PlaceRatingTest extends ApiTestCase
         $response->assertJsonFragment([
             'error' => [
                 'httpStatus' => 400,
-                'message' => 'Rating value must be between 1 and 10'
+                'message' => 'Rating value must be between 1 and 5'
             ]
         ]);
 
@@ -190,7 +190,7 @@ class PlaceRatingTest extends ApiTestCase
         $response->assertJsonFragment([
             'error' => [
                 'httpStatus' => 400,
-                'message' => 'Rating value must be between 1 and 10'
+                'message' => 'Rating value must be between 1 and 5'
             ]
         ]);
     }

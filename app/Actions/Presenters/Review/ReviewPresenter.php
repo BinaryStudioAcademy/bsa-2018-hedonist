@@ -25,8 +25,8 @@ class ReviewPresenter
             'created_at' => $review->created_at->format('Y-m-d H:i:s'),
             'description' => $review->description,
             'user' => $this->usersPresenter->present($review->user),
-            'likes' => $review->likes_count,
-            'dislikes' => $review->dislikes_count,
+            'likes' => $review->likes->count(),
+            'dislikes' => $review->dislikes->count(),
         ];
     }
 }
