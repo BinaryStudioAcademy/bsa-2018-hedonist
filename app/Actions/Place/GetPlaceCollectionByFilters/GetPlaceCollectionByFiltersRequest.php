@@ -19,13 +19,13 @@ class GetPlaceCollectionByFiltersRequest
     const DEFAULT_PAGE = 1;
 
     public function __construct(
-        ?int $page,
-        ?int $category_id,
-        ?string $location,
-        ?string $name,
-        ?string $polygon,
-        ?string $tags,
-        ?string $features,
+        ?int $page = 1,
+        ?int $category_id = null,
+        ?string $location = null,
+        ?string $name = null,
+        ?string $polygon = null,
+        ?string $tags = null,
+        ?string $features = null,
         ?bool $topReviewed = false,
         ?bool $topRated = false,
         ?bool $checkin = false,

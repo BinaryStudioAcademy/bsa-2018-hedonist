@@ -98,12 +98,7 @@ class PlaceController extends ApiController
     {
         $placeResponse = $this->getPlaceCollectionByFiltersAction->execute(
             new GetPlaceCollectionByFiltersRequest(
-                $request->input('page'),
-                null,
-                null,
-                null,
-                null,
-                null
+                $request->input('page')
             )
         );
         return $this->successResponse($presenter->present($placeResponse));
