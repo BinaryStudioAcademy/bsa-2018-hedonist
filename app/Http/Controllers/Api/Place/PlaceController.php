@@ -206,7 +206,7 @@ class PlaceController extends ApiController
             $placeResponse = $this->getPlaceCollectionForAutoCompleteAction->execute(
                 new GetPlaceCollectionForAutoCompleteRequest(
                     $request->input('filter.name'),
-                    $request->input('filter.location')
+                    $request->input('filter.polygon')
                 )
             );
 
