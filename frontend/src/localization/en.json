@@ -176,7 +176,9 @@
     "sidebar": {
       "schedule": "Schedule",
       "open": "Open now",
-      "close": "Close"
+      "close": "Close",
+      "features": "Features",
+      "recommendation": "You will also like"
     }
   }
 }

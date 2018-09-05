@@ -85,7 +85,7 @@
             </div>
             <template v-if="place.features.length > 0">
                 <div class="place-sidebar__features">
-                    <h2 class="block-title">Features</h2>
+                    <h2 class="block-title">{{ $t('place_page.sidebar.features') }}</h2>
                     <div
                         v-for="feature in allFeatures"
                         :key="feature.id"
@@ -107,7 +107,7 @@
                 </div>
             </template>
             <template v-if="recommendedPlaces.length">
-                <h2 class="block-title">You will also like</h2>
+                <h2 class="block-title">{{ $t('place_page.sidebar.recommendation') }}</h2>
                 <template v-for="(recommendedPlace, index) in recommendedPlaces">
                     <PlacePreview
                         v-if="!isLoading"
