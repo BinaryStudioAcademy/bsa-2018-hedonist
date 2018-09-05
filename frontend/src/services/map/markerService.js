@@ -53,6 +53,6 @@ export default {
         return places.map((item) => addMarker(map)(parser(item)));
     },
     setPlaceMarker(map,place){
-      return setSmallPlaceMarker(map,parser(place));
+        return setSmallPlaceMarker(map,parser(place));
     }
 };
