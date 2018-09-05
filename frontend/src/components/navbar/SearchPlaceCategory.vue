@@ -71,7 +71,6 @@ export default {
                 let polygon = '';
                 if (!_.isEmpty(this.selectCity)) {
                     polygon = this.createPolygonByBBox(this.selectCity.bbox);
-                    console.log(polygon);
                 }
                 this.loadPlaces({name: this.findItems.query, polygon: polygon})
                     .then( res => {
