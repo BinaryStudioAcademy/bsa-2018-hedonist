@@ -5,19 +5,19 @@ namespace Hedonist\Actions\Place\GetPlaceCollectionForAutoComplete;
 class GetPlaceCollectionForAutoCompleteRequest
 {
     private $name;
-    private $location;
+    private $polygon;
 
     public function __construct(
         string $name,
-        ?string $location
+        ?string $polygon
     ) {
         $this->name = $name;
-        $this->location = $location;
+        $this->polygon = $polygon;
     }
 
-    public function getLocation(): ?string
+    public function getPolygon(): ?string
     {
-        return $this->location;
+        return $this->polygon;
     }
 
     public function getName(): string

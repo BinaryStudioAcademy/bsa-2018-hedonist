@@ -1,63 +1,69 @@
 <template>
-    <div class="review-wrp">
-        <div class="review">
-            <article class="media">
-                <figure class="media-left">
-                    <p class="image is-32x32">
-                        <img v-if="review.user.avatar_url" :src="review.user.avatar_url">
-                        <img
-                            v-else
-                            src="/assets/add_review_default_avatar.png"
-                            height="32"
-                            width="32"
-                        >
-                    </p>
-                </figure>
-                <div class="media-content">
-                    <div class="top-line">
-                        <strong><a>{{ userName }}</a></strong>
-                        <small>{{ date }}</small>
-                    </div>
-                    <div class="content">
-                        <p>{{ review.description }}</p>
-                    </div>
-
-                    <template v-if="isImageAttached">
-                        <div class="review-photos">
-                            <div
-                                class="review-image"
-                                v-for="(photo, index) in review.photos"
-                                :key="index"
-                            >
+    <transition name="slide-fade">
+        <div class="review-wrp" v-if="active">
+            <div class="review">
+                <article class="media">
+                    <figure class="media-left">
+                        <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
+                            <p class="image is-32x32">
+                                <img v-if="review.user.avatar_url" :src="review.user.avatar_url">
                                 <img
-                                    :src="photo"
-                                    v-img="{ group: review.id}"
+                                    v-else
+                                    src="/assets/add_review_default_avatar.png"
+                                    height="32"
+                                    width="32"
                                 >
-                            </div>
+                            </p>
+                        </router-link>
+                    </figure>
+                    <div class="media-content">
+                        <div class="top-line">
+                            <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
+                                <strong>{{ userName }}</strong>
+                            </router-link>
+                            <small>{{ date }}</small>
                         </div>
-                    </template>
+                        <div class="content">
+                            <p>{{ review.description }}</p>
+                        </div>
 
-                    <LikeDislikeButtons
-                        @like="onLikeReview"
-                        @dislike="onDislikeReview"
-                        @showUsersWhoLiked="onShowUsersWhoLiked"
-                        @showUsersWhoDisliked="onShowUsersWhoDisliked"
-                        :likes="review.likes"
-                        :dislikes="review.dislikes"
-                        :status="review.like"
-                        font-size="0.5rem"
-                        class="review-like"
-                    />
-                    <UsersWhoLikedDislikedReviewModals
-                        :is-users-who-liked-review-modal-active="isUsersWhoLikedReviewModalActive"
-                        :is-users-who-disliked-review-modal-active="isUsersWhoDislikedReviewModalActive"
-                        @updateUsersWhoLikedReviewModalActive="updateUsersWhoLikedReviewModalActive"
-                        @updateUsersWhoDislikedReviewModalActive="updateUsersWhoDislikedReviewModalActive"
-                    />
-                </div>
-            </article>
+                        <template v-if="isImageAttached">
+                            <div class="review-photos">
+                                <div
+                                    class="review-image"
+                                    v-for="(photo, index) in review.photos"
+                                    :key="index"
+                                >
+                                    <img
+                                        :src="photo"
+                                        v-img="{ group: review.id}"
+                                    >
+                                </div>
+                            </div>
+                        </template>
+
+                        <LikeDislikeButtons
+                            @like="onLikeReview"
+                            @dislike="onDislikeReview"
+                            @showUsersWhoLiked="onShowUsersWhoLiked"
+                            @showUsersWhoDisliked="onShowUsersWhoDisliked"
+                            :likes="review.likes"
+                            :dislikes="review.dislikes"
+                            :status="review.like"
+                            font-size="0.5rem"
+                            class="review-like"
+                        />
+                        <UsersWhoLikedDislikedReviewModals
+                            :is-users-who-liked-review-modal-active="isUsersWhoLikedReviewModalActive"
+                            :is-users-who-disliked-review-modal-active="isUsersWhoDislikedReviewModalActive"
+                            @updateUsersWhoLikedReviewModalActive="updateUsersWhoLikedReviewModalActive"
+                            @updateUsersWhoDislikedReviewModalActive="updateUsersWhoDislikedReviewModalActive"
+                        />
+                    </div>
+                </article>
+            </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
@@ -75,11 +81,16 @@ export default {
         review: {
             type: Object,
             required: true
+        },
+        timer: {
+            required: true,
+            type: Number,
         }
     },
 
     data() {
         return {
+            active: false,
             reviewImageUrl: '',
             isUsersWhoLikedReviewModalActive: false,
             isUsersWhoDislikedReviewModalActive: false
@@ -88,6 +99,9 @@ export default {
 
     created() {
         this.getReviewPhotos(this.review.id);
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
     },
 
     computed: {
@@ -166,6 +180,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .slide-fade-enter-active {
+        transition: all 0.5s ease;
+    }
+
+    .slide-fade-enter, .slide-fade-leave-to {
+        transform: translateX(-300px);
+        opacity: 0;
+    }
+
     .review-wrp {
         background: #fff;
         border-top: 1px solid #efeff4;
