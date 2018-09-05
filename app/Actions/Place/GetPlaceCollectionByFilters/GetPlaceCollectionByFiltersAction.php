@@ -38,11 +38,14 @@ class GetPlaceCollectionByFiltersAction
 
     public function execute(GetPlaceCollectionByFiltersRequest $request): GetPlaceCollectionResponse
     {
+        /** @var User $user */
+        $user = Auth::user();
+
         $uniqId = $this->generateUniqKeyByPlaceSearch($request);
         $redisPlaces = Redis::get('search_places-' . $uniqId);
         if ($redisPlaces) {
             Log::debug('redis');
-            return unserialize($redisPlaces);
+            return new GetPlaceCollectionResponse(unserialize($redisPlaces), $user);
         }
         Log::debug('not a redis');
 
@@ -53,9 +56,6 @@ class GetPlaceCollectionByFiltersAction
         $polygon = $request->getPolygon();
         $tags = $request->getTags();
         $criterias = [];
-
-        /** @var User $user */
-        $user = Auth::user();
 
         if (!is_null($location)) {
             try {
