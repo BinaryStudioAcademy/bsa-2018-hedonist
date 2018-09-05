@@ -90,14 +90,10 @@
                             </li>
                         </ul>
 
-                        <div class="btn-follow">
-                            <a class="button is-info">
-                            <span class="icon is-small">
-                                <i class="fas fa-plus-circle"/>
-                            </span>
-                                <span>Follow {{ userProfile.first_name }}</span>
-                            </a>
-                        </div>
+                        <FollowButton
+                            :followed="isFollowedByCurentUser"
+                            :name="userProfile.first_name"
+                        />
 
                     </div>
                 </div>
@@ -109,18 +105,21 @@
 
 <script>
     import {mapState, mapActions, mapGetters} from 'vuex';
+    import FollowButton from './FollowButton';
 
     export default {
         name: 'GeneralInfo',
         data() {
             return {};
         },
+        components:{FollowButton},
         created() {
             this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
         },
         computed: {
             ...mapGetters('users', ['getUserProfile']),
             ...mapGetters('place', ['getUserReviewsAll']),
+            ...mapGetters('auth', ['getAuthenticatedUser']),
             AllReviewUserLength: function () {
                 return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
             },
@@ -134,7 +133,10 @@
                 return this.userProfile.first_name + ' ' + this.userProfile.last_name
             },
             userProfile() {
-                return this.getUserProfile(this.$route.params.id);
+                return this.getUserProfile(parseInt(this.$route.params.id));
+            },
+            isFollowedByCurentUser(){
+                return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
             }
         },
         methods: {
@@ -243,13 +245,6 @@
         &-relation {
             padding: 0;
             align-self: center;
-            .btn-follow {
-                display: flex;
-                justify-content: center;
-                a {
-                    width: 250px;
-                }
-            }
             .level {
                 margin-bottom: 20px;
                 li {

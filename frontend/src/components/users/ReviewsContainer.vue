@@ -47,6 +47,9 @@ export default {
         },
         userProfile(){
             return this.getUserProfile(this.$route.params.id);
+        },
+        userName(){
+            return this.userProfile().first_name || '';
         }
     },
     created() {
