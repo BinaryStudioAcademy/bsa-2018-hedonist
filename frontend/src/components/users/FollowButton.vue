@@ -1,9 +1,9 @@
 <template>
-    <div class="btn-follow">
+    <div class="btn-follow" @click="emit('followed',{...callbackPayload, currentStatus: followed})">
         <a class="button" :class="getClass">
                             <span class="icon is-small">
                                 <template v-if="isLoading">
-                                    <span class = 'loader'></span>
+                                    <span class='loader'></span>
                                 </template>
                                 <template v-else>
                                     <i :class="getIconClass"></i>
@@ -27,29 +27,29 @@
                 required: false,
             }
         },
-        data(){
+        data() {
             return {
                 isLoading: false,
-                failCallback: () => {
-                    this.isLoading = false;
-                    this.$toast.open({message:'Something went wrong',type:'is-danger'});
-                },
-                successCallback: () => {
-                    this.isLoading = false;
+                callbackPayload: {
+                    failCallback: () => {
+                        this.isLoading = false;
+                        this.$toast.open({message: 'Something went wrong', type: 'is-danger'});
+                    },
+                    successCallback: () => {
+                        this.isLoading = false;
+                    }
                 }
             }
         },
         computed: {
-            getClass(){
+            getClass() {
                 return this.followed ? 'is-success' : 'is-info'
             },
-            getIconClass(){
+            getIconClass() {
                 return this.followed ? ['fas', 'fa-check-circle'] : ['fas', 'fa-plus-circle'];
             }
         },
-        methods:{
-
-        }
+        methods: {}
     }
 </script>
 
@@ -57,10 +57,12 @@
     .btn-follow {
         display: flex;
         justify-content: center;
+        transition: color 0.5s ease-out;
         a {
             width: 250px;
         }
     }
+
     .loader {
         border: 2px solid #d3d3d3;
         border-top: 2px solid #636b6f;
@@ -70,12 +72,17 @@
         background: transparent;
         animation: spin 1s linear infinite;
     }
+
     .icon {
-        margin-right:3px;
+        margin-right: 3px;
     }
 
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
 </style>

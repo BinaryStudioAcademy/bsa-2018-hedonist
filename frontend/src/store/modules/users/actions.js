@@ -12,5 +12,45 @@ export default {
                     reject(error.response.data.error);
                 });
         });
+    },
+    followUser: (context, payload) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/users/' + payload.followedId + '/follow')
+                .then((result) => {
+                    if (result.status !== 200) {
+                        payload.failCallback();
+                        reject(result.data);
+                    }
+                    context.commit('FOLLOW_USER', {
+                        followed: payload.followedId,
+                        follower: payload.followerId}
+                        );
+                    resolve(result);
+                })
+                .catch((error) => {
+                    payload.failCallback();
+                    reject(error.response.data.error);
+                });
+        });
+    },
+    unfollowUser: (context, payload) => {
+        return new Promise((resolve, reject) => {
+            httpService.get('/users/' + payload.followedId + '/unfollow')
+                .then((result) => {
+                    if (result.status !== 200) {
+                        payload.failCallback();
+                        reject(result.data);
+                    }
+                    context.commit('UNFOLLOW_USER', {
+                        followed: payload.followedId,
+                        follower: payload.followerId}
+                    );
+                    resolve(result);
+                })
+                .catch((error) => {
+                    payload.failCallback();
+                    reject(error.response.data.error);
+                });
+        });
     }
 };
