@@ -24,16 +24,18 @@ use Hedonist\Repositories\Place\Criterias\TopRatedCriteria;
 use Hedonist\Repositories\Place\Criterias\TopReviewedCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Cache\Repository as Cache;
 
 class GetPlaceCollectionByFiltersAction
 {
+    private $searchKeyPrefix = 'search_places-';
     private $placeRepository;
+    private $cache;
 
-    public function __construct(PlaceRepositoryInterface $placeRepository)
+    public function __construct(PlaceRepositoryInterface $placeRepository, Cache $cache)
     {
         $this->placeRepository = $placeRepository;
+        $this->cache = $cache;
     }
 
     public function execute(GetPlaceCollectionByFiltersRequest $request): GetPlaceCollectionResponse
@@ -42,12 +44,10 @@ class GetPlaceCollectionByFiltersAction
         $user = Auth::user();
 
         $uniqId = $this->generateUniqKeyByPlaceSearch($request);
-        $redisPlaces = Redis::get('search_places-' . $uniqId);
-        if ($redisPlaces) {
-            Log::debug('redis');
-            return new GetPlaceCollectionResponse(unserialize($redisPlaces), $user);
+        $cachePlaces = $this->cache->get($this->searchKeyPrefix . $uniqId);
+        if ($cachePlaces) {
+            return new GetPlaceCollectionResponse(unserialize($cachePlaces), $user);
         }
-        Log::debug('not a redis');
 
         $categoryId = $request->getCategoryId();
         $name = $request->getName();
@@ -114,9 +114,8 @@ class GetPlaceCollectionByFiltersAction
             ...$criterias
         );
 
-        Redis::set('search_places-' . $uniqId, serialize($places));
         if (! $this->hasFilterParameters($request)) {
-            Redis::setex('search_places-' . $uniqId, 1800, serialize($places));
+            $this->cache->put($this->searchKeyPrefix . $uniqId, serialize($places), 30);
         }
 
         return new GetPlaceCollectionResponse($places, $user);
