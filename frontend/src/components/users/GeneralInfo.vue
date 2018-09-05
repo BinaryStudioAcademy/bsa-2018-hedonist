@@ -120,9 +120,7 @@ export default {
         this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
     },
     computed: {
-        ...mapGetters({
-            userProfile: 'users/getUserProfile'
-        }),
+        ...mapGetters('users',['getUserProfile']),
         ...mapGetters('place', ['getUserReviewsAll']),
         AllReviewUserLength: function () {
             return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
@@ -135,6 +133,9 @@ export default {
         },
         fullName(){
             return this.userProfile.first_name + ' ' + this.userProfile.last_name
+        },
+        userProfile(){
+            return this.getUserProfile(this.$route.params.id)
         }
     },
     methods: {
