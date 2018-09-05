@@ -1,3 +1,5 @@
 export default {
-    getUserProfile: state => id => state.users.byId.id,
+    getUserProfile: state => id => {
+        return state.users.byId[id];
+    },
 };

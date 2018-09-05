@@ -1,149 +1,148 @@
 <template>
     <div class="container is-fullhd is-fluid">
-        <div class="container">
-            <div class="columns user-info">
-
-                <div class="column is-narrow">
-                    <div class="user-info-img">
-                        <figure class="image is-128x128">
-                            <img
-                                v-if="userProfile.avatar_url"
-                                :src="userProfile.avatar_url"
-                                :title="fullName"
-                                :alt="fullName"
-                            >
-                        </figure>
-                    </div>
-                </div>
-
-                <div class="column user-info-stats">
-
-                    <div class="user-stats-title">
-                        <h1 class="subtitle is-3">{{ fullName }}</h1>
-                        <div class="user-social">
-                            <a
-                                v-if="userProfile.facebook_url"
-                                v-show="userProfile.facebook_url" 
-                                :href="userProfile.facebook_url" 
-                                class="facebbok-link"
-                                target="_blank"
-                            >
-                                <i class="fa-2x fab fa-facebook-square" />
-                            </a>
-                            <a
-                                v-if="userProfile.twitter_url"
-                                v-show="userProfile.twitter_url" 
-                                :href="userProfile.twitter_url" 
-                                class="twitter-link"
-                                target="_blank"
-                            >
-                                <i class="fa-2x fab fa-twitter-square" />
-                            </a>
-                            <a
-                                v-if="userProfile.instagram_url"
-                                v-show="userProfile.instagram_url"
-                                :href="userProfile.instagram_url"
-                                class="instagram-link"
-                                target="_blank"
-                            >
-                                <i class="fa-2x fab fa-instagram" />
-                            </a>
+        <template v-if="userProfile">
+            <div class="container">
+                <div class="columns user-info">
+                    <div class="column is-narrow">
+                        <div class="user-info-img">
+                            <figure class="image is-128x128">
+                                <img
+                                        v-if="userProfile.avatar_url"
+                                        :src="userProfile.avatar_url"
+                                        :title="fullName"
+                                        :alt="fullName"
+                                >
+                            </figure>
                         </div>
                     </div>
 
-                    <div class="user-stats-contact">
-                        <span>Odessa</span>
+                    <div class="column user-info-stats">
+
+                        <div class="user-stats-title">
+                            <h1 class="subtitle is-3">{{ fullName }}</h1>
+                            <div class="user-social">
+                                <a
+                                        v-if="userProfile.facebook_url"
+                                        v-show="userProfile.facebook_url"
+                                        :href="userProfile.facebook_url"
+                                        class="facebbok-link"
+                                        target="_blank"
+                                >
+                                    <i class="fa-2x fab fa-facebook-square"/>
+                                </a>
+                                <a
+                                        v-if="userProfile.twitter_url"
+                                        v-show="userProfile.twitter_url"
+                                        :href="userProfile.twitter_url"
+                                        class="twitter-link"
+                                        target="_blank"
+                                >
+                                    <i class="fa-2x fab fa-twitter-square"/>
+                                </a>
+                                <a
+                                        v-if="userProfile.instagram_url"
+                                        v-show="userProfile.instagram_url"
+                                        :href="userProfile.instagram_url"
+                                        class="instagram-link"
+                                        target="_blank"
+                                >
+                                    <i class="fa-2x fab fa-instagram"/>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="user-stats-contact">
+                            <span>Odessa</span>
+                        </div>
+
+                        <div class="user-stats-complaint">
+                            <span>Пожаловаться на этого человека?</span>
+                        </div>
                     </div>
 
-                    <div class="user-stats-complaint">
-                        <span>Пожаловаться на этого человека?</span>
-                    </div>
-                </div>
+                    <div class="column user-info-relation">
 
-                <div class="column user-info-relation">
+                        <ul class="level">
+                            <li class="level-item has-text-centered">
+                                <div>
+                                    <p class="relation-count">{{ AllReviewUserLength }}</p>
+                                    <p class="relation-title">Reviews</p>
+                                </div>
+                            </li>
+                            <li class="level-item has-text-centered">
+                                <div>
+                                    <p class="relation-count">105</p>
+                                    <p class="relation-title">Followers</p>
 
-                    <ul class="level">
-                        <li class="level-item has-text-centered">
-                            <div>
-                                <p class="relation-count">{{ AllReviewUserLength }}</p>
-                                <p class="relation-title">Reviews</p>
-                            </div>
-                        </li>
-                        <li class="level-item has-text-centered">
-                            <div>
-                                <p class="relation-count">105</p>
-                                <p class="relation-title">Followers</p>
+                                </div>
+                            </li>
+                            <li class="level-item has-text-centered">
+                                <div>
+                                    <p class="relation-count">350</p>
+                                    <p class="relation-title">Following</p>
+                                </div>
+                            </li>
+                            <li class="level-item has-text-centered">
+                                <div>
+                                    <p class="relation-count">{{ UserListsLength }}</p>
+                                    <p class="relation-title">Lists</p>
+                                </div>
+                            </li>
+                        </ul>
 
-                            </div>
-                        </li>
-                        <li class="level-item has-text-centered">
-                            <div>
-                                <p class="relation-count">350</p>
-                                <p class="relation-title">Following</p>
-                            </div>
-                        </li>
-                        <li class="level-item has-text-centered">
-                            <div>
-                                <p class="relation-count">{{ UserListsLength }}</p>
-                                <p class="relation-title">Lists</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <div class="btn-follow">
-                        <a class="button is-info">
+                        <div class="btn-follow">
+                            <a class="button is-info">
                             <span class="icon is-small">
-                                <i class="fas fa-plus-circle" />
+                                <i class="fas fa-plus-circle"/>
                             </span>
-                            <span>Follow {{ userProfile.first_name }}</span>
-                        </a>
+                                <span>Follow {{ userProfile.first_name }}</span>
+                            </a>
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
 
-        </div>
+            </div>
+        </template>
     </div>
 </template>
 
 <script>
-import {mapState, mapActions, mapGetters} from 'vuex';
+    import {mapState, mapActions, mapGetters} from 'vuex';
 
-export default {
-    name: 'GeneralInfo',
-    data() {
-        return {
-
-        };
-    },
-    created() {
-        this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
-    },
-    computed: {
-        ...mapGetters('users',['getUserProfile']),
-        ...mapGetters('place', ['getUserReviewsAll']),
-        AllReviewUserLength: function () {
-            return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
+    export default {
+        name: 'GeneralInfo',
+        data() {
+            return {};
         },
-        ...mapState('userList', {
-            userLists: 'userLists',
-        }),
-        UserListsLength: function () {
-            return this.userLists ? this.userLists.allIds.length : null;
+        created() {
+            this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
         },
-        fullName(){
-            return this.userProfile.first_name + ' ' + this.userProfile.last_name
+        computed: {
+            ...mapGetters('users', ['getUserProfile']),
+            ...mapGetters('place', ['getUserReviewsAll']),
+            AllReviewUserLength: function () {
+                return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
+            },
+            ...mapState('userList', {
+                userLists: 'userLists',
+            }),
+            UserListsLength: function () {
+                return this.userLists ? this.userLists.allIds.length : null;
+            },
+            fullName() {
+                return this.userProfile.first_name + ' ' + this.userProfile.last_name
+            },
+            userProfile() {
+                return this.getUserProfile(this.$route.params.id);
+            }
         },
-        userProfile(){
-            return this.getUserProfile(this.$route.params.id)
+        methods: {
+            ...mapActions({
+                getUsersProfile: 'users/getUsersProfile',
+            })
         }
-    },
-    methods: {
-        ...mapActions({
-            getUsersProfile: 'users/getUsersProfile',
-        })
-    }
-};
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -204,7 +203,7 @@ export default {
                     margin-right: 7px;
                 }
 
-                instagram-link{
+                instagram-link {
                     color: #c557d5;
                 }
             }
