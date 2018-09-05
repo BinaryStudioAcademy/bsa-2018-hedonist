@@ -2,9 +2,9 @@
     <div class="notification-message">
         <div class="user-info">
             <div class="user-info__avatar"><img :src="getUserAvatar"></div>
-            <div class="user-name">{{ getUserName}}</div>
+            <div class="user-name">{{ getUserName }}</div>
         </div>
-        <div class="text">liked your review</div>
+        <div class="text">made review on your place</div>
     </div>
 </template>
 

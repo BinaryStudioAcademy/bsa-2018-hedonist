@@ -4,11 +4,13 @@ namespace Hedonist\Actions\Review;
 
 use Hedonist\Entities\Review\Review;
 use Hedonist\Exceptions\User\UserNotFoundException;
+use Hedonist\Notifications\ReviewPlaceNotification;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 use Hedonist\Events\ReviewAddEvent;
+use Illuminate\Support\Facades\Auth;
 
 class CreateReviewAction
 {
@@ -28,7 +30,8 @@ class CreateReviewAction
 
     public function execute(CreateReviewRequest $request): CreateReviewResponse
     {
-        if (!$this->placeRepository->getById($request->getPlaceId())) {
+        $place = $this->placeRepository->getById($request->getPlaceId());
+        if ($place === null) {
             throw new PlaceDoesNotExistException('Place does NOT exist!');
         }
         if (!$this->userRepository->getById($request->getUserId())) {
@@ -46,6 +49,8 @@ class CreateReviewAction
         );
 
         broadcast(new ReviewAddEvent($review))->toOthers();
+        $this->userRepository->getById($place->creator_id)
+            ->notify(new ReviewPlaceNotification($place, Auth::user()));
 
         return new CreateReviewResponse($review);
     }

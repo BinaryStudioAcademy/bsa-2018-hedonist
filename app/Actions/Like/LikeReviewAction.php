@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\Like;
 
-use Hedonist\Events\Review\LikeAddEvent;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Notifications\LikeReviewNotification;
 use Hedonist\Repositories\Like\{LikeRepositoryInterface,LikeReviewCriteria};

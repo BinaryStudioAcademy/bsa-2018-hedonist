@@ -131,6 +131,7 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
 import LanguageSelector from './LanguageSelector';
 import LikeReviewNotification from '@/components/notifications/LikeReviewNotification';
+import ReviewPlaceNotification from '@/components/notifications/LikeReviewNotification';
 import UnknownNotification from '@/components/notifications/LikeReviewNotification';
 
 export default {
@@ -201,6 +202,8 @@ export default {
             switch (notification.type) {
                 case 'Hedonist\\Notifications\\LikeReviewNotification':
                     return 'LikeReviewNotification';
+                case 'Hedonist\\Notifications\\ReviewPlaceNotification':
+                    return 'ReviewPlaceNotification';
                 default:
                     return 'UnknownNotification';
             }
@@ -210,7 +213,8 @@ export default {
         NavbarSearchPanel,
         LanguageSelector,
         LikeReviewNotification,
-        UnknownNotification
+        UnknownNotification,
+        ReviewPlaceNotification
     },
 };
 </script>
