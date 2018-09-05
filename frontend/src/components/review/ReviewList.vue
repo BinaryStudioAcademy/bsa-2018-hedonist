@@ -53,10 +53,11 @@
                     v-if="!isLoadingReviews"
                     class="reviews-section-list"
                 >
-                    <template v-for="review in reviews">
+                    <template v-for="(review, index) in reviews">
                         <Review
                             :key="review.id"
                             :review="review"
+                            :timer="200 * (index + 1)"
                         />
                     </template>
                     <infinite-loading @infinite="loadNextReviewsPage">
