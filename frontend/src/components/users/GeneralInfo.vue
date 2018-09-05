@@ -71,14 +71,14 @@
                             </li>
                             <li class="level-item has-text-centered">
                                 <div>
-                                    <p class="relation-count">105</p>
+                                    <p class="relation-count">{{userProfile.followers.length}}</p>
                                     <p class="relation-title">Followers</p>
 
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
                                 <div>
-                                    <p class="relation-count">350</p>
+                                    <p class="relation-count">{{userProfile.followedUsers.length}}</p>
                                     <p class="relation-title">Following</p>
                                 </div>
                             </li>

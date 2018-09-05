@@ -37,9 +37,7 @@ export default {
         ...mapState('place', {
             places: 'places',
         }),
-        ...mapGetters({
-            userProfile: 'users/getUserProfile'
-        }),
+        ...mapGetters('users',['getUserProfile']),
         ...mapGetters('place', ['getReviewsById' , 'getUserReviewsAll']),
         filteredUsersPlaces: function () {
             return this.getReviewsById(parseInt(this.$route.params.id));
@@ -47,6 +45,9 @@ export default {
         filterAllReviewUser: function () {
             return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
         },
+        userProfile(){
+            return this.getUserProfile(this.$route.params.id);
+        }
     },
     created() {
         this.$store.dispatch('place/fetchPlaces', this.$route.query);

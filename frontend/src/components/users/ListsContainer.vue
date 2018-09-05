@@ -23,14 +23,15 @@ export default {
         ListsContainerItem
     },
     computed: {
-        ...mapGetters({
-            userProfile: 'users/getUserProfile'
-        }),
+        ...mapGetters('users',['getUserProfile']),
         ...mapState('userList', [
             'userLists'
         ]),
         filteredUserLists: function () {
             return this.userLists ? this.userLists.byId : null;
+        },
+        userProfile(){
+          return this.getUserProfile(this.$route.params.id);
         }
     },
     created() {
