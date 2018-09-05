@@ -2,7 +2,7 @@
     <div class="navbar-start">
         <Preloader :active="isLoading" />
         <div class="navbar-item">
-            <SearchPlaceCategory @select="onSelect" ref="selectPlaceCategoryComponent" :select-city="location" />
+            <SearchPlaceCategory @select="selectCategory" ref="selectPlaceCategoryComponent" :select-city="location" />
         </div>
         <div class="navbar-item">
             <SearchCity @select="selectCity" />
@@ -46,13 +46,12 @@ export default {
         Preloader
     },
     methods: {
-        ...mapActions({
-            selectSearchCity: 'search/selectSearchCity',
-            updateQueryFilters: 'search/updateQueryFilters',
-            selectSearchCategory: 'search/selectSearchCategory',
-            setCategoryTags: 'category/fetchCategoryTags',
-            selectSearchPlace: 'search/selectSearchPlace'
-        }),
+        ...mapActions('search', [
+            'selectSearchCity',
+            'updateQueryFilters',
+            'selectSearchCategory',
+            'selectSearchPlace'
+        ]),
         selectCity(city){
             this.location = city ? city : {};
         },
@@ -69,14 +68,7 @@ export default {
                 this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.$refs.autocomplete.value);
             }
             this.updateQueryFilters();
-        },
-        onSelect(query) {
-            this.selectCategory(query);
-
-            if (query !== null && query.id) {
-                this.setCategoryTags(query.id);
-            }
-        },
+        }
     }
 };
 </script>

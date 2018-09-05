@@ -42,14 +42,16 @@ export default {
         commit('SET_SEARCH_CITY', city);
     },
 
-    selectSearchCategory: ({commit}, item) => {
+    selectSearchCategory: ({commit, dispatch}, item) => {
         commit('SET_SEARCH_PLACE_CATEGORY', item);
         commit('DELETE_SEARCH_PLACE');
+        dispatch('category/fetchCategoryTags', item.id, {root: true});
     },
 
-    selectSearchPlace: ({commit}, searchPlace) => {
+    selectSearchPlace: ({commit, dispatch}, searchPlace) => {
         commit('SET_SEARCH_PLACE', searchPlace);
         commit('DELETE_SEARCH_PLACE_CATEGORY');
+        dispatch('category/deleteCategoryTags', null, {root: true});
     },
 
     loadCategories({context , commit}, name) {
