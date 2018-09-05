@@ -2,6 +2,7 @@
 
 namespace Hedonist\Http\Controllers\Api\Review;
 
+use Barryvdh\Debugbar\Facade as Debugbar;
 use Hedonist\Actions\Presenters\Review\ReviewPresenter;
 use Hedonist\Actions\Review\{
     GetReviewAction,
@@ -12,7 +13,10 @@ use Hedonist\Actions\Review\{
     GetUsersWhoLikedReviewAction,
     GetUsersWhoDislikedReviewAction
 };
-use Hedonist\Actions\Review\{GetReviewPhotoByPlaceAction,
+use Hedonist\Actions\Review\{
+    GetLikedDislikedByUserReviews\GetLikedDislikedByUserReviewsAction,
+    GetLikedDislikedByUserReviews\GetLikedDislikedByUserReviewsRequest,
+    GetReviewPhotoByPlaceAction,
     GetReviewPhotoByPlaceRequest,
     GetReviewPhotoByReviewAction,
     GetReviewPhotoByReviewRequest,
@@ -45,6 +49,7 @@ class ReviewController extends ApiController
     private $getUsersWhoLikedReviewAction;
     private $getUsersWhoDislikedReviewAction;
     private $getReviewPhotoByPlaceAction;
+    private $getLikedDislikedByUserReviewsAction;
     private $reviewPresenter;
 
     public function __construct(
@@ -57,6 +62,7 @@ class ReviewController extends ApiController
         GetUsersWhoLikedReviewAction $getUsersWhoLikedReviewAction,
         GetUsersWhoDislikedReviewAction $getUsersWhoDislikedReviewAction,
         GetReviewPhotoByPlaceAction $getReviewPhotoByPlaceAction,
+        GetLikedDislikedByUserReviewsAction $getLikedDislikedByUserReviewsAction,
         ReviewPresenter $reviewPresenter
     ) {
         $this->getReviewAction = $getReviewAction;
@@ -68,6 +74,7 @@ class ReviewController extends ApiController
         $this->getUsersWhoLikedReviewAction = $getUsersWhoLikedReviewAction;
         $this->getUsersWhoDislikedReviewAction = $getUsersWhoDislikedReviewAction;
         $this->getReviewPhotoByPlaceAction = $getReviewPhotoByPlaceAction;
+        $this->getLikedDislikedByUserReviewsAction = $getLikedDislikedByUserReviewsAction;
         $this->reviewPresenter = $reviewPresenter;
     }
 
@@ -96,10 +103,26 @@ class ReviewController extends ApiController
                 )
             );
 
-            return $this->successResponseWithMeta(
+            $getLikedDislikedReviewsResponse = $this->getLikedDislikedByUserReviewsAction->execute(
+                new GetLikedDislikedByUserReviewsRequest(
+                    $getReviewCollectionResponse->getReviewCollection()
+                )
+            );
+            Debugbar::info([
+                'getLikedReviewsIds' => $getLikedDislikedReviewsResponse->getLikedReviewsIds(),
+                'getDislikedReviewsIds' => $getLikedDislikedReviewsResponse->getDislikedReviewsIds(),
+            ]);
+
+            $response = $this->successResponseWithMeta(
                 $this->reviewPresenter->presentCollection($getReviewCollectionResponse->getReviewCollection()),
                 $getReviewCollectionResponse->getPaginationMetaInfo()
             );
+
+            Debugbar::info($response);
+
+            return $response;
+
+
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage());
         }
