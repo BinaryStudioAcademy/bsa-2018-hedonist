@@ -7,7 +7,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 
 class PlacePaginationCriteria implements CriteriaInterface
 {
-    const LIMIT = 30;
+    const LIMIT = 15;
 
     private $page;
 

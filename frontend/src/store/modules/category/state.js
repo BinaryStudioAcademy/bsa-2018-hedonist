@@ -1,4 +1,4 @@
 export default {
-    allCategories: [],
-    categoryTags: []
+    allCategories: {},
+    categoryTags: {}
 };
