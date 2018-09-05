@@ -53,7 +53,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
     .mapboxgl-canvas {
         top: 0 !important;
         left: 0 !important;
@@ -61,6 +61,23 @@ export default {
 
     .mapboxgl-marker {
         cursor: pointer;
+    }
+
+    .mapboxgl-popup-content {
+        padding: 5px;
+        max-width: 70%;
+
+        .media-left {
+            display: none;
+        }
+        .media-content {
+            text-align: center;
+
+            div {
+                font-size: 10px;
+                line-height: normal;
+            }
+        }
     }
 
     .mapboxgl-popup-close-button{
