@@ -91,8 +91,9 @@
                         </ul>
 
                         <FollowButton
-                            :followed="isFollowedByCurentUser"
-                            :name="userProfile.first_name"
+                                @followed="followEventHandler"
+                                :followed="isFollowedByCurentUser"
+                                :name="userProfile.first_name"
                         />
 
                     </div>
@@ -112,7 +113,7 @@
         data() {
             return {};
         },
-        components:{FollowButton},
+        components: {FollowButton},
         created() {
             this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
         },
@@ -135,14 +136,15 @@
             userProfile() {
                 return this.getUserProfile(parseInt(this.$route.params.id));
             },
-            isFollowedByCurentUser(){
+            isFollowedByCurentUser() {
                 return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
             }
         },
         methods: {
-            ...mapActions({
-                getUsersProfile: 'users/getUsersProfile',
-            })
+            ...mapActions('users', ['followUser', 'unfollowUser']),
+            followEventHandler(payload){
+
+            }
         }
     };
 </script>
