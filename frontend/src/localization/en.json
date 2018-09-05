@@ -182,7 +182,7 @@
       "save": "Save"
     },
     "message": {
-      "no-lists": "You have not got any place lists yet.",
+      "no-lists": "No lists",
       "added-to-list": "Place added to the list!"
     }
   }
