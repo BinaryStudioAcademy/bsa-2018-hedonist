@@ -103,12 +103,7 @@ class PlaceController extends ApiController
     {
         $placeResponse = $this->getPlaceCollectionByFiltersAction->execute(
             new GetPlaceCollectionByFiltersRequest(
-                $request->input('page'),
-                null,
-                null,
-                null,
-                null,
-                null
+                $request->input('page')
             )
         );
         return $this->successResponse($presenter->present($placeResponse));
@@ -189,6 +184,7 @@ class PlaceController extends ApiController
                     $request->input('filter.name'),
                     $request->input('filter.polygon'),
                     $request->input('filter.tags'),
+                    $request->input('filter.features'),
                     $request->input('filter.top_reviewed'),
                     $request->input('filter.top_rated'),
                     $request->input('filter.checkin'),

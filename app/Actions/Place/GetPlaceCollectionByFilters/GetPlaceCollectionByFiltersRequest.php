@@ -10,6 +10,7 @@ class GetPlaceCollectionByFiltersRequest
     private $name;
     private $polygon;
     private $tags;
+    private $features;
     private $topReviewed;
     private $topRated;
     private $checkin;
@@ -19,12 +20,13 @@ class GetPlaceCollectionByFiltersRequest
     const DEFAULT_PAGE = 1;
 
     public function __construct(
-        ?int $page,
-        ?int $category_id,
-        ?string $location,
-        ?string $name,
-        ?string $polygon,
-        ?string $tags,
+        ?int $page = 1,
+        ?int $category_id = null,
+        ?string $location = null,
+        ?string $name = null,
+        ?string $polygon = null,
+        ?string $tags = null,
+        ?string $features = null,
         ?bool $topReviewed = false,
         ?bool $topRated = false,
         ?bool $checkin = false,
@@ -37,6 +39,7 @@ class GetPlaceCollectionByFiltersRequest
         $this->name = $name;
         $this->polygon = $polygon;
         $this->tags = $tags;
+        $this->features = $features;
         $this->topReviewed = $topReviewed;
         $this->topRated = $topRated;
         $this->checkin = $checkin;
@@ -97,5 +100,10 @@ class GetPlaceCollectionByFiltersRequest
     public function getTags(): ?string
     {
         return $this->tags;
+    }
+
+    public function getFeatures(): ?string
+    {
+        return $this->features;
     }
 }

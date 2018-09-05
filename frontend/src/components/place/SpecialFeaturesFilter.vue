@@ -1,13 +1,14 @@
 <template>
     <div class="category-tags">
-        <span class="category-tags__title">Show only:</span>
+        <span class="category-tags__title">Features:</span>
 
         <div class="tags">
             <template v-for="tag in tags">
                 <PlaceFilterTag
                     :key="tag.id"
                     :tag="tag"
-                    @onSelectTag="onSelectTag"
+                    color="#d346cd"
+                    @onSelectTag="onSelectFeature"
                 />
             </template>
         </div>
@@ -18,10 +19,10 @@
 import PlaceFilterTag from './PlaceFilterTag';
 
 export default {
-    name: 'CategoryTagsContainer',
+    name: 'SpecialFeaturesFilter',
 
     components: {
-        PlaceFilterTag,
+        PlaceFilterTag
     },
 
     props: {
@@ -32,9 +33,9 @@ export default {
     },
 
     methods: {
-        onSelectTag(tagId, isTagActive) {
-            this.$emit('onSelectTag', tagId, isTagActive);
-        },
+        onSelectFeature(featureId, isFeatureActive) {
+            this.$emit('onSelectFeature', featureId, isFeatureActive);
+        }
     },
 };
 </script>

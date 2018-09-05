@@ -28,5 +28,6 @@ export default {
         recommended: false
     },
     selectedTags: [],
+    selectedFeatures: [],
     isLoading: false
 };
