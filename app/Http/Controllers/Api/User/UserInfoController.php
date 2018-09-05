@@ -24,8 +24,7 @@ class UserInfoController extends ApiController
         SaveUserInfoAction $saveUserInfoAction,
         GetUserInfoAction $getUserInfoAction,
         DeleteAvatarAction $deleteAvatarAction
-    )
-    {
+    ) {
         $this->saveUserInfoAction = $saveUserInfoAction;
         $this->getUserInfoAction = $getUserInfoAction;
         $this->deleteAvatarAction = $deleteAvatarAction;
