@@ -68,11 +68,11 @@ export default {
                         this.findItems.isFetching = false;
                     });
             } else {
-                let location = '';
+                let polygon = '';
                 if (!_.isEmpty(this.selectCity)) {
-                    location = this.selectCity.center[0] + ',' + this.selectCity.center[1];
+                    polygon = this.createPolygonByBBox(this.selectCity.bbox);
                 }
-                this.loadPlaces({name: this.findItems.query, location: location})
+                this.loadPlaces({name: this.findItems.query, polygon: polygon})
                     .then( res => {
                         let data = [];
                         res.forEach(function (item, index) {
@@ -98,6 +98,14 @@ export default {
                     this.findItems.data = res;
                 });
         },
+        createPolygonByBBox(bbox) {
+            const x1 = bbox[0];
+            const y1 = bbox[1];
+            const x2 = bbox[2];
+            const y2 = bbox[3];
+
+            return x1 + ',' + y1 + ';' + x2 + ',' + y1 + ';' + x2 + ',' + y2 + ';' + x1 + ',' + y2 + ';' + x1 + ',' + y1;
+        }
     },
     created() {
         this.init();
