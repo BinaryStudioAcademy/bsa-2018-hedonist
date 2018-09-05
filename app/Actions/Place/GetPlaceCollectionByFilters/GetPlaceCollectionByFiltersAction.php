@@ -22,7 +22,6 @@ use Hedonist\Repositories\Place\Criterias\TopRatedCriteria;
 use Hedonist\Repositories\Place\Criterias\TopReviewedCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 
 class GetPlaceCollectionByFiltersAction
 {
@@ -35,12 +34,6 @@ class GetPlaceCollectionByFiltersAction
 
     public function execute(GetPlaceCollectionByFiltersRequest $request): GetPlaceCollectionResponse
     {
-        $uniqId = 'search_places-' . $this->generateUniqKeyByPlaceSearch($request);
-        if (Cache::has($uniqId)) {
-            $redisPlaces = Cache::get($uniqId);
-            return unserialize($redisPlaces);
-        }
-
         $categoryId = $request->getCategoryId();
         $name = $request->getName();
         $location = $request->getLocation();
@@ -99,33 +92,6 @@ class GetPlaceCollectionByFiltersAction
             ...$criterias
         );
 
-        $placeCollection = new GetPlaceCollectionResponse($places, $user);
-        if (! $this->hasFilterParameters($request)) {
-            Cache::put($uniqId, serialize($placeCollection), 30);
-        }
-        return $placeCollection;
-    }
-
-    private function generateUniqKeyByPlaceSearch(GetPlaceCollectionByFiltersRequest $request)
-    {
-        $baseRequest = [
-            $request->getPage(),
-            $request->getCategoryId(),
-            $request->getLocation(),
-            $request->getName()
-        ];
-
-        return implode('_', $baseRequest);
-    }
-
-    private function hasFilterParameters(GetPlaceCollectionByFiltersRequest $request)
-    {
-        $fPolygon = $request->getPolygon();
-        $fTopReviewed = $request->isTopReviewed();
-        $fTopRated = $request->isTopRated();
-        $fCheckin = $request->isCheckin();
-        $fSaved = $request->isSaved();
-
-        return $fPolygon || $fTopReviewed || $fTopRated || $fCheckin || $fSaved;
+        return new GetPlaceCollectionResponse($places, $user);
     }
 }
