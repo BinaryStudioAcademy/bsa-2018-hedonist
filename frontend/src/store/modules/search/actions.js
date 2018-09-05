@@ -58,7 +58,7 @@ export default {
             .catch(error => Promise.reject(error));
     },
 
-    updateQueryFilters({state, dispatch}) {
+    updateQueryFilters({state, dispatch}, params) {
         let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
         let tags = state.selectedTags.join();
         if (state.city.longitude && state.city.latitude) {
@@ -81,10 +81,16 @@ export default {
             }
         });
 
-        router.push({
-            name: 'SearchPlacePage',
-            query
-        });
+        if(
+            params === undefined ||
+            params.redirect === undefined ||
+            params.redirect !== false
+        ) {
+            router.push({
+                name: 'SearchPlacePage',
+                query
+            });
+        }
 
         dispatch('setLoadingState', true);
         dispatch('place/fetchPlaces', query, {root:true}).then(() => {

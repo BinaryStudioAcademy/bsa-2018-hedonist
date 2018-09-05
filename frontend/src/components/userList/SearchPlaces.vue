@@ -5,6 +5,12 @@
             class="search-places"
         >
             <div class="search-inputs">
+                <div class="search-inputs__location">
+                    <SearchCity
+                        @select="selectCity"
+                        :noRedirect = "noRedirect"
+                    />
+                </div>
                 <div :class="['search-inputs__name', 'control', searchInputLoadingClass]">
                     <input
                         placeholder="Search places"
@@ -14,9 +20,6 @@
                         class="search-field input"
                         @input="searchPlaces()"
                     >
-                </div>
-                <div class="search-inputs__location">
-                    <SearchCity @select="selectCity" />
                 </div>
             </div>
             <div class="search-places__list" v-show="displayList && !isPlaceFetching">
@@ -118,6 +121,9 @@ export default {
             },
             places: [],
             isPlaceFetching: false,
+            noRedirect: {
+                redirect: false
+            }
         };
     },
     created() {
@@ -247,16 +253,14 @@ export default {
             padding: 10px;
 
             .search-inputs {
-                display: flex;
+                display: block;
 
                 &__name {
-                    position: relative;
-                    width: 80%
+                    width: 100%
                 }
 
                 &__location {
-                    position: relative;
-                    width: 20%;
+                    padding-bottom: 5px;
                 }
             }
 
