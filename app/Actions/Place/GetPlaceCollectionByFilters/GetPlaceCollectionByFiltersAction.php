@@ -11,6 +11,7 @@ use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
 use Hedonist\Exceptions\Place\PlacePolygonInvalidException;
 use Hedonist\Repositories\Place\Criterias\AllPlacePhotosCriteria;
 use Hedonist\Repositories\Place\Criterias\CheckinCriteria;
+use Hedonist\Repositories\Place\Criterias\GetPlaceBySpecialFeatureCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByTagCriteria;
 use Hedonist\Repositories\Place\Criterias\SavedCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByCategoryCriteria;
@@ -41,6 +42,7 @@ class GetPlaceCollectionByFiltersAction
         $page = $request->getPage() ?: GetPlaceCollectionByFiltersRequest::DEFAULT_PAGE;
         $polygon = $request->getPolygon();
         $tags = $request->getTags();
+        $features = $request->getFeatures();
         $criterias = [];
 
 
@@ -71,6 +73,11 @@ class GetPlaceCollectionByFiltersAction
         if (!is_null($tags)) {
             $tagsArray = explode(',', $tags);
             $criterias[] = new GetPlaceByTagCriteria($tagsArray);
+        }
+
+        if (!is_null($features)) {
+            $featuresArray = explode(',', $features);
+            $criterias[] = new GetPlaceBySpecialFeatureCriteria($featuresArray);
         }
 
         if (!is_null($name)) {
