@@ -6,6 +6,7 @@ use Hedonist\Exceptions\UserList\UserListExistsException;
 use Hedonist\Exceptions\UserList\UserListPermissionDeniedException;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 class DeleteUserListAction
 {
@@ -29,6 +30,7 @@ class DeleteUserListAction
 
         $this->userListRepository->deleteById($request->getId());
 
+        Log::info("User list {$userList->id} is deleted");
         return new DeleteUserListResponse();
     }
 }

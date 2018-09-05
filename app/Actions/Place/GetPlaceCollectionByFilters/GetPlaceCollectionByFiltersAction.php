@@ -26,6 +26,7 @@ use Hedonist\Repositories\Place\Criterias\TopRatedCriteria;
 use Hedonist\Repositories\Place\Criterias\TopReviewedCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class GetPlaceCollectionByFiltersAction
 {
@@ -117,6 +118,21 @@ class GetPlaceCollectionByFiltersAction
             ...$criterias
         );
 
+        $filterInfo = $this->getPlaceFilterInfoJson($user, $request);
+        Log::info("User has performed search: {$filterInfo}");
         return new GetPlaceCollectionResponse($places, $user);
+    }
+
+    private function getPlaceFilterInfoJson(User $user, GetPlaceCollectionByFiltersRequest $request): string
+    {
+        $info = [
+            'userId' => $user->id,
+            'name' => "{$user->info->first_name} {$user->info->last_name}"
+        ];
+
+        $filters = $request->getActiveFiltersArray();
+        $info += $filters;
+
+        return json_encode($info);
     }
 }

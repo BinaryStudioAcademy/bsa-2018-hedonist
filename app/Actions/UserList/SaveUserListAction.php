@@ -8,6 +8,7 @@ use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 use Hedonist\Services\FileNameGenerator;
 use Hedonist\Services\TransactionServiceInterface;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class SaveUserListAction
@@ -60,6 +61,11 @@ class SaveUserListAction
                         ->syncPlaces($userList, []);
                 }
 
+                if (is_null($id)) {
+                    Log::info("User list {$userList->id} is added");
+                } else {
+                    Log::info("User list {$userList->id} is updated");
+                }
                 return new SaveUserListResponse($userList);
             });
     }
