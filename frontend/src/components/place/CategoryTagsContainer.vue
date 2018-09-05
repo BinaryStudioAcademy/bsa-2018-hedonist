@@ -4,7 +4,7 @@
 
         <div class="tags">
             <template v-for="tag in tags">
-                <CategoryTag
+                <PlaceFilterTag
                     :key="tag.id"
                     :tag="tag"
                     @onSelectTag="onSelectTag"
@@ -15,13 +15,13 @@
 </template>
 
 <script>
-import CategoryTag from './CategoryTag';
+import PlaceFilterTag from './PlaceFilterTag';
 
 export default {
     name: 'CategoryTagsContainer',
 
     components: {
-        CategoryTag,
+        PlaceFilterTag,
     },
 
     props: {
