@@ -53,10 +53,11 @@
                     v-if="!isLoadingReviews"
                     class="reviews-section-list"
                 >
-                    <template v-for="review in reviews">
+                    <template v-for="(review, index) in reviews">
                         <Review
                             :key="review.id"
                             :review="review"
+                            :timer="200 * (index + 1)"
                         />
                     </template>
                     <infinite-loading @infinite="loadNextReviewsPage">
@@ -194,15 +195,15 @@ export default {
             this.$store.commit('review/ADD_REVIEW', payload.review);
             this.$store.commit('review/ADD_REVIEW_USER', payload.user);
 
-            payload.review.photos.forEach((photo) => {
-                this.$store.commit('review/ADD_REVIEW_PHOTO', {
-                    reviewId: photo.review_id,
-                    img_url: photo.img_url,
-                });
-                this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', photo);
-            });
-
             this.visibleReviewsIds.unshift(payload.review.id);
+        });
+
+        Echo.private('reviews').listen('.review.photo.added', (payload) => {
+            this.$store.commit('review/ADD_REVIEW_PHOTO', {
+                reviewId: payload.reviewPhoto.review_id,
+                img_url: payload.reviewPhoto.img_url,
+            });
+            this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', payload.reviewPhoto);
         });
     }
 };

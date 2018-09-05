@@ -12,6 +12,7 @@ use Hedonist\Exceptions\Place\PlacePolygonInvalidException;
 use Hedonist\Repositories\Place\Criterias\AllPlacePhotosCriteria;
 use Hedonist\Repositories\Place\Criterias\CheckinCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceBySpecialFeatureCriteria;
+use Hedonist\Repositories\Place\Criterias\RecommendedCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByTagCriteria;
 use Hedonist\Repositories\Place\Criterias\SavedCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByCategoryCriteria;
@@ -98,6 +99,10 @@ class GetPlaceCollectionByFiltersAction
 
         if ($request->isSaved()) {
             $criterias[] = new SavedCriteria($user);
+        }
+
+        if ($request->isRecommended()) {
+            $criterias[] = new RecommendedCriteria($user);
         }
 
         $places = $this->placeRepository->findCollectionByCriterias(
