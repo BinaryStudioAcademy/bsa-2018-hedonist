@@ -8,7 +8,7 @@
                 <div class="search-inputs__location">
                     <SearchCity
                         @select="selectCity"
-                        :noRedirect = "noRedirect"
+                        :no-redirect = "noRedirect"
                     />
                 </div>
                 <div :class="['search-inputs__name', 'control', searchInputLoadingClass]">
