@@ -89,7 +89,7 @@ Route::prefix('v1')->group(function () {
 
             Route::post('/{id}/like', 'Api\Like\LikeController@likeReview')->name('review.like');
             Route::post('/{id}/dislike', 'Api\Like\DislikeController@dislikeReview')->name('review.dislike');
-            
+
             Route::get('/{id}/users-liked', 'Api\Review\ReviewController@getUsersWhoLikedReview');
             Route::get('/{id}/users-disliked', 'Api\Review\ReviewController@getUsersWhoDislikedReview');
 
@@ -148,6 +148,12 @@ Route::prefix('v1')->group(function () {
             ->name('user.me.checkin');
         Route::get('/users/me/checkins', 'Api\Place\PlaceCheckinController@getUserCheckInCollection')
             ->name('user.me.getUserCheckins');
+
+        Route::post('/user/{id}/follow', 'Api\User\UserFollowsController@followUser');
+        Route::post('/user/{id}/unfollow', 'Api\User\UserFollowsController@unfollowUser');
+
+        Route::get('/user/{id}/followers', 'Api\User\UserFollowsController@getFollowers');
+        Route::get('/user/{id}/followed', 'Api\User\UserFollowsController@getFollowedUsers');
 
         Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 
