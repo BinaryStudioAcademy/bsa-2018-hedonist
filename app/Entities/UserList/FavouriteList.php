@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class FavouriteList extends Model
 {
     protected $table = 'user_lists';
-    protected $fillable = [];
+    protected $fillable = ['user_id','name','img_url', 'is_default'];
 
     protected static function boot()
     {
