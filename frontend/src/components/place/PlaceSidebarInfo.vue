@@ -153,12 +153,12 @@ export default {
     
         isOpen() {
             let today = moment().format('dd').toLowerCase();
-            let now = this.getMinutes(moment());
+            let now = this.getMinutes(moment.utc());
             let today_schedule = this.place.worktime.find(function(item) {
                 return item.day === today;
             });
-            return this.getMinutes(this.getLocalMoment(today_schedule.start)) < now
-                && now < this.getMinutes(this.getLocalMoment(today_schedule.end));
+            return this.getMinutes(moment(today_schedule.start)) < now
+                && now < this.getMinutes(moment(today_schedule.end));
         },
         displayTime(time) {
             let localTime = this.getLocalMoment(time);
