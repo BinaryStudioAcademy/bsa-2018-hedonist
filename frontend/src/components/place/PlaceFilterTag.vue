@@ -2,6 +2,7 @@
     <span 
         class="tag is-primary is-rounded"
         :class="{ active: isActive }"
+        :style="{ backgroundColor: color }"
         @click="onClick"
     >
         {{ tag.name }}
@@ -11,12 +12,17 @@
 
 <script>
 export default {
-    name: 'CategoryTag',
+    name: 'PlaceFilterTag',
 
     props: {
         tag: {
             required: true,
             type: Object,
+        },
+        color: {
+            required: false,
+            type: String,
+            default: '#7957d5'
         },
     },
 

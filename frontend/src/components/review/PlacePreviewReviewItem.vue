@@ -1,13 +1,19 @@
 <template>
     <div class="media review-wrapper">
-        <figure class="image is-16x16 media-left">
-            <img :src="review.user.avatar_url" class="user-avatar">
-        </figure>
+
+        <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
+            <figure class="image is-16x16 media-left">
+                <img :src="review.user.avatar_url" class="user-avatar">
+            </figure>
+        </router-link>
         <div class="media-content">
             <div class="review-title">
-                <a href="#" class="has-text-primary review-username">
+                <router-link
+                    class="has-text-primary review-username"
+                    :to="{ name: 'OtherUserPage', params: { id: review.user.id }}"
+                >
                     {{ this.userName }}
-                </a>
+                </router-link>
                 •
                 <span class="review-date">
                     {{ review.created_at }}

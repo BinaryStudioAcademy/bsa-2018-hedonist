@@ -30,4 +30,8 @@ export default {
                 });
         });
     },
+
+    deleteCategoryTags: ({commit}) => {
+        commit('DELETE_CATEGORY_TAGS');
+    }
 };

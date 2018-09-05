@@ -7,6 +7,7 @@ use Hedonist\Repositories\Review\ReviewPhotoRepository;
 use Hedonist\Repositories\Review\ReviewPhotoRepositoryInterface;
 use Hedonist\Services\FileNameGenerator;
 use Illuminate\Support\Facades\Storage;
+use Hedonist\Events\Review\ReviewPhotoAddEvent;
 
 class SaveReviewPhotoAction
 {
@@ -38,6 +39,8 @@ class SaveReviewPhotoAction
         $reviewPhoto->width = $width;
         $reviewPhoto->height = $height;
         $reviewPhoto = $this->reviewPhotoRepository->save($reviewPhoto);
+
+        broadcast(new ReviewPhotoAddEvent($reviewPhoto))->toOthers();
 
         return new SaveReviewPhotoResponse($reviewPhoto);
     }

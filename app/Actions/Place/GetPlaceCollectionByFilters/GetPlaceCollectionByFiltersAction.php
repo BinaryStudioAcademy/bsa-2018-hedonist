@@ -11,8 +11,11 @@ use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
 use Hedonist\Exceptions\Place\PlacePolygonInvalidException;
 use Hedonist\Repositories\Place\Criterias\AllPlacePhotosCriteria;
 use Hedonist\Repositories\Place\Criterias\CheckinCriteria;
+use Hedonist\Repositories\Place\Criterias\GetPlaceBySpecialFeatureCriteria;
+use Hedonist\Repositories\Place\Criterias\RecommendedCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByTagCriteria;
 use Hedonist\Repositories\Place\Criterias\SavedCriteria;
+use Hedonist\Repositories\Place\Criterias\OpenedCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByCategoryCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByLocationCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByPolygonCriteria;
@@ -41,6 +44,7 @@ class GetPlaceCollectionByFiltersAction
         $page = $request->getPage() ?: GetPlaceCollectionByFiltersRequest::DEFAULT_PAGE;
         $polygon = $request->getPolygon();
         $tags = $request->getTags();
+        $features = $request->getFeatures();
         $criterias = [];
 
 
@@ -73,6 +77,11 @@ class GetPlaceCollectionByFiltersAction
             $criterias[] = new GetPlaceByTagCriteria($tagsArray);
         }
 
+        if (!is_null($features)) {
+            $featuresArray = explode(',', $features);
+            $criterias[] = new GetPlaceBySpecialFeatureCriteria($featuresArray);
+        }
+
         if (!is_null($name)) {
             $criterias[] = new GetPlaceByNameCriteria($name);
         }
@@ -91,6 +100,14 @@ class GetPlaceCollectionByFiltersAction
 
         if ($request->isSaved()) {
             $criterias[] = new SavedCriteria($user);
+        }
+
+        if ($request->isRecommended()) {
+            $criterias[] = new RecommendedCriteria($user);
+        }
+
+        if ($request->isOpened()) {
+            $criterias[] = new OpenedCriteria;
         }
 
         $places = $this->placeRepository->findCollectionByCriterias(
