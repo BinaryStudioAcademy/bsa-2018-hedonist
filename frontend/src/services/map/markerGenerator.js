@@ -80,5 +80,5 @@ const generateSmallMarker = (markerData) => {
     return marker;
 };
 
-export default {generateDefaultMarker: generate};
+export default {generateDefaultMarker: generate, generateSmallMarker};
 

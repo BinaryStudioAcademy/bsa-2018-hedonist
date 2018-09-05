@@ -22,6 +22,7 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500');
 @import "vue-directive-tooltip/src/css/index.scss";
 @import url('@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css');
+@import "./styles/common";
 
 $background-color: #efeff4;
 $font-color: #4e595d;

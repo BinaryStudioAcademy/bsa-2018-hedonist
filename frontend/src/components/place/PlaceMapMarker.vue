@@ -4,7 +4,7 @@
         :map-options="{
             style: mapboxStyle,
             center: currentCenter,
-            zoom: 11
+            zoom: 12
         }"
         @map-load="mapLoaded"
     />
@@ -38,7 +38,7 @@ export default {
 
     methods: {
         mapLoaded(map) {
-            markerManager.getService(map).setMarkersFromPlacesAndFit(this.place);
+            markerManager.getService(map).setConcretePlaceMarker(this.place);
         }
     },
 
