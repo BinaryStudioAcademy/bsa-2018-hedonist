@@ -9,12 +9,14 @@ class GetPlaceCollectionByFiltersRequest
     private $page;
     private $name;
     private $polygon;
+    private $tags;
     private $topReviewed;
     private $topRated;
     private $checkin;
     private $saved;
+    private $recommended;
     private $opened;
-  
+
     const DEFAULT_PAGE = 1;
 
     public function __construct(
@@ -23,10 +25,12 @@ class GetPlaceCollectionByFiltersRequest
         ?string $location,
         ?string $name,
         ?string $polygon,
+        ?string $tags,
         ?bool $topReviewed = false,
         ?bool $topRated = false,
         ?bool $checkin = false,
         ?bool $saved = false,
+        ?bool $recommended = false,
         ?bool $opened = false
     ) {
         $this->location = $location;
@@ -34,10 +38,12 @@ class GetPlaceCollectionByFiltersRequest
         $this->page = $page;
         $this->name = $name;
         $this->polygon = $polygon;
+        $this->tags = $tags;
         $this->topReviewed = $topReviewed;
         $this->topRated = $topRated;
         $this->checkin = $checkin;
         $this->saved = $saved;
+        $this->recommended = $recommended;
         $this->opened = $opened;
     }
 
@@ -76,11 +82,16 @@ class GetPlaceCollectionByFiltersRequest
         return (bool) $this->saved;
     }
 
+    public function isRecommended(): bool
+    {
+        return (bool) $this->recommended;
+    }
+
     public function isOpened(): bool
     {
-        return (bool) $this->opened;
+        return (bool)$this->opened;
     }
-  
+
     public function getPolygon(): ?string
     {
         return $this->polygon;
@@ -89,5 +100,10 @@ class GetPlaceCollectionByFiltersRequest
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function getTags(): ?string
+    {
+        return $this->tags;
     }
 }

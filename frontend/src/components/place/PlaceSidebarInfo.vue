@@ -85,7 +85,7 @@
             </div>
             <template v-if="place.features.length > 0">
                 <div class="place-sidebar__features">
-                    <h2 class="feature-title">Features</h2>
+                    <h2 class="block-title">Features</h2>
                     <div
                         v-for="feature in allFeatures"
                         :key="feature.id"
@@ -106,6 +106,17 @@
                     </div>
                 </div>
             </template>
+            <template v-if="recommendedPlaces.length">
+                <h2 class="block-title">You will also like</h2>
+                <template v-for="(recommendedPlace, index) in recommendedPlaces">
+                    <PlacePreview
+                        v-if="!isLoading"
+                        :key="recommendedPlace.id"
+                        :place="recommendedPlace"
+                        :timer="50 * (index+1)"
+                    />
+                </template>
+            </template>
         </div>
     </aside>
 </template>
@@ -114,15 +125,22 @@
 import moment from 'moment';
 import PlaceMapMarker from './PlaceMapMarker';
 import {mapState, mapActions} from 'vuex';
+import PlacePreview from './PlacePreview';
 
 export default {
     name: 'PlaceSidebarInfo',
     components: {
-        PlaceMapMarker
+        PlaceMapMarker,
+        PlacePreview
     },
 
     created() {
         this.fetchAllFeatures();
+        this.fetchRecommendationPlaces(this.place.id)
+            .then((res) => {
+                this.isLoading = false;
+                this.recommendedPlaces = res;
+            });
     },
 
     props: {
@@ -138,12 +156,15 @@ export default {
 
     data() {
         return {
-            isShowSchedule: false
+            isShowSchedule: false,
+            isLoading: true,
+            recommendedPlaces: []
         };
     },
 
     methods: {
         ...mapActions('features', ['fetchAllFeatures']),
+        ...mapActions('place', ['fetchRecommendationPlaces']),
 
         isActiveFeature: function (featureId) {
             return this.place.features.map(
@@ -221,15 +242,16 @@ export default {
             }
         }
     }
+
+    .block-title {
+        font-weight: bold;
+        padding: 20px;
+        background-color: #f7f7fa;
+        border-bottom: 1px solid #efeff4;
+        border-top: 1px solid #efeff4;
+    }
     
     &__features {
-        .feature-title {
-            font-weight: bold;
-            padding: 20px;
-            background-color: #f7f7fa;
-            border-bottom: 1px solid #efeff4;
-            border-top: 1px solid #efeff4;
-        }
 
         .feature {
             display: flex;

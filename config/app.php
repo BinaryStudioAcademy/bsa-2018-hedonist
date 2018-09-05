@@ -157,7 +157,7 @@ return [
          */
         Hedonist\Providers\AppServiceProvider::class,
         Hedonist\Providers\AuthServiceProvider::class,
-        // Hedonist\Providers\BroadcastServiceProvider::class,
+        Hedonist\Providers\BroadcastServiceProvider::class,
         Hedonist\Providers\EventServiceProvider::class,
         Hedonist\Providers\RouteServiceProvider::class,
         Hedonist\Providers\LogglyServiceProvider::class,

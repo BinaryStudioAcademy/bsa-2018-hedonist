@@ -101,7 +101,10 @@ export default {
             'setCurrentPosition',
             'mapInitialization',
             'updateStateFromQuery',
-            'setLoadingState'
+            'setLoadingState',
+            'addSelectedTag',
+            'deleteSelectedTag',
+            'updateQueryFilters'
         ]),
 
         mapInitialize(map) {
@@ -195,7 +198,12 @@ export default {
             }
         },
         onSelectTag(tagId, isTagActive) {
-            // TODO
+            if (isTagActive) {
+                this.addSelectedTag(tagId);
+            } else {
+                this.deleteSelectedTag(tagId);
+            }
+            this.updateQueryFilters();
         },
     },
     watch: {
