@@ -1,64 +1,65 @@
 <template>
     <div class="btn-follow" @click="buttonPressed">
         <a class="button" :class="getClass">
-                            <span class="icon is-small">
-                                <template v-if="isLoading">
-                                    <span class='loader'></span>
-                                </template>
-                                <template v-else>
-                                    <i :class="getIconClass"></i>
-                                </template>
-                            </span>
-            <span>{{message}} {{ name }}</span>
+            <span class="icon is-small">
+                <template v-if="isLoading">
+                    <span class='loader' />
+                </template>
+                <template v-else>
+                    <i :class="getIconClass" />
+                </template>
+            </span>
+            <span>{{ message }} {{ name }}</span>
         </a>
     </div>
 </template>
 
 <script>
-    export default {
-        name: "FollowButton",
-        props: {
-            followed: {
-                type: Boolean,
-                required: true
-            },
-            name: {
-                type: String,
-                required: false,
-            }
+export default {
+    name: 'FollowButton',
+    props: {
+        followed: {
+            type: Boolean,
+            required: true
         },
-        data() {
-            return {
-                isLoading: false,
-                callbackPayload: {
-                    failCallback: () => {
-                        this.isLoading = false;
-                        this.$toast.open({message: 'Something went wrong', type: 'is-danger'});
-                    },
-                    successCallback: () => {
-                        this.isLoading = false;
-                    }
+        name: {
+            type: String,
+            required: false,
+            default:''
+        }
+    },
+    data() {
+        return {
+            isLoading: false,
+            callbackPayload: {
+                failCallback: () => {
+                    this.isLoading = false;
+                    this.$toast.open({message: 'Something went wrong', type: 'is-danger'});
+                },
+                successCallback: () => {
+                    this.isLoading = false;
                 }
             }
+        };
+    },
+    computed: {
+        getClass() {
+            return this.followed ? 'is-success' : 'is-info';
         },
-        computed: {
-            getClass() {
-                return this.followed ? 'is-success' : 'is-info'
-            },
-            getIconClass() {
-                return this.followed ? ['fas', 'fa-check-circle'] : ['fas', 'fa-plus-circle'];
-            },
-            message(){
-                return this.followed ? 'Following' : 'Follow'
-            }
+        getIconClass() {
+            return this.followed ? ['fas', 'fa-check-circle'] : ['fas', 'fa-plus-circle'];
         },
-        methods: {
-            buttonPressed() {
-                this.isLoading = true;
-                this.$emit('followed', {...this.callbackPayload, currentStatus: this.followed});
-            }
+        message(){
+            return this.followed ? 'Following' : 'Follow';
+        }
+    },
+    methods: {
+        buttonPressed() {
+            this.isLoading = true;
+            this.$emit('followed', {...this.callbackPayload, currentStatus: this.followed});
         }
     }
+};
 </script>
 
 <style lang="scss" scoped>

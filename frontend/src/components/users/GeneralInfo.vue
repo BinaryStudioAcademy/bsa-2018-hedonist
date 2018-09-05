@@ -7,10 +7,10 @@
                         <div class="user-info-img">
                             <figure class="image is-128x128">
                                 <img
-                                        v-if="userProfile.avatar_url"
-                                        :src="userProfile.avatar_url"
-                                        :title="fullName"
-                                        :alt="fullName"
+                                    v-if="userProfile.avatar_url"
+                                    :src="userProfile.avatar_url"
+                                    :title="fullName"
+                                    :alt="fullName"
                                 >
                             </figure>
                         </div>
@@ -22,31 +22,31 @@
                             <h1 class="subtitle is-3">{{ fullName }}</h1>
                             <div class="user-social">
                                 <a
-                                        v-if="userProfile.facebook_url"
-                                        v-show="userProfile.facebook_url"
-                                        :href="userProfile.facebook_url"
-                                        class="facebbok-link"
-                                        target="_blank"
+                                    v-if="userProfile.facebook_url"
+                                    v-show="userProfile.facebook_url"
+                                    :href="userProfile.facebook_url"
+                                    class="facebbok-link"
+                                    target="_blank"
                                 >
-                                    <i class="fa-2x fab fa-facebook-square"/>
+                                    <i class="fa-2x fab fa-facebook-square" />
                                 </a>
                                 <a
-                                        v-if="userProfile.twitter_url"
-                                        v-show="userProfile.twitter_url"
-                                        :href="userProfile.twitter_url"
-                                        class="twitter-link"
-                                        target="_blank"
+                                    v-if="userProfile.twitter_url"
+                                    v-show="userProfile.twitter_url"
+                                    :href="userProfile.twitter_url"
+                                    class="twitter-link"
+                                    target="_blank"
                                 >
-                                    <i class="fa-2x fab fa-twitter-square"/>
+                                    <i class="fa-2x fab fa-twitter-square" />
                                 </a>
                                 <a
-                                        v-if="userProfile.instagram_url"
-                                        v-show="userProfile.instagram_url"
-                                        :href="userProfile.instagram_url"
-                                        class="instagram-link"
-                                        target="_blank"
+                                    v-if="userProfile.instagram_url"
+                                    v-show="userProfile.instagram_url"
+                                    :href="userProfile.instagram_url"
+                                    class="instagram-link"
+                                    target="_blank"
                                 >
-                                    <i class="fa-2x fab fa-instagram"/>
+                                    <i class="fa-2x fab fa-instagram" />
                                 </a>
                             </div>
                         </div>
@@ -71,14 +71,14 @@
                             </li>
                             <li class="level-item has-text-centered">
                                 <div>
-                                    <p class="relation-count">{{userProfile.followers.length}}</p>
+                                    <p class="relation-count">{{ userProfile.followers.length }}</p>
                                     <p class="relation-title">Followers</p>
 
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
                                 <div>
-                                    <p class="relation-count">{{userProfile.followedUsers.length}}</p>
+                                    <p class="relation-count">{{ userProfile.followedUsers.length }}</p>
                                     <p class="relation-title">Following</p>
                                 </div>
                             </li>
@@ -91,9 +91,9 @@
                         </ul>
 
                         <FollowButton
-                                @followed="followEventHandler"
-                                :followed="isFollowedByCurentUser"
-                                :name="userProfile.first_name"
+                            @followed="followEventHandler"
+                            :followed="isFollowedByCurentUser"
+                            :name="userProfile.first_name"
                         />
 
                     </div>
@@ -105,57 +105,57 @@
 </template>
 
 <script>
-    import {mapState, mapActions, mapGetters} from 'vuex';
-    import FollowButton from './FollowButton';
+import {mapState, mapActions, mapGetters} from 'vuex';
+import FollowButton from './FollowButton';
 
-    export default {
-        name: 'GeneralInfo',
-        data() {
-            return {};
+export default {
+    name: 'GeneralInfo',
+    data() {
+        return {};
+    },
+    components: {FollowButton},
+    created() {
+        this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
+    },
+    computed: {
+        ...mapGetters('users', ['getUserProfile']),
+        ...mapGetters('place', ['getUserReviewsAll']),
+        ...mapGetters('auth', ['getAuthenticatedUser']),
+        AllReviewUserLength: function () {
+            return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
         },
-        components: {FollowButton},
-        created() {
-            this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
+        ...mapState('userList', {
+            userLists: 'userLists',
+        }),
+        UserListsLength: function () {
+            return this.userLists ? this.userLists.allIds.length : null;
         },
-        computed: {
-            ...mapGetters('users', ['getUserProfile']),
-            ...mapGetters('place', ['getUserReviewsAll']),
-            ...mapGetters('auth', ['getAuthenticatedUser']),
-            AllReviewUserLength: function () {
-                return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
-            },
-            ...mapState('userList', {
-                userLists: 'userLists',
-            }),
-            UserListsLength: function () {
-                return this.userLists ? this.userLists.allIds.length : null;
-            },
-            fullName() {
-                return this.userProfile.first_name + ' ' + this.userProfile.last_name
-            },
-            userProfile() {
-                return this.getUserProfile(parseInt(this.$route.params.id));
-            },
-            isFollowedByCurentUser() {
-                return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
-            }
+        fullName() {
+            return this.userProfile.first_name + ' ' + this.userProfile.last_name;
         },
-        methods: {
-            ...mapActions('users', ['followUser', 'unfollowUser']),
-            followEventHandler(payload) {
-                const newPayload = {
-                    ...payload,
-                    followedId: this.userProfile.id,
-                    followerId: this.getAuthenticatedUser.id
-                };
-                if(!payload.currentStatus){
-                    this.followUser(newPayload);
-                } else {
-                    this.unfollowUser(newPayload);
-                }
+        userProfile() {
+            return this.getUserProfile(parseInt(this.$route.params.id));
+        },
+        isFollowedByCurentUser() {
+            return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
+        }
+    },
+    methods: {
+        ...mapActions('users', ['followUser', 'unfollowUser']),
+        followEventHandler(payload) {
+            const newPayload = {
+                ...payload,
+                followedId: this.userProfile.id,
+                followerId: this.getAuthenticatedUser.id
+            };
+            if(!payload.currentStatus){
+                this.followUser(newPayload);
+            } else {
+                this.unfollowUser(newPayload);
             }
         }
-    };
+    }
+};
 </script>
 
 <style lang="scss" scoped>

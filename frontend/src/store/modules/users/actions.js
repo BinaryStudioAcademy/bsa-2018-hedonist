@@ -24,7 +24,7 @@ export default {
                     context.commit('FOLLOW_USER', {
                         followed: payload.followedId,
                         follower: payload.followerId}
-                        );
+                    );
                     payload.successCallback();
                     resolve(result);
                 })

@@ -1,6 +1,6 @@
 <template>
     <div class="container user-cities">
-        <h3 class="subtitle is-4">{{ userName}}'s lists</h3>
+        <h3 class="subtitle is-4">{{ userName }}'s lists</h3>
         <ul class="columns is-variable is-4 is-multiline user-cities-items">
             <ListsContainerItem
                 v-for="userList in filteredUserLists"
@@ -31,7 +31,7 @@ export default {
             return this.userLists ? this.userLists.byId : null;
         },
         userProfile(){
-          return this.getUserProfile(this.$route.params.id) || {};
+            return this.getUserProfile(this.$route.params.id) || {};
         },
         userName(){
             return this.userProfile.first_name || '';

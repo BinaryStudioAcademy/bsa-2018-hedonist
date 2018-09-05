@@ -2,7 +2,7 @@ const normolizeFollows = (users, userState) =>
     users.map((item) => {
         userState.byId[item.id] = item;
         userState.allIds.push(item.id);
-        return item.id
+        return item.id;
     });
 
 
