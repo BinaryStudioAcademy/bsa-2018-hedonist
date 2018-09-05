@@ -41,6 +41,7 @@ use Hedonist\Http\Requests\Place\ValidateAddPlaceRequest;
 use Hedonist\Http\Requests\Place\ValidateUpdatePlaceRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PlaceController extends ApiController
 {
