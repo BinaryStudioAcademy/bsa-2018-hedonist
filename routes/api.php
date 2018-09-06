@@ -45,6 +45,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
             ->name('user-list.lists');
 
+        Route::put('/user-lists/favourite', 'Api\User\UserList\UserListPlaceController@attachPlaceToFavourite')
+            ->name('lists.favourite.attach');
         Route::resource('user-lists', 'Api\User\UserList\UserListController')->except([
             'create', 'edit'
         ]);

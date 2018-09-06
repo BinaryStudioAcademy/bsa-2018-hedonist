@@ -4,28 +4,29 @@
             <i class="far fa-save" />{{ $t('place_page.buttons.save') }}
             <b-icon icon="menu-down" />
         </button>
-        <template v-if="lists.length">
-            <template v-for="list in lists">
-                <b-dropdown-item :key="list.id" @click="addToList(list)">
+        <template>
+            <b-dropdown-item v-if="!favouriteExist" @click="addToFavouriteList">
+                {{ $t('place_page.top_info.favourite') }}
+            </b-dropdown-item>
+            <b-dropdown-item v-for="list in lists" :key="list.id" @click="addToList(list)">
+                <span v-if="list.name === FAVOURITE_LIST_NAME && list.is_default">
+                    {{ $t('place_page.top_info.favourite') }}
+                </span>
+                <span v-else>
                     {{ list.name }}
-                    <i
-                        class="fas fa-check checkmark has-text-success"
-                        v-if="checkedIn(list.places)"
-                    />
-                </b-dropdown-item>
-            </template>
-        </template>
-        <template v-else>
-            <b-dropdown-item>
-                {{ $t('place_page.message.no-lists') }}
+                </span>
+                <i
+                    class="fas fa-check checkmark has-text-success"
+                    v-if="checkedIn(list.places)"
+                />
             </b-dropdown-item>
         </template>
     </b-dropdown>
 </template>
 
-
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapActions, mapState} from 'vuex';
+import {FAVOURITE_LIST_NAME} from '@/services/userList/listNames';
 
 export default {
     name: 'TopInfoUserListItem',
@@ -39,15 +40,38 @@ export default {
             required: true
         }
     },
+    data() {
+        return {
+            FAVOURITE_LIST_NAME: FAVOURITE_LIST_NAME
+        };
+    },
     computed: {
         ...mapGetters('auth', ['getAuthenticatedUser']),
+        ...mapState('userList', ['favouriteExist'])
     },
     methods: {
-        ...mapActions('userList', ['addPlaceToList']),
+        ...mapActions('userList', [
+            'addPlaceToList',
+            'addPlaceToFavouriteList'
+        ]),
         addToList: function (list) {
             if (this.checkedIn(list.places)) return;//no action if place already checked in
             this.addPlaceToList({
                 listId: list.id,
+                placeId: this.place.id,
+                userId: this.getAuthenticatedUser.id
+            })
+                .then(
+                    () => {
+                        this.showToast(true);
+                    },
+                    () => {
+                        this.showToast(false);
+                    }
+                );
+        },
+        addToFavouriteList: function () {
+            this.addPlaceToFavouriteList({
                 placeId: this.place.id,
                 userId: this.getAuthenticatedUser.id
             })

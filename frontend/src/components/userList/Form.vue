@@ -30,14 +30,14 @@
             </div>
         </div>
         <div class="list-name width100">
-            <label class="label" for="list-name">List name</label>
-            <input
-                v-model="userList.name"
-                id="list-name"
-                type="text"
-                class="text"
-                name="name"
-            >
+            <b-field label="List name">
+                <b-input
+                    v-model="userList.name"
+                    placeholder="Name"
+                    id="list-name"
+                    :disabled="isDefault"
+                />
+            </b-field>
             <div class="form-actions">
                 <button v-if="id" class="button is-info" @click="onUpdate">Update</button>
                 <button v-if="id" class="button is-danger" @click="onDelete">Delete</button>
@@ -70,6 +70,10 @@ export default {
         listImage: {
             type: String,
             default: null
+        },
+        isDefault: {
+            type: Boolean,
+            default: false
         }
     },
     data: function() {

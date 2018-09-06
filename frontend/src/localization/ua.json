@@ -180,6 +180,9 @@
       "features": "Особливості",
       "recommendation": "Вам також сподобається"
     },
+    "top_info": {
+      "favourite": "Обрані"
+    },
     "message": {
       "no-lists": "У вас ще немає списків місць.",
       "added-to-list": "Місце додано до списку!"
