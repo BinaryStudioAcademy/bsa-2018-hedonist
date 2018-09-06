@@ -2,7 +2,7 @@
     <section class="hero is-medium">
         <div class="hero-body">
             <div class="container">
-                <h2 class="subtitle">
+                <h2 class="subtitle has-text-centered">
                     This profile is private :(
                 </h2>
             </div>
@@ -12,20 +12,18 @@
 
 <script>
 export default {
-    name: "PrivateProfile"
+    name: 'PrivateProfile'
 }
 </script>
 
 <style scoped>
-    .container {
-        max-width: 300px;
-
-    }
-    .title {
-        font-weight: 400;
-        font-size: 4rem;
+    .hero {
+        background: #ffffff;
+        height: calc(100vh - 52px);
+        display: block;
+        overflow: hidden;
     }
     .subtitle {
-        font-size: 1.5rem;
+        font-size: 2rem;
     }
 </style>
