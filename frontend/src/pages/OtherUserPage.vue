@@ -7,8 +7,12 @@
             :currentTab="currentTab"
             @tabChanged="changeTab"
         />
-        <ListsContainer/>
-        <ReviewsContainer/>
+        <ListsContainer
+                v-if="activeTab(pageConstants.listTab)"
+        />
+        <ReviewsContainer
+                v-if="activeTab(pageConstants.reviewTab)"
+        />
     </div>
 </template>
 
@@ -32,7 +36,8 @@
             return {
                 isLoading: true,
                 loadingTime: 2000,
-                currentTab: otherUserPage.listTab
+                currentTab: otherUserPage.listTab,
+                pageConstants: otherUserPage
             };
         },
         created() {
@@ -54,6 +59,9 @@
             changeTab(tab){
                 this.currentTab = tab;
             },
+            activeTab(tab){
+                return this.currentTab === tab;
+            }
         }
     };
 </script>
