@@ -15,7 +15,7 @@ export default {
     },
     followUser: (context, payload) => {
         return new Promise((resolve, reject) => {
-            httpService.post('/users/' + payload.followedId + '/follow')
+            httpService.post('/users/' + payload.followedId + '/follows')
                 .then((result) => {
                     if (result.status !== 200) {
                         payload.failCallback();
@@ -36,7 +36,7 @@ export default {
     },
     unfollowUser: (context, payload) => {
         return new Promise((resolve, reject) => {
-            httpService.post('/users/' + payload.followedId + '/unfollow')
+            httpService.delete('/users/' + payload.followedId + '/follows')
                 .then((result) => {
                     if (result.status !== 200) {
                         payload.failCallback();
