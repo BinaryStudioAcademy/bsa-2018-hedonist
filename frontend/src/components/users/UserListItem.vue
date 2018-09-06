@@ -4,31 +4,31 @@
             <img :src="profilePhoto" :alt="fullName">
         </figure>
         <router-link :to="`/users/${user.id}`" class="userName">
-            {{fullName}}
+            {{ fullName }}
         </router-link>
     </div>
 </template>
 
 <script>
-    import UserPlaceholder from '@/assets/user-placeholder.png'
+import UserPlaceholder from '@/assets/user-placeholder.png';
 
-    export default {
-        name: "UserListItem",
-        props: {
-            user: {
-                type: Object,
-                required: true
-            }
+export default {
+    name: 'UserListItem',
+    props: {
+        user: {
+            type: Object,
+            required: true
+        }
+    },
+    computed: {
+        profilePhoto() {
+            return this.user.avatar_url || UserPlaceholder;
         },
-        computed: {
-            profilePhoto() {
-                return this.user.avatar_url || UserPlaceholder;
-            },
-            fullName() {
-                return this.user.first_name + ' ' + this.user.last_name;
-            }
+        fullName() {
+            return this.user.first_name + ' ' + this.user.last_name;
         }
     }
+};
 </script>
 
 <style lang="scss" scoped>

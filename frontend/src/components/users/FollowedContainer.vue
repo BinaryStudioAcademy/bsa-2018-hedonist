@@ -6,23 +6,23 @@
 </template>
 
 <script>
-    import UserList from "./UserList";
-    import {mapGetters,mapState} from 'vuex'
+import UserList from './UserList';
+import {mapGetters,mapState} from 'vuex';
 
-    export default {
-        name: "FollowedContainer",
-        components: {UserList},
-        computed:{
-            ...mapGetters('users',['getUserProfile']),
-            ...mapState('users', ['users']),
-            userProfile(){
-                return this.getUserProfile(this.$route.params.id);
-            },
-            followers(){
-                return this.userProfile.followedUsers.map((id) => this.users.byId[id]);
-            }
+export default {
+    name: 'FollowedContainer',
+    components: {UserList},
+    computed:{
+        ...mapGetters('users',['getUserProfile']),
+        ...mapState('users', ['users']),
+        userProfile(){
+            return this.getUserProfile(this.$route.params.id);
+        },
+        followers(){
+            return this.userProfile.followedUsers.map((id) => this.users.byId[id]);
         }
     }
+};
 </script>
 
 <style scoped>
