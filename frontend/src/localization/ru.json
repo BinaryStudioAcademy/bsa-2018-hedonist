@@ -45,13 +45,13 @@
         "placeholder": "Ваш Email"
       },
       "password": {
-        "field_name": "Пароль",
-        "placeholder": "Ваш Пароль",
+        "field_name": "Новый пароль",
+        "placeholder": "Новый пароль",
         "description": "(минимум 6 символов)"
       },
-      "new_password": {
+      "confirm_password": {
         "field_name": "Подтвердите новый пароль",
-        "placeholder": "Новый пароль"
+        "placeholder": "Подтвердите новый пароль"
       }
     }
   },
@@ -191,6 +191,11 @@
       "more": "Показать больше",
       "less": "Показать меньше",
       "save": "Сохранить"
+    }
+  },
+  "messages": {
+    "success": {
+      "changed_password": "Вы успешно изменили ваш пароль! Теперь вам нужно войти в систему"
     }
   }
 }

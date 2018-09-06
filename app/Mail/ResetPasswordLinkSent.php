@@ -29,6 +29,7 @@ class ResetPasswordLinkSent extends Mailable implements ShouldQueue
                 'firstName' => $this->user->info->first_name,
                 'lastName'  => $this->user->info->last_name,
                 'token'     => $this->token,
+                'email'     => $this->user->email,
             ]);
     }
 }
