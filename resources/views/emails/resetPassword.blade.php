@@ -9,7 +9,7 @@
     <body>
         <p>Hello, <strong>{{ $firstName }} {{ $lastName }}</strong>!</p>
         <p>Click
-            <a href="{{ url()->full() . '/reset?token=' . $token }}">this link</a>
+            <a href="{{ url()->full() . '/reset?token=' . $token  . '&email=' . $email }}">this link</a>
             to reset your password
         </p>
     </body>

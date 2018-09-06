@@ -45,13 +45,13 @@
         "placeholder": "Your Email"
       },
       "password": {
-        "field_name": "Password",
-        "placeholder": "Your Password",
+        "field_name": "New password",
+        "placeholder": "New password",
         "description": "(at least 6 characters)"
       },
-      "new_password": {
+      "confirm_password": {
         "field_name": "Confirm new password",
-        "placeholder": "New password"
+        "placeholder": "Confirm new password"
       }
     }
   },
@@ -183,6 +183,11 @@
     "buttons": {
       "more": "Show more",
       "less": "Show less"
+    }
+  },
+  "messages": {
+    "success": {
+      "changed_password": "You have successfully changed your password! Now you need to login"
     }
   }
 }
