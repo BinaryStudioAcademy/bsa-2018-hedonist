@@ -151,11 +151,11 @@ Route::prefix('v1')->group(function () {
         Route::get('/users/me/checkins', 'Api\Place\PlaceCheckinController@getUserCheckInCollection')
             ->name('user.me.getUserCheckins');
 
-        Route::post('/user/{id}/follow', 'Api\User\UserFollowsController@followUser');
-        Route::post('/user/{id}/unfollow', 'Api\User\UserFollowsController@unfollowUser');
+        Route::post('/users/{id}/followers', 'Api\User\UserFollowsController@followUser');
+        Route::delete('/users/{id}/followers', 'Api\User\UserFollowsController@unfollowUser');
 
-        Route::get('/user/{id}/followers', 'Api\User\UserFollowsController@getFollowers');
-        Route::get('/user/{id}/followed', 'Api\User\UserFollowsController@getFollowedUsers');
+        Route::get('/users/{id}/followers', 'Api\User\UserFollowsController@getFollowers');
+        Route::get('/users/{id}/followed', 'Api\User\UserFollowsController@getFollowedUsers');
 
         Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 

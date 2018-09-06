@@ -1,7 +1,7 @@
 <template>
     <b-dropdown>
         <button class="button is-success" slot="trigger">
-            <i class="far fa-save" />Save
+            <i class="far fa-save" />{{ $t('place_page.buttons.save') }}
             <b-icon icon="menu-down" />
         </button>
         <template>
@@ -23,7 +23,6 @@
         </template>
     </b-dropdown>
 </template>
-
 
 <script>
 import {mapGetters, mapActions, mapState} from 'vuex';
@@ -91,7 +90,7 @@ export default {
         showToast: function (success) {
             if (success) {
                 this.$toast.open({
-                    message: 'Place added to the list!',
+                    message: this.$t('place_page.message.added-to-list'),
                     type: 'is-success'
                 });
             } else {
