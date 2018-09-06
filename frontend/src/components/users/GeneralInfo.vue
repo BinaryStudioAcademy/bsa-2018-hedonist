@@ -49,9 +49,6 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="user-stats-complaint">
-                            <span>Пожаловаться на этого человека?</span>
-                        </div>
                     </div>
 
                     <div class="column user-info-relation">
