@@ -18,7 +18,7 @@
                 </div>
                 <div v-if="place.tags" class="place-sidebar__tags">
                     <i class="place-sidebar__icon fas fa-info-circle" />
-                    <span 
+                    <span
                         v-for="tag in place.tags"
                         class="tag"
                         :key="tag.id"
@@ -56,8 +56,8 @@
 
                 <div class="place-sidebar__phone">
                     <i class="place-sidebar__icon fas fa-phone" />
-                    <a 
-                        class="phone-number" 
+                    <a
+                        class="phone-number"
                         :href="`tel:${place.phone}`"
                     >
                         {{ place.phone }}
@@ -86,24 +86,30 @@
             <template v-if="place.features.length > 0">
                 <div class="place-sidebar__features">
                     <h2 class="block-title">{{ $t('place_page.sidebar.features') }}</h2>
-                    <div
-                        v-for="feature in allFeatures"
-                        :key="feature.id"
-                        class="place-sidebar__feature-list"
-                    >
-                        <div class="feature">
-                            <div class="feature-name">{{ feature.name }}</div>
-                            <div
-                                v-if="isActiveFeature(feature.id)"
-                                class="feature-info"
-                            >
-                                <i class="fas fa-check" />
-                            </div>
-                            <div v-else class="feature-info-absent">
-                                <i class="fas fa-times" />
+                    <transition-group name="features-list">
+                        <div
+                            v-for="(feature, index) in allFeatures"
+                            v-show="!showLessFeatures || (index < 3)"
+                            :key="feature.id"
+                            class="place-sidebar__feature-list"
+                        >
+                            <div class="feature">
+                                <div class="feature-name">{{ feature.name }}</div>
+                                <div
+                                    v-if="isActiveFeature(feature.id)"
+                                    class="feature-info"
+                                >
+                                    <i class="fas fa-check" />
+                                </div>
+                                <div v-else class="feature-info-absent">
+                                    <i class="fas fa-times" />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </transition-group>
+                </div>
+                <div @click="showLessFeatures = !showLessFeatures" class="place-sidebar__more-feature-btn">
+                    {{ showLessFeatures? $t('place_page.buttons.more') : $t('place_page.buttons.less') }}
                 </div>
             </template>
             <template v-if="recommendedPlaces.length">
@@ -158,7 +164,8 @@ export default {
         return {
             isShowSchedule: false,
             isLoading: true,
-            recommendedPlaces: []
+            recommendedPlaces: [],
+            showLessFeatures: true
         };
     },
 
@@ -171,7 +178,7 @@ export default {
                 (feature) => feature.id
             ).indexOf(featureId)>=0;
         },
-    
+
         isOpen() {
             let today = moment().format('dd').toLowerCase();
             let now = this.getMinutes(moment.utc());
@@ -197,8 +204,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .features-list-enter-active, .features-list-leave-active{
+        transition: all 2s;
+    }
+    .features-list-enter {
+        opacity: 0;
+    }
+    .features-list-leave-to {
+        display:none;
+    }
 
-.place-sidebar {
+    .place-sidebar {
     background-color: #fff;
 
     .map-box {
@@ -250,9 +266,8 @@ export default {
         border-bottom: 1px solid #efeff4;
         border-top: 1px solid #efeff4;
     }
-    
-    &__features {
 
+    &__features {
         .feature {
             display: flex;
             flex-direction: row;
@@ -277,6 +292,13 @@ export default {
                 padding-right: 3px;
             }
         }
+    }
+
+    &__more-feature-btn {
+        padding: 10px 20px;
+        text-align: center;
+        color: #167df0;
+        cursor: pointer;
     }
 
     &__social a {

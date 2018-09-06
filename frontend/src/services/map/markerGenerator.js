@@ -39,6 +39,29 @@ const createPopup = (markerData) => {
     return popup;
 };
 
+const createSmallPopup = (markerData) => {
+    let popup = new mapboxgl.Popup();
+    popup.setHTML(`
+        <div class="small-marker-wrapper">
+                <div>
+                    <a class="link-place has-text-black is-size-6" href="/places/${markerData.id}" target="_blank">
+                        <strong>
+                            ${markerData.name}
+                        </strong>
+                    </a> 
+                </div>
+                <div>
+                    ${markerData.category || ''}
+                </div>
+                <div>
+                    ${markerData.address || ''}
+                </div>
+        </div>
+    `);
+
+    return popup;
+};
+
 const generate = (markerData) => {
     let element = createMarker();
     let marker = new mapboxgl.Marker();
@@ -48,5 +71,14 @@ const generate = (markerData) => {
     return marker;
 };
 
-export default {generateDefaultMarker: generate};
+const generateSmallMarker = (markerData) => {
+    let element = createMarker();
+    let marker = new mapboxgl.Marker();
+    let popup = createSmallPopup(markerData);
+    marker.setPopup(popup);
+    marker.setLngLat([markerData.lng, markerData.lat]);
+    return marker;
+};
+
+export default {generateDefaultMarker: generate, generateSmallMarker};
 

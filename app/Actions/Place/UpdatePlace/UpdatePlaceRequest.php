@@ -22,7 +22,7 @@ class UpdatePlaceRequest
         int $cityId,
         float $longitude,
         float $latitude,
-        int $zip,
+        string $zip,
         string $address,
         string $phone,
         string $website
@@ -69,7 +69,7 @@ class UpdatePlaceRequest
         return $this->latitude;
     }
 
-    public function getZip(): int
+    public function getZip(): string
     {
         return $this->zip;
     }

@@ -179,6 +179,10 @@
       "close": "Close",
       "features": "Features",
       "recommendation": "You will also like"
+    },
+    "buttons": {
+      "more": "Show more",
+      "less": "Show less"
     }
   }
 }

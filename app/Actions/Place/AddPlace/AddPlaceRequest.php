@@ -31,7 +31,7 @@ class AddPlaceRequest
         string $city,
         float $longitude,
         float $latitude,
-        int $zip,
+        string $zip,
         string $address,
         string $phone,
         string $website,
@@ -111,7 +111,7 @@ class AddPlaceRequest
         return $this->latitude;
     }
 
-    public function getZip(): int
+    public function getZip(): string
     {
         return $this->zip;
     }
