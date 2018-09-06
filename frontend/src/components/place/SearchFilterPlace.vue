@@ -2,16 +2,19 @@
     <div class="filter-controls">
         <h5 class="header-visible">Filters:</h5>
         <ul>
-            <li 
-                v-for="(filterPlace, index) in filterPlaces" 
-                class="filter-control"
-                :class="{selected: filterPlace.check}"
-                :key="filterPlace.id"
+            <li
+                    v-for="(filterPlace, index) in filterPlaces"
+                    class="filter-control"
+                    :class="{selected: filterPlace.check}"
+                    :key="filterPlace.id"
             >
-                <span v-tooltip.bottom="filterPlace.tooltipText" @click="checkFilter(index)" class="filter-control-span">
+                <span
+                        v-tooltip.bottom="{content: filterPlace.tooltipText, delay:0, class: 'custom-tooltip'}"
+                        @click="checkFilter(index)" class="filter-control-span"
+                >
                     {{ filterPlace.name }}
-                    <i v-if="filterPlace.isLoading" class="fa fa-spinner fa-spin" />
-                    <i v-if="filterPlace.check" class="far fa-times-circle" />
+                    <i v-if="filterPlace.isLoading" class="fa fa-spinner fa-spin"/>
+                    <i v-if="filterPlace.check" class="far fa-times-circle"/>
                 </span>
             </li>
         </ul>
@@ -20,113 +23,120 @@
 
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-export default {
-    name: 'SearchFilterPlace',
-    props: {
-        isPlacesLoaded: {
-            type: Boolean,
-            required: true
-        }
-    },
-    data() {
-        return {
-            timeDelay: 0,
-            filterPlaces: {
-                top_rated:{
-                    id: 1,
-                    name: 'Top Rated',
-                    check: false,
-                    isLoading: false,
-                    tooltipText: 'Click to see places with at least 4 rating'
-                },
-                saved:{
-                    id: 2,
-                    name: 'Saved',
-                    check: false,
-                    isLoading: false,
-                    tooltipText: 'Click to see saved places'
-                },
-                checkin:{
-                    id: 3,
-                    name: 'Visited',
-                    check: false,
-                    isLoading: false,
-                    tooltipText: 'Click to see visited places'
-                },
-                top_reviewed:{
-                    id: 4,
-                    name: 'Top Reviewed',
-                    check: false,
-                    isLoading: false,
-                    tooltipText: 'Click to see places with at least 10 reviews'
-                },
-                recommended:{
-                    id: 5,
-                    name: 'Recommended',
-                    check: false,
-                    isLoading: false,
-                    tooltipText: 'Click to see recommended places for you'
-                },
-                opened:{
-                    id: 6,
-                    name: 'Opened',
-                    check: false,
-                    isLoading: false,
-                    tooltipText: 'Click to see only opened now places'
-                }
-            },
-        };
-    },
-    methods: {
-        ...mapActions({
-            setFilters: 'search/setFilters',
-            initFilters: 'search/initFilters'
-        }),
-        checkFilter(index) {
-            if (!this.isPlacesLoaded) {
-                return;
-            }
-            let filterPlaces = this.filterPlaces[index];
+    import {mapActions, mapGetters} from 'vuex';
 
-            if (filterPlaces.check === false) {
-                filterPlaces.isLoading = true;
-                filterPlaces.check = !filterPlaces.check;
-                this.setFilters({[index]: filterPlaces.check})
-                    .then(() => {
-                        setTimeout(() => {
-                            filterPlaces.isLoading = false;
-                        }, 300);
-                    });
-
-            } else {
-                filterPlaces.check = !filterPlaces.check;
-                filterPlaces.isLoading = true;
-                this.setFilters({[index]: filterPlaces.check})
-                    .then(() => {
-                        setTimeout(()=> {
-                            filterPlaces.isLoading = false;
-                        }, 300);
-                    });
+    export default {
+        name: 'SearchFilterPlace',
+        props: {
+            isPlacesLoaded: {
+                type: Boolean,
+                required: true
             }
         },
-        init() {
-            this.initFilters();
-            for(let filter in this.filterPlaces){
-                this.filterPlaces[filter].check = this.getFilter(filter);
-            }
-        }
-    },
-    computed: {
-        ...mapGetters('search', [ 'getFilter' ]),
-    },
-    created: function(){
-        this.init();
-    }
+        data() {
+            return {
+                timeDelay: 0,
+                filterPlaces: {
+                    top_rated: {
+                        id: 1,
+                        name: 'Top Rated',
+                        check: false,
+                        isLoading: false,
+                        tooltipText: 'Click to see places with at least 4 rating'
+                    },
+                    saved: {
+                        id: 2,
+                        name: 'Saved',
+                        check: false,
+                        isLoading: false,
+                        tooltipText: 'Click to see saved places'
+                    },
+                    checkin: {
+                        id: 3,
+                        name: 'Visited',
+                        check: false,
+                        isLoading: false,
+                        tooltipText: 'Click to see visited places'
+                    },
+                    top_reviewed: {
+                        id: 4,
+                        name: 'Top Reviewed',
+                        check: false,
+                        isLoading: false,
+                        tooltipText: 'Click to see places with at least 10 reviews'
+                    },
+                    recommended: {
+                        id: 5,
+                        name: 'Recommended',
+                        check: false,
+                        isLoading: false,
+                        tooltipText: 'Click to see recommended places for you'
+                    },
+                    opened: {
+                        id: 6,
+                        name: 'Opened',
+                        check: false,
+                        isLoading: false,
+                        tooltipText: 'Click to see only opened now places'
+                    }
+                },
+            };
+        },
+        methods: {
+            ...mapActions({
+                setFilters: 'search/setFilters',
+                initFilters: 'search/initFilters'
+            }),
+            checkFilter(index) {
+                if (!this.isPlacesLoaded) {
+                    return;
+                }
+                let filterPlaces = this.filterPlaces[index];
 
-};
+                if (filterPlaces.check === false) {
+                    filterPlaces.isLoading = true;
+                    filterPlaces.check = !filterPlaces.check;
+                    this.setFilters({[index]: filterPlaces.check})
+                        .then(() => {
+                            setTimeout(() => {
+                                filterPlaces.isLoading = false;
+                            }, 300);
+                        });
+
+                } else {
+                    filterPlaces.check = !filterPlaces.check;
+                    filterPlaces.isLoading = true;
+                    this.setFilters({[index]: filterPlaces.check})
+                        .then(() => {
+                            setTimeout(() => {
+                                filterPlaces.isLoading = false;
+                            }, 300);
+                        });
+                }
+            },
+            init() {
+                this.initFilters();
+                for (let filter in this.filterPlaces) {
+                    this.filterPlaces[filter].check = this.getFilter(filter);
+                }
+            }
+        },
+        computed: {
+            ...mapGetters('search', ['getFilter']),
+        },
+        created: function () {
+            this.init();
+        }
+
+    };
 
 </script>
+
+<style lang="scss">
+    .vue-tooltip {
+        max-width: 500px;
+    }
+</style>
 
 <style lang="scss" scoped>
 
@@ -158,7 +168,7 @@ export default {
                 margin: 0 4px 0 0;
                 position: relative;
 
-                &:hover .filter-control-span{
+                &:hover .filter-control-span {
                     border-color: #bbb;
                 }
 
@@ -178,12 +188,11 @@ export default {
                     font-size: 11px;
                     font-weight: bold;
                     margin: 0;
-                    padding: 4px 8px;
+                    padding: 1px 1px;
                     position: relative;
                     text-decoration: none;
                     text-shadow: 0 1px 0 #fff;
                     vertical-align: middle;
-
                 }
             }
         }
