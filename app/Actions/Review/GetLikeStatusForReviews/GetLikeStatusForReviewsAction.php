@@ -44,10 +44,10 @@ class GetLikeStatusForReviewsAction
             )
         )->pluck('dislikeable_id')->toArray();
 
-        foreach($reviews as $key=>$review){
-            if(in_array($review->id, $likedReviewsIds)){
+        foreach ($reviews as $key=>$review) {
+            if (in_array($review->id, $likedReviewsIds)) {
                 $reviews[$key]->like = 'LIKED';
-            } else if(in_array($review->id, $dislikedReviewsIds)){
+            } elseif (in_array($review->id, $dislikedReviewsIds)) {
                 $reviews[$key]->like = 'DISLIKED';
             } else {
                 $reviews[$key]->like = 'NONE';
