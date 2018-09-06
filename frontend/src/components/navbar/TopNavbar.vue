@@ -63,7 +63,7 @@
                             <div class="navbar-dropdown">
                                 <router-link
                                     class="navbar-item"
-                                    :to="{ name: 'MyUserPage' }"
+                                    :to="{ name: 'OtherUserPage', params: { id: user.id } }"
                                 >Profile</router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"

@@ -2,8 +2,7 @@ export default {
     currentUser: {
         first_name: '',
         last_name: '',
-        avatar_url: '',
-        id: null,
+        avatar_url: ''
     },
     isLoggedIn: false,
     token: ''

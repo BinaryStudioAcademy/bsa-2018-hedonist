@@ -39,14 +39,9 @@ export default new Router({
                 redirect: '/search'
             },
             {
-                path: '/profile',
-                name: 'MyUserPage',
-                redirect: '/users/'+currentUser.id,
-            },
-            {
                 path: '/users/:id',
                 name: 'OtherUserPage',
-                component: OtherUserPage,
+                component: OtherUserPage
             },
             {
                 path: '/my-places',
@@ -101,7 +96,7 @@ export default new Router({
             {
                 path: '/settings',
                 name: 'ProfilePage',
-                component: ProfilePage,
+                component: ProfilePage
             },
             {
                 path: '*',
