@@ -63,7 +63,7 @@
                             <div class="navbar-dropdown">
                                 <router-link
                                     class="navbar-item"
-                                    :to="{ name: 'ProfilePage' }"
+                                    :to="{ name: 'MyUserPage' }"
                                 >Profile</router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
@@ -82,6 +82,11 @@
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'CheckinsPage' }"
                                 >Visited
+                                </router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'ProfilePage' }"
+                                >Settings
                                 </router-link>
                                 <a
                                     class="navbar-item"
