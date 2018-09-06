@@ -97,7 +97,7 @@ export default {
         },
 
         updateMap(places) {
-            if (this.isMapLoaded && places.length > 1) {
+            if (this.isMapLoaded && this.isPlacesLoaded) {
                 this.markerManager.setMarkersFromPlacesAndFit(...places);
             }
         },

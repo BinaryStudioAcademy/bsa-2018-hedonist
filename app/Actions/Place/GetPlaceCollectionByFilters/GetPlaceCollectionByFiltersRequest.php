@@ -10,24 +10,30 @@ class GetPlaceCollectionByFiltersRequest
     private $name;
     private $polygon;
     private $tags;
+    private $features;
     private $topReviewed;
     private $topRated;
     private $checkin;
     private $saved;
-  
+    private $recommended;
+    private $opened;
+
     const DEFAULT_PAGE = 1;
 
     public function __construct(
-        ?int $page,
-        ?int $category_id,
-        ?string $location,
-        ?string $name,
-        ?string $polygon,
-        ?string $tags,
+        ?int $page = 1,
+        ?int $category_id = null,
+        ?string $location = null,
+        ?string $name = null,
+        ?string $polygon = null,
+        ?string $tags = null,
+        ?string $features = null,
         ?bool $topReviewed = false,
         ?bool $topRated = false,
         ?bool $checkin = false,
-        ?bool $saved = false
+        ?bool $saved = false,
+        ?bool $recommended = false,
+        ?bool $opened = false
     ) {
         $this->location = $location;
         $this->category_id = $category_id;
@@ -35,10 +41,13 @@ class GetPlaceCollectionByFiltersRequest
         $this->name = $name;
         $this->polygon = $polygon;
         $this->tags = $tags;
+        $this->features = $features;
         $this->topReviewed = $topReviewed;
         $this->topRated = $topRated;
         $this->checkin = $checkin;
         $this->saved = $saved;
+        $this->recommended = $recommended;
+        $this->opened = $opened;
     }
 
     public function getCategoryId(): ?int
@@ -75,7 +84,17 @@ class GetPlaceCollectionByFiltersRequest
     {
         return (bool) $this->saved;
     }
-  
+
+    public function isRecommended(): bool
+    {
+        return (bool) $this->recommended;
+    }
+
+    public function isOpened(): bool
+    {
+        return (bool)$this->opened;
+    }
+
     public function getPolygon(): ?string
     {
         return $this->polygon;
@@ -89,5 +108,10 @@ class GetPlaceCollectionByFiltersRequest
     public function getTags(): ?string
     {
         return $this->tags;
+    }
+
+    public function getFeatures(): ?string
+    {
+        return $this->features;
     }
 }

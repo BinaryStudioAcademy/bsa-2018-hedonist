@@ -3,11 +3,6 @@
         <div class="user-reviews-container">
             <div class="user-reviews-header">
                 <h3 class="subtitle is-4">{{ userProfile.first_name }}'s recent reviews</h3>
-                <div class="header-btn">
-                    <a class="button is-info">
-                        <span>See all {{ filterAllReviewUser }} reviews</span>
-                    </a>
-                </div>
             </div>
             <ul class="columns is-variable is-4 is-multiline user-reviews-items">
                 <template v-for="place in filteredUsersPlaces">

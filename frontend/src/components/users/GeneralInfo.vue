@@ -7,8 +7,7 @@
                         <div class="user-info-img">
                             <figure class="image is-128x128">
                                 <img
-                                    v-if="userProfile.avatar_url"
-                                    :src="userProfile.avatar_url"
+                                    :src="avatar"
                                     :title="fullName"
                                     :alt="fullName"
                                 >
@@ -55,6 +54,7 @@
                         </div>
                     </div>
 
+<<<<<<< HEAD
                     <div class="column user-info-relation">
 
                         <ul class="level">
@@ -102,6 +102,7 @@
 <script>
 import {mapState, mapActions, mapGetters} from 'vuex';
 import FollowButton from './FollowButton';
+import defaultImage from '@/assets/add_review_default_avatar.png'
 
 export default {
     name: 'GeneralInfo',
@@ -133,6 +134,9 @@ export default {
         },
         isFollowedByCurentUser() {
             return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
+        },
+        avatar(){
+            return this.userProfile.avatar_url || defaultImage;
         }
     },
     methods: {
@@ -211,7 +215,11 @@ export default {
                     margin-right: 7px;
                 }
 
+<<<<<<< HEAD
                 instagram-link {
+=======
+                .instagram-link{
+>>>>>>> development
                     color: #c557d5;
                 }
             }

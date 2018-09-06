@@ -13,6 +13,11 @@ const getService = (map) => {
             const markers = this.setMarkersFromPlaces(...places);
             fitterService.fitMap(map, ...markers);
             return markers;
+        },
+        setConcretePlaceMarker(place){
+            markerService.clearMap(...activeMarkers);
+            activeMarkers = markerService.setPlaceMarker(map,place);
+            fitterService.fitMap(map, ...activeMarkers);
         }
     };
 };

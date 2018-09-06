@@ -1,10 +1,10 @@
 <template>
     <div class="wrapper-list">
-        <figure class="image is-5by3 list-image">
-            <img class="list-image__image" :src="listItem.img_url || imageStub">
-        </figure>
-        <div class="level list-data is-mobile">
-            <div class="level-left">
+        <div class="level list-data top is-mobile">
+            <div class="level-left top top__left">
+                <figure class="media-left image is-128x128">
+                    <img :src="listItem.img_url || imageStub">
+                </figure>
                 <h3 class="title">
                     {{ listItem.name }}
                 </h3>
@@ -101,6 +101,20 @@ export default {
 
         &__updated-at{
             color:grey;
+        }
+    }
+
+    .top {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 0px;
+        padding-top: 10px;
+        
+        &__left{
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0px;
+            padding-top: 0px;
         }
     }
 
