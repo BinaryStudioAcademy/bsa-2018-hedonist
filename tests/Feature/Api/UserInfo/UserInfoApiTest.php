@@ -50,7 +50,8 @@ class UserInfoApiTest extends ApiTestCase
         $data = [
             'first_name' => "test_first_name",
             'date_of_birth' => '1970/04/13',
-            'phone_number' => "380123456789"
+            'phone_number' => "380123456789",
+            'notifications_receive' => true
         ];
         $response = $this->json('POST', "/api/v1/users/$userInfo->user_id/profile", $data);
         $response->assertHeader('Content-Type', 'application/json');
@@ -77,6 +78,7 @@ class UserInfoApiTest extends ApiTestCase
             'phone_number' => "380123456789",
             'avatar' => $this->avatar,
             'facebook_url' => "https://twitter.com",
+            'notifications_receive' => true
         ];
 
         $response = $this->json('POST', "/api/v1/users/$userInfo->user_id/profile", $data);
@@ -97,7 +99,8 @@ class UserInfoApiTest extends ApiTestCase
             'phone_number' => "380123456789",
             'avatar' => $this->avatar,
             'facebook_url' => "https://www.facebook.com/profile.php?id=123456789012345",
-            'instagram_url' => "https://www.instagram.com/12345/"
+            'instagram_url' => "https://www.instagram.com/12345/",
+            'notifications_receive' => true
         ];
         $response = $this->json('POST', "/api/v1/users/$user->id/profile", $data);
         $response->assertHeader('Content-Type', 'application/json');
@@ -127,7 +130,8 @@ class UserInfoApiTest extends ApiTestCase
             'avatar' => $this->avatar,
             'facebook_url' => "https://www.facebook.com/profile.php?id=123456789012345",
             'instagram_url' => "https://www.instagram.com/12345/",
-            'twitter_url' => "https://twitter.com/12345"
+            'twitter_url' => "https://twitter.com/12345",
+            'notifications_receive' => true
         ];
 
         $response = $this->json('POST', "/api/v1/users/$user->id/profile", $data);
