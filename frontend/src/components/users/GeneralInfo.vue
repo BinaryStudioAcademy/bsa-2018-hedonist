@@ -54,7 +54,6 @@
                         </div>
                     </div>
 
-<<<<<<< HEAD
                     <div class="column user-info-relation">
 
                         <ul class="level">
@@ -102,7 +101,7 @@
 <script>
 import {mapState, mapActions, mapGetters} from 'vuex';
 import FollowButton from './FollowButton';
-import defaultImage from '@/assets/add_review_default_avatar.png'
+import defaultImage from '@/assets/user-placeholder.jpg'
 
 export default {
     name: 'GeneralInfo',
@@ -215,11 +214,7 @@ export default {
                     margin-right: 7px;
                 }
 
-<<<<<<< HEAD
-                instagram-link {
-=======
                 .instagram-link{
->>>>>>> development
                     color: #c557d5;
                 }
             }
