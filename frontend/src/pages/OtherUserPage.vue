@@ -3,9 +3,10 @@
         <Preloader
                 :active="isLoading"
         />
+        <template v-if="!isLoading">
         <GeneralInfo
-            :currentTab="currentTab"
-            @tabChanged="changeTab"
+                :currentTab="currentTab"
+                @tabChanged="changeTab"
         />
         <ListsContainer
                 v-if="activeTab(pageConstants.listTab)"
@@ -19,6 +20,7 @@
         <FollowedContainer
                 v-if="activeTab(pageConstants.followedTab)"
         />
+        </template>
     </div>
 </template>
 
@@ -45,32 +47,38 @@
         data() {
             return {
                 isLoading: true,
-                loadingTime: 2000,
                 currentTab: otherUserPage.listTab,
                 pageConstants: otherUserPage
             };
         },
         created() {
-            setTimeout(() => {
+            this.load(this.$route.params.id);
+        },
+        beforeRouteUpdate (to, from, next) {
+          this.load(to.params.id);
+          this.currentTab = otherUserPage.listTab;
+          next();
+        },
+        loaded: function () {
+            return !(this.isLoading);
+        },
+        methods: {
+            changeTab(tab) {
+                this.currentTab = tab;
+            },
+            activeTab(tab) {
+                return this.currentTab === tab;
+            },
+            load(userId){
+                this.isLoading = true;
                 Promise.all([
-                    this.$store.dispatch('users/getUsersProfile', this.$route.params.id),
-                    this.$store.dispatch('userList/getListsByUser', this.$route.params.id),
+                    this.$store.dispatch('users/getUsersProfile', userId),
+                    this.$store.dispatch('userList/getListsByUser', userId),
                     this.$store.dispatch('place/fetchPlaces', this.$route.query)
                 ])
                     .then(() => {
                         this.isLoading = false;
                     });
-            }, this.loadingTime);
-        },
-        loaded: function () {
-            return !(this.isLoading);
-        },
-        methods:{
-            changeTab(tab){
-                this.currentTab = tab;
-            },
-            activeTab(tab){
-                return this.currentTab === tab;
             }
         }
     };
