@@ -8,7 +8,7 @@ class GetPlaceCollectionForAutoCompleteRequest
     private $polygon;
 
     public function __construct(
-        string $name,
+        ?string $name,
         ?string $polygon
     ) {
         $this->name = $name;
@@ -20,7 +20,7 @@ class GetPlaceCollectionForAutoCompleteRequest
         return $this->polygon;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

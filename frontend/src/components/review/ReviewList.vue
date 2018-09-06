@@ -54,6 +54,7 @@
                         <Review
                             :key="review.id"
                             :review="review"
+                            :is-sorting="isSorting"
                             :timer="200 * (index + 1)"
                         />
                     </template>
@@ -92,7 +93,8 @@ export default {
             sort: 'recent',
             visibleReviewsIds: [],
             search: '',
-            page: 1
+            page: 1,
+            isSorting: true
         };
     },
 
@@ -171,6 +173,7 @@ export default {
             ).then( res => {
                 this.visibleReviewsIds = res.reviews;
                 this.page = 1;
+                this.isSorting = !this.isSorting;
             });
         }
     },
@@ -190,6 +193,13 @@ export default {
                 img_url: payload.reviewPhoto.img_url,
             });
             this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', payload.reviewPhoto);
+        });
+
+        Echo.private('reviews').listen('.attitude.set', (payload) => {
+            this.$store.dispatch('review/handleAttitude', {
+                reviewId: payload.reviewId,
+                attitudeType: payload.attitudeType
+            });
         });
     }
 };

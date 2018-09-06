@@ -10,14 +10,6 @@
                         :src="place.photos[0].img_url"
                     >
                 </figure>
-                <div class="user-review-save">
-                    <a class="button ">
-                        <span class="icon">
-                            <i class="far fa-bookmark" />
-                        </span>
-                        <span>Save</span>
-                    </a>
-                </div>
             </div>
             <div class="user-review-content">
                 "{{ place.review.description }}"

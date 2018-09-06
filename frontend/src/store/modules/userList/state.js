@@ -24,4 +24,5 @@ export default {
         allIds: []
     },
     isLoading: false,
+    favouriteExist: false
 };

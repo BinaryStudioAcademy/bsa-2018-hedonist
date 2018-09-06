@@ -12,7 +12,10 @@ use Hedonist\Actions\Review\{
     GetUsersWhoLikedReviewAction,
     GetUsersWhoDislikedReviewAction
 };
-use Hedonist\Actions\Review\{GetReviewPhotoByPlaceAction,
+use Hedonist\Actions\Review\{
+    GetLikeStatusForReviews\GetLikeStatusForReviewsAction,
+    GetLikeStatusForReviews\GetLikeStatusForReviewsRequest,
+    GetReviewPhotoByPlaceAction,
     GetReviewPhotoByPlaceRequest,
     GetReviewPhotoByReviewAction,
     GetReviewPhotoByReviewRequest,
@@ -45,6 +48,7 @@ class ReviewController extends ApiController
     private $getUsersWhoLikedReviewAction;
     private $getUsersWhoDislikedReviewAction;
     private $getReviewPhotoByPlaceAction;
+    private $getLikeStatusForReviewsAction;
     private $reviewPresenter;
 
     public function __construct(
@@ -57,6 +61,7 @@ class ReviewController extends ApiController
         GetUsersWhoLikedReviewAction $getUsersWhoLikedReviewAction,
         GetUsersWhoDislikedReviewAction $getUsersWhoDislikedReviewAction,
         GetReviewPhotoByPlaceAction $getReviewPhotoByPlaceAction,
+        GetLikeStatusForReviewsAction $getLikeStatusForReviewsAction,
         ReviewPresenter $reviewPresenter
     ) {
         $this->getReviewAction = $getReviewAction;
@@ -68,6 +73,7 @@ class ReviewController extends ApiController
         $this->getUsersWhoLikedReviewAction = $getUsersWhoLikedReviewAction;
         $this->getUsersWhoDislikedReviewAction = $getUsersWhoDislikedReviewAction;
         $this->getReviewPhotoByPlaceAction = $getReviewPhotoByPlaceAction;
+        $this->getLikeStatusForReviewsAction = $getLikeStatusForReviewsAction;
         $this->reviewPresenter = $reviewPresenter;
     }
 
@@ -96,8 +102,14 @@ class ReviewController extends ApiController
                 )
             );
 
+            $getLikeStatusForReviewsResponse = $this->getLikeStatusForReviewsAction->execute(
+                new GetLikeStatusForReviewsRequest(
+                    $getReviewCollectionResponse->getReviewCollection()
+                )
+            );
+
             return $this->successResponseWithMeta(
-                $this->reviewPresenter->presentCollection($getReviewCollectionResponse->getReviewCollection()),
+                $this->reviewPresenter->presentCollection($getLikeStatusForReviewsResponse->getReviewCollection()),
                 $getReviewCollectionResponse->getPaginationMetaInfo()
             );
         } catch (DomainException $e) {

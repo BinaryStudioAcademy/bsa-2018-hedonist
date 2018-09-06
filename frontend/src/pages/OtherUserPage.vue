@@ -32,12 +32,15 @@ export default {
     data(){
         return{
             isLoading: true,
-            loadingTime: 2000
+            userProfile: {
+                is_private: true
+            }
         };
     },
     created() {
         this.$store.dispatch('users/getUsersProfile', this.$route.params.id)
             .then(() => {
+                this.userProfile = this.getUserProfile(this.$route.params.id);
                 this.isLoading = false;
             });
     },
@@ -45,9 +48,7 @@ export default {
         return !(this.isLoading);
     },
     computed: {
-        ...mapGetters({
-            userProfile: 'users/getUserProfile'
-        })
+        ...mapGetters('users', ['getUserProfile'])
     }
 };
 </script>
