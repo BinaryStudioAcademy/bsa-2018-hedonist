@@ -64,7 +64,8 @@
                                 <router-link
                                     class="navbar-item"
                                     :to="{ name: 'OtherUserPage', params: { id: user.id } }"
-                                >Profile</router-link>
+                                >{{ $t('navbar.profile') }}
+                                </router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'NewPlacePage' }"
@@ -86,7 +87,7 @@
                                 <router-link
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'ProfilePage' }"
-                                >Settings
+                                >{{ $t('navbar.settings') }}
                                 </router-link>
                                 <a
                                     class="navbar-item"
