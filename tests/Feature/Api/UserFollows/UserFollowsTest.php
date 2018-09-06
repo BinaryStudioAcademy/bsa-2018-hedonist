@@ -31,7 +31,7 @@ class UserFollowsTest extends ApiTestCase
         );
         $response->assertStatus(200);
 
-        $this->assertDatabaseHas('followers',
+        $this->assertDatabaseHas('follows',
             [
                 'followed_id' => $this->followed->id,
                 'follower_id' => $this->follower->id
@@ -67,7 +67,7 @@ class UserFollowsTest extends ApiTestCase
         );
         $response->assertStatus(200);
 
-        $this->assertDatabaseMissing('followers',
+        $this->assertDatabaseMissing('follows',
             [
                 'followed_id' => $this->followed->id,
                 'follower_id' => $this->follower->id
