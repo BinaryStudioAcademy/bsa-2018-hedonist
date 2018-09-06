@@ -25,8 +25,6 @@ const middleware = handler => (
     routes => routes.map(route => Object.assign({}, route, {beforeEnter: handler}))
 );
 
-const currentUser = store.getters['auth/getAuthenticatedUser'];
-
 export default new Router({
     mode: 'history',
     base: '/',
