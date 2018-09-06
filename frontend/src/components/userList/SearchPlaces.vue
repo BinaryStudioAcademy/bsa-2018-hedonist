@@ -275,7 +275,6 @@ export default {
                 width: calc(100% - 20px);
                 max-height: 200px;
                 overflow-y: auto;
-                top: 47px;
                 background: #fff;
                 border: 1px solid #3990bb;
                 border-top: none !important;
