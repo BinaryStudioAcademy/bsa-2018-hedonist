@@ -25,9 +25,9 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         return UserList::find($id);
     }
 
-    public function getFavouriteList(): ?FavouriteList
+    public function getFavouriteListByUser(int $userId): ?FavouriteList
     {
-        return FavouriteList::where('user_id', Auth::id())->first();
+        return FavouriteList::where('user_id', $userId)->first();
     }
 
     public function findUserLists(int $userId): Collection

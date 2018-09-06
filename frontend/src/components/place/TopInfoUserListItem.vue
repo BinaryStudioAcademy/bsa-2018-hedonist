@@ -9,7 +9,7 @@
                 {{ $t('place_page.top_info.favourite') }}
             </b-dropdown-item>
             <b-dropdown-item v-for="list in lists" :key="list.id" @click="addToList(list)">
-                <span v-if="list.name === 'Favourite' && list.is_default">
+                <span v-if="list.name === FAVOURITE_LIST_NAME && list.is_default">
                     {{ $t('place_page.top_info.favourite') }}
                 </span>
                 <span v-else>
@@ -27,6 +27,7 @@
 
 <script>
 import {mapGetters, mapActions, mapState} from 'vuex';
+import {FAVOURITE_LIST_NAME} from '@/services/userList/listNames';
 
 export default {
     name: 'TopInfoUserListItem',
@@ -38,6 +39,11 @@ export default {
         place: {
             type: Object,
             required: true
+        }
+    },
+    data() {
+        return {
+            FAVOURITE_LIST_NAME: FAVOURITE_LIST_NAME
         }
     },
     computed: {
@@ -66,7 +72,6 @@ export default {
                 );
         },
         addToFavouriteList: function () {
-            // if (this.checkedIn(list.places)) return;//no action if place already checked in
             this.addPlaceToFavouriteList({
                 placeId: this.place.id,
                 userId: this.getAuthenticatedUser.id

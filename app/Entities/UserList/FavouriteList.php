@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class FavouriteList extends Model
 {
+    const FAVOURITE_LIST_NAME = 'Favourite';
+
     protected $table = 'user_lists';
     protected $fillable = ['user_id','name','img_url', 'is_default'];
 

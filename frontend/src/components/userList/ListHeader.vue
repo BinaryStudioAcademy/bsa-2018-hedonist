@@ -6,12 +6,7 @@
         <div class="level list-data is-mobile">
             <div class="level-left">
                 <h3 class="title">
-                    <span v-if="listItem.name === 'Favourite' && listItem.is_default">
-                        {{ $t('place_page.top_info.favourite') }}
-                    </span>
-                    <span v-else>
-                        {{ listItem.name }}
-                    </span>
+                    {{ listItem.name }}
                 </h3>
             </div>
             <div class="level-right">

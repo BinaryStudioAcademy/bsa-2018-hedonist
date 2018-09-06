@@ -23,27 +23,26 @@ class AttachPlaceToFavouriteAction
         $this->placeRepository = $placeRepository;
     }
 
-    public function execute(AttachPlaceToFavouriteRequest $request): AttachPlaceToFavouriteResponse
+    public function execute(AttachPlaceToFavouriteRequest $request): void
     {
         $place = $this->placeRepository->getById($request->getPlaceId());
         if (!$place) {
             throw new PlaceNotFoundException();
         }
-        $list = $this->userListRepository->getFavouriteList();
+        $list = $this->userListRepository->getFavouriteListByUser(Auth::id());
         if (empty($list)) {
             $list = new FavouriteList([
                 'is_default' => true,
                 'user_id' => Auth::id(),
-                'name' => 'Favourite'
+                'name' => FavouriteList::FAVOURITE_LIST_NAME
             ]);
             $list->save();
         }
-        $userlistPlace = $this->placeRepository
+        $placeToAttach = $this->placeRepository
             ->getByList($list->id)
             ->find($place->id);
-        if (empty($userlistPlace)) {
+        if (empty($placeToAttach)) {
             $this->userListRepository->attachPlaceToFavourite($list, $place);
         }
-        return new AttachPlaceToFavouriteResponse();
     }
 }

@@ -1,5 +1,6 @@
 import httpService from '../../../services/common/httpService';
 import normalizerService from '../../../services/common/normalizerService';
+import {FAVOURITE_LIST_NAME} from '@/services/userList/listNames';
 
 export default {
     getListsByUser: (context, userId) => {
@@ -16,7 +17,7 @@ export default {
                     for (let userList in userLists.byId) {
                         let id = parseInt(userList);
 
-                        if (userLists.byId[id].is_default && userLists.byId[id].name === 'Favourite') {
+                        if (userLists.byId[id].is_default && userLists.byId[id].name === FAVOURITE_LIST_NAME) {
                             context.commit('SET_FAVOURITE_EXIST', true);
                         }
                         let placesOfOneList = normalizerService.normalize({
