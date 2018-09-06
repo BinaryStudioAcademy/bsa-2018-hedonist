@@ -12,6 +12,10 @@
                                 :title="userProfile.first_name+' '+userProfile.last_name"
                                 :alt="userProfile.first_name+' '+userProfile.last_name"
                             >
+                            <img
+                                v-else
+                                src="/assets/add_review_default_avatar.png"
+                            >
                         </figure>
                     </div>
                 </div>
@@ -53,10 +57,6 @@
 
                     <div class="user-stats-contact">
                         <span>Odessa</span>
-                    </div>
-
-                    <div class="user-stats-complaint">
-                        <span>Пожаловаться на этого человека?</span>
                     </div>
                 </div>
 
@@ -200,7 +200,7 @@ export default {
                     margin-right: 7px;
                 }
 
-                instagram-link{
+                .instagram-link{
                     color: #c557d5;
                 }
             }

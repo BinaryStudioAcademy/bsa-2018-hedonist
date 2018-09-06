@@ -36,6 +36,11 @@ export default {
         placeholder: {
             type: String,
             default: 'Location'
+        },
+        noRedirect: {
+            type: Object,
+            default: () => {},
+            required: false
         }
     },
     data() {
@@ -73,7 +78,7 @@ export default {
             this.findCity.query = this.$t('search.current_location');
             this.$emit('select', this.selectedCity);
             this.setCity(this.selectedCity);
-            this.updateQueryFilters();
+            this.updateQueryFilters(this.noRedirect);
         },
     },
     created() {
@@ -98,6 +103,14 @@ export default {
 </script>
 
 <style scoped>
+    .navbar__search-autocomplete {
+        width: 100%;
+    }
+
+    .search-inputs__location .location-search {
+        display: inherit;
+    }
+
     .location {
         color: #b8b8ba;
     }

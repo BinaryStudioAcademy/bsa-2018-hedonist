@@ -1,16 +1,23 @@
 <template>
     <b-dropdown>
         <button class="button is-success" slot="trigger">
-            <i class="far fa-save" />Save
+            <i class="far fa-save" />{{ $t('place_page.buttons.save') }}
             <b-icon icon="menu-down" />
         </button>
-        <template v-for="list in lists">
-            <b-dropdown-item :key="list.id" @click="addToList(list)">
-                {{ list.name }}
-                <i
-                    class="fas fa-check checkmark has-text-success"
-                    v-if="checkedIn(list.places)"
-                />
+        <template v-if="lists.length">
+            <template v-for="list in lists">
+                <b-dropdown-item :key="list.id" @click="addToList(list)">
+                    {{ list.name }}
+                    <i
+                        class="fas fa-check checkmark has-text-success"
+                        v-if="checkedIn(list.places)"
+                    />
+                </b-dropdown-item>
+            </template>
+        </template>
+        <template v-else>
+            <b-dropdown-item>
+                {{ $t('place_page.message.no-lists') }}
             </b-dropdown-item>
         </template>
     </b-dropdown>
@@ -59,7 +66,7 @@ export default {
         showToast: function (success) {
             if (success) {
                 this.$toast.open({
-                    message: 'Place added to the list!',
+                    message: this.$t('place_page.message.added-to-list'),
                     type: 'is-success'
                 });
             } else {

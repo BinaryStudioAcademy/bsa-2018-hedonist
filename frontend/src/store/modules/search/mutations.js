@@ -99,6 +99,18 @@ export default {
             state.selectedTags.splice(index, 1);
         }
     },
+    ADD_SELECTED_FEATURE: (state, featureId) => {
+        if (state.selectedFeatures.indexOf(featureId) === -1) {
+            state.selectedFeatures.push(featureId);
+        }
+    },
+
+    DELETE_SELECTED_FEATURE: (state, featureId) => {
+        let index = state.selectedFeatures.indexOf(featureId);
+        if (index > -1) {
+            state.selectedFeatures.splice(index, 1);
+        }
+    },
 
     CLEAR_SELECTED_TAGS: (state) => {
         state.selectedTags = [];

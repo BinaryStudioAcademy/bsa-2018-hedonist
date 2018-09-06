@@ -102,7 +102,7 @@ class PlaceControllerTest extends ApiTestCase
                 ]),
                 'longitude'    => -20,
                 'latitude'     => 32.3,
-                'zip'          => 3322,
+                'zip'          => '03322',
                 'address'      => 'Test address',
                 'phone'        => +380636678400,
                 'website'      => 'http://beef.kiev.ua/',
@@ -123,6 +123,7 @@ class PlaceControllerTest extends ApiTestCase
 
         $this->assertDatabaseHas('places', [
             'id' => $newPlace['data']['id'],
+            'zip' => $newPlace['data']['zip'],
         ]);
         $this->checkJsonStructure($response);
         $response->assertStatus(201);
@@ -161,7 +162,7 @@ class PlaceControllerTest extends ApiTestCase
                 'city_id' => $this->place->city->id,
                 'longitude' => -90,
                 'latitude' => 33.3,
-                'zip' => 1234,
+                'zip' => '01234',
                 'address' => 'sdf',
                 'phone' => +380636678400,
                 'website' => 'http://beef.kiev.ua/'
@@ -221,7 +222,7 @@ class PlaceControllerTest extends ApiTestCase
                 'city_id' => 'df',
                 'longitude' => -9999,
                 'latitude' => 99999999,
-                'zip' => 1234,
+                'zip' => '01234',
                 'address' => 'sdf',
                 'phone' => 'dsd',
                 'website' => 'ghf',

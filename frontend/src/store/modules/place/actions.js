@@ -80,10 +80,10 @@ export default {
             let queryUrl = createSearchQueryUrl('/places/search', filters);
             return new Promise((resolve, reject) => {
                 httpService.get(queryUrl)
-                    .then(function (res) {
+                    .then((res) => {
                         context.commit('SET_PLACES', res.data.data);
                         resolve(res);
-                    }).catch(function (err) {
+                    }).catch((err) => {
                         reject(err);
                     });
             });
@@ -97,10 +97,10 @@ export default {
         let queryUrl = createSearchQueryUrl('/places/search', filters);
         return new Promise((resolve, reject) => {
             httpService.get(queryUrl)
-                .then(function (res) {
+                .then((res) => {
                     context.commit('LOAD_MORE_PLACES', res.data.data);
                     resolve(res);
-                }).catch(function (err) {
+                }).catch((err) => {
                     reject(err);
                 });
         });
@@ -145,16 +145,16 @@ export default {
     addTasteToPlace: (context, data) => {
         return new Promise((resolve, reject) => {
             httpService.post('/place/add-taste', data)
-                .then(function (res) { resolve(res); })
-                .catch(function (err) { reject(err); });
+                .then((res) => { resolve(res); })
+                .catch((err) => { reject(err); });
         });
     },
 
     fetchRecommendationPlaces: (context, id) => {
         return new Promise((resolve, reject) => {
-            httpService.get('/places/recommendation/' + id)
-                .then(function (res) { resolve(res.data.data); })
-                .catch(function (err) { reject(err); });
+            httpService.get('/places/recommendations/' + id)
+                .then((res) => { resolve(res.data.data); })
+                .catch((err) => { reject(err); });
         });
     }
 };
@@ -175,8 +175,10 @@ const createSearchQueryUrl = (url, filters) => {
         'filter[checkin]': filters.checkin,
         'filter[saved]': filters.saved,
         'filter[recommended]': filters.recommended,
+        'filter[opened]': filters.opened,
         'filter[polygon]': polygon,
         'filter[tags]': filters.tags,
+        'filter[features]': filters.features,
         'page': filters.page
     };
 
