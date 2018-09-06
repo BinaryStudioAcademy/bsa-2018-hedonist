@@ -282,30 +282,32 @@ export default {
 
     handleAttitude: (context, data) => {
         const review = context.state.reviews.byId[data.reviewId];
-        let count = null;
-        
-        if (data.attitudeType === LIKE_ADDED || data.attitudeType === LIKE_REMOVED) {
-            if (data.attitudeType === LIKE_ADDED) {       
-                count = review.likes + 1;
-            } else {
-                count = review.likes - 1;
-            }
+        if (review !== undefined) {
+            let count = null;
 
-            context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
-                reviewId: data.reviewId,
-                count: count
-            });
-        } else {
-            if (data.attitudeType === DISLIKE_ADDED) {
-                count = review.dislikes + 1;
-            } else {
-                count = review.dislikes - 1;
-            }
+            if (data.attitudeType === LIKE_ADDED || data.attitudeType === LIKE_REMOVED) {
+                if (data.attitudeType === LIKE_ADDED) {
+                    count = review.likes + 1;
+                } else {
+                    count = review.likes - 1;
+                }
 
-            context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
-                reviewId: data.reviewId,
-                count: count
-            });
+                context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
+                    reviewId: data.reviewId,
+                    count: count
+                });
+            } else {
+                if (data.attitudeType === DISLIKE_ADDED) {
+                    count = review.dislikes + 1;
+                } else {
+                    count = review.dislikes - 1;
+                }
+
+                context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
+                    reviewId: data.reviewId,
+                    count: count
+                });
+            }
         }
     },
 };
