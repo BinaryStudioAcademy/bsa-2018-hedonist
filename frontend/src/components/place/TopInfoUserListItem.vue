@@ -40,14 +40,12 @@ export default {
             required: true
         }
     },
-    data() {
-        return {
-            FAVOURITE_LIST_NAME: FAVOURITE_LIST_NAME
-        };
-    },
     computed: {
         ...mapGetters('auth', ['getAuthenticatedUser']),
-        ...mapState('userList', ['favouriteExist'])
+        ...mapState('userList', ['favouriteExist']),
+        FAVOURITE_LIST_NAME() {
+            return FAVOURITE_LIST_NAME;
+        }
     },
     methods: {
         ...mapActions('userList', [
