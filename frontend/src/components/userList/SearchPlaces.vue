@@ -142,12 +142,12 @@ export default {
         ...mapActions({ fetchPlaces: 'place/fetchPlaces' }),
         searchPlaces: _.debounce(function() {
             this.isPlaceFetching = true;
-                this.loadPlaces({name: this.searchName, polygon: this.polygon})
-                    .then( res => {
-                        this.displayList = true;
-                        this.isPlaceFetching = false;
-                        this.places = res;
-                    });
+            this.loadPlaces({name: this.searchName, polygon: this.polygon})
+                .then( res => {
+                    this.displayList = true;
+                    this.isPlaceFetching = false;
+                    this.places = res;
+                });
         }, 500),
         hideSearchList() {
             this.displayList = false;
