@@ -181,6 +181,7 @@ export default {
         position: relative;
         text-align: center;
         padding: 80px 30px;
+        min-height: 350px;
     }
 
     .taste {

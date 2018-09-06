@@ -85,6 +85,10 @@ export default {
         timer: {
             required: true,
             type: Number,
+        },
+        isSorting: {
+            type: Boolean,
+            required: true
         }
     },
 
@@ -121,6 +125,12 @@ export default {
                 weekday: 'long',
             };
             return date.toLocaleString('en-US', options);
+        }
+    },
+
+    watch: {
+        isSorting: function() {
+            this.getReviewPhotos(this.review.id);
         }
     },
 

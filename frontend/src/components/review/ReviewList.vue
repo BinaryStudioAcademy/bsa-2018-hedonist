@@ -54,6 +54,7 @@
                         <Review
                             :key="review.id"
                             :review="review"
+                            :is-sorting="isSorting"
                             :timer="200 * (index + 1)"
                         />
                     </template>
@@ -92,7 +93,8 @@ export default {
             sort: 'recent',
             visibleReviewsIds: [],
             search: '',
-            page: 1
+            page: 1,
+            isSorting: true
         };
     },
 
@@ -171,6 +173,7 @@ export default {
             ).then( res => {
                 this.visibleReviewsIds = res.reviews;
                 this.page = 1;
+                this.isSorting = !this.isSorting;
             });
         }
     },
