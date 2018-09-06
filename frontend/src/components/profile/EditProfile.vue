@@ -279,11 +279,15 @@ export default {
     .avatar {
         text-align: center;
         margin-bottom: 10px;
+        width: 200px;
+        height: 200px;
     }
 
     .image img {
-        width: 200px;
-        height: 200px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
     }
 
     .file.is-fullwidth {
