@@ -108,6 +108,17 @@
                 <b-field label="Facebook">
                     <b-input v-model.trim="user.facebook_url" />
                 </b-field>
+                <div class="level is-flex-mobile">
+                    <div class="level-left">
+                        <span class="label">{{ $t('profile_page.private') }}</span>
+                    </div>
+                    <div class="level-right">
+                        <b-switch
+                            v-model="user.is_private"
+                            type="is-success"
+                        />
+                    </div>
+                </div>
                 <div class="buttons is-right">
                     <a class="button is-primary" @click="saveData">
                         <b-icon icon="upload" />
@@ -142,6 +153,7 @@ export default {
                 instagram_url: '',
                 facebook_url: '',
                 twitter_url: '',
+                is_private: false
             },
             isPhoneInvalid:false
         };
@@ -233,6 +245,7 @@ export default {
             formData.append('instagram_url', this.convertNullToEmptyString(this.user.instagram_url));
             formData.append('facebook_url', this.convertNullToEmptyString(this.user.facebook_url));
             formData.append('twitter_url', this.convertNullToEmptyString(this.user.twitter_url));
+            formData.append('is_private', this.user.is_private ? '1' : '0');
 
             if (this.birthYear && this.birthMonth && this.birthDay) {
                 this.user.date_of_birth = this.birthYear + '/' + ('0' + this.birthMonth).slice(-2) + '/' + ('0' + this.birthDay).slice(-2);

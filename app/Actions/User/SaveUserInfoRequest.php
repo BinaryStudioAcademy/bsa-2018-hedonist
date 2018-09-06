@@ -18,6 +18,7 @@ class SaveUserInfoRequest
     private $twitterUrl;
     private $oldPassword;
     private $newPassword;
+    private $isPrivate;
 
     public function __construct(
         int $userId,
@@ -30,7 +31,8 @@ class SaveUserInfoRequest
         ?string $instagramUrl = "",
         ?string $twitterUrl = "",
         ?string $oldPassword = null,
-        ?string $newPassword = null
+        ?string $newPassword = null,
+        ?bool $isPrivate = null
     ) {
         $this->userId = $userId;
         $this->firstName = $firstName;
@@ -43,6 +45,7 @@ class SaveUserInfoRequest
         $this->avatar = $avatar;
         $this->oldPassword = $oldPassword;
         $this->newPassword = $newPassword;
+        $this->isPrivate = $isPrivate;
     }
 
     public function getUserId(): int
@@ -102,5 +105,10 @@ class SaveUserInfoRequest
     public function getNewPassword(): ?string
     {
         return $this->newPassword;
+    }
+
+    public function getIsPrivate(): ?bool
+    {
+        return $this->isPrivate;
     }
 }

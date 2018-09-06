@@ -49,6 +49,7 @@ class UserInfoController extends ApiController
             'facebook_url' => $response->getFacebookUrl(),
             'instagram_url' => $response->getInstagramUrl(),
             'twitter_url' => $response->getTwitterUrl(),
+            'is_private' => $response->getIsPrivate()
         ]);
     }
 
@@ -67,7 +68,8 @@ class UserInfoController extends ApiController
                     $httpRequest->instagram_url,
                     $httpRequest->twitter_url,
                     $httpRequest->old_password,
-                    $httpRequest->new_password
+                    $httpRequest->new_password,
+                    $httpRequest->is_private
                 )
             );
         } catch (DomainException $ex) {
@@ -84,6 +86,7 @@ class UserInfoController extends ApiController
             'facebook_url' => $response->getFacebookUrl(),
             'instagram_url' => $response->getInstagramUrl(),
             'twitter_url' => $response->getTwitterUrl(),
+            'is_private' => $response->getIsPrivate()
         ]);
     }
 

@@ -15,6 +15,7 @@ class GetUserInfoResponse
     private $facebookUrl;
     private $instagramUrl;
     private $twitterUrl;
+    private $isPrivate;
 
     public function __construct(UserInfo $userInfo)
     {
@@ -27,6 +28,7 @@ class GetUserInfoResponse
         $this->facebookUrl = $userInfo->facebook_url;
         $this->instagramUrl = $userInfo->instagram_url;
         $this->twitterUrl = $userInfo->twitter_url;
+        $this->isPrivate = $userInfo->is_private;
     }
 
     public function getUserId(): int
@@ -73,5 +75,10 @@ class GetUserInfoResponse
     public function getTwitterUrl(): ?string
     {
         return $this->twitterUrl;
+    }
+
+    public function getIsPrivate(): ?bool
+    {
+        return $this->isPrivate;
     }
 }

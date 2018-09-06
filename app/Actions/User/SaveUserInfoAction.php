@@ -60,6 +60,7 @@ class SaveUserInfoAction
         $facebook_url = $userInfoRequest->getFacebookUrl();
         $instagram_url = $userInfoRequest->getInstagramUrl();
         $twitter_url = $userInfoRequest->getTwitterUrl();
+        $isPrivate = $userInfoRequest->getIsPrivate();
 
         if ($userHasNotInfo) {
             if (empty($first_name)) {
@@ -99,6 +100,10 @@ class SaveUserInfoAction
 
         if ($userHasNotInfo || !empty($avatar)) {
             $userInfo->avatar_url = $this->storeAvatar($avatar);
+        }
+
+        if (!is_null($isPrivate)) {
+            $userInfo->is_private = $isPrivate;
         }
 
         $userInfo = $this->userInfoRepository->save($userInfo);
