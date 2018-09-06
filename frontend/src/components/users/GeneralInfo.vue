@@ -64,7 +64,7 @@
 
                         <ul class="level">
                             <li class="level-item has-text-centered">
-                                <div>
+                                <div :class="selectionActive">
                                     <p class="relation-count">{{ AllReviewUserLength }}</p>
                                     <p class="relation-title">Reviews</p>
                                 </div>
