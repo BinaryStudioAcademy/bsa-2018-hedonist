@@ -3,9 +3,9 @@
 </template>
 
 <script>
-    export default {
-        name: "UnknownNotification"
-    }
+export default {
+    name: 'UnknownNotification'
+};
 </script>
 
 <style scoped>

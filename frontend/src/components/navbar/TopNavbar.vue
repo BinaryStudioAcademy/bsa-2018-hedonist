@@ -205,16 +205,16 @@ export default {
         },
         notificationComponent: function(notification) {
             switch (notification.type) {
-                case LIKE_REVIEW_NOTIFICATION:
-                    return 'LikeReviewNotification';
-                case REVIEW_PLACE_NOTIFICATION:
-                    return 'ReviewPlaceNotification';
-                case FOLLOWED_USER_REVIEW_NOTIFICATION:
-                    return 'FollowedUserReviewNotification';
-                case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
-                    return 'FollowedUserAddPlaceNotification';
-                default:
-                    return 'UnknownNotification';
+            case LIKE_REVIEW_NOTIFICATION:
+                return 'LikeReviewNotification';
+            case REVIEW_PLACE_NOTIFICATION:
+                return 'ReviewPlaceNotification';
+            case FOLLOWED_USER_REVIEW_NOTIFICATION:
+                return 'FollowedUserReviewNotification';
+            case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
+                return 'FollowedUserAddPlaceNotification';
+            default:
+                return 'UnknownNotification';
             }
         }
     },

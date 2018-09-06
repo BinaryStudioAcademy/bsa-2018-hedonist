@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: "FollowedUserAddPlaceNotification",
+    name: 'FollowedUserAddPlaceNotification',
     props: {
         notification: {
             required: true,
@@ -36,7 +36,7 @@ export default {
             return this.user.info['avatar_url'];
         }
     }
-}
+};
 </script>
 
 <style scoped>

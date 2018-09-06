@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: "FollowedUserReviewNotification",
+    name: 'FollowedUserReviewNotification',
     props: {
         notification: {
             required: true,
@@ -39,7 +39,7 @@ export default {
             return this.notification.localization[0]['place_name'];
         }
     }
-}
+};
 </script>
 
 <style scoped>
