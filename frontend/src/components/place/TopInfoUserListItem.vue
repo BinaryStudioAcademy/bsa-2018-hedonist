@@ -1,7 +1,7 @@
 <template>
     <b-dropdown>
         <button class="button is-success" slot="trigger">
-            <i class="far fa-save" />{{ $t('place_page.button.save') }}
+            <i class="far fa-save" />{{ $t('place_page.buttons.save') }}
             <b-icon icon="menu-down" />
         </button>
         <template v-if="lists.length">
