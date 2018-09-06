@@ -30,7 +30,9 @@ use Illuminate\Cache\Repository as Cache;
 
 class GetPlaceCollectionByFiltersAction
 {
-    private $searchKeyPrefix = 'search_places-';
+    const SEARCH_KEY_PREFIX = 'search_places-';
+    const CACHE_TIME = 30;
+
     private $placeRepository;
     private $cache;
 
@@ -42,11 +44,10 @@ class GetPlaceCollectionByFiltersAction
 
     public function execute(GetPlaceCollectionByFiltersRequest $request): GetPlaceCollectionResponse
     {
-        /** @var User $user */
         $user = Auth::user();
 
         $uniqId = $this->generateUniqKeyByPlaceSearch($request);
-        $cachePlaces = $this->cache->get($this->searchKeyPrefix . $uniqId);
+        $cachePlaces = $this->cache->get(self::SEARCH_KEY_PREFIX . $uniqId);
         if ($cachePlaces) {
             return new GetPlaceCollectionResponse(unserialize($cachePlaces), $user);
         }
@@ -127,13 +128,13 @@ class GetPlaceCollectionByFiltersAction
         );
 
         if (! $this->hasFilterParameters($request)) {
-            $this->cache->put($this->searchKeyPrefix . $uniqId, serialize($places), 30);
+            $this->cache->put(self::SEARCH_KEY_PREFIX . $uniqId, serialize($places), self::CACHE_TIME);
         }
 
         return new GetPlaceCollectionResponse($places, $user);
     }
 
-    private function generateUniqKeyByPlaceSearch(GetPlaceCollectionByFiltersRequest $request)
+    private function generateUniqKeyByPlaceSearch(GetPlaceCollectionByFiltersRequest $request): string
     {
         $baseRequest = [
             $request->getPage(),
@@ -144,7 +145,7 @@ class GetPlaceCollectionByFiltersAction
         return implode('_', $baseRequest);
     }
 
-    private function hasFilterParameters(GetPlaceCollectionByFiltersRequest $request)
+    private function hasFilterParameters(GetPlaceCollectionByFiltersRequest $request): bool
     {
         $fPolygon = $request->getPolygon();
         $fTopReviewed = $request->isTopReviewed();
