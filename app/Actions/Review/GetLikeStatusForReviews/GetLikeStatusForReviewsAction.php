@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Actions\Review\GetLikedDislikedByUserReviews;
+namespace Hedonist\Actions\Review\GetLikeStatusForReviews;
 
 use Hedonist\Repositories\Like\{
     LikeRepositoryInterface,
@@ -12,7 +12,7 @@ use Hedonist\Repositories\Dislike\{
 };
 use Illuminate\Support\Facades\Auth;
 
-class GetLikedDislikedByUserReviewsAction
+class GetLikeStatusForReviewsAction
 {
     private $likeRepository;
     private $dislikeRepository;
@@ -25,9 +25,10 @@ class GetLikedDislikedByUserReviewsAction
         $this->dislikeRepository = $dislikeRepository;
     }
 
-    public function execute(GetLikedDislikedByUserReviewsRequest $request): GetLikedDislikedByUserReviewsResponse
+    public function execute(GetLikeStatusForReviewsRequest $request): GetLikeStatusForReviewsResponse
     {
-        $reviewsIds = $request->getReviews()->pluck('id')->toArray();
+        $reviews = $request->getReviewCollection();
+        $reviewsIds = $reviews->pluck('id')->toArray();
 
         $likedReviewsIds = $this->likeRepository->findByCriteria(
             new LikeByReviewsAndUserCriteria(
@@ -43,6 +44,16 @@ class GetLikedDislikedByUserReviewsAction
             )
         )->pluck('dislikeable_id')->toArray();
 
-        return new GetLikedDislikedByUserReviewsResponse($likedReviewsIds, $dislikedReviewsIds);
+        foreach($reviews as $key=>$review){
+            if(in_array($review->id, $likedReviewsIds)){
+                $reviews[$key]->like = 'LIKED';
+            } else if(in_array($review->id, $dislikedReviewsIds)){
+                $reviews[$key]->like = 'DISLIKED';
+            } else {
+                $reviews[$key]->like = 'NONE';
+            }
+        }
+
+        return new GetLikeStatusForReviewsResponse($reviews);
     }
 }

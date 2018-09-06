@@ -14,8 +14,8 @@ use Hedonist\Actions\Review\{
     GetUsersWhoDislikedReviewAction
 };
 use Hedonist\Actions\Review\{
-    GetLikedDislikedByUserReviews\GetLikedDislikedByUserReviewsAction,
-    GetLikedDislikedByUserReviews\GetLikedDislikedByUserReviewsRequest,
+    GetLikeStatusForReviews\GetLikeStatusForReviewsAction,
+    GetLikeStatusForReviews\GetLikeStatusForReviewsRequest,
     GetReviewPhotoByPlaceAction,
     GetReviewPhotoByPlaceRequest,
     GetReviewPhotoByReviewAction,
@@ -62,7 +62,7 @@ class ReviewController extends ApiController
         GetUsersWhoLikedReviewAction $getUsersWhoLikedReviewAction,
         GetUsersWhoDislikedReviewAction $getUsersWhoDislikedReviewAction,
         GetReviewPhotoByPlaceAction $getReviewPhotoByPlaceAction,
-        GetLikedDislikedByUserReviewsAction $getLikedDislikedByUserReviewsAction,
+        GetLikeStatusForReviewsAction $getLikedDislikedByUserReviewsAction,
         ReviewPresenter $reviewPresenter
     ) {
         $this->getReviewAction = $getReviewAction;
@@ -104,25 +104,15 @@ class ReviewController extends ApiController
             );
 
             $getLikedDislikedReviewsResponse = $this->getLikedDislikedByUserReviewsAction->execute(
-                new GetLikedDislikedByUserReviewsRequest(
+                new GetLikeStatusForReviewsRequest(
                     $getReviewCollectionResponse->getReviewCollection()
                 )
             );
-            Debugbar::info([
-                'getLikedReviewsIds' => $getLikedDislikedReviewsResponse->getLikedReviewsIds(),
-                'getDislikedReviewsIds' => $getLikedDislikedReviewsResponse->getDislikedReviewsIds(),
-            ]);
 
-            $response = $this->successResponseWithMeta(
-                $this->reviewPresenter->presentCollection($getReviewCollectionResponse->getReviewCollection()),
+            return $this->successResponseWithMeta(
+                $this->reviewPresenter->presentCollection($getLikedDislikedReviewsResponse->getReviewCollection()),
                 $getReviewCollectionResponse->getPaginationMetaInfo()
             );
-
-            Debugbar::info($response);
-
-            return $response;
-
-
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage());
         }
