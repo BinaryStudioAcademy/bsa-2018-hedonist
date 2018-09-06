@@ -200,7 +200,7 @@ export default {
                     margin-right: 7px;
                 }
 
-                instagram-link{
+                .instagram-link{
                     color: #c557d5;
                 }
             }

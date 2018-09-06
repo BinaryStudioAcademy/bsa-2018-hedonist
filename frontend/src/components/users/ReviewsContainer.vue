@@ -37,7 +37,6 @@ export default {
         }),
         ...mapGetters('place', ['getReviewsById' , 'getUserReviewsAll']),
         filteredUsersPlaces: function () {
-            console.log(this.getReviewsById(parseInt(this.$route.params.id)));
             return this.getReviewsById(parseInt(this.$route.params.id));
         },
     },
