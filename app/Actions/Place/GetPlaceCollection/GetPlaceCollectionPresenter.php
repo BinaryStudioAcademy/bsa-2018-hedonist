@@ -90,6 +90,11 @@ class GetPlaceCollectionPresenter
             }
             $result['localization'] = $this->localizationPresenter->presentCollection($place->localization);
             $result['city'] = $this->cityPresenter->present($place->city);
+            $result['category'] = $this->categoryPresenter->present($place->category);
+            $result['address'] = $place->address;
+            $result['latitude'] = $place->latitude;
+            $result['longitude'] = $place->longitude;
+            $result['rating'] = number_format(round($place->ratings->avg('rating'), 1), 1);
 
             return $result;
         })->toArray();

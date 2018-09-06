@@ -2,16 +2,16 @@
     <li class="column is-4">
         <div
             class="cities-cart"
-            :style="{backgroundImage: 'url(' + userList.img_url + ')' }"
+            :style="{backgroundImage: 'url(' + userListImgUrl() + ')' }"
         >
             <div>
-                <router-link :to="`/my-places/${userList.id}`">
+                <router-link :to="`/list/${userList.id}`">
                     <p><span class="cities-cart-name">{{ userList.name }}</span></p>
                 </router-link>
                 <p><span class="cities-cart-reviews">{{ userList.places | countPlaces }} saved places in list</span></p>
             </div>
             <div class="cities-cart-see">
-                <router-link :to="`/my-places/${userList.id}`" class="button is-info">
+                <router-link :to="`/list/${userList.id}`" class="button is-info">
                     <span>See this list</span>
                 </router-link>
             </div>
@@ -37,6 +37,11 @@ export default {
             return places.length;
         },
     },
+    methods: {
+        userListImgUrl() {
+            return this.userList.img_url ? this.userList.img_url : '/assets/no-image-available.jpg';
+        }
+    }
 };
 </script>
 

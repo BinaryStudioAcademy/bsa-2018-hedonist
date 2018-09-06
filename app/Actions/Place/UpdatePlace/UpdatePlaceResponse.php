@@ -66,7 +66,7 @@ class UpdatePlaceResponse
         return $this->latitude;
     }
 
-    public function getZip(): int
+    public function getZip(): string
     {
         return $this->zip;
     }
