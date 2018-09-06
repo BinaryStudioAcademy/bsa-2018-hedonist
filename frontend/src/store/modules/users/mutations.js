@@ -18,13 +18,15 @@ export default {
     },
     FOLLOW_USER: (state, payload) => {
         const newState = Object.assign({}, state.users);
-        newState.byId[payload.followed].followers.push(payload.follower);
+        newState.byId[payload.follower.id] = payload.follower;
+        newState.allIds.push(payload.follower.id);
+        newState.byId[payload.followed].followers.push(payload.follower.id);
         state.users = newState;
     },
     UNFOLLOW_USER: (state, payload) => {
         const newState = Object.assign({}, state.users);
         newState.byId[payload.followed].followers = newState.byId[payload.followed]
-            .followers.filter((item) => item !== payload.follower);
+            .followers.filter((item) => item !== payload.follower.id);
         state.users = newState;
     },
     ADD_USER:(state, user) => {
