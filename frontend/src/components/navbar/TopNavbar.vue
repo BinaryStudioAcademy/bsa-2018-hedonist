@@ -156,7 +156,7 @@ export default {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
             user: 'auth/getAuthenticatedUser',
-            getUser: 'users/getById'
+            getUser: 'users/getUserProfile'
         }),
         notificationIconActiveClass() {
             return this.isNewNotifications

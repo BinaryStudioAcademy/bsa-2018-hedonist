@@ -14,6 +14,9 @@ export default {
     SET_LOADING_STATE: (state,loadingState) => {
         state.isLoading = loadingState;
     },
+    SET_FAVOURITE_EXIST: (state, favouriteExist) => {
+        state.favouriteExist = favouriteExist;
+    },
     SET_REVIEWS: (state, reviews) => {
         state.reviews = reviews;
     },

@@ -2,22 +2,23 @@
 
 namespace Hedonist\Entities\UserList;
 
-use Hedonist\Entities\UserList\Scope\UserListWithCreatorScope;
-use Illuminate\Database\Eloquent\Model;
-use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\Place;
+use Hedonist\Entities\User\User;
+use Hedonist\Entities\UserList\Scope\FavouriteListScope;
+use Illuminate\Database\Eloquent\Model;
 
-class UserList extends Model
+class FavouriteList extends Model
 {
+    const FAVOURITE_LIST_NAME = 'Favourite';
+
     protected $table = 'user_lists';
-    
     protected $fillable = ['user_id','name','img_url', 'is_default'];
 
     protected static function boot()
     {
         parent::boot();
 
-        static::addGlobalScope(new UserListWithCreatorScope());
+        static::addGlobalScope(new FavouriteListScope());
     }
 
     public function user()

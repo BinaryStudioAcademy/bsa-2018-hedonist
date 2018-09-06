@@ -47,7 +47,9 @@ class SaveUserListAction
                     $userList->img_url = Storage::disk()->url(self::FILE_STORAGE . $imageName);
                 }
                 $userList->user_id = $userListRequest->getUserId();
-                $userList->name = $userListRequest->getName() ?? $userList->name;
+                if (!$userList->is_default) {
+                    $userList->name = $userListRequest->getName() ?? $userList->name;
+                }
 
                 $userList = $this->userListRepository->save($userList);
                 if ($userListRequest->getAttachedPlaces() !== null) {

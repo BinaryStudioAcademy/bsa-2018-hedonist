@@ -2,83 +2,34 @@
 
 namespace Hedonist\Actions\User;
 
-use Hedonist\Entities\User\UserInfo;
+use Hedonist\Entities\User\User;
+use Illuminate\Support\Collection;
 
 class GetUserInfoResponse
 {
-    private $userId;
-    private $firstName;
-    private $lastName;
-    private $dateOfBirth;
-    private $phoneNumber;
-    private $avatarUrl;
-    private $facebookUrl;
-    private $instagramUrl;
-    private $twitterUrl;
-    private $notificationsReceive;
+    private $user;
+    private $followers;
+    private $followed;
 
-    public function __construct(UserInfo $userInfo)
+    public function __construct(User $user, Collection $followers, Collection $followed)
     {
-        $this->userId = $userInfo->user_id;
-        $this->firstName = $userInfo->first_name;
-        $this->lastName = $userInfo->last_name;
-        $this->dateOfBirth = $userInfo->date_of_birth;
-        $this->phoneNumber = $userInfo->phone_number;
-        $this->avatarUrl = $userInfo->avatar_url;
-        $this->facebookUrl = $userInfo->facebook_url;
-        $this->instagramUrl = $userInfo->instagram_url;
-        $this->twitterUrl = $userInfo->twitter_url;
-        $this->notificationsReceive = $userInfo->notifications_receive;
+        $this->user = $user;
+        $this->followers = $followers;
+        $this->followed = $followed;
     }
 
-    public function getUserId(): int
+    public function getUser(): User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-
-    public function getFirstName(): string
+    public function getFollowed(): Collection
     {
-        return $this->firstName;
+        return $this->followed;
     }
 
-    public function getLastName(): string
+    public function getFollowers(): Collection
     {
-        return $this->lastName;
-    }
-
-    public function getDateOfBirth(): ?\DateTime
-    {
-        return $this->dateOfBirth;
-    }
-
-    public function getPhoneNumber(): ?string
-    {
-        return $this->phoneNumber;
-    }
-
-    public function getAvatarUrl(): ?string
-    {
-        return $this->avatarUrl;
-    }
-
-    public function getFacebookUrl(): ?string
-    {
-        return $this->facebookUrl;
-    }
-
-    public function getInstagramUrl(): ?string
-    {
-        return $this->instagramUrl;
-    }
-
-    public function getTwitterUrl(): ?string
-    {
-        return $this->twitterUrl;
-    }
-
-    public function isNotificationsReceive(): bool
-    {
-        return $this->notificationsReceive;
+        return $this->followers;
     }
 }

@@ -33,10 +33,10 @@ class UserInfoApiTest extends ApiTestCase
         $response->assertStatus(200);
 
         $result = $response->getOriginalContent();
-        $this->assertEquals($userInfo->user_id, $result['data']['user_id']);
+        $this->assertEquals($userInfo->user_id, $result['data']['id']);
         $this->assertEquals($userInfo->first_name, $result['data']['first_name']);
         $this->assertEquals($userInfo->last_name, $result['data']['last_name']);
-        $this->assertEquals($userInfo->date_of_birth->format('Y/m/d'), $result['data']['date_of_birth']->format('Y/m/d'));
+        $this->assertEquals($userInfo->date_of_birth->format('Y/m/d'), $result['data']['date_of_birth']);
         $this->assertEquals($userInfo->phone_number, $result['data']['phone_number']);
         $this->assertEquals($userInfo->avatar_url, $result['data']['avatar_url']);
         $this->assertEquals($userInfo->facebook_url, $result['data']['facebook_url']);
@@ -58,6 +58,7 @@ class UserInfoApiTest extends ApiTestCase
         $response->assertStatus(200);
 
         $result = $response->getOriginalContent();
+
         $this->assertEquals($userInfo->user_id, $result['data']['user_id']);
         $this->assertEquals($data['first_name'], $result['data']['first_name']);
         $this->assertEquals($userInfo->last_name, $result['data']['last_name']);

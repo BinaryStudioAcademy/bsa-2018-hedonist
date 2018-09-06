@@ -86,7 +86,8 @@ class GetUserListPresenter
             'name' => $userList->name,
             'user_id' => $userList->user_id,
             'img_url' => $userList->img_url,
-            'updated_at' => $userList->updated_at->format('Y-m-d')
+            'updated_at' => $userList->updated_at->format('Y-m-d'),
+            'is_default' => $userList->is_default
         ];
         $result['places'] = $this->presentPlace($response->getPlaces(), $response->getUser());
         $result['user'] = $this->userPresenter->present($userList->user);
