@@ -61,11 +61,13 @@ class SaveUserListAction
                         ->syncPlaces($userList, []);
                 }
 
+                $user = Auth::user();
                 if (is_null($id)) {
-                    Log::info("User list {$userList->id} is added");
+                    Log::info("user_list: User {$user->id} added user list {$userList->id}");
                 } else {
-                    Log::info("User list {$userList->id} is updated");
+                    Log::info("user_list: User {$user->id} updated user list {$userList->id}");
                 }
+
                 return new SaveUserListResponse($userList);
             });
     }

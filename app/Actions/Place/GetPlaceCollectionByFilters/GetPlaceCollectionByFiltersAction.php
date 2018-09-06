@@ -119,7 +119,7 @@ class GetPlaceCollectionByFiltersAction
         );
 
         $filterInfo = $this->getPlaceFilterInfoJson($user, $request);
-        Log::info("User has performed search: {$filterInfo}");
+        Log::info("search: User {$user->id} performed search: {$filterInfo}");
         return new GetPlaceCollectionResponse($places, $user);
     }
 

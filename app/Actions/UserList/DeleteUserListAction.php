@@ -30,7 +30,8 @@ class DeleteUserListAction
 
         $this->userListRepository->deleteById($request->getId());
 
-        Log::info("User list {$userList->id} is deleted");
+        $user = Auth::user();
+        Log::info("user_list: User {$user->id} delete user list {$userList->id}");
         return new DeleteUserListResponse();
     }
 }

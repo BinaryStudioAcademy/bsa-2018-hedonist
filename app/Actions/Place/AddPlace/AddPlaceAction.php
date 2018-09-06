@@ -116,7 +116,8 @@ class AddPlaceAction
 
                 $this->placeRepository->setWorktime($place, $placeRequest->getWorktime());
 
-                Log::info("Place {$place->id} is added");
+                $user = Auth::user();
+                Log::info("place: User {$user->id } addded {$place->id}");
                 return new AddPlaceResponse($place);
             });
     }

@@ -48,7 +48,7 @@ class CreateReviewAction
 
         broadcast(new ReviewAddEvent($review))->toOthers();
 
-        Log::info("Review {$review->id} is added");
+        Log::info("review: User {$request->getUserId()} added review {$review->id}");
         return new CreateReviewResponse($review);
     }
 }
