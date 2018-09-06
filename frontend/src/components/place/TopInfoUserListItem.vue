@@ -9,7 +9,7 @@
                 {{ $t('place_page.top_info.favourite') }}
             </b-dropdown-item>
             <b-dropdown-item v-for="list in lists" :key="list.id" @click="addToList(list)">
-                <span v-if="list.name === FAVOURITE_LIST_NAME && list.is_default">
+                <span v-if="list.name === favouriteListName && list.is_default">
                     {{ $t('place_page.top_info.favourite') }}
                 </span>
                 <span v-else>
@@ -43,7 +43,7 @@ export default {
     computed: {
         ...mapGetters('auth', ['getAuthenticatedUser']),
         ...mapState('userList', ['favouriteExist']),
-        FAVOURITE_LIST_NAME() {
+        favouriteListName() {
             return FAVOURITE_LIST_NAME;
         }
     },
