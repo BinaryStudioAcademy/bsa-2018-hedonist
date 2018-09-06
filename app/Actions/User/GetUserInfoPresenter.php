@@ -16,8 +16,8 @@ class GetUserInfoPresenter
     public function present(GetUserInfoResponse $response)
     {
         $result = $this->userPresenter->present($response->getUser());
-        $result['followers'] = $this->userPresenter->presentCollection($response->getUser()->followers);
-        $result['followedUsers'] = $this->userPresenter->presentCollection($response->getUser()->followedUsers);
+        $result['followers'] = $this->userPresenter->presentCollection($response->getFollowers());
+        $result['followedUsers'] = $this->userPresenter->presentCollection($response->getFollowed());
 
         return $result;
     }

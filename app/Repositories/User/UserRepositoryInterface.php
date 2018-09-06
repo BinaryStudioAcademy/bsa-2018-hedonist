@@ -40,5 +40,5 @@ interface UserRepositoryInterface extends RepositoryInterface
 
     public function unfollowUser(User $followed, User $follower): void;
 
-    public function checkUserCanFollow(User $followed, User $follower);
+    public function checkUserCanFollow(User $followed, User $follower): bool;
 }
