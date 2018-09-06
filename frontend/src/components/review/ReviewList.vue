@@ -49,26 +49,19 @@
                         </ul>
                     </div>
                 </div>
-                <div
-                    v-if="!isLoadingReviews"
-                    class="reviews-section-list"
-                >
-                    <template v-for="review in reviews">
+                <div class="reviews-section-list">
+                    <template v-for="(review, index) in reviews">
                         <Review
                             :key="review.id"
                             :review="review"
+                            :is-sorting="isSorting"
+                            :timer="200 * (index + 1)"
                         />
                     </template>
                     <infinite-loading @infinite="loadNextReviewsPage">
                         <span slot="no-more" />
                         <span slot="no-results" />
                     </infinite-loading>
-                </div>
-                <div
-                    v-else
-                    class="preloader"
-                >
-                    <SmallPreloader :active="isLoadingReviews" />
                 </div>
             </div>
         </template>
@@ -80,14 +73,12 @@ import { mapActions, mapGetters } from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
 import InfiniteLoading from 'vue-infinite-loading';
-import SmallPreloader from '@/components/misc/SmallPreloader';
 
 export default {
     components: {
         Review,
         AddReview,
-        InfiniteLoading,
-        SmallPreloader
+        InfiniteLoading
     },
 
     props: {
@@ -103,7 +94,7 @@ export default {
             visibleReviewsIds: [],
             search: '',
             page: 1,
-            isLoadingReviews: false
+            isSorting: true
         };
     },
 
@@ -167,7 +158,6 @@ export default {
             this.visibleReviewsIds.unshift(reviewId);
         },
         initialLoad() {
-            this.isLoadingReviews = true;
             if(this.sort === 'popular') {
                 this.visibleReviewsIds = this.getPreloadedPopularPlaceReviewsIds(this.place.id);
             }else {
@@ -183,12 +173,27 @@ export default {
             ).then( res => {
                 this.visibleReviewsIds = res.reviews;
                 this.page = 1;
-                this.isLoadingReviews = false;
+                this.isSorting = !this.isSorting;
             });
         }
     },
     created(){
         this.initialLoad();
+
+        Echo.private('reviews').listen('.review.added', (payload) => {
+            this.$store.commit('review/ADD_REVIEW', payload.review);
+            this.$store.commit('review/ADD_REVIEW_USER', payload.user);
+
+            this.visibleReviewsIds.unshift(payload.review.id);
+        });
+
+        Echo.private('reviews').listen('.review.photo.added', (payload) => {
+            this.$store.commit('review/ADD_REVIEW_PHOTO', {
+                reviewId: payload.reviewPhoto.review_id,
+                img_url: payload.reviewPhoto.img_url,
+            });
+            this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', payload.reviewPhoto);
+        });
     }
 };
 
@@ -285,9 +290,4 @@ export default {
     .sort-word {
         color: #808080;
     }
-
-    .preloader {
-        padding: 20px;
-    }
-
 </style>

@@ -7,8 +7,7 @@
                         <div class="user-info-img">
                             <figure class="image is-128x128">
                                 <img
-                                        v-if="userProfile.avatar_url"
-                                        :src="userProfile.avatar_url"
+                                        :src="avatar"
                                         :title="fullName"
                                         :alt="fullName"
                                 >
@@ -50,11 +49,6 @@
                                 </a>
                             </div>
                         </div>
-
-                        <div class="user-stats-contact">
-                            <span>Odessa</span>
-                        </div>
-
                         <div class="user-stats-complaint">
                             <span>Пожаловаться на этого человека?</span>
                         </div>
@@ -116,9 +110,10 @@
 </template>
 
 <script>
+    import {otherUserPage} from "@/services/common/pageConstants";
     import {mapState, mapActions, mapGetters} from 'vuex';
     import FollowButton from './FollowButton';
-    import {otherUserPage} from "@/services/common/pageConstants";
+    import defaultImage from '@/assets/user-placeholder.jpg';
 
     export default {
         name: 'GeneralInfo',
@@ -155,6 +150,9 @@
             },
             isFollowedByCurrentUser() {
                 return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
+            },
+            avatar() {
+                return this.userProfile.avatar_url || defaultImage;
             }
         },
         methods: {
@@ -176,8 +174,8 @@
             },
             changeTab(tab) {
                 this.$emit('tabChanged', tab);
-            }
-        }
+            },
+        },
     };
 </script>
 
@@ -239,7 +237,7 @@
                     margin-right: 7px;
                 }
 
-                instagram-link {
+                .instagram-link {
                     color: #c557d5;
                 }
             }
@@ -293,8 +291,8 @@
                         cursor: pointer;
                         background-color: rgba(199, 205, 207, 0.3);
                     }
-                    div{
-                        width:100%;
+                    div {
+                        width: 100%;
                     }
                 }
 

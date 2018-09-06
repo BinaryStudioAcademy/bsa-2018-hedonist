@@ -8,6 +8,10 @@
                 :tags="categoryTagsList"
                 @onSelectTag="onSelectTag"
             />
+            <SpecialFeaturesFilter
+                :tags="specialFeaturesList"
+                @onSelectFeature="onSelectFeature"
+            />
             <div
                 v-infinite-scroll="loadMore"
                 :infinite-scroll-disabled="scrollBusy"
@@ -63,6 +67,7 @@ import placeholderImg from '@/assets/placeholder_128x128.png';
 import mapSettingsService from '@/services/map/mapSettingsService';
 import infiniteScroll from 'vue-infinite-scroll';
 import CategoryTagsContainer from './CategoryTagsContainer';
+import SpecialFeaturesFilter from './SpecialFeaturesFilter';
 import Preloader from '@/components/misc/Preloader';
 
 export default {
@@ -72,6 +77,7 @@ export default {
         Mapbox,
         SearchFilterPlace,
         CategoryTagsContainer,
+        SpecialFeaturesFilter,
         Preloader
     },
     directives: {
@@ -94,6 +100,7 @@ export default {
         this.$store.dispatch('search/updateStateFromQuery', this.$route.query)
             .then(() => {
                 this.$store.dispatch('search/updateQueryFilters');
+                this.$store.dispatch('features/fetchAllFeatures');
             });
     },
     methods: {
@@ -104,6 +111,8 @@ export default {
             'setLoadingState',
             'addSelectedTag',
             'deleteSelectedTag',
+            'addSelectedFeature',
+            'deleteSelectedFeature',
             'updateQueryFilters'
         ]),
 
@@ -128,9 +137,10 @@ export default {
             this.markerManager = markerManager.getService(map);
             this.isMapLoaded = true;
         },
-        jumpTo(coordinates) {
+        jumpTo(coordinates, zoom) {
             this.map.jumpTo({
                 center: coordinates,
+                zoom: zoom
             });
         },
         createUserMarker() {
@@ -150,7 +160,12 @@ export default {
         },
         updateMap() {
             if (this.isMapLoaded && !this.isLoading) {
-                this.markerManager.setMarkersFromPlacesAndFit(...this.places);
+                if (this.places.length > 0) {
+                    this.markerManager.setMarkersFromPlacesAndFit(...this.places);
+                } else if (this.$route.query.location) {
+                    let location = this.$route.query.location;
+                    this.jumpTo(location.split(','), 11);
+                }
             }
         },
         addDrawForMap(map) {
@@ -205,6 +220,14 @@ export default {
             }
             this.updateQueryFilters();
         },
+        onSelectFeature(featureId, isFeatureActive) {
+            if (isFeatureActive) {
+                this.addSelectedFeature(featureId);
+            } else {
+                this.deleteSelectedFeature(featureId);
+            }
+            this.updateQueryFilters();
+        },
     },
     watch: {
         isMapLoaded: function (oldVal, newVal) {
@@ -230,6 +253,7 @@ export default {
             user: 'auth/getAuthenticatedUser'
         }),
         ...mapGetters('category', ['categoryTagsList']),
+        ...mapGetters('features', ['specialFeaturesList']),
 
         currentCenter() {
             return {

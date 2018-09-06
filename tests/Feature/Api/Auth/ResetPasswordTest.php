@@ -5,8 +5,9 @@ namespace Tests\Feature\Api\Auth;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\UserInfo;
 use Hedonist\Events\Auth\PasswordResetedEvent;
+use Hedonist\Mail\ResetPasswordLinkSent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Tests\Feature\Api\ApiTestCase;
 use Tests\TestCase;
@@ -28,18 +29,19 @@ class ResetPasswordTest extends ApiTestCase
 
     public function test_reset_password()
     {
-        Event::fake();
+        Mail::fake();
 
         $response = $this->json('POST', '/api/v1/auth/recover', ['email' => $this->user->email]);
 
-        Event::assertDispatched(PasswordResetedEvent::class, function ($e) {
-            $this->token = $e->getToken();
-            return true;
+        Mail::assertQueued(ResetPasswordLinkSent::class, function ($mail) {
+            $this->token = $mail->token;
+
+            return $mail->to[0]['address'] === $this->user->email;
         });
 
         $this->assertDatabaseHas('password_resets', ['email' => $this->user->email]);
         $response->assertStatus(200);
-
+        
         $response = $this->json('POST', '/api/v1/auth/reset', [
             'email' => $this->user->email,
             'token' => $this->token,
@@ -59,10 +61,14 @@ class ResetPasswordTest extends ApiTestCase
 
     public function test_fake_email()
     {
+        Mail::fake();
+        
         $user = factory(User::class)->make();
         $response = $this->json('POST', '/api/v1/auth/recover', ['email' => $user->email]);
 
         $response->assertStatus(400);
+
+        Mail::assertNotQueued(ResetPasswordLinkSent::class);
     }
 
     public function test_incorrect_token()

@@ -37,6 +37,12 @@ const cacher = () => {
     };
 };
 
+const setSmallPlaceMarker = (map,markerData) => {
+    const marker = markerGenerator.generateSmallMarker(markerData);
+    marker.addTo(map);
+    return marker;
+};
+
 const wrappedCreateMarker = cacher()(createMarker);
 
 export default {
@@ -45,5 +51,8 @@ export default {
     },
     addMarkersFromPlaces(map,...places) {
         return places.map((item) => addMarker(map)(parser(item)));
+    },
+    setPlaceMarker(map,place){
+        return setSmallPlaceMarker(map,parser(place));
     }
 };

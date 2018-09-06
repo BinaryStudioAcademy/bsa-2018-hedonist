@@ -20,7 +20,7 @@ class GetUserInfoAction
         $userInfo = $this->userRepository->findByCriterias(
             new GetUsersByIdCriteria($userInfoRequest->getUserId()),
             new WithFollowedAndFollowersCriteria()
-        );
-        return new GetUserInfoResponse($userInfo->first());
+        )->first();
+        return new GetUserInfoResponse($userInfo, $userInfo->followers, $userInfo->followedUsers);
     }
 }
