@@ -120,7 +120,7 @@
                         :key="recommendedPlace.id"
                         :place="recommendedPlace"
                         :timer="50 * (index+1)"
-                        :showReview="false"
+                        :show-review="false"
                     />
                 </template>
             </template>
