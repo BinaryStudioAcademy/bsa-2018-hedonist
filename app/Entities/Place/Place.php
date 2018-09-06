@@ -33,7 +33,7 @@ class Place extends Model
 
     protected $dates = ['deleted_at'];
 
-    public $documentType = 'places';
+    public $documentIndex = 'places';
 
     protected static function boot()
     {

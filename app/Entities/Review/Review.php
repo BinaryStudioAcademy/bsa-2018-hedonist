@@ -19,7 +19,7 @@ class Review extends Model
 
     protected $fillable = ['user_id', 'description', 'place_id'];
 
-    public $documentType = 'reviews';
+    public $documentIndex = 'reviews';
 
     protected static function boot()
     {
