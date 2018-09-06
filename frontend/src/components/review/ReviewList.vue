@@ -54,7 +54,7 @@
                         <Review
                             :key="review.id"
                             :review="review"
-                            :isSorting="isSorting"
+                            :is-sorting="isSorting"
                             :timer="200 * (index + 1)"
                         />
                     </template>
