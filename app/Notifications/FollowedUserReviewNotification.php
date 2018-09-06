@@ -2,22 +2,22 @@
 
 namespace Hedonist\Notifications;
 
-use Hedonist\Entities\Review\Review;
+use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\User\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
-class LikeReviewNotification extends Notification
+class FollowedUserReviewNotification extends Notification
 {
     use Queueable;
 
-    private $review;
+    private $place;
     private $subjectUser;
 
-    public function __construct(Review $review, User $subjectUser)
+    public function __construct(Place $place, User $subjectUser)
     {
-        $this->review = $review;
+        $this->place = $place;
         $this->subjectUser = $subjectUser;
     }
 
@@ -45,7 +45,7 @@ class LikeReviewNotification extends Notification
     private function notificationMessage(User $subjectUser)
     {
         return [
-            'subject' => $this->review,
+            'subject' => $this->place,
             'subject_user' => $subjectUser,
             'type' => self::class
         ];

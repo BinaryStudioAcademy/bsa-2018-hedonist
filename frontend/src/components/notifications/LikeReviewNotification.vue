@@ -1,10 +1,17 @@
 <template>
     <div class="notification-message">
-        <div class="user-info">
-            <div class="user-info__avatar"><img :src="getUserAvatar"></div>
-            <div class="user-name">{{ getUserName}}</div>
-        </div>
-        <div class="text">liked your review</div>
+        <span class="user">
+            <img class="user__avatar" :src="getUserAvatar">
+            <span class="user__name">
+                <a href="#">{{ getUserName }}</a>
+            </span>
+        </span>
+        <span class="text">liked your</span>
+        <span class="review-link">
+            <router-link :to="`/places/${notification['place_id']}`">
+                review
+            </router-link>
+        </span>
     </div>
 </template>
 

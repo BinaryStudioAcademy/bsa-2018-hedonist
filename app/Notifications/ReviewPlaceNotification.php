@@ -46,7 +46,8 @@ class ReviewPlaceNotification extends Notification
     {
         return [
             'subject' => $this->place,
-            'subject_user' => $subjectUser
+            'subject_user' => $subjectUser,
+            'type' => self::class
         ];
     }
 }

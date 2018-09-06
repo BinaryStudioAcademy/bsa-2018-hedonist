@@ -2,8 +2,10 @@
 
 namespace Hedonist\Actions\Review;
 
+use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Review\Review;
 use Hedonist\Exceptions\User\UserNotFoundException;
+use Hedonist\Notifications\FollowedUserReviewNotification;
 use Hedonist\Notifications\ReviewPlaceNotification;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
@@ -49,9 +51,21 @@ class CreateReviewAction
         );
 
         broadcast(new ReviewAddEvent($review))->toOthers();
-        $this->userRepository->getById($place->creator_id)
-            ->notify(new ReviewPlaceNotification($place, Auth::user()));
+        $this->sentNotificationToFollowers($place);
+        $notifiableUser = $this->userRepository->getById($place->creator_id);
+        if ((bool) $notifiableUser->info->notifications_receive === true) {
+            $notifiableUser->notify(new ReviewPlaceNotification($place, Auth::user()));
+        }
 
         return new CreateReviewResponse($review);
+    }
+
+    public function sentNotificationToFollowers(Place $place)
+    {
+        foreach ($this->userRepository->getFollowers(Auth::user()) as $user) {
+            if ((bool) $user->info->notifications_receive === true) {
+                $user->notify(new FollowedUserReviewNotification($place, Auth::user()));
+            }
+        }
     }
 }

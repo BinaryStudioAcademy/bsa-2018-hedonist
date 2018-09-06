@@ -68,7 +68,7 @@
                                     </li>
                                 </ul>
                                 <div v-else class="notifications__none">
-                                    No notifications for you
+                                    You don't have new notifications
                                 </div>
                             </div>
                         </div>
@@ -131,8 +131,16 @@ import { mapActions, mapGetters, mapMutations } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
 import LanguageSelector from './LanguageSelector';
 import LikeReviewNotification from '@/components/notifications/LikeReviewNotification';
-import ReviewPlaceNotification from '@/components/notifications/LikeReviewNotification';
-import UnknownNotification from '@/components/notifications/LikeReviewNotification';
+import FollowedUserReviewNotification from '@/components/notifications/FollowedUserReviewNotification';
+import FollowedUserAddPlaceNotification from '@/components/notifications/FollowedUserAddPlaceNotification';
+import ReviewPlaceNotification from '@/components/notifications/ReviewPlaceNotification';
+import UnknownNotification from '@/components/notifications/UnknownNotification';
+import {
+    LIKE_REVIEW_NOTIFICATION,
+    REVIEW_PLACE_NOTIFICATION,
+    FOLLOWED_USER_REVIEW_NOTIFICATION,
+    FOLLOWED_USER_ADD_PLACE_NOTIFICATION
+} from '@/services/notification/notificationService';
 
 export default {
     name: 'TopNavbar',
@@ -167,10 +175,7 @@ export default {
 
                         this.addUser(user);
                         this.addUser(notification['subject_user']);
-                        this.notifications.push({
-                            ...notification,
-                            type: type
-                        });
+                        this.notifications.push(notification);
                     });
             }
         }
@@ -200,10 +205,14 @@ export default {
         },
         notificationComponent: function(notification) {
             switch (notification.type) {
-                case 'Hedonist\\Notifications\\LikeReviewNotification':
+                case LIKE_REVIEW_NOTIFICATION:
                     return 'LikeReviewNotification';
-                case 'Hedonist\\Notifications\\ReviewPlaceNotification':
+                case REVIEW_PLACE_NOTIFICATION:
                     return 'ReviewPlaceNotification';
+                case FOLLOWED_USER_REVIEW_NOTIFICATION:
+                    return 'FollowedUserReviewNotification';
+                case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
+                    return 'FollowedUserAddPlaceNotification';
                 default:
                     return 'UnknownNotification';
             }
@@ -214,7 +223,9 @@ export default {
         LanguageSelector,
         LikeReviewNotification,
         UnknownNotification,
-        ReviewPlaceNotification
+        ReviewPlaceNotification,
+        FollowedUserReviewNotification,
+        FollowedUserAddPlaceNotification
     },
 };
 </script>
@@ -261,7 +272,6 @@ export default {
             border-bottom: $grey 1px solid;
             padding: 10px;
             word-break: break-word;
-            cursor: pointer;
 
             &:hover {
                 background-color: darken(#fff, 10%);

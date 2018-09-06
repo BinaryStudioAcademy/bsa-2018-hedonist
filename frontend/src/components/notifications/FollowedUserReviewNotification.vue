@@ -6,7 +6,7 @@
                 <a href="#">{{ getUserName }}</a>
             </span>
         </span>
-        <span class="text">made a review on your place -&nbsp;</span>
+        <span class="text">made a review on</span>
         <span class="place-link">
             <router-link :to="`/places/${notification['id']}`">
                 {{ getPlaceName }}
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: "ReviewPlaceNotification",
+    name: "FollowedUserReviewNotification",
     props: {
         notification: {
             required: true,

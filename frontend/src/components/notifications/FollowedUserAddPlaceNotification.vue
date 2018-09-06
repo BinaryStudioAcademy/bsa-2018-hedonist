@@ -6,10 +6,10 @@
                 <a href="#">{{ getUserName }}</a>
             </span>
         </span>
-        <span class="text">made a review on your place -&nbsp;</span>
+        <span class="text">added a new</span>
         <span class="place-link">
             <router-link :to="`/places/${notification['id']}`">
-                {{ getPlaceName }}
+                place
             </router-link>
         </span>
     </div>
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-    name: "ReviewPlaceNotification",
+    name: "FollowedUserAddPlaceNotification",
     props: {
         notification: {
             required: true,
@@ -34,9 +34,6 @@ export default {
         },
         getUserAvatar() {
             return this.user.info['avatar_url'];
-        },
-        getPlaceName() {
-            return this.notification.localization[0]['place_name'];
         }
     }
 }
