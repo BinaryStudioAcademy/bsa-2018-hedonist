@@ -9,13 +9,17 @@ use Hedonist\Entities\Review\Scopes\ReviewRelationScope;
 use Illuminate\Database\Eloquent\Model;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\Place;
-use Hedonist\Entities\Review\ReviewPhoto;
+use Sleimanx2\Plastic\Searchable;
 
 class Review extends Model
 {
+    use Searchable;
+
     protected $table = 'reviews';
 
     protected $fillable = ['user_id', 'description', 'place_id'];
+
+    public $documentType = 'reviews';
 
     protected static function boot()
     {
@@ -83,5 +87,18 @@ class Review extends Model
         }
 
         return LikeStatus::none();
+    }
+
+    public function buildDocument()
+    {
+        return [
+            'id' => $this->id,
+            'description' => $this->description,
+            'place' => $this->place,
+            'user' => $this->user,
+            'photos' => $this->photos,
+            'likes' => $this->likes,
+            'dislikes' => $this->dislikes,
+        ];
     }
 }

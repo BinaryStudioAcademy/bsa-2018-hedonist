@@ -12,24 +12,28 @@ use Hedonist\Entities\UserList\UserList;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Hedonist\Entities\Place\Scope\PlaceScope;
+use Sleimanx2\Plastic\Searchable;
 
 class Place extends Model
 {
     use SoftDeletes;
+    use Searchable;
 
     protected $fillable = [
-        "longitude",
-        "latitude",
-        "zip",
-        "address",
-        "phone",
-        "website",
-        "creator_id",
-        "category_id",
-        "city_id",
+        'longitude',
+        'latitude',
+        'zip',
+        'address',
+        'phone',
+        'website',
+        'creator_id',
+        'category_id',
+        'city_id',
     ];
 
     protected $dates = ['deleted_at'];
+
+    public $documentType = 'places';
 
     protected static function boot()
     {
@@ -148,5 +152,35 @@ class Place extends Model
     public function localization()
     {
         return $this->hasMany(PlaceTranslation::class);
+    }
+
+    public function buildDocument()
+    {
+        return [
+            'id' => $this->id,
+            'location' => [
+                'longitude' => $this->longitude,
+                'latitude' => $this->latitude,
+            ],
+            'zip' => $this->zip,
+            'address' => $this->address,
+            'phone' => $this->phone,
+            'website' => $this->website,
+            'creator_id' => $this->creator_id,
+            'creator' => $this->creator,
+            'category_id' => $this->category_id,
+            'category' => $this->category,
+            'city_id' => $this->city_id,
+            'city' => $this->city,
+            'info' => $this->placeInfo,
+            'tags' => $this->tags,
+            'photos' => $this->photos,
+            'tastes' => $this->tastes,
+            'reviews' => $this->reviews,
+            'ratings' => $this->ratings,
+            'features' => $this->features,
+            'worktime' => $this->worktime,
+            'localization' => $this->localization
+        ];
     }
 }

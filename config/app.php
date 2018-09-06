@@ -152,6 +152,8 @@ return [
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Sleimanx2\Plastic\PlasticServiceProvider::class,
+
         /*
          * Application Service Providers...
          */

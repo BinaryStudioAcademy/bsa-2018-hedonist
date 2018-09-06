@@ -6,12 +6,17 @@ use Hedonist\Entities\UserList\Scope\UserListWithCreatorScope;
 use Illuminate\Database\Eloquent\Model;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\Place;
+use Sleimanx2\Plastic\Searchable;
 
 class UserList extends Model
 {
+    use Searchable;
+
     protected $table = 'user_lists';
     
     protected $fillable = ['user_id','name','img_url'];
+
+    public $documentType = 'lists';
 
     protected static function boot()
     {
@@ -33,5 +38,17 @@ class UserList extends Model
             'list_id',
             'place_id'
         );
+    }
+
+    public function buildDocument()
+    {
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'user' => $this->user,
+            'name' => $this->name,
+            'img_url' => $this->img_url,
+            'places' => $this->places
+        ];
     }
 }
