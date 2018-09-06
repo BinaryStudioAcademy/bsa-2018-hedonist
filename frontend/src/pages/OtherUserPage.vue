@@ -1,7 +1,12 @@
 <template>
     <div>
-        <Preloader :active="isLoading"/>
-        <GeneralInfo/>
+        <Preloader
+                :active="isLoading"
+        />
+        <GeneralInfo
+            :currentTab="currentTab"
+            @tabChanged="changeTab"
+        />
         <ListsContainer/>
         <ReviewsContainer/>
     </div>
@@ -45,6 +50,11 @@
         loaded: function () {
             return !(this.isLoading);
         },
+        methods:{
+            changeTab(tab){
+                this.currentTab = tab;
+            },
+        }
     };
 </script>
 
