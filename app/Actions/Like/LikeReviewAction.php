@@ -44,7 +44,7 @@ class LikeReviewAction
             new DislikeReviewCriteria($reviewId, $userId)
         )->first();
         
-        if ($dislike) {           
+        if ($dislike) {
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
                 ReviewAttitudeSetEvent::DISLIKE_REMOVED
