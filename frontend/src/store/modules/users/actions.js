@@ -19,7 +19,7 @@ export default {
                 .then((result) => {
                     context.commit('FOLLOW_USER', {
                         followed: payload.followedId,
-                        follower: payload.followerId}
+                        follower: payload.follower}
                     );
                     payload.successCallback();
                     resolve(result);
@@ -38,7 +38,7 @@ export default {
                 .then((result) => {
                     context.commit('UNFOLLOW_USER', {
                         followed: payload.followedId,
-                        follower: payload.followerId}
+                        follower: payload.follower}
                     );
                     payload.successCallback();
                     resolve(result);

@@ -37,6 +37,11 @@
 
 <style lang="scss" scoped>
     .userName{
-        font-size: 0.75rem;
+        font-weight: bold;
+    }
+    .image{
+        img{
+            border-radius: 8px;
+        }
     }
 </style>

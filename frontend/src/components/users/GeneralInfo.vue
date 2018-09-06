@@ -161,7 +161,7 @@
                 const newPayload = {
                     ...payload,
                     followedId: this.userProfile.id,
-                    followerId: this.getAuthenticatedUser.id
+                    follower: this.getAuthenticatedUser
                 };
                 if (!payload.currentStatus) {
                     this.followUser(newPayload);
