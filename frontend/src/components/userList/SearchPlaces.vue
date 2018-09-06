@@ -174,12 +174,6 @@ export default {
         getPlaceName(place) {
             return place.localization[0].name;
         },
-        getPlacePhoto(place) {
-            return place.photos[0]['img_url'];
-        },
-        getPlacePhotoDescription(place) {
-            return place.photos[0]['description'];
-        },
         selectCity(city) {
             this.polygon = city ? this.createPolygonByBBox(city.bbox) : '';
             this.searchPlaces();
