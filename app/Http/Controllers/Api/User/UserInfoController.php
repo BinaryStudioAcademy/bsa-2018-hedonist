@@ -39,6 +39,15 @@ class UserInfoController extends ApiController
             return $this->errorResponse($ex->getMessage(), 400);
         }
 
+        if ($response->getIsPrivate()) {
+            return $this->successResponse([
+                'user_id' => $response->getUserId(),
+                'first_name' => $response->getFirstName(),
+                'last_name' => $response->getLastName(),
+                'avatar_url' => $response->getAvatarUrl(),
+                'is_private' => $response->getIsPrivate()
+            ]);
+        }
         return $this->successResponse([
             'user_id' => $response->getUserId(),
             'first_name' => $response->getFirstName(),

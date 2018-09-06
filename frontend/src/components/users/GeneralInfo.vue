@@ -116,9 +116,6 @@ export default {
 
         };
     },
-    created() {
-        this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
-    },
     computed: {
         ...mapGetters({
             userProfile: 'users/getUserProfile'

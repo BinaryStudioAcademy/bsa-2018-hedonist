@@ -1,22 +1,29 @@
 <template>
     <div>
         <Preloader :active="isLoading" />
-        <GeneralInfo />
-        <ListsContainer />
-        <ReviewsContainer />
+        <div v-if="!userProfile.is_private">
+            <GeneralInfo />
+            <ListsContainer />
+            <ReviewsContainer />
+        </div>
+        <div v-else>
+            <PrivateProfile />
+        </div>
     </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import Preloader from '@/components/misc/Preloader';
 import GeneralInfo from '@/components/users/GeneralInfo';
 import ListsContainer from '@/components/users/ListsContainer';
 import ReviewsContainer from '@/components/users/ReviewsContainer';
+import PrivateProfile from '@/components/users/PrivateProfile';
 
 export default {
     name: 'OtherUserPage',
     components: {
+        PrivateProfile,
         Preloader,
         GeneralInfo,
         ListsContainer,
@@ -29,12 +36,18 @@ export default {
         };
     },
     created() {
-        setTimeout(()=>{
-            this.isLoading = false;
-        },this.loadingTime);
+        this.$store.dispatch('users/getUsersProfile', this.$route.params.id)
+            .then(() => {
+                this.isLoading = false;
+            });
     },
     loaded: function() {
         return !(this.isLoading);
+    },
+    computed: {
+        ...mapGetters({
+            userProfile: 'users/getUserProfile'
+        })
     }
 };
 </script>
