@@ -11,6 +11,11 @@ const RECENT_SORT_API = 'created_at';
 const POPULAR_SORT = 'popular';
 const POPULAR_SORT_API = 'likes_count';
 
+const LIKE_ADDED = 'likeAdded';
+const LIKE_REMOVED = 'likeRemoved';
+const DISLIKE_ADDED = 'dislikeAdded';
+const DISLIKE_REMOVED = 'dislikeRemoved';
+
 export default {
     addReview: (context, {review, user}) => {
         return new Promise((resolve, reject) => {
@@ -273,5 +278,34 @@ export default {
                     reject(err);
                 });
         });
+    },
+
+    handleAttitude: (context, data) => {
+        const review = context.state.reviews.byId[data.reviewId];
+        let count = null;
+        
+        if (data.attitudeType === LIKE_ADDED || data.attitudeType === LIKE_REMOVED) {
+            if (data.attitudeType === LIKE_ADDED) {       
+                count = review.likes + 1;
+            } else {
+                count = review.likes - 1;
+            }
+
+            context.commit('SET_CURRENT_PLACE_REVIEW_LIKE_COUNT', {
+                reviewId: data.reviewId,
+                count: count
+            });
+        } else {
+            if (data.attitudeType === DISLIKE_ADDED) {
+                count = review.dislikes + 1;
+            } else {
+                count = review.dislikes - 1;
+            }
+
+            context.commit('SET_CURRENT_PLACE_REVIEW_DISLIKE_COUNT', {
+                reviewId: data.reviewId,
+                count: count
+            });
+        }
     },
 };
