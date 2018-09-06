@@ -89,8 +89,9 @@
                             <div class="navbar-dropdown">
                                 <router-link
                                     class="navbar-item"
-                                    :to="{ name: 'ProfilePage' }"
-                                >Profile</router-link>
+                                    :to="{ name: 'OtherUserPage', params: { id: user.id } }"
+                                >{{ $t('navbar.profile') }}
+                                </router-link>
                                 <router-link
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'NewPlacePage' }"
@@ -108,6 +109,11 @@
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'CheckinsPage' }"
                                 >Visited
+                                </router-link>
+                                <router-link
+                                    class="navbar-personal-link navbar-item"
+                                    :to="{ name: 'ProfilePage' }"
+                                >{{ $t('navbar.settings') }}
                                 </router-link>
                                 <a
                                     class="navbar-item"
