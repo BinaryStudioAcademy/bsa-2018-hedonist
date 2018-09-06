@@ -26,7 +26,7 @@ class AddNotificationsReceiveToUserInfo extends Migration
     public function down()
     {
         Schema::table('user_info', function (Blueprint $table) {
-            $table->dropColumn('notifications');
+            $table->dropColumn('notifications_receive');
         });
     }
 }
