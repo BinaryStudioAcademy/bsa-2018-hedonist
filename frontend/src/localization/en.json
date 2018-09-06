@@ -180,6 +180,9 @@
       "features": "Features",
       "recommendation": "You will also like"
     },
+    "top_info": {
+      "favourite": "Favourite"
+    },
     "message": {
       "no-lists": "No lists",
       "added-to-list": "Place added to the list!"
