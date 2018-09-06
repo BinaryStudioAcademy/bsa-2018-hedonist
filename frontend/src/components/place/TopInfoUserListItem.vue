@@ -43,7 +43,7 @@ export default {
     data() {
         return {
             FAVOURITE_LIST_NAME: FAVOURITE_LIST_NAME
-        }
+        };
     },
     computed: {
         ...mapGetters('auth', ['getAuthenticatedUser']),
