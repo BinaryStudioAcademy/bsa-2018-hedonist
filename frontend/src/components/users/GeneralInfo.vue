@@ -101,7 +101,7 @@
 <script>
 import {mapState, mapActions, mapGetters} from 'vuex';
 import FollowButton from './FollowButton';
-import defaultImage from '@/assets/user-placeholder.jpg'
+import defaultImage from '@/assets/user-placeholder.jpg';
 
 export default {
     name: 'GeneralInfo',
