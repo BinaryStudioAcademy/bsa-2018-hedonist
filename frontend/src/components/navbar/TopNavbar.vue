@@ -168,21 +168,37 @@ export default {
         'user': function() {
             if (this.user.id) {
                 Echo.private(`App.User.${this.user.id}`)
-                    .notification(({ notification, user, type }) => {
+                    .notification(({ notification }) => {
                         if (!this.notificationsDisplay) {
                             this.isNewNotifications = true;
+                        } else {
+                            this.readNotifications();
                         }
 
-                        this.addUser(user);
                         this.addUser(notification['subject_user']);
                         this.notifications.push(notification);
                     });
             }
         }
     },
+    created() {
+        this.getUnreadNotifications()
+            .then((notifications) => {
+                if (!this.notificationsDisplay && notifications.length > 0) {
+                    this.isNewNotifications = true;
+                }
+
+                _.forEach(notifications, ({ data }) => {
+                    this.addUser(data.notification['subject_user']);
+                    this.notifications.push(data.notification);
+                });
+            });
+    },
     methods: {
         ...mapActions({
-            logout: 'auth/logout'
+            logout: 'auth/logout',
+            getUnreadNotifications: 'notifications/getUnreadNotifications',
+            readNotifications: 'notifications/readNotifications',
         }),
         ...mapMutations('users', {
             addUser: 'ADD_USER',
@@ -197,7 +213,11 @@ export default {
             this.navIsActive = !this.navIsActive;
         },
         toggleNotifications() {
-            this.isNewNotifications = false;
+            if (this.isNewNotifications) {
+                this.isNewNotifications = false;
+                this.readNotifications();
+            }
+
             this.notificationsDisplay = !this.notificationsDisplay;
         },
         hideNotifications() {
