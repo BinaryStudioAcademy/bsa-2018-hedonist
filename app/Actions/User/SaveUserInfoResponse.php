@@ -15,6 +15,7 @@ class SaveUserInfoResponse
     private $facebookUrl;
     private $instagramUrl;
     private $twitterUrl;
+    private $notificationsReceive;
 
     public function __construct(UserInfo $userInfo)
     {
@@ -27,6 +28,7 @@ class SaveUserInfoResponse
         $this->facebookUrl = $userInfo->facebook_url;
         $this->instagramUrl = $userInfo->instagram_url;
         $this->twitterUrl = $userInfo->twitter_url;
+        $this->notificationsReceive = $userInfo->notifications_receive;
     }
 
     public function getUserId(): int
@@ -73,5 +75,10 @@ class SaveUserInfoResponse
     public function getTwitterUrl(): ?string
     {
         return $this->twitterUrl;
+    }
+
+    public function isNotificationsReceive(): bool
+    {
+        return $this->notificationsReceive;
     }
 }

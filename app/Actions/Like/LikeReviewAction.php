@@ -3,11 +3,13 @@
 namespace Hedonist\Actions\Like;
 
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
+use Hedonist\Notifications\LikeReviewNotification;
 use Hedonist\Repositories\Like\{LikeRepositoryInterface,LikeReviewCriteria};
 use Hedonist\Repositories\Dislike\{DislikeRepositoryInterface,DislikeReviewCriteria};
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\Like\Like;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
+use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Hedonist\Events\Review\ReviewAttitudeSetEvent;
 
@@ -16,15 +18,18 @@ class LikeReviewAction
     private $likeRepository;
     private $dislikeRepository;
     private $reviewRepository;
+    private $userRepository;
 
     public function __construct(
         LikeRepositoryInterface $likeRepository,
         DislikeRepositoryInterface $dislikeRepository,
-        ReviewRepositoryInterface $reviewRepository
+        ReviewRepositoryInterface $reviewRepository,
+        UserRepositoryInterface $userRepository
     ) {
         $this->likeRepository = $likeRepository;
         $this->dislikeRepository = $dislikeRepository;
         $this->reviewRepository = $reviewRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function execute(LikeReviewRequest $request): LikeReviewResponse
@@ -64,6 +69,10 @@ class LikeReviewAction
                 'user_id' => $userId
             ]);
             $this->likeRepository->save($like);
+            $notifiableUser = $this->userRepository->getById($review->user_id);
+            if ((bool) $notifiableUser->info->notifications_receive === true) {
+                $notifiableUser->notify(new LikeReviewNotification($review, Auth::user()));
+            }
         } else {
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
@@ -72,7 +81,7 @@ class LikeReviewAction
             
             $this->likeRepository->deleteById($like->id);
         }
-        
+
         return new LikeReviewResponse();
     }
 }
