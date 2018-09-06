@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Review\GetLikeStatusForReviews;
 
+use Hedonist\Entities\Like\LikeStatus;
 use Hedonist\Repositories\Like\{
     LikeRepositoryInterface,
     ByReviewsAndUserCriteria as LikeByReviewsAndUserCriteria
@@ -46,11 +47,11 @@ class GetLikeStatusForReviewsAction
 
         foreach ($reviews as $key=>$review) {
             if (in_array($review->id, $likedReviewsIds)) {
-                $reviews[$key]->like_status = 'LIKED';
+                $reviews[$key]->like = LikeStatus::LIKED;
             } elseif (in_array($review->id, $dislikedReviewsIds)) {
-                $reviews[$key]->like_status = 'DISLIKED';
+                $reviews[$key]->like = LikeStatus::DISLIKED;
             } else {
-                $reviews[$key]->like_status = 'NONE';
+                $reviews[$key]->like = LikeStatus::NONE;
             }
         }
 
