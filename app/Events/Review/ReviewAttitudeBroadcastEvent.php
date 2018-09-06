@@ -1,6 +1,6 @@
 <?php
 
-namespace Hedonist\Events\Attitude;
+namespace Hedonist\Events\Review;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -8,22 +8,17 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class AttitudeSetEvent implements ShouldBroadcast
+class ReviewAttitudeBroadcastEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets;
-
-    const LIKE_ADDED      = 'likeAdded';
-    const LIKE_REMOVED    = 'likeRemoved';
-    const DISLIKE_ADDED   = 'dislikeAdded';
-    const DISLIKE_REMOVED = 'dislikeRemoved';
 
     public $reviewId;
     public $attitudeType;
     
-    public function __construct(int $reviewId, string $type)
+    public function __construct(int $reviewId, string $attitudeType)
     {
         $this->reviewId     = $reviewId;
-        $this->attitudeType = $type;
+        $this->attitudeType = $attitudeType;
     }
 
     public function broadcastAs(): string

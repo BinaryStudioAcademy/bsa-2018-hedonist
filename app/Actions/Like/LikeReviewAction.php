@@ -9,7 +9,7 @@ use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\Like\Like;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
-use Hedonist\Events\Attitude\AttitudeSetEvent;
+use Hedonist\Events\Review\ReviewAttitudeSetEvent;
 
 class LikeReviewAction
 {
@@ -44,20 +44,20 @@ class LikeReviewAction
             new DislikeReviewCriteria($reviewId, $userId)
         )->first();
         
-        if ($dislike) {
-            broadcast(new AttitudeSetEvent(
+        if ($dislike) {           
+            event(new ReviewAttitudeSetEvent(
                 $reviewId,
-                AttitudeSetEvent::DISLIKE_REMOVED
-            ))->toOthers();
+                ReviewAttitudeSetEvent::DISLIKE_REMOVED
+            ));
             
             $this->dislikeRepository->deleteById($dislike->id);
         }
         if (empty($like)) {
-            broadcast(new AttitudeSetEvent(
+            event(new ReviewAttitudeSetEvent(
                 $reviewId,
-                AttitudeSetEvent::LIKE_ADDED
-            ))->toOthers();
-
+                ReviewAttitudeSetEvent::LIKE_ADDED
+            ));
+            
             $like = new Like([
                 'likeable_id' => $reviewId,
                 'likeable_type' => Review::class,
@@ -65,11 +65,11 @@ class LikeReviewAction
             ]);
             $this->likeRepository->save($like);
         } else {
-            broadcast(new AttitudeSetEvent(
+            event(new ReviewAttitudeSetEvent(
                 $reviewId,
-                AttitudeSetEvent::LIKE_REMOVED
-            ))->toOthers();
-
+                ReviewAttitudeSetEvent::LIKE_REMOVED
+            ));
+            
             $this->likeRepository->deleteById($like->id);
         }
         
