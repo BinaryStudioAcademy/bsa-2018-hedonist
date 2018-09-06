@@ -7,10 +7,10 @@
                         <div class="user-info-img">
                             <figure class="image is-128x128">
                                 <img
-                                    v-if="userProfile.avatar_url"
-                                    :src="userProfile.avatar_url"
-                                    :title="fullName"
-                                    :alt="fullName"
+                                        v-if="userProfile.avatar_url"
+                                        :src="userProfile.avatar_url"
+                                        :title="fullName"
+                                        :alt="fullName"
                                 >
                             </figure>
                         </div>
@@ -22,31 +22,31 @@
                             <h1 class="subtitle is-3">{{ fullName }}</h1>
                             <div class="user-social">
                                 <a
-                                    v-if="userProfile.facebook_url"
-                                    v-show="userProfile.facebook_url"
-                                    :href="userProfile.facebook_url"
-                                    class="facebbok-link"
-                                    target="_blank"
+                                        v-if="userProfile.facebook_url"
+                                        v-show="userProfile.facebook_url"
+                                        :href="userProfile.facebook_url"
+                                        class="facebbok-link"
+                                        target="_blank"
                                 >
-                                    <i class="fa-2x fab fa-facebook-square" />
+                                    <i class="fa-2x fab fa-facebook-square"/>
                                 </a>
                                 <a
-                                    v-if="userProfile.twitter_url"
-                                    v-show="userProfile.twitter_url"
-                                    :href="userProfile.twitter_url"
-                                    class="twitter-link"
-                                    target="_blank"
+                                        v-if="userProfile.twitter_url"
+                                        v-show="userProfile.twitter_url"
+                                        :href="userProfile.twitter_url"
+                                        class="twitter-link"
+                                        target="_blank"
                                 >
-                                    <i class="fa-2x fab fa-twitter-square" />
+                                    <i class="fa-2x fab fa-twitter-square"/>
                                 </a>
                                 <a
-                                    v-if="userProfile.instagram_url"
-                                    v-show="userProfile.instagram_url"
-                                    :href="userProfile.instagram_url"
-                                    class="instagram-link"
-                                    target="_blank"
+                                        v-if="userProfile.instagram_url"
+                                        v-show="userProfile.instagram_url"
+                                        :href="userProfile.instagram_url"
+                                        class="instagram-link"
+                                        target="_blank"
                                 >
-                                    <i class="fa-2x fab fa-instagram" />
+                                    <i class="fa-2x fab fa-instagram"/>
                                 </a>
                             </div>
                         </div>
@@ -102,9 +102,9 @@
                         </ul>
 
                         <FollowButton
-                            @followed="followEventHandler"
-                            :followed="isFollowedByCurrentUser"
-                            :name="userProfile.first_name"
+                                @followed="followEventHandler"
+                                :followed="isFollowedByCurrentUser"
+                                :name="userProfile.first_name"
                         />
 
                     </div>
@@ -116,69 +116,69 @@
 </template>
 
 <script>
-import {mapState, mapActions, mapGetters} from 'vuex';
-import FollowButton from './FollowButton';
-import {otherUserPage} from "@/services/common/pageConstants";
+    import {mapState, mapActions, mapGetters} from 'vuex';
+    import FollowButton from './FollowButton';
+    import {otherUserPage} from "@/services/common/pageConstants";
 
-export default {
-    name: 'GeneralInfo',
-    data() {
-        return {
-            pageConstants:otherUserPage
-        };
-    },
-    props:{
-        currentTab:{
-            required: true,
-            type:String
-        }
-    },
-    components: {FollowButton},
-    computed: {
-        ...mapGetters('users', ['getUserProfile']),
-        ...mapGetters('place', ['getUserReviewsAll']),
-        ...mapGetters('auth', ['getAuthenticatedUser']),
-        AllReviewUserLength: function () {
-            return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
-        },
-        ...mapState('userList', {
-            userLists: 'userLists',
-        }),
-        UserListsLength: function () {
-            return this.userLists ? this.userLists.allIds.length : null;
-        },
-        fullName() {
-            return this.userProfile.first_name + ' ' + this.userProfile.last_name;
-        },
-        userProfile() {
-            return this.getUserProfile(parseInt(this.$route.params.id));
-        },
-        isFollowedByCurrentUser() {
-            return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
-        }
-    },
-    methods: {
-        ...mapActions('users', ['followUser', 'unfollowUser']),
-        followEventHandler(payload) {
-            const newPayload = {
-                ...payload,
-                followedId: this.userProfile.id,
-                followerId: this.getAuthenticatedUser.id
+    export default {
+        name: 'GeneralInfo',
+        data() {
+            return {
+                pageConstants: otherUserPage
             };
-            if(!payload.currentStatus){
-                this.followUser(newPayload);
-            } else {
-                this.unfollowUser(newPayload);
+        },
+        props: {
+            currentTab: {
+                required: true,
+                type: String
             }
         },
-        selectionActive(itemToCheck){
-            return this.currentTab === itemToCheck;
+        components: {FollowButton},
+        computed: {
+            ...mapGetters('users', ['getUserProfile']),
+            ...mapGetters('place', ['getUserReviewsAll']),
+            ...mapGetters('auth', ['getAuthenticatedUser']),
+            AllReviewUserLength: function () {
+                return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
+            },
+            ...mapState('userList', {
+                userLists: 'userLists',
+            }),
+            UserListsLength: function () {
+                return this.userLists ? this.userLists.allIds.length : null;
+            },
+            fullName() {
+                return this.userProfile.first_name + ' ' + this.userProfile.last_name;
+            },
+            userProfile() {
+                return this.getUserProfile(parseInt(this.$route.params.id));
+            },
+            isFollowedByCurrentUser() {
+                return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
+            }
         },
-        changeTab(tab){
-            this.$emit('tabChanged',tab);
+        methods: {
+            ...mapActions('users', ['followUser', 'unfollowUser']),
+            followEventHandler(payload) {
+                const newPayload = {
+                    ...payload,
+                    followedId: this.userProfile.id,
+                    followerId: this.getAuthenticatedUser.id
+                };
+                if (!payload.currentStatus) {
+                    this.followUser(newPayload);
+                } else {
+                    this.unfollowUser(newPayload);
+                }
+            },
+            selectionActive(itemToCheck) {
+                return this.currentTab === itemToCheck;
+            },
+            changeTab(tab) {
+                this.$emit('tabChanged', tab);
+            }
         }
-    }
-};
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -293,6 +293,9 @@ export default {
                         cursor: pointer;
                         background-color: rgba(199, 205, 207, 0.3);
                     }
+                    div{
+                        width:100%;
+                    }
                 }
 
             }
@@ -305,12 +308,16 @@ export default {
                 color: #aeb4b6;
             }
 
-            .active_tab{
+            .relation-count, .relation-title {
+                transition: color 0.3s ease;
+            }
+
+            .active_tab {
                 .relation-count {
-                    color:#7957d5;
+                    color: #7957d5;
                 }
-                .relation-title{
-                    color:#8563f4;
+                .relation-title {
+                    color: #8563f4;
                 }
             }
         }
