@@ -159,9 +159,9 @@ export default {
         margin: 0 10px;
         width: 28px;
         height: 28px;
-        border-radius:4px;
 
         img {
+            border-radius:4px;
             width: 100%;
             height: 100%;
             object-fit: cover;
