@@ -1,5 +1,6 @@
 import httpService from '../../../services/common/httpService';
 import normalizerService from '../../../services/common/normalizerService';
+import {FAVOURITE_LIST_NAME} from '@/services/userList/listNames';
 
 export default {
     getListsByUser: (context, userId) => {
@@ -11,10 +12,14 @@ export default {
                     let places = {};
                     let cities = {};
                     let categories = {};
+                    context.commit('SET_FAVOURITE_EXIST', false);
 
                     for (let userList in userLists.byId) {
                         let id = parseInt(userList);
 
+                        if (userLists.byId[id].is_default && userLists.byId[id].name === FAVOURITE_LIST_NAME) {
+                            context.commit('SET_FAVOURITE_EXIST', true);
+                        }
                         let placesOfOneList = normalizerService.normalize({
                             data: userLists.byId[id].places
                         });
@@ -67,6 +72,21 @@ export default {
     addPlaceToList: (context, payload) => {
         return new Promise((resolve, reject) => {
             httpService.post('/user-lists/' + payload.listId + '/attach-place', {
+                id: payload.placeId
+            })
+                .then((result) => {
+                    context.dispatch('getListsByUser',payload.userId);
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    },
+
+    addPlaceToFavouriteList: (context, payload) => {
+        return new Promise((resolve, reject) => {
+            httpService.put('/user-lists/favourite', {
                 id: payload.placeId
             })
                 .then((result) => {
