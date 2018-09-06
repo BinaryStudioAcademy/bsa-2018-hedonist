@@ -25,6 +25,8 @@ const middleware = handler => (
     routes => routes.map(route => Object.assign({}, route, {beforeEnter: handler}))
 );
 
+const currentUser = store.getters['auth/getAuthenticatedUser'];
+
 export default new Router({
     mode: 'history',
     base: '/',
@@ -38,8 +40,8 @@ export default new Router({
             },
             {
                 path: '/profile',
-                name: 'ProfilePage',
-                component: ProfilePage,
+                name: 'MyUserPage',
+                redirect: '/users/'+currentUser.id,
             },
             {
                 path: '/users/:id',
@@ -95,6 +97,11 @@ export default new Router({
                 path: '/checkins',
                 name: 'CheckinsPage',
                 component: CheckinsPage
+            },
+            {
+                path: '/settings',
+                name: 'ProfilePage',
+                component: ProfilePage,
             },
             {
                 path: '*',
