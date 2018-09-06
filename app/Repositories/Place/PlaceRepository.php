@@ -106,7 +106,18 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         foreach ($criterias as $criteria) {
             $this->pushCriteria($criteria);
         }
-        $result = $this->all();
+        $result = $this->with(
+            'category',
+            'tags',
+            'city',
+            'localization',
+            'localization.language',
+            'likes',
+            'photos',
+            'dislikes',
+            'ratings',
+            'worktime'
+        )->get();
         $this->resetCriteria();
 
         return $result;
