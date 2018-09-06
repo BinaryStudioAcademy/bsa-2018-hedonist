@@ -13,6 +13,7 @@
     import GeneralInfo from '@/components/users/GeneralInfo';
     import ListsContainer from '@/components/users/ListsContainer';
     import ReviewsContainer from '@/components/users/ReviewsContainer';
+    import {otherUserPage} from "@/services/common/pageConstants";
 
     export default {
         name: 'OtherUserPage',
@@ -25,7 +26,8 @@
         data() {
             return {
                 isLoading: true,
-                loadingTime: 2000
+                loadingTime: 2000,
+                currentTab: otherUserPage.listTab
             };
         },
         created() {

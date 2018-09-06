@@ -64,26 +64,37 @@
 
                         <ul class="level">
                             <li class="level-item has-text-centered">
-                                <div :class="selectionActive">
+                                <div
+                                        :class="{active_tab: selectionActive(otherUserPage.reviewTab)}"
+                                        @click="$emit('tabChanged',otherUserPage.reviewTab)"
+                                >
                                     <p class="relation-count">{{ AllReviewUserLength }}</p>
                                     <p class="relation-title">Reviews</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
-                                <div>
+                                <div
+                                        :class="{active_tab: selectionActive(otherUserPage.followersTab)}"
+                                        @click="$emit('tabChanged',otherUserPage.followersTab)"
+                                >
                                     <p class="relation-count">{{ userProfile.followers.length }}</p>
                                     <p class="relation-title">Followers</p>
-
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
-                                <div>
+                                <div
+                                        :class="{active_tab: selectionActive(otherUserPage.followedTab)}"
+                                        @click="$emit('tabChanged',otherUserPage.followedTab)"
+                                >
                                     <p class="relation-count">{{ userProfile.followedUsers.length }}</p>
                                     <p class="relation-title">Following</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
-                                <div>
+                                <div
+                                        :class="{active_tab: selectionActive(otherUserPage.listTab)}"
+                                        @click="$emit('tabChanged',otherUserPage.listTab)"
+                                >
                                     <p class="relation-count">{{ UserListsLength }}</p>
                                     <p class="relation-title">Lists</p>
                                 </div>
@@ -92,7 +103,7 @@
 
                         <FollowButton
                             @followed="followEventHandler"
-                            :followed="isFollowedByCurentUser"
+                            :followed="isFollowedByCurrentUser"
                             :name="userProfile.first_name"
                         />
 
@@ -107,11 +118,18 @@
 <script>
 import {mapState, mapActions, mapGetters} from 'vuex';
 import FollowButton from './FollowButton';
+import {otherUserPage} from "@/services/common/pageConstants";
 
 export default {
     name: 'GeneralInfo',
     data() {
         return {};
+    },
+    props:{
+        currentTab:{
+            required: true,
+            type:String
+        }
     },
     components: {FollowButton},
     computed: {
@@ -133,7 +151,7 @@ export default {
         userProfile() {
             return this.getUserProfile(parseInt(this.$route.params.id));
         },
-        isFollowedByCurentUser() {
+        isFollowedByCurrentUser() {
             return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
         }
     },
@@ -150,6 +168,9 @@ export default {
             } else {
                 this.unfollowUser(newPayload);
             }
+        },
+        selectionActive(itemToCheck){
+            return this.currentTab === itemToCheck;
         }
     }
 };
@@ -161,6 +182,15 @@ export default {
         margin: 10px 0;
         padding: 20px 0;
         background-color: #fff;
+    }
+
+    .active-tab{
+        .relation-count {
+            color:#7957d5;
+        }
+        .relation-title{
+            color:#8563f4;
+        }
     }
 
     .user-info {
