@@ -36,15 +36,7 @@ export default {
         userName(){
             return this.userProfile.first_name || '';
         }
-    },
-    created() {
-        this.getUsersLists(this.$route.params.id);
-    },
-    methods: {
-        ...mapActions({
-            getUsersLists: 'userList/getListsByUser',
-        }),
-    },
+    }
 };
 </script>
 

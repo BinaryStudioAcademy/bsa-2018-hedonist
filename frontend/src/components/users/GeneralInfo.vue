@@ -114,9 +114,6 @@ export default {
         return {};
     },
     components: {FollowButton},
-    created() {
-        this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
-    },
     computed: {
         ...mapGetters('users', ['getUserProfile']),
         ...mapGetters('place', ['getUserReviewsAll']),

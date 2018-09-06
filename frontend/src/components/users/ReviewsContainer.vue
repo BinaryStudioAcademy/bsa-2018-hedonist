@@ -52,10 +52,6 @@ export default {
             return this.userProfile.first_name || '';
         }
     },
-    created() {
-        this.$store.dispatch('place/fetchPlaces', this.$route.query);
-    },
-
 };
 </script>
 <style >
