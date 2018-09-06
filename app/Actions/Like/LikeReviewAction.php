@@ -58,8 +58,10 @@ class LikeReviewAction
                 'user_id' => $userId
             ]);
             $this->likeRepository->save($like);
-            $this->userRepository->getById($review->user_id)
-                ->notify(new LikeReviewNotification($review, Auth::user()));
+            $notifiableUser = $this->userRepository->getById($review->user_id);
+            if ((bool) $notifiableUser->info->notifications_receive === true) {
+                $notifiableUser->notify(new LikeReviewNotification($review, Auth::user()));
+            }
         } else {
             $this->likeRepository->deleteById($like->id);
         }

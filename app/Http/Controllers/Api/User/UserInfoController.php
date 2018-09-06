@@ -49,6 +49,7 @@ class UserInfoController extends ApiController
             'facebook_url' => $response->getFacebookUrl(),
             'instagram_url' => $response->getInstagramUrl(),
             'twitter_url' => $response->getTwitterUrl(),
+            'notifications_receive' => $response->isNotificationsReceive(),
         ]);
     }
 
@@ -60,6 +61,7 @@ class UserInfoController extends ApiController
                     $userId,
                     $httpRequest->first_name,
                     $httpRequest->last_name,
+                    $httpRequest->notifications_receive,
                     $httpRequest->date_of_birth,
                     $httpRequest->phone_number,
                     $httpRequest->file('avatar'),
@@ -84,6 +86,7 @@ class UserInfoController extends ApiController
             'facebook_url' => $response->getFacebookUrl(),
             'instagram_url' => $response->getInstagramUrl(),
             'twitter_url' => $response->getTwitterUrl(),
+            'notifications_receive' => $response->isNotificationsReceive(),
         ]);
     }
 
