@@ -3,7 +3,12 @@
 
         <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
             <figure class="image is-16x16 media-left">
-                <img :src="review.user.avatar_url" class="user-avatar">
+                <img v-if="review.user.avatar_url" :src="review.user.avatar_url" class="user-avatar">
+                <img
+                    v-else
+                    src="/assets/add_review_default_avatar.png"
+                    class="user-avatar"
+                >
             </figure>
         </router-link>
         <div class="media-content">
