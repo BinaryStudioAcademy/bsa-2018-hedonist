@@ -74,13 +74,13 @@
                         </div>
                         <div class="navbar-item has-dropdown is-hoverable">
                             <div v-if="user" class="navbar-link navbar-dropdown-menu">
-                                <img
-                                    v-if="user.avatar_url"
-                                    class="navbar-avatar"
-                                    :src="user.avatar_url"
-                                    :title="user.first_name+' '+user.last_name"
-                                    :alt="user.first_name+' '+user.last_name"
-                                >
+                                <div v-if="user.avatar_url" class="navbar-avatar">
+                                    <img
+                                        :src="user.avatar_url"
+                                        :title="user.first_name+' '+user.last_name"
+                                        :alt="user.first_name+' '+user.last_name"
+                                    >
+                                </div>
                                 <span v-else class="icon">
                                     <i class="fas fa-file-image fa-lg" />
                                 </span>
@@ -303,8 +303,17 @@ export default {
         text-indent: 15px;
     }
     .navbar-avatar {
-        margin:0 10px;
-        border-radius:4px;
+        margin: 0 10px;
+        width: 28px;
+        height: 28px;
+
+        img {
+            border-radius:4px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
     }
     .navbar-notification-btn {
         cursor: pointer;
