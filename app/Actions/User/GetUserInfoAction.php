@@ -2,24 +2,25 @@
 
 namespace Hedonist\Actions\User;
 
-use Hedonist\Entities\User\UserInfo;
-use Hedonist\Repositories\User\UserInfoRepository;
+use Hedonist\Repositories\User\Criterias\GetUsersByIdCriteria;
+use Hedonist\Repositories\User\Criterias\WithFollowedAndFollowersCriteria;
+use Hedonist\Repositories\User\UserRepositoryInterface;
 
 class GetUserInfoAction
 {
-    private $userInfoRepository;
+    private $userRepository;
 
-    public function __construct(UserInfoRepository $userInfoRepository)
+    public function __construct(UserRepositoryInterface $userInfoRepository)
     {
-        $this->userInfoRepository = $userInfoRepository;
+        $this->userRepository = $userInfoRepository;
     }
 
     public function execute(GetUserInfoRequest $userInfoRequest): GetUserInfoResponse
     {
-        $userInfo = $this->userInfoRepository->getByUserId($userInfoRequest->getUserId());
-        if (!$userInfo) {
-            $userInfo = new UserInfo;
-        }
-        return new GetUserInfoResponse($userInfo);
+        $userInfo = $this->userRepository->findByCriterias(
+            new GetUsersByIdCriteria($userInfoRequest->getUserId()),
+            new WithFollowedAndFollowersCriteria()
+        )->first();
+        return new GetUserInfoResponse($userInfo, $userInfo->followers, $userInfo->followedUsers);
     }
 }

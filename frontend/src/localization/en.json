@@ -180,9 +180,14 @@
       "features": "Features",
       "recommendation": "You will also like"
     },
+    "message": {
+      "no-lists": "No lists",
+      "added-to-list": "Place added to the list!"
+    },
     "buttons": {
       "more": "Show more",
-      "less": "Show less"
+      "less": "Show less",
+      "save": "Save"
     }
   },
   "messages": {
