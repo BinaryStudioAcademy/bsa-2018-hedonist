@@ -47,7 +47,7 @@ class GetPlaceCollectionByFiltersAction
         $user = Auth::user();
 
         $uniqId = $this->generateUniqKeyByPlaceSearch($request);
-        $cachePlaces = $this->cache->get(self::SEARCH_KEY_PREFIX . $uniqId);
+        $cachePlaces = $this->cache->get($uniqId);
         if ($cachePlaces) {
             return new GetPlaceCollectionResponse(unserialize($cachePlaces), $user);
         }
@@ -128,7 +128,7 @@ class GetPlaceCollectionByFiltersAction
         );
 
         if (! $this->hasFilterParameters($request)) {
-            $this->cache->put(self::SEARCH_KEY_PREFIX . $uniqId, serialize($places), self::CACHE_TIME);
+            $this->cache->put($uniqId, serialize($places), self::CACHE_TIME);
         }
 
         return new GetPlaceCollectionResponse($places, $user);
@@ -142,7 +142,7 @@ class GetPlaceCollectionByFiltersAction
             $request->getLocation(),
             $request->getName()
         ];
-        return implode('_', $baseRequest);
+        return self::SEARCH_KEY_PREFIX . implode('_', $baseRequest);
     }
 
     private function hasFilterParameters(GetPlaceCollectionByFiltersRequest $request): bool
