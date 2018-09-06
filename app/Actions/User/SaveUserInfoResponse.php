@@ -77,7 +77,7 @@ class SaveUserInfoResponse
         return $this->twitterUrl;
     }
 
-    public function getIsPrivate(): bool
+    public function getIsPrivate(): ?bool
     {
         return $this->isPrivate;
     }
