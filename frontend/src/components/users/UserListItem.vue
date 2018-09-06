@@ -1,20 +1,16 @@
 <template>
-    <div class="media">
-        <div class="media-left">
-            <figure class="image is-64x64">
-                <img :src="profilePhoto" :alt="fullName">
-            </figure>
-        </div>
-        <div class="media-content">
-            <router-link :to="`/user/${user.id}`" class="userName">
-                {{fullName}}
-            </router-link>
-        </div>
+    <div class="wrapper">
+        <figure class="image is-64x64">
+            <img :src="profilePhoto" :alt="fullName">
+        </figure>
+        <router-link :to="`/users/${user.id}`" class="userName">
+            {{fullName}}
+        </router-link>
     </div>
 </template>
 
 <script>
-    import UserPlaceholder from '@/assets/user-placeholder.jpg'
+    import UserPlaceholder from '@/assets/user-placeholder.png'
 
     export default {
         name: "UserListItem",
@@ -36,11 +32,19 @@
 </script>
 
 <style lang="scss" scoped>
-    .userName{
+    .userName {
         font-weight: bold;
+        font-size: 1.3rem;
+        align-self: flex-start;
+        margin-left: 10px;
     }
-    .image{
-        img{
+
+    .wrapper{
+        display: flex;
+    }
+
+    .image {
+        img {
             border-radius: 8px;
         }
     }

@@ -113,7 +113,7 @@
     import {otherUserPage} from "@/services/common/pageConstants";
     import {mapState, mapActions, mapGetters} from 'vuex';
     import FollowButton from './FollowButton';
-    import defaultImage from '@/assets/user-placeholder.jpg';
+    import defaultImage from '@/assets/user-placeholder.png';
 
     export default {
         name: 'GeneralInfo',
