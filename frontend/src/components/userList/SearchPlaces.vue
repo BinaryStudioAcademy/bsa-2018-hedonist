@@ -136,10 +136,8 @@ export default {
     },
     methods: {
         ...mapActions({
-            fetchPlaces: 'place/fetchPlaces',
             loadPlaces: 'search/loadPlaces'
         }),
-        ...mapActions({ fetchPlaces: 'place/fetchPlaces' }),
         searchPlaces: _.debounce(function() {
             this.isPlaceFetching = true;
             this.loadPlaces({name: this.searchName, polygon: this.polygon})
