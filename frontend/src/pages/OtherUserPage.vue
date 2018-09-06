@@ -16,6 +16,9 @@
         <FollowersContainer
                 v-if="activeTab(pageConstants.followersTab)"
         />
+        <FollowedContainer
+                v-if="activeTab(pageConstants.followedTab)"
+        />
     </div>
 </template>
 
@@ -27,10 +30,12 @@
     import ReviewsContainer from '@/components/users/ReviewsContainer';
     import {otherUserPage} from "@/services/common/pageConstants";
     import FollowersContainer from "../components/users/FollowersContainer";
+    import FollowedContainer from "../components/users/FollowedContainer";
 
     export default {
         name: 'OtherUserPage',
         components: {
+            FollowedContainer,
             FollowersContainer,
             Preloader,
             GeneralInfo,
