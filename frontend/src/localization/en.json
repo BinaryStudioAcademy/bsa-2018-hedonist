@@ -182,6 +182,10 @@
     },
     "top_info": {
       "favourite": "Favourite"
+    },
+    "buttons": {
+      "more": "Show more",
+      "less": "Show less"
     }
   }
 }
