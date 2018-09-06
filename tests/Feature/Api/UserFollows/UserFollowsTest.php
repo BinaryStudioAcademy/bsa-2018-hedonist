@@ -27,11 +27,11 @@ class UserFollowsTest extends ApiTestCase
     {
         $response = $this->json(
             'POST',
-            '/api/v1/users/' . $this->followed->id . '/follows'
+            '/api/v1/users/' . $this->followed->id . '/followers'
         );
         $response->assertStatus(200);
 
-        $this->assertDatabaseHas('follows',
+        $this->assertDatabaseHas('followers',
             [
                 'followed_id' => $this->followed->id,
                 'follower_id' => $this->follower->id
@@ -43,7 +43,7 @@ class UserFollowsTest extends ApiTestCase
     {
         $response = $this->json(
             'POST',
-            '/api/v1/users/999999/follows'
+            '/api/v1/users/999999/followers'
         );
         $response->assertStatus(400);
     }
@@ -53,7 +53,7 @@ class UserFollowsTest extends ApiTestCase
         $response = $this->actingAs($this->follower)
             ->json(
                 'POST',
-                '/api/v1/users/' . $this->follower->id . '/follows'
+                '/api/v1/users/' . $this->follower->id . '/followers'
             );
         $response->assertStatus(400);
     }
@@ -63,11 +63,11 @@ class UserFollowsTest extends ApiTestCase
         $this->followed->followers()->attach($this->follower);
         $response = $this->json(
             'DELETE',
-            '/api/v1/users/' . $this->followed->id . '/follows'
+            '/api/v1/users/' . $this->followed->id . '/followers'
         );
         $response->assertStatus(200);
 
-        $this->assertDatabaseMissing('follows',
+        $this->assertDatabaseMissing('followers',
             [
                 'followed_id' => $this->followed->id,
                 'follower_id' => $this->follower->id
@@ -79,7 +79,7 @@ class UserFollowsTest extends ApiTestCase
     {
         $response = $this->json(
             'DELETE',
-            '/api/v1/users/999999/follows'
+            '/api/v1/users/999999/followers'
         );
         $response->assertStatus(400);
     }
