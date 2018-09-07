@@ -54,7 +54,7 @@
                 </div>
             </div>
             <Review
-                v-if="place.review"
+                v-if="place.review && showReview"
                 :review="place.review"
                 :show-like-dislike-btns="false"
             />
@@ -86,6 +86,10 @@ export default {
         timer: {
             required: true,
             type: Number,
+        },
+        showReview: {
+            default: true,
+            type: Boolean,
         }
     },
     computed: {

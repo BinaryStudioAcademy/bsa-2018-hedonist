@@ -18,7 +18,7 @@ class CreatePlacesTable extends Migration
 
             $table->float('longitude', 7, 4);
             $table->float('latitude', 7, 4);
-            $table->integer('zip');
+            $table->string('zip');
             $table->string('address');
             $table->string('phone')->nullable();
             $table->string('website')->nullable();
