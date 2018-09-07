@@ -15,20 +15,20 @@
                 </div>
             </li>
         </ul>
-        <div class="leve">
+        <div class="level">
             <div class="level-item">
                 <b-autocomplete
-                        class="taste-input"
-                        rounded
-                        v-model.trim="tasteInput.text"
-                        placeholder="Enter a tag"
-                        :loading="tasteInput.isFetching"
-                        :data="tasteInput.data"
-                        @input="loadTags"
-                        @select="option => selected = option"
-                        @keyup.native.enter="addCustomTaste(tasteInput.text)"
-                        maxlength="20"
-                        minlength="3"
+                    class="taste-input"
+                    rounded
+                    v-model.trim="tasteInput.text"
+                    placeholder="Enter a tag"
+                    :loading="tasteInput.isFetching"
+                    :data="tasteInput.data"
+                    @input="loadTags"
+                    @select="option => selected = option"
+                    @keyup.native.enter="addCustomTaste(tasteInput.text)"
+                    maxlength="20"
+                    minlength="3"
                 />
             </div>
         </div>
