@@ -17,5 +17,4 @@ class GetNotificationsResponse
     {
         return $this->notificationCollection;
     }
-
 }

@@ -34,6 +34,7 @@ export default {
             type: Object
         },
         createdAt: {
+            default: null,
             type: Object
         }
     },

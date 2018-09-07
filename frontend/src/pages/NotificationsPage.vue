@@ -32,7 +32,7 @@ import {
 } from '@/services/notification/notificationService';
 
 export default {
-    name: "NotificationsPage",
+    name: 'NotificationsPage',
     components: {
         LikeReviewNotification,
         UnknownNotification,
@@ -43,12 +43,12 @@ export default {
     data() {
         return {
             notifications: []
-        }
+        };
     },
     created() {
         this.readNotifications();
         this.getNotifications().then((notifications) => {
-             _.forEach(notifications, ({ data, created_at, read_at }) => {
+            _.forEach(notifications, ({ data, created_at, read_at }) => {
                 this.addUser(data.notification['subject_user']);
                 this.notifications.push({
                     ...data.notification,
@@ -74,20 +74,20 @@ export default {
         }),
         notificationComponent: function(notification) {
             switch (notification.type) {
-                case LIKE_REVIEW_NOTIFICATION:
-                    return 'LikeReviewNotification';
-                case REVIEW_PLACE_NOTIFICATION:
-                    return 'ReviewPlaceNotification';
-                case FOLLOWED_USER_REVIEW_NOTIFICATION:
-                    return 'FollowedUserReviewNotification';
-                case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
-                    return 'FollowedUserAddPlaceNotification';
-                default:
-                    return 'UnknownNotification';
+            case LIKE_REVIEW_NOTIFICATION:
+                return 'LikeReviewNotification';
+            case REVIEW_PLACE_NOTIFICATION:
+                return 'ReviewPlaceNotification';
+            case FOLLOWED_USER_REVIEW_NOTIFICATION:
+                return 'FollowedUserReviewNotification';
+            case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
+                return 'FollowedUserAddPlaceNotification';
+            default:
+                return 'UnknownNotification';
             }
         }
     }
-}
+};
 </script>
 
 <style lang="scss">
