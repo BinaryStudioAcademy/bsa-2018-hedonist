@@ -52,9 +52,8 @@ export default {
             const date = new Date(this.createdAt['date']);
             const options = {
                 year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                weekday: 'long',
+                month: 'numeric',
+                day: 'numeric'
             };
             return date.toLocaleString('en-US', options);
         }
