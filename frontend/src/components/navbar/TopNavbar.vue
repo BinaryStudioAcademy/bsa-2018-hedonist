@@ -93,6 +93,11 @@
                                 >{{ $t('navbar.profile') }}
                                 </router-link>
                                 <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'NotificationsPage'}"
+                                >{{ $t('navbar.notifications') }}
+                                </router-link>
+                                <router-link
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'NewPlacePage' }"
                                 >Add place</router-link>
@@ -133,7 +138,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
 import LanguageSelector from './LanguageSelector';
 import LikeReviewNotification from '@/components/notifications/LikeReviewNotification';
@@ -164,6 +169,7 @@ export default {
             user: 'auth/getAuthenticatedUser',
             getUser: 'users/getUserProfile'
         }),
+        ...mapState('auth', ['currentUser']),
         notificationIconActiveClass() {
             return this.isNewNotifications
                 ? 'notification-icon--active'
@@ -171,24 +177,40 @@ export default {
         },
     },
     watch: {
-        'user': function() {
-            if (this.user.id) {
-                Echo.private(`App.User.${this.user.id}`)
-                    .notification(({ notification, user, type }) => {
+        'currentUser': function() {
+            if (this.currentUser.id) {
+                Echo.private(`App.User.${this.currentUser.id}`)
+                    .notification(({ notification }) => {
                         if (!this.notificationsDisplay) {
                             this.isNewNotifications = true;
+                        } else {
+                            this.readNotifications();
                         }
 
-                        this.addUser(user);
                         this.addUser(notification['subject_user']);
-                        this.notifications.push(notification);
+                        this.notifications.unshift(notification);
                     });
             }
         }
     },
+    created() {
+        this.getUnreadNotifications()
+            .then((notifications) => {
+                if (!this.notificationsDisplay && notifications.length > 0) {
+                    this.isNewNotifications = true;
+                }
+
+                _.forEach(notifications, ({ data }) => {
+                    this.addUser(data.notification['subject_user']);
+                    this.notifications.push(data.notification);
+                });
+            });
+    },
     methods: {
         ...mapActions({
-            logout: 'auth/logout'
+            logout: 'auth/logout',
+            getUnreadNotifications: 'notifications/getUnreadNotifications',
+            readNotifications: 'notifications/readNotifications',
         }),
         ...mapMutations('users', {
             addUser: 'ADD_USER',
@@ -203,7 +225,11 @@ export default {
             this.navIsActive = !this.navIsActive;
         },
         toggleNotifications() {
-            this.isNewNotifications = false;
+            if (this.isNewNotifications) {
+                this.isNewNotifications = false;
+                this.readNotifications();
+            }
+
             this.notificationsDisplay = !this.notificationsDisplay;
         },
         hideNotifications() {

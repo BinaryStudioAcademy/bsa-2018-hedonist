@@ -117,7 +117,7 @@ class AddPlaceAction
                 }
 
                 $this->placeRepository->setWorktime($place, $placeRequest->getWorktime());
-                $this->sentNotificationToFollowers($place);
+                $this->sendNotificationToFollowers($place);
 
                 $user = Auth::user();
                 Log::info("place: User {$user->id } addded {$place->id}");
@@ -143,7 +143,7 @@ class AddPlaceAction
         }
     }
 
-    public function sentNotificationToFollowers(Place $place)
+    private function sendNotificationToFollowers(Place $place)
     {
         foreach ($this->userRepository->getFollowers(Auth::user()) as $user) {
             if ((bool) $user->info->notifications_receive === true) {

@@ -194,7 +194,8 @@
     }
   },
   "profile_page": {
-    "private": "Сделать профиль приватным"
+    "private": "Сделать профиль приватным",
+    "receive_notifications": "Получать уведомления"
   },
   "messages": {
     "success": {
@@ -203,7 +204,8 @@
   },
   "navbar": {
     "settings": "Настройки",
-    "profile": "Профиль"
+    "profile": "Профиль",
+    "notifications": "Уведомления"
   },
   "other_user_page": {
     "private": "Это приватный профиль :(",
@@ -222,6 +224,22 @@
     },
     "lists_container": {
       "title": "списки"
+    }
+  },
+  "notifications": {
+    "review_place": {
+      "made_review": "оставил комментарий под вашим местом"
+    },
+    "like_review": {
+      "liked": "поставил лайк вашему",
+      "review": "ревью"
+    },
+    "followed_user_review": {
+      "made_review": "сделал ревью на"
+    },
+    "followed_user_add_place": {
+      "add_new": "добавил новое",
+      "place": "место"
     }
   }
 }

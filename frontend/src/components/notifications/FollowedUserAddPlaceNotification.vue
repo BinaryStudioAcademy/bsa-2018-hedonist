@@ -2,15 +2,21 @@
     <div class="notification-message">
         <span class="user">
             <img class="user__avatar" :src="getUserAvatar">
-            <span class="user__name">
-                <a href="#">{{ getUserName }}</a>
-            </span>
+            <router-link
+                class="user__name"
+                :to="{ name: 'OtherUserPage', params: { id: user.id } }"
+            >
+                {{ getUserName }}
+            </router-link>
         </span>
-        <span class="text">added a new</span>
+        <span class="text">{{ $t('notifications.followed_user_add_place.add_new') }}</span>
         <span class="place-link">
             <router-link :to="`/places/${notification['id']}`">
-                place
+                {{ $t('notifications.followed_user_add_place.place') }}
             </router-link>
+        </span>
+        <span class="date" v-if="createdAt">
+            ({{ getDate }})
         </span>
     </div>
 </template>
@@ -26,6 +32,10 @@ export default {
         user: {
             required: true,
             type: Object
+        },
+        createdAt: {
+            default: null,
+            type: Object
         }
     },
     computed: {
@@ -34,11 +44,22 @@ export default {
         },
         getUserAvatar() {
             return this.user.info['avatar_url'];
+        },
+        getDate() {
+            const date = new Date(this.createdAt['date']);
+            const options = {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric'
+            };
+            return date.toLocaleString('en-US', options);
         }
     }
 };
 </script>
 
 <style scoped>
-
+    .date {
+        font-size: 12px;
+    }
 </style>

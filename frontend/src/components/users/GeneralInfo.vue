@@ -93,6 +93,7 @@
                         </ul>
 
                         <FollowButton
+                            v-if="shouldShowFollowBtn"
                             @followed="followEventHandler"
                             :followed="isFollowedByCurrentUser"
                             :name="userProfile.first_name"
@@ -127,15 +128,14 @@ export default {
     },
     components: {FollowButton},
     computed: {
-        ...mapGetters('users', ['getUserProfile']),
-        ...mapGetters('place', ['getUserReviewsAll']),
+        ...mapGetters('users', ['getUserProfile', 'getUserReviews']),
         ...mapGetters('auth', ['getAuthenticatedUser']),
-        AllReviewUserLength: function () {
-            return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
-        },
         ...mapState('userList', {
             userLists: 'userLists',
         }),
+        AllReviewUserLength: function () {
+            return this.getUserReviews.length;
+        },
         UserListsLength: function () {
             return this.userLists ? this.userLists.allIds.length : null;
         },
@@ -150,6 +150,9 @@ export default {
         },
         avatar() {
             return this.userProfile.avatar_url || defaultImage;
+        },
+        shouldShowFollowBtn(){
+            return !(this.getAuthenticatedUser.id === parseInt(this.$route.params.id));
         }
     },
     methods: {

@@ -42,6 +42,13 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
+        Route::group(['namespace' => 'Api\User'], function () {
+            Route::get('/notifications', 'UserNotificationsController@getNotifications');
+            Route::get('/notifications/unread', 'UserNotificationsController@getUnreadNotifications');
+            Route::put('/notifications/read', 'UserNotificationsController@readNotifications');
+            Route::delete('/notifications', 'UserNotificationsController@deleteNotifications');
+        });
+
         Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
             ->name('user-list.lists');
 
@@ -96,6 +103,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/{id}/users-disliked', 'Api\Review\ReviewController@getUsersWhoDislikedReview');
 
             Route::get('/photos/{placeId}', 'Api\Review\ReviewController@getReviewPhotosByPlaceId');
+
+            Route::get('/place/{userId}', 'Api\Review\ReviewController@getReviewsWithPlaceByUserId');
         });
 
         Route::post('/places/{id}/like', 'Api\Like\LikeController@likePlace')->name('place.like');

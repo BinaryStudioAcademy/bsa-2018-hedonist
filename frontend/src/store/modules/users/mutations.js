@@ -37,4 +37,7 @@ export default {
             state.users.allIds.push(user.id);
         }
     },
+    SET_REVIEWS: (state, reviews) => {
+        state.reviews = reviews;
+    }
 };

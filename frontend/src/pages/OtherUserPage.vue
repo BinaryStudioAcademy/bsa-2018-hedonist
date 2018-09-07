@@ -89,7 +89,7 @@ export default {
                     if (!this.userProfile.is_private) {
                         Promise.all([
                             this.$store.dispatch('userList/getListsByUser', userId),
-                            this.$store.dispatch('place/fetchPlaces', this.$route.query)
+                            this.$store.dispatch('users/fetchReviewsWithPlaceByUser', userId)
                         ])
                             .then(() => {
                                 this.isLoading = false;

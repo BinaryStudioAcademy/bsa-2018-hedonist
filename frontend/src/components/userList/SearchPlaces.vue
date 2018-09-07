@@ -161,11 +161,11 @@ export default {
             return _.differenceBy(places, this.attachedPlaces, 'id');
         },
         ratingModifier(rating) {
-            if (rating >= 7) {
+            if (rating >= 4) {
                 return 'good';
             }
 
-            if (rating >= 5) {
+            if (rating >= 3) {
                 return 'okay';
             }
 
