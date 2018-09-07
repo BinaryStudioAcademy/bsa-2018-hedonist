@@ -3,7 +3,6 @@
 namespace Hedonist\Actions\User;
 
 use Hedonist\Actions\Presenters\User\UserPresenter;
-use Illuminate\Support\Facades\Auth;
 
 class GetUserInfoPresenter
 {
