@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h3 class="subtitle is-4 followed-header">{{ userProfile.first_name }}'s {{$t('other_user_page.followed_container.title')}}</h3>
+        <h3 class="subtitle is-4 followed-header">{{ userProfile.first_name }}'s {{ $t('other_user_page.followed_container.title') }}</h3>
         <FollowersList :users="followers" />
     </div>
 </template>

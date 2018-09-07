@@ -60,7 +60,7 @@
                                     @click="changeTab(pageConstants.reviewTab)"
                                 >
                                     <p class="relation-count">{{ AllReviewUserLength }}</p>
-                                    <p class="relation-title">{{$t('other_user_page.reviews')}}</p>
+                                    <p class="relation-title">{{ $t('other_user_page.reviews') }}</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
@@ -69,7 +69,7 @@
                                     @click="changeTab(pageConstants.followersTab)"
                                 >
                                     <p class="relation-count">{{ userProfile.followers.length }}</p>
-                                    <p class="relation-title">{{$t('other_user_page.followers')}}</p>
+                                    <p class="relation-title">{{ $t('other_user_page.followers') }}</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
@@ -78,7 +78,7 @@
                                     @click="changeTab(pageConstants.followedTab)"
                                 >
                                     <p class="relation-count">{{ userProfile.followedUsers.length }}</p>
-                                    <p class="relation-title">{{$t('other_user_page.following')}}</p>
+                                    <p class="relation-title">{{ $t('other_user_page.following') }}</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
@@ -87,7 +87,7 @@
                                     @click="changeTab(pageConstants.listTab)"
                                 >
                                     <p class="relation-count">{{ UserListsLength }}</p>
-                                    <p class="relation-title">{{$t('other_user_page.lists')}}</p>
+                                    <p class="relation-title">{{ $t('other_user_page.lists') }}</p>
                                 </div>
                             </li>
                         </ul>
