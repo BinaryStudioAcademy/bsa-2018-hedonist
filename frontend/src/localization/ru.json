@@ -203,7 +203,8 @@
   },
   "navbar": {
     "settings": "Настройки",
-    "profile": "Профиль"
+    "profile": "Профиль",
+    "notifications": "Уведомления"
   },
   "other_user_page": {
     "private": "Это приватный профиль :(",

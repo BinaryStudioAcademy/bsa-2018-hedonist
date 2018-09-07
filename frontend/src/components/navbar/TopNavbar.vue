@@ -93,6 +93,11 @@
                                 >{{ $t('navbar.profile') }}
                                 </router-link>
                                 <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'NotificationsPage'}"
+                                >{{ $t('navbar.notifications') }}
+                                </router-link>
+                                <router-link
                                     class="navbar-personal-link navbar-item"
                                     :to="{ name: 'NewPlacePage' }"
                                 >Add place</router-link>
@@ -133,7 +138,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
 import LanguageSelector from './LanguageSelector';
 import LikeReviewNotification from '@/components/notifications/LikeReviewNotification';
@@ -164,6 +169,7 @@ export default {
             user: 'auth/getAuthenticatedUser',
             getUser: 'users/getUserProfile'
         }),
+        ...mapState('auth', ['currentUser']),
         notificationIconActiveClass() {
             return this.isNewNotifications
                 ? 'notification-icon--active'
@@ -171,9 +177,10 @@ export default {
         },
     },
     watch: {
-        'user': function() {
-            if (this.user.id) {
-                Echo.private(`App.User.${this.user.id}`)
+        'currentUser': function() {
+            if (this.currentUser.id) {
+                console.log(this.currentUser.id);
+                Echo.private(`App.User.${this.currentUser.id}`)
                     .notification(({ notification }) => {
                         if (!this.notificationsDisplay) {
                             this.isNewNotifications = true;

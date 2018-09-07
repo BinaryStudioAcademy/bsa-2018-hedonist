@@ -29,3 +29,7 @@ window.Echo = initLaravelEcho();
 export const updateWsAuthToken = (token) => {
     Echo.connector.pusher.config.auth.headers.Authorization = 'Bearer ' + token;
 };
+
+Pusher.log = function (message) {
+    if (window.console && window.console.log) { window.console.log(message); }
+};

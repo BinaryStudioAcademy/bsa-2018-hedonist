@@ -203,7 +203,8 @@
   },
   "navbar": {
     "settings": "Settings",
-    "profile": "Profile"
+    "profile": "Profile",
+    "notifications": "Notifications"
   },
   "other_user_page": {
     "private": "This profile is private :(",

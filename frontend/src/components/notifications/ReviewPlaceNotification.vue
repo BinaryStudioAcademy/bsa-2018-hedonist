@@ -2,9 +2,12 @@
     <div class="notification-message">
         <span class="user">
             <img class="user__avatar" :src="getUserAvatar">
-            <span class="user__name">
-                <a href="#">{{ getUserName }}</a>
-            </span>
+            <router-link
+                class="user__name"
+                :to="{ name: 'OtherUserPage', params: { id: user.id } }"
+            >
+                {{ getUserName }}
+            </router-link>
         </span>
         <span class="text">made a review on your place -&nbsp;</span>
         <span class="place-link">
