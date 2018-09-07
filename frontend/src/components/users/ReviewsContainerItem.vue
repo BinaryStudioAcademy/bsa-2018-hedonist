@@ -6,16 +6,16 @@
 
             <div
                 class="card-image"
-                :style="{ 'background-image': 'url(' + place.photos[0].img_url + ')' }"
+                :style="{ 'background-image': 'url(' + review.place.photo.img_url + ')' }"
             />
             <div class="user-review-content">
-                "{{ place.review.description }}"
+                "{{ review.description }}"
             </div>
             <div class="user-review-tip">
                 <span
-                    v-if="place.review.user.avatar_url"
+                    v-if="review.user.avatar_url"
                     class="user-tip-avatar user-tip-image"
-                    :style="{ 'background-image': 'url(' + place.review.user.avatar_url + ')' }"
+                    :style="{ 'background-image': 'url(' + review.user.avatar_url + ')' }"
                 />
                 <span class="user-tip-name">
                     {{ userName }}
@@ -26,20 +26,20 @@
             </div>
             <div class="user-review-place">
                 <div class="user-review-name">
-                    <router-link :to="`/places/${place.id}`" class="review-place-link">
-                        {{ place.localization[0].name }}
+                    <router-link :to="`/places/${review.place_id}`" class="review-place-link">
+                        {{ review.place.localization[0].name }}
                     </router-link>
                     <span class="review-place-name">
-                        {{ place.category.name }}
+                        {{ review.place.category.name }}
                     </span>
                     <span class="review-place-city">
-                        {{ place.city.name }}
+                        {{ review.place.city.name }}
                     </span>
                 </div>
                 <div class="media">
                     <div class="media-right rating-wrapper">
                         <PlaceRating
-                            :value="Number(place.rating)"
+                            :value="Number(review.place.rating)"
                         />
                     </div>
                 </div>
@@ -59,14 +59,14 @@ export default {
         return {};
     },
     props: {
-        place: {
+        review: {
             required: true,
             type: Object,
         },
     },
     computed: {
         date() {
-            const date = new Date(this.place.review['created_at']);
+            const date = new Date(this.review['created_at']);
             const options = {
                 year: 'numeric',
                 month: 'long',
@@ -75,7 +75,7 @@ export default {
             return date.toLocaleString('en-US', options);
         },
         userName() {
-            const user = this.place.review.user;
+            const user = this.review.user;
             return user.first_name + ' ' + user.last_name;
         },
     },
