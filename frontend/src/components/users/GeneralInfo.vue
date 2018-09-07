@@ -93,6 +93,7 @@
                         </ul>
 
                         <FollowButton
+                            v-if="shouldShowFollowBtn"
                             @followed="followEventHandler"
                             :followed="isFollowedByCurrentUser"
                             :name="userProfile.first_name"
@@ -150,6 +151,9 @@ export default {
         },
         avatar() {
             return this.userProfile.avatar_url || defaultImage;
+        },
+        shouldShowFollowBtn(){
+            return !(this.getAuthenticatedUser.id === parseInt(this.$route.params.id));
         }
     },
     methods: {
