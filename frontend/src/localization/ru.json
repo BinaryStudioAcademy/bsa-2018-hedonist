@@ -201,5 +201,23 @@
   "navbar": {
     "settings": "Настройки",
     "profile": "Профиль"
+  },
+  "other_user_page": {
+    "followers": "Подписчики",
+    "reviews": "Отзывы",
+    "lists": "Списки",
+    "following": "Подписки",
+    "follower_container": {
+      "title": "подписчики"
+    },
+    "followed_container": {
+      "title": "подписки"
+    },
+    "review_container": {
+      "tittle": "отзывы"
+    },
+    "lists_container": {
+      "title": "списки"
+    }
   }
 }
