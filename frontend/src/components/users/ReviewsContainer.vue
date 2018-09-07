@@ -2,7 +2,7 @@
     <div class="container">
         <div class="user-reviews-container">
             <div class="user-reviews-header">
-                <h3 class="subtitle is-4">{{ userProfile.first_name }}'s recent reviews</h3>
+                <h3 class="subtitle is-4">{{ userProfile.first_name }}'s {{ $t('other_user_page.review_container.title') }}</h3>
             </div>
             <ul class="columns is-variable is-4 is-multiline user-reviews-items">
                 <template v-for="place in filteredUsersPlaces">
@@ -49,6 +49,8 @@ export default {
     },
 };
 </script>
-<style >
-
+<style scoped>
+    .user-reviews-container{
+        margin-top: 30px;
+    }
 </style>

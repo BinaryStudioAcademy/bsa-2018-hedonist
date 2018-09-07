@@ -2,7 +2,7 @@
     <div class="columns">
         <template v-for="user in users">
             <div class="column is-one-quarter" :key="user.id">
-                <UserListItem
+                <Follower
                     :user="user"
                 />
             </div>
@@ -11,17 +11,17 @@
 </template>
 
 <script>
-import UserListItem from './UserListItem';
+import Follower from './Follower';
 
 export default {
-    name: 'UserList',
+    name: 'FollowersList',
     props: {
         users: {
             type: Array,
             required: true,
         }
     },
-    components: {UserListItem},
+    components: {Follower},
 };
 </script>
 

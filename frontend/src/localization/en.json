@@ -201,5 +201,23 @@
   "navbar": {
     "settings": "Settings",
     "profile": "Profile"
+  },
+  "other_user_page": {
+    "followers": "Followers",
+    "reviews": "Reviews",
+    "lists": "Lists",
+    "following": "Following",
+    "follower_container":{
+      "title":"followers"
+    },
+    "followed_container":{
+      "title":"followed users"
+    },
+    "review_container":{
+      "title":"recent reviews"
+    },
+    "lists_container":{
+      "title":"lists"
+    }
   }
 }
