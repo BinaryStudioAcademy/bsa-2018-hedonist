@@ -49,44 +49,52 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="user-stats-complaint">
-                            <span>Пожаловаться на этого человека?</span>
-                        </div>
                     </div>
 
                     <div class="column user-info-relation">
 
                         <ul class="level">
                             <li class="level-item has-text-centered">
-                                <div>
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.reviewTab)}"
+                                    @click="changeTab(pageConstants.reviewTab)"
+                                >
                                     <p class="relation-count">{{ AllReviewUserLength }}</p>
-                                    <p class="relation-title">Reviews</p>
+                                    <p class="relation-title">{{ $t('other_user_page.reviews') }}</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
-                                <div>
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.followersTab)}"
+                                    @click="changeTab(pageConstants.followersTab)"
+                                >
                                     <p class="relation-count">{{ userProfile.followers.length }}</p>
-                                    <p class="relation-title">Followers</p>
-
+                                    <p class="relation-title">{{ $t('other_user_page.followers') }}</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
-                                <div>
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.followedTab)}"
+                                    @click="changeTab(pageConstants.followedTab)"
+                                >
                                     <p class="relation-count">{{ userProfile.followedUsers.length }}</p>
-                                    <p class="relation-title">Following</p>
+                                    <p class="relation-title">{{ $t('other_user_page.following') }}</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
-                                <div>
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.listTab)}"
+                                    @click="changeTab(pageConstants.listTab)"
+                                >
                                     <p class="relation-count">{{ UserListsLength }}</p>
-                                    <p class="relation-title">Lists</p>
+                                    <p class="relation-title">{{ $t('other_user_page.lists') }}</p>
                                 </div>
                             </li>
                         </ul>
 
                         <FollowButton
                             @followed="followEventHandler"
-                            :followed="isFollowedByCurentUser"
+                            :followed="isFollowedByCurrentUser"
                             :name="userProfile.first_name"
                         />
 
@@ -99,14 +107,23 @@
 </template>
 
 <script>
+import {otherUserPage} from '@/services/common/pageConstants';
 import {mapState, mapActions, mapGetters} from 'vuex';
 import FollowButton from './FollowButton';
-import defaultImage from '@/assets/user-placeholder.jpg';
+import defaultImage from '@/assets/user-placeholder.png';
 
 export default {
     name: 'GeneralInfo',
     data() {
-        return {};
+        return {
+            pageConstants: otherUserPage
+        };
+    },
+    props: {
+        currentTab: {
+            required: true,
+            type: String
+        }
     },
     components: {FollowButton},
     computed: {
@@ -128,10 +145,10 @@ export default {
         userProfile() {
             return this.getUserProfile(parseInt(this.$route.params.id));
         },
-        isFollowedByCurentUser() {
+        isFollowedByCurrentUser() {
             return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
         },
-        avatar(){
+        avatar() {
             return this.userProfile.avatar_url || defaultImage;
         }
     },
@@ -141,14 +158,20 @@ export default {
             const newPayload = {
                 ...payload,
                 followedId: this.userProfile.id,
-                followerId: this.getAuthenticatedUser.id
+                follower: this.getAuthenticatedUser
             };
-            if(!payload.currentStatus){
+            if (!payload.currentStatus) {
                 this.followUser(newPayload);
             } else {
                 this.unfollowUser(newPayload);
             }
-        }
+        },
+        selectionActive(itemToCheck) {
+            return this.currentTab === itemToCheck;
+        },
+        changeTab(tab) {
+            this.$emit('tabChanged', tab);
+        },
     },
 };
 </script>
@@ -211,7 +234,7 @@ export default {
                     margin-right: 7px;
                 }
 
-                .instagram-link{
+                .instagram-link {
                     color: #c557d5;
                 }
             }
@@ -265,6 +288,9 @@ export default {
                         cursor: pointer;
                         background-color: rgba(199, 205, 207, 0.3);
                     }
+                    div {
+                        width: 100%;
+                    }
                 }
 
             }
@@ -275,6 +301,19 @@ export default {
             .relation-title {
                 font-size: 12px;
                 color: #aeb4b6;
+            }
+
+            .relation-count, .relation-title {
+                transition: color 0.3s ease;
+            }
+
+            .active_tab {
+                .relation-count {
+                    color: #7957d5;
+                }
+                .relation-title {
+                    color: #8563f4;
+                }
             }
         }
     }

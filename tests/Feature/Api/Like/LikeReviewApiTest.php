@@ -38,6 +38,9 @@ class LikeReviewApiTest extends ApiTestCase
     public function testLikeReview()
     {
         $review = factory(Review::class)->create();
+        factory(UserInfo::class)->create([
+            'user_id' => $review->user_id,
+        ]);
         $response = $this->actingWithToken($this->user)->post(
             "/api/v1/reviews/{$review->id}/like"
         );
@@ -73,10 +76,14 @@ class LikeReviewApiTest extends ApiTestCase
 
     public function testLikeAfterDislikeReview()
     {
+        $review = factory(Review::class)->create();
         $dislike = factory(Dislike::class)->create([
             'user_id' => $this->user->id,
-            'dislikeable_id' => factory(Review::class)->create()->id,
+            'dislikeable_id' => $review->id,
             'dislikeable_type' => Review::class
+        ]);
+        factory(UserInfo::class)->create([
+            'user_id' => $review->user_id,
         ]);
 
         $response = $this->actingWithToken($this->user)->post(

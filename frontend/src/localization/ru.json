@@ -45,13 +45,13 @@
         "placeholder": "Ваш Email"
       },
       "password": {
-        "field_name": "Пароль",
-        "placeholder": "Ваш Пароль",
+        "field_name": "Новый пароль",
+        "placeholder": "Новый пароль",
         "description": "(минимум 6 символов)"
       },
-      "new_password": {
+      "confirm_password": {
         "field_name": "Подтвердите новый пароль",
-        "placeholder": "Новый пароль"
+        "placeholder": "Подтвердите новый пароль"
       }
     }
   },
@@ -196,7 +196,32 @@
   "profile_page": {
     "private": "Сделать профиль приватным"
   },
+  "messages": {
+    "success": {
+      "changed_password": "Вы успешно изменили ваш пароль! Теперь вам нужно войти в систему"
+    }
+  },
+  "navbar": {
+    "settings": "Настройки",
+    "profile": "Профиль"
+  },
   "other_user_page": {
-    "private": "Это приватный профиль :("
+    "private": "Это приватный профиль :(",
+    "followers": "Подписчики",
+    "reviews": "Отзывы",
+    "lists": "Списки",
+    "following": "Подписки",
+    "follower_container": {
+      "title": "подписчики"
+    },
+    "followed_container": {
+      "title": "подписки"
+    },
+    "review_container": {
+      "tittle": "отзывы"
+    },
+    "lists_container": {
+      "title": "списки"
+    }
   }
 }
