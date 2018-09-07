@@ -9,7 +9,7 @@ export default {
                     resolve(result);
                 })
                 .catch((error) => {
-                    reject(error.response.data.error);
+                    reject(error);
                 });
         });
     },
@@ -19,15 +19,14 @@ export default {
                 .then((result) => {
                     context.commit('FOLLOW_USER', {
                         followed: payload.followedId,
-                        follower: payload.followerId}
+                        follower: payload.follower
+                    }
                     );
                     payload.successCallback();
                     resolve(result);
                 })
                 .catch((error) => {
-                    if (result.status !== 200) {
-                        payload.failCallback();
-                    }
+                    payload.failCallback();
                     reject(error.response.data.error);
                 });
         });
@@ -38,15 +37,14 @@ export default {
                 .then((result) => {
                     context.commit('UNFOLLOW_USER', {
                         followed: payload.followedId,
-                        follower: payload.followerId}
+                        follower: payload.follower
+                    }
                     );
                     payload.successCallback();
                     resolve(result);
                 })
                 .catch((error) => {
-                    if (result.status !== 200) {
-                        payload.failCallback();
-                    }
+                    payload.failCallback();
                     reject(error.response.data.error);
                 });
         });

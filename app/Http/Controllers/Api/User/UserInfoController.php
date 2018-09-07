@@ -49,6 +49,7 @@ class UserInfoController extends ApiController
             $response = $this->saveUserInfoAction->execute(
                 new SaveUserInfoRequest(
                     $userId,
+                    $httpRequest->is_private,
                     $httpRequest->first_name,
                     $httpRequest->last_name,
                     $httpRequest->notifications_receive,
@@ -76,6 +77,7 @@ class UserInfoController extends ApiController
             'facebook_url' => $response->getFacebookUrl(),
             'instagram_url' => $response->getInstagramUrl(),
             'twitter_url' => $response->getTwitterUrl(),
+            'is_private' => $response->getIsPrivate(),
             'notifications_receive' => $response->isNotificationsReceive(),
         ]);
     }

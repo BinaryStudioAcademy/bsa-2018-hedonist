@@ -4,8 +4,9 @@ namespace Hedonist\Actions\Place\AddPlace;
 
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\Location;
-use Hedonist\Notifications\FollowedUserAddPlaceNotification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Hedonist\Notifications\FollowedUserAddPlaceNotification;
 use Illuminate\Support\Facades\Storage;
 use Hedonist\Entities\Place\PlacePhoto;
 use Hedonist\Services\FileNameGenerator;
@@ -118,6 +119,8 @@ class AddPlaceAction
                 $this->placeRepository->setWorktime($place, $placeRequest->getWorktime());
                 $this->sentNotificationToFollowers($place);
 
+                $user = Auth::user();
+                Log::info("place: User {$user->id } addded {$place->id}");
                 return new AddPlaceResponse($place);
             });
     }

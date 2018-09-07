@@ -47,11 +47,11 @@ class GetLikeStatusForReviewsAction
 
         foreach ($reviews as $key=>$review) {
             if (in_array($review->id, $likedReviewsIds)) {
-                $reviews[$key]->like = LikeStatus::LIKED;
+                $reviews[$key]->like_status = LikeStatus::LIKED;
             } elseif (in_array($review->id, $dislikedReviewsIds)) {
-                $reviews[$key]->like = LikeStatus::DISLIKED;
+                $reviews[$key]->like_status = LikeStatus::DISLIKED;
             } else {
-                $reviews[$key]->like = LikeStatus::NONE;
+                $reviews[$key]->like_status = LikeStatus::NONE;
             }
         }
 

@@ -4,35 +4,24 @@
     <li class="column is-4">
         <div class="user-reviews-item">
 
-            <div class="card-image">
-                <figure class="image is-3by1">
-                    <img
-                        :src="place.photos[0].img_url"
-                    >
-                </figure>
-            </div>
+            <div
+                class="card-image"
+                :style="{ 'background-image': 'url(' + place.photos[0].img_url + ')' }"
+            />
             <div class="user-review-content">
                 "{{ place.review.description }}"
             </div>
             <div class="user-review-tip">
-                <router-link :to="`/user/${place.review.user.id}`" class="user-tip-image">
-
-                    <img
-                        class="image is-32x32"
-                        :src="place.review.user.avatar_url"
-
-                        alt=""
-                    >
-                </router-link>
+                <span
+                    v-if="place.review.user.avatar_url"
+                    class="user-tip-avatar user-tip-image"
+                    :style="{ 'background-image': 'url(' + place.review.user.avatar_url + ')' }"
+                />
                 <span class="user-tip-name">
-                    <a href="/user/4">
-                        Alex Fiannaca
-                    </a>
+                    {{ userName }}
                 </span>
                 <span class="user-tip-date">
-                    <router-link :to="`/places/${place.review.id}`">
-                        {{ date }}
-                    </router-link>
+                    {{ date }}
                 </span>
             </div>
             <div class="user-review-place">
@@ -84,7 +73,11 @@ export default {
                 day: 'numeric',
             };
             return date.toLocaleString('en-US', options);
-        }
+        },
+        userName() {
+            const user = this.place.review.user;
+            return user.first_name + ' ' + user.last_name;
+        },
     },
     components: {
         PlaceRating,
@@ -134,6 +127,9 @@ export default {
 
         .card-image {
             position: relative;
+            padding: 16.7% 0;
+            background-position: center;
+            background-size: cover;
 
             .user-review-save {
                 display: inline-block;
@@ -175,29 +171,24 @@ export default {
             border-bottom: 1px solid #efeff4;
             height: 40px;
 
-            .user-tip-image {
+            .user-tip-avatar {
+                width: 32px;
+                height: 32px;
                 margin-right: 10px;
-                img {
-                    vertical-align: middle;
-                }
+                background-position: center;
+                background-size: cover;
             }
 
             .user-tip-name,
             .user-tip-date {
                 margin-right: 10px;
-                a {
-                    color: #aeb4b6;
-                    font-size: 12px;
-                    &:hover {
-                        text-decoration: underline;
-                    }
-                }
+                color: #aeb4b6;
+                font-size: 12px;
             }
 
             .user-tip-date {
                 margin-right: 0;
             }
-
         }
 
         .user-review-place {
