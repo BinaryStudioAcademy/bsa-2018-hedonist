@@ -159,7 +159,8 @@ export default {
         }
 
         ul {
-            display: inline-block;
+            display: flex;
+            flex-wrap: wrap;
             list-style: none;
             margin: 0;
             padding: 0;
@@ -189,7 +190,7 @@ export default {
                     font-size: 11px;
                     font-weight: bold;
                     margin: 0;
-                    padding: 1px 1px;
+                    padding: 2px 5px;
                     position: relative;
                     text-decoration: none;
                     text-shadow: 0 1px 0 #fff;
