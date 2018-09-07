@@ -8,6 +8,7 @@ use Hedonist\Actions\User\Notifications\GetNotificationsPresenter;
 use Hedonist\Actions\User\Notifications\GetUnreadNotificationsAction;
 use Hedonist\Actions\User\Notifications\ReadNotificationsAction;
 use Hedonist\Http\Controllers\Api\ApiController;
+use Illuminate\Http\JsonResponse;
 
 class UserNotificationsController extends ApiController
 {
@@ -31,7 +32,7 @@ class UserNotificationsController extends ApiController
         $this->getNotificationsPresenter = $getNotificationsPresenter;
     }
 
-    public function getNotifications()
+    public function getNotifications(): JsonResponse
     {
         $response = $this->getNotificationsAction->execute();
 
@@ -41,7 +42,7 @@ class UserNotificationsController extends ApiController
         );
     }
 
-    public function getUnreadNotifications()
+    public function getUnreadNotifications(): JsonResponse
     {
         $response = $this->getUnreadNotificationsAction->execute();
 
@@ -51,14 +52,14 @@ class UserNotificationsController extends ApiController
         );
     }
 
-    public function readNotifications()
+    public function readNotifications(): JsonResponse
     {
         $this->readNotificationsAction->execute();
 
         return $this->emptyResponse();
     }
 
-    public function deleteNotifications()
+    public function deleteNotifications(): JsonResponse
     {
         $this->deleteNotificationsAction->execute();
 
