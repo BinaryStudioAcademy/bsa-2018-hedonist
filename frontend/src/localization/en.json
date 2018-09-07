@@ -194,7 +194,8 @@
     }
   },
   "profile_page": {
-    "private": "Make profile private"
+    "private": "Make profile private",
+    "receive_notifications": "Receive notifications"
   },
   "messages": {
     "success": {
