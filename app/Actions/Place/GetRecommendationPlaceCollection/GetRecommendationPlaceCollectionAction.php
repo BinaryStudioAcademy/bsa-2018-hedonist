@@ -11,6 +11,7 @@ use Hedonist\Repositories\Place\Criterias\GetPlaceByCategoryCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByLocationCriteria;
 use Hedonist\Repositories\Place\Criterias\LatestReviewForPlaceCriteria;
 use Hedonist\Repositories\Place\Criterias\PlaceCustomLimitCriteria;
+use Hedonist\Repositories\Place\Criterias\ExcludesСurrentPlaceCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +40,7 @@ class GetRecommendationPlaceCollectionAction
         }
         $criterias[] = new GetPlaceByLocationCriteria($location);
         $criterias[] = new GetPlaceByCategoryCriteria($currentPlace->category_id);
+        $criterias[] = new ExcludesСurrentPlaceCriteria($currentPlace->id);
 
         $places = $this->placeRepository->findCollectionByCriterias(
             new PlaceCustomLimitCriteria(3),
