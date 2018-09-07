@@ -13,6 +13,7 @@ use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Hedonist\Exceptions\Place\PlaceDoesNotExistException;
 use Illuminate\Support\Facades\Auth;
 use Hedonist\Events\Review\ReviewAddEvent;
+use Illuminate\Support\Facades\Log;
 
 class CreateReviewAction
 {
@@ -57,6 +58,7 @@ class CreateReviewAction
             $notifiableUser->notify(new ReviewPlaceNotification($place, Auth::user()));
         }
 
+        Log::info("review: User {$request->getUserId()} added review {$review->id}");
         return new CreateReviewResponse($review);
     }
 
