@@ -13,7 +13,7 @@
 import UserPlaceholder from '@/assets/user-placeholder.png';
 
 export default {
-    name: 'UserListItem',
+    name: 'Follower',
     props: {
         user: {
             type: Object,
