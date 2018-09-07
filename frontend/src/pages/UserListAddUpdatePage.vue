@@ -5,6 +5,7 @@
             :attachedPlaces="attachedPlaces"
             :list-image="userListImageUrl"
             :list-name="userListName"
+            :is-default="userListIsDefault"
             :id="parseInt(id)"
             v-if="!isLoading"
             @loading="loading"
@@ -70,6 +71,7 @@ export default {
             attachedPlaces: [],
             userListName: null,
             userListImageUrl: null,
+            userListIsDefault: null,
             isLoading: true,
             imageStub: imageStub,
             id: null
@@ -87,6 +89,7 @@ export default {
                 const userList  = this.getUserListById(this.id);
                 this.userListName = userList.name;
                 this.userListImageUrl = userList['img_url'];
+                this.userListIsDefault = !!userList.is_default;
                 this.attachedPlaces = this.getPlacesByIds(userList.places);
                 this.isLoading = false;
             });

@@ -24,7 +24,7 @@ class FollowUserAction
             throw FollowYourselfException::create();
         }
         $followed = $this->repository->getById($request->getFollowedId());
-        if (is_null($followed)) {
+        if (is_null($followed) || !$this->repository->checkUserCanFollow($followed, Auth::user())) {
             throw new UserNotFoundException();
         }
         $this->repository->followUser($followed, Auth::user());

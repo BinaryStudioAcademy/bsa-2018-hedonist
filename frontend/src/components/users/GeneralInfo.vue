@@ -1,129 +1,135 @@
 <template>
     <div class="container is-fullhd is-fluid">
-        <div class="container">
-            <div class="columns user-info">
-
-                <div class="column is-narrow">
-                    <div class="user-info-img">
-                        <figure class="image is-128x128">
-                            <img
-                                v-if="userProfile.avatar_url"
-                                :src="userProfile.avatar_url"
-                                :title="userProfile.first_name+' '+userProfile.last_name"
-                                :alt="userProfile.first_name+' '+userProfile.last_name"
-                            >
-                            <img
-                                v-else
-                                src="/assets/add_review_default_avatar.png"
-                            >
-                        </figure>
-                    </div>
-                </div>
-
-                <div class="column user-info-stats">
-
-                    <div class="user-stats-title">
-                        <h1 class="subtitle is-3">{{ userProfile.first_name + ' ' + userProfile.last_name }}</h1>
-                        <div class="user-social">
-                            <a
-                                v-if="userProfile.facebook_url"
-                                v-show="userProfile.facebook_url" 
-                                :href="userProfile.facebook_url" 
-                                class="facebbok-link"
-                                target="_blank"
-                            >
-                                <i class="fa-2x fab fa-facebook-square" />
-                            </a>
-                            <a
-                                v-if="userProfile.twitter_url"
-                                v-show="userProfile.twitter_url" 
-                                :href="userProfile.twitter_url" 
-                                class="twitter-link"
-                                target="_blank"
-                            >
-                                <i class="fa-2x fab fa-twitter-square" />
-                            </a>
-                            <a
-                                v-if="userProfile.instagram_url"
-                                v-show="userProfile.instagram_url"
-                                :href="userProfile.instagram_url"
-                                class="instagram-link"
-                                target="_blank"
-                            >
-                                <i class="fa-2x fab fa-instagram" />
-                            </a>
+        <template v-if="userProfile">
+            <div class="container">
+                <div class="columns user-info">
+                    <div class="column is-narrow">
+                        <div class="user-info-img">
+                            <figure class="image is-128x128">
+                                <img
+                                    :src="avatar"
+                                    :title="fullName"
+                                    :alt="fullName"
+                                >
+                            </figure>
                         </div>
                     </div>
 
-                    <div class="user-stats-contact">
-                        <span>Odessa</span>
+                    <div class="column user-info-stats">
+
+                        <div class="user-stats-title">
+                            <h1 class="subtitle is-3">{{ fullName }}</h1>
+                            <div class="user-social">
+                                <a
+                                    v-if="userProfile.facebook_url"
+                                    v-show="userProfile.facebook_url"
+                                    :href="userProfile.facebook_url"
+                                    class="facebbok-link"
+                                    target="_blank"
+                                >
+                                    <i class="fa-2x fab fa-facebook-square" />
+                                </a>
+                                <a
+                                    v-if="userProfile.twitter_url"
+                                    v-show="userProfile.twitter_url"
+                                    :href="userProfile.twitter_url"
+                                    class="twitter-link"
+                                    target="_blank"
+                                >
+                                    <i class="fa-2x fab fa-twitter-square" />
+                                </a>
+                                <a
+                                    v-if="userProfile.instagram_url"
+                                    v-show="userProfile.instagram_url"
+                                    :href="userProfile.instagram_url"
+                                    class="instagram-link"
+                                    target="_blank"
+                                >
+                                    <i class="fa-2x fab fa-instagram" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column user-info-relation">
+
+                        <ul class="level">
+                            <li class="level-item has-text-centered">
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.reviewTab)}"
+                                    @click="changeTab(pageConstants.reviewTab)"
+                                >
+                                    <p class="relation-count">{{ AllReviewUserLength }}</p>
+                                    <p class="relation-title">{{ $t('other_user_page.reviews') }}</p>
+                                </div>
+                            </li>
+                            <li class="level-item has-text-centered">
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.followersTab)}"
+                                    @click="changeTab(pageConstants.followersTab)"
+                                >
+                                    <p class="relation-count">{{ userProfile.followers.length }}</p>
+                                    <p class="relation-title">{{ $t('other_user_page.followers') }}</p>
+                                </div>
+                            </li>
+                            <li class="level-item has-text-centered">
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.followedTab)}"
+                                    @click="changeTab(pageConstants.followedTab)"
+                                >
+                                    <p class="relation-count">{{ userProfile.followedUsers.length }}</p>
+                                    <p class="relation-title">{{ $t('other_user_page.following') }}</p>
+                                </div>
+                            </li>
+                            <li class="level-item has-text-centered">
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.listTab)}"
+                                    @click="changeTab(pageConstants.listTab)"
+                                >
+                                    <p class="relation-count">{{ UserListsLength }}</p>
+                                    <p class="relation-title">{{ $t('other_user_page.lists') }}</p>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <FollowButton
+                            @followed="followEventHandler"
+                            :followed="isFollowedByCurrentUser"
+                            :name="userProfile.first_name"
+                        />
+
                     </div>
                 </div>
 
-                <div class="column user-info-relation">
-
-                    <ul class="level">
-                        <li class="level-item has-text-centered">
-                            <div>
-                                <p class="relation-count">{{ AllReviewUserLength }}</p>
-                                <p class="relation-title">Reviews</p>
-                            </div>
-                        </li>
-                        <li class="level-item has-text-centered">
-                            <div>
-                                <p class="relation-count">105</p>
-                                <p class="relation-title">Followers</p>
-
-                            </div>
-                        </li>
-                        <li class="level-item has-text-centered">
-                            <div>
-                                <p class="relation-count">350</p>
-                                <p class="relation-title">Following</p>
-                            </div>
-                        </li>
-                        <li class="level-item has-text-centered">
-                            <div>
-                                <p class="relation-count">{{ UserListsLength }}</p>
-                                <p class="relation-title">Lists</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <div class="btn-follow">
-                        <a class="button is-info">
-                            <span class="icon is-small">
-                                <i class="fas fa-plus-circle" />
-                            </span>
-                            <span>Follow {{ userProfile.first_name }}</span>
-                        </a>
-                    </div>
-
-                </div>
             </div>
-
-        </div>
+        </template>
     </div>
 </template>
 
 <script>
+import {otherUserPage} from '@/services/common/pageConstants';
 import {mapState, mapActions, mapGetters} from 'vuex';
+import FollowButton from './FollowButton';
+import defaultImage from '@/assets/user-placeholder.png';
 
 export default {
     name: 'GeneralInfo',
     data() {
         return {
-
+            pageConstants: otherUserPage
         };
     },
-    created() {
-        this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
+    props: {
+        currentTab: {
+            required: true,
+            type: String
+        }
     },
+    components: {FollowButton},
     computed: {
-        ...mapGetters({
-            userProfile: 'users/getUserProfile'
-        }),
+        ...mapGetters('users', ['getUserProfile']),
         ...mapGetters('place', ['getUserReviewsAll']),
+        ...mapGetters('auth', ['getAuthenticatedUser']),
         AllReviewUserLength: function () {
             return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
         },
@@ -132,13 +138,41 @@ export default {
         }),
         UserListsLength: function () {
             return this.userLists ? this.userLists.allIds.length : null;
+        },
+        fullName() {
+            return this.userProfile.first_name + ' ' + this.userProfile.last_name;
+        },
+        userProfile() {
+            return this.getUserProfile(parseInt(this.$route.params.id));
+        },
+        isFollowedByCurrentUser() {
+            return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
+        },
+        avatar() {
+            return this.userProfile.avatar_url || defaultImage;
         }
     },
     methods: {
-        ...mapActions({
-            getUsersProfile: 'users/getUsersProfile',
-        })
-    }
+        ...mapActions('users', ['followUser', 'unfollowUser']),
+        followEventHandler(payload) {
+            const newPayload = {
+                ...payload,
+                followedId: this.userProfile.id,
+                follower: this.getAuthenticatedUser
+            };
+            if (!payload.currentStatus) {
+                this.followUser(newPayload);
+            } else {
+                this.unfollowUser(newPayload);
+            }
+        },
+        selectionActive(itemToCheck) {
+            return this.currentTab === itemToCheck;
+        },
+        changeTab(tab) {
+            this.$emit('tabChanged', tab);
+        },
+    },
 };
 </script>
 
@@ -200,7 +234,7 @@ export default {
                     margin-right: 7px;
                 }
 
-                .instagram-link{
+                .instagram-link {
                     color: #c557d5;
                 }
             }
@@ -240,13 +274,6 @@ export default {
         &-relation {
             padding: 0;
             align-self: center;
-            .btn-follow {
-                display: flex;
-                justify-content: center;
-                a {
-                    width: 250px;
-                }
-            }
             .level {
                 margin-bottom: 20px;
                 li {
@@ -261,6 +288,9 @@ export default {
                         cursor: pointer;
                         background-color: rgba(199, 205, 207, 0.3);
                     }
+                    div {
+                        width: 100%;
+                    }
                 }
 
             }
@@ -271,6 +301,19 @@ export default {
             .relation-title {
                 font-size: 12px;
                 color: #aeb4b6;
+            }
+
+            .relation-count, .relation-title {
+                transition: color 0.3s ease;
+            }
+
+            .active_tab {
+                .relation-count {
+                    color: #7957d5;
+                }
+                .relation-title {
+                    color: #8563f4;
+                }
             }
         }
     }

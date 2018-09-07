@@ -1,6 +1,6 @@
 <template>
     <div class="container user-cities">
-        <h3 class="subtitle is-4">{{ userProfile.first_name }}'s lists</h3>
+        <h3 class="subtitle is-4">{{ userName }}'s {{ $t('other_user_page.lists_container.title') }}</h3>
         <ul class="columns is-variable is-4 is-multiline user-cities-items">
             <ListsContainerItem
                 v-for="userList in filteredUserLists"
@@ -23,24 +23,20 @@ export default {
         ListsContainerItem
     },
     computed: {
-        ...mapGetters({
-            userProfile: 'users/getUserProfile'
-        }),
+        ...mapGetters('users',['getUserProfile']),
         ...mapState('userList', [
             'userLists'
         ]),
         filteredUserLists: function () {
             return this.userLists ? this.userLists.byId : null;
+        },
+        userProfile(){
+            return this.getUserProfile(this.$route.params.id) || {};
+        },
+        userName(){
+            return this.userProfile.first_name || '';
         }
-    },
-    created() {
-        this.getUsersLists(this.$route.params.id);
-    },
-    methods: {
-        ...mapActions({
-            getUsersLists: 'userList/getListsByUser',
-        }),
-    },
+    }
 };
 </script>
 

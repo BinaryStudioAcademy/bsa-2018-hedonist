@@ -13,11 +13,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'Hedonist\Events\Like\LikeAddEvent' => [
-            'Hedonist\Listeners\LikeAddEventListener',
-        ],
-        'Hedonist\Events\Dislike\DislikeAddEvent' => [
-            'Hedonist\Listeners\DislikeAddEventListener',
+        'Hedonist\Events\Review\ReviewAttitudeSetEvent' => [
+            'Hedonist\Listeners\Review\ReviewAttitudeSetEventListener',
         ],
     ];
 

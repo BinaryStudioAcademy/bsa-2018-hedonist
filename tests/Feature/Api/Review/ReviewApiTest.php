@@ -26,6 +26,9 @@ class ReviewApiTest extends ApiTestCase
             'user_id' => $this->user->id,
         ]);
         $this->place = factory(Place::class)->create();
+        factory(UserInfo::class)->create([
+            'user_id' => $this->place->creator_id,
+        ]);
         $this->actingWithToken($this->user);
     }
 
@@ -39,7 +42,7 @@ class ReviewApiTest extends ApiTestCase
                 'description'   => 'test test test'
             ]
         );
-        
+
         $response->assertStatus(200);
         $this->assertDatabaseHas('reviews',
             [

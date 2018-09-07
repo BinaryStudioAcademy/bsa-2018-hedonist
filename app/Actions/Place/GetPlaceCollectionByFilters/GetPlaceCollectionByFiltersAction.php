@@ -26,6 +26,7 @@ use Hedonist\Repositories\Place\Criterias\TopRatedCriteria;
 use Hedonist\Repositories\Place\Criterias\TopReviewedCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Cache\Repository as Cache;
 
 class GetPlaceCollectionByFiltersAction
@@ -131,7 +132,27 @@ class GetPlaceCollectionByFiltersAction
             $this->cache->put($uniqId, serialize($places), self::CACHE_TIME);
         }
 
+        $filterInfo = $this->getPlaceFilterInfoJson($user, $request);
+        Log::info("search: User {$user->id} performed search: {$filterInfo}");
+
         return new GetPlaceCollectionResponse($places, $user);
+    }
+
+    private function getPlaceFilterInfoJson(User $user, GetPlaceCollectionByFiltersRequest $request): string
+    {
+        $info = [
+            'userId' => $user->id
+        ];
+
+        $userInfo = $user->info;
+        if (!is_null($userInfo)) {
+            $info['name'] = "{$userInfo->first_name} {$userInfo->last_name}";
+        }
+
+        $filters = $request->getActiveFiltersArray();
+        $info += $filters;
+
+        return json_encode($info);
     }
 
     private function generateUniqKeyByPlaceSearch(GetPlaceCollectionByFiltersRequest $request): string

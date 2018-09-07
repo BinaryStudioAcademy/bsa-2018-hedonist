@@ -6,12 +6,13 @@ use Hedonist\Entities\User\UserInfo;
 
 class UserInfoPresenter
 {
-    public function present(UserInfo $info):array
+    public function present(UserInfo $info): array
     {
-        return [
-            'avatar_url' => $info->avatar_url,
-            'first_name' => $info->first_name,
-            'last_name' => $info->last_name
-        ];
+        $result = $info->toArray();
+        if ($info->date_of_birth) {
+            $result['date_of_birth'] = $info->date_of_birth->format('Y/m/d');
+        }
+        unset($result['id']);
+        return $result;
     }
 }

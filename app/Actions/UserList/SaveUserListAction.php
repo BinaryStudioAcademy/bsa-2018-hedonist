@@ -7,7 +7,9 @@ use Hedonist\Exceptions\UserList\UserListPermissionDeniedException;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 use Hedonist\Services\FileNameGenerator;
 use Hedonist\Services\TransactionServiceInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class SaveUserListAction
@@ -47,7 +49,9 @@ class SaveUserListAction
                     $userList->img_url = Storage::disk()->url(self::FILE_STORAGE . $imageName);
                 }
                 $userList->user_id = $userListRequest->getUserId();
-                $userList->name = $userListRequest->getName() ?? $userList->name;
+                if (!$userList->is_default) {
+                    $userList->name = $userListRequest->getName() ?? $userList->name;
+                }
 
                 $userList = $this->userListRepository->save($userList);
                 if ($userListRequest->getAttachedPlaces() !== null) {
@@ -58,6 +62,13 @@ class SaveUserListAction
                 if ($userListRequest->getAttachedPlaces() === null) {
                     $this->userListRepository
                         ->syncPlaces($userList, []);
+                }
+
+                $user = Auth::user();
+                if (is_null($id)) {
+                    Log::info("user_list: User {$user->id} added user list {$userList->id}");
+                } else {
+                    Log::info("user_list: User {$user->id} updated user list {$userList->id}");
                 }
 
                 return new SaveUserListResponse($userList);

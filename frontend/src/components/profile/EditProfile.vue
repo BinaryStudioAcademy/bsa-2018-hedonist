@@ -108,6 +108,32 @@
                 <b-field label="Facebook">
                     <b-input v-model.trim="user.facebook_url" />
                 </b-field>
+                <div class="level is-flex-mobile">
+                    <div class="level-left">
+                        <span class="label">{{ $t('profile_page.private') }}</span>
+                    </div>
+                    <div class="level-right">
+                        <b-switch
+                            v-model="user.is_private"
+                            type="is-success"
+                        />
+                    </div>
+                </div>
+
+                <div class="column notifications-receive">
+                    <div class="level">
+                        <div class="level-left">
+                            <span class="label">Notifications receive</span>
+                        </div>
+                        <div class="level-right">
+                            <b-switch
+                                type="is-info"
+                                :value="user.notifications_receive"
+                                v-model="user.notifications_receive"
+                            />
+                        </div>
+                    </div>
+                </div>
                 <div class="buttons is-right">
                     <a class="button is-primary" @click="saveData">
                         <b-icon icon="upload" />
@@ -142,6 +168,8 @@ export default {
                 instagram_url: '',
                 facebook_url: '',
                 twitter_url: '',
+                is_private: false,
+                notifications_receive: true
             },
             isPhoneInvalid:false
         };
@@ -165,6 +193,7 @@ export default {
             this.fetchProfileUser(this.authUser.id)
                 .then((profileUser) => {
                     this.user = Object.assign({}, profileUser);
+                    this.user['notifications_receive'] = this.user['notifications_receive'] === 1;
                     if (this.user.date_of_birth !== null) {
                         let date = new Date(this.user.date_of_birth.date);
                         this.birthYear = date.getFullYear();
@@ -233,6 +262,8 @@ export default {
             formData.append('instagram_url', this.convertNullToEmptyString(this.user.instagram_url));
             formData.append('facebook_url', this.convertNullToEmptyString(this.user.facebook_url));
             formData.append('twitter_url', this.convertNullToEmptyString(this.user.twitter_url));
+            formData.append('is_private', this.convertBoolToNumber(this.user.is_private));
+            formData.append('notifications_receive', this.convertBoolToNumber(this.user.notifications_receive));
 
             if (this.birthYear && this.birthMonth && this.birthDay) {
                 this.user.date_of_birth = this.birthYear + '/' + ('0' + this.birthMonth).slice(-2) + '/' + ('0' + this.birthDay).slice(-2);
@@ -263,6 +294,9 @@ export default {
         },
         phoneOnFocus(){
             this.isPhoneInvalid = false;
+        },
+        convertBoolToNumber(value) {
+            return value ? 1 : 0;
         }
     }
 };
@@ -276,14 +310,23 @@ export default {
         background: #fff;
     }
 
+    .notifications-receive {
+        padding: 0;
+        margin: 20px 0;
+    }
+
     .avatar {
         text-align: center;
         margin-bottom: 10px;
+        width: 200px;
+        height: 200px;
     }
 
     .image img {
-        width: 200px;
-        height: 200px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
     }
 
     .file.is-fullwidth {
