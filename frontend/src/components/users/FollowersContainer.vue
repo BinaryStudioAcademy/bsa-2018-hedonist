@@ -1,16 +1,17 @@
 <template>
     <div class="container">
         <h3 class="subtitle is-4">{{ userProfile.first_name }}'s followers</h3>
-        <UserList :users="followers" />
+        <FollowersList :users="followers" />
     </div>
 </template>
 
 <script>
-import UserList from './UserList';
 import {mapGetters,mapState} from 'vuex';
+import FollowersList from "./FollowersList";
+
 export default {
     name: 'FollowersContainer',
-    components: {UserList},
+    components: {FollowersList},
     computed:{
         ...mapGetters('users',['getUserProfile']),
         ...mapState('users', ['users']),
