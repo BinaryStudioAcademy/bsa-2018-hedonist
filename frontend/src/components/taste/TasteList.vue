@@ -15,19 +15,23 @@
                 </div>
             </li>
         </ul>
-        <b-autocomplete
-            class="taste-input"
-            rounded
-            v-model.trim="tasteInput.text"
-            placeholder="Enter a tag"
-            :loading="tasteInput.isFetching"
-            :data="tasteInput.data"
-            @input="loadTags"
-            @select="option => selected = option"
-            @keyup.native.enter="addCustomTaste(tasteInput.text)"
-            maxlength="20"
-            minlength="3"
-        />
+        <div class="leve">
+            <div class="level-item">
+                <b-autocomplete
+                        class="taste-input"
+                        rounded
+                        v-model.trim="tasteInput.text"
+                        placeholder="Enter a tag"
+                        :loading="tasteInput.isFetching"
+                        :data="tasteInput.data"
+                        @input="loadTags"
+                        @select="option => selected = option"
+                        @keyup.native.enter="addCustomTaste(tasteInput.text)"
+                        maxlength="20"
+                        minlength="3"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -181,7 +185,6 @@ export default {
         position: relative;
         text-align: center;
         padding: 80px 30px;
-        min-height: 350px;
     }
 
     .taste {
@@ -249,7 +252,7 @@ export default {
     }
 
     .taste-input {
-        max-width: 300px;
-        margin: 30px auto;
+        width: 300px;
+        margin-top: 30px;
     }
 </style>
