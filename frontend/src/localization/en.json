@@ -45,13 +45,13 @@
         "placeholder": "Your Email"
       },
       "password": {
-        "field_name": "Password",
-        "placeholder": "Your Password",
+        "field_name": "New password",
+        "placeholder": "New password",
         "description": "(at least 6 characters)"
       },
-      "new_password": {
+      "confirm_password": {
         "field_name": "Confirm new password",
-        "placeholder": "New password"
+        "placeholder": "Confirm new password"
       }
     }
   },
@@ -191,6 +191,33 @@
       "more": "Show more",
       "less": "Show less",
       "save": "Save"
+    }
+  },
+  "messages": {
+    "success": {
+      "changed_password": "You have successfully changed your password! Now you need to login"
+    }
+  },
+  "navbar": {
+    "settings": "Settings",
+    "profile": "Profile"
+  },
+  "other_user_page": {
+    "followers": "Followers",
+    "reviews": "Reviews",
+    "lists": "Lists",
+    "following": "Following",
+    "follower_container":{
+      "title":"followers"
+    },
+    "followed_container":{
+      "title":"followed users"
+    },
+    "review_container":{
+      "title":"recent reviews"
+    },
+    "lists_container":{
+      "title":"lists"
     }
   }
 }

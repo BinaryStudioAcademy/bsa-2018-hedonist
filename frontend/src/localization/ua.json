@@ -45,13 +45,13 @@
         "placeholder": "Ваш Email"
       },
       "password": {
-        "field_name": "Пароль",
-        "placeholder": "Ваш Пароль",
+        "field_name": "Новий пароль",
+        "placeholder": "Новий пароль",
         "description": "(мінімум 6 символів)"
       },
-      "new_password": {
+      "confirm_password": {
         "field_name": "Підтвердіть новий пароль",
-        "placeholder": "Новий пароль"
+        "placeholder": "Підтвердіть новий пароль"
       }
     }
   },
@@ -191,6 +191,33 @@
       "more": "Показати більше",
       "less": "Показати меньше",
       "save": "Зберегти"
+    }
+  },
+  "messages": {
+    "success": {
+      "changed_password": "Ви успішно змінили ваш пароль! Тепер вам потрібно увійти в систему"
+    }
+  },
+  "navbar": {
+    "settings": "Налаштування",
+    "profile": "Профіль"
+  },
+  "other_user_page": {
+    "followers": "Підписники",
+    "reviews": "Відігуки",
+    "lists": "Списки",
+    "following": "Підписки",
+    "follower_container": {
+      "title": "підписники"
+    },
+    "followed_container": {
+      "title": "підписки"
+    },
+    "review_container": {
+      "tittle": "відгуки"
+    },
+    "lists_container": {
+      "title": "списки"
     }
   }
 }

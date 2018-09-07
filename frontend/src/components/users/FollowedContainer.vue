@@ -1,0 +1,32 @@
+<template>
+    <div class="container">
+        <h3 class="subtitle is-4 followed-header">{{ userProfile.first_name }}'s {{ $t('other_user_page.followed_container.title') }}</h3>
+        <FollowersList :users="followers" />
+    </div>
+</template>
+
+<script>
+import FollowersList from './FollowersList';
+import {mapGetters,mapState} from 'vuex';
+
+export default {
+    name: 'FollowedContainer',
+    components: {FollowersList},
+    computed:{
+        ...mapGetters('users',['getUserProfile']),
+        ...mapState('users', ['users']),
+        userProfile(){
+            return this.getUserProfile(this.$route.params.id);
+        },
+        followers(){
+            return this.userProfile.followedUsers.map((id) => this.users.byId[id]);
+        }
+    }
+};
+</script>
+
+<style scoped>
+    .followed-header{
+        margin-top: 30px;
+    }
+</style>

@@ -1,26 +1,14 @@
 <template>
     <Container :title="$t('reset_page.title')">
         <Form>
+            <div class="field">
+                <label class="label">
+                    {{ $t('inputs.auth.password.field_name') }} <span class="grayed">{{ $t('inputs.auth.password.description') }}</span>
+                </label>
+            </div>
             <b-field
-                :label="$t('inputs.auth.email.field_name')"
-                :type="input.email.type"
-            >
-
-                <b-input
-                    v-model="user.email"
-                    :placeholder="$t('inputs.auth.email.placeholder')"
-                    name="email"
-                    @blur="onBlur('email')"
-                    @focus="onFocus('email')"
-                    autofocus
-                />
-            </b-field>
-      
-            <b-field
-                :label="$t('inputs.auth.password.field_name')"
                 :type="input.password.type"
             >
-
                 <b-input 
                     type="password"
                     v-model="user.password"
@@ -31,22 +19,42 @@
                     autofocus
                 />
             </b-field>
+            <div
+                class="error"
+                v-if="!$v.user.password.required && input.password.type === 'is-danger'"
+            >
+                {{ $t('validation.required', {field:$t('inputs.auth.confirm_password.field_name')}) }}</div>
+            <div
+                class="error"
+                v-if="!$v.user.password.minLength && input.password.type === 'is-danger'"
+            >
+                {{ $t('validation.min_length', {min: 6}) }}</div>
 
             <b-field
-                :label="$t('inputs.auth.new_password.field_name')"
+                :label="$t('inputs.auth.confirm_password.field_name')"
                 :type="input.passwordConfirm.type"
             >
 
                 <b-input
                     type="password"
                     v-model="user.passwordConfirm"
-                    :placeholder="$t('inputs.auth.new_password.placeholder')"
+                    :placeholder="$t('inputs.auth.confirm_password.placeholder')"
                     password-reveal
                     @blur="onBlur('passwordConfirm')"
                     @focus="onFocus('passwordConfirm')"
                     @keyup.enter="onReset"
                 />
             </b-field>
+            <div
+                class="error"
+                v-if="!$v.user.passwordConfirm.required && input.passwordConfirm.type === 'is-danger'"
+            >
+                {{ $t('validation.required', {field:$t('inputs.auth.confirm_password.field_name')}) }}</div>
+            <div
+                class="error"
+                v-if="!$v.user.passwordConfirm.minLength && input.passwordConfirm.type === 'is-danger'"
+            >
+                {{ $t('validation.min_length', {min: 6}) }}</div>
 
             <button
                 type="button"
@@ -75,15 +83,11 @@ export default {
     data: function () {
         return {
             user: {
-                email: '',
                 password: '',
                 passwordConfirm: ''
             },
 
             input: {
-                email: {
-                    type: ''
-                },
                 password: {
                     type: ''
                 },
@@ -102,13 +106,21 @@ export default {
         onReset () {
             if (!this.$v.user.$invalid) {
                 this.resetPassword({
-                    email: this.user.email,
+                    email: this.$store.state.route.query.email,
                     password: this.user.password,
                     passwordConfirmation: this.user.passwordConfirm,
                     token: this.$store.state.route.query.token
-                });
-
-                this.refreshInput();
+                })
+                    .then(() => {
+                        this.refreshInput();
+                        this.$router.push({name: 'LoginPage'});
+                        this.onSuccess({
+                            message: this.$t('messages.success.changed_password')
+                        });
+                    })
+                    .catch((error) => {
+                        this.errorHandler(error);
+                    });
             }
         },
 
@@ -126,15 +138,11 @@ export default {
 
         refreshInput () {
             this.user = {
-                email: '',
                 password: '',
                 passwordConfirm: ''
-            },
+            };
 
             this.input = {
-                email: {
-                    type: ''
-                },
                 password: {
                     type: ''
                 },
@@ -142,15 +150,41 @@ export default {
                     type: ''
                 }
             };
-        }
+        },
+
+        onError (error) {
+            this.$toast.open({
+                message: error.message,
+                type: 'is-danger'
+            });
+        },
+
+        onSuccess (success) {
+            this.$toast.open({
+                message: success.message,
+                type: 'is-success'
+            });
+        },
+
+        errorHandler (data) {
+            let message = '';
+            if (data.error !== undefined) {
+                message = data.error.message;
+            } else if (data.errors !== undefined) {
+                for (let error in data.errors) {
+                    data.errors[error].forEach(function(item) {
+                        message += item + '<br>';
+                    });
+                }
+            }
+            this.onError({
+                message: message
+            });
+        },
     }, 
 
     validations: {
         user: {
-            email: {
-                required,
-                email
-            },
             password: {
                 required,
                 minLength: minLength(6)
@@ -165,5 +199,19 @@ export default {
 </script>
 
 <style>
-
+    .error {
+        color: red;
+    }
+    .field:not(:last-child) {
+        margin-bottom: 0;
+        margin-top: 0.75rem;
+    }
+    .button {
+        margin-top: 1.5rem;
+    }
+    .grayed {
+        color: darkgray;
+        font-size: .8em;
+        font-weight: normal;
+    }
 </style>

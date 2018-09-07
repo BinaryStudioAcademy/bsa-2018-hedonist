@@ -18,11 +18,13 @@ class SaveUserInfoRequest
     private $twitterUrl;
     private $oldPassword;
     private $newPassword;
+    private $notificationsReceive;
 
     public function __construct(
         int $userId,
         ?string $firstName,
         ?string $lastName,
+        bool $notificationsReceive,
         ?string $dateOfBirth = null,
         ?string $phoneNumber = "",
         ?UploadedFile $avatar = null,
@@ -35,6 +37,7 @@ class SaveUserInfoRequest
         $this->userId = $userId;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
+        $this->notificationsReceive = $notificationsReceive;
         $this->dateOfBirth = $dateOfBirth;
         $this->phoneNumber = $phoneNumber;
         $this->facebookUrl = $facebookUrl;
@@ -102,5 +105,10 @@ class SaveUserInfoRequest
     public function getNewPassword(): ?string
     {
         return $this->newPassword;
+    }
+
+    public function isNotificationsReceive(): bool
+    {
+        return $this->notificationsReceive;
     }
 }
