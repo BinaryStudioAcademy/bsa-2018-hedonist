@@ -7,6 +7,7 @@ use Hedonist\Exceptions\UserList\UserListPermissionDeniedException;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
 use Hedonist\Services\FileNameGenerator;
 use Hedonist\Services\TransactionServiceInterface;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;

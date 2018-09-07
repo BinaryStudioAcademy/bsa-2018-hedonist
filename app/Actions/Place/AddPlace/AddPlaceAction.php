@@ -4,6 +4,7 @@ namespace Hedonist\Actions\Place\AddPlace;
 
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Place\Location;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Hedonist\Entities\Place\PlacePhoto;
