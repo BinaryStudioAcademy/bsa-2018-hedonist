@@ -3,6 +3,7 @@
 namespace Hedonist\Actions\User;
 
 use Hedonist\Actions\Presenters\User\UserPresenter;
+use Illuminate\Support\Facades\Auth;
 
 class GetUserInfoPresenter
 {
@@ -17,7 +18,7 @@ class GetUserInfoPresenter
     {
         $user = $this->userPresenter->present($response->getUser());
 
-        if ($user['is_private']) {
+        if ($user['is_private'] && $user['id'] !== Auth::id()) {
             $result = [
                 'id' => $user['id'],
                 'first_name' => $user['first_name'],

@@ -2,7 +2,7 @@
     <div>
         <Preloader :active="isLoading" />
         <template v-if="!isLoading">
-            <div v-if="!userProfile.is_private">
+            <div v-if="!userProfile.is_private || userProfile.id === getAuthenticatedUser.id">
                 <GeneralInfo
                     :current-tab="currentTab"
                     @tabChanged="changeTab"
@@ -71,7 +71,8 @@ export default {
         return !(this.isLoading);
     },
     computed: {
-        ...mapGetters('users', ['getUserProfile'])
+        ...mapGetters('users', ['getUserProfile']),
+        ...mapGetters('auth', ['getAuthenticatedUser'])
     },
     methods: {
         changeTab(tab) {
