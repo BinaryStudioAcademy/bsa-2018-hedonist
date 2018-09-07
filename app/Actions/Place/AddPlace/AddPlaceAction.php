@@ -143,7 +143,7 @@ class AddPlaceAction
         }
     }
 
-    private function sendNotificationToFollowers(Place $place)
+    private function sendNotificationToFollowers(Place $place): void
     {
         foreach ($this->userRepository->getFollowers(Auth::user()) as $user) {
             if ((bool) $user->info->notifications_receive === true) {

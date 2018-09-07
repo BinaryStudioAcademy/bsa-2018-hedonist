@@ -4,7 +4,7 @@ namespace Hedonist\Actions\User\Notifications;
 
 class DeleteNotificationsAction
 {
-    public function execute(DeleteNotificationsRequest $request)
+    public function execute(): void
     {
         auth()->user()->notifications()->delete();
     }

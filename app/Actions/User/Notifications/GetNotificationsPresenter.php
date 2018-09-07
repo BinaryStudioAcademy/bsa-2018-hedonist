@@ -6,7 +6,7 @@ use Illuminate\Notifications\DatabaseNotification;
 
 class GetNotificationsPresenter
 {
-    public function presentCollection(GetNotificationsResponse $response)
+    public function presentCollection(GetNotificationsResponse $response): array
     {
         return $response->getNotificationCollection()->map(
             function (DatabaseNotification $notification) {

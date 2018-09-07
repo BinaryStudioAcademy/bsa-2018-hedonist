@@ -3,13 +3,10 @@
 namespace Hedonist\Http\Controllers\Api\User;
 
 use Hedonist\Actions\User\Notifications\DeleteNotificationsAction;
-use Hedonist\Actions\User\Notifications\DeleteNotificationsRequest;
 use Hedonist\Actions\User\Notifications\GetNotificationsAction;
 use Hedonist\Actions\User\Notifications\GetNotificationsPresenter;
-use Hedonist\Actions\User\Notifications\GetNotificationsRequest;
 use Hedonist\Actions\User\Notifications\GetUnreadNotificationsAction;
 use Hedonist\Actions\User\Notifications\ReadNotificationsAction;
-use Hedonist\Actions\User\Notifications\ReadNotificationsRequest;
 use Hedonist\Http\Controllers\Api\ApiController;
 
 class UserNotificationsController extends ApiController
@@ -36,7 +33,7 @@ class UserNotificationsController extends ApiController
 
     public function getNotifications()
     {
-        $response = $this->getNotificationsAction->execute(new GetNotificationsRequest());
+        $response = $this->getNotificationsAction->execute();
 
         return $this->successResponse(
             $this->getNotificationsPresenter->presentCollection($response),
@@ -46,7 +43,7 @@ class UserNotificationsController extends ApiController
 
     public function getUnreadNotifications()
     {
-        $response = $this->getUnreadNotificationsAction->execute(new GetNotificationsRequest());
+        $response = $this->getUnreadNotificationsAction->execute();
 
         return $this->successResponse(
             $this->getNotificationsPresenter->presentCollection($response),
@@ -56,14 +53,14 @@ class UserNotificationsController extends ApiController
 
     public function readNotifications()
     {
-        $this->readNotificationsAction->execute(new ReadNotificationsRequest());
+        $this->readNotificationsAction->execute();
 
         return $this->emptyResponse();
     }
 
     public function deleteNotifications()
     {
-        $this->deleteNotificationsAction->execute(new DeleteNotificationsRequest());
+        $this->deleteNotificationsAction->execute();
 
         return $this->emptyResponse();
     }
