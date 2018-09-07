@@ -1,6 +1,6 @@
 export default {
     users: {
-        byId:{},
-        allIds:[]
+        byId: {},
+        allIds: []
     }
 };

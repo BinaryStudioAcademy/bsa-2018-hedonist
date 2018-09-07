@@ -114,4 +114,10 @@ class GetPlaceCollectionByFiltersRequest
     {
         return $this->features;
     }
+
+    public function getActiveFiltersArray(): array
+    {
+        $filters = get_object_vars($this);
+        return array_filter($filters);
+    }
 }

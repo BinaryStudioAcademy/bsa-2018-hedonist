@@ -54,6 +54,7 @@ class SaveUserInfoAction
         }
         $first_name = $userInfoRequest->getFirstName();
         $last_name = $userInfoRequest->getLastName();
+        $notificationsReceive = $userInfoRequest->isNotificationsReceive();
         $date_of_birth = $userInfoRequest->getDateOfBirth();
         $phone_number = $userInfoRequest->getPhoneNumber();
         $avatar = $userInfoRequest->getAvatar();
@@ -78,8 +79,8 @@ class SaveUserInfoAction
             $userInfo->last_name = $last_name;
         }
 
+        $userInfo->notifications_receive = $notificationsReceive;
         $userInfo->date_of_birth = $date_of_birth;
-
         $userInfo->phone_number = $phone_number;
 
         if (!$this->validateSocialUrl($facebook_url, 'facebook.com')) {
