@@ -9,11 +9,14 @@
                 {{ getUserName }}
             </router-link>
         </span>
-        <span class="text">added a new</span>
+        <span class="text">{{ $t('notifications.followed_user_add_place.add_new') }}</span>
         <span class="place-link">
             <router-link :to="`/places/${notification['id']}`">
-                place
+                {{ $t('notifications.followed_user_add_place.place') }}
             </router-link>
+        </span>
+        <span class="date" v-if="createdAt">
+            ({{ getDate }})
         </span>
     </div>
 </template>
@@ -29,6 +32,9 @@ export default {
         user: {
             required: true,
             type: Object
+        },
+        createdAt: {
+            type: Object
         }
     },
     computed: {
@@ -37,11 +43,23 @@ export default {
         },
         getUserAvatar() {
             return this.user.info['avatar_url'];
+        },
+        getDate() {
+            const date = new Date(this.createdAt['date']);
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long',
+            };
+            return date.toLocaleString('en-US', options);
         }
     }
 };
 </script>
 
 <style scoped>
-
+    .date {
+        font-size: 12px;
+    }
 </style>

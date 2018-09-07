@@ -1,5 +1,5 @@
 <template>
-    <div class="container notifications-page">
+    <div class="container notifications notifications-page">
         <ul class="notifications__list" v-if="notifications.length > 0">
             <li
                 class="notifications__item"
@@ -10,6 +10,7 @@
                     :is="notificationComponent(notification)"
                     :notification="notification.subject"
                     :user="getUser(notification['subject_user'].id)"
+                    :created-at="notification['created_at']"
                 />
             </li>
         </ul>
@@ -45,12 +46,14 @@ export default {
         }
     },
     created() {
+        this.readNotifications();
         this.getNotifications().then((notifications) => {
-            console.log(notifications);
-
-            _.forEach(notifications, ({ data }) => {
+             _.forEach(notifications, ({ data, created_at, read_at }) => {
                 this.addUser(data.notification['subject_user']);
-                this.notifications.push(data.notification);
+                this.notifications.push({
+                    ...data.notification,
+                    created_at
+                });
             });
         });
     },
@@ -91,10 +94,32 @@ export default {
     .notifications-page {
         background-color: #fff;
         min-height: calc(100vh - 52px);
-        padding: 50px 20px 10px;
-        .user__avatar {
-            width: 50px;
-            height: 50px;
+        padding: 50px;
+
+        .user {
+            &__avatar {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    }
+</style>
+
+<style lang="scss">
+    $grey: #c5c5c5;
+    $dark-grey: #4a4a4a;
+
+    .notifications {
+        color: $dark-grey;
+
+        &__item {
+            border-bottom: $grey 1px solid;
+            margin: 15px 0;
+            padding-bottom: 10px;
+
+            &:last-child {
+                border-bottom: none;
+            }
         }
     }
 </style>

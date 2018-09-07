@@ -9,11 +9,14 @@
                 {{ getUserName }}
             </router-link>
         </span>
-        <span class="text">made a review on your place -&nbsp;</span>
+        <span class="text">{{ $t('notifications.review_place.made_review') }} -&nbsp;</span>
         <span class="place-link">
             <router-link :to="`/places/${notification['id']}`">
                 {{ getPlaceName }}
             </router-link>
+        </span>
+        <span class="date" v-if="createdAt">
+            ({{ getDate }})
         </span>
     </div>
 </template>
@@ -29,6 +32,9 @@ export default {
         user: {
             required: true,
             type: Object
+        },
+        createdAt: {
+            type: Object
         }
     },
     computed: {
@@ -40,11 +46,23 @@ export default {
         },
         getPlaceName() {
             return this.notification.localization[0]['place_name'];
+        },
+        getDate() {
+            const date = new Date(this.createdAt['date']);
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long',
+            };
+            return date.toLocaleString('en-US', options);
         }
     }
 };
 </script>
 
 <style scoped>
-
+    .date {
+        font-size: 12px;
+    }
 </style>

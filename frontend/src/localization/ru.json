@@ -224,5 +224,21 @@
     "lists_container": {
       "title": "списки"
     }
+  },
+  "notifications": {
+    "review_place": {
+      "made_review": "оставил комментарий под вашим местом"
+    },
+    "like_review": {
+      "liked": "поставил лайк вашему",
+      "review": "ревью"
+    },
+    "followed_user_review": {
+      "made_review": "сделал ревью на"
+    },
+    "followed_user_add_place": {
+      "add_new": "добавил новое",
+      "place": "место"
+    }
   }
 }

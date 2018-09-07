@@ -179,7 +179,6 @@ export default {
     watch: {
         'currentUser': function() {
             if (this.currentUser.id) {
-                console.log(this.currentUser.id);
                 Echo.private(`App.User.${this.currentUser.id}`)
                     .notification(({ notification }) => {
                         if (!this.notificationsDisplay) {
@@ -189,7 +188,7 @@ export default {
                         }
 
                         this.addUser(notification['subject_user']);
-                        this.notifications.push(notification);
+                        this.notifications.unshift(notification);
                     });
             }
         }
