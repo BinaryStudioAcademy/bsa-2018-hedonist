@@ -91,4 +91,9 @@ class User extends Authenticatable implements JWTSubject
             $user->info->delete();
         });
     }
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'App.User.' . $this->id;
+    }
 }

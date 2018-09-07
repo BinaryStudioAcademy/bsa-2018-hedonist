@@ -11,7 +11,7 @@ class UserList extends Model
 {
     protected $table = 'user_lists';
     
-    protected $fillable = ['user_id','name','img_url'];
+    protected $fillable = ['user_id','name','img_url', 'is_default'];
 
     protected static function boot()
     {
