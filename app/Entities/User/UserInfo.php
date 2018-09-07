@@ -20,6 +20,7 @@ class UserInfo extends Model
         'facebook_url',
         'instagram_url',
         'twitter_url',
+        'is_private'
     ];
 
     public function user()

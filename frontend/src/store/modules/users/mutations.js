@@ -10,8 +10,10 @@ export default {
     GET_USER_PROFILE: (state, userProfile) => {
         const userState = Object.assign({}, state.users);
         const user = Object.assign({}, userProfile);
-        user.followers = normalizeFollows(userProfile.followers, userState);
-        user.followedUsers = normalizeFollows(userProfile.followedUsers, userState);
+        if (!user.is_private) {
+            user.followers = normalizeFollows(userProfile.followers, userState);
+            user.followedUsers = normalizeFollows(userProfile.followedUsers, userState);
+        }
         userState.byId[user.id] = user;
         userState.allIds.push(user.id);
         state.users = userState;

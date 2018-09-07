@@ -193,6 +193,9 @@
       "save": "Save"
     }
   },
+  "profile_page": {
+    "private": "Make profile private"
+  },
   "messages": {
     "success": {
       "changed_password": "You have successfully changed your password! Now you need to login"
@@ -203,6 +206,7 @@
     "profile": "Profile"
   },
   "other_user_page": {
+    "private": "This profile is private :(",
     "followers": "Followers",
     "reviews": "Reviews",
     "lists": "Lists",

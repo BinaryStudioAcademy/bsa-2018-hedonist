@@ -108,6 +108,17 @@
                 <b-field label="Facebook">
                     <b-input v-model.trim="user.facebook_url" />
                 </b-field>
+                <div class="level is-flex-mobile">
+                    <div class="level-left">
+                        <span class="label">{{ $t('profile_page.private') }}</span>
+                    </div>
+                    <div class="level-right">
+                        <b-switch
+                            v-model="user.is_private"
+                            type="is-success"
+                        />
+                    </div>
+                </div>
 
                 <div class="column notifications-receive">
                     <div class="level">
@@ -157,6 +168,7 @@ export default {
                 instagram_url: '',
                 facebook_url: '',
                 twitter_url: '',
+                is_private: false,
                 notifications_receive: true
             },
             isPhoneInvalid:false
@@ -250,6 +262,7 @@ export default {
             formData.append('instagram_url', this.convertNullToEmptyString(this.user.instagram_url));
             formData.append('facebook_url', this.convertNullToEmptyString(this.user.facebook_url));
             formData.append('twitter_url', this.convertNullToEmptyString(this.user.twitter_url));
+            formData.append('is_private', this.convertBoolToNumber(this.user.is_private));
             formData.append('notifications_receive', this.convertBoolToNumber(this.user.notifications_receive));
 
             if (this.birthYear && this.birthMonth && this.birthDay) {

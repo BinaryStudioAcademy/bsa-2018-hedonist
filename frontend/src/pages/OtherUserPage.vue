@@ -1,35 +1,39 @@
 <template>
     <div>
-        <Preloader
-            :active="isLoading"
-        />
+        <Preloader :active="isLoading" />
         <template v-if="!isLoading">
-            <GeneralInfo
-                :current-tab="currentTab"
-                @tabChanged="changeTab"
-            />
-            <ListsContainer
-                v-if="activeTab(pageConstants.listTab)"
-            />
-            <ReviewsContainer
-                v-if="activeTab(pageConstants.reviewTab)"
-            />
-            <FollowersContainer
-                v-if="activeTab(pageConstants.followersTab)"
-            />
-            <FollowedContainer
-                v-if="activeTab(pageConstants.followedTab)"
-            />
+            <div v-if="!userProfile.is_private">
+                <GeneralInfo
+                    :current-tab="currentTab"
+                    @tabChanged="changeTab"
+                />
+                <ListsContainer
+                    v-if="activeTab(pageConstants.listTab)"
+                />
+                <ReviewsContainer
+                    v-if="activeTab(pageConstants.reviewTab)"
+                />
+                <FollowersContainer
+                    v-if="activeTab(pageConstants.followersTab)"
+                />
+                <FollowedContainer
+                    v-if="activeTab(pageConstants.followedTab)"
+                />
+            </div>
+            <div v-else>
+                <PrivateProfile />
+            </div>
         </template>
     </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions, mapGetters} from 'vuex';
 import Preloader from '@/components/misc/Preloader';
 import GeneralInfo from '@/components/users/GeneralInfo';
 import ListsContainer from '@/components/users/ListsContainer';
 import ReviewsContainer from '@/components/users/ReviewsContainer';
+import PrivateProfile from '@/components/users/PrivateProfile';
 import {otherUserPage} from '@/services/common/pageConstants';
 import FollowersContainer from '../components/users/FollowersContainer';
 import FollowedContainer from '../components/users/FollowedContainer';
@@ -37,6 +41,7 @@ import FollowedContainer from '../components/users/FollowedContainer';
 export default {
     name: 'OtherUserPage',
     components: {
+        PrivateProfile,
         FollowedContainer,
         FollowersContainer,
         Preloader,
@@ -48,7 +53,10 @@ export default {
         return {
             isLoading: true,
             currentTab: otherUserPage.listTab,
-            pageConstants: otherUserPage
+            pageConstants: otherUserPage,
+            userProfile: {
+                is_private: true
+            }
         };
     },
     created() {
@@ -62,6 +70,9 @@ export default {
     loaded: function () {
         return !(this.isLoading);
     },
+    computed: {
+        ...mapGetters('users', ['getUserProfile'])
+    },
     methods: {
         changeTab(tab) {
             this.currentTab = tab;
@@ -71,13 +82,20 @@ export default {
         },
         load(userId){
             this.isLoading = true;
-            Promise.all([
-                this.$store.dispatch('users/getUsersProfile', userId),
-                this.$store.dispatch('userList/getListsByUser', userId),
-                this.$store.dispatch('place/fetchPlaces', this.$route.query)
-            ])
+            this.$store.dispatch('users/getUsersProfile', userId)
                 .then(() => {
-                    this.isLoading = false;
+                    this.userProfile = this.getUserProfile(this.$route.params.id);
+                    if (!this.userProfile.is_private) {
+                        Promise.all([
+                            this.$store.dispatch('userList/getListsByUser', userId),
+                            this.$store.dispatch('place/fetchPlaces', this.$route.query)
+                        ])
+                            .then(() => {
+                                this.isLoading = false;
+                            });
+                    } else {
+                        this.isLoading = false;
+                    }
                 });
         }
     }
