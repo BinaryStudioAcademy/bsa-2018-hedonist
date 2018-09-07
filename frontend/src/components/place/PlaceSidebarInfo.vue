@@ -302,7 +302,7 @@ export default {
         cursor: pointer;
     }
 
-    &__social a {
+    &__social, &__website a {
         word-wrap: break-word;
     }
 
