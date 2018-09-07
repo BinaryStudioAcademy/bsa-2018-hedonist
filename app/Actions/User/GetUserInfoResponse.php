@@ -3,7 +3,9 @@
 namespace Hedonist\Actions\User;
 
 use Hedonist\Entities\User\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class GetUserInfoResponse
 {
@@ -31,5 +33,10 @@ class GetUserInfoResponse
     public function getFollowers(): Collection
     {
         return $this->followers;
+    }
+
+    public function getAuthenticatedUser(): Authenticatable
+    {
+        return Auth::user();
     }
 }
