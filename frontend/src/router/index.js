@@ -18,6 +18,7 @@ import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
 import MyTastesPage from '@/pages/MyTastesPage';
 import SocialAuthPage from '@/pages/SocialAuthPage';
 import OtherUserPage from '@/pages/OtherUserPage';
+import NotificationsPage from '@/pages/NotificationsPage';
 
 Vue.use(Router);
 
@@ -95,6 +96,11 @@ export default new Router({
                 path: '/settings',
                 name: 'ProfilePage',
                 component: ProfilePage
+            },
+            {
+                path: '/notifications',
+                name: 'NotificationsPage',
+                component: NotificationsPage
             },
             {
                 path: '*',

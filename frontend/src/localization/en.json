@@ -203,7 +203,8 @@
   },
   "navbar": {
     "settings": "Settings",
-    "profile": "Profile"
+    "profile": "Profile",
+    "notifications": "Notifications"
   },
   "other_user_page": {
     "private": "This profile is private :(",
@@ -222,6 +223,22 @@
     },
     "lists_container":{
       "title":"lists"
+    }
+  },
+  "notifications": {
+    "review_place": {
+      "made_review": "made a review on your place"
+    },
+    "like_review": {
+      "liked": "liked your",
+      "review": "review"
+    },
+    "followed_user_review": {
+      "made_review": "made a review on"
+    },
+    "followed_user_add_place": {
+      "add_new": "added a new",
+      "place": "place"
     }
   }
 }
