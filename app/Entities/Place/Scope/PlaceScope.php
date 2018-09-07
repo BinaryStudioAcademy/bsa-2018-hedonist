@@ -12,19 +12,13 @@ class PlaceScope implements Scope
     {
         $builder->with([
             'category',
-            'tags',
             'city',
+            'features',
             'localization',
             'localization.language',
-            'likes',
-            'photos',
-            'dislikes',
             'ratings',
+            'tags',
             'worktime',
-            'reviews',
-            'features',
-            'category.tags',
-            'checkins'
         ]);
     }
 }
