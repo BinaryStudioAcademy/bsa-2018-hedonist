@@ -26,7 +26,7 @@ class GetUserInfoPresenter
                 'is_private' => (bool)$user['is_private']
             ];
         } else {
-            $result = $this->userPresenter->present($response->getUser());
+            $result = $user;
             $result['followers'] = $this->userPresenter->presentCollection($response->getFollowers());
             $result['followedUsers'] = $this->userPresenter->presentCollection($response->getFollowed());
         }

@@ -49,6 +49,7 @@ class UserInfoController extends ApiController
             $response = $this->saveUserInfoAction->execute(
                 new SaveUserInfoRequest(
                     $userId,
+                    $httpRequest->is_private,
                     $httpRequest->first_name,
                     $httpRequest->last_name,
                     $httpRequest->date_of_birth,
@@ -58,8 +59,7 @@ class UserInfoController extends ApiController
                     $httpRequest->instagram_url,
                     $httpRequest->twitter_url,
                     $httpRequest->old_password,
-                    $httpRequest->new_password,
-                    $httpRequest->is_private
+                    $httpRequest->new_password
                 )
             );
         } catch (DomainException $ex) {

@@ -3,7 +3,7 @@
         <div class="hero-body">
             <div class="container">
                 <h2 class="subtitle has-text-centered">
-                    This profile is private :(
+                    {{ $t('other_user_page.private') }}
                 </h2>
             </div>
         </div>
