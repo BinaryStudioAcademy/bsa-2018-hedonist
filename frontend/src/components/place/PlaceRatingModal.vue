@@ -111,4 +111,11 @@ export default {
             display: flex;
         }
     }
+    
+    @media screen and (max-width: 768px) {
+        .modal-card > * {
+            width: 50%;
+            margin: 0 auto;
+        }
+    }
 </style>
