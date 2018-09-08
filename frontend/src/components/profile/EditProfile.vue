@@ -184,9 +184,10 @@ export default {
             this.fetchProfileUser(this.authUser.id)
                 .then((profileUser) => {
                     this.user = Object.assign({}, profileUser);
+                    this.user['is_private'] = this.user['is_private'] === 1;
                     this.user['notifications_receive'] = this.user['notifications_receive'] === 1;
                     if (this.user.date_of_birth !== null) {
-                        let date = new Date(this.user.date_of_birth.date);
+                        let date = new Date(this.user.date_of_birth);
                         this.birthYear = date.getFullYear();
                         this.birthMonth = date.getMonth() + 1;
                         this.birthDay = date.getDate();
