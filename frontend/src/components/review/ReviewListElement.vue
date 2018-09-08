@@ -1,5 +1,5 @@
 <template>
-    <transition name="slide-fade">
+    <transition name="fade">
         <div class="review-wrp" v-if="active">
             <div class="review">
                 <article class="media">
@@ -190,12 +190,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .slide-fade-enter-active {
-        transition: all 0.5s ease;
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
     }
 
-    .slide-fade-enter, .slide-fade-leave-to {
-        transform: translateX(-300px);
+    .fade-enter, .fade-leave-to {
         opacity: 0;
     }
 
