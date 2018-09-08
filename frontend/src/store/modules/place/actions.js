@@ -165,6 +165,7 @@ const createSearchQueryUrl = (url, filters) => {
         polygon = filters.polygon[0]
             .map( (item) => item[0] + ',' + item[1])
             .join(';');
+        filters.location = '';
     }
     let params = {
         'filter[category]': filters.category,

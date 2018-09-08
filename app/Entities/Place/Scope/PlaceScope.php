@@ -11,11 +11,14 @@ class PlaceScope implements Scope
     public function apply(Builder $builder, Model $model)
     {
         $builder->with([
-            'city',
             'category',
-            'category.tags',
+            'city',
             'features',
             'localization',
+            'localization.language',
+            'ratings',
+            'tags',
+            'worktime',
         ]);
     }
 }

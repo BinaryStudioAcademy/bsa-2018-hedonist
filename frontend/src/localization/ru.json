@@ -194,7 +194,8 @@
     }
   },
   "profile_page": {
-    "private": "Сделать профиль приватным"
+    "private": "Сделать профиль приватным",
+    "receive_notifications": "Получать уведомления"
   },
   "messages": {
     "success": {

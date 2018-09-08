@@ -171,5 +171,7 @@ Route::prefix('v1')->group(function () {
         ]);
 
         Route::get('/places/categories/{id}/tags', 'Api\Place\TagsController@getTagsByCategoryId');
+
+        Route::get('/users/{userId}/reviews', 'Api\Review\ReviewController@getReviewsWithPlaceByUserId');
     });
 });

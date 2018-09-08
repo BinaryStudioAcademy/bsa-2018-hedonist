@@ -23,7 +23,7 @@
                 class="error"
                 v-if="!$v.user.password.required && input.password.type === 'is-danger'"
             >
-                {{ $t('validation.required', {field:$t('inputs.auth.confirm_password.field_name')}) }}</div>
+                {{ $t('validation.required', {field:$t('inputs.auth.password.field_name')}) }}</div>
             <div
                 class="error"
                 v-if="!$v.user.password.minLength && input.password.type === 'is-danger'"
@@ -198,7 +198,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
     .error {
         color: red;
     }

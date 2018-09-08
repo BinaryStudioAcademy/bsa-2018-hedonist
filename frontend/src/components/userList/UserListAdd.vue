@@ -213,11 +213,11 @@ export default {
         }),
 
         ratingModifier(rating) {
-            if (rating >= 7) {
+            if (rating >= 4) {
                 return 'good';
             }
 
-            if (rating >= 5) {
+            if (rating >= 3) {
                 return 'okay';
             }
 
