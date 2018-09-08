@@ -98,25 +98,25 @@
                                 >{{ $t('navbar.notifications') }}
                                 </router-link>
                                 <router-link
-                                    class="navbar-personal-link navbar-item"
+                                    class="navbar-item"
                                     :to="{ name: 'NewPlacePage' }"
                                 >Add place</router-link>
                                 <router-link
-                                    class="navbar-personal-link navbar-item"
+                                    class="navbar-item"
                                     :to="{ name: 'MyTastesPage' }"
                                 >My tastes</router-link>
                                 <router-link
-                                    class="navbar-personal-link navbar-item"
+                                    class="navbar-item"
                                     :to="{ name: 'UserListsPage' }"
                                 >My lists
                                 </router-link>
                                 <router-link
-                                    class="navbar-personal-link navbar-item"
+                                    class="navbar-item"
                                     :to="{ name: 'CheckinsPage' }"
                                 >Visited
                                 </router-link>
                                 <router-link
-                                    class="navbar-personal-link navbar-item"
+                                    class="navbar-item"
                                     :to="{ name: 'ProfilePage' }"
                                 >{{ $t('navbar.settings') }}
                                 </router-link>
@@ -331,9 +331,6 @@ export default {
              border: none;
         }
     }
-    .navbar-personal-link {
-        text-indent: 15px;
-    }
     .navbar-avatar {
         margin: 0 10px;
         width: 28px;
@@ -413,12 +410,6 @@ export default {
             @media screen and (max-width: 1087px) {
                 display: none;
             }
-        }
-    }
-
-    .navbar-dropdown > a {
-        @media screen and (max-width: 1087px) {
-            text-indent: 36px;
         }
     }
 
