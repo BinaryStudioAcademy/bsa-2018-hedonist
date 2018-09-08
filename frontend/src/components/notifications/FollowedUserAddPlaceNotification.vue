@@ -72,8 +72,17 @@ export default {
 <style lang="scss" scoped>
     .user {
         &__avatar-wrp {
+            display: inline-block;
             width: 30px;
             height: 30px;
+        }
+
+        &__avatar {
+            border-radius:4px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
         }
     }
 </style>

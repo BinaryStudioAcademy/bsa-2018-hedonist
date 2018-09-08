@@ -18,7 +18,7 @@
                 />
             </li>
         </ul>
-        <div class="notifications__none">
+        <div v-else class="notifications__none">
             You don't have any notifications.
         </div>
     </div>
@@ -105,7 +105,10 @@ export default {
         },
         onDelete() {
             this.setLoading(false);
-            this.deleteNotifications().then(() => this.setLoading(true));
+            this.deleteNotifications().then(() => {
+                this.setLoading(true);
+                this.notifications = [];
+            });
         }
     }
 };
@@ -119,17 +122,8 @@ export default {
 
         .user {
             &__avatar-wrp {
-                display: inline-block;
                 width: 50px !important;
                 height: 50px !important;
-            }
-
-            &__avatar {
-                border-radius:4px;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: 50% 50%;
             }
         }
 
