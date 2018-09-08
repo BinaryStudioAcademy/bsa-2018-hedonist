@@ -234,7 +234,7 @@
       "made_review": "зробив рев'ю на ваш заклад"
     },
     "like_review": {
-      "liked": "поставив лайк на вашому",
+      "liked": "поставив лайк вашому",
       "review": "рев'ю"
     },
     "followed_user_review": {
@@ -243,6 +243,9 @@
     "followed_user_add_place": {
       "add_new": "додав нове",
       "place": "місце"
+    },
+    "navbar": {
+      "no_notifs": "У вас нема нових повідомлень"
     }
   }
 }

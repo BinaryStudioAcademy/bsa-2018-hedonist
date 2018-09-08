@@ -68,7 +68,7 @@
                                     </li>
                                 </ul>
                                 <div v-else class="notifications__none">
-                                    You don't have new notifications
+                                    {{ $t('notifications.navbar.no_notifs') }}
                                 </div>
                             </div>
                         </div>
