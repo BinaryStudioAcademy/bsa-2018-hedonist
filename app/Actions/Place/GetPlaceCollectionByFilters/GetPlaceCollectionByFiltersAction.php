@@ -161,7 +161,16 @@ class GetPlaceCollectionByFiltersAction
             $request->getPage(),
             $request->getCategoryId(),
             $request->getLocation(),
-            $request->getName()
+            $request->getName(),
+            $request->getPolygon(),
+            $request->getTags(),
+            $request->getFeatures(),
+            $request->isTopReviewed(),
+            $request->isTopRated(),
+            $request->isCheckin(),
+            $request->isSaved(),
+            $request->isRecommended(),
+            $request->isOpened()
         ];
         return self::SEARCH_KEY_PREFIX . implode('_', $baseRequest);
     }
