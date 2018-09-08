@@ -7,13 +7,14 @@
             <div class="review-title" style="display: inherit; padding: 20px">
                 <div class="left-side-review-title">
                     <span style="padding-right: 10px">
-                        <i class="fas fa-users"></i>
+                        <i class="fas fa-users" />
                     </span>
                     <span>{{ visitors.allIds.length }} users look this place:</span>
                 </div>
                 <div
-                        style="display: inline-flex"
-                        v-for="(user, index) in visitors.byId"
+                    style="display: inline-flex"
+                    v-for="(user, index) in visitors.byId"
+                    :key="index"
                 >
                     <div style="padding: 3px">
                         <router-link :to="{ name: 'OtherUserPage', params: { id: user.id }}">
