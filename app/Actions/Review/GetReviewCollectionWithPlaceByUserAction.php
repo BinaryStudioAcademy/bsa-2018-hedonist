@@ -21,11 +21,17 @@ class GetReviewCollectionWithPlaceByUserAction
     {
         $page = $request->getPage();
         $userId = $request->getUserId();
+        $include = $request->getInclude();
+        $criterias = [];
+        if ($include == 'place') {
+            $criterias[] = new AddPlaceToReviewCriteria();
+        }
+
         $reviews = $this->reviewRepository->findCollectionByCriterias(
             new GetReviewsByUserCriteria($userId),
             new ReviewPaginationCriteria($page),
-            new AddPlaceToReviewCriteria(),
-            new DefaultSortCriteria()
+            new DefaultSortCriteria(),
+            ...$criterias
         );
 
         return new GetReviewCollectionWithPlaceByUserResponse($reviews);
