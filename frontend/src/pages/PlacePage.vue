@@ -66,7 +66,7 @@ export default {
         ...mapMutations('place', {
             addVisitor      : 'ADD_PAGE_VISITOR',
             removeVisitor   : 'REMOVE_PAGE_VISITOR',
-            clearVisitors    : 'CLEAR_PAGE_VISITORS',
+            clearVisitors   : 'CLEAR_PAGE_VISITORS',
         }),
         listen(placeId) {
             const channel = 'place.'+placeId;

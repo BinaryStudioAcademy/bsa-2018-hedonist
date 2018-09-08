@@ -61,6 +61,7 @@
                     <div
                         class="button is-primary rating"
                         @click="toggleIsUsersListModalActive"
+                        :disabled="visitors.allIds.length < 2"
                     >
                         <i class="fas fa-eye" />
                     </div>
@@ -79,7 +80,7 @@
                 >
                     <UsersListModal
                         :users="visitors"
-                        title="They look this page"
+                        :title="$t('place_page.top_info.users_on_page_modal.title')"
                         @close="toggleIsUsersListModalActive"
                     />
                 </b-modal>

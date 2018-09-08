@@ -181,7 +181,10 @@
       "recommendation": "Вам также понравится"
     },
     "top_info": {
-      "favourite": "Избранные"
+      "favourite": "Избранные",
+      "users_on_page_modal": {
+        "title": "Кто сейчас смотрит страницу"
+      }
     },
     "message": {
       "no-lists": "У вас пока нет списков мест.",
