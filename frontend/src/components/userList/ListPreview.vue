@@ -17,12 +17,13 @@
                         </p>
                         <p class="city-list">
                             Cities in the list:
-                            <span
+                            <a
                                 v-for="(city,index) in uniqueCities"
                                 :key="index"
+                                href="#"
                                 class="city-list__item"
                                 @click="setCityFilter(city.id)"
-                            >{{ city.name }}</span>
+                            >{{ city.name }}</a>
                         </p>
                     </div>
                     <div class="place-item__actions">
