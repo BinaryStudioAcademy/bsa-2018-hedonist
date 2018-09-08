@@ -59,7 +59,7 @@
                                     :class="{active_tab: selectionActive(pageConstants.reviewTab)}"
                                     @click="changeTab(pageConstants.reviewTab)"
                                 >
-                                    <p class="relation-count">{{ AllReviewUserLength }}</p>
+                                    <p class="relation-count">{{ allReviewUserLength }}</p>
                                     <p class="relation-title">{{ $t('other_user_page.reviews') }}</p>
                                 </div>
                             </li>
@@ -86,7 +86,7 @@
                                     :class="{active_tab: selectionActive(pageConstants.listTab)}"
                                     @click="changeTab(pageConstants.listTab)"
                                 >
-                                    <p class="relation-count">{{ UserListsLength }}</p>
+                                    <p class="relation-count">{{ userListsLength }}</p>
                                     <p class="relation-title">{{ $t('other_user_page.lists') }}</p>
                                 </div>
                             </li>
@@ -133,10 +133,10 @@ export default {
         ...mapState('userList', {
             userLists: 'userLists',
         }),
-        AllReviewUserLength: function () {
+        allReviewUserLength: function () {
             return this.getUserReviews.length;
         },
-        UserListsLength: function () {
+        userListsLength: function () {
             return this.userLists ? this.userLists.allIds.length : null;
         },
         fullName() {

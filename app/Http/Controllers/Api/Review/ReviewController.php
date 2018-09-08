@@ -222,11 +222,15 @@ class ReviewController extends ApiController
         }
     }
 
-    public function getReviewsWithPlaceByUserId(int $userId)
+    public function getReviewsWithPlaceByUserId(ReviewSearchRequest $request, int $userId)
     {
         try {
             $reviewResponse = $this->getReviewCollectionWithPlaceByUserAction->execute(
-                new GetReviewCollectionWithPlaceByUserRequest($userId)
+                new GetReviewCollectionWithPlaceByUserRequest(
+                    $userId,
+                    $request->input('page'),
+                    $request->input('include')
+                )
             );
             $data = $this->reviewPresenter->presentCollectionWithPlace($reviewResponse->getCollection());
 

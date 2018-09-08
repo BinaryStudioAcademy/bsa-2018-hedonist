@@ -27,7 +27,7 @@
             <div class="user-review-place">
                 <div class="user-review-name">
                     <router-link :to="`/places/${review.place_id}`" class="review-place-link">
-                        {{ review.place.localization[0].name }}
+                        {{ localizedName }}
                     </router-link>
                     <span class="review-place-name">
                         {{ review.place.category.name }}
@@ -78,6 +78,9 @@ export default {
             const user = this.review.user;
             return user.first_name + ' ' + user.last_name;
         },
+        localizedName() {
+            return this.review.place.localization[0].name;
+        }
     },
     components: {
         PlaceRating,

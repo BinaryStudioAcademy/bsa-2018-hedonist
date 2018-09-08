@@ -103,8 +103,6 @@ Route::prefix('v1')->group(function () {
             Route::get('/{id}/users-disliked', 'Api\Review\ReviewController@getUsersWhoDislikedReview');
 
             Route::get('/photos/{placeId}', 'Api\Review\ReviewController@getReviewPhotosByPlaceId');
-
-            Route::get('/place/{userId}', 'Api\Review\ReviewController@getReviewsWithPlaceByUserId');
         });
 
         Route::post('/places/{id}/like', 'Api\Like\LikeController@likePlace')->name('place.like');
@@ -173,5 +171,7 @@ Route::prefix('v1')->group(function () {
         ]);
 
         Route::get('/places/categories/{id}/tags', 'Api\Place\TagsController@getTagsByCategoryId');
+
+        Route::get('/users/{userId}/reviews', 'Api\Review\ReviewController@getReviewsWithPlaceByUserId');
     });
 });
