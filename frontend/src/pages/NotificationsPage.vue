@@ -1,6 +1,9 @@
 <template>
     <div class="container notifications notifications-page">
         <Preloader :active="!isLoading" />
+        <div class="notifications__delete" v-if="notifications.length > 0">
+            <div class="is-right button is-danger" @click="onDelete">Clear notifications</div>
+        </div>
         <ul class="notifications__list" v-if="notifications.length > 0">
             <li
                 class="notifications__item"
@@ -15,6 +18,9 @@
                 />
             </li>
         </ul>
+        <div class="notifications__none">
+            You don't have any notifications.
+        </div>
     </div>
 </template>
 
@@ -77,6 +83,7 @@ export default {
         ...mapActions({
             getNotifications: 'notifications/getNotifications',
             readNotifications: 'notifications/readNotifications',
+            deleteNotifications: 'notifications/deleteNotifications'
         }),
         ...mapMutations('users', {
             addUser: 'ADD_USER',
@@ -95,6 +102,10 @@ export default {
             default:
                 return 'UnknownNotification';
             }
+        },
+        onDelete() {
+            this.setLoading(false);
+            this.deleteNotifications().then(() => this.setLoading(true));
         }
     }
 };
@@ -143,6 +154,15 @@ export default {
             &:last-child {
                 border-bottom: none;
             }
+        }
+        
+        &__delete {
+            text-align: right;
+        }
+
+        &__none {
+            text-align: center;
+            font-weight: bold;
         }
     }
 </style>
