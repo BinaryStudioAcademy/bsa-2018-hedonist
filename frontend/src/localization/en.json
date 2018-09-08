@@ -227,6 +227,7 @@
     }
   },
   "notifications": {
+    "no-notifications" : "You don't have any notifications.",
     "review_place": {
       "made_review": "made a review on your place"
     },

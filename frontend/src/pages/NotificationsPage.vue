@@ -19,7 +19,7 @@
             </li>
         </ul>
         <div v-else class="notifications__none">
-            You don't have any notifications.
+            {{ $t('notifications.no-notifications') }}
         </div>
     </div>
 </template>
