@@ -6,6 +6,7 @@ import { KIEV_LATITUDE, KIEV_LONGITUDE } from '@/services/location/positions';
 
 export default {
     updateStateFromQuery: ({commit, dispatch}, query) => {
+        dispatch('setLoadingState', true);
         if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
         if(query.page) commit('SET_PAGE', query.page);
         if(query.category) commit('SET_SEARCH_PLACE_CATEGORY', {id: query.category, name: ''});
@@ -61,6 +62,7 @@ export default {
     },
 
     updateQueryFilters({state, dispatch}, params) {
+        dispatch('setLoadingState', true);
         let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
         let tags = state.selectedTags.join();
         let features = state.selectedFeatures.join();
@@ -95,8 +97,6 @@ export default {
                 query
             });
         }
-
-        dispatch('setLoadingState', true);
         dispatch('place/fetchPlaces', query, {root:true}).then(() => {
             dispatch('setLoadingState', false);
         });
