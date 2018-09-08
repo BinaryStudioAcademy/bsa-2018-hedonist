@@ -82,14 +82,14 @@ export default {
 
 <style lang="scss" scoped>
     .button {
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             width: 88%;
         }
 
         .button-title {
             display: none;
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 display: inline-block;
             }
         }
@@ -97,14 +97,14 @@ export default {
         &:hover {
             background-color: #167df0;
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 background-color: #0f77ea;
             }
         }
     }
 
     .navbar-search-btn {
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             text-align: center;
         }
     }
