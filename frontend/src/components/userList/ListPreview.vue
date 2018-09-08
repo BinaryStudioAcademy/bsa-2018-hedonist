@@ -18,7 +18,7 @@
                         <p class="city-list">
                             Cities in the list:
                             <span
-                                v-for="(city,index,key) in uniqueCities"
+                                v-for="(city,index) in uniqueCities"
                                 :key="index"
                                 class="city-list__item"
                                 @click="setCityFilter(city.id)"
