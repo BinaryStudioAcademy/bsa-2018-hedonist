@@ -15,7 +15,7 @@ class ReviewPhotoRequest extends JsonRequest
         return [
             'review_id' => 'required|integer',
             'description' => 'nullable|string|max:255',
-            'img_url' => 'required|image|size:5120'
+            'img_url' => 'required|image|max:5120'
         ];
     }
 }
