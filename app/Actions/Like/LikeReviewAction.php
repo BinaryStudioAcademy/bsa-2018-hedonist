@@ -70,7 +70,9 @@ class LikeReviewAction
             ]);
             $this->likeRepository->save($like);
             $notifiableUser = $this->userRepository->getById($review->user_id);
-            if ((bool) $notifiableUser->info->notifications_receive === true) {
+            if ( (bool) $notifiableUser->info->notifications_receive === true
+                && Auth::id() !== $notifiableUser->id
+            ) {
                 $notifiableUser->notify(new LikeReviewNotification($review, Auth::user()));
             }
         } else {
