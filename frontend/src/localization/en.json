@@ -240,6 +240,9 @@
     "followed_user_add_place": {
       "add_new": "added a new",
       "place": "place"
+    },
+    "navbar": {
+      "no_notifs": "You don't have new notifications"
     }
   }
 }

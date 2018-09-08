@@ -240,6 +240,9 @@
     "followed_user_add_place": {
       "add_new": "добавил новое",
       "place": "место"
+    },
+    "navbar": {
+      "no_notifs": "У вас нет новых уведомлений"
     }
   }
 }
