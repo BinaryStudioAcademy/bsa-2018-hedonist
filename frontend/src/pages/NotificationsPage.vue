@@ -1,5 +1,6 @@
 <template>
     <div class="container notifications notifications-page">
+        <Preloader :active="!isLoading" />
         <ul class="notifications__list" v-if="notifications.length > 0">
             <li
                 class="notifications__item"
@@ -18,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import LikeReviewNotification from '@/components/notifications/LikeReviewNotification';
 import FollowedUserReviewNotification from '@/components/notifications/FollowedUserReviewNotification';
 import FollowedUserAddPlaceNotification from '@/components/notifications/FollowedUserAddPlaceNotification';
@@ -30,10 +31,12 @@ import {
     FOLLOWED_USER_REVIEW_NOTIFICATION,
     FOLLOWED_USER_ADD_PLACE_NOTIFICATION
 } from '@/services/notification/notificationService';
+import Preloader from '@/components/misc/Preloader';
 
 export default {
     name: 'NotificationsPage',
     components: {
+        Preloader,
         LikeReviewNotification,
         UnknownNotification,
         ReviewPlaceNotification,
@@ -46,6 +49,10 @@ export default {
         };
     },
     created() {
+        if (this.notifications.length > 0) {
+            this.setLoading(true);
+        }
+
         this.readNotifications();
         this.getNotifications().then((notifications) => {
             _.forEach(notifications, ({ data, created_at, read_at }) => {
@@ -53,16 +60,18 @@ export default {
                 this.notifications.push({
                     ...data.notification,
                     created_at
-                });
+                })  ;
             });
+            this.setLoading(true);
         });
     },
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
             user: 'auth/getAuthenticatedUser',
-            getUser: 'users/getUserProfile'
-        }),
+            getUser: 'users/getUserProfile',
+            isLoading: 'loading'
+        })
     },
     methods: {
         ...mapActions({
@@ -72,6 +81,7 @@ export default {
         ...mapMutations('users', {
             addUser: 'ADD_USER',
         }),
+        ...mapMutations({ setLoading: 'SET_LOADING' }),
         notificationComponent: function(notification) {
             switch (notification.type) {
             case LIKE_REVIEW_NOTIFICATION:
@@ -97,15 +107,28 @@ export default {
         padding: 50px;
 
         .user {
-            &__avatar {
-                width: 50px;
-                height: 50px;
+            &__avatar-wrp {
+                display: inline-block;
+                width: 50px !important;
+                height: 50px !important;
             }
+
+            &__avatar {
+                border-radius:4px;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 50% 50%;
+            }
+        }
+
+        .date {
+            font-size: 12px;
         }
     }
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
     $grey: #c5c5c5;
     $dark-grey: #4a4a4a;
 

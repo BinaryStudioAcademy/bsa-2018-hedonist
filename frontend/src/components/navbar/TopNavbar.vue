@@ -68,7 +68,7 @@
                                     </li>
                                 </ul>
                                 <div v-else class="notifications__none">
-                                    You don't have new notifications
+                                    You don't have a new notifications
                                 </div>
                             </div>
                         </div>
@@ -297,7 +297,7 @@ export default {
             max-height: 150px;
             overflow-x: hidden;
             overflow-y: auto;
-            box-shadow: 6px 20px 40px $blue;
+            box-shadow: 0px 3px 20px $blue;
         }
 
         &__item {
@@ -315,6 +315,7 @@ export default {
         }
 
         &__none {
+            text-align: center;
             padding: 10px;
         }
     }
