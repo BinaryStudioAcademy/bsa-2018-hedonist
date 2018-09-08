@@ -333,46 +333,46 @@ export default {
         color: #fff;
     }
     .navbar-brand {
-        @media screen and (max-width: 1087px) {
-            width: 100%;
-        }
+        // @media screen and (max-width: 1087px) {
+        //     width: 100%;
+        // }
     }
     .navbar-wrapper {
         position: static;
     }
     .navbar-menu {
-        @media screen and (max-width: 1087px) {
-           position: absolute;
-           right: 0;
-           top: 52px;
-           width: 200px;
-        }
+        // @media screen and (max-width: 1087px) {
+        //    position: absolute;
+        //    right: 0;
+        //    top: 52px;
+        //    width: 200px;
+        // }
     }
 
     .navbar-start {
-        @media screen and (max-width: 1087px) {
-           margin-bottom: 10%;
-        }
+        // @media screen and (max-width: 1087px) {
+        //    margin-bottom: 10%;
+        // }
     }
 
     .navbar-end {
         padding-right:0;
 
-        @media screen and (max-width: 1600px) {
-            padding-right:50px;
-        }
+        // @media screen and (max-width: 1600px) {
+        //     padding-right:50px;
+        // }
 
-        @media screen and (max-width: 1087px) {
-            padding-right:0;
-        }
+        // @media screen and (max-width: 1087px) {
+        //     padding-right:0;
+        // }
     }
 
     .navbar-dropdown-menu {
         padding-right: 20px;
 
-        @media screen and (max-width: 1087px) {
-           text-align: center;
-        }
+        // @media screen and (max-width: 1087px) {
+        //    text-align: center;
+        // }
 
         &:after {
             content: '\f0d7';
@@ -384,28 +384,28 @@ export default {
             display: inline-block;
             transform: rotate(0deg);
 
-            @media screen and (max-width: 1087px) {
-                display: none;
-            }
+            // @media screen and (max-width: 1087px) {
+            //     display: none;
+            // }
         }
     }
 
     .navbar-dropdown > a {
-        @media screen and (max-width: 1087px) {
-            text-indent: 36px;
-        }
+        // @media screen and (max-width: 1087px) {
+        //     text-indent: 36px;
+        // }
     }
 
     .navbar-lang {
         position:absolute;
         right:0px;
 
-        @media screen and (max-width: 1087px) {
-            height: 60px;
-            position:static;
-            padding: 0;
-            overflow: hidden;
-        }
+        // @media screen and (max-width: 1087px) {
+        //     height: 60px;
+        //     position:static;
+        //     padding: 0;
+        //     overflow: hidden;
+        // }
     }
 
 </style>
