@@ -57,6 +57,33 @@
                     :rating-count="place.ratingCount"
                 />
 
+                <span class="v-badge v-badge--overlap">
+                    <div
+                        class="button is-primary rating"
+                        @click="toggleIsUsersListModalActive"
+                    >
+                        <i class="fas fa-eye" />
+                    </div>
+                    <span
+                        v-if="visitors.allIds.length > 1"
+                        class="v-badge__badge orange"
+                    >
+                        <span>
+                            {{ visitors.allIds.length }}
+                        </span>
+                    </span>
+                </span>
+                <b-modal
+                    :active.sync="isUsersListModalActive"
+                    has-modal-card
+                >
+                    <UsersListModal
+                        :users="visitors"
+                        title="They look this page"
+                        @close="toggleIsUsersListModalActive"
+                    />
+                </b-modal>
+
                 <button
                     class="button is-primary rating"
                     @click="isCheckinModalActive = true"
@@ -76,6 +103,7 @@
 <script>
 import PlacePhotoList from './PlacePhotoList';
 import PlaceRatingModal from './PlaceRatingModal';
+import UsersListModal from './UsersListModal';
 import {STATUS_NONE} from '@/services/api/codes';
 import defaultMarker from '@/assets/default_marker.png';
 import {mapGetters, mapState} from 'vuex';
@@ -89,6 +117,7 @@ export default {
 
     components: {
         PlacePhotoList,
+        UsersListModal,
         PlaceRatingModal,
         PlaceRating,
         PlaceCheckin,
@@ -120,6 +149,7 @@ export default {
     data() {
         return {
             activeTab: 1,
+            isUsersListModalActive: false,
             isCheckinModalActive: false
         };
     },
@@ -132,6 +162,7 @@ export default {
     computed: {
         ...mapGetters('review', ['getTotalReviewCount', 'getPlaceReviewPhotos']),
         ...mapState('userList', ['userLists']),
+        ...mapState('place', ['visitors']),
 
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
@@ -181,6 +212,11 @@ export default {
     },
 
     methods: {
+        toggleIsUsersListModalActive: function () {
+            if (this.isUsersListModalActive || this.visitors.allIds.length > 1){
+                this.isUsersListModalActive = !this.isUsersListModalActive;
+            }
+        },
         changeTab: function (activeTab) {
             this.activeTab = activeTab;
             this.$emit('tabChanged', activeTab);
@@ -248,6 +284,7 @@ export default {
     .rating {
         border-radius: 7px;
         height: 48px;
+        width: 48px;
         font-size: 1.5rem;
         color: #FFF;
         text-align: center;
@@ -315,4 +352,40 @@ export default {
             }
         }
     }
+
+    .v-badge {
+        display: inline-block;
+        position: relative;
+    }
+
+    .v-badge--overlap .v-badge__badge {
+        right: -8px;
+        top: -8px;
+    }
+    .v-badge__badge {
+        align-items: center;
+        border-radius: 50%;
+        color: #fff;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        font-size: 14px;
+        height: 22px;
+        justify-content: center;
+        position: absolute;
+        right: -22px;
+        top: -11px;
+        transition: .3s cubic-bezier(.25,.8,.5,1);
+        width: 22px;
+        z-index: 5;
+    }
+    .orange {
+        background-color: #ff9800!important;
+        border-color: #ff9800!important;
+    }
+    span {
+        font-style: inherit;
+        font-weight: inherit;
+    }
+
 </style>
