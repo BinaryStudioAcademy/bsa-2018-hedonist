@@ -73,8 +73,8 @@
                             </div>
                         </div>
                         <div class="navbar-item has-dropdown is-hoverable">
-                            <div v-if="user" class="navbar-link navbar-dropdown-menu">
-                                <div v-if="user.avatar_url" class="navbar-avatar">
+                            <div v-if="user" class="profile navbar-link navbar-dropdown-menu">
+                                <div v-if="user.avatar_url" class="profile__avatar navbar-avatar">
                                     <img
                                         :src="user.avatar_url"
                                         :title="user.first_name+' '+user.last_name"
@@ -84,7 +84,7 @@
                                 <span v-else class="icon">
                                     <i class="fas fa-file-image fa-lg" />
                                 </span>
-                                <span>{{ user.first_name }}</span>
+                                <span class="profile__name">{{ user.first_name }}</span>
                             </div>
                             <div class="navbar-dropdown">
                                 <router-link
@@ -387,6 +387,10 @@ export default {
 
         @media screen and (max-width: 1087px) {
             padding-right:0;
+
+            .profile {
+                display: none;
+            }
         }
     }
 
