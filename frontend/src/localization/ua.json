@@ -181,7 +181,10 @@
       "recommendation": "Вам також сподобається"
     },
     "top_info": {
-      "favourite": "Обрані"
+      "favourite": "Обрані",
+      "users_on_page_modal": {
+        "title": "Хто зараз дивится сторінку"
+      }
     },
     "message": {
       "no-lists": "У вас ще немає списків місць.",
