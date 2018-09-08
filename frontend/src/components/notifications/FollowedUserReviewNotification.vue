@@ -45,7 +45,7 @@ export default {
     data() {
         return {
             avatarStub: avatarStub
-        }
+        };
     },
     computed: {
         getUserName() {
