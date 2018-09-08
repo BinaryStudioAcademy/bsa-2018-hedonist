@@ -15,7 +15,7 @@ class ElasticCreateIndexCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:elastic-create-index';
+    protected $signature = 'elastic:create-index';
 
     /**
      * The console command description.
@@ -86,5 +86,7 @@ class ElasticCreateIndexCommand extends Command
         Plastic::persist()->bulkSave($reviews);
 
         Plastic::persist()->bulkSave($lists);
+
+        $this->call('mapping:run');
     }
 }

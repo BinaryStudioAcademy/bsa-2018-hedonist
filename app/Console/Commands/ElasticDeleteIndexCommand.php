@@ -15,7 +15,7 @@ class ElasticDeleteIndexCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:elastic-delete-index';
+    protected $signature = 'elastic:delete-index';
 
     /**
      * The console command description.
