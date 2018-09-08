@@ -51,9 +51,10 @@ export default {
     },
 
     REMOVE_PAGE_VISITOR:(state, user) => {
-        state.visitors.byId[user.id] = user;
-        if (_.includes(state.visitors.allIds, user.id)) {
-            _.pull(state.visitors.allIds, user.id);
+        delete state.visitors.byId[user.id];
+        const index = state.visitors.allIds.indexOf(user.id);
+        if (index !== -1) {
+            state.visitors.allIds.splice(index);
         }
     },
 
