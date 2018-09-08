@@ -11,6 +11,7 @@
             @input="loadItems"
             @select="option => this.$emit('select', option)"
             ref="autocomplete"
+            @keyup.native.enter="$emit('keyup.native.enter')"
         >
 
             <template slot-scope="props">
