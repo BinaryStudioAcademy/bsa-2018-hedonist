@@ -193,6 +193,10 @@
       "save": "Зберегти"
     }
   },
+  "profile_page": {
+    "private": "Зробити профіль приватним",
+    "receive_notifications": "Отримувати сповіщення"
+  },
   "messages": {
     "success": {
       "changed_password": "Ви успішно змінили ваш пароль! Тепер вам потрібно увійти в систему"
@@ -200,7 +204,8 @@
   },
   "navbar": {
     "settings": "Налаштування",
-    "profile": "Профіль"
+    "profile": "Профіль",
+    "notifications": "Сповіщення"
   },
   "other_user_page": {
     "private": "Цей профіль приватний :(",
@@ -219,6 +224,22 @@
     },
     "lists_container": {
       "title": "списки"
+    }
+  },
+  "notifications": {
+    "review_place": {
+      "made_review": "зробив рев'ю на ваш заклад"
+    },
+    "like_review": {
+      "liked": "поставив лайк на вашому",
+      "review": "рев'ю"
+    },
+    "followed_user_review": {
+      "made_review": "зробив рев'ю на"
+    },
+    "followed_user_add_place": {
+      "add_new": "додав нове",
+      "place": "місце"
     }
   }
 }

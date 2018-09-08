@@ -52,9 +52,11 @@ class CreateReviewAction
         );
 
         broadcast(new ReviewAddEvent($review))->toOthers();
-        $this->sentNotificationToFollowers($place);
+        $this->sendNotificationToFollowers($place);
         $notifiableUser = $this->userRepository->getById($place->creator_id);
-        if ((bool) $notifiableUser->info->notifications_receive === true) {
+        if ((bool) $notifiableUser->info->notifications_receive === true
+            && Auth::id() !== $notifiableUser->id
+        ) {
             $notifiableUser->notify(new ReviewPlaceNotification($place, Auth::user()));
         }
 
@@ -62,7 +64,7 @@ class CreateReviewAction
         return new CreateReviewResponse($review);
     }
 
-    public function sentNotificationToFollowers(Place $place)
+    private function sendNotificationToFollowers(Place $place)
     {
         foreach ($this->userRepository->getFollowers(Auth::user()) as $user) {
             if ((bool) $user->info->notifications_receive === true) {

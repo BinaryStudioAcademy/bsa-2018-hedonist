@@ -42,6 +42,13 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
+        Route::group(['namespace' => 'Api\User'], function () {
+            Route::get('/notifications', 'UserNotificationsController@getNotifications');
+            Route::get('/notifications/unread', 'UserNotificationsController@getUnreadNotifications');
+            Route::put('/notifications/read', 'UserNotificationsController@readNotifications');
+            Route::delete('/notifications', 'UserNotificationsController@deleteNotifications');
+        });
+
         Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
             ->name('user-list.lists');
 
@@ -164,5 +171,7 @@ Route::prefix('v1')->group(function () {
         ]);
 
         Route::get('/places/categories/{id}/tags', 'Api\Place\TagsController@getTagsByCategoryId');
+
+        Route::get('/users/{userId}/reviews', 'Api\Review\ReviewController@getReviewsWithPlaceByUserId');
     });
 });

@@ -2,10 +2,15 @@
     <div class="navbar-start">
         <Preloader :active="isLoading" />
         <div class="navbar-item">
-            <SearchPlaceCategory @select="selectCategory" ref="selectPlaceCategoryComponent" :select-city="location" />
+            <SearchPlaceCategory 
+                @keyup.native.enter="search" 
+                @select="selectCategory" 
+                ref="selectPlaceCategoryComponent" 
+                :select-city="location"
+            />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="selectCity" />
+            <SearchCity @keyup.native.enter="search" @select="selectCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">

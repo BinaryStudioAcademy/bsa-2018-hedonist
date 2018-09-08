@@ -13,18 +13,16 @@
                             </router-link>
                         </h3>
                         <p class="place-category">
-                            <a href="#">Places saved in the list: {{ userList.places | countPlaces }}</a>
+                            Places saved in the list: {{ userList.places | countPlaces }}
                         </p>
-                        <p class="address">
+                        <p class="city-list">
                             Cities in the list:
-                            <a
-                                v-for="(city,index,key) in uniqueCities"
+                            <span
+                                v-for="(city,index) in uniqueCities"
                                 :key="index"
-                                href="#"
+                                class="city-list__item"
                                 @click="setCityFilter(city.id)"
-                            >{{ city.name }}
-                                <span v-show="notLast(key)">, </span>
-                            </a>
+                            >{{ city.name }}</span>
                         </p>
                     </div>
                     <div class="place-item__actions">
@@ -172,8 +170,14 @@ export default {
             }
         }
     }
-    .address {
+    .city-list {
         margin-bottom: 0.5rem;
+
+        &__item {
+            &:not(:last-child):after {
+                content: ', ';
+            }
+        }
     }
     .rating {
         width: 48px;

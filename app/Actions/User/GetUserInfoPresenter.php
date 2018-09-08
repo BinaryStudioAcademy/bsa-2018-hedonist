@@ -17,7 +17,7 @@ class GetUserInfoPresenter
     {
         $user = $this->userPresenter->present($response->getUser());
 
-        if ($user['is_private']) {
+        if ($user['is_private'] && $user['id'] !== $response->getAuthenticatedUser()->id) {
             $result = [
                 'id' => $user['id'],
                 'first_name' => $user['first_name'],

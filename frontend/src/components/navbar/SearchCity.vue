@@ -11,6 +11,7 @@
                 class="navbar__search-autocomplete"
                 @input="loadCities"
                 @select="option => this.$emit('select', option)"
+                @keyup.native.enter="$emit('keyup.native.enter')"
             />
             <p v-if="locationAvailable" class="control location-search">
                 <button

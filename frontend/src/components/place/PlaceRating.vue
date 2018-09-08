@@ -76,6 +76,7 @@ export default {
         color: #FFF;
         text-align: center;
         padding: 0 5px;
+        height: 48px;
 
         &-bad {
             background-color: #FC8D9F;

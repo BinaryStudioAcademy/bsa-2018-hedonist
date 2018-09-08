@@ -16,7 +16,7 @@
                 </h3>
                 <p class="place-city"><strong>{{ city }}</strong></p>
                 <p class="place-category">
-                    <a href="#">{{ category.name }}</a>
+                    {{ category.name }}
                 </p>
                 <p class="address">
                     {{ place.address }}
@@ -43,24 +43,19 @@
                 </b-taglist>
             </div>
         </div>
-        <Review
-            v-if="review"
-            :review="review"
-        />
     </div>
 </template>
 
 <script>
 import PlaceRating from '@/components/place/PlaceRating';
-import Review from '@/components/review/PlacePreviewReviewItem';
 import imagePlaceholder from '@/assets/placeholder_128x128.png';
 import {mapState} from 'vuex';
 
 export default {
     name: 'ListPlaceItem',
-    components:{PlaceRating,Review},
+    components:{PlaceRating},
     computed: {
-        ...mapState('userList',['reviews','categories','cities','photos']),
+        ...mapState('userList',['categories','cities','photos']),
         localizedName() {
             return this.place.localization[0].name;
         },
@@ -75,11 +70,7 @@ export default {
         },
         category(){
             return this.categories.byId[this.place.category];
-        },
-        review(){
-            return this.reviews.byId[this.place.review];
         }
-
     },
     props: {
         place:{

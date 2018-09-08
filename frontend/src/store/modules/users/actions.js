@@ -48,5 +48,18 @@ export default {
                     reject(error.response.data.error);
                 });
         });
+    },
+
+    fetchReviewsWithPlaceByUser: (context, userId) => {
+        return new Promise((resolve, reject) => {
+            httpService.get(`/users/${userId}/reviews?include=place&page=1`)
+                .then((result) => {
+                    context.commit('SET_REVIEWS', result.data.data);
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
     }
 };

@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
 import InfiniteLoading from 'vue-infinite-loading';
@@ -105,7 +105,9 @@ export default {
             'getPreloadedPopularPlaceReviewsIds',
             'getTotalReviewCount'
         ]),
-
+        ...mapState('place', [
+            'visitors'
+        ]),
         reviews() {
             return this.getPlaceReviewsByIds(this.place.id, this.visibleReviewsIds);
         },

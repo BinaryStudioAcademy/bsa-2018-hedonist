@@ -30,7 +30,6 @@ class LikeReviewNotification extends Notification
     {
         return [
             'notification' => $this->notificationMessage($this->subjectUser),
-            'user' => $notifiable
         ];
     }
 
@@ -38,7 +37,6 @@ class LikeReviewNotification extends Notification
     {
         return new BroadcastMessage([
             'notification' => $this->notificationMessage($this->subjectUser),
-            'user' => $notifiable
         ]);
     }
 

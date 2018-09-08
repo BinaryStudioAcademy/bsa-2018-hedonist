@@ -20,7 +20,7 @@
                     </b-upload>
                 </b-field>
                 <a class="button is-danger is-fullwidth" @click="deleteAvatar">
-                    <b-icon icon="trash" />
+                    <b-icon icon="delete" />
                     <span>Delete avatar</span>
                 </a>
             </div>
@@ -108,30 +108,21 @@
                 <b-field label="Facebook">
                     <b-input v-model.trim="user.facebook_url" />
                 </b-field>
-                <div class="level is-flex-mobile">
-                    <div class="level-left">
+                <div class="notifications">
+                    <div class="notifications__item">
                         <span class="label">{{ $t('profile_page.private') }}</span>
-                    </div>
-                    <div class="level-right">
                         <b-switch
                             v-model="user.is_private"
-                            type="is-success"
+                            type="is-info"
                         />
                     </div>
-                </div>
-
-                <div class="column notifications-receive">
-                    <div class="level">
-                        <div class="level-left">
-                            <span class="label">Notifications receive</span>
-                        </div>
-                        <div class="level-right">
-                            <b-switch
-                                type="is-info"
-                                :value="user.notifications_receive"
-                                v-model="user.notifications_receive"
-                            />
-                        </div>
+                    <div class="notifications__item">
+                        <span class="label">{{ $t('profile_page.receive_notifications') }}</span>
+                        <b-switch
+                            type="is-info"
+                            :value="user.notifications_receive"
+                            v-model="user.notifications_receive"
+                        />
                     </div>
                 </div>
                 <div class="buttons is-right">
@@ -193,9 +184,10 @@ export default {
             this.fetchProfileUser(this.authUser.id)
                 .then((profileUser) => {
                     this.user = Object.assign({}, profileUser);
+                    this.user['is_private'] = this.user['is_private'] === 1;
                     this.user['notifications_receive'] = this.user['notifications_receive'] === 1;
                     if (this.user.date_of_birth !== null) {
-                        let date = new Date(this.user.date_of_birth.date);
+                        let date = new Date(this.user.date_of_birth);
                         this.birthYear = date.getFullYear();
                         this.birthMonth = date.getMonth() + 1;
                         this.birthDay = date.getDate();
@@ -302,17 +294,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .container {
         max-width: 700px;
         text-align: left;
         padding: 40px;
         background: #fff;
-    }
-
-    .notifications-receive {
-        padding: 0;
-        margin: 20px 0;
     }
 
     .avatar {
@@ -335,6 +322,17 @@ export default {
 
     .upload {
         width: 100%;
+    }
+
+    .notifications {
+        margin: 20px 0;
+
+        &__item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
     }
 
     @media screen and (max-width: 769px) {

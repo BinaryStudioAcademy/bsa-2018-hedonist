@@ -52,9 +52,11 @@ export default {
     getPlacesByIds: (state, getters) => (ids) => {
         return ids.map((id) => {
             const place = getters.getPlaceById(id);
+            const photos = getters.getPhotosByIds(place.photos);
+            place.photo = photos[0];
             return {
                 ...place,
-                photos: getters.getPhotosByIds(place.photos),
+                photos: photos,
                 city: state.cities.byId[place.city],
                 category: state.categories.byId[place.category]
             };
