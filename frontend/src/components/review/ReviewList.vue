@@ -1,5 +1,40 @@
 <template>
     <div class="reviews-wrp">
+        <div
+            class="review-title-wrp"
+            v-if="visitors.allIds.length > 1"
+        >
+            <div class="review-title" style="display: inherit; padding: 20px">
+                <div class="left-side-review-title">
+                    <span style="padding-right: 10px">
+                        <i class="fas fa-users"></i>
+                    </span>
+                    <span>{{ visitors.allIds.length }} users look this place:</span>
+                </div>
+                <div
+                        style="display: inline-flex"
+                        v-for="(user, index) in visitors.byId"
+                >
+                    <div style="padding: 3px">
+                        <router-link :to="{ name: 'OtherUserPage', params: { id: user.id }}">
+                            <p class="image is-32x32">
+                                <img
+                                    v-if="user.avatar_url"
+                                    :src="user.avatar_url"
+                                >
+                                <img
+                                    v-else
+                                    src="/assets/add_review_default_avatar.png"
+                                    height="32"
+                                    width="32"
+                                >
+                            </p>
+                        </router-link>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <div class="review-title-wrp">
             <div class="review-title">
                 <div class="left-side-review-title">
@@ -69,7 +104,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
 import InfiniteLoading from 'vue-infinite-loading';
@@ -105,7 +140,9 @@ export default {
             'getPreloadedPopularPlaceReviewsIds',
             'getTotalReviewCount'
         ]),
-
+        ...mapState('place', [
+            'visitors'
+        ]),
         reviews() {
             return this.getPlaceReviewsByIds(this.place.id, this.visibleReviewsIds);
         },
