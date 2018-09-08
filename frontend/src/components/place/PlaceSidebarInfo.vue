@@ -29,7 +29,7 @@
 
                 <div v-if="!!this.place.worktime.length" class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock" />
-                    <div class="level">
+                    <div class="level is-flex-mobile">
                         <div class="level-left">
                             <span v-if="isOpen() === true" class="worktime-info--green">{{ $t('place_page.sidebar.open') }}</span>
                             <span v-else class="worktime-info--red">{{ $t('place_page.sidebar.close') }}</span>
@@ -41,12 +41,12 @@
                     <b-collapse :open="isShowSchedule">
                         <div class="notification">
                             <template v-for="item in place.worktime">
-                                <div :key="item.id" class="level">
+                                <div :key="item.id" class="level is-flex-mobile">
                                     <div class="level-left">
-                                        {{ $t('weekdays.' + item.day) }}
+                                        <span>{{ $t('weekdays.' + item.day) }}</span>
                                     </div>
                                     <div class="level-right">
-                                        {{ displayTime(item.start) }} - {{ displayTime(item.end) }}
+                                        <span>{{ displayTime(item.start) }} - {{ displayTime(item.end) }}</span>
                                     </div>
                                 </div>
                             </template>
@@ -247,7 +247,11 @@ export default {
 
     &__worktime {
         .level {
+            flex-wrap: wrap;
             margin-bottom: 5px;
+        }
+        .level-left {
+            min-width: 85px;
         }
 
         .worktime-info {
@@ -257,6 +261,12 @@ export default {
             &--green {
                 color: green;
             }
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .level-right {
+            margin-top: 0;
         }
     }
 
