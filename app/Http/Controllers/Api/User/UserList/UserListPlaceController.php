@@ -59,8 +59,8 @@ class UserListPlaceController extends ApiController
     public function detachPlace(int $listId, DetachPlaceHttpRequest $request, DetachPlaceAction $action): JsonResponse
     {
         try {
-           $action->execute(
-                new DetachPlaceRequest($request->placeId,$listId)
+            $action->execute(
+                new DetachPlaceRequest($request->placeId, $listId)
             );
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage(), 400);

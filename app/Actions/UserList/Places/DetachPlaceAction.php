@@ -26,14 +26,14 @@ class DetachPlaceAction
     public function execute(DetachPlaceRequest $request): void
     {
         $list = $this->listRepository->getById($request->getListId());
-        if(is_null($list)){
+        if (is_null($list)) {
             throw new UserListNotFoundException();
         }
-        if(Gate::denies('userList.detachPlace',$list)){
+        if (Gate::denies('userList.detachPlace', $list)) {
             throw new UserListPermissionDeniedException();
         }
         $place = $this->placeRepository->getById($request->getPlaceId());
-        if(is_null($place)){
+        if (is_null($place)) {
             throw new PlaceNotFoundException();
         }
         $this->listRepository->detachPlace($list, $place);
