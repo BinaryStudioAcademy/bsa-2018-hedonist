@@ -1,6 +1,9 @@
 <template>
     <section class="container">
         <Preloader :active="isLoading" />
+        <CityPills
+            :cities="cities"
+        />
         <div class="has-text-right">
             <router-link
                 role="button"
@@ -25,6 +28,7 @@
 
 <script>
 import ListPreview from './ListPreview';
+import CityPills from './CityPills';
 import { mapState, mapGetters, mapActions } from 'vuex';
 import Preloader from '@/components/misc/Preloader';
 
@@ -32,6 +36,7 @@ export default {
     name: 'ListPreviewItems',
     components: {
         ListPreview,
+        CityPills,
         Preloader
     },
     data() {
@@ -58,6 +63,7 @@ export default {
     computed: {
         ...mapState('userList', [
             'userLists',
+            'cities',
             'places'
         ]),
         ...mapGetters('auth', {
