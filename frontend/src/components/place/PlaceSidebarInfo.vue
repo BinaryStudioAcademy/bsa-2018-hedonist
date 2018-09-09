@@ -218,6 +218,10 @@ export default {
     .place-sidebar {
     background-color: #fff;
 
+    .place-address {
+        overflow-wrap: break-word;
+    }
+
     .map-box {
         padding: 10px;
 
