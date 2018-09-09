@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api\UserFollows;
 
 use Hedonist\Entities\User\User;
+use Hedonist\Entities\User\UserInfo;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\Api\ApiTestCase;
 
@@ -19,6 +20,12 @@ class UserFollowsTest extends ApiTestCase
 
         $this->followed = factory(User::class)->create();
         $this->follower = factory(User::class)->create();
+        factory(UserInfo::class)->create([
+            'user_id' => $this->follower->id,
+        ]);
+        factory(UserInfo::class)->create([
+            'user_id' => $this->followed->id,
+        ]);
 
         $this->actingWithToken($this->follower);
     }
