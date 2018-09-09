@@ -62,9 +62,9 @@
                                         :key="index"
                                     >
                                         <component
-                                            :is="notificationComponent(notification)"
-                                            :notification="notification.subject"
-                                            :user="getUser(notification['subject_user'].id)"
+                                            :is="notificationComponent(notification.data.notification.type)"
+                                            :notification="notification.data.notification.subject"
+                                            :user="getUser(notification.data.notification['subject_user'].id)"
                                         />
                                     </li>
                                 </ul>
@@ -142,33 +142,62 @@
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
 import LanguageSelector from './LanguageSelector';
-import LikeReviewNotification from '@/components/notifications/LikeReviewNotification';
-import FollowedUserReviewNotification from '@/components/notifications/FollowedUserReviewNotification';
-import FollowedUserAddPlaceNotification from '@/components/notifications/FollowedUserAddPlaceNotification';
-import ReviewPlaceNotification from '@/components/notifications/ReviewPlaceNotification';
-import UnknownNotification from '@/components/notifications/UnknownNotification';
+
+import LikeReviewNotification             from '@/components/notifications/LikeReviewNotification';
+import DislikeReviewNotification          from '@/components/notifications/DislikeReviewNotification';
+import FollowedUserReviewNotification     from '@/components/notifications/FollowedUserReviewNotification';
+import FollowedUserAddPlaceNotification   from '@/components/notifications/FollowedUserAddPlaceNotification';
+import FollowedUserAddListNotification    from '@/components/notifications/FollowedUserAddListNotification';
+import FollowedUserDeleteListNotification from '@/components/notifications/FollowedUserDeleteListNotification';
+import FollowedUserUpdateListNotification from '@/components/notifications/FollowedUserUpdateListNotification';
+import ReviewPlaceNotification            from '@/components/notifications/ReviewPlaceNotification';
+import UserFollowNotification             from '@/components/notifications/UserFollowNotification';
+import UserUnfollowNotification           from '@/components/notifications/UserUnfollowNotification';
+import UnknownNotification                from '@/components/notifications/UnknownNotification';
 import {
     LIKE_REVIEW_NOTIFICATION,
     REVIEW_PLACE_NOTIFICATION,
     FOLLOWED_USER_REVIEW_NOTIFICATION,
-    FOLLOWED_USER_ADD_PLACE_NOTIFICATION
+    FOLLOWED_USER_ADD_PLACE_NOTIFICATION,
+    DISLIKE_REVIEW_NOTIFICATION,
+    USER_FOLLOW_NOTIFICATION,
+    USER_UNFOLLOW_NOTIFICATION,
+    FOLLOWED_USER_ADD_LIST_NOTIFICATION,
+    FOLLOWED_USER_DELETE_LIST_NOTIFICATION,
+    FOLLOWED_USER_UPDATE_LIST_NOTIFICATION
 } from '@/services/notification/notificationService';
 
 export default {
     name: 'TopNavbar',
+    components: {
+        NavbarSearchPanel,
+        LanguageSelector,
+        LikeReviewNotification,
+        UnknownNotification,
+        ReviewPlaceNotification,
+        FollowedUserReviewNotification,
+        FollowedUserAddPlaceNotification,
+        DislikeReviewNotification,
+        UserFollowNotification,
+        UserUnfollowNotification,
+        FollowedUserAddListNotification,
+        FollowedUserDeleteListNotification,
+        FollowedUserUpdateListNotification
+    },
     data () {
         return {
             navIsActive: false,
             isNewNotifications: false,
-            notificationsDisplay: false,
-            notifications: [],
+            notificationsDisplay: false
         };
     },
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
             user: 'auth/getAuthenticatedUser',
-            getUser: 'users/getUserProfile'
+            getUser: 'users/getUserProfile',
+            allNotifications: 'notifications/getNotifications',
+            notifications: 'notifications/getUnreadNotifications',
         }),
         ...mapState('auth', ['currentUser']),
         notificationIconActiveClass() {
@@ -178,34 +207,20 @@ export default {
         },
     },
     watch: {
-        'currentUser': function() {
-            if (this.currentUser.id) {
-                Echo.private(`App.User.${this.currentUser.id}`)
-                    .notification(({ notification }) => {
-                        if (!this.notificationsDisplay) {
+        isUserLoggedIn: function() {
+            if (this.isUserLoggedIn) {
+                this.listenChannel(this.currentUser.id);
+                this.getUnreadNotifications()
+                    .then(() => {
+                        if (!this.notificationsDisplay
+                            && this.notifications.length > 0
+                            && this.$route.name !== 'NotificationsPage'
+                        ) {
                             this.isNewNotifications = true;
-                        } else {
-                            this.readNotifications();
                         }
-
-                        this.addUser(notification['subject_user']);
-                        this.notifications.unshift(notification);
                     });
             }
         }
-    },
-    created() {
-        this.getUnreadNotifications()
-            .then((notifications) => {
-                if (!this.notificationsDisplay && notifications.length > 0) {
-                    this.isNewNotifications = true;
-                }
-
-                _.forEach(notifications, ({ data }) => {
-                    this.addUser(data.notification['subject_user']);
-                    this.notifications.push(data.notification);
-                });
-            });
     },
     methods: {
         ...mapActions({
@@ -215,6 +230,10 @@ export default {
         }),
         ...mapMutations('users', {
             addUser: 'ADD_USER',
+        }),
+        ...mapMutations('notifications', {
+            addNotification: 'ADD_NOTIFICATION',
+            addUnreadNotificationId: 'ADD_UNREAD_NOTIFICATION_ID',
         }),
         onLogOut () {
             this.logout()
@@ -236,8 +255,32 @@ export default {
         hideNotifications() {
             this.notificationsDisplay = false;
         },
-        notificationComponent: function(notification) {
-            switch (notification.type) {
+        listenChannel(id) {
+            Echo.private(`App.User.${id}`)
+                .notification((payload) => {
+                    if (!this.notificationsDisplay) {
+                        this.isNewNotifications = true;
+                    } else {
+                        this.readNotifications();
+                    }
+
+                    this.addUser(payload.notification['subject_user']);
+                    if (this.$route.name !== 'NotificationsPage') {
+                        this.addUnreadNotificationId(payload.id);
+                    }
+
+                    this.addNotification({
+                        id: payload.id,
+                        data: payload,
+                        read_at: payload['read_at'],
+                        created_at: {
+                            date: Date.now()
+                        }
+                    });
+                });
+        },
+        notificationComponent: function(type) {
+            switch (type) {
             case LIKE_REVIEW_NOTIFICATION:
                 return 'LikeReviewNotification';
             case REVIEW_PLACE_NOTIFICATION:
@@ -246,19 +289,22 @@ export default {
                 return 'FollowedUserReviewNotification';
             case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
                 return 'FollowedUserAddPlaceNotification';
+            case DISLIKE_REVIEW_NOTIFICATION:
+                return 'DislikeReviewNotification';
+            case USER_FOLLOW_NOTIFICATION:
+                return 'UserFollowNotification';
+            case USER_UNFOLLOW_NOTIFICATION:
+                return 'UserUnfollowNotification';
+            case FOLLOWED_USER_ADD_LIST_NOTIFICATION:
+                return 'FollowedUserAddListNotification';
+            case FOLLOWED_USER_DELETE_LIST_NOTIFICATION:
+                return 'FollowedUserDeleteListNotification';
+            case FOLLOWED_USER_UPDATE_LIST_NOTIFICATION:
+                return 'FollowedUserUpdateListNotification';
             default:
                 return 'UnknownNotification';
             }
         }
-    },
-    components: {
-        NavbarSearchPanel,
-        LanguageSelector,
-        LikeReviewNotification,
-        UnknownNotification,
-        ReviewPlaceNotification,
-        FollowedUserReviewNotification,
-        FollowedUserAddPlaceNotification
     },
 };
 </script>

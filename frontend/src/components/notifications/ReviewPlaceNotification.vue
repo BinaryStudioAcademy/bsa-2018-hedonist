@@ -64,7 +64,10 @@ export default {
             const options = {
                 year: 'numeric',
                 month: 'numeric',
-                day: 'numeric'
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
             };
             return date.toLocaleString('en-US', options);
         }
@@ -73,9 +76,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    span {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
     .user {
         &__avatar-wrp {
-            display: inline-block;
             width: 30px;
             height: 30px;
         }

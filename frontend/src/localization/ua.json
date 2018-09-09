@@ -232,11 +232,16 @@
   },
   "notifications": {
     "no-notifications" : "У вас немає сповіщень.",
+    "clear-notifications" : "Очистити сповіщення",
     "review_place": {
       "made_review": "зробив рев'ю на ваш заклад"
     },
     "like_review": {
       "liked": "поставив лайк вашому",
+      "review": "рев'ю"
+    },
+    "dislike_review": {
+      "disliked": "поставив дизлайк вашому",
       "review": "рев'ю"
     },
     "followed_user_review": {
@@ -246,6 +251,17 @@
       "add_new": "додав нове",
       "place": "місце"
     },
+    "followed_user_add_list": {
+      "add": "додав новий список"
+    },
+    "followed_user_update_list": {
+      "update": "оновив свій список"
+    },
+    "followed_user_delete_list": {
+      "delete": "видалив свій список"
+    },
+    "follow_you": "підписався на Вас.",
+    "unfollow_you": "відписався від Вас.",
     "navbar": {
       "no_notifs": "У вас нема нових повідомлень"
     }

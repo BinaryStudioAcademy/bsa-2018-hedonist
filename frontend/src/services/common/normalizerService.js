@@ -49,6 +49,15 @@ export const normalizerService = {
         return targetNormalized;
     },
 
+    updateAllIdsAsString(targetNormalized){
+        if (targetNormalized.allIds === undefined)
+            targetNormalized.allIds = [];
+        for (let el in targetNormalized.byId){
+            targetNormalized.allIds.push(el);
+        }
+        return targetNormalized;
+    },
+
     normalizeReviews(reviews) {
         let allIds = [];
         reviews.forEach(function (review) {

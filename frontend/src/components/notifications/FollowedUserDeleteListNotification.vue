@@ -11,12 +11,8 @@
                 {{ getUserName }}
             </router-link>
         </span>
-        <span class="text">{{ $t('notifications.followed_user_review.made_review') }}</span>
-        <span class="place-link">
-            <router-link :to="`/places/${notification['id']}`">
-                {{ getPlaceName }}
-            </router-link>
-        </span>
+        <span class="text">{{ $t('notifications.followed_user_delete_list.delete') }}</span>
+        <span>{{ this.notification }}</span>
         <span class="date" v-if="createdAt">
             ({{ getDate }})
         </span>
@@ -27,11 +23,11 @@
 import avatarStub from '@/assets/user-placeholder.png';
 
 export default {
-    name: 'FollowedUserReviewNotification',
+    name: 'FollowedUserDeleteListNotification',
     props: {
         notification: {
             required: true,
-            type: Object
+            type: String
         },
         user: {
             required: true,
@@ -55,9 +51,6 @@ export default {
             return this.user.info['avatar_url']
                 ? this.user.info['avatar_url']
                 : this.avatarStub;
-        },
-        getPlaceName() {
-            return this.notification.localization[0]['place_name'];
         },
         getDate() {
             const date = new Date(this.createdAt['date']);
