@@ -1,4 +1,8 @@
 {
+  "buttons": {
+    "edit": "Изменить",
+    "delete": "Удалить"
+  },
   "login_page": {
     "title": "Войдите в свой аккаунт",
     "register": {
@@ -227,6 +231,15 @@
     },
     "lists_container": {
       "title": "списки"
+    }
+  },
+  "user_lists_page": {
+    "list_preview": {
+      "places_in_list": "Мест в списке:",
+      "cities_in_list": "Города в списке:"
+    },
+    "city_pills": {
+      "clear_filter": "Очистить фильтр"
     }
   },
   "notifications": {

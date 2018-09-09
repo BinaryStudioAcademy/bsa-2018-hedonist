@@ -8,19 +8,26 @@
                 :key="index"
                 :style="{ animationDelay: index * 0.02 + 's' }"
             >
-                <div class="pill" @click="checkCity(city.id)">
+                <div
+                    class="pill"
+                    @click="checkCity(city.id)"
+                >
                     {{ city.name }}
                     <i v-if="isChecked(city.id)" class="fas fa-check" />
                     <i v-else class="fas fa-plus" />
                 </div>
             </li>
             <li
-                    class="city"
-                    :key="cities.byId.length"
-                    :style="{ animationDelay: cities.byId.length * 0.02 + 's' }"
+                class="city"
+                :class="{added: isSelected(), pop: isSelected(), popin: isSelected()}"
+                :key="cities.byId.length"
+                :style="{ animationDelay: cities.byId.length * 0.02 + 's' }"
             >
-                <div class="pill" @click="selectedIds=[]">
-                    Clear filter
+                <div
+                    class="pill"
+                    @click="clearSelected"
+                >
+                    {{ $t('user_lists_page.city_pills.clear_filter') }}
                     <i class="far fa-trash-alt" />
                 </div>
             </li>
@@ -38,11 +45,6 @@ export default {
             timeDelay: 0,
             selectedIds: [],
             citiesData: [],
-            tasteInput: {
-                data: [],
-                text: '',
-                isFetching: false
-            },
         };
     },
     props: {
@@ -71,6 +73,11 @@ export default {
             setTimeout(function () {
                 cityData.isAnimate = false;
             }, 200);
+            this.$emit('filter',this.selectedIds);
+        },
+        clearSelected(){
+            this.selectedIds=[];
+            this.$emit('filter',this.selectedIds);
         },
         deleteCity(id) {
             this.citiesData[id].check = false;
@@ -79,6 +86,9 @@ export default {
         addCity(id) {
             this.citiesData[id].check = true;
             this.selectedIds.push(id);
+        },
+        isSelected(){
+            return this.selectedIds.length !== 0;
         },
         isChecked(id) {
             return this.selectedIds.includes(id);

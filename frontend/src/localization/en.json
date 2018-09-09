@@ -1,4 +1,8 @@
 {
+  "buttons": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
   "login_page": {
     "title": "Login into your account",
     "register": {
@@ -227,6 +231,15 @@
     },
     "lists_container":{
       "title":"lists"
+    }
+  },
+  "user_lists_page": {
+    "list_preview": {
+      "places_in_list": "Places saved in the list:",
+      "cities_in_list": "Cities in the list:"
+    },
+    "city_pills": {
+      "clear_filter": "Clear filter"
     }
   },
   "notifications": {
