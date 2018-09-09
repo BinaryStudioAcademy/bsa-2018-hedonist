@@ -178,7 +178,7 @@ export default {
     },
     watch: {
         'currentUser': function() {
-            if (this.currentUser.id) {
+            if (this.currentUser && this.currentUser.id) {
                 Echo.private(`App.User.${this.currentUser.id}`)
                     .notification(({ notification }) => {
                         if (!this.notificationsDisplay) {
