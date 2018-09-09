@@ -86,6 +86,6 @@ export default {
     },
 
     REMOVE_PLACE_FROM_LIST: (state, { placeId, listId}) => {
-        state.userLists.byId[listId].places = state.userLists.byId[listId].places.filter((item) => item !== placeId)
+        state.userLists.byId[listId].places = state.userLists.byId[listId].places.filter((item) => item !== placeId);
     }
 };
