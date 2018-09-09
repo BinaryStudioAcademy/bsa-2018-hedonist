@@ -3,7 +3,6 @@
 namespace Hedonist\Notifications;
 
 use Hedonist\Entities\User\User;
-use Hedonist\Entities\UserList\UserList;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
@@ -12,12 +11,12 @@ class FollowedUserDeleteListNotification extends Notification
 {
     use Queueable;
 
-    private $userList;
+    private $userListName;
     private $subjectUser;
 
-    public function __construct(UserList $userList, User $subjectUser)
+    public function __construct($userListName, User $subjectUser)
     {
-        $this->userList = $userList;
+        $this->userListName = $userListName;
         $this->subjectUser = $subjectUser;
     }
 
@@ -43,7 +42,7 @@ class FollowedUserDeleteListNotification extends Notification
     private function notificationMessage(User $subjectUser)
     {
         return [
-            'subject' => $this->userList,
+            'subject' => $this->userListName,
             'subject_user' => $subjectUser,
             'type' => self::class
         ];

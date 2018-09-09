@@ -12,7 +12,7 @@
             </router-link>
         </span>
         <span class="text">{{ $t('notifications.followed_user_delete_list.delete') }}</span>
-        <span>{{ this.notification.name }}</span>
+        <span>{{ this.notification }}</span>
         <span class="date" v-if="createdAt">
             ({{ getDate }})
         </span>

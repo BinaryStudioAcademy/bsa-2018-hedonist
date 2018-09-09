@@ -41,7 +41,7 @@ class DeleteUserListAction
         $user = Auth::user();
         Log::info("user_list: User {$user->id} delete user list {$userList->id}");
         $this->sendNotificationToFollowers(
-            new FollowedUserDeleteListNotification($userList, Auth::user())
+            new FollowedUserDeleteListNotification($userList->name, Auth::user())
         );
 
         return new DeleteUserListResponse();
