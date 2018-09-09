@@ -50,6 +50,7 @@ export default {
     methods: {
         ...mapActions('userList', [
             'addPlaceToList',
+            'removePlaceFromList',
             'addPlaceToFavouriteList'
         ]),
         addToList: function (list) {
@@ -61,7 +62,7 @@ export default {
             })
                 .then(
                     () => {
-                        this.showToast(true);
+                        this.showToast(true,this.$t('place_page.message.added-to-list'));
                     },
                     () => {
                         this.showToast(false);
@@ -75,7 +76,7 @@ export default {
             })
                 .then(
                     () => {
-                        this.showToast(true);
+                        this.showToast(true,this.$t('place_page.message.added-to-list'));
                     },
                     () => {
                         this.showToast(false);
@@ -85,10 +86,10 @@ export default {
         checkedIn(listPlaces) {
             return listPlaces.includes(this.place.id);
         },
-        showToast: function (success) {
+        showToast: function (success,message) {
             if (success) {
                 this.$toast.open({
-                    message: this.$t('place_page.message.added-to-list'),
+                    message: message,
                     type: 'is-success'
                 });
             } else {
