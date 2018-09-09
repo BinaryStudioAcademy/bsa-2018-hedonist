@@ -4,18 +4,17 @@
             <div class="navbar-wrapper container is-flex">
                 <div class="navbar-brand navbar-brand-name">
                     <router-link
-                        class="logo-link"
+                        class="navbar-item"
                         to="/"
-                    >
-                        <img src="/assets/logo_top.png">
+                    >HED<img class="logo-top" src="/assets/logo_top.png">NIST
                     </router-link>
 
-                    <a 
-                        role="button" 
-                        class="navbar-burger" 
-                        aria-label="menu" 
+                    <a
+                        role="button"
+                        class="navbar-burger"
+                        aria-label="menu"
                         aria-expanded="false"
-                        @click="toggleMenu" 
+                        @click="toggleMenu"
                         :class="{'is-active': navIsActive}"
                     >
 
@@ -269,17 +268,9 @@ export default {
     $grey: #c5c5c5;
     $dark-grey: #4a4a4a;
 
-    .logo-link{
-
-            img{
-                width: 115px;
-                height: 52px;
-                vertical-align: middle;
-            }
-    }
-    .logo-link{
-        padding: 0;
-    }
+        .logo-top{
+            margin-right: 3px;
+        }
 
     .notification-icon {
         position: relative;
