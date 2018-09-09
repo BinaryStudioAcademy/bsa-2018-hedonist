@@ -17,11 +17,10 @@ class GetTastesByUserWithCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        $userId = $this->userId;
         return $model->whereHas(
             'users',
-            function (Builder $q) use ($userId) {
-                $q->where('user_id', $userId);
+            function (Builder $q) {
+                $q->where('user_id', $this->userId);
             }
         )->orWhere('is_default', true);
     }
