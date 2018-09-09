@@ -43,9 +43,6 @@ export default {
             avatarStub: avatarStub
         };
     },
-    created() {
-        console.log(this.notification);
-    },
     computed: {
         getUserName() {
             return this.user.info['first_name'];

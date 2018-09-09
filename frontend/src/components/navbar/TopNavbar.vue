@@ -61,9 +61,9 @@
                                         :key="index"
                                     >
                                         <component
-                                            :is="notificationComponent(notification)"
-                                            :notification="notification.subject"
-                                            :user="getUser(notification['subject_user'].id)"
+                                            :is="notificationComponent(notification.data.notification.type)"
+                                            :notification="notification.data.notification.subject"
+                                            :user="getUser(notification.data.notification['subject_user'].id)"
                                         />
                                     </li>
                                 </ul>
@@ -187,15 +187,16 @@ export default {
         return {
             navIsActive: false,
             isNewNotifications: false,
-            notificationsDisplay: false,
-            notifications: [],
+            notificationsDisplay: false
         };
     },
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
             user: 'auth/getAuthenticatedUser',
-            getUser: 'users/getUserProfile'
+            getUser: 'users/getUserProfile',
+            allNotifications: 'notifications/getNotifications',
+            notifications: 'notifications/getUnreadNotifications',
         }),
         ...mapState('auth', ['currentUser']),
         notificationIconActiveClass() {
@@ -209,16 +210,13 @@ export default {
             if (this.isUserLoggedIn) {
                 this.listenChannel(this.currentUser.id);
                 this.getUnreadNotifications()
-                    .then((notifications) => {
-                        this.notifications = [];
-                        if (!this.notificationsDisplay && notifications.length > 0) {
+                    .then(() => {
+                        if (!this.notificationsDisplay
+                            && this.notifications.length > 0
+                            && this.$route.name !== 'NotificationsPage'
+                        ) {
                             this.isNewNotifications = true;
                         }
-
-                        _.forEach(notifications, ({ data }) => {
-                            this.addUser(data.notification['subject_user']);
-                            this.notifications.push(data.notification);
-                        });
                     });
             }
         }
@@ -231,6 +229,10 @@ export default {
         }),
         ...mapMutations('users', {
             addUser: 'ADD_USER',
+        }),
+        ...mapMutations('notifications', {
+            addNotification: 'ADD_NOTIFICATION',
+            addUnreadNotificationId: 'ADD_UNREAD_NOTIFICATION_ID',
         }),
         onLogOut () {
             this.logout()
@@ -254,41 +256,52 @@ export default {
         },
         listenChannel(id) {
             Echo.private(`App.User.${id}`)
-                .notification(({ notification }) => {
+                .notification((payload) => {
                     if (!this.notificationsDisplay) {
                         this.isNewNotifications = true;
                     } else {
                         this.readNotifications();
                     }
 
-                    this.addUser(notification['subject_user']);
-                    this.notifications.unshift(notification);
+                    this.addUser(payload.notification['subject_user']);
+                    if (this.$route.name !== 'NotificationsPage') {
+                        this.addUnreadNotificationId(payload.id);
+                    }
+
+                    this.addNotification({
+                        id: payload.id,
+                        data: payload,
+                        read_at: payload['read_at'],
+                        created_at: {
+                            date: Date.now()
+                        }
+                    });
                 });
         },
-        notificationComponent: function(notification) {
-            switch (notification.type) {
-                case LIKE_REVIEW_NOTIFICATION:
-                    return 'LikeReviewNotification';
-                case REVIEW_PLACE_NOTIFICATION:
-                    return 'ReviewPlaceNotification';
-                case FOLLOWED_USER_REVIEW_NOTIFICATION:
-                    return 'FollowedUserReviewNotification';
-                case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
-                    return 'FollowedUserAddPlaceNotification';
-                case DISLIKE_REVIEW_NOTIFICATION:
-                    return 'DislikeReviewNotification';
-                case USER_FOLLOW_NOTIFICATION:
-                    return 'UserFollowNotification';
-                case USER_UNFOLLOW_NOTIFICATION:
-                    return 'UserUnfollowNotification';
-                case FOLLOWED_USER_ADD_LIST_NOTIFICATION:
-                    return 'FollowedUserAddListNotification';
-                case FOLLOWED_USER_DELETE_LIST_NOTIFICATION:
-                    return 'FollowedUserDeleteListNotification';
-                case FOLLOWED_USER_UPDATE_LIST_NOTIFICATION:
-                    return 'FollowedUserUpdateListNotification';
-                default:
-                    return 'UnknownNotification';
+        notificationComponent: function(type) {
+            switch (type) {
+            case LIKE_REVIEW_NOTIFICATION:
+                return 'LikeReviewNotification';
+            case REVIEW_PLACE_NOTIFICATION:
+                return 'ReviewPlaceNotification';
+            case FOLLOWED_USER_REVIEW_NOTIFICATION:
+                return 'FollowedUserReviewNotification';
+            case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
+                return 'FollowedUserAddPlaceNotification';
+            case DISLIKE_REVIEW_NOTIFICATION:
+                return 'DislikeReviewNotification';
+            case USER_FOLLOW_NOTIFICATION:
+                return 'UserFollowNotification';
+            case USER_UNFOLLOW_NOTIFICATION:
+                return 'UserUnfollowNotification';
+            case FOLLOWED_USER_ADD_LIST_NOTIFICATION:
+                return 'FollowedUserAddListNotification';
+            case FOLLOWED_USER_DELETE_LIST_NOTIFICATION:
+                return 'FollowedUserDeleteListNotification';
+            case FOLLOWED_USER_UPDATE_LIST_NOTIFICATION:
+                return 'FollowedUserUpdateListNotification';
+            default:
+                return 'UnknownNotification';
             }
         }
     },

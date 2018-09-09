@@ -13,9 +13,9 @@
                 :key="index"
             >
                 <component
-                    :is="notificationComponent(notification)"
-                    :notification="notification.subject"
-                    :user="getUser(notification['subject_user'].id)"
+                    :is="notificationComponent(notification.data.notification.type)"
+                    :notification="notification.data.notification.subject"
+                    :user="getUser(notification.data.notification['subject_user'].id)"
                     :created-at="notification['created_at']"
                 />
             </li>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import LikeReviewNotification             from '@/components/notifications/LikeReviewNotification';
 import DislikeReviewNotification          from '@/components/notifications/DislikeReviewNotification';
@@ -70,26 +70,13 @@ export default {
         FollowedUserDeleteListNotification,
         FollowedUserUpdateListNotification
     },
-    data() {
-        return {
-            notifications: []
-        };
-    },
     created() {
         if (this.notifications.length < 1) {
             this.setLoading(true);
         }
 
         this.readNotifications();
-        this.getNotifications().then((notifications) => {
-            console.log(notifications);
-            _.forEach(notifications, ({ data, created_at, read_at }) => {
-                this.addUser(data.notification['subject_user']);
-                this.notifications.push({
-                    ...data.notification,
-                    created_at
-                });
-            });
+        this.getNotifications().then(() => {
             this.setLoading(false);
         });
     },
@@ -98,8 +85,9 @@ export default {
             isUserLoggedIn: 'auth/isLoggedIn',
             user: 'auth/getAuthenticatedUser',
             getUser: 'users/getUserProfile',
-            isLoading: 'loading'
-        })
+            isLoading: 'loading',
+            notifications: 'notifications/getNotifications'
+        }),
     },
     methods: {
         ...mapActions({
@@ -107,34 +95,31 @@ export default {
             readNotifications: 'notifications/readNotifications',
             deleteNotifications: 'notifications/deleteNotifications'
         }),
-        ...mapMutations('users', {
-            addUser: 'ADD_USER',
-        }),
         ...mapMutations({ setLoading: 'SET_LOADING' }),
-        notificationComponent: function(notification) {
-            switch (notification.type) {
-                case LIKE_REVIEW_NOTIFICATION:
-                    return 'LikeReviewNotification';
-                case REVIEW_PLACE_NOTIFICATION:
-                    return 'ReviewPlaceNotification';
-                case FOLLOWED_USER_REVIEW_NOTIFICATION:
-                    return 'FollowedUserReviewNotification';
-                case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
-                    return 'FollowedUserAddPlaceNotification';
-                case DISLIKE_REVIEW_NOTIFICATION:
-                    return 'DislikeReviewNotification';
-                case USER_FOLLOW_NOTIFICATION:
-                    return 'UserFollowNotification';
-                case USER_UNFOLLOW_NOTIFICATION:
-                    return 'UserUnfollowNotification';
-                case FOLLOWED_USER_ADD_LIST_NOTIFICATION:
-                    return 'FollowedUserAddListNotification';
-                case FOLLOWED_USER_DELETE_LIST_NOTIFICATION:
-                    return 'FollowedUserDeleteListNotification';
-                case FOLLOWED_USER_UPDATE_LIST_NOTIFICATION:
-                    return 'FollowedUserUpdateListNotification';
-                default:
-                    return 'UnknownNotification';
+        notificationComponent: function(type) {
+            switch (type) {
+            case LIKE_REVIEW_NOTIFICATION:
+                return 'LikeReviewNotification';
+            case REVIEW_PLACE_NOTIFICATION:
+                return 'ReviewPlaceNotification';
+            case FOLLOWED_USER_REVIEW_NOTIFICATION:
+                return 'FollowedUserReviewNotification';
+            case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
+                return 'FollowedUserAddPlaceNotification';
+            case DISLIKE_REVIEW_NOTIFICATION:
+                return 'DislikeReviewNotification';
+            case USER_FOLLOW_NOTIFICATION:
+                return 'UserFollowNotification';
+            case USER_UNFOLLOW_NOTIFICATION:
+                return 'UserUnfollowNotification';
+            case FOLLOWED_USER_ADD_LIST_NOTIFICATION:
+                return 'FollowedUserAddListNotification';
+            case FOLLOWED_USER_DELETE_LIST_NOTIFICATION:
+                return 'FollowedUserDeleteListNotification';
+            case FOLLOWED_USER_UPDATE_LIST_NOTIFICATION:
+                return 'FollowedUserUpdateListNotification';
+            default:
+                return 'UnknownNotification';
             }
         },
         onDelete() {
