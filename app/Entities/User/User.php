@@ -36,11 +36,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Taste::class);
     }
 
-    public function customTastes()
-    {
-        return $this->hasMany(CustomTaste::class);
-    }
-
     public function getJWTIdentifier()
     {
         return $this->getKey();
