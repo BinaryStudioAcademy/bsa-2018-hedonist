@@ -62,7 +62,7 @@ export default {
                 })
                     .then(
                         () => {
-                            this.showToast(true, this.$t('place_page.message.added-to-list'));
+                            this.showToast(true, this.$t('place_page.message.removed-from-list'));
                         },
                         () => {
                             this.showToast(false);
