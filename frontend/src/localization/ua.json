@@ -230,6 +230,7 @@
     }
   },
   "notifications": {
+    "no-notifications" : "У вас немає сповіщень.",
     "review_place": {
       "made_review": "зробив рев'ю на ваш заклад"
     },

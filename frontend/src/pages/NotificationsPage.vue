@@ -1,5 +1,9 @@
 <template>
     <div class="container notifications notifications-page">
+        <Preloader :active="isLoading" />
+        <div class="notifications__delete" v-if="notifications.length > 0">
+            <div class="is-right button is-danger" @click="onDelete">Clear notifications</div>
+        </div>
         <ul class="notifications__list" v-if="notifications.length > 0">
             <li
                 class="notifications__item"
@@ -14,11 +18,14 @@
                 />
             </li>
         </ul>
+        <div v-else class="notifications__none">
+            {{ $t('notifications.no-notifications') }}
+        </div>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import LikeReviewNotification from '@/components/notifications/LikeReviewNotification';
 import FollowedUserReviewNotification from '@/components/notifications/FollowedUserReviewNotification';
 import FollowedUserAddPlaceNotification from '@/components/notifications/FollowedUserAddPlaceNotification';
@@ -30,10 +37,12 @@ import {
     FOLLOWED_USER_REVIEW_NOTIFICATION,
     FOLLOWED_USER_ADD_PLACE_NOTIFICATION
 } from '@/services/notification/notificationService';
+import Preloader from '@/components/misc/Preloader';
 
 export default {
     name: 'NotificationsPage',
     components: {
+        Preloader,
         LikeReviewNotification,
         UnknownNotification,
         ReviewPlaceNotification,
@@ -46,6 +55,10 @@ export default {
         };
     },
     created() {
+        if (this.notifications.length < 1) {
+            this.setLoading(true);
+        }
+
         this.readNotifications();
         this.getNotifications().then((notifications) => {
             _.forEach(notifications, ({ data, created_at, read_at }) => {
@@ -53,25 +66,29 @@ export default {
                 this.notifications.push({
                     ...data.notification,
                     created_at
-                });
+                })  ;
             });
+            this.setLoading(false);
         });
     },
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
             user: 'auth/getAuthenticatedUser',
-            getUser: 'users/getUserProfile'
-        }),
+            getUser: 'users/getUserProfile',
+            isLoading: 'loading'
+        })
     },
     methods: {
         ...mapActions({
             getNotifications: 'notifications/getNotifications',
             readNotifications: 'notifications/readNotifications',
+            deleteNotifications: 'notifications/deleteNotifications'
         }),
         ...mapMutations('users', {
             addUser: 'ADD_USER',
         }),
+        ...mapMutations({ setLoading: 'SET_LOADING' }),
         notificationComponent: function(notification) {
             switch (notification.type) {
             case LIKE_REVIEW_NOTIFICATION:
@@ -85,6 +102,13 @@ export default {
             default:
                 return 'UnknownNotification';
             }
+        },
+        onDelete() {
+            this.setLoading(true);
+            this.deleteNotifications().then(() => {
+                this.setLoading(false);
+                this.notifications = [];
+            });
         }
     }
 };
@@ -97,15 +121,19 @@ export default {
         padding: 50px;
 
         .user {
-            &__avatar {
-                width: 50px;
-                height: 50px;
+            &__avatar-wrp {
+                width: 50px !important;
+                height: 50px !important;
             }
+        }
+
+        .date {
+            font-size: 12px;
         }
     }
 </style>
 
-<style lang="scss">
+<style lang="scss" scoped>
     $grey: #c5c5c5;
     $dark-grey: #4a4a4a;
 
@@ -120,6 +148,15 @@ export default {
             &:last-child {
                 border-bottom: none;
             }
+        }
+        
+        &__delete {
+            text-align: right;
+        }
+
+        &__none {
+            text-align: center;
+            font-weight: bold;
         }
     }
 </style>

@@ -33,5 +33,16 @@ export default {
                     reject(error.response.data.error);
                 });
         });
+    },
+    deleteNotifications: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            httpService.delete('/notifications')
+                .then(({ data }) => {
+                    resolve(data.data);
+                })
+                .catch((error) => {
+                    reject(error.response.data.error);
+                });
+        });
     }
 };

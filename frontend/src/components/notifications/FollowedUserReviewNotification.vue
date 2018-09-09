@@ -1,7 +1,9 @@
 <template>
     <div class="notification-message">
         <span class="user">
-            <img class="user__avatar" :src="getUserAvatar">
+            <span class="user__avatar-wrp">
+                <img class="user__avatar" :src="getUserAvatar">
+            </span>
             <router-link
                 class="user__name"
                 :to="{ name: 'OtherUserPage', params: { id: user.id } }"
@@ -22,6 +24,8 @@
 </template>
 
 <script>
+import avatarStub from '@/assets/user-placeholder.png';
+
 export default {
     name: 'FollowedUserReviewNotification',
     props: {
@@ -38,12 +42,19 @@ export default {
             type: Object
         }
     },
+    data() {
+        return {
+            avatarStub: avatarStub
+        };
+    },
     computed: {
         getUserName() {
             return this.user.info['first_name'];
         },
         getUserAvatar() {
-            return this.user.info['avatar_url'];
+            return this.user.info['avatar_url']
+                ? this.user.info['avatar_url']
+                : this.avatarStub;
         },
         getPlaceName() {
             return this.notification.localization[0]['place_name'];
@@ -61,8 +72,20 @@ export default {
 };
 </script>
 
-<style scoped>
-    .date {
-        font-size: 12px;
+<style lang="scss" scoped>
+    .user {
+        &__avatar-wrp {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+        }
+
+        &__avatar {
+            border-radius:4px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
     }
 </style>

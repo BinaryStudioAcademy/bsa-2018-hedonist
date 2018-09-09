@@ -230,6 +230,7 @@
     }
   },
   "notifications": {
+    "no-notifications" : "У вас нет уведомлений.",
     "review_place": {
       "made_review": "оставил комментарий под вашим местом"
     },
