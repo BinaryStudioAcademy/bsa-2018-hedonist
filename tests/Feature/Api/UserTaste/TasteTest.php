@@ -33,7 +33,9 @@ class TasteTest extends ApiTestCase
     {
         factory(Taste::class, 3)->create([
             'user_id' => $this->user->id
-        ]);
+        ])->each(function ($taste) {
+            $taste->users()->attach($this->user->id);
+        });
         
         $response = $this->json('GET', '/api/v1/tastes', [], ['Authorization' => 'Bearer ' . $this->token]);
         $response->assertHeader('Content-Type', 'application/json')

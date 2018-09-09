@@ -16,6 +16,12 @@ class GetTastesByUserWithCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->where('user_id', $this->userId)->orWhere('is_default', true);
+        $userId = $this->userId;
+        return $model->whereHas(
+            'users',
+            function ($q) use ($userId) {
+                $q->where('user_id', $userId);
+            }
+        )->orWhere('is_default', true);
     }
 }
