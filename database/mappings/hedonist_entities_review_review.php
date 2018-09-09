@@ -20,16 +20,16 @@ class HedonistEntitiesReviewReview extends Mapping
     public function map()
     {
         Map::create($this->getModelType(),function(Blueprint $map){
-            $map->integer('id')->index('not_analyzed');
-            $map->string('description');
-            $map->nested('user',function (Blueprint $map){
-               $map->integer('id')->index('not_analyzed');
-               $map->string('email');
+            $map->long('id');
+            //$map->string('description');
+            $map->object('user',function (Blueprint $map){
+               $map->long('id');
+               //$map->string('email');
             });
-            $map->nested('place', function(Blueprint $map){
-                $map->integer('id')->index('not_analyzed');
-                $map->string('location');
-                $map->string('name');
+            $map->object('place', function(Blueprint $map){
+                $map->long('id');
+                //$map->string('location');
+                //$map->string('name');
             });
         },$this->getModelIndex());
     }

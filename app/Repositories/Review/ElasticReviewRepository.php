@@ -14,7 +14,7 @@ class ElasticReviewRepository implements ElasticReviewRepositoryInterface
 
     public function getById(int $id): ?Review
     {
-        return Review::search()->filter()->term('id', $id)->get()->first();
+        return Review::search()->filter()->term('id', $id)->get()->hits()->first();
     }
 
     public function save(Review $review): Review
