@@ -2,7 +2,6 @@
 
 namespace Hedonist\Repositories\User;
 
-use Hedonist\Entities\User\CustomTaste;
 use Hedonist\Entities\User\Taste;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -56,5 +55,10 @@ class TasteRepository extends BaseRepository implements TasteRepositoryInterface
                 $query->where('user_id', $userId);
             }
         )->get();
+    }
+
+    public function hasUsers(int $tasteId): bool
+    {
+        return Taste::find($tasteId)->users()->count() > 0;
     }
 }

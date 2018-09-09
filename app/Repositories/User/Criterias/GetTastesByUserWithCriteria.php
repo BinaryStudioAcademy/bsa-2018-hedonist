@@ -2,6 +2,7 @@
 
 namespace Hedonist\Repositories\User\Criterias;
 
+use Illuminate\Database\Eloquent\Builder;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
@@ -19,7 +20,7 @@ class GetTastesByUserWithCriteria implements CriteriaInterface
         $userId = $this->userId;
         return $model->whereHas(
             'users',
-            function ($q) use ($userId) {
+            function (Builder $q) use ($userId) {
                 $q->where('user_id', $userId);
             }
         )->orWhere('is_default', true);

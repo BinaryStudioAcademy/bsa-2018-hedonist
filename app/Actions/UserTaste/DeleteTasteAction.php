@@ -28,7 +28,7 @@ class DeleteTasteAction
             Auth::user(),
             $taste
         );
-        if ($taste->user_id === Auth::id() && $taste->users()->count() === 0) {
+        if ($taste->user_id === Auth::id() && $taste->hasUsers($taste->id)) {
             $this->tasteRepository->deleteById($deleteTasteRequest->getTasteId());
         }
     }
