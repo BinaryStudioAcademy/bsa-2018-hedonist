@@ -50,23 +50,39 @@ export default {
     methods: {
         ...mapActions('userList', [
             'addPlaceToList',
+            'removePlaceFromList',
             'addPlaceToFavouriteList'
         ]),
         addToList: function (list) {
-            if (this.checkedIn(list.places)) return;//no action if place already checked in
-            this.addPlaceToList({
-                listId: list.id,
-                placeId: this.place.id,
-                userId: this.getAuthenticatedUser.id
-            })
-                .then(
-                    () => {
-                        this.showToast(true);
-                    },
-                    () => {
-                        this.showToast(false);
-                    }
-                );
+            if (this.checkedIn(list.places)){
+                this.removePlaceFromList({
+                    listId: list.id,
+                    placeId: this.place.id,
+                    userId: this.getAuthenticatedUser.id
+                })
+                    .then(
+                        () => {
+                            this.showToast(true, this.$t('place_page.message.removed-from-list'));
+                        },
+                        () => {
+                            this.showToast(false);
+                        }
+                    );
+            } else {
+                this.addPlaceToList({
+                    listId: list.id,
+                    placeId: this.place.id,
+                    userId: this.getAuthenticatedUser.id
+                })
+                    .then(
+                        () => {
+                            this.showToast(true, this.$t('place_page.message.added-to-list'));
+                        },
+                        () => {
+                            this.showToast(false);
+                        }
+                    );
+            }
         },
         addToFavouriteList: function () {
             this.addPlaceToFavouriteList({
@@ -75,7 +91,7 @@ export default {
             })
                 .then(
                     () => {
-                        this.showToast(true);
+                        this.showToast(true,this.$t('place_page.message.added-to-list'));
                     },
                     () => {
                         this.showToast(false);
@@ -85,10 +101,10 @@ export default {
         checkedIn(listPlaces) {
             return listPlaces.includes(this.place.id);
         },
-        showToast: function (success) {
+        showToast: function (success,message) {
             if (success) {
                 this.$toast.open({
-                    message: this.$t('place_page.message.added-to-list'),
+                    message: message,
                     type: 'is-success'
                 });
             } else {
