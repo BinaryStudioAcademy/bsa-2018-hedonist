@@ -70,9 +70,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    span {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
     .user {
         &__avatar-wrp {
-            display: inline-block;
             width: 30px;
             height: 30px;
         }

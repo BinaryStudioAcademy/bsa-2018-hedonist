@@ -249,6 +249,8 @@
       "add_new": "added a new",
       "place": "place"
     },
+    "follow_you": "subscribed on you.",
+    "unfollow_you": "unsubscribed from you.",
     "navbar": {
       "no_notifs": "You don't have new notifications"
     }

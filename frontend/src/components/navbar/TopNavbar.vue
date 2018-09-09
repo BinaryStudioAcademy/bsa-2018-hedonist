@@ -146,13 +146,17 @@ import FollowedUserReviewNotification from '@/components/notifications/FollowedU
 import FollowedUserAddPlaceNotification from '@/components/notifications/FollowedUserAddPlaceNotification';
 import ReviewPlaceNotification from '@/components/notifications/ReviewPlaceNotification';
 import DislikeReviewNotification from '@/components/notifications/DislikeReviewNotification';
+import UserFollowNotification from '@/components/notifications/UserFollowNotification';
+import UserUnfollowNotification from '@/components/notifications/UserUnfollowNotification';
 import UnknownNotification from '@/components/notifications/UnknownNotification';
 import {
     LIKE_REVIEW_NOTIFICATION,
     REVIEW_PLACE_NOTIFICATION,
     FOLLOWED_USER_REVIEW_NOTIFICATION,
     FOLLOWED_USER_ADD_PLACE_NOTIFICATION,
-    DISLIKE_REVIEW_NOTIFICATION
+    DISLIKE_REVIEW_NOTIFICATION,
+    USER_FOLLOW_NOTIFICATION,
+    USER_UNFOLLOW_NOTIFICATION
 } from '@/services/notification/notificationService';
 
 export default {
@@ -179,34 +183,23 @@ export default {
         },
     },
     watch: {
-        'currentUser': function() {
-            if (this.currentUser.id) {
-                Echo.private(`App.User.${this.currentUser.id}`)
-                    .notification(({ notification }) => {
-                        if (!this.notificationsDisplay) {
+        isUserLoggedIn: function() {
+            if (this.isUserLoggedIn) {
+                this.listenChannel(this.currentUser.id);
+                this.getUnreadNotifications()
+                    .then((notifications) => {
+                        this.notifications = [];
+                        if (!this.notificationsDisplay && notifications.length > 0) {
                             this.isNewNotifications = true;
-                        } else {
-                            this.readNotifications();
                         }
 
-                        this.addUser(notification['subject_user']);
-                        this.notifications.unshift(notification);
+                        _.forEach(notifications, ({ data }) => {
+                            this.addUser(data.notification['subject_user']);
+                            this.notifications.push(data.notification);
+                        });
                     });
             }
         }
-    },
-    created() {
-        this.getUnreadNotifications()
-            .then((notifications) => {
-                if (!this.notificationsDisplay && notifications.length > 0) {
-                    this.isNewNotifications = true;
-                }
-
-                _.forEach(notifications, ({ data }) => {
-                    this.addUser(data.notification['subject_user']);
-                    this.notifications.push(data.notification);
-                });
-            });
     },
     methods: {
         ...mapActions({
@@ -237,20 +230,37 @@ export default {
         hideNotifications() {
             this.notificationsDisplay = false;
         },
+        listenChannel(id) {
+            Echo.private(`App.User.${id}`)
+                .notification(({ notification }) => {
+                    if (!this.notificationsDisplay) {
+                        this.isNewNotifications = true;
+                    } else {
+                        this.readNotifications();
+                    }
+
+                    this.addUser(notification['subject_user']);
+                    this.notifications.unshift(notification);
+                });
+        },
         notificationComponent: function(notification) {
             switch (notification.type) {
-            case LIKE_REVIEW_NOTIFICATION:
-                return 'LikeReviewNotification';
-            case REVIEW_PLACE_NOTIFICATION:
-                return 'ReviewPlaceNotification';
-            case FOLLOWED_USER_REVIEW_NOTIFICATION:
-                return 'FollowedUserReviewNotification';
-            case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
-                return 'FollowedUserAddPlaceNotification';
-            case DISLIKE_REVIEW_NOTIFICATION:
-                return 'DislikeReviewNotification';
-            default:
-                return 'UnknownNotification';
+                case LIKE_REVIEW_NOTIFICATION:
+                    return 'LikeReviewNotification';
+                case REVIEW_PLACE_NOTIFICATION:
+                    return 'ReviewPlaceNotification';
+                case FOLLOWED_USER_REVIEW_NOTIFICATION:
+                    return 'FollowedUserReviewNotification';
+                case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
+                    return 'FollowedUserAddPlaceNotification';
+                case DISLIKE_REVIEW_NOTIFICATION:
+                    return 'DislikeReviewNotification';
+                case USER_FOLLOW_NOTIFICATION:
+                    return 'UserFollowNotification';
+                case USER_UNFOLLOW_NOTIFICATION:
+                    return 'UserUnfollowNotification';
+                default:
+                    return 'UnknownNotification';
             }
         }
     },
@@ -262,7 +272,9 @@ export default {
         ReviewPlaceNotification,
         FollowedUserReviewNotification,
         FollowedUserAddPlaceNotification,
-        DislikeReviewNotification
+        DislikeReviewNotification,
+        UserFollowNotification,
+        UserUnfollowNotification
     },
 };
 </script>

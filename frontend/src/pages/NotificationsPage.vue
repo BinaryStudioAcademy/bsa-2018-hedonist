@@ -30,6 +30,8 @@ import LikeReviewNotification from '@/components/notifications/LikeReviewNotific
 import FollowedUserReviewNotification from '@/components/notifications/FollowedUserReviewNotification';
 import FollowedUserAddPlaceNotification from '@/components/notifications/FollowedUserAddPlaceNotification';
 import ReviewPlaceNotification from '@/components/notifications/ReviewPlaceNotification';
+import UserFollowNotification from '@/components/notifications/UserFollowNotification';
+import UserUnfollowNotification from '@/components/notifications/UserUnfollowNotification';
 import DislikeReviewNotification from '@/components/notifications/DislikeReviewNotification';
 import UnknownNotification from '@/components/notifications/UnknownNotification';
 import {
@@ -37,7 +39,9 @@ import {
     REVIEW_PLACE_NOTIFICATION,
     FOLLOWED_USER_REVIEW_NOTIFICATION,
     FOLLOWED_USER_ADD_PLACE_NOTIFICATION,
-    DISLIKE_REVIEW_NOTIFICATION
+    DISLIKE_REVIEW_NOTIFICATION,
+    USER_FOLLOW_NOTIFICATION,
+    USER_UNFOLLOW_NOTIFICATION
 } from '@/services/notification/notificationService';
 import Preloader from '@/components/misc/Preloader';
 
@@ -50,7 +54,9 @@ export default {
         ReviewPlaceNotification,
         FollowedUserReviewNotification,
         FollowedUserAddPlaceNotification,
-        DislikeReviewNotification
+        DislikeReviewNotification,
+        UserFollowNotification,
+        UserUnfollowNotification
     },
     data() {
         return {
@@ -104,6 +110,10 @@ export default {
                     return 'FollowedUserAddPlaceNotification';
                 case DISLIKE_REVIEW_NOTIFICATION:
                     return 'DislikeReviewNotification';
+                case USER_FOLLOW_NOTIFICATION:
+                    return 'UserFollowNotification';
+                case USER_UNFOLLOW_NOTIFICATION:
+                    return 'UserUnfollowNotification';
                 default:
                     return 'UnknownNotification';
             }

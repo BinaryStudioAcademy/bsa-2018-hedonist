@@ -11,12 +11,7 @@
                 {{ getUserName }}
             </router-link>
         </span>
-        <span class="text">{{ $t('notifications.dislike_review.disliked') }}</span>
-        <span class="review-link">
-            <router-link :to="`/places/${notification['place_id']}`">
-                {{ $t('notifications.dislike_review.review') }}
-            </router-link>
-        </span>
+        <span class="text">{{ $t('notifications.unfollow_you') }}</span>
         <span class="date" v-if="createdAt">
             ({{ getDate }})
         </span>
@@ -27,7 +22,7 @@
 import avatarStub from '@/assets/user-placeholder.png';
 
 export default {
-    name: 'DislikeReviewNotification',
+    name: 'UserUnfollowNotification',
     props: {
         notification: {
             required: true,
