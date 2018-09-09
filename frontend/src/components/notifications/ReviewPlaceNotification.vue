@@ -27,7 +27,7 @@
 import avatarStub from '@/assets/user-placeholder.png';
 
 export default {
-    name: 'FollowedUserAddPlaceNotification',
+    name: 'ReviewPlaceNotification',
     props: {
         notification: {
             required: true,

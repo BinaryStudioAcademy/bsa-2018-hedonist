@@ -1,6 +1,6 @@
 <template>
     <div class="container notifications notifications-page">
-        <Preloader :active="!isLoading" />
+        <Preloader :active="isLoading" />
         <div class="notifications__delete" v-if="notifications.length > 0">
             <div class="is-right button is-danger" @click="onDelete">Clear notifications</div>
         </div>
@@ -55,7 +55,7 @@ export default {
         };
     },
     created() {
-        if (this.notifications.length > 0) {
+        if (this.notifications.length < 1) {
             this.setLoading(true);
         }
 
@@ -68,7 +68,7 @@ export default {
                     created_at
                 })  ;
             });
-            this.setLoading(true);
+            this.setLoading(false);
         });
     },
     computed: {
@@ -104,9 +104,9 @@ export default {
             }
         },
         onDelete() {
-            this.setLoading(false);
+            this.setLoading(true);
             this.deleteNotifications().then(() => {
-                this.setLoading(true);
+                this.setLoading(false);
                 this.notifications = [];
             });
         }
