@@ -146,7 +146,7 @@ export default {
         },
         checkFileSize(fileSize) {
             if (this.availableImageSize < fileSize) {
-                this.onError({message: 'Photo has been less then 5mb'});
+                this.onError({message: 'The photo has to be less than 5mb'});
                 return false;
             }
             return true;
