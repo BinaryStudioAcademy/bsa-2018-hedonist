@@ -29,7 +29,7 @@ class DislikeReviewApiTest extends ApiTestCase
         );
 
         $response->assertHeader('Content-Type', 'application/json')
-            ->assertNotFound()
+            ->assertStatus(400)
             ->assertJsonStructure([
                 'error'
             ]);
