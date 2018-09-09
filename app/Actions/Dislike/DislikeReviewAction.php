@@ -4,8 +4,8 @@ namespace Hedonist\Actions\Dislike;
 
 use Hedonist\Exceptions\Review\LikeOwnReviewException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
-use Hedonist\Repositories\Like\{LikeRepositoryInterface,LikeReviewCriteria};
-use Hedonist\Repositories\Dislike\{DislikeRepositoryInterface,DislikeReviewCriteria};
+use Hedonist\Repositories\Like\{LikeRepositoryInterface, LikeReviewCriteria};
+use Hedonist\Repositories\Dislike\{DislikeRepositoryInterface, DislikeReviewCriteria};
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\Dislike\Dislike;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
@@ -36,7 +36,7 @@ class DislikeReviewAction
         if (empty($review)) {
             throw new ReviewNotFoundException();
         }
-        if(Gate::denies('review.likeOrDislike', $review)){
+        if (Gate::denies('review.likeOrDislike', $review)) {
             throw LikeOwnReviewException::create();
         }
         $userId = Auth::id();
@@ -48,13 +48,13 @@ class DislikeReviewAction
         $dislike = $this->dislikeRepository->findByCriteria(
             new DislikeReviewCriteria($reviewId, $userId)
         )->first();
-        
+
         if ($like) {
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
                 ReviewAttitudeSetEvent::LIKE_REMOVED
             ));
-            
+
             $this->likeRepository->deleteById($like->id);
         }
         if (empty($dislike)) {
@@ -62,7 +62,7 @@ class DislikeReviewAction
                 $reviewId,
                 ReviewAttitudeSetEvent::DISLIKE_ADDED
             ));
-            
+
             $dislike = new Dislike([
                 'dislikeable_id' => $reviewId,
                 'dislikeable_type' => Review::class,
@@ -74,10 +74,10 @@ class DislikeReviewAction
                 $reviewId,
                 ReviewAttitudeSetEvent::DISLIKE_REMOVED
             ));
-            
+
             $this->dislikeRepository->deleteById($dislike->id);
         }
-        
+
         return new DislikeReviewResponse();
     }
 }

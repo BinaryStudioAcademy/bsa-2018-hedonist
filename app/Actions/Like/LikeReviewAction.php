@@ -41,7 +41,7 @@ class LikeReviewAction
         if (empty($review)) {
             throw new ReviewNotFoundException();
         }
-        if(Gate::denies('review.likeOrDislike', $review)){
+        if (Gate::denies('review.likeOrDislike', $review)) {
             throw LikeOwnReviewException::create();
         }
         $userId = Auth::id();
