@@ -238,6 +238,10 @@
       "liked": "поставил лайк вашему",
       "review": "ревью"
     },
+    "dislike_review": {
+      "disliked": "поставил дизлайк вашему",
+      "review": "ревью"
+    },
     "followed_user_review": {
       "made_review": "сделал ревью на"
     },

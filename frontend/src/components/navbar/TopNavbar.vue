@@ -145,12 +145,14 @@ import LikeReviewNotification from '@/components/notifications/LikeReviewNotific
 import FollowedUserReviewNotification from '@/components/notifications/FollowedUserReviewNotification';
 import FollowedUserAddPlaceNotification from '@/components/notifications/FollowedUserAddPlaceNotification';
 import ReviewPlaceNotification from '@/components/notifications/ReviewPlaceNotification';
+import DislikeReviewNotification from '@/components/notifications/DislikeReviewNotification';
 import UnknownNotification from '@/components/notifications/UnknownNotification';
 import {
     LIKE_REVIEW_NOTIFICATION,
     REVIEW_PLACE_NOTIFICATION,
     FOLLOWED_USER_REVIEW_NOTIFICATION,
-    FOLLOWED_USER_ADD_PLACE_NOTIFICATION
+    FOLLOWED_USER_ADD_PLACE_NOTIFICATION,
+    DISLIKE_REVIEW_NOTIFICATION
 } from '@/services/notification/notificationService';
 
 export default {
@@ -245,6 +247,8 @@ export default {
                 return 'FollowedUserReviewNotification';
             case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
                 return 'FollowedUserAddPlaceNotification';
+            case DISLIKE_REVIEW_NOTIFICATION:
+                return 'DislikeReviewNotification';
             default:
                 return 'UnknownNotification';
             }
@@ -257,7 +261,8 @@ export default {
         UnknownNotification,
         ReviewPlaceNotification,
         FollowedUserReviewNotification,
-        FollowedUserAddPlaceNotification
+        FollowedUserAddPlaceNotification,
+        DislikeReviewNotification
     },
 };
 </script>

@@ -238,6 +238,10 @@
       "liked": "liked your",
       "review": "review"
     },
+    "dislike_review": {
+      "disliked": "disliked your",
+      "review": "review"
+    },
     "followed_user_review": {
       "made_review": "made a review on"
     },
