@@ -70,6 +70,11 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
         $list->places()->attach($place->id);
     }
 
+    public function detachPlace(UserList $list, Place $place): void
+    {
+        $list->places()->detach($place->id);
+    }
+
     public function attachPlaceToFavourite(FavouriteList $list, Place $place): void
     {
         $list->places()->attach($place->id);

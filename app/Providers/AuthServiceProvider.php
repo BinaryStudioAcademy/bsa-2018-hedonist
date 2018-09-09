@@ -32,5 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete', UserListPolicy::class . '@delete');
         Gate::define('update', UserListPolicy::class . '@update');
         Gate::define('review.likeOrDislike', ReviewPolicy::class . '@likeOrDislikeReview');
+        Gate::define('userList.attachPlace', UserListPolicy::class . '@attachPlace');
+        Gate::define('userList.detachPlace', UserListPolicy::class . '@detachPlace');
     }
 }
