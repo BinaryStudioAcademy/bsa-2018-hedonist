@@ -60,7 +60,7 @@ class UserListPlaceController extends ApiController
     {
         try {
            $action->execute(
-                new DetachPlaceRequest($listId, $request->placeId)
+                new DetachPlaceRequest($request->placeId,$listId)
             );
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage(), 400);

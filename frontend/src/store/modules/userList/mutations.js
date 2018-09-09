@@ -84,4 +84,8 @@ export default {
         state.userLists.byId[userList.id]['img_url'] = userList['img_url'];
         state.userLists.byId[userList.id].places = placeIds;
     },
+
+    REMOVE_PLACE_FROM_LIST: (state, { placeId, listId}) => {
+        state.userLists.byId[listId].places = state.userLists.byId[listId].places.filter((item) => item !== placeId)
+    }
 };

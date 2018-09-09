@@ -86,10 +86,13 @@ export default {
     removePlaceFromList: (context, payload) => {
         return new Promise((resolve, reject) => {
             httpService.post('/user-lists/' + payload.listId + '/detach-place', {
-                id: payload.placeId
+                placeId: payload.placeId
             })
                 .then((result) => {
-                    context.dispatch('getListsByUser', payload.userId);
+                    context.commit('REMOVE_PLACE_FROM_LIST', {
+                        placeId: payload.placeId,
+                        listId: payload.listId
+                    });
                     resolve(result);
                 })
                 .catch((error) => {

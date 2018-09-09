@@ -54,20 +54,35 @@ export default {
             'addPlaceToFavouriteList'
         ]),
         addToList: function (list) {
-            if (this.checkedIn(list.places)) return;//no action if place already checked in
-            this.addPlaceToList({
-                listId: list.id,
-                placeId: this.place.id,
-                userId: this.getAuthenticatedUser.id
-            })
-                .then(
-                    () => {
-                        this.showToast(true,this.$t('place_page.message.added-to-list'));
-                    },
-                    () => {
-                        this.showToast(false);
-                    }
-                );
+            if (this.checkedIn(list.places)){
+                this.removePlaceFromList({
+                    listId: list.id,
+                    placeId: this.place.id,
+                    userId: this.getAuthenticatedUser.id
+                })
+                    .then(
+                        () => {
+                            this.showToast(true, this.$t('place_page.message.added-to-list'));
+                        },
+                        () => {
+                            this.showToast(false);
+                        }
+                    );
+            } else {
+                this.addPlaceToList({
+                    listId: list.id,
+                    placeId: this.place.id,
+                    userId: this.getAuthenticatedUser.id
+                })
+                    .then(
+                        () => {
+                            this.showToast(true, this.$t('place_page.message.added-to-list'));
+                        },
+                        () => {
+                            this.showToast(false);
+                        }
+                    );
+            }
         },
         addToFavouriteList: function () {
             this.addPlaceToFavouriteList({
