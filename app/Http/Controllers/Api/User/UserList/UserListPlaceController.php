@@ -3,13 +3,14 @@
 namespace Hedonist\Http\Controllers\Api\User\UserList;
 
 use Hedonist\Http\Controllers\Api\ApiController;
-use Hedonist\Actions\UserList\Places\{
-    AttachPlaceAction,
+use Hedonist\Actions\UserList\Places\{AttachPlaceAction,
     AttachPlaceRequest,
     AttachPlaceToFavouriteAction,
-    AttachPlaceToFavouriteRequest
-};
+    AttachPlaceToFavouriteRequest,
+    DetachPlaceAction,
+    DetachPlaceRequest};
 use Hedonist\Http\Requests\UserList\AttachPlaceHttpRequest;
+use Hedonist\Http\Requests\UserList\DetachPlaceHttpRequest;
 use Hedonist\Repositories\UserList\UserListRepository;
 use Illuminate\Http\JsonResponse;
 use Hedonist\Exceptions\DomainException;
@@ -34,7 +35,7 @@ class UserListPlaceController extends ApiController
     public function attachPlace(int $listId, AttachPlaceHttpRequest $httpRequest): JsonResponse
     {
         try {
-            $response = $this->attachPlaceAction->execute(
+            $this->attachPlaceAction->execute(
                 new AttachPlaceRequest($listId, $httpRequest->id)
             );
         } catch (DomainException $e) {
@@ -48,6 +49,18 @@ class UserListPlaceController extends ApiController
         try {
             $this->attachPlaceToFavouriteAction->execute(
                 new AttachPlaceToFavouriteRequest($request->input('id'))
+            );
+        } catch (DomainException $e) {
+            return $this->errorResponse($e->getMessage(), 400);
+        }
+        return $this->emptyResponse(201);
+    }
+
+    public function detachPlace(int $listId, DetachPlaceHttpRequest $request, DetachPlaceAction $action): JsonResponse
+    {
+        try {
+           $action->execute(
+                new DetachPlaceRequest($listId, $request->placeId)
             );
         } catch (DomainException $e) {
             return $this->errorResponse($e->getMessage(), 400);
