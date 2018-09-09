@@ -2,7 +2,6 @@
 
 namespace Hedonist\Actions\UserList\Places;
 
-
 use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Hedonist\Exceptions\UserList\UserListNotFoundException;
 use Hedonist\Exceptions\UserList\UserListPermissionDeniedException;

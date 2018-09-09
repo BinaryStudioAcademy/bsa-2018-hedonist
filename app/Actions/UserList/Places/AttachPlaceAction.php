@@ -30,7 +30,7 @@ class AttachPlaceAction
         if (!$userList) {
             throw new UserListNotFoundException();
         }
-        if (Gate::denies('userList.attachPlace',$userList)) {
+        if (Gate::denies('userList.attachPlace', $userList)) {
             throw new UserListPermissionDeniedException();
         }
         $place = $this->placeRepository->getById($request->getPlaceId());
