@@ -88,7 +88,7 @@
                     <h2 class="block-title">{{ $t('place_page.sidebar.features') }}</h2>
                     <transition-group name="features-list">
                         <div
-                            v-for="(feature, index) in allFeatures"
+                            v-for="(feature, index) in sortedFeatures"
                             v-show="!showLessFeatures || (index < 3)"
                             :key="feature.id"
                             class="place-sidebar__feature-list"
@@ -131,7 +131,7 @@
 <script>
 import moment from 'moment';
 import PlaceMapMarker from './PlaceMapMarker';
-import {mapState, mapActions} from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import PlacePreview from './PlacePreview';
 
 export default {
@@ -158,7 +158,17 @@ export default {
     },
 
     computed: {
-        ...mapState('features', ['allFeatures'])
+        ...mapGetters('features', ['specialFeaturesList']),
+        
+        sortedFeatures: function () {
+            let result = [];
+            this.specialFeaturesList.forEach((feature) => {
+                this.isActiveFeature(feature.id)
+                    ? result.unshift(feature)
+                    : result.push(feature);
+            });
+            return result;
+        }
     },
 
     data() {
