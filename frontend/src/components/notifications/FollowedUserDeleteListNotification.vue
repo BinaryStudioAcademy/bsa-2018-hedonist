@@ -27,7 +27,7 @@ export default {
     props: {
         notification: {
             required: true,
-            type: Object
+            type: String
         },
         user: {
             required: true,
