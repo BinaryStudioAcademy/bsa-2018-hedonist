@@ -16,7 +16,7 @@
                 v-infinite-scroll="loadMore"
                 :infinite-scroll-disabled="scrollBusy"
             >
-                <template v-if="places.length">   
+                <template v-if="places.length">
                     <template v-for="(place, index) in places">
                         <PlacePreview
                             v-if="!isLoading"
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions , mapMutations } from 'vuex';
+import {mapState, mapGetters, mapActions, mapMutations} from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
@@ -122,7 +122,7 @@ export default {
             }
 
             this.map = map;
-            if(!this.$route.query.location)
+            if (!this.$route.query.location)
                 LocationService.getUserLocationData()
                     .then(coordinates => {
                         this.setCurrentPosition({
@@ -160,9 +160,8 @@ export default {
         },
         updateMap() {
             if (this.isMapLoaded && !this.isLoading) {
-                if (this.places.length > 0) {
-                    this.markerManager.setMarkersFromPlacesAndFit(...this.places);
-                } else if (this.$route.query.location) {
+                this.markerManager.setMarkersFromPlacesAndFit(...this.places);
+                if (this.$route.query.location && this.places.length > 0) {
                     let location = this.$route.query.location;
                     this.jumpTo(location.split(','), 11);
                 }
@@ -285,11 +284,11 @@ export default {
         cursor: pointer;
     }
 
-    .mapboxgl-popup-close-button{
+    .mapboxgl-popup-close-button {
         font-size: 22px;
     }
 
-    .link-place:hover{
+    .link-place:hover {
         text-decoration: underline;
     }
 </style>
@@ -337,7 +336,7 @@ export default {
             width: 49%;
         }
     }
-    
+
     @media screen and (max-width: 769px) {
         .columns {
             display: grid;

@@ -4,9 +4,11 @@
             <div class="navbar-wrapper container is-flex">
                 <div class="navbar-brand navbar-brand-name">
                     <router-link
-                        class="navbar-item"
+                        class="logo-link"
                         to="/"
-                    >Hedonist</router-link>
+                    >
+                        <img src="/assets/logo_top.png">
+                    </router-link>
 
                     <a 
                         role="button" 
@@ -312,6 +314,18 @@ export default {
     $blue: #167df0;
     $grey: #c5c5c5;
     $dark-grey: #4a4a4a;
+
+    .logo-link{
+
+            img{
+                width: 115px;
+                height: 52px;
+                vertical-align: middle;
+            }
+    }
+    .logo-link{
+        padding: 0;
+    }
 
     .notification-icon {
         position: relative;

@@ -61,12 +61,12 @@
                     <div
                         class="button is-primary rating"
                         @click="toggleIsUsersListModalActive"
-                        :disabled="visitors.allIds.length < 2"
+                        :disabled="visitors.allIds.length < 1"
                     >
                         <i class="fas fa-eye" />
                     </div>
                     <span
-                        v-if="visitors.allIds.length > 1"
+                        v-if="visitors.allIds.length > 0"
                         class="v-badge__badge orange"
                     >
                         <span>
@@ -163,7 +163,9 @@ export default {
     computed: {
         ...mapGetters('review', ['getTotalReviewCount', 'getPlaceReviewPhotos']),
         ...mapState('userList', ['userLists']),
-        ...mapState('place', ['visitors']),
+        ...mapGetters('place', {
+            visitors:'getAllVisitorsButMe'
+        }),
 
         user() {
             return this.$store.getters['auth/getAuthenticatedUser'];
@@ -214,7 +216,7 @@ export default {
 
     methods: {
         toggleIsUsersListModalActive: function () {
-            if (this.isUsersListModalActive || this.visitors.allIds.length > 1){
+            if (this.isUsersListModalActive || this.visitors.allIds.length > 0){
                 this.isUsersListModalActive = !this.isUsersListModalActive;
             }
         },

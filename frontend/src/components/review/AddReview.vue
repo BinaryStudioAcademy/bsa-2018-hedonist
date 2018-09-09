@@ -28,7 +28,7 @@
                             <template v-for="(photo, index) in photos">
                                 <div :key="index">
                                     <div class="photo">
-                                        <figure class="image is-square is-48x48">
+                                        <figure class="image review-preview-img">
                                             <img :src="getPreview(photo,index)">
                                         </figure>
                                         <span class="tag is-small is-white" @click="deletePhoto(index)">
@@ -146,7 +146,7 @@ export default {
         },
         checkFileSize(fileSize) {
             if (this.availableImageSize < fileSize) {
-                this.onError({message: 'Photo has been less then 5mb'});
+                this.onError({message: 'The photo has to be less than 5mb'});
                 return false;
             }
             return true;
@@ -236,8 +236,14 @@ export default {
         .photo {
             margin: 0 15px 10px 0;
 
+            .review-preview-img{
+                height: 80px;
+                width: 80px;
+            }
+
             img {
-                border: 1px solid #4e595d;
+                height: 100%;
+                border-radius: 10px;
             }
         }
     }

@@ -24,13 +24,12 @@ class DeleteTasteAction
         if (!$taste) {
             throw new TasteNotFoundException;
         }
-        if ($taste->user_id !== Auth::id()) {
-            throw new TasteNotFoundException;
-        }
         $this->userRepository->deleteTaste(
             Auth::user(),
             $taste
         );
-        $this->tasteRepository->deleteById($deleteTasteRequest->getTasteId());
+        if ($taste->user_id === Auth::id() && !$this->tasteRepository->hasUsers($taste->id)) {
+            $this->tasteRepository->deleteById($deleteTasteRequest->getTasteId());
+        }
     }
 }
