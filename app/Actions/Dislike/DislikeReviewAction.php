@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Dislike;
 
+use Hedonist\Exceptions\Review\LikeOwnReviewException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Repositories\Like\{LikeRepositoryInterface,LikeReviewCriteria};
 use Hedonist\Repositories\Dislike\{DislikeRepositoryInterface,DislikeReviewCriteria};
@@ -10,6 +11,7 @@ use Hedonist\Entities\Dislike\Dislike;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Hedonist\Events\Review\ReviewAttitudeSetEvent;
+use Illuminate\Support\Facades\Gate;
 
 class DislikeReviewAction
 {
@@ -33,6 +35,9 @@ class DislikeReviewAction
         $review = $this->reviewRepository->getById($reviewId);
         if (empty($review)) {
             throw new ReviewNotFoundException();
+        }
+        if(Gate::denies('review.likeOrDislike', $review)){
+            throw LikeOwnReviewException::create();
         }
         $userId = Auth::id();
 
