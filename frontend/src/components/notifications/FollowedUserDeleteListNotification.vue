@@ -11,7 +11,8 @@
                 {{ getUserName }}
             </router-link>
         </span>
-        <span class="text">{{ $t('notifications.unfollow_you') }}</span>
+        <span class="text">{{ $t('notifications.followed_user_delete_list.delete') }}</span>
+        <span>{{ this.notification.name }}</span>
         <span class="date" v-if="createdAt">
             ({{ getDate }})
         </span>
@@ -22,7 +23,7 @@
 import avatarStub from '@/assets/user-placeholder.png';
 
 export default {
-    name: 'UserUnfollowNotification',
+    name: 'FollowedUserDeleteListNotification',
     props: {
         notification: {
             required: true,
@@ -41,6 +42,9 @@ export default {
         return {
             avatarStub: avatarStub
         };
+    },
+    created() {
+        console.log(this.notification);
     },
     computed: {
         getUserName() {

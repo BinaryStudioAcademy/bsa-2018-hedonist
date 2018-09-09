@@ -11,7 +11,12 @@
                 {{ getUserName }}
             </router-link>
         </span>
-        <span class="text">{{ $t('notifications.unfollow_you') }}</span>
+        <span class="text">{{ $t('notifications.followed_user_add_list.add') }}</span>
+        <span class="list-link">
+            <router-link :to="`/lists/${notification['id']}`">
+                {{ this.notification.name }}
+            </router-link>
+        </span>
         <span class="date" v-if="createdAt">
             ({{ getDate }})
         </span>
@@ -22,7 +27,7 @@
 import avatarStub from '@/assets/user-placeholder.png';
 
 export default {
-    name: 'UserUnfollowNotification',
+    name: 'FollowedUserAddListNotification',
     props: {
         notification: {
             required: true,

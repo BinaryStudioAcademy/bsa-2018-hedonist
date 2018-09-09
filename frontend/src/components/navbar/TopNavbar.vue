@@ -141,14 +141,18 @@
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
 import LanguageSelector from './LanguageSelector';
-import LikeReviewNotification from '@/components/notifications/LikeReviewNotification';
-import FollowedUserReviewNotification from '@/components/notifications/FollowedUserReviewNotification';
-import FollowedUserAddPlaceNotification from '@/components/notifications/FollowedUserAddPlaceNotification';
-import ReviewPlaceNotification from '@/components/notifications/ReviewPlaceNotification';
-import DislikeReviewNotification from '@/components/notifications/DislikeReviewNotification';
-import UserFollowNotification from '@/components/notifications/UserFollowNotification';
-import UserUnfollowNotification from '@/components/notifications/UserUnfollowNotification';
-import UnknownNotification from '@/components/notifications/UnknownNotification';
+
+import LikeReviewNotification             from '@/components/notifications/LikeReviewNotification';
+import DislikeReviewNotification          from '@/components/notifications/DislikeReviewNotification';
+import FollowedUserReviewNotification     from '@/components/notifications/FollowedUserReviewNotification';
+import FollowedUserAddPlaceNotification   from '@/components/notifications/FollowedUserAddPlaceNotification';
+import FollowedUserAddListNotification    from '@/components/notifications/FollowedUserAddListNotification';
+import FollowedUserDeleteListNotification from '@/components/notifications/FollowedUserDeleteListNotification';
+import FollowedUserUpdateListNotification from '@/components/notifications/FollowedUserUpdateListNotification';
+import ReviewPlaceNotification            from '@/components/notifications/ReviewPlaceNotification';
+import UserFollowNotification             from '@/components/notifications/UserFollowNotification';
+import UserUnfollowNotification           from '@/components/notifications/UserUnfollowNotification';
+import UnknownNotification                from '@/components/notifications/UnknownNotification';
 import {
     LIKE_REVIEW_NOTIFICATION,
     REVIEW_PLACE_NOTIFICATION,
@@ -156,11 +160,29 @@ import {
     FOLLOWED_USER_ADD_PLACE_NOTIFICATION,
     DISLIKE_REVIEW_NOTIFICATION,
     USER_FOLLOW_NOTIFICATION,
-    USER_UNFOLLOW_NOTIFICATION
+    USER_UNFOLLOW_NOTIFICATION,
+    FOLLOWED_USER_ADD_LIST_NOTIFICATION,
+    FOLLOWED_USER_DELETE_LIST_NOTIFICATION,
+    FOLLOWED_USER_UPDATE_LIST_NOTIFICATION
 } from '@/services/notification/notificationService';
 
 export default {
     name: 'TopNavbar',
+    components: {
+        NavbarSearchPanel,
+        LanguageSelector,
+        LikeReviewNotification,
+        UnknownNotification,
+        ReviewPlaceNotification,
+        FollowedUserReviewNotification,
+        FollowedUserAddPlaceNotification,
+        DislikeReviewNotification,
+        UserFollowNotification,
+        UserUnfollowNotification,
+        FollowedUserAddListNotification,
+        FollowedUserDeleteListNotification,
+        FollowedUserUpdateListNotification
+    },
     data () {
         return {
             navIsActive: false,
@@ -259,22 +281,16 @@ export default {
                     return 'UserFollowNotification';
                 case USER_UNFOLLOW_NOTIFICATION:
                     return 'UserUnfollowNotification';
+                case FOLLOWED_USER_ADD_LIST_NOTIFICATION:
+                    return 'FollowedUserAddListNotification';
+                case FOLLOWED_USER_DELETE_LIST_NOTIFICATION:
+                    return 'FollowedUserDeleteListNotification';
+                case FOLLOWED_USER_UPDATE_LIST_NOTIFICATION:
+                    return 'FollowedUserUpdateListNotification';
                 default:
                     return 'UnknownNotification';
             }
         }
-    },
-    components: {
-        NavbarSearchPanel,
-        LanguageSelector,
-        LikeReviewNotification,
-        UnknownNotification,
-        ReviewPlaceNotification,
-        FollowedUserReviewNotification,
-        FollowedUserAddPlaceNotification,
-        DislikeReviewNotification,
-        UserFollowNotification,
-        UserUnfollowNotification
     },
 };
 </script>

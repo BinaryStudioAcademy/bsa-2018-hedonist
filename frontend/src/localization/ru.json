@@ -231,6 +231,7 @@
   },
   "notifications": {
     "no-notifications" : "У вас нет уведомлений.",
+    "clear-notifications" : "Очистить уведомления",
     "review_place": {
       "made_review": "оставил комментарий под вашим местом"
     },
@@ -248,6 +249,15 @@
     "followed_user_add_place": {
       "add_new": "добавил новое",
       "place": "место"
+    },
+    "followed_user_add_list": {
+      "add": "добавил новый список"
+    },
+    "followed_user_update_list": {
+      "update": "обновил свой список"
+    },
+    "followed_user_delete_list": {
+      "delete": "удалил свой список"
     },
     "follow_you": "подписался на Вас.",
     "unfollow_you": "отписался от Вас.",

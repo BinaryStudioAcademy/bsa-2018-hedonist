@@ -231,6 +231,7 @@
   },
   "notifications": {
     "no-notifications" : "You don't have any notifications.",
+    "clear-notifications" : "Clear notifications",
     "review_place": {
       "made_review": "made a review on your place"
     },
@@ -248,6 +249,15 @@
     "followed_user_add_place": {
       "add_new": "added a new",
       "place": "place"
+    },
+    "followed_user_add_list": {
+      "add": "added a new list"
+    },
+    "followed_user_update_list": {
+      "update": "update the list"
+    },
+    "followed_user_delete_list": {
+      "delete": "delete the list"
     },
     "follow_you": "subscribed on you.",
     "unfollow_you": "unsubscribed from you.",

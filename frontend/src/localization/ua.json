@@ -231,6 +231,7 @@
   },
   "notifications": {
     "no-notifications" : "У вас немає сповіщень.",
+    "clear-notifications" : "Очистити сповіщення",
     "review_place": {
       "made_review": "зробив рев'ю на ваш заклад"
     },
@@ -248,6 +249,15 @@
     "followed_user_add_place": {
       "add_new": "додав нове",
       "place": "місце"
+    },
+    "followed_user_add_list": {
+      "add": "додав новий список"
+    },
+    "followed_user_update_list": {
+      "update": "оновив свій список"
+    },
+    "followed_user_delete_list": {
+      "delete": "видалив свій список"
     },
     "follow_you": "підписався на Вас.",
     "unfollow_you": "відписався від Вас.",

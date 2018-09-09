@@ -56,7 +56,10 @@ export default {
             const options = {
                 year: 'numeric',
                 month: 'numeric',
-                day: 'numeric'
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
             };
             return date.toLocaleString('en-US', options);
         }
