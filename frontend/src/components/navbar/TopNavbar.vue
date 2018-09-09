@@ -68,13 +68,13 @@
                                     </li>
                                 </ul>
                                 <div v-else class="notifications__none">
-                                    You don't have a new notifications
+                                    {{ $t('notifications.navbar.no_notifs') }}
                                 </div>
                             </div>
                         </div>
                         <div class="navbar-item has-dropdown is-hoverable">
-                            <div v-if="user" class="navbar-link navbar-dropdown-menu">
-                                <div v-if="user.avatar_url" class="navbar-avatar">
+                            <div v-if="user" class="profile navbar-link navbar-dropdown-menu">
+                                <div v-if="user.avatar_url" class="profile__avatar navbar-avatar">
                                     <img
                                         :src="user.avatar_url"
                                         :title="user.first_name+' '+user.last_name"
@@ -84,7 +84,7 @@
                                 <span v-else class="icon">
                                     <i class="fas fa-file-image fa-lg" />
                                 </span>
-                                <span>{{ user.first_name }}</span>
+                                <span class="profile__name">{{ user.first_name }}</span>
                             </div>
                             <div class="navbar-dropdown">
                                 <router-link
@@ -357,15 +357,20 @@ export default {
         color: #fff;
     }
     .navbar-brand {
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             width: 100%;
         }
     }
     .navbar-wrapper {
-        position: static;
+        position: static; 
+    }
+    .navbar-wrapper.container {
+        @media screen and (min-width: 912px) and (max-width: 1279px) {
+            max-width: 94%;
+        }
     }
     .navbar-menu {
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
            position: absolute;
            right: 0;
            top: 52px;
@@ -373,28 +378,32 @@ export default {
         }
     }
 
-    .navbar-start {
-        @media screen and (max-width: 1087px) {
-           margin-bottom: 10%;
+    .navbar-start {        
+        @media screen and (max-width: 911px) {
+            margin-bottom: 10%;
         }
     }
 
     .navbar-end {
-        padding-right:0;
+        padding-right: 0;
 
         @media screen and (max-width: 1600px) {
-            padding-right:50px;
+            padding-right: 60px;
         }
 
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             padding-right:0;
+
+            .profile {
+                display: none;
+            }
         }
     }
 
     .navbar-dropdown-menu {
         padding-right: 20px;
 
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
            text-align: center;
         }
 
@@ -408,7 +417,7 @@ export default {
             display: inline-block;
             transform: rotate(0deg);
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 display: none;
             }
         }
@@ -418,7 +427,7 @@ export default {
         position:absolute;
         right:0px;
 
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             height: 60px;
             position:static;
             padding: 0;

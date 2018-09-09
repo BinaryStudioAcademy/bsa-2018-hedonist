@@ -54,7 +54,7 @@ export default {
         .dropdown-content {
             width: 60px;
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
@@ -64,7 +64,7 @@ export default {
             }
         }
         .dropdown-menu {
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 display: block;
                 padding: 0;
             }
@@ -79,7 +79,7 @@ export default {
                 box-shadow: none;
             }
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 display: none;
             }
         }
@@ -115,7 +115,7 @@ export default {
                 }
             }
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 padding: 10px;
             }
         }

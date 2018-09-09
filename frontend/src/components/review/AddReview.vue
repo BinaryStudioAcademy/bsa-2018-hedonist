@@ -29,7 +29,7 @@
                                 <div :key="index">
                                     <div class="photo">
                                         <figure class="image is-square is-48x48">
-                                            <img :src="getPreview(photo)">
+                                            <img :src="getPreview(photo,index)">
                                         </figure>
                                         <span class="tag is-small is-white" @click="deletePhoto(index)">
                                             <a>delete</a>
@@ -38,7 +38,6 @@
                                 </div>
                             </template>
                         </div>
-
                         <div class="level">
                             <b-upload
                                 class="level-left"
@@ -117,7 +116,8 @@ export default {
                 description: ''
             },
             photos: [],
-            selectedTasteIds: []
+            selectedTasteIds: [],
+            availableImageSize: 5000000,
         };
     },
     created() {
@@ -137,10 +137,20 @@ export default {
         },
     },
     methods: {
-        getPreview (photo) {
-            return URL.createObjectURL(photo).toString();
+        getPreview (photo,index) {
+            if(this.checkFileSize(photo.size)){
+                return URL.createObjectURL(photo).toString();
+            } else {
+                this.photos.splice(index, 1);
+            }
         },
-
+        checkFileSize(fileSize) {
+            if (this.availableImageSize < fileSize) {
+                this.onError({message: 'Photo has been less then 5mb'});
+                return false;
+            }
+            return true;
+        },
         ...mapActions('review', ['addReview', 'addReviewPhoto']),
         ...mapActions('taste', ['fetchMyTastes']),
         ...mapActions('place', ['addTasteToPlace']),

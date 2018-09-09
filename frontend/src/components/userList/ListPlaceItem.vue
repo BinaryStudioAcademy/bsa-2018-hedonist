@@ -16,7 +16,7 @@
                 </h3>
                 <p class="place-city"><strong>{{ city }}</strong></p>
                 <p class="place-category">
-                    <a href="#">{{ category.name }}</a>
+                    {{ category.name }}
                 </p>
                 <p class="address">
                     {{ place.address }}

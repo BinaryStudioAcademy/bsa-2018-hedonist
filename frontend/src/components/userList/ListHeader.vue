@@ -22,7 +22,13 @@
                     <img :src="listItem.user.avatar_url" class="avatar">
                 </figure>
                 <div class="list-data__creator-name">
-                    by <a href="#" class="has-text-info">{{ userName }}</a>
+                    by
+                    <router-link
+                        :to="{ name: 'OtherUserPage', params: { id: listItem.user.id } }"
+                        class="has-text-info"
+                    >
+                        {{ userName }}
+                    </router-link>
                 </div>
             </div>
             <div class="list-data__updated-at level-right">

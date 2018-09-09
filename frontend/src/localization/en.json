@@ -181,7 +181,10 @@
       "recommendation": "You will also like"
     },
     "top_info": {
-      "favourite": "Favourite"
+      "favourite": "Favourite",
+      "users_on_page_modal": {
+        "title": "Who looks this page now"
+      }
     },
     "message": {
       "no-lists": "No lists",
@@ -241,6 +244,9 @@
     "followed_user_add_place": {
       "add_new": "added a new",
       "place": "place"
+    },
+    "navbar": {
+      "no_notifs": "You don't have new notifications"
     }
   }
 }
