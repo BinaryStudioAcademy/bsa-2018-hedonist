@@ -32,7 +32,7 @@
 
 <script>
 
-import {mapActions, mapGetters} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import _ from 'lodash';
 
 export default {
@@ -54,21 +54,15 @@ export default {
     },
     methods: {
         ...mapActions({
-            loadCategoriesByName: 'search/loadCategories',
             loadPlaces: 'search/loadPlaces',
-            fetchCategory: 'category/fetchCategory'
+            fetchAllCategories: 'category/fetchAllCategories'
         }),
         loadItems: _.debounce(function () {
             this.findItems.data = [];
             this.findItems.isFetching = true;
             if (this.findItems.query === '') {
-                this.loadCategoriesByName(this.findItems.query)
-                    .then( res => {
-                        this.findItems.data = res;
-                        this.findItems.isFetching = false;
-                    }, response => {
-                        this.findItems.isFetching = false;
-                    });
+                this.findItems.data = Object.values(this.allCategories);
+                this.findItems.isFetching = false;
             } else {
                 let polygon = '';
                 if (!_.isEmpty(this.selectCity)) {
@@ -95,9 +89,13 @@ export default {
 
         }, 250),
         init() {
-            this.loadCategoriesByName(this.findItems.query)
-                .then( res => {
-                    this.findItems.data = res;
+            this.fetchAllCategories()
+                .then( (res) => {
+                    this.findItems.data = Object.values(this.allCategories);
+
+                    if (this.$route.query.category !== undefined && this.findItems.query === '') {
+                        this.findItems.query = this.getById(this.$route.query.category).name;
+                    }
                 });
         },
         createPolygonByBBox(bbox) {
@@ -113,20 +111,16 @@ export default {
         this.init();
     },
     watch: {
-        '$route.query.category': function(category) {
-            if (category !== undefined && this.findItems.query === '') {
-                this.fetchCategory(category)
-                    .then((res) => {
-                        this.findItems.query = res.name;
-                    });
-            }
-        },
         '$route.query.name': function(name) {
             if (name !== undefined && this.findItems.query === '') {
                 this.findItems.query = name;
             }
         }
     },
+    computed: {
+        ...mapState('category', ['allCategories']),
+        ...mapGetters('category' , ['getById'])
+    }
 };
 </script>
 

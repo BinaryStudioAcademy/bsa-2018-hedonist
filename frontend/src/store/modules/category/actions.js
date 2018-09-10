@@ -8,7 +8,7 @@ export default {
                 .then((result) => {
                     let normalizeData = normalizerService.normalize(result.data);
                     context.commit('SET_ALL_CATEGORIES', normalizeData.byId);
-                    resolve(result);
+                    resolve(result.data.data);
                 })
                 .catch((error) => {
                     reject(error);
