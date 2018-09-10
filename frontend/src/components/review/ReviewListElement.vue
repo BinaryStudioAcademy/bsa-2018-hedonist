@@ -43,7 +43,6 @@
                         </template>
 
                         <LikeDislikeButtons
-                            v-if="canLikeOrDislike"
                             @like="onLikeReview"
                             @dislike="onDislikeReview"
                             @showUsersWhoLiked="onShowUsersWhoLiked"
@@ -157,11 +156,26 @@ export default {
         },
 
         onLikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.likeReview(this.review.id);
         },
 
         onDislikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.dislikeReview(this.review.id);
+        },
+
+        showLikeDislikeOwnReviewToast(){
+            this.$toast.open({
+                message:'Sorry, but you can\'t like or dislike your own review',
+                type:'is-danger'
+            });
         },
 
         onShowUsersWhoLiked() {
