@@ -61,8 +61,8 @@ class LikeController extends ApiController
             $response = $this->getLikedPlaceAction->execute(
                 new GetLikedPlaceRequest($id)
             );
-        } catch (PlaceNotFoundException $exception) {
-            return $this->errorResponse('Place not found', 404);
+        } catch (DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
         }
 
         return $this->successResponse([
@@ -75,13 +75,11 @@ class LikeController extends ApiController
     public function likeReview(int $id)
     {
         try {
-            $response = $this->likeReviewAction->execute(
-                new LikeReviewRequest($id)
-            );
-        } catch (ReviewNotFoundException $exception) {
-            return $this->errorResponse('Review not found', 404);
+            $this->likeReviewAction->execute(new LikeReviewRequest($id));
+        } catch (DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
         }
         
-        return $this->successResponse([], 200);
+        return $this->emptyResponse(200);
     }
 }

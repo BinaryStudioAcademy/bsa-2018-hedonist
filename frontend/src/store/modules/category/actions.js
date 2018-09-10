@@ -22,8 +22,7 @@ export default {
                 .then((result) => {
                     let normalizeData = normalizerService.normalize(result.data);
                     context.commit('SET_CATEGORY_TAGS', normalizeData);
-                    context.dispatch('search/clearSelectedTags', {}, {root:true});
-                    resolve(result);
+                    resolve(normalizeData);
                 })
                 .catch((error) => {
                     reject(error);

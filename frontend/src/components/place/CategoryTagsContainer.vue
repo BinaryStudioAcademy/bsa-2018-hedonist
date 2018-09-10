@@ -7,6 +7,7 @@
                 <PlaceFilterTag
                     :key="tag.id"
                     :tag="tag"
+                    :active="tag.active"
                     @onSelectTag="onSelectTag"
                 />
             </template>
@@ -16,6 +17,7 @@
 
 <script>
 import PlaceFilterTag from './PlaceFilterTag';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
     name: 'CategoryTagsContainer',
@@ -24,13 +26,16 @@ export default {
         PlaceFilterTag,
     },
 
-    props: {
-        tags: {
-            required: true,
-            type: Array,
-        },
+    computed: {
+        ...mapGetters('category', ['categoryTagsList']),
+        ...mapState('search', ['selectedTags']),
+        tags() {
+            return this.categoryTagsList.map(tag => {
+                tag.active = this.selectedTags.indexOf(tag.id) !== -1;
+                return tag;
+            });
+        }
     },
-
     methods: {
         onSelectTag(tagId, isTagActive) {
             this.$emit('onSelectTag', tagId, isTagActive);

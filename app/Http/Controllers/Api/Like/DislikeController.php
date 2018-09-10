@@ -62,8 +62,8 @@ class DislikeController extends ApiController
             $response = $this->getLikedPlaceAction->execute(
                 new GetLikedPlaceRequest($id)
             );
-        } catch (PlaceNotFoundException $exception) {
-            return $this->errorResponse('Place not found', 404);
+        } catch (DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
         }
 
         return $this->successResponse([
@@ -76,11 +76,9 @@ class DislikeController extends ApiController
     public function dislikeReview(int $id)
     {
         try {
-            $response = $this->dislikeReviewAction->execute(
-                new DislikeReviewRequest($id)
-            );
-        } catch (ReviewNotFoundException $exception) {
-            return $this->errorResponse('Review not found', 404);
+            $this->dislikeReviewAction->execute(new DislikeReviewRequest($id));
+        } catch (DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
         }
 
         return $this->successResponse([], 200);

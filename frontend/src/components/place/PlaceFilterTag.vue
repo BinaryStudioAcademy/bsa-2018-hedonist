@@ -19,6 +19,11 @@ export default {
             required: true,
             type: Object,
         },
+        active: {
+            required: false,
+            type: Boolean,
+            default: false
+        },
         color: {
             required: false,
             type: String,
@@ -28,7 +33,7 @@ export default {
 
     data() {
         return {
-            isActive: false
+            isActive: this.active
         };
     },
 
