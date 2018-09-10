@@ -63,10 +63,10 @@
                     :key="index"
                 >
                     <button
-                        class="attached-places__detach button is-danger is-large"
+                        class="attached-places__detach is-small button is-danger"
                         @click="detachPlace(place)"
                     >
-                        -
+                        <i class="fas fa-minus"></i>
                     </button>
                     <div class="attached-places__img-wrapper">
                         <img
@@ -81,11 +81,19 @@
                         <div class="attached-places__category">{{ place.category.name }}</div>
                         <div class="attached-places__description">{{ place.address }}</div>
                     </div>
-                    <div class="attached-places__rating">
-                        <span :class="['place-rating','place-rating--' + ratingModifier(place.rating)]">
-                            {{ place.rating }}
-                        </span>
+                    <div class="media-right rating-wrapper">
+                        <PlaceRating
+                                v-if="place.rating"
+                                :value="Number(place.rating)"
+                                :show-rating="false"
+                                :rating-count="place.ratingCount"
+                        />
                     </div>
+                    <!--<div class="attached-places__rating">-->
+                        <!--<span :class="['place-rating','place-rating&#45;&#45;' + ratingModifier(place.rating)]">-->
+                            <!--{{ place.rating }}-->
+                        <!--</span>-->
+                    <!--</div>-->
                 </li>
             </ul>
             <div v-else class="attached-places__none">You may attach some places to the list</div>
@@ -96,11 +104,13 @@
 <script>
 import { mapActions } from 'vuex';
 import SearchCity from '@/components/navbar/SearchCity';
+import PlaceRating from '@/components/place/PlaceRating';
 
 export default {
     name: 'SearchPlaces',
     components: {
-        SearchCity
+        SearchCity,
+        PlaceRating,
     },
     props: {
         listAttachedPlaces: {
@@ -337,6 +347,7 @@ export default {
             &__item {
                 display: flex;
                 align-items: center;
+                justify-content: space-between;
                 margin: 15px 0;
             }
 
