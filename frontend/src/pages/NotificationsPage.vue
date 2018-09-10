@@ -13,9 +13,9 @@
                 :key="index"
             >
                 <component
-                    :is="notificationComponent(notification.data.notification.type)"
-                    :notification="notification.data.notification.subject"
-                    :user="getUser(notification.data.notification['subject_user'].id)"
+                    :is="notificationComponent(getNotificationType(notification))"
+                    :notification="getNotificationSubject(notification)"
+                    :user="getNotificationUser(notification)"
                     :created-at="notification['created_at']"
                 />
             </li>
@@ -128,6 +128,15 @@ export default {
                 this.setLoading(false);
                 this.notifications = [];
             });
+        },
+        getNotificationUser(notification) {
+            return notification.data.notification['subject_user'];
+        },
+        getNotificationSubject(notification) {
+            return notification.data.notification.subject;
+        },
+        getNotificationType(notification) {
+            return notification.data.notification.type;
         }
     }
 };
