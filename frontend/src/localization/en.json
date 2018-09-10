@@ -216,9 +216,14 @@
     }
   },
   "navbar": {
-    "settings": "Settings",
     "profile": "Profile",
-    "notifications": "Notifications"
+    "tastes": "My tastes",
+    "lists": "My lists",
+    "visited": "Visited",
+    "new_place": "New place",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "logout": "Logout"
   },
   "other_user_page": {
     "private": "This profile is private :(",

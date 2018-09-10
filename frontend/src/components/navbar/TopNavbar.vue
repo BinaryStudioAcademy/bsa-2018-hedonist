@@ -96,21 +96,22 @@
                                 <router-link
                                     class="navbar-item"
                                     :to="{ name: 'MyTastesPage' }"
-                                >My tastes</router-link>
+                                >{{ $t('navbar.tastes') }}
+                                </router-link>
                                 <router-link
                                     class="navbar-item"
                                     :to="{ name: 'UserListsPage' }"
-                                >My lists
+                                >{{ $t('navbar.lists') }}
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
                                     :to="{ name: 'CheckinsPage' }"
-                                >Visited
+                                >{{ $t('navbar.visited') }}
                                 </router-link>
                                 <router-link
                                         class="navbar-item"
                                         :to="{ name: 'NewPlacePage' }"
-                                >New place
+                                >{{ $t('navbar.new_place') }}
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
@@ -125,7 +126,7 @@
                                 <a
                                     class="navbar-item"
                                     @click="onLogOut"
-                                >Logout</a>
+                                >{{ $t('navbar.logout') }}</a>
                             </div>
                         </div>
                     </div>

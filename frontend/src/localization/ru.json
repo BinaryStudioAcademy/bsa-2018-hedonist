@@ -216,9 +216,14 @@
     }
   },
   "navbar": {
-    "settings": "Настройки",
     "profile": "Профиль",
-    "notifications": "Уведомления"
+    "tastes": "Мои вкусы",
+    "lists": "Мои списки",
+    "visited": "Посещенные",
+    "new_place": "Новое место",
+    "settings": "Настройки",
+    "notifications": "Уведомления",
+    "logout": "Выход"
   },
   "other_user_page": {
     "private": "Это приватный профиль :(",
