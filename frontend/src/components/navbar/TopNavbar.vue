@@ -220,6 +220,9 @@ export default {
                         }
                     });
             }
+        },
+        '$route' () {
+            this.navIsActive = false;
         }
     },
     methods: {
