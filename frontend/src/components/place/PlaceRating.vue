@@ -16,7 +16,7 @@
                 class="rating-count"
                 v-if="showRating"
             >
-            <i class="fas fa-user" />{{ ratingCount || 'No' }}
+                <i class="fas fa-user" />{{ ratingCount || 'No' }}
             </div>
         </div>
     </div>
