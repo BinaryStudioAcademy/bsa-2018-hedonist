@@ -4,8 +4,12 @@
             <p class="modal-card-title">{{ $t('notifications.confirm-deleting') }}</p>
         </header>
         <footer class="modal-card-foot">
-            <button class="button" type="button" @click="$parent.close()">No</button>
-            <button class="button is-danger" @click="onDelete">Yes</button>
+            <button class="button" type="button" @click="$parent.close()">
+                {{ $t('notifications.no') }}
+            </button>
+            <button class="button is-danger" @click="onDelete">
+                {{ $t('notifications.yes') }}
+            </button>
         </footer>
     </div>
 </template>

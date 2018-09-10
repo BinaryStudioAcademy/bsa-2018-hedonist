@@ -231,9 +231,11 @@
     }
   },
   "notifications": {
-    "no-notifications" : "У вас немає сповіщень.",
-    "clear-notifications" : "Очистити сповіщення",
-    "confirm-deleting" : "Видалити всі сповіщення?",
+    "no-notifications": "У вас немає сповіщень.",
+    "clear-notifications": "Очистити сповіщення",
+    "confirm-deleting": "Видалити всі сповіщення?",
+    "yes": "Так",
+    "no": "Ні",
     "review_place": {
       "made_review": "зробив рев'ю на ваш заклад"
     },
