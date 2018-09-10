@@ -10,13 +10,13 @@
                 class="rating-value"
                 :class="{onerow: !showRating}"
             >
-                {{ value | formatRating }}<span v-if="showMax">/5</span>
+                {{ value | formatRating }}<span v-if="showMax" class="grey">/5</span>
             </div>
             <div
                 class="rating-count"
                 v-if="showRating"
             >
-                {{ ratingCount || 'No' }} <i class="fas fa-user" />
+            <i class="fas fa-user" />{{ ratingCount || 'No' }}
             </div>
         </div>
     </div>
@@ -105,15 +105,22 @@ export default {
     }
 
     .rating-value {
-        line-height: 22px;
-        font-size: 1.2rem;
+        font-size: 24px;
+        font-weight: normal;
+        line-height: 24px;
+    }
+
+    .grey {
+        color: #fff;
+        font-size: 10px;
     }
 
     .rating-count {
-        line-height: 22px;
-
+        color: #fff;
+        font-size: 10px;
+        line-height: 10px;
         i {
-            font-size: .8rem;
+            padding-right: 3px;
         }
     }
 
