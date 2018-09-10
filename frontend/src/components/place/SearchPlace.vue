@@ -4,7 +4,7 @@
         <section class="column is-one-third-widescreen is-half-desktop">
             <SearchFilterPlace :is-places-loaded="!isLoading" />
             <CategoryTagsContainer
-                    v-if="placeCategory.id"
+                v-if="placeCategory.id"
                 @onSelectTag="onSelectTag"
             />
             <SpecialFeaturesFilter
