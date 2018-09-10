@@ -123,11 +123,13 @@ export default {
             }
         },
         onDelete() {
-            this.setLoading(true);
-            this.deleteNotifications().then(() => {
-                this.setLoading(false);
-                this.notifications = [];
-            });
+            if (confirm(this.$t('notifications.confirm-deleting'))) {
+                this.setLoading(true);
+                this.deleteNotifications().then(() => {
+                    this.setLoading(false);
+                    this.notifications = [];
+                });
+            }
         }
     }
 };

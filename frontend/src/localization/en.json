@@ -233,6 +233,7 @@
   "notifications": {
     "no-notifications" : "You don't have any notifications.",
     "clear-notifications" : "Clear notifications",
+    "confirm-deleting" : "Delete all notifications?",
     "review_place": {
       "made_review": "made a review on your place"
     },
