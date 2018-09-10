@@ -22,8 +22,7 @@ export default {
                 .then((result) => {
                     let normalizeData = normalizerService.normalize(result.data);
                     context.commit('SET_CATEGORY_TAGS', normalizeData);
-                    context.dispatch('search/clearSelectedTags', {}, {root:true});
-                    resolve(result);
+                    resolve(normalizeData);
                 })
                 .catch((error) => {
                     reject(error);
@@ -33,5 +32,13 @@ export default {
 
     deleteCategoryTags: ({commit}) => {
         commit('DELETE_CATEGORY_TAGS');
-    }
+    },
+
+    fetchCategory: (context, categoryId) => {
+        return new Promise((resolve, reject) => {
+            httpService.get(`/places/categories/${categoryId}`)
+                .then((result) => { resolve(result.data.data); })
+                .catch((error) => { reject(error); });
+        });
+    },
 };

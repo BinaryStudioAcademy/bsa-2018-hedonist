@@ -28,7 +28,7 @@
                 {{ review.description }}
             </div>
             <LikeDislikeButton
-                v-if="showLikeDislikeBtns"
+                v-if="showLikeDislikeBtns && canLikeOrDislike"
                 font-size="0.7rem"
                 @like="onLikeReview"
                 @dislike="onDislikeReview"
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
+import { mapActions, mapMutations, mapGetters } from 'vuex';
 import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
 import UsersWhoLikedDislikedReviewModals from '@/components/review/UsersWhoLikedDislikedReviewModals';
 
@@ -77,8 +77,12 @@ export default {
         },	        
     },
     computed: {
+        ...mapGetters('auth',['getAuthenticatedUser']),
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
+        },
+        canLikeOrDislike(){
+            return this.review.user.id !== this.getAuthenticatedUser.id;
         }
     },
     methods: {
