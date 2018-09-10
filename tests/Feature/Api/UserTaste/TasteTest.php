@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Api\UserTaste;
 
-use Hedonist\Entities\User\CustomTaste;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\User\Taste;
 use Tests\Feature\Api\ApiTestCase;

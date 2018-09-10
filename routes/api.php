@@ -135,6 +135,9 @@ Route::prefix('v1')->group(function () {
         Route::post('/user-lists/{id}/attach-place', 'Api\User\UserList\UserListPlaceController@attachPlace')
             ->name('user-list.place.attach');
 
+        Route::post('/user-lists/{id}/detach-place', 'Api\User\UserList\UserListPlaceController@detachPlace')
+            ->name('user-list.place.detach');
+
         Route::get('/places/features/', 'Api\Place\PlaceFeaturesController@indexPlaceFeature')
             ->name('place.features.indexFeature');
 

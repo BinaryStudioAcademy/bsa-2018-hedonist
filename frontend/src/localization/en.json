@@ -188,7 +188,8 @@
     },
     "message": {
       "no-lists": "No lists",
-      "added-to-list": "Place added to the list!"
+      "added-to-list": "Place added to the list!",
+      "removed-from-list": "Place removed from the list!"
     },
     "buttons": {
       "more": "Show more",
@@ -231,11 +232,16 @@
   },
   "notifications": {
     "no-notifications" : "You don't have any notifications.",
+    "clear-notifications" : "Clear notifications",
     "review_place": {
       "made_review": "made a review on your place"
     },
     "like_review": {
       "liked": "liked your",
+      "review": "review"
+    },
+    "dislike_review": {
+      "disliked": "disliked your",
       "review": "review"
     },
     "followed_user_review": {
@@ -245,6 +251,17 @@
       "add_new": "added a new",
       "place": "place"
     },
+    "followed_user_add_list": {
+      "add": "added a new list"
+    },
+    "followed_user_update_list": {
+      "update": "update the list"
+    },
+    "followed_user_delete_list": {
+      "delete": "delete the list"
+    },
+    "follow_you": "subscribed on you.",
+    "unfollow_you": "unsubscribed from you.",
     "navbar": {
       "no_notifs": "You don't have new notifications"
     }
