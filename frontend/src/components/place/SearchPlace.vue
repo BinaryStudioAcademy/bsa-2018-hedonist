@@ -4,12 +4,10 @@
         <section class="column is-one-third-widescreen is-half-desktop">
             <SearchFilterPlace :is-places-loaded="!isLoading" />
             <CategoryTagsContainer
-                v-if="categoryTagsList.length"
-                :tags="categoryTagsList"
+                v-if="placeCategory.id"
                 @onSelectTag="onSelectTag"
             />
             <SpecialFeaturesFilter
-                :tags="specialFeaturesList"
                 @onSelectFeature="onSelectFeature"
             />
             <div
@@ -115,6 +113,7 @@ export default {
             'deleteSelectedFeature',
             'updateQueryFilters'
         ]),
+        ...mapActions('category',['fetchCategoryTags']),
 
         mapInitialize(map) {
             if (this.mapInitialized) {
@@ -245,14 +244,13 @@ export default {
         ...mapState('search', [
             'currentPosition',
             'mapInitialized',
-            'isLoading'
+            'isLoading',
+            'placeCategory'
         ]),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters({
             user: 'auth/getAuthenticatedUser'
         }),
-        ...mapGetters('category', ['categoryTagsList']),
-        ...mapGetters('features', ['specialFeaturesList']),
 
         currentCenter() {
             return {

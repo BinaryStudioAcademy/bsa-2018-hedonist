@@ -43,6 +43,7 @@
                         </template>
 
                         <LikeDislikeButtons
+                            v-if="canLikeOrDislike"
                             @like="onLikeReview"
                             @dislike="onDislikeReview"
                             @showUsersWhoLiked="onShowUsersWhoLiked"
@@ -67,7 +68,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 import UsersWhoLikedDislikedReviewModals from '@/components/review/UsersWhoLikedDislikedReviewModals';
 
@@ -109,12 +110,15 @@ export default {
     },
 
     computed: {
+        ...mapGetters('auth',['getAuthenticatedUser']),
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
         },
-
         isImageAttached() {
             return this.review.photos.length;
+        },
+        canLikeOrDislike(){
+            return this.review.user.id !== this.getAuthenticatedUser.id;
         },
         date() {
             const date = new Date(this.review['created_at']);

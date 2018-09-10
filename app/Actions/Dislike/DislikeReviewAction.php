@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Dislike;
 
+use Hedonist\Exceptions\Review\LikeOwnReviewException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Notifications\DislikeReviewNotification;
 use Hedonist\Repositories\Like\{LikeRepositoryInterface,LikeReviewCriteria};
@@ -12,6 +13,7 @@ use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Hedonist\Events\Review\ReviewAttitudeSetEvent;
+use Illuminate\Support\Facades\Gate;
 
 class DislikeReviewAction
 {
@@ -39,6 +41,9 @@ class DislikeReviewAction
         if (empty($review)) {
             throw new ReviewNotFoundException();
         }
+        if (Gate::denies('review.likeOrDislike', $review)) {
+            throw LikeOwnReviewException::create();
+        }
         $userId = Auth::id();
 
         $like = $this->likeRepository->findByCriteria(
@@ -48,13 +53,13 @@ class DislikeReviewAction
         $dislike = $this->dislikeRepository->findByCriteria(
             new DislikeReviewCriteria($reviewId, $userId)
         )->first();
-        
+
         if ($like) {
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
                 ReviewAttitudeSetEvent::LIKE_REMOVED
             ));
-            
+
             $this->likeRepository->deleteById($like->id);
         }
         if (empty($dislike)) {
@@ -62,7 +67,7 @@ class DislikeReviewAction
                 $reviewId,
                 ReviewAttitudeSetEvent::DISLIKE_ADDED
             ));
-            
+
             $dislike = new Dislike([
                 'dislikeable_id' => $reviewId,
                 'dislikeable_type' => Review::class,
@@ -83,7 +88,7 @@ class DislikeReviewAction
 
             $this->dislikeRepository->deleteById($dislike->id);
         }
-        
+
         return new DislikeReviewResponse();
     }
 }

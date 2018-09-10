@@ -1,6 +1,10 @@
 <template>
     <section class="container">
         <Preloader :active="isLoading" />
+        <CityPills
+            :cities="cities"
+            @filter="setCitiesFilter"
+        />
         <div class="has-text-right">
             <router-link
                 role="button"
@@ -25,6 +29,7 @@
 
 <script>
 import ListPreview from './ListPreview';
+import CityPills from './CityPills';
 import { mapState, mapGetters, mapActions } from 'vuex';
 import Preloader from '@/components/misc/Preloader';
 
@@ -32,13 +37,14 @@ export default {
     name: 'ListPreviewItems',
     components: {
         ListPreview,
+        CityPills,
         Preloader
     },
     data() {
         return {
             isLoading: false,
             filterBy: {
-                cityId: null,
+                cityIds: []
             },
         };
     },
@@ -58,6 +64,7 @@ export default {
     computed: {
         ...mapState('userList', [
             'userLists',
+            'cities',
             'places'
         ]),
         ...mapGetters('auth', {
@@ -72,9 +79,9 @@ export default {
         },
         filteredUserLists: function () {
             let filtered = this.userLists ? this.userLists.byId : null;
-            let cityId = this.filterBy.cityId;
-            if (cityId) {
-                filtered = this.getFilteredByCity(filtered, cityId);
+            let cityIds = this.filterBy.cityIds;
+            if (cityIds.length) {
+                filtered = this.getFilteredByCity(filtered, cityIds);
             }
 
             return this.sortByDesc(filtered);
@@ -82,8 +89,8 @@ export default {
     },
     methods: {
         ...mapActions('userList', ['getListsByUser']),
-        setCityFilter(cityId) {
-            this.filterBy.cityId = cityId;
+        setCitiesFilter(cityIds) {
+            this.filterBy.cityIds = cityIds;
         },
         sortByDesc(lists) {
             let listArray = [];
