@@ -73,6 +73,8 @@ class ElasticCreateIndexCommand extends Command
             ]
         ];
 
+        $this->call('mapping:run');
+
         $client->indices()->create($places);
         $client->indices()->create($reviews);
         $client->indices()->create($lists);
@@ -86,7 +88,5 @@ class ElasticCreateIndexCommand extends Command
         Plastic::persist()->bulkSave($reviews);
 
         Plastic::persist()->bulkSave($lists);
-
-        $this->call('mapping:run');
     }
 }
