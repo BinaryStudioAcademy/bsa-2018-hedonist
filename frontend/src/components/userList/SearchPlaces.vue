@@ -157,7 +157,7 @@ export default {
                 .then( res => {
                     this.displayList = true;
                     this.isPlaceFetching = false;
-                    this.places = res;
+                    this.places = this.filterPlaces(res);
                 });
         }, 500),
         hideSearchList() {
