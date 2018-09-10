@@ -2,38 +2,38 @@
 
 namespace Hedonist\Repositories\Review;
 
+use Hedonist\ElasticSearch\Criterias\Common\ElasticByIdCriteria;
+use Hedonist\ElasticSearch\Criterias\ElasticCriteriaInterface;
+use Hedonist\ElasticSearch\Repositories\AbstractElasticRepository;
 use Hedonist\Entities\Review\Review;
 use Illuminate\Support\Collection;
 
-class ElasticReviewRepository implements ElasticReviewRepositoryInterface
+class ElasticReviewRepository extends AbstractElasticRepository implements ElasticReviewRepositoryInterface
 {
+
+    protected function model(): string
+    {
+        return Review::class;
+    }
+
     public function findAll(): Collection
     {
-        Review::search()->get();
+        return $this->get();
     }
 
     public function getById(int $id): ?Review
     {
-        return Review::search()->filter()->term('id', $id)->get()->hits()->first();
+        return $this->pushCriteria(new ElasticByIdCriteria($id))->get()->first();
     }
 
-    public function save(Review $review): Review
+    public function findCollectionByCriterias(ElasticCriteriaInterface ...$criterias): Collection
     {
-        $review->save();
-
-        return $review;
-    }
-
-    public function deleteById(int $id): void
-    {
-        $review = $this->getById($id);
-        if(!is_null($review)){
-            $review->delete();
+        foreach ($criterias as $criteria){
+            $this->pushCriteria($criteria);
         }
-    }
+        $result = $this->get();
+        $this->clearCriterias();
 
-    public function getTotalCountByPlace(int $placeId): int
-    {
-        return 0;
+        return $result;
     }
 }

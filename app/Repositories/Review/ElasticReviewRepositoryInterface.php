@@ -2,6 +2,7 @@
 
 namespace Hedonist\Repositories\Review;
 
+use Hedonist\ElasticSearch\Criterias\ElasticCriteriaInterface;
 use Hedonist\Entities\Review\Review;
 use Illuminate\Support\Collection;
 
@@ -11,11 +12,5 @@ interface ElasticReviewRepositoryInterface
 
     public function getById(int $id): ?Review;
 
-    public function save(Review $review): Review;
-
-    public function deleteById(int $id): void;
-
-    //public function findCollectionByCriterias(CriteriaInterface ...$criterias): Collection;
-
-    public function getTotalCountByPlace(int $placeId): int;
+    public function findCollectionByCriterias(ElasticCriteriaInterface ...$criterias): Collection;
 }
