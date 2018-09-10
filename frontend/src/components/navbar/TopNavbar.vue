@@ -269,10 +269,7 @@ export default {
                         this.readNotifications();
                     }
 
-                    if (this.$route.name !== 'NotificationsPage') {
-                        this.addUnreadNotificationId(payload.id);
-                    }
-
+                    this.addUnreadNotificationId(payload.id);
                     this.addNotification({
                         id: payload.id,
                         data: payload,
