@@ -16,14 +16,14 @@
 
 <script>
 export default {
-    name: "DeleteNotificationsModal",
+    name: 'DeleteNotificationsModal',
     methods: {
         onDelete() {
             this.$parent.close();
             this.$emit('onDelete');
         }
     }
-}
+};
 </script>
 
 <style scoped>

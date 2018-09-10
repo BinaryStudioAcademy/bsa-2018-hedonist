@@ -135,7 +135,7 @@ export default {
                 events: {
                     onDelete: this.onDelete
                 }
-            })
+            });
         }
     }
 };
