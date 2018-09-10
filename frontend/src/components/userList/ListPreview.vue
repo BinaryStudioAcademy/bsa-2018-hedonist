@@ -33,12 +33,17 @@
                         >
                             {{ $t('buttons.edit') }}
                         </router-link>
-                        <button
-                            class="button is-danger"
-                            @click="onDelete"
-                        >
-                            {{ $t('buttons.delete') }}
-                        </button>
+
+                        <b-modal :active.sync="isDeleteModal" :width="640" scroll="keep">
+                            <div class="box userlist-modal">
+                                <h5 class="title is-5">{{ $t('my-lists_page.delete-confirmation') }} "{{ userList.name }}"?</h5>
+                                <div class="buttons is-centered">
+                                    <button class="button is-info" @click="isDeleteModal = false">{{ $t('my-lists_page.buttons.cancel') }}</button>
+                                    <button class="button is-danger" @click="onDelete">{{ $t('buttons.delete') }}</button>
+                                </div>
+                            </div>
+                        </b-modal>
+                        <button class="button is-danger" @click="isDeleteModal = true">{{ $t('buttons.delete') }}</button>
                     </div>
                 </div>
             </div>
@@ -54,7 +59,8 @@ export default {
     data() {
         return {
             imageStub: imageStub,
-            active: false
+            active: false,
+            isDeleteModal: false
         };
     },
     filters: {
@@ -220,5 +226,11 @@ export default {
                 }
             }
         }
+    }
+
+    .userlist-modal {
+        max-width: 640px;
+        text-align: center;
+        overflow-wrap: break-word;
     }
 </style>

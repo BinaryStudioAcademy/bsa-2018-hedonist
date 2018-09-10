@@ -67,6 +67,7 @@
     "email_exists": "This email is already registered."
   },
   "search": {
+    "looking_for": "I'm looking for...",
     "current_location": "Current position",
     "no_results": "Sorry, no results are found.",
     "may_try": "You may try",
@@ -78,7 +79,12 @@
     "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page."
   },
   "my-lists_page": {
-    "no-lists": "You have not got any place lists yet. You may add some and grouped your chosen places."
+    "no-lists": "You have not got any place lists yet. You may add some and grouped your chosen places.",
+    "delete-confirmation": "Do you really want to delete",
+    "buttons": {
+      "add": "Add a new list",
+      "cancel": "Cancel"
+    }
   },
   "add_place_page": {
     "tabs": {
@@ -193,7 +199,8 @@
     "message": {
       "no-lists": "No lists",
       "added-to-list": "Place added to the list!",
-      "removed-from-list": "Place removed from the list!"
+      "removed-from-list": "Place removed from the list!",
+      "like_own_review":"Sorry, but you can't like or dislike your own review :("
     },
     "buttons": {
       "more": "Show more",
@@ -211,9 +218,14 @@
     }
   },
   "navbar": {
-    "settings": "Settings",
     "profile": "Profile",
-    "notifications": "Notifications"
+    "tastes": "My tastes",
+    "lists": "My lists",
+    "visited": "Visited",
+    "new_place": "New place",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "logout": "Logout"
   },
   "other_user_page": {
     "private": "This profile is private :(",
@@ -244,8 +256,11 @@
     }
   },
   "notifications": {
-    "no-notifications" : "You don't have any notifications.",
-    "clear-notifications" : "Clear notifications",
+    "no-notifications": "You don't have any notifications.",
+    "clear-notifications": "Clear notifications",
+    "confirm-deleting": "Delete all notifications?",
+    "yes": "Yes",
+    "no": "No",
     "review_place": {
       "made_review": "made a review on your place"
     },
@@ -268,10 +283,10 @@
       "add": "added a new list"
     },
     "followed_user_update_list": {
-      "update": "update the list"
+      "update": "updated the list"
     },
     "followed_user_delete_list": {
-      "delete": "delete the list"
+      "delete": "deleted the list"
     },
     "follow_you": "subscribed on you.",
     "unfollow_you": "unsubscribed from you.",

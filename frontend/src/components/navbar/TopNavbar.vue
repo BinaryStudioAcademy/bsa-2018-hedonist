@@ -62,9 +62,9 @@
                                         :key="index"
                                     >
                                         <component
-                                            :is="notificationComponent(notification.data.notification.type)"
-                                            :notification="notification.data.notification.subject"
-                                            :user="getUser(notification.data.notification['subject_user'].id)"
+                                            :is="notificationComponent(getNotificationType(notification))"
+                                            :notification="getNotificationSubject(notification)"
+                                            :user="getNotificationUser(notification)"
                                         />
                                     </li>
                                 </ul>
@@ -95,36 +95,38 @@
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
-                                    :to="{ name: 'NotificationsPage'}"
-                                >{{ $t('navbar.notifications') }}
+                                    :to="{ name: 'MyTastesPage' }"
+                                >{{ $t('navbar.tastes') }}
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
-                                    :to="{ name: 'NewPlacePage' }"
-                                >Add place</router-link>
-                                <router-link
-                                    class="navbar-item"
-                                    :to="{ name: 'MyTastesPage' }"
-                                >My tastes</router-link>
-                                <router-link
-                                    class="navbar-item"
                                     :to="{ name: 'UserListsPage' }"
-                                >My lists
+                                >{{ $t('navbar.lists') }}
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
                                     :to="{ name: 'CheckinsPage' }"
-                                >Visited
+                                >{{ $t('navbar.visited') }}
+                                </router-link>
+                                <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'NewPlacePage' }"
+                                >{{ $t('navbar.new_place') }}
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
                                     :to="{ name: 'ProfilePage' }"
                                 >{{ $t('navbar.settings') }}
                                 </router-link>
+                                <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'NotificationsPage'}"
+                                >{{ $t('navbar.notifications') }}
+                                </router-link>
                                 <a
                                     class="navbar-item"
                                     @click="onLogOut"
-                                >Logout</a>
+                                >{{ $t('navbar.logout') }}</a>
                             </div>
                         </div>
                     </div>
@@ -220,6 +222,9 @@ export default {
                         }
                     });
             }
+        },
+        '$route' () {
+            this.navIsActive = false;
         }
     },
     methods: {
@@ -264,7 +269,6 @@ export default {
                         this.readNotifications();
                     }
 
-                    this.addUser(payload.notification['subject_user']);
                     if (this.$route.name !== 'NotificationsPage') {
                         this.addUnreadNotificationId(payload.id);
                     }
@@ -304,6 +308,15 @@ export default {
             default:
                 return 'UnknownNotification';
             }
+        },
+        getNotificationUser(notification) {
+            return notification.data.notification['subject_user'];
+        },
+        getNotificationSubject(notification) {
+            return notification.data.notification.subject;
+        },
+        getNotificationType(notification) {
+            return notification.data.notification.type;
         }
     },
 };

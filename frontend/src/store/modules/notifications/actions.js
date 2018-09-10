@@ -8,9 +8,6 @@ export default {
                 .then(({ data }) => {
                     let notifications = normalizerService.normalize(data);
                     notifications = normalizerService.updateAllIdsAsString(notifications);
-                    _.forEach(data.data, ({ data }) => {
-                        commit('users/ADD_USER', data.notification['subject_user'], { root: true });
-                    });
                     commit('SET_NOTIFICATIONS', notifications);
                     resolve(data.data);
                 })
@@ -23,9 +20,6 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.get('/notifications/unread')
                 .then(({ data }) => {
-                    _.forEach(data.data, ({ data }) => {
-                        commit('users/ADD_USER', data.notification['subject_user'], { root: true });
-                    });
                     let notifications = normalizerService.normalize(data);
                     notifications = normalizerService.updateAllIdsAsString(notifications);
                     commit('SET_UNREAD_NOTIFICATIONS_IDS', notifications);
@@ -53,6 +47,7 @@ export default {
             httpService.delete('/notifications')
                 .then(({ data }) => {
                     commit('CLEAR_NOTIFICATIONS');
+                    commit('CLEAR_UNREAD_NOTIFICATION_IDS');
                     resolve(data.data);
                 })
                 .catch((error) => {
