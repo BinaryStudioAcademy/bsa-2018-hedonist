@@ -28,6 +28,6 @@ class ReviewAttitudeBroadcastEvent implements ShouldBroadcast
 
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel('reviews');
+        return new PrivateChannel('review.' . $this->reviewId);
     }
 }

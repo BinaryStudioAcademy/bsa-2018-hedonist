@@ -31,3 +31,7 @@ Broadcast::channel('place.{id}', function () {
         'avatar_url' => $auth->info->avatar_url,
     ];
 });
+
+Broadcast::channel('review.{id}', function () {
+    return true;
+});
