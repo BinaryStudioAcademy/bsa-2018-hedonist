@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Like;
 
+use Hedonist\Exceptions\Review\LikeOwnReviewException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Notifications\LikeReviewNotification;
 use Hedonist\Repositories\Like\{LikeRepositoryInterface,LikeReviewCriteria};
@@ -12,6 +13,7 @@ use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Hedonist\Events\Review\ReviewAttitudeSetEvent;
+use Illuminate\Support\Facades\Gate;
 
 class LikeReviewAction
 {
@@ -38,6 +40,9 @@ class LikeReviewAction
         $review = $this->reviewRepository->getById($reviewId);
         if (empty($review)) {
             throw new ReviewNotFoundException();
+        }
+        if (Gate::denies('review.likeOrDislike', $review)) {
+            throw LikeOwnReviewException::create();
         }
         $userId = Auth::id();
 

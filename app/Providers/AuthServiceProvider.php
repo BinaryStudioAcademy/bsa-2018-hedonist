@@ -3,6 +3,7 @@
 namespace Hedonist\Providers;
 
 use Hedonist\Entities\UserList\UserList;
+use Hedonist\Policies\ReviewPolicy;
 use Hedonist\Policies\UserListPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -30,6 +31,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('delete', UserListPolicy::class . '@delete');
         Gate::define('update', UserListPolicy::class . '@update');
+        Gate::define('review.likeOrDislike', ReviewPolicy::class . '@likeOrDislikeReview');
         Gate::define('userList.attachPlace', UserListPolicy::class . '@attachPlace');
         Gate::define('userList.detachPlace', UserListPolicy::class . '@detachPlace');
     }
