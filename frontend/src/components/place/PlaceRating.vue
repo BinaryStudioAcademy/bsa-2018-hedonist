@@ -118,7 +118,7 @@ export default {
     }
 
     .onerow {
-        margin-top: 10px;
+        margin-top: 8px;
     }
 }
 </style>
