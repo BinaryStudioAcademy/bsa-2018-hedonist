@@ -94,28 +94,28 @@ export default {
     methods: {
         notificationComponent: function(type) {
             switch (type) {
-                case LIKE_REVIEW_NOTIFICATION:
-                    return 'LikeReviewNotification';
-                case REVIEW_PLACE_NOTIFICATION:
-                    return 'ReviewPlaceNotification';
-                case FOLLOWED_USER_REVIEW_NOTIFICATION:
-                    return 'FollowedUserReviewNotification';
-                case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
-                    return 'FollowedUserAddPlaceNotification';
-                case DISLIKE_REVIEW_NOTIFICATION:
-                    return 'DislikeReviewNotification';
-                case USER_FOLLOW_NOTIFICATION:
-                    return 'UserFollowNotification';
-                case USER_UNFOLLOW_NOTIFICATION:
-                    return 'UserUnfollowNotification';
-                case FOLLOWED_USER_ADD_LIST_NOTIFICATION:
-                    return 'FollowedUserAddListNotification';
-                case FOLLOWED_USER_DELETE_LIST_NOTIFICATION:
-                    return 'FollowedUserDeleteListNotification';
-                case FOLLOWED_USER_UPDATE_LIST_NOTIFICATION:
-                    return 'FollowedUserUpdateListNotification';
-                default:
-                    return 'UnknownNotification';
+            case LIKE_REVIEW_NOTIFICATION:
+                return 'LikeReviewNotification';
+            case REVIEW_PLACE_NOTIFICATION:
+                return 'ReviewPlaceNotification';
+            case FOLLOWED_USER_REVIEW_NOTIFICATION:
+                return 'FollowedUserReviewNotification';
+            case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
+                return 'FollowedUserAddPlaceNotification';
+            case DISLIKE_REVIEW_NOTIFICATION:
+                return 'DislikeReviewNotification';
+            case USER_FOLLOW_NOTIFICATION:
+                return 'UserFollowNotification';
+            case USER_UNFOLLOW_NOTIFICATION:
+                return 'UserUnfollowNotification';
+            case FOLLOWED_USER_ADD_LIST_NOTIFICATION:
+                return 'FollowedUserAddListNotification';
+            case FOLLOWED_USER_DELETE_LIST_NOTIFICATION:
+                return 'FollowedUserDeleteListNotification';
+            case FOLLOWED_USER_UPDATE_LIST_NOTIFICATION:
+                return 'FollowedUserUpdateListNotification';
+            default:
+                return 'UnknownNotification';
             }
         },
         getNotificationUser(notification) {
