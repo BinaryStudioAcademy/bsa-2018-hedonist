@@ -244,8 +244,11 @@
     }
   },
   "notifications": {
-    "no-notifications" : "You don't have any notifications.",
-    "clear-notifications" : "Clear notifications",
+    "no-notifications": "You don't have any notifications.",
+    "clear-notifications": "Clear notifications",
+    "confirm-deleting": "Delete all notifications?",
+    "yes": "Yes",
+    "no": "No",
     "review_place": {
       "made_review": "made a review on your place"
     },
@@ -268,10 +271,10 @@
       "add": "added a new list"
     },
     "followed_user_update_list": {
-      "update": "update the list"
+      "update": "updated the list"
     },
     "followed_user_delete_list": {
-      "delete": "delete the list"
+      "delete": "deleted the list"
     },
     "follow_you": "subscribed on you.",
     "unfollow_you": "unsubscribed from you.",
