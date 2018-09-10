@@ -80,7 +80,7 @@ export default {
         font-size: 1rem;
         color: #FFF;
         text-align: center;
-        padding: 10px 20px;
+        padding: 5px 5px;
 
         white-space: nowrap;
         vertical-align: middle;
@@ -118,7 +118,7 @@ export default {
     }
 
     .onerow {
-        margin-top: 8px;
+        margin-top: 5px;
     }
 }
 </style>
