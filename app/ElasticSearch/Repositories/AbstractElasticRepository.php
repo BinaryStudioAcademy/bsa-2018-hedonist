@@ -23,10 +23,14 @@ abstract class AbstractElasticRepository implements ElasticRepositoryInterface
     public final function pushCriteria(ElasticCriteriaInterface $criteria): ElasticRepositoryInterface
     {
         $this->criterias[] = $criteria;
+
+        return $this;
     }
 
     public function clearCriterias(): ElasticRepositoryInterface
     {
         $this->criterias = [];
+
+        return $this;
     }
 }
