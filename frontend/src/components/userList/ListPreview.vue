@@ -32,19 +32,19 @@
                             role="button"
                             :to="`/my-lists/${userList.id}/edit`"
                         >
-                            Update
+                            {{ $t('my-lists_page.buttons.update') }}
                         </router-link>
 
                         <b-modal :active.sync="isDeleteModal" :width="640" scroll="keep">
                             <div class="box userlist-modal">
-                                <h5 class="title is-5">Do you really want to delete "{{ userList.name }}"?</h5>
+                                <h5 class="title is-5">{{ $t('my-lists_page.delete-confirmation') }} "{{ userList.name }}"?</h5>
                                 <div class="buttons is-centered">
-                                    <button class="button is-info" @click="isDeleteModal = false">Cancel</button>
-                                    <button class="button is-danger" @click="onDelete">Delete</button>
+                                    <button class="button is-info" @click="isDeleteModal = false">{{ $t('my-lists_page.buttons.cancel') }}</button>
+                                    <button class="button is-danger" @click="onDelete">{{ $t('my-lists_page.buttons.delete') }}</button>
                                 </div>
                             </div>
                         </b-modal>
-                        <button class="button is-danger" @click="isDeleteModal = true">Delete</button>
+                        <button class="button is-danger" @click="isDeleteModal = true">{{ $t('my-lists_page.buttons.delete') }}</button>
                     </div>
                 </div>
             </div>

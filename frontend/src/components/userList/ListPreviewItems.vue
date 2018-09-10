@@ -6,7 +6,7 @@
                 role="button"
                 class="button is-success"
                 to="/my-lists/add"
-            >+ Add a new list</router-link>
+            >+ {{ $t('my-lists_page.buttons.add') }}</router-link>
         </div>
         <ul v-show="isLoaded">
             <ListPreview
