@@ -95,15 +95,6 @@
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
-                                    :to="{ name: 'NotificationsPage'}"
-                                >{{ $t('navbar.notifications') }}
-                                </router-link>
-                                <router-link
-                                    class="navbar-item"
-                                    :to="{ name: 'NewPlacePage' }"
-                                >Add place</router-link>
-                                <router-link
-                                    class="navbar-item"
                                     :to="{ name: 'MyTastesPage' }"
                                 >My tastes</router-link>
                                 <router-link
@@ -117,9 +108,19 @@
                                 >Visited
                                 </router-link>
                                 <router-link
+                                        class="navbar-item"
+                                        :to="{ name: 'NewPlacePage' }"
+                                >New place
+                                </router-link>
+                                <router-link
                                     class="navbar-item"
                                     :to="{ name: 'ProfilePage' }"
                                 >{{ $t('navbar.settings') }}
+                                </router-link>
+                                <router-link
+                                        class="navbar-item"
+                                        :to="{ name: 'NotificationsPage'}"
+                                >{{ $t('navbar.notifications') }}
                                 </router-link>
                                 <a
                                     class="navbar-item"
