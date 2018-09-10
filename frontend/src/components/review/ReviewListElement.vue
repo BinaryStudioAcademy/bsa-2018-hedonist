@@ -173,7 +173,7 @@ export default {
 
         showLikeDislikeOwnReviewToast(){
             this.$toast.open({
-                message:'Sorry, but you can\'t like or dislike your own review',
+                message: this.$t('place_page.message.like_own_review'),
                 type:'is-danger'
             });
         },

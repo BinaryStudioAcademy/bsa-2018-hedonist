@@ -198,7 +198,8 @@
     "message": {
       "no-lists": "No lists",
       "added-to-list": "Place added to the list!",
-      "removed-from-list": "Place removed from the list!"
+      "removed-from-list": "Place removed from the list!",
+      "like_own_review":"Sorry, but you can't like or dislike your own review :("
     },
     "buttons": {
       "more": "Show more",
