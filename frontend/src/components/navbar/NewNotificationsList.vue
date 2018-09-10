@@ -57,7 +57,7 @@ import {
 } from '@/services/notification/notificationService';
 
 export default {
-    name: "NewNotificationsList",
+    name: 'NewNotificationsList',
     props: {
         isNewNotifications: {
             required: true,
@@ -131,7 +131,7 @@ export default {
             this.$emit('hideNotifications');
         }
     }
-}
+};
 </script>
 
 <style lang="scss" scoped>
