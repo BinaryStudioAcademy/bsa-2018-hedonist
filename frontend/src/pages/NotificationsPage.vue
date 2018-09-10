@@ -2,7 +2,7 @@
     <div class="container notifications notifications-page">
         <Preloader :active="isLoading" />
         <div class="notifications__delete" v-if="notifications.length > 0">
-            <div class="button is-danger" @click="onDelete">
+            <div class="button is-danger" @click="notificationsDeleteModal">
                 {{ $t('notifications.clear-notifications') }}
             </div>
         </div>
@@ -53,6 +53,7 @@ import {
     FOLLOWED_USER_UPDATE_LIST_NOTIFICATION
 } from '@/services/notification/notificationService';
 import Preloader from '@/components/misc/Preloader';
+import DeleteNotificationsModal from '@/components/notifications/DeleteNotificationsModal';
 
 export default {
     name: 'NotificationsPage',
@@ -123,13 +124,18 @@ export default {
             }
         },
         onDelete() {
-            if (confirm(this.$t('notifications.confirm-deleting'))) {
-                this.setLoading(true);
-                this.deleteNotifications().then(() => {
-                    this.setLoading(false);
-                    this.notifications = [];
-                });
-            }
+            this.setLoading(true);
+            this.deleteNotifications().then(() => this.setLoading(false));
+        },
+        notificationsDeleteModal() {
+            this.$modal.open({
+                parent: this,
+                component: DeleteNotificationsModal,
+                hasModalCard: true,
+                events: {
+                    onDelete: this.onDelete
+                }
+            })
         }
     }
 };
