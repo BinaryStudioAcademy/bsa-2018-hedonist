@@ -53,6 +53,7 @@ export default {
             httpService.delete('/notifications')
                 .then(({ data }) => {
                     commit('CLEAR_NOTIFICATIONS');
+                    commit('CLEAR_UNREAD_NOTIFICATION_IDS');
                     resolve(data.data);
                 })
                 .catch((error) => {

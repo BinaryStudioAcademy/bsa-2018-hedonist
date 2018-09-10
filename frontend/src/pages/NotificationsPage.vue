@@ -126,7 +126,6 @@ export default {
             this.setLoading(true);
             this.deleteNotifications().then(() => {
                 this.setLoading(false);
-                this.notifications = [];
             });
         }
     }
