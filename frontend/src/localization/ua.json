@@ -1,4 +1,8 @@
 {
+  "buttons": {
+    "edit": "Змінити",
+    "delete": "Видалити"
+  },
   "login_page": {
     "title": "Увійдіть до свого акаунту",
     "register": {
@@ -228,6 +232,15 @@
     },
     "lists_container": {
       "title": "списки"
+    }
+  },
+  "user_lists_page": {
+    "list_preview": {
+      "places_in_list": "Місць у переліку:",
+      "cities_in_list": "Міста у переліку:"
+    },
+    "city_pills": {
+      "clear_filter": "Очистити фільтр"
     }
   },
   "notifications": {
