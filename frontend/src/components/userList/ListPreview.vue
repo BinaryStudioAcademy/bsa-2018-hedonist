@@ -13,17 +13,16 @@
                             </router-link>
                         </h3>
                         <p class="place-category">
-                            Places saved in the list: {{ userList.places | countPlaces }}
+                            {{ $t('user_lists_page.list_preview.places_in_list') }}
+                            {{ userList.places | countPlaces }}
                         </p>
                         <p class="city-list">
-                            Cities in the list:
-                            <a
+                            {{ $t('user_lists_page.list_preview.cities_in_list') }}
+                            <span
                                 v-for="(city,index) in uniqueCities"
                                 :key="index"
-                                href="#"
                                 class="city-list__item"
-                                @click="setCityFilter(city.id)"
-                            >{{ city.name }}</a>
+                            >{{ city.name }}</span>
                         </p>
                     </div>
                     <div class="place-item__actions">
@@ -32,7 +31,7 @@
                             role="button"
                             :to="`/my-lists/${userList.id}/edit`"
                         >
-                            {{ $t('my-lists_page.buttons.update') }}
+                            {{ $t('buttons.edit') }}
                         </router-link>
 
                         <b-modal :active.sync="isDeleteModal" :width="640" scroll="keep">
@@ -40,11 +39,11 @@
                                 <h5 class="title is-5">{{ $t('my-lists_page.delete-confirmation') }} "{{ userList.name }}"?</h5>
                                 <div class="buttons is-centered">
                                     <button class="button is-info" @click="isDeleteModal = false">{{ $t('my-lists_page.buttons.cancel') }}</button>
-                                    <button class="button is-danger" @click="onDelete">{{ $t('my-lists_page.buttons.delete') }}</button>
+                                    <button class="button is-danger" @click="onDelete">{{ $t('buttons.delete') }}</button>
                                 </div>
                             </div>
                         </b-modal>
-                        <button class="button is-danger" @click="isDeleteModal = true">{{ $t('my-lists_page.buttons.delete') }}</button>
+                        <button class="button is-danger" @click="isDeleteModal = true">{{ $t('buttons.delete') }}</button>
                     </div>
                 </div>
             </div>
@@ -106,9 +105,7 @@ export default {
                 type: 'is-info'
             });
         },
-        setCityFilter(cityId){
-            this.$parent.setCityFilter(cityId);
-        },
+
         onDelete() {
             this.$emit('loading', true);
             this.delete(this.userList.id)

@@ -44,7 +44,7 @@ class ReviewAddEvent implements ShouldBroadcast
                     'first_name' => $this->review->user->info->first_name,
                     'last_name' => $this->review->user->info->last_name,
                     'email' => $this->review->user->email,
-                    'avatar_url' => $this->review->user->avatar_url,
+                    'avatar_url' => $this->review->user->info->avatar_url,
                 ],
             ],
         ];

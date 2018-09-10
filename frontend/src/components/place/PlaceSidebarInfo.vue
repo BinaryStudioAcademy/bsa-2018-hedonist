@@ -159,14 +159,18 @@ export default {
 
     computed: {
         ...mapGetters('features', ['specialFeaturesList']),
-        
+
         sortedFeatures: function () {
             let result = [];
-            this.specialFeaturesList.forEach((feature) => {
-                this.isActiveFeature(feature.id)
+            const features = this.place.features.map(
+                feature => feature.id
+            );
+            this.specialFeaturesList.forEach( feature => {
+                features.includes(feature.id)
                     ? result.unshift(feature)
                     : result.push(feature);
             });
+
             return result;
         }
     },
