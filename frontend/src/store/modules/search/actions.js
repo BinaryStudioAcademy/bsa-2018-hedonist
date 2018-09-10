@@ -7,7 +7,7 @@ import { KIEV_LATITUDE, KIEV_LONGITUDE } from '@/services/location/positions';
 export default {
     updateStateFromQuery: ({commit, dispatch}, query) => {
         dispatch('setLoadingState', true);
-        if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
+        if(query.name) commit('SET_SEARCH_PLACE', query.name);
         if(query.page) commit('SET_PAGE', query.page);
 
         let categoryId = parseInt(query.category);

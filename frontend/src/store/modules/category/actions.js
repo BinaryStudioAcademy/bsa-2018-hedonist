@@ -32,5 +32,13 @@ export default {
 
     deleteCategoryTags: ({commit}) => {
         commit('DELETE_CATEGORY_TAGS');
-    }
+    },
+
+    fetchCategory: (context, categoryId) => {
+        return new Promise((resolve, reject) => {
+            httpService.get(`/places/categories/${categoryId}`)
+                .then((result) => { resolve(result.data.data); })
+                .catch((error) => { reject(error); });
+        });
+    },
 };
