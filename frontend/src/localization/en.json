@@ -67,6 +67,7 @@
     "email_exists": "This email is already registered."
   },
   "search": {
+    "looking_for": "I'm looking for...",
     "current_location": "Current position",
     "no_results": "Sorry, no results are found.",
     "may_try": "You may try",
@@ -198,7 +199,8 @@
     "message": {
       "no-lists": "No lists",
       "added-to-list": "Place added to the list!",
-      "removed-from-list": "Place removed from the list!"
+      "removed-from-list": "Place removed from the list!",
+      "like_own_review":"Sorry, but you can't like or dislike your own review :("
     },
     "buttons": {
       "more": "Show more",
@@ -216,9 +218,14 @@
     }
   },
   "navbar": {
-    "settings": "Settings",
     "profile": "Profile",
-    "notifications": "Notifications"
+    "tastes": "My tastes",
+    "lists": "My lists",
+    "visited": "Visited",
+    "new_place": "New place",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "logout": "Logout"
   },
   "other_user_page": {
     "private": "This profile is private :(",

@@ -1,32 +1,42 @@
 <template>
     <div class="control">
-        <b-autocomplete
-            v-model.trim="findItems.query"
-            placeholder="I'm looking for..."
-            :data="findItems.data"
-            :open-on-focus="true"
-            :loading="findItems.isFetching"
-            class="navbar__search-autocomplete"
-            field="name"
-            @input="loadItems"
-            @select="option => this.$emit('select', option)"
-            ref="autocomplete"
-            @keyup.native.enter="$emit('keyup.native.enter')"
-        >
+        <b-field>
+            <b-autocomplete
+                v-model.trim="findItems.query"
+                :placeholder="$t('search.looking_for')"
+                :data="findItems.data"
+                :open-on-focus="true"
+                :loading="findItems.isFetching"
+                class="navbar__search-autocomplete"
+                field="name"
+                @input="loadItems"
+                @select="option => this.$emit('select', option)"
+                ref="autocomplete"
+                @keyup.native.enter="$emit('keyup.native.enter')"
+            >
 
-            <template slot-scope="props">
-                <div class="search-block" v-if="props.option.place === undefined">
-                    <img :src="props.option.logo">
-                    <span>{{ props.option.name }}</span>
-                </div>
-                <router-link v-else :to="`/places/${props.option.id}`">
-                    <div class="search-block">
+                <template slot-scope="props">
+                    <div class="search-block" v-if="props.option.place === undefined">
                         <img :src="props.option.logo">
-                        <span>{{ props.option.nameForAutoComplete }}</span>
+                        <span>{{ props.option.name }}</span>
                     </div>
-                </router-link>
-            </template>
-        </b-autocomplete>
+                    <router-link v-else :to="`/places/${props.option.id}`">
+                        <div class="search-block">
+                            <img :src="props.option.logo">
+                            <span>{{ props.option.nameForAutoComplete }}</span>
+                        </div>
+                    </router-link>
+                </template>
+            </b-autocomplete>
+            <p class="control" v-if="showClearButton">
+                <button
+                    class="button"
+                    @click="clearInput"
+                >
+                    <b-icon pack="far" icon="times-circle" />
+                </button>
+            </p>
+        </b-field>
     </div>
 </template>
 
@@ -57,6 +67,9 @@ export default {
             loadPlaces: 'search/loadPlaces',
             fetchAllCategories: 'category/fetchAllCategories'
         }),
+        clearInput(){
+            this.findItems.query = '';
+        },
         loadItems: _.debounce(function () {
             this.findItems.data = [];
             this.findItems.isFetching = true;
@@ -69,7 +82,7 @@ export default {
                     polygon = this.createPolygonByBBox(this.selectCity.bbox);
                 }
                 this.loadPlaces({name: this.findItems.query, polygon: polygon})
-                    .then( res => {
+                    .then(res => {
                         let data = [];
                         res.forEach(function (item, index) {
                             data[index] = {
@@ -110,6 +123,13 @@ export default {
     created() {
         this.init();
     },
+    computed: {
+        ...mapState('category', ['allCategories']),
+        ...mapGetters('category' , ['getById']),
+        showClearButton(){
+            return !!this.findItems.query;
+        }
+    },
     watch: {
         '$route.query.name': function(name) {
             if (name !== undefined && this.findItems.query === '') {
@@ -117,15 +137,11 @@ export default {
             }
         }
     },
-    computed: {
-        ...mapState('category', ['allCategories']),
-        ...mapGetters('category' , ['getById'])
-    }
 };
 </script>
 
 <style>
-    .search-block{
+    .search-block {
         display: flex;
         align-items: center;
         cursor: pointer;
@@ -136,7 +152,7 @@ export default {
         padding-right: 3rem;
     }
 
-    .search-block img{
+    .search-block img {
         margin-right: 5px;
     }
 </style>

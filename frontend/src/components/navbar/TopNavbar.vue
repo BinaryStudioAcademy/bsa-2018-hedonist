@@ -95,36 +95,38 @@
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
-                                    :to="{ name: 'NotificationsPage'}"
-                                >{{ $t('navbar.notifications') }}
+                                    :to="{ name: 'MyTastesPage' }"
+                                >{{ $t('navbar.tastes') }}
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
-                                    :to="{ name: 'NewPlacePage' }"
-                                >Add place</router-link>
-                                <router-link
-                                    class="navbar-item"
-                                    :to="{ name: 'MyTastesPage' }"
-                                >My tastes</router-link>
-                                <router-link
-                                    class="navbar-item"
                                     :to="{ name: 'UserListsPage' }"
-                                >My lists
+                                >{{ $t('navbar.lists') }}
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
                                     :to="{ name: 'CheckinsPage' }"
-                                >Visited
+                                >{{ $t('navbar.visited') }}
+                                </router-link>
+                                <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'NewPlacePage' }"
+                                >{{ $t('navbar.new_place') }}
                                 </router-link>
                                 <router-link
                                     class="navbar-item"
                                     :to="{ name: 'ProfilePage' }"
                                 >{{ $t('navbar.settings') }}
                                 </router-link>
+                                <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'NotificationsPage'}"
+                                >{{ $t('navbar.notifications') }}
+                                </router-link>
                                 <a
                                     class="navbar-item"
                                     @click="onLogOut"
-                                >Logout</a>
+                                >{{ $t('navbar.logout') }}</a>
                             </div>
                         </div>
                     </div>

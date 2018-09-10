@@ -6,13 +6,18 @@
                 'rating-' + ratingCategory
             ]"
         >
-            {{ value | formatRating }}
-
-            <sup v-if="showMax">/5</sup>
-        </div>
-
-        <div class="place-rate__mark-count" v-if="showRating">
-            {{ ratingCount || 'No' }} marks
+            <div
+                class="rating-value"
+                :class="{onerow: !showRating}"
+            >
+                {{ value | formatRating }}<span v-if="showMax">/5</span>
+            </div>
+            <div
+                class="rating-count"
+                v-if="showRating"
+            >
+                {{ ratingCount || 'No' }} <i class="fas fa-user" />
+            </div>
         </div>
     </div>
 </template>
@@ -75,7 +80,11 @@ export default {
         font-size: 1rem;
         color: #FFF;
         text-align: center;
-        padding: 0 5px;
+        padding: 5px 5px;
+
+        white-space: nowrap;
+        vertical-align: middle;
+        height: 48px;
 
         &-bad {
             background-color: #FC8D9F;
@@ -92,6 +101,23 @@ export default {
 
     .place-rate__mark-count {
         margin-left: 15px;
+    }
+
+    .rating-value {
+        line-height: 22px;
+        font-size: 1.2rem;
+    }
+
+    .rating-count {
+        line-height: 22px;
+
+        i {
+            font-size: .8rem;
+        }
+    }
+
+    .onerow {
+        margin-top: 10px;
     }
 }
 </style>
