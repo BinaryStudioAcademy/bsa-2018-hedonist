@@ -82,6 +82,8 @@ export default {
     }
 
     .user {
+        padding-top: 2px;
+
         &__avatar-wrp {
             width: 30px;
             height: 30px;
