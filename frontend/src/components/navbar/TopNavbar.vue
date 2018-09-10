@@ -24,6 +24,14 @@
                     </a>
                 </div>
 
+                <NewNotificationsList
+                    class="notifications-mobile"
+                    :is-new-notifications="isNewNotifications"
+                    :notifications-display="notificationsDisplay"
+                    @toggleNotifications="toggleNotifications"
+                    @hideNotifications="hideNotifications"
+                />
+
                 <div class="navbar-menu" :class="{'is-active': navIsActive}">
                     <NavbarSearchPanel v-if="isUserLoggedIn" />
                     <div
@@ -44,35 +52,13 @@
                         v-if="isUserLoggedIn"
                         class="navbar-end"
                     >
-                        <div class="notifications navbar-item is-paddingless">
-                            <span
-                                :class="[
-                                    'navbar-notification-btn',
-                                    'notification-icon',
-                                    notificationIconActiveClass
-                                ]"
-                                @click="toggleNotifications"
-                                v-click-outside="hideNotifications"
-                            />
-                            <div v-if="notificationsDisplay" class="notifications__wrapper">
-                                <ul class="notifications__list" v-if="notifications.length > 0">
-                                    <li
-                                        class="notifications__item"
-                                        v-for="(notification, index) in notifications"
-                                        :key="index"
-                                    >
-                                        <component
-                                            :is="notificationComponent(getNotificationType(notification))"
-                                            :notification="getNotificationSubject(notification)"
-                                            :user="getNotificationUser(notification)"
-                                        />
-                                    </li>
-                                </ul>
-                                <div v-else class="notifications__none">
-                                    {{ $t('notifications.navbar.no_notifs') }}
-                                </div>
-                            </div>
-                        </div>
+                        <NewNotificationsList
+                            class="notifications-desktop"
+                            :is-new-notifications="isNewNotifications"
+                            :notifications-display="notificationsDisplay"
+                            @toggleNotifications="toggleNotifications"
+                            @hideNotifications="hideNotifications"
+                        />
                         <div class="navbar-item has-dropdown is-hoverable">
                             <div v-if="user" class="profile navbar-link navbar-dropdown-menu">
                                 <div v-if="user.avatar_url" class="profile__avatar navbar-avatar">
@@ -144,47 +130,14 @@
 import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
 import LanguageSelector from './LanguageSelector';
-
-import LikeReviewNotification             from '@/components/notifications/LikeReviewNotification';
-import DislikeReviewNotification          from '@/components/notifications/DislikeReviewNotification';
-import FollowedUserReviewNotification     from '@/components/notifications/FollowedUserReviewNotification';
-import FollowedUserAddPlaceNotification   from '@/components/notifications/FollowedUserAddPlaceNotification';
-import FollowedUserAddListNotification    from '@/components/notifications/FollowedUserAddListNotification';
-import FollowedUserDeleteListNotification from '@/components/notifications/FollowedUserDeleteListNotification';
-import FollowedUserUpdateListNotification from '@/components/notifications/FollowedUserUpdateListNotification';
-import ReviewPlaceNotification            from '@/components/notifications/ReviewPlaceNotification';
-import UserFollowNotification             from '@/components/notifications/UserFollowNotification';
-import UserUnfollowNotification           from '@/components/notifications/UserUnfollowNotification';
-import UnknownNotification                from '@/components/notifications/UnknownNotification';
-import {
-    LIKE_REVIEW_NOTIFICATION,
-    REVIEW_PLACE_NOTIFICATION,
-    FOLLOWED_USER_REVIEW_NOTIFICATION,
-    FOLLOWED_USER_ADD_PLACE_NOTIFICATION,
-    DISLIKE_REVIEW_NOTIFICATION,
-    USER_FOLLOW_NOTIFICATION,
-    USER_UNFOLLOW_NOTIFICATION,
-    FOLLOWED_USER_ADD_LIST_NOTIFICATION,
-    FOLLOWED_USER_DELETE_LIST_NOTIFICATION,
-    FOLLOWED_USER_UPDATE_LIST_NOTIFICATION
-} from '@/services/notification/notificationService';
+import NewNotificationsList from './NewNotificationsList';
 
 export default {
     name: 'TopNavbar',
     components: {
         NavbarSearchPanel,
         LanguageSelector,
-        LikeReviewNotification,
-        UnknownNotification,
-        ReviewPlaceNotification,
-        FollowedUserReviewNotification,
-        FollowedUserAddPlaceNotification,
-        DislikeReviewNotification,
-        UserFollowNotification,
-        UserUnfollowNotification,
-        FollowedUserAddListNotification,
-        FollowedUserDeleteListNotification,
-        FollowedUserUpdateListNotification
+        NewNotificationsList,
     },
     data () {
         return {
@@ -249,14 +202,14 @@ export default {
         toggleMenu () {
             this.navIsActive = !this.navIsActive;
         },
-        toggleNotifications() {
+        toggleNotifications: _.debounce(function () {
             if (this.isNewNotifications) {
                 this.isNewNotifications = false;
                 this.readNotifications();
             }
 
             this.notificationsDisplay = !this.notificationsDisplay;
-        },
+        }, 250),
         hideNotifications() {
             this.notificationsDisplay = false;
         },
@@ -282,41 +235,6 @@ export default {
                         }
                     });
                 });
-        },
-        notificationComponent: function(type) {
-            switch (type) {
-            case LIKE_REVIEW_NOTIFICATION:
-                return 'LikeReviewNotification';
-            case REVIEW_PLACE_NOTIFICATION:
-                return 'ReviewPlaceNotification';
-            case FOLLOWED_USER_REVIEW_NOTIFICATION:
-                return 'FollowedUserReviewNotification';
-            case FOLLOWED_USER_ADD_PLACE_NOTIFICATION:
-                return 'FollowedUserAddPlaceNotification';
-            case DISLIKE_REVIEW_NOTIFICATION:
-                return 'DislikeReviewNotification';
-            case USER_FOLLOW_NOTIFICATION:
-                return 'UserFollowNotification';
-            case USER_UNFOLLOW_NOTIFICATION:
-                return 'UserUnfollowNotification';
-            case FOLLOWED_USER_ADD_LIST_NOTIFICATION:
-                return 'FollowedUserAddListNotification';
-            case FOLLOWED_USER_DELETE_LIST_NOTIFICATION:
-                return 'FollowedUserDeleteListNotification';
-            case FOLLOWED_USER_UPDATE_LIST_NOTIFICATION:
-                return 'FollowedUserUpdateListNotification';
-            default:
-                return 'UnknownNotification';
-            }
-        },
-        getNotificationUser(notification) {
-            return notification.data.notification['subject_user'];
-        },
-        getNotificationSubject(notification) {
-            return notification.data.notification.subject;
-        },
-        getNotificationType(notification) {
-            return notification.data.notification.type;
         }
     },
 };
@@ -327,60 +245,24 @@ export default {
     $grey: #c5c5c5;
     $dark-grey: #4a4a4a;
 
-        .logo-top{
-            margin-right: 3px;
-        }
+    .logo-top {
+        margin-right: 3px;
+    }
 
-    .notification-icon {
-        position: relative;
+    .notifications-desktop {
+        display: flex;
 
-        &--active:after {
-            content: "";
-            display: block;
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            background-color: red;
-            border-radius: 50%;
-            width: 10px;
-            height: 10px;
+        @media screen and (max-width: 911px) {
+            display: none;
         }
     }
 
-    .notifications {
-        position: relative;
+    .notifications-mobile {
+        display: none;
 
-        &__wrapper {
-            position: absolute;
-            color: $dark-grey;
-            top: 38px;
-            right: 0;
-            border-radius: 5px;
-            background-color: #fff;
-            width: 300px;
-            max-height: 150px;
-            overflow-x: hidden;
-            overflow-y: auto;
-            box-shadow: 0px 3px 20px $blue;
-        }
-
-        &__item {
-            border-bottom: $grey 1px solid;
-            padding: 10px;
-            word-break: break-word;
-
-            &:hover {
-                background-color: darken(#fff, 10%);
-            }
-
-            &:last-child {
-                border-bottom: none;
-            }
-        }
-
-        &__none {
-            text-align: center;
-            padding: 10px;
+        @media screen and (max-width: 911px) {
+            display: flex;
+            right: 80px;
         }
     }
 
@@ -408,14 +290,6 @@ export default {
             object-fit: cover;
             object-position: 50% 50%;
         }
-    }
-    .navbar-notification-btn {
-        cursor: pointer;
-        background: url("../../assets/icon-notifications.png") top left no-repeat;
-        font-weight: bold;
-        height: 24px;
-        width: 27px;
-        align-self: center;
     }
     .navbar-burger {
         color: #fff;
