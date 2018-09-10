@@ -99,6 +99,11 @@ export default {
             state.selectedTags.splice(index, 1);
         }
     },
+
+    SET_SELECTED_FEATURES: (state, features) => {
+        state.selectedFeatures = features;
+    },
+
     ADD_SELECTED_FEATURE: (state, featureId) => {
         if (state.selectedFeatures.indexOf(featureId) === -1) {
             state.selectedFeatures.push(featureId);
