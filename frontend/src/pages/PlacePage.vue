@@ -126,6 +126,13 @@ export default {
 };
 </script>
 
+<style lang="scss">
+    .place-top-info .rating-wrapper .rating {
+        height: 48px !important;
+        width: auto !important;
+    }
+</style>
+
 <style lang="scss" scoped>
 .main-wrapper {
     margin-top: 20px;
