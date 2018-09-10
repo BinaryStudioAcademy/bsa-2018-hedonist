@@ -55,4 +55,9 @@ export default {
 .button-wide {
   width: 100%;
 }
+@media screen and (max-width: 414px) {
+    .box{
+        padding: 20px;
+    }
+}
 </style>

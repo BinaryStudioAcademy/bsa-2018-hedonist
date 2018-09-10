@@ -13,7 +13,7 @@
         </span>
         <span class="text">{{ $t('notifications.followed_user_update_list.update') }}</span>
         <span class="list-link">
-            <router-link :to="`/lists/${notification['id']}`">
+            <router-link :to="`/list/${notification['id']}`">
                 {{ this.notification.name }}
             </router-link>
         </span>
@@ -79,6 +79,8 @@ export default {
     }
 
     .user {
+        padding-top: 2px;
+
         &__avatar-wrp {
             width: 30px;
             height: 30px;

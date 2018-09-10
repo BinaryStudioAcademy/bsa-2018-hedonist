@@ -85,6 +85,18 @@ export default {
                 this.findCity.query = this.$t('search.current_location');
                 this.selectedCity.center[0] = coordinates.lng;
                 this.selectedCity.center[1] = coordinates.lat;
+
+                if (this.$route.query.location !== undefined) {
+                    let currentLocation = coordinates.lng + ',' + coordinates.lat;
+                    if (currentLocation !== this.$route.query.location) {
+                        LocationService.getCityList(this.$route.query.location)
+                            .then((res) => {
+                                if (res.length) {
+                                    this.findCity.query = res[0].text;
+                                }
+                            });
+                    }
+                }
             })
             .catch(error => {
                 this.setLocationAvailable(false);
