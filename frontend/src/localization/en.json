@@ -1,4 +1,7 @@
 {
+  "loader": {
+    "title": "Loading..."
+  },
   "buttons": {
     "edit": "Edit",
     "delete": "Delete"
@@ -72,7 +75,10 @@
     "may_try": "You may try",
     "removing_your_filters": "removing your filters",
     "search_in_different_location": "search in different location",
-    "search_for_something_more_general": "search for something more general"
+    "search_for_something_more_general": "search for something more general",
+    "button": "Search",
+    "city_placeholder": "Location",
+    "category_placeholder": "I'm looking for..."
   },
   "check-ins_page": {
     "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page."
@@ -198,7 +204,12 @@
     "buttons": {
       "more": "Show more",
       "less": "Show less",
-      "save": "Save"
+      "save": "Save",
+      "share": {
+        "title": "Share",
+        "on_facebook": "Share on Facebook",
+        "on_twitter": "Share on Twitter"
+      }
     }
   },
   "profile_page": {

@@ -2,7 +2,7 @@
     <div class="control">
         <b-autocomplete
             v-model.trim="findItems.query"
-            placeholder="I'm looking for..."
+            :placeholder="$t('search.category_placeholder')"
             :data="findItems.data"
             :open-on-focus="true"
             :loading="findItems.isFetching"

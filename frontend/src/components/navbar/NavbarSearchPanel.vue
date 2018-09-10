@@ -17,7 +17,7 @@
                 <span class="icon is-large">
                     <i class="fas fa-lg fa-search" />
                 </span>
-                <span class="button-title">Search</span>
+                <span class="button-title">{{ $t('search.button') }}</span>
             </button>
         </div>
     </div>

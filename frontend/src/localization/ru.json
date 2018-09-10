@@ -1,4 +1,7 @@
 {
+  "loader": {
+    "title": "Загрузка..."
+  },
   "buttons": {
     "edit": "Изменить",
     "delete": "Удалить"
@@ -67,12 +70,15 @@
     "email_exists": "Пользователь с таким email уже существует."
   },
   "search": {
-    "current_location": "Текущее местоположение",
+    "current_location": "Текущее место",
     "no_results": "Извините, результатов не найдено.",
     "may_try": "Вы можете попробовать",
     "removing_your_filters": "удалить ваши фильтры",
     "search_in_different_location": "искать в другой локации",
-    "search_for_something_more_general": "искать что-то более общее"
+    "search_for_something_more_general": "искать что-то более общее",
+    "button": "Искать",
+    "city_placeholder": "Местонахождение",
+    "category_placeholder": "Я ищу..."
   },
   "check-ins_page": {
     "no-check-ins": "Вы не зарегистрировались ни в каком месте. Посетите какое-то из них и сделайте \"чек-ин\" на его странице."
@@ -198,7 +204,12 @@
     "buttons": {
       "more": "Показать больше",
       "less": "Показать меньше",
-      "save": "Сохранить"
+      "save": "Сохранить",
+      "share": {
+        "title": "Поделиться",
+        "on_facebook": "Поделиться в Facebook",
+        "on_twitter": "Поделиться в Twitter"
+      }
     }
   },
   "profile_page": {

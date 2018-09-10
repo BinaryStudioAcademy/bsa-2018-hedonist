@@ -1,18 +1,18 @@
 <template>
     <b-dropdown>
         <button class="button is-primary" slot="trigger">
-            <i class="far fa-share-square" />Share
+            <i class="far fa-share-square" /> {{ $t('place_page.buttons.share.title') }}
             <b-icon icon="menu-down" />
         </button>
 
         <b-dropdown-item has-link>
             <a :href="'https://www.facebook.com/sharer/sharer.php?u=' + link" target="_blank">
                 <i class="fab fa-facebook-square" />
-                Share on Facebook
+                {{ $t('place_page.buttons.share.on_facebook') }}
             </a>
             <a :href="'http://twitter.com/share?text=' + text + '&hashtags=hedonist,binaryacademy&url=' + link" target="_blank">
                 <i class="fab fa-twitter-square" />
-                Share on Twitter
+                {{ $t('place_page.buttons.share.on_twitter') }}
             </a>
         </b-dropdown-item>
     </b-dropdown>
