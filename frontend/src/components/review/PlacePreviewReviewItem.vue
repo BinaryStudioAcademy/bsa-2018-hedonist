@@ -28,7 +28,7 @@
                 {{ review.description }}
             </div>
             <LikeDislikeButton
-                v-if="showLikeDislikeBtns && canLikeOrDislike"
+                v-if="showLikeDislikeBtns"
                 font-size="0.7rem"
                 @like="onLikeReview"
                 @dislike="onDislikeReview"
@@ -98,6 +98,10 @@ export default {
         }),
 
         onLikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.likeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewLikedState(this.review.id);
@@ -105,6 +109,10 @@ export default {
         },
 
         onDislikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.dislikeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewDislikedState(this.review.id);
@@ -135,7 +143,14 @@ export default {
 
         updateUsersWhoDislikedReviewModalActive(newValue) {
             this.isUsersWhoDislikedReviewModalActive = newValue;
-        }
+        },
+
+        showLikeDislikeOwnReviewToast(){
+            this.$toast.open({
+                message: this.$t('place_page.message.like_own_review'),
+                type:'is-danger'
+            });
+        },
     }
 };
 </script>
