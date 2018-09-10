@@ -27,17 +27,19 @@
                     <li
                         v-for="place in places"
                         :key="place.id"
-                        class="search-places__item"
+                        class="search-places__item media"
                         @click="attachPlace(place)"
                     >
                         <div class="search-places__img-wrapper">
-                            <img
-                                class="search-places__img place-image"
-                                :src="place.photo.img_url"
-                                :alt="place.photo.description"
-                            >
+                            <figure class="media-left image is-64x64">
+                                <img
+                                    class="search-places__img place-image"
+                                    :src="place.photo.img_url"
+                                    :alt="place.photo.description"
+                                >
+                            </figure>
                         </div>
-                        <div class="search-places__details">
+                        <div class="search-places__details  media-content">
                             <div class="search-places__name">{{ getPlaceName(place) }}</div>
                             <div>
                                 <span class="search-places__city">{{ place.city.name }}</span>,&nbsp;
@@ -45,10 +47,13 @@
                             </div>
                             <div class="search-places__description">{{ place.address }}</div>
                         </div>
-                        <div class="search-places__rating">
-                            <span :class="['place-rating','place-rating--' + ratingModifier(place.rating)]">
-                                {{ place.rating }}
-                            </span>
+                        <div class="media-right rating-wrapper ">
+                            <PlaceRating
+                                v-if="place.rating"
+                                :value="Number(place.rating)"
+                                :show-rating="false"
+                                :rating-count="place.ratingCount"
+                            />
                         </div>
                     </li>
                 </ul>
@@ -66,34 +71,32 @@
                         class="attached-places__detach is-small button is-danger"
                         @click="detachPlace(place)"
                     >
-                        <i class="fas fa-minus"></i>
+                        <i class="fas fa-minus" />
                     </button>
                     <div class="attached-places__img-wrapper">
-                        <img
-                            class="attached-places__img place-image"
-                            :src="place.photo.img_url"
-                            :alt="place.photo.description"
-                        >
+                        <figure class="attached-places__img media-left image is-64x64">
+                            <img
+                                class=" place-image"
+                                :src="place.photo.img_url"
+                                :alt="place.photo.description"
+                            >
+                        </figure>
+
                     </div>
-                    <div class="attached-places__details">
+                    <div class="attached-places__details media-content">
                         <div class="attached-places__name">{{ getPlaceName(place) }}</div>
                         <div class="attached-places__city">{{ place.city.name }}</div>
                         <div class="attached-places__category">{{ place.category.name }}</div>
                         <div class="attached-places__description">{{ place.address }}</div>
                     </div>
-                    <div class="media-right rating-wrapper">
+                    <div class="media-right rating-wrapper ">
                         <PlaceRating
-                                v-if="place.rating"
-                                :value="Number(place.rating)"
-                                :show-rating="false"
-                                :rating-count="place.ratingCount"
+                            v-if="place.rating"
+                            :value="Number(place.rating)"
+                            :show-rating="false"
+                            :rating-count="place.ratingCount"
                         />
                     </div>
-                    <!--<div class="attached-places__rating">-->
-                        <!--<span :class="['place-rating','place-rating&#45;&#45;' + ratingModifier(place.rating)]">-->
-                            <!--{{ place.rating }}-->
-                        <!--</span>-->
-                    <!--</div>-->
                 </li>
             </ul>
             <div v-else class="attached-places__none">You may attach some places to the list</div>
@@ -209,24 +212,6 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-    .place-rating {
-        border-radius: 7px;
-        background-color: black;
-        color: #fff;
-        padding: 10px;
-
-        &--bad {
-            background-color: #FC8D9F;
-        }
-
-        &--okay {
-            background-color: #FFA500;
-        }
-
-        &--good {
-            background-color: #00B551;
-        }
-    }
 
     .place-image {
         border-radius: 5px;
@@ -348,27 +333,27 @@ export default {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                margin: 15px 0;
+                margin: 15px 0 0 15px;
+                font-size:0.75em;
+                border-bottom: 1px solid rgba(219, 219, 219, 0.5);
+                padding-bottom: 5px;
             }
 
-            &__img-wrapper {
-                flex-shrink: 0;
-                width: 180px;
-                height: 128px;
-            }
-
-            &__details {
-                margin-left: 15px;
+            &__img{
+                position: initial;
             }
 
             &__name {
-                font-size: 22px;
+                font-size: 16px;
                 font-weight: bold;
             }
 
             &__detach {
-                margin-right: 15px;
+                margin-right: 40px;
                 position: initial;
+                @media screen and (max-width: 768px) {
+                    margin-right: 15px;
+                }
             }
 
             &__rating {
