@@ -217,9 +217,14 @@
     }
   },
   "navbar": {
-    "settings": "Налаштування",
     "profile": "Профіль",
-    "notifications": "Сповіщення"
+    "tastes": "Мої смаки",
+    "lists": "Мої списки",
+    "visited": "Відвідані",
+    "new_place": "Нове місце",
+    "settings": "Налаштування",
+    "notifications": "Повідомлення",
+    "logout": "Вихід"
   },
   "other_user_page": {
     "private": "Цей профіль приватний :(",
