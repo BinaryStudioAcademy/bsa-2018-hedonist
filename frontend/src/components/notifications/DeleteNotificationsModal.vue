@@ -26,8 +26,4 @@ export default {
     .button.is-danger:hover {
         background-color: #ce143a;
     }
-
-    .modal-card-body {
-        background-color: whitesmoke;
-    }
 </style>
