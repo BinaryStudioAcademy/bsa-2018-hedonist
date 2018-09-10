@@ -80,12 +80,12 @@ export default {
         font-size: 1rem;
         color: #FFF;
         text-align: center;
-        padding: 5px 5px;
+        padding: 10px 20px;
 
         white-space: nowrap;
         vertical-align: middle;
-        height: 48px;
-        width: 48px;
+        height: 40px;
+        width: 40px;
 
         &-bad {
             background-color: #FC8D9F;
