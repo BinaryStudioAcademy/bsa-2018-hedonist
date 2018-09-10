@@ -55,7 +55,8 @@ export default {
     methods: {
         ...mapActions({
             loadCategoriesByName: 'search/loadCategories',
-            loadPlaces: 'search/loadPlaces'
+            loadPlaces: 'search/loadPlaces',
+            fetchCategory: 'category/fetchCategory'
         }),
         loadItems: _.debounce(function () {
             this.findItems.data = [];
@@ -110,7 +111,22 @@ export default {
     },
     created() {
         this.init();
-    }
+    },
+    watch: {
+        '$route.query.category': function(category) {
+            if (category !== undefined && this.findItems.query === '') {
+                this.fetchCategory(category)
+                    .then((res) => {
+                        this.findItems.query = res.name;
+                    });
+            }
+        },
+        '$route.query.name': function(name) {
+            if (name !== undefined && this.findItems.query === '') {
+                this.findItems.query = name;
+            }
+        }
+    },
 };
 </script>
 
