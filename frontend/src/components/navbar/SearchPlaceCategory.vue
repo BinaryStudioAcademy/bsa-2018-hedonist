@@ -2,17 +2,17 @@
     <div class="control">
         <b-field>
             <b-autocomplete
-                    v-model.trim="findItems.query"
-                    placeholder="I'm looking for..."
-                    :data="findItems.data"
-                    :open-on-focus="true"
-                    :loading="findItems.isFetching"
-                    class="navbar__search-autocomplete"
-                    field="name"
-                    @input="loadItems"
-                    @select="option => this.$emit('select', option)"
-                    ref="autocomplete"
-                    @keyup.native.enter="$emit('keyup.native.enter')"
+                v-model.trim="findItems.query"
+                placeholder="I'm looking for..."
+                :data="findItems.data"
+                :open-on-focus="true"
+                :loading="findItems.isFetching"
+                class="navbar__search-autocomplete"
+                field="name"
+                @input="loadItems"
+                @select="option => this.$emit('select', option)"
+                ref="autocomplete"
+                @keyup.native.enter="$emit('keyup.native.enter')"
             >
 
                 <template slot-scope="props">
@@ -30,8 +30,8 @@
             </b-autocomplete>
             <p class="control" v-if="showClearButton">
                 <button
-                        class="button"
-                        @click="clearInput"
+                    class="button"
+                    @click="clearInput"
                 >
                     <b-icon pack="far" icon="times-circle" />
                 </button>
@@ -42,94 +42,94 @@
 
 <script>
 
-    import {mapActions, mapGetters} from 'vuex';
-    import _ from 'lodash';
+import {mapActions, mapGetters} from 'vuex';
+import _ from 'lodash';
 
-    export default {
-        name: 'SearchPlaceCategory',
-        props: {
-            selectCity: {
-                type: Object,
-                required: true
-            }
-        },
-        data() {
-            return {
-                findItems: {
-                    data: [],
-                    query: '',
-                    isFetching: false
-                },
-            };
-        },
-        methods: {
-            ...mapActions({
-                loadCategoriesByName: 'search/loadCategories',
-                loadPlaces: 'search/loadPlaces'
-            }),
-            clearInput(){
-                this.findItems.query = '';
+export default {
+    name: 'SearchPlaceCategory',
+    props: {
+        selectCity: {
+            type: Object,
+            required: true
+        }
+    },
+    data() {
+        return {
+            findItems: {
+                data: [],
+                query: '',
+                isFetching: false
             },
-            loadItems: _.debounce(function () {
-                this.findItems.data = [];
-                this.findItems.isFetching = true;
-                if (this.findItems.query === '') {
-                    this.loadCategoriesByName(this.findItems.query)
-                        .then(res => {
-                            this.findItems.data = res;
-                            this.findItems.isFetching = false;
-                        }, response => {
-                            this.findItems.isFetching = false;
-                        });
-                } else {
-                    let polygon = '';
-                    if (!_.isEmpty(this.selectCity)) {
-                        polygon = this.createPolygonByBBox(this.selectCity.bbox);
-                    }
-                    this.loadPlaces({name: this.findItems.query, polygon: polygon})
-                        .then(res => {
-                            let data = [];
-                            res.forEach(function (item, index) {
-                                data[index] = {
-                                    id: item['id'],
-                                    logo: item['photo']['img_url'],
-                                    nameForAutoComplete: item['localization'][0]['name'] + ' - ' + item['city']['name'],
-                                    name: item['localization'][0]['name'],
-                                    place: true
-                                };
-                            });
-                            this.findItems.data = data;
-                            this.findItems.isFetching = false;
-                        }, response => {
-                            this.findItems.isFetching = false;
-                        });
-                }
-
-            }, 250),
-            init() {
+        };
+    },
+    methods: {
+        ...mapActions({
+            loadCategoriesByName: 'search/loadCategories',
+            loadPlaces: 'search/loadPlaces'
+        }),
+        clearInput(){
+            this.findItems.query = '';
+        },
+        loadItems: _.debounce(function () {
+            this.findItems.data = [];
+            this.findItems.isFetching = true;
+            if (this.findItems.query === '') {
                 this.loadCategoriesByName(this.findItems.query)
                     .then(res => {
                         this.findItems.data = res;
+                        this.findItems.isFetching = false;
+                    }, response => {
+                        this.findItems.isFetching = false;
                     });
-            },
-            createPolygonByBBox(bbox) {
-                const x1 = bbox[0];
-                const y1 = bbox[1];
-                const x2 = bbox[2];
-                const y2 = bbox[3];
+            } else {
+                let polygon = '';
+                if (!_.isEmpty(this.selectCity)) {
+                    polygon = this.createPolygonByBBox(this.selectCity.bbox);
+                }
+                this.loadPlaces({name: this.findItems.query, polygon: polygon})
+                    .then(res => {
+                        let data = [];
+                        res.forEach(function (item, index) {
+                            data[index] = {
+                                id: item['id'],
+                                logo: item['photo']['img_url'],
+                                nameForAutoComplete: item['localization'][0]['name'] + ' - ' + item['city']['name'],
+                                name: item['localization'][0]['name'],
+                                place: true
+                            };
+                        });
+                        this.findItems.data = data;
+                        this.findItems.isFetching = false;
+                    }, response => {
+                        this.findItems.isFetching = false;
+                    });
+            }
 
-                return x1 + ',' + y1 + ';' + x2 + ',' + y1 + ';' + x2 + ',' + y2 + ';' + x1 + ',' + y2 + ';' + x1 + ',' + y1;
-            }
+        }, 250),
+        init() {
+            this.loadCategoriesByName(this.findItems.query)
+                .then(res => {
+                    this.findItems.data = res;
+                });
         },
-        created() {
-            this.init();
-        },
-        computed: {
-            showClearButton(){
-                return !!this.findItems.query;
-            }
-        },
-    };
+        createPolygonByBBox(bbox) {
+            const x1 = bbox[0];
+            const y1 = bbox[1];
+            const x2 = bbox[2];
+            const y2 = bbox[3];
+
+            return x1 + ',' + y1 + ';' + x2 + ',' + y1 + ';' + x2 + ',' + y2 + ';' + x1 + ',' + y2 + ';' + x1 + ',' + y1;
+        }
+    },
+    created() {
+        this.init();
+    },
+    computed: {
+        showClearButton(){
+            return !!this.findItems.query;
+        }
+    },
+};
 </script>
 
 <style>
