@@ -109,8 +109,8 @@
                                 >{{ $t('navbar.visited') }}
                                 </router-link>
                                 <router-link
-                                        class="navbar-item"
-                                        :to="{ name: 'NewPlacePage' }"
+                                    class="navbar-item"
+                                    :to="{ name: 'NewPlacePage' }"
                                 >{{ $t('navbar.new_place') }}
                                 </router-link>
                                 <router-link
@@ -119,8 +119,8 @@
                                 >{{ $t('navbar.settings') }}
                                 </router-link>
                                 <router-link
-                                        class="navbar-item"
-                                        :to="{ name: 'NotificationsPage'}"
+                                    class="navbar-item"
+                                    :to="{ name: 'NotificationsPage'}"
                                 >{{ $t('navbar.notifications') }}
                                 </router-link>
                                 <a
