@@ -4,11 +4,13 @@ namespace Hedonist\Actions\Dislike;
 
 use Hedonist\Exceptions\Review\LikeOwnReviewException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
-use Hedonist\Repositories\Like\{LikeRepositoryInterface, LikeReviewCriteria};
-use Hedonist\Repositories\Dislike\{DislikeRepositoryInterface, DislikeReviewCriteria};
+use Hedonist\Notifications\DislikeReviewNotification;
+use Hedonist\Repositories\Like\{LikeRepositoryInterface,LikeReviewCriteria};
+use Hedonist\Repositories\Dislike\{DislikeRepositoryInterface,DislikeReviewCriteria};
 use Hedonist\Entities\Review\Review;
 use Hedonist\Entities\Dislike\Dislike;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
+use Hedonist\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Hedonist\Events\Review\ReviewAttitudeSetEvent;
 use Illuminate\Support\Facades\Gate;
@@ -18,15 +20,18 @@ class DislikeReviewAction
     private $likeRepository;
     private $dislikeRepository;
     private $reviewRepository;
+    private $userRepository;
 
     public function __construct(
         LikeRepositoryInterface $likeRepository,
         DislikeRepositoryInterface $dislikeRepository,
-        ReviewRepositoryInterface $reviewRepository
+        ReviewRepositoryInterface $reviewRepository,
+        UserRepositoryInterface $userRepository
     ) {
         $this->likeRepository = $likeRepository;
         $this->dislikeRepository = $dislikeRepository;
         $this->reviewRepository = $reviewRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function execute(DislikeReviewRequest $request): DislikeReviewResponse
@@ -69,6 +74,12 @@ class DislikeReviewAction
                 'user_id' => $userId
             ]);
             $this->dislikeRepository->save($dislike);
+            $notifiableUser = $this->userRepository->getById($review->user_id);
+            if ((bool) $notifiableUser->info->notifications_receive === true
+                && Auth::user() !== $notifiableUser->id
+            ) {
+                $notifiableUser->notify(new DislikeReviewNotification($review, Auth::user()));
+            }
         } else {
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
