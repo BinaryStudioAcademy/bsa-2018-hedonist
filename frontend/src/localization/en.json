@@ -256,10 +256,10 @@
       "add": "added a new list"
     },
     "followed_user_update_list": {
-      "update": "update the list"
+      "update": "updated the list"
     },
     "followed_user_delete_list": {
-      "delete": "delete the list"
+      "delete": "deleted the list"
     },
     "follow_you": "subscribed on you.",
     "unfollow_you": "unsubscribed from you.",
