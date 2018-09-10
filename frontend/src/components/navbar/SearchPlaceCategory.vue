@@ -3,7 +3,7 @@
         <b-field>
             <b-autocomplete
                 v-model.trim="findItems.query"
-                placeholder="I'm looking for..."
+                :placeholder="$t('search.looking_for')"
                 :data="findItems.data"
                 :open-on-focus="true"
                 :loading="findItems.isFetching"
