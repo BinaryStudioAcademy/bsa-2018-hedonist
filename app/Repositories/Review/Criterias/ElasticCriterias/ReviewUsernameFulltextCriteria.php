@@ -16,6 +16,6 @@ class ReviewUsernameFulltextCriteria implements ElasticCriteriaInterface
 
     public function apply(SearchBuilder $builder): SearchBuilder
     {
-        return $builder->match('first_name',$this->query)->match('last_name',$this->query);
+        return $builder->should()->multiMatch(['first_name','last_name'],$this->query);
     }
 }
