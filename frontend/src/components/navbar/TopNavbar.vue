@@ -167,10 +167,7 @@ export default {
                 this.listenChannel(this.currentUser.id);
                 this.getUnreadNotifications()
                     .then(() => {
-                        if (!this.notificationsDisplay
-                            && this.notifications.length > 0
-                            && this.$route.name !== 'NotificationsPage'
-                        ) {
+                        if (!this.notificationsDisplay && this.notifications.length > 0) {
                             this.isNewNotifications = true;
                         }
                     });
@@ -222,10 +219,7 @@ export default {
                         this.readNotifications();
                     }
 
-                    if (this.$route.name !== 'NotificationsPage') {
-                        this.addUnreadNotificationId(payload.id);
-                    }
-
+                    this.addUnreadNotificationId(payload.id);
                     this.addNotification({
                         id: payload.id,
                         data: payload,
