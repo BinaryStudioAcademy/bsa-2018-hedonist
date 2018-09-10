@@ -34,7 +34,17 @@
                         >
                             Update
                         </router-link>
-                        <button class="button is-danger" @click="onDelete">Delete</button>
+
+                        <b-modal :active.sync="isDeleteModal" :width="640" scroll="keep">
+                            <div class="box userlist-modal">
+                                <h5 class="title is-5">Do you really want to delete "{{ userList.name }}"?</h5>
+                                <div class="buttons is-centered">
+                                    <button class="button is-info" @click="isDeleteModal = false">Cancel</button>
+                                    <button class="button is-danger" @click="onDelete">Delete</button>
+                                </div>
+                            </div>
+                        </b-modal>
+                        <button class="button is-danger" @click="isDeleteModal = true">Delete</button>
                     </div>
                 </div>
             </div>
@@ -50,7 +60,8 @@ export default {
     data() {
         return {
             imageStub: imageStub,
-            active: false
+            active: false,
+            isDeleteModal: false
         };
     },
     filters: {
@@ -218,5 +229,11 @@ export default {
                 }
             }
         }
+    }
+
+    .userlist-modal {
+        max-width: 640px;
+        text-align: center;
+        overflow-wrap: break-word;
     }
 </style>
