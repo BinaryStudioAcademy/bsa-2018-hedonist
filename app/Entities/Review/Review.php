@@ -2,6 +2,7 @@
 
 namespace Hedonist\Entities\Review;
 
+use Hedonist\ElasticSearch\Mappers\ReviewMapper;
 use Hedonist\Entities\Dislike\Dislike;
 use Hedonist\Entities\Like\Like;
 use Hedonist\Entities\Like\LikeStatus;
@@ -9,6 +10,7 @@ use Hedonist\Entities\Review\Scopes\ReviewRelationScope;
 use Illuminate\Database\Eloquent\Model;
 use Hedonist\Entities\User\User;
 use Hedonist\Entities\Place\Place;
+use Illuminate\Support\Facades\App;
 use Sleimanx2\Plastic\Searchable;
 
 class Review extends Model
@@ -91,14 +93,7 @@ class Review extends Model
 
     public function buildDocument()
     {
-        return [
-            'id' => $this->id,
-            'description' => $this->description,
-            'place' => $this->place,
-            'user' => $this->user,
-            'photos' => $this->photos,
-            'likes' => $this->likes,
-            'dislikes' => $this->dislikes,
-        ];
+       $mapper = App::make(ReviewMapper::class);
+       return $mapper->map($this);
     }
 }
