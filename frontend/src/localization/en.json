@@ -78,7 +78,12 @@
     "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page."
   },
   "my-lists_page": {
-    "no-lists": "You have not got any place lists yet. You may add some and grouped your chosen places."
+    "no-lists": "You have not got any place lists yet. You may add some and grouped your chosen places.",
+    "delete-confirmation": "Do you really want to delete",
+    "buttons": {
+      "add": "Add a new list",
+      "cancel": "Cancel"
+    }
   },
   "add_place_page": {
     "tabs": {
