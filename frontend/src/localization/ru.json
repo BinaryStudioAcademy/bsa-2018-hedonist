@@ -224,7 +224,9 @@
   "navbar": {
     "settings": "Настройки",
     "profile": "Профиль",
-    "notifications": "Уведомления"
+    "notifications": "Уведомления",
+    "login": "Войти",
+    "signup": "Регистрация"
   },
   "other_user_page": {
     "private": "Это приватный профиль :(",
