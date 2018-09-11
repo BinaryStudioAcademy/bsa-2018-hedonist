@@ -2,7 +2,7 @@
     <b-dropdown>
         <button class="button is-primary" slot="trigger"> 
             <span class="btn-icon"><i class="far fa-share-square" /></span>
-                {{ $t('place_page.buttons.share.title') }}
+            {{ $t('place_page.buttons.share.title') }}
             <b-icon icon="menu-down" />
         </button>
 
