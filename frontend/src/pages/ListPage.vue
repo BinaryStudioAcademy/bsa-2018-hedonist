@@ -4,7 +4,7 @@
             <div class="column is-half left-side">
                 <div class="page-content" v-if="!isLoading">
                     <ListHeader
-                        :list-item="userList"
+                        :list-item="userList" :firstPlaceImg="firstPlaceImg"
                     />
                     <ListPlaceItem
                         v-for="place in denormolizedPlaces"
@@ -81,6 +81,15 @@ export default {
             }
             return places;
         },
+        firstPlaceImg() {
+            if (this.denormolizedPlaces.length) {
+                let firstPlace = this.denormolizedPlaces[0];
+                if (firstPlace.photos.length) {
+                    return this.photos.byId[firstPlace.photos[0]].img_url;
+                }
+            }
+            return '';
+        }
     },
     watch:{
         isLoading(){
