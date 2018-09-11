@@ -42,7 +42,9 @@ class GetRecommendationPlaceCollectionAction
         $criterias[] = new GetPlaceByLocationCriteria($location);
         $criterias[] = new GetPlaceByCategoryCriteria($currentPlace->category_id);
         $criterias[] = new ExcludesСurrentPlaceCriteria($currentPlace->id);
-        $criterias[] = new GetPlaceByPlaceTastesCriteria($currentPlace);
+
+        $tastes = $currentPlace->tastes;
+        $criterias[] = new GetPlaceByPlaceTastesCriteria($tastes);
 
         $places = $this->placeRepository->findCollectionByCriterias(
             new PlaceCustomLimitCriteria(3),
