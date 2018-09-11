@@ -13,6 +13,6 @@ class ReviewPopularSortCriteria implements ElasticCriteriaInterface
 
     public function apply(SearchBuilder $builder): SearchBuilder
     {
-        return $builder->sortBy(self::POPULAR_SORT,self::POPULAR_ORDER);
+        return $builder->sortBy(self::POPULAR_SORT, self::POPULAR_ORDER);
     }
 }

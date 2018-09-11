@@ -2,7 +2,6 @@
 
 namespace Hedonist\ElasticSearch\Criterias;
 
-
 use Sleimanx2\Plastic\DSL\SearchBuilder;
 
 interface ElasticCriteriaInterface

@@ -9,7 +9,7 @@ class UserMapper implements MapperInterface
 {
     private function canMap(Model $model): void
     {
-        if(!$model instanceof User){
+        if (!$model instanceof User) {
             throw new \RuntimeException('Incorrect type for mapping');
         }
     }

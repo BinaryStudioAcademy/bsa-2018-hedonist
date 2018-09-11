@@ -28,7 +28,7 @@ class ElasticReviewRepository extends AbstractElasticRepository implements Elast
 
     public function findCollectionByCriterias(ElasticCriteriaInterface ...$criterias): Collection
     {
-        foreach ($criterias as $criteria){
+        foreach ($criterias as $criteria) {
             $this->pushCriteria($criteria);
         }
         $result = $this->get();

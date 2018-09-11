@@ -16,7 +16,7 @@ class ReviewByPlaceIdCriteria implements ElasticCriteriaInterface
 
     public function apply(SearchBuilder $builder): SearchBuilder
     {
-        $builder->filter()->term('place_id',$this->id);
+        $builder->filter()->term('place_id', $this->id);
         return $builder;
     }
 }

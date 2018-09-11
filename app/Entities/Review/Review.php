@@ -93,7 +93,7 @@ class Review extends Model
 
     public function buildDocument()
     {
-       $mapper = App::make(ReviewMapper::class);
-       return $mapper->map($this);
+        $mapper = App::make(ReviewMapper::class);
+        return $mapper->map($this);
     }
 }

@@ -17,7 +17,7 @@ class ReviewMapper implements MapperInterface
 
     private function canMap(Model $model): void
     {
-        if(!$model instanceof Review){
+        if (!$model instanceof Review) {
             throw new \RuntimeException('Incorrect type for mapping');
         }
     }

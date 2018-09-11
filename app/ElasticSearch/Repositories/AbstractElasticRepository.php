@@ -9,7 +9,7 @@ abstract class AbstractElasticRepository implements ElasticRepositoryInterface
 {
     private $criterias = [];
 
-    protected abstract function model(): string;
+    abstract protected function model(): string;
 
     public function get(): Collection
     {
@@ -20,14 +20,14 @@ abstract class AbstractElasticRepository implements ElasticRepositoryInterface
         return $query->get()->hits();
     }
 
-    public final function pushCriteria(ElasticCriteriaInterface $criteria): ElasticRepositoryInterface
+    final public function pushCriteria(ElasticCriteriaInterface $criteria): ElasticRepositoryInterface
     {
         $this->criterias[] = $criteria;
 
         return $this;
     }
 
-    public function clearCriterias(): ElasticRepositoryInterface
+    final public function clearCriterias(): ElasticRepositoryInterface
     {
         $this->criterias = [];
 
