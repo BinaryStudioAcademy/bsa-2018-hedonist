@@ -204,10 +204,12 @@ export default {
         },
         deleteImg() {
             if (this.id && this.imagePreview) {
-                this.deleteUserListImg(this.id);
+                this.deleteUserListImg(this.id)
+                    .then(() => {
+                        this.imagePreview = null;
+                        this.userList.image = null;
+                    });
             }
-            this.imagePreview = null;
-            this.userList.image = null;
         },
     },
     validations: {
