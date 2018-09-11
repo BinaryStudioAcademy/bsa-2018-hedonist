@@ -39,5 +39,7 @@ interface PlaceRepositoryInterface
 
     public function getPlaceCheckinsCountByUser(int $placeId, int $userId) : int;
 
+    public function getGeneralInfoByIds(array $ids): Collection;
+
     public function findCountByCriterias(CriteriaInterface ...$criterias): int;
 }

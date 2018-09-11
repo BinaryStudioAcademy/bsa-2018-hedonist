@@ -249,7 +249,7 @@
         "recent": "Recent" 
       },
       "modal": {
-        "like": "Liked",
+        "like": "Liked by",
         "dislike": "Disliked",
         "close": "Close"
       }
@@ -346,7 +346,8 @@
         "save": "Save",
         "update": "Update",
         "delete": "Delete",
-        "load_cover": "Load a cover image"
+        "load_cover": "Load a cover image",
+        "delete_image": "Delete image"
       }
     },
     "header": {
@@ -392,7 +393,9 @@
       "add": "added a new list"
     },
     "followed_user_update_list": {
-      "update": "updated the list"
+      "update": "updated the list",
+      "attached_places": "Attached places:",
+      "detached_places": "Detached places:"
     },
     "followed_user_delete_list": {
       "delete": "deleted the list"

@@ -156,6 +156,6 @@ export default {
     }
 
     .search-wrp {
-        width: 200px;
+        width: 176px;
     }
 </style>

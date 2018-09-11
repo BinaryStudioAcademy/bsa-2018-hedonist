@@ -17,9 +17,9 @@
                     :key="index"
                 >
                     <component
-                        :is="notificationComponent(getNotificationType(notification))"
-                        :notification="getNotificationSubject(notification)"
-                        :user="getNotificationUser(notification)"
+                        :is="notificationComponent(getNotificationType(notification.id))"
+                        :notification="getNotificationSubject(notification.id)"
+                        :user="getNotificationUser(notification.id)"
                     />
                 </li>
             </ul>
@@ -84,6 +84,9 @@ export default {
     computed: {
         ...mapGetters({
             notifications: 'notifications/getUnreadNotifications',
+            getNotificationUser: 'notifications/getNotificationUser',
+            getNotificationSubject: 'notifications/getNotificationSubject',
+            getNotificationType: 'notifications/getNotificationType'
         }),
         notificationIconActiveClass() {
             return this.isNewNotifications
@@ -117,15 +120,6 @@ export default {
             default:
                 return 'UnknownNotification';
             }
-        },
-        getNotificationUser(notification) {
-            return notification.data.notification['subject_user'];
-        },
-        getNotificationSubject(notification) {
-            return notification.data.notification.subject;
-        },
-        getNotificationType(notification) {
-            return notification.data.notification.type;
         },
         onHideNotifications() {
             this.$emit('hideNotifications');

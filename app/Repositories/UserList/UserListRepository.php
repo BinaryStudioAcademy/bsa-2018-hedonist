@@ -37,7 +37,7 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
 
     public function findUserListsWithPlaces(int $userId): Collection
     {
-        return UserList::with('places', 'places.tags')
+        return UserList::with('places', 'places.tags', 'places.photos')
             ->where('user_id', $userId)
             ->orderBy('created_at', 'DESC')
             ->get();

@@ -34,8 +34,16 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .followed-header{
         margin-top: 30px;
+
+        @media screen and (max-width: 768px) {
+            text-align: center;
+        }
+    }
+    .container {
+        margin-left: 1rem;
+        margin-right: 1rem;
     }
 </style>

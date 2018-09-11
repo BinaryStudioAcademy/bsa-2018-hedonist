@@ -151,6 +151,11 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
         return Checkin::places($placeId)->users($userId)->count();
     }
 
+    public function getGeneralInfoByIds(array $ids): Collection
+    {
+        return Place::whereIn('id', $ids)->get();
+    }
+
     public function findCountByCriterias(CriteriaInterface ...$criterias): int
     {
         foreach ($criterias as $criteria) {
