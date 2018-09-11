@@ -70,7 +70,7 @@ class FollowedUserUpdateListNotification extends Notification
                                 'place_name' => $localization->place_name,
                                 'language' => [
                                     'id' => $localization->language->id,
-                                    'en' => $localization->language->code
+                                    'code' => $localization->language->code
                                 ]
                             ];
                         })->toArray()
@@ -84,7 +84,7 @@ class FollowedUserUpdateListNotification extends Notification
                                 'place_name' => $localization->place_name,
                                 'language' => [
                                     'id' => $localization->language->id,
-                                    'en' => $localization->language->code
+                                    'code' => $localization->language->code
                                 ]
                             ];
                         })->toArray()
