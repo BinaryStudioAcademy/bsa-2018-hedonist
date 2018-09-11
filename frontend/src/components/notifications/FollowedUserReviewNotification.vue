@@ -24,52 +24,14 @@
 </template>
 
 <script>
-import avatarStub from '@/assets/user-placeholder.png';
+import notificationsMixin from '@/components/mixins/notifications';
 
 export default {
     name: 'FollowedUserReviewNotification',
-    props: {
-        notification: {
-            required: true,
-            type: Object
-        },
-        user: {
-            required: true,
-            type: Object
-        },
-        createdAt: {
-            default: null,
-            type: Object
-        }
-    },
-    data() {
-        return {
-            avatarStub: avatarStub
-        };
-    },
+    mixins: [notificationsMixin],
     computed: {
-        getUserName() {
-            return this.user.info['first_name'];
-        },
-        getUserAvatar() {
-            return this.user.info['avatar_url']
-                ? this.user.info['avatar_url']
-                : this.avatarStub;
-        },
         getPlaceName() {
             return this.notification.localization[0]['place_name'];
-        },
-        getDate() {
-            const date = new Date(this.createdAt['date']);
-            const options = {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric'
-            };
-            return date.toLocaleString('en-US', options);
         }
     }
 };

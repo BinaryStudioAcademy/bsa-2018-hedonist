@@ -12,13 +12,13 @@
                     {{ getUserName }}
                 </router-link>
             </span>
-                <span class="text">{{ $t('notifications.followed_user_update_list.update') }}</span>
-                <span class="list-link">
+            <span class="text">{{ $t('notifications.followed_user_update_list.update') }}</span>
+            <span class="list-link">
                 <router-link :to="`/list/${notification['id']}`">
                     {{ this.notification.name }}
                 </router-link>
             </span>
-                <span class="date" v-if="createdAt">
+            <span class="date" v-if="createdAt">
                 ({{ getDate }})
             </span>
         </div>
@@ -52,32 +52,16 @@
 </template>
 
 <script>
-import avatarStub from '@/assets/user-placeholder.png';
+import notificationsMixin from '@/components/mixins/notifications';
 
 export default {
     name: 'FollowedUserUpdateListNotification',
+    mixins: [notificationsMixin],
     props: {
-        notification: {
-            required: true,
-            type: Object
-        },
-        user: {
-            required: true,
-            type: Object
-        },
-        createdAt: {
-            default: null,
-            type: Object
-        },
         detailed: {
             default: false,
             type: Boolean
         }
-    },
-    data() {
-        return {
-            avatarStub: avatarStub
-        };
     },
     methods: {
         getPlaceName(place) {
@@ -85,26 +69,6 @@ export default {
         }
     },
     computed: {
-        getUserName() {
-            return this.user.info['first_name'];
-        },
-        getUserAvatar() {
-            return this.user.info['avatar_url']
-                ? this.user.info['avatar_url']
-                : this.avatarStub;
-        },
-        getDate() {
-            const date = new Date(this.createdAt['date']);
-            const options = {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric'
-            };
-            return date.toLocaleString('en-US', options);
-        },
         attachedPlaces() {
             return this.notification['attached_places'];
         },
@@ -113,7 +77,7 @@ export default {
         },
         showDetailedInfo() {
             return this.detailed
-                && (this.attachedPlaces.length > 0 || this.detachedPlaces.length > 0)
+                && (this.attachedPlaces.length > 0 || this.detachedPlaces.length > 0);
         }
     }
 };
