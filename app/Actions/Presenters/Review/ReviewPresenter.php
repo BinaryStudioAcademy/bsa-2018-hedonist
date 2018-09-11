@@ -22,7 +22,7 @@ class ReviewPresenter
     {
         return [
             'id' => $review->id,
-            'created_at' => $review->created_at->format('Y-m-d H:i:s'),
+            'created_at' => is_string($review->created_at) ? $review->created_at :  $review->created_at->format('Y-m-d H:i:s'),
             'description' => $review->description,
             'user' => $this->usersPresenter->present($review->user),
             'like' => $review->like,

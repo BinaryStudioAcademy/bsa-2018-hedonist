@@ -73,20 +73,14 @@ class ElasticCreateIndexCommand extends Command
             ]
         ];
 
+        $client->indices()->create($reviews);
+
         $this->call('mapping:run');
 
-        $client->indices()->create($places);
-        $client->indices()->create($reviews);
-        $client->indices()->create($lists);
-
-        $places = Place::all();
         $reviews = Review::all();
-        $lists = UserList::all();
 
-        Plastic::persist()->bulkSave($places);
-
-        Plastic::persist()->bulkSave($reviews);
-
-        Plastic::persist()->bulkSave($lists);
+        $reviews->map(function (Review $review){
+            $review->document()->save();
+        });
     }
 }

@@ -43,16 +43,10 @@ class ElasticDeleteIndexCommand extends Command
     {
         $client = Plastic::getClient();
 
-        $client->indices()->delete([
-            'index'=> (new Place())->getDocumentIndex()
-        ]);
+        $this->call('mapping:reset');
 
         $client->indices()->delete([
             'index'=> (new Review())->getDocumentIndex()
-        ]);
-
-        $client->indices()->delete([
-            'index'=> (new UserList())->getDocumentIndex()
         ]);
     }
 }

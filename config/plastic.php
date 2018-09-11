@@ -88,9 +88,7 @@ return [
         |
         */
         'models' => [
-
-            // The models for the default index
-            env('PLASTIC_INDEX', 'plastic') => [],
+            'reviews' => [Hedonist\Entities\Review\Review::class]
         ],
 
         /*

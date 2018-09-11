@@ -7,13 +7,13 @@ use Illuminate\Support\Collection;
 
 abstract class AbstractElasticRepository implements ElasticRepositoryInterface
 {
-    private $criterias;
+    private $criterias = [];
 
     protected abstract function model(): string;
 
     public function get(): Collection
     {
-        $query = $this->model::search();
+        $query = $this->model()::search();
         foreach ($this->criterias as $criteria) {
             $query = $criteria->apply($query);
         }

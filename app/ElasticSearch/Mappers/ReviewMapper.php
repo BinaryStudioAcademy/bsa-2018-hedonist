@@ -33,6 +33,7 @@ class ReviewMapper implements MapperInterface
             'photos' => $model->photos,
             'likes' => $model->likes,
             'dislikes' => $model->dislikes,
+            'created_at' => $model->created_at->format('Y-m-d H:i:s')
         ];
     }
 }

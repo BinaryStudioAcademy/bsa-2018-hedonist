@@ -48,20 +48,18 @@ class GetReviewCollectionAction
         }
 
         if (!is_null($text)) {
-            $criterias[] = new ReviewDescriptionFulltextCriteria($text);
-            $criterias[] = new ReviewUsernameFulltextCriteria($text);
+            //$criterias[] = new ReviewDescriptionFulltextCriteria($text);
+            //$criterias[] = new ReviewUsernameFulltextCriteria($text);
         }
 
         if ($sort === PopularSortCriteria::POPULAR_SORT) {
-            $criterias[] = new ReviewPopularSortCriteria();
+            //$criterias[] = new ReviewPopularSortCriteria();
         } else {
-            $criterias[] = new ReviewDefaultSortCriteria();
+            //$criterias[] = new ReviewDefaultSortCriteria();
         }
 
-        $reviews = $this->elasticReviewRepository->findCollectionByCriterias(
-            new ElasticPaginationCriteria($page),
-            ...$criterias
-        );
+        $reviews = $this->elasticReviewRepository->get();
+        clock($reviews);
 
         return new GetReviewCollectionResponse($reviews, $totalCount, ElasticPaginationCriteria::LIMIT);
     }
