@@ -135,7 +135,7 @@ class GetPlaceCollectionByFiltersAction
         $filterInfo = $this->getPlaceFilterInfoJson($user, $request);
         Log::info("search: User {$user->id} performed search: {$filterInfo}");
 
-        return new GetPlaceCollectionResponse($places, $user);
+        return new GetPlaceCollectionResponse($places->sortByDesc('created_at'), $user);
     }
 
     private function getPlaceFilterInfoJson(User $user, GetPlaceCollectionByFiltersRequest $request): string
