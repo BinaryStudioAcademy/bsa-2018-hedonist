@@ -6,9 +6,24 @@ import { KIEV_LATITUDE, KIEV_LONGITUDE } from '@/services/location/positions';
 
 export default {
     updateStateFromQuery: ({commit, dispatch}, query) => {
-        if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
+        dispatch('setLoadingState', true);
+        if(query.name) commit('SET_SEARCH_PLACE', query.name);
         if(query.page) commit('SET_PAGE', query.page);
-        if(query.category) commit('SET_SEARCH_PLACE_CATEGORY', {id: query.category, name: ''});
+
+        let categoryId = parseInt(query.category);
+
+        if(query.category) {
+            commit('SET_SEARCH_PLACE_CATEGORY', {id: categoryId, name: ''});
+            dispatch('category/fetchCategoryTags', categoryId, {root:true});
+        }
+        if (query.tags) {
+            let tagArray = query.tags.split(',').map(tagId => parseInt(tagId));
+            commit('SET_SELECTED_TAGS', tagArray);
+        }
+        if (query.features) {
+            let featureArray = query.features.split(',').map(featureId => parseInt(featureId));
+            commit('SET_SELECTED_FEATURES', featureArray);
+        }
         if(query.location) {
             let location = query.location.split(',');
             commit('SET_SEARCH_CITY', {center: location});
@@ -38,14 +53,16 @@ export default {
         commit('SET_SEARCH_CITY', city);
     },
 
-    selectSearchCategory: ({commit}, item) => {
+    selectSearchCategory: ({commit, dispatch}, item) => {
         commit('SET_SEARCH_PLACE_CATEGORY', item);
         commit('DELETE_SEARCH_PLACE');
+        dispatch('category/fetchCategoryTags', item.id, {root: true});
     },
 
-    selectSearchPlace: ({commit}, searchPlace) => {
+    selectSearchPlace: ({commit, dispatch}, searchPlace) => {
         commit('SET_SEARCH_PLACE', searchPlace);
         commit('DELETE_SEARCH_PLACE_CATEGORY');
+        dispatch('category/deleteCategoryTags', null, {root: true});
     },
 
     loadCategories({context , commit}, name) {
@@ -54,13 +71,18 @@ export default {
             .catch(error => Promise.reject(error));
     },
 
-    updateQueryFilters({state, dispatch}) {
+    updateQueryFilters({state, dispatch}, params) {
+        dispatch('setLoadingState', true);
         let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
+        let tags = state.selectedTags.join();
+        let features = state.selectedFeatures.join();
         if (state.city.longitude && state.city.latitude) {
             location = state.city.longitude + ',' + state.city.latitude;
         }
         let query = {
             category: state.placeCategory && state.placeCategory.id,
+            tags,
+            features,
             page: state.page,
             name: state.place,
             location: location,
@@ -75,14 +97,18 @@ export default {
             }
         });
 
-        router.push({
-            name: 'SearchPlacePage',
-            query
-        });
-
-        dispatch('setIsPlacesLoaded', false);
+        if(
+            params === undefined ||
+            params.redirect === undefined ||
+            params.redirect !== false
+        ) {
+            router.push({
+                name: 'SearchPlacePage',
+                query
+            });
+        }
         dispatch('place/fetchPlaces', query, {root:true}).then(() => {
-            dispatch('setIsPlacesLoaded', true);
+            dispatch('setLoadingState', false);
         });
     },
 
@@ -92,6 +118,10 @@ export default {
 
     setLocationAvailable: ({commit}, locationAvailable) => {
         commit('SET_LOCATION_AVAILABLE', locationAvailable);
+    },
+
+    setLoadingState: ({commit}, isLoading) => {
+        commit('SET_LOADING_STATE', isLoading);
     },
 
     setFilters: ({commit, dispatch}, filters) => {
@@ -106,6 +136,8 @@ export default {
             saved: !!query['saved'],
             top_rated: !!query['top_rated'],
             top_reviewed: !!query['top_reviewed'],
+            recommended: !!query['recommended'],
+            opened: !!query['opened']
         };
 
         commit('SET_FILTERS', filters);
@@ -116,12 +148,28 @@ export default {
     },
 
     loadPlaces(context, filters) {
-        return httpService.get('/places/autocomplete/search?filter[name]=' + filters.name + '&filter[location]=' + filters.location)
+        return httpService.get('/places/autocomplete/search?filter[name]=' + filters.name + '&filter[polygon]=' + filters.polygon)
             .then( result => Promise.resolve(result.data.data))
             .catch( error  => Promise.reject(error));
     },
 
-    setIsPlacesLoaded: ({commit}, isPlacesLoaded) => {
-        commit('SET_IS_PLACES_LOADED', isPlacesLoaded);
+    addSelectedTag: ({commit}, tagId) => {
+        commit('ADD_SELECTED_TAG', tagId);
     },
+
+    deleteSelectedTag: ({commit}, tagId) => {
+        commit('DELETE_SELECTED_TAG', tagId);
+    },
+
+    addSelectedFeature: ({commit}, featureId) => {
+        commit('ADD_SELECTED_FEATURE', featureId);
+    },
+
+    deleteSelectedFeature: ({commit}, featureId) => {
+        commit('DELETE_SELECTED_FEATURE', featureId);
+    },
+
+    clearSelectedTags: ({commit}) => {
+        commit('CLEAR_SELECTED_TAGS');
+    }
 };

@@ -27,15 +27,25 @@ export default {
         return cities;
     },
 
-    getFilteredByCity: (state, getters) => (userLists, cityId) => {
+    getFilteredByCity: (state, getters) => (userLists, cityIds) => {
+        if (cityIds === []) return userLists;
         let filtered = {};
         Object.keys(userLists).forEach( (key) => {
             let userList = userLists[key];
             let cities = Object.keys(
                 getters.getUniqueCities(userList)
-            ).filter(
-                id => parseInt(id) === cityId
             );
+
+            if (!Array.isArray(cityIds)) {
+                cities = cities.filter(
+                    id => parseInt(id) === cityIds
+                );
+            } else {
+                cities = cities.filter(
+                    id => cityIds.includes(parseInt(id))
+                );
+            };
+
             if(cities.length > 0) filtered[userList.id] = userList;
         });
         return filtered;
@@ -52,9 +62,11 @@ export default {
     getPlacesByIds: (state, getters) => (ids) => {
         return ids.map((id) => {
             const place = getters.getPlaceById(id);
+            const photos = getters.getPhotosByIds(place.photos);
+            place.photo = photos[0];
             return {
                 ...place,
-                photos: getters.getPhotosByIds(place.photos),
+                photos: photos,
                 city: state.cities.byId[place.city],
                 category: state.categories.byId[place.category]
             };

@@ -1,4 +1,8 @@
 {
+  "buttons": {
+    "edit": "Изменить",
+    "delete": "Удалить"
+  },
   "login_page": {
     "title": "Войдите в свой аккаунт",
     "register": {
@@ -45,13 +49,13 @@
         "placeholder": "Ваш Email"
       },
       "password": {
-        "field_name": "Пароль",
-        "placeholder": "Ваш Пароль",
+        "field_name": "Новый пароль",
+        "placeholder": "Новый пароль",
         "description": "(минимум 6 символов)"
       },
-      "new_password": {
+      "confirm_password": {
         "field_name": "Подтвердите новый пароль",
-        "placeholder": "Новый пароль"
+        "placeholder": "Подтвердите новый пароль"
       }
     }
   },
@@ -63,6 +67,7 @@
     "email_exists": "Пользователь с таким email уже существует."
   },
   "search": {
+    "looking_for": "Я ищу...",
     "current_location": "Текущее местоположение",
     "no_results": "Извините, результатов не найдено.",
     "may_try": "Вы можете попробовать",
@@ -74,6 +79,219 @@
     "no-check-ins": "Вы не зарегистрировались ни в каком месте. Посетите какое-то из них и сделайте \"чек-ин\" на его странице."
   },
   "my-lists_page": {
-    "no-lists": "У вас пока нет списков мест. Вы можете добавить некоторые и сгруппировать выбранные вами места."
+    "no-lists": "У вас пока нет списков мест. Вы можете добавить некоторые и сгруппировать выбранные вами места.",
+    "delete-confirmation": "Вы действительно хотите удалить",
+    "buttons": {
+      "add": "Создать новый список",
+      "cancel": "Выход"
+    }
+  },
+  "add_place_page": {
+    "tabs": {
+      "general": {
+        "label": "Основные",
+        "labels": {
+          "name": "Имя",
+          "city": "Город",
+          "zip": "Индекс",
+          "address": "Адрес",
+          "phone": "Телефон",
+          "twitter": "Twitter",
+          "facebook": "Facebook",
+          "instagram": "Instagram",
+          "website": "Сайт",
+          "menu": "Меню",
+          "description": "Описание"
+        },
+        "dividers": {
+          "first": "Адрес и расположение",
+          "second": "Контактные данные и пр."
+        },
+        "placeholders": {
+          "name": "the Best place",
+          "city": "Киев",
+          "zip": "09678",
+          "address": "ул. Крещатик, д.14",
+          "phone": "+380961112233",
+          "twitter": "http://twitter.com/",
+          "facebook": "http://facebook.com/",
+          "instagram": "http://instagram.com/",
+          "website": "http://the-best-place.com/",
+          "menu": "http://the-best-place.com/menu",
+          "description": "Мы - the Best place, которое Вы можете посетить.."
+        }
+      },
+      "photos": {
+        "label": "Фото",
+        "upload": "Перетащите фото или кликните, чтобы загрузить",
+        "delete": "удалить"
+      },
+      "location": {
+        "label": "Расположение"
+      },
+      "categories": {
+        "label": "Категории",
+        "select_cat": "Выбрать категорию",
+        "select_tag": "Тэги"
+      },
+      "features": {
+        "label": "Особенности"
+      },
+      "hours": {
+        "label": "Режим работы",
+        "from": "с",
+        "till": "до",
+        "clock": "часов",
+        "day_off": "Выходной?",
+        "add": "Добавить"
+      },
+      "add": {
+        "label": "Добавить",
+        "confirmation": "Вы действительно хотите добавить место"
+      }
+    },
+    "buttons": {
+      "next": "Дальше",
+      "previous": "Назад",
+      "add": "Добавить"
+    },
+    "toast": {
+      "error": "Что-то пошло не так. Пожалуйста, попробуйте позже."
+    },
+    "validators": {
+      "toast": {
+        "general": "Пожалуйста, заполните подсвеченные поля.",
+        "phone": "Пожалуйста, исправьте формат телефона.",
+        "common": "Пожалуйста, добавьте данные."
+      },
+      "message": {
+        "name": "От 4 до 20 символов!",
+        "zip": "Только цифры!",
+        "phone": "Напр. +380950000000 или 380950000000.",
+        "website": "НЕ url!",
+        "description": "От 20 до 500 символов!"
+      }
+    }
+  },
+  "weekdays": {
+    "mo": "Понедельник",
+    "tu": "Вторник",
+    "we": "Среда",
+    "th": "Четверг",
+    "fr": "Пятница",
+    "sa": "Суббота",
+    "su": "Воскресенье"
+  },
+  "place_page": {
+    "sidebar": {
+      "schedule": "Режим работы",
+      "open": "Открыто",
+      "close": "Закрыто",
+      "features": "Особенности",
+      "recommendation": "Вам также понравится"
+    },
+    "top_info": {
+      "favourite": "Избранные",
+      "users_on_page_modal": {
+        "title": "Кто сейчас смотрит страницу"
+      }
+    },
+    "message": {
+      "no-lists": "У вас пока нет списков мест.",
+      "added-to-list": "Место добавлено в список!",
+      "removed-from-list": "Место удалено из списка!",
+      "like_own_review":"Извините, но вы не можете лайкнуть/дизлайкнуть свой отзыв :("
+    },
+    "buttons": {
+      "more": "Показать больше",
+      "less": "Показать меньше",
+      "save": "Сохранить"
+    }
+  },
+  "profile_page": {
+    "private": "Сделать профиль приватным",
+    "receive_notifications": "Получать уведомления"
+  },
+  "messages": {
+    "success": {
+      "changed_password": "Вы успешно изменили ваш пароль! Теперь вам нужно войти в систему"
+    }
+  },
+  "navbar": {
+    "profile": "Профиль",
+    "tastes": "Мои вкусы",
+    "lists": "Мои списки",
+    "visited": "Посещенные",
+    "new_place": "Новое место",
+    "settings": "Настройки",
+    "notifications": "Уведомления",
+    "logout": "Выход"
+  },
+  "other_user_page": {
+    "private": "Это приватный профиль :(",
+    "followers": "Подписчики",
+    "reviews": "Отзывы",
+    "lists": "Списки",
+    "following": "Подписки",
+    "follower_container": {
+      "title": "подписчики"
+    },
+    "followed_container": {
+      "title": "подписки"
+    },
+    "review_container": {
+      "tittle": "отзывы"
+    },
+    "lists_container": {
+      "title": "списки"
+    }
+  },
+  "user_lists_page": {
+    "list_preview": {
+      "places_in_list": "Мест в списке:",
+      "cities_in_list": "Города в списке:"
+    },
+    "city_pills": {
+      "clear_filter": "Очистить фильтр"
+    }
+  },
+  "notifications": {
+    "no-notifications": "У вас нет уведомлений.",
+    "clear-notifications": "Очистить уведомления",
+    "confirm-deleting": "Удалить все уведомления?",
+    "yes": "Да",
+    "no": "Нет",
+    "review_place": {
+      "made_review": "оставил комментарий под вашим местом"
+    },
+    "like_review": {
+      "liked": "поставил лайк вашему",
+      "review": "ревью"
+    },
+    "dislike_review": {
+      "disliked": "поставил дизлайк вашему",
+      "review": "ревью"
+    },
+    "followed_user_review": {
+      "made_review": "сделал ревью на"
+    },
+    "followed_user_add_place": {
+      "add_new": "добавил новое",
+      "place": "место"
+    },
+    "followed_user_add_list": {
+      "add": "добавил новый список"
+    },
+    "followed_user_update_list": {
+      "update": "обновил свой список"
+    },
+    "followed_user_delete_list": {
+      "delete": "удалил свой список"
+    },
+    "follow_you": "подписался на Вас.",
+    "unfollow_you": "отписался от Вас.",
+    "navbar": {
+      "no_notifs": "У вас нет новых уведомлений"
+    }
   }
 }

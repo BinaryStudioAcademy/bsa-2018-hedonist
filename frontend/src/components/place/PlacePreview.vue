@@ -2,7 +2,7 @@
     <transition name="slide-fade">
         <div class="container place-item" v-if="active">
             <div class="media">
-                <figure v-if="hasPhotos" class="media-left image is-128x128">
+                <figure v-if="hasPhotos" class="media-left image is-64x64">
                     <img 
                         v-for="(photo, index) in place.photos"
                         v-img="{group: place.id}"
@@ -11,12 +11,12 @@
                         :key="photo.id"
                     >
                 </figure>
-                <figure v-else class="media-left image is-128x128">
+                <figure v-else class="media-left image is-64x64">
                     <img :src="notFoundPhoto">
                 </figure>
                 <div class="media-content">
                     <h3
-                        class="title has-text-primary"
+                        class="title is-6 has-text-primary"
                     >
                         <router-link :to="`/places/${place.id}`">
                             {{ localizedName }}
@@ -46,6 +46,7 @@
                             type="is-info"
                             v-for="tag in place.tags"
                             :key="tag.id"
+                            class="preview-tag"
                         >
                             {{ tag.name }}
                         </b-tag>
@@ -53,8 +54,9 @@
                 </div>
             </div>
             <Review
-                v-if="place.review"
+                v-if="place.review && showReview"
                 :review="place.review"
+                :show-like-dislike-btns="false"
             />
         </div>
     </transition>
@@ -84,6 +86,10 @@ export default {
         timer: {
             required: true,
             type: Number,
+        },
+        showReview: {
+            default: true,
+            type: Boolean,
         }
     },
     computed: {
@@ -126,8 +132,9 @@ export default {
         background: #FFF;
         color: grey;
         max-width: 100%;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
         padding: 10px;
+        font-size: 0.75rem;
     }
 
     .columns {
@@ -144,7 +151,6 @@ export default {
     }
 
     .place-category {
-        margin-bottom: 0.25rem;
         a {
             color: grey;
             -webkit-transition: color 0.3s;
@@ -158,10 +164,6 @@ export default {
                 text-decoration: underline;
             }
         }
-    }
-
-    .address {
-        margin-bottom: 0.5rem;
     }
 
     hr {
@@ -178,4 +180,12 @@ export default {
         opacity: 0;
     }
 
+    .media + .media {
+        margin-top: 0.25rem;
+        padding-top: 0.25rem;
+    }
+
+    .preview-tag {
+        font-size: 0.75em;
+    }
 </style>

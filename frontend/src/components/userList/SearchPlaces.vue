@@ -5,6 +5,12 @@
             class="search-places"
         >
             <div class="search-inputs">
+                <div class="search-inputs__location">
+                    <SearchCity
+                        @select="selectCity"
+                        :no-redirect = "noRedirect"
+                    />
+                </div>
                 <div :class="['search-inputs__name', 'control', searchInputLoadingClass]">
                     <input
                         placeholder="Search places"
@@ -14,9 +20,6 @@
                         class="search-field input"
                         @input="searchPlaces()"
                     >
-                </div>
-                <div class="search-inputs__location">
-                    <SearchCity @select="selectCity" />
                 </div>
             </div>
             <div class="search-places__list" v-show="displayList && !isPlaceFetching">
@@ -30,8 +33,8 @@
                         <div class="search-places__img-wrapper">
                             <img
                                 class="search-places__img place-image"
-                                :src="getPlacePhoto(place)"
-                                :alt="getPlacePhotoDescription(place)"
+                                :src="place.photo.img_url"
+                                :alt="place.photo.description"
                             >
                         </div>
                         <div class="search-places__details">
@@ -68,8 +71,8 @@
                     <div class="attached-places__img-wrapper">
                         <img
                             class="attached-places__img place-image"
-                            :src="getPlacePhoto(place)"
-                            :alt="getPlacePhotoDescription(place)"
+                            :src="place.photo.img_url"
+                            :alt="place.photo.description"
                         >
                     </div>
                     <div class="attached-places__details">
@@ -93,8 +96,6 @@
 <script>
 import { mapActions } from 'vuex';
 import SearchCity from '@/components/navbar/SearchCity';
-import LocationService from '@/services/location/locationService';
-import mapSettingsService from '@/services/map/mapSettingsService';
 
 export default {
     name: 'SearchPlaces',
@@ -102,7 +103,7 @@ export default {
         SearchCity
     },
     props: {
-        attachedPlaces: {
+        listAttachedPlaces: {
             type: Array,
             required: true
         },
@@ -111,19 +112,14 @@ export default {
         return {
             searchName: '',
             displayList: false,
-            location: {
-                lat: 50.4547,
-                lng: 30.5238
-            },
+            attachedPlaces: [],
             places: [],
             isPlaceFetching: false,
+            noRedirect: {
+                redirect: false
+            },
+            polygon: ''
         };
-    },
-    created() {
-        LocationService.getUserLocationData()
-            .then(({lng, lat}) => {
-                this.location = {lng, lat};
-            });
     },
     computed: {
         searchInputLoadingClass() {
@@ -133,23 +129,24 @@ export default {
     watch: {
         'attachedPlaces': function() {
             this.$emit('changeAttachedPlaces', this.attachedPlaces);
+        },
+        'listAttachedPlaces': function() {
+            this.attachedPlaces = this.listAttachedPlaces;
         }
     },
     methods: {
-        ...mapActions({ fetchPlaces: 'place/fetchPlaces' }),
-        searchPlaces() {
-            _.debounce(() => {
-                this.isPlaceFetching = true;
-                this.fetchPlaces({
-                    location: `${this.location.lng},${this.location.lat}`,
-                    searchName: this.searchName
-                }).then((res) => {
+        ...mapActions({
+            loadPlaces: 'search/loadPlaces'
+        }),
+        searchPlaces: _.debounce(function() {
+            this.isPlaceFetching = true;
+            this.loadPlaces({name: this.searchName, polygon: this.polygon})
+                .then( res => {
                     this.displayList = true;
                     this.isPlaceFetching = false;
-                    this.places = this.filterPlaces(res.data.data);
+                    this.places = res;
                 });
-            }, 500)();
-        },
+        }, 500),
         hideSearchList() {
             this.displayList = false;
         },
@@ -164,11 +161,11 @@ export default {
             return _.differenceBy(places, this.attachedPlaces, 'id');
         },
         ratingModifier(rating) {
-            if (rating >= 7) {
+            if (rating >= 4) {
                 return 'good';
             }
 
-            if (rating >= 5) {
+            if (rating >= 3) {
                 return 'okay';
             }
 
@@ -177,20 +174,17 @@ export default {
         getPlaceName(place) {
             return place.localization[0].name;
         },
-        getPlacePhoto(place) {
-            return place.photos[0]['img_url'];
-        },
-        getPlacePhotoDescription(place) {
-            return place.photos[0]['description'];
-        },
         selectCity(city) {
-            if (city && city.center) {
-                this.location = {
-                    lng: city.center[0],
-                    lat: city.center[1]
-                };
-                this.searchPlaces();
-            }
+            this.polygon = city ? this.createPolygonByBBox(city.bbox) : '';
+            this.searchPlaces();
+        },
+        createPolygonByBBox(bbox) {
+            const x1 = bbox[0];
+            const y1 = bbox[1];
+            const x2 = bbox[2];
+            const y2 = bbox[3];
+
+            return x1 + ',' + y1 + ';' + x2 + ',' + y1 + ';' + x2 + ',' + y2 + ';' + x1 + ',' + y2 + ';' + x1 + ',' + y1;
         }
     }
 };
@@ -245,16 +239,14 @@ export default {
             padding: 10px;
 
             .search-inputs {
-                display: flex;
+                display: block;
 
                 &__name {
-                    position: relative;
-                    width: 80%
+                    width: 100%
                 }
 
                 &__location {
-                    position: relative;
-                    width: 20%;
+                    padding-bottom: 5px;
                 }
             }
 
@@ -283,7 +275,6 @@ export default {
                 width: calc(100% - 20px);
                 max-height: 200px;
                 overflow-y: auto;
-                top: 47px;
                 background: #fff;
                 border: 1px solid #3990bb;
                 border-top: none !important;

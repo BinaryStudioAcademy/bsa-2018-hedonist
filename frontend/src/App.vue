@@ -17,14 +17,15 @@ export default {
 </script>
 
 <style lang="scss">
-@import url(buefy/lib/buefy.css);
+@import "~bulma/sass/utilities/_all";
+@import "./styles/custom-variables.scss";
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
 @import url('https://api.tiles.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css');
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500');
 @import "vue-directive-tooltip/src/css/index.scss";
 @import url('@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css');
-
-$background-color: #efeff4;
-$font-color: #4e595d;
+@import "./styles/common";
 
 html, body {
     padding: 0;

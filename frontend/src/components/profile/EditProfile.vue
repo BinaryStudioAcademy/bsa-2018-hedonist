@@ -20,7 +20,7 @@
                     </b-upload>
                 </b-field>
                 <a class="button is-danger is-fullwidth" @click="deleteAvatar">
-                    <b-icon icon="trash" />
+                    <b-icon icon="delete" />
                     <span>Delete avatar</span>
                 </a>
             </div>
@@ -108,6 +108,23 @@
                 <b-field label="Facebook">
                     <b-input v-model.trim="user.facebook_url" />
                 </b-field>
+                <div class="notifications">
+                    <div class="notifications__item">
+                        <span class="label">{{ $t('profile_page.private') }}</span>
+                        <b-switch
+                            v-model="user.is_private"
+                            type="is-info"
+                        />
+                    </div>
+                    <div class="notifications__item">
+                        <span class="label">{{ $t('profile_page.receive_notifications') }}</span>
+                        <b-switch
+                            type="is-info"
+                            :value="user.notifications_receive"
+                            v-model="user.notifications_receive"
+                        />
+                    </div>
+                </div>
                 <div class="buttons is-right">
                     <a class="button is-primary" @click="saveData">
                         <b-icon icon="upload" />
@@ -142,6 +159,8 @@ export default {
                 instagram_url: '',
                 facebook_url: '',
                 twitter_url: '',
+                is_private: false,
+                notifications_receive: true
             },
             isPhoneInvalid:false
         };
@@ -165,8 +184,10 @@ export default {
             this.fetchProfileUser(this.authUser.id)
                 .then((profileUser) => {
                     this.user = Object.assign({}, profileUser);
+                    this.user['is_private'] = this.user['is_private'] === 1;
+                    this.user['notifications_receive'] = this.user['notifications_receive'] === 1;
                     if (this.user.date_of_birth !== null) {
-                        let date = new Date(this.user.date_of_birth.date);
+                        let date = new Date(this.user.date_of_birth);
                         this.birthYear = date.getFullYear();
                         this.birthMonth = date.getMonth() + 1;
                         this.birthDay = date.getDate();
@@ -233,6 +254,8 @@ export default {
             formData.append('instagram_url', this.convertNullToEmptyString(this.user.instagram_url));
             formData.append('facebook_url', this.convertNullToEmptyString(this.user.facebook_url));
             formData.append('twitter_url', this.convertNullToEmptyString(this.user.twitter_url));
+            formData.append('is_private', this.convertBoolToNumber(this.user.is_private));
+            formData.append('notifications_receive', this.convertBoolToNumber(this.user.notifications_receive));
 
             if (this.birthYear && this.birthMonth && this.birthDay) {
                 this.user.date_of_birth = this.birthYear + '/' + ('0' + this.birthMonth).slice(-2) + '/' + ('0' + this.birthDay).slice(-2);
@@ -263,12 +286,15 @@ export default {
         },
         phoneOnFocus(){
             this.isPhoneInvalid = false;
+        },
+        convertBoolToNumber(value) {
+            return value ? 1 : 0;
         }
     }
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .container {
         max-width: 700px;
         text-align: left;
@@ -279,11 +305,15 @@ export default {
     .avatar {
         text-align: center;
         margin-bottom: 10px;
+        width: 200px;
+        height: 200px;
     }
 
     .image img {
-        width: 200px;
-        height: 200px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
     }
 
     .file.is-fullwidth {
@@ -292,6 +322,17 @@ export default {
 
     .upload {
         width: 100%;
+    }
+
+    .notifications {
+        margin: 20px 0;
+
+        &__item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
     }
 
     @media screen and (max-width: 769px) {

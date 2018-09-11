@@ -8,7 +8,7 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 
 class TopRatedCriteria implements CriteriaInterface
 {
-    const TOP_RATING = 8;
+    const TOP_RATING = 4;
 
     public function apply($model, RepositoryInterface $repository)
     {

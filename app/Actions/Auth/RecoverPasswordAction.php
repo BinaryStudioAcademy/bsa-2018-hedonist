@@ -4,8 +4,9 @@ namespace Hedonist\Actions\Auth;
 
 use Hedonist\Actions\Auth\Requests\RecoverPasswordRequest;
 use Hedonist\Exceptions\Auth\PasswordResetEmailSentException;
+use Hedonist\Mail\ResetPasswordLinkSent;
 use Illuminate\Contracts\Auth\PasswordBroker;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Mail;
 
 class RecoverPasswordAction
 {
@@ -18,9 +19,17 @@ class RecoverPasswordAction
 
     public function execute(RecoverPasswordRequest $request)
     {
-        $success = $this->broker->sendResetLink(['email' => $request->getEmail()]);
+        $user = $this->broker->getUser(['email' => $request->getEmail()]);
 
-        if ($success !== Password::RESET_LINK_SENT) {
+        if (is_null($user)) {
+            throw new PasswordResetEmailSentException();
+        }
+
+        $token = $this->broker->createToken($user);
+
+        try {
+            Mail::to($user)->send(new ResetPasswordLinkSent($user, $token));
+        } catch (\Throwable $e) {
             throw new PasswordResetEmailSentException();
         }
     }

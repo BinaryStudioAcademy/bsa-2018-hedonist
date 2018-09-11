@@ -2,10 +2,15 @@
     <div class="navbar-start">
         <Preloader :active="isLoading" />
         <div class="navbar-item">
-            <SearchPlaceCategory @select="onSelect" ref="selectPlaceCategoryComponent" :select-city="location" />
+            <SearchPlaceCategory 
+                @keyup.native.enter="search" 
+                @select="selectCategory" 
+                ref="selectPlaceCategoryComponent" 
+                :select-city="location"
+            />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="selectCity" />
+            <SearchCity @keyup.native.enter="search" @select="selectCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
@@ -46,16 +51,12 @@ export default {
         Preloader
     },
     methods: {
-        ...mapActions({
-            selectSearchCity: 'search/selectSearchCity',
-            updateQueryFilters: 'search/updateQueryFilters',
-            selectSearchCategory: 'search/selectSearchCategory',
-            setCategoryTags: 'category/fetchCategoryTags',
-            selectSearchPlace: 'search/selectSearchPlace',
-        }),
-        ...mapMutations('search', {
-            setLoadingState: 'SET_LOADING_STATE',
-        }),
+        ...mapActions('search', [
+            'selectSearchCity',
+            'updateQueryFilters',
+            'selectSearchCategory',
+            'selectSearchPlace'
+        ]),
         selectCity(city){
             this.location = city ? city : {};
         },
@@ -63,7 +64,6 @@ export default {
             this.category = category ? category : {};
         },
         search() {
-            this.setLoadingState(true);
             if(!_.isEmpty(this.location)) {
                 this.selectSearchCity(this.location);
             }
@@ -73,15 +73,7 @@ export default {
                 this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.$refs.autocomplete.value);
             }
             this.updateQueryFilters();
-            this.setLoadingState(false);
-        },
-        onSelect(query) {
-            this.selectCategory(query);
-
-            if (query !== null && query.id) {
-                this.setCategoryTags(query.id);
-            }
-        },
+        }
     }
 };
 </script>
@@ -95,14 +87,14 @@ export default {
 
 <style lang="scss" scoped>
     .button {
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             width: 88%;
         }
 
         .button-title {
             display: none;
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 display: inline-block;
             }
         }
@@ -110,14 +102,14 @@ export default {
         &:hover {
             background-color: #167df0;
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 background-color: #0f77ea;
             }
         }
     }
 
     .navbar-search-btn {
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             text-align: center;
         }
     }

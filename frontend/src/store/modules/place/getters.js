@@ -8,9 +8,26 @@ export default {
     getById: state => id => {
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve(state.places.find(function (place) { return place.id === parseInt(id); }));
+                resolve(state.places.find(function (place) {
+                    return place.id === parseInt(id);
+                }));
             }, 500);
         });
+    },
+
+    getReviewsById: state => user_id => {
+        return state.places
+            .filter(
+                place => place.review.user.id === user_id
+            )
+            .slice(0,10);
+    },
+
+    getUserReviewsAll: state => user_id => {
+        return state.places
+            .filter(
+                place => place.review.user.id === user_id
+            );
     },
 
     getLikedStatus: state => {
@@ -23,5 +40,19 @@ export default {
 
     getDislikes: state => {
         return state.currentPlace && state.currentPlace.dislikes;
+    },
+
+    getAllVisitorsButMe: (state, getters, rootState) => {
+        let filtered = {
+            byId: {},
+            allIds: []
+        };
+        const myUserId = rootState.auth.currentUser.id;
+        state.visitors.allIds.forEach(id=>{
+            if(id == myUserId) return;
+            filtered.byId[id] = state.visitors.byId[id];
+            filtered.allIds.push(id);
+        });
+        return filtered;
     }
 };

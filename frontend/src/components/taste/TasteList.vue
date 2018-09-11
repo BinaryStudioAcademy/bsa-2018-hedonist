@@ -15,19 +15,23 @@
                 </div>
             </li>
         </ul>
-        <b-autocomplete
-            class="taste-input"
-            rounded
-            v-model.trim="tasteInput.text"
-            placeholder="Enter a tag"
-            :loading="tasteInput.isFetching"
-            :data="tasteInput.data"
-            @input="loadTags"
-            @select="option => selected = option"
-            @keyup.native.enter="addCustomTaste(tasteInput.text)"
-            maxlength="20"
-            minlength="3"
-        />
+        <div class="level">
+            <div class="level-item">
+                <b-autocomplete
+                    class="taste-input"
+                    rounded
+                    v-model.trim="tasteInput.text"
+                    placeholder="Enter a tag"
+                    :loading="tasteInput.isFetching"
+                    :data="tasteInput.data"
+                    @input="loadTags"
+                    @select="option => selected = option"
+                    @keyup.native.enter="addCustomTaste(tasteInput.text)"
+                    maxlength="20"
+                    minlength="3"
+                />
+            </div>
+        </div>
     </div>
 </template>
 
@@ -60,6 +64,8 @@ export default {
             let tasteData = this.tastesData[id];
             if (!this.selectedIds.includes(id)) {
                 this.addTaste(id);
+            } else {
+                this.deleteTaste(id);
             }
             if (this.allTastes.byId[id].is_default) {
                 tasteData.isClick = true;
@@ -246,7 +252,7 @@ export default {
     }
 
     .taste-input {
-        max-width: 300px;
-        margin: 30px auto;
+        width: 300px;
+        margin-top: 30px;
     }
 </style>

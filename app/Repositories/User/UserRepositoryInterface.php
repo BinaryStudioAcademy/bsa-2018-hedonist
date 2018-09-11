@@ -29,4 +29,16 @@ interface UserRepositoryInterface extends RepositoryInterface
     public function setTastes(User $user, Collection $tastes): void;
 
     public function getUserBySocialAuthCredentials(string $provider, string $token): ?User;
+
+    public function getFollowers(User $user): Collection;
+
+    public function getFollowedUsers(User $user): Collection;
+
+    public function followUser(User $followed, User $follower): void;
+
+    public function findByCriterias(CriteriaInterface ...$criterias): Collection;
+
+    public function unfollowUser(User $followed, User $follower): void;
+
+    public function checkUserCanFollow(User $followed, User $follower): bool;
 }

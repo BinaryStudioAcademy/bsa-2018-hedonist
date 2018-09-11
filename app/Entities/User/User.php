@@ -3,7 +3,6 @@
 namespace Hedonist\Entities\User;
 
 use Hedonist\Entities\User\Scope\UserScope;
-use Hedonist\Events\Auth\PasswordResetedEvent;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -37,11 +36,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Taste::class);
     }
 
-    public function customTastes()
-    {
-        return $this->hasMany(CustomTaste::class);
-    }
-
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -50,11 +44,6 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    public function sendPasswordResetNotification($token)
-    {
-        Event::dispatch(new PasswordResetedEvent($this, $token));
     }
 
     public function info()
@@ -67,6 +56,26 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(SocialAccount::class);
     }
 
+    public function followedUsers()
+    {
+        return $this->belongsToMany(
+            self::class,
+            'follows',
+            'follower_id',
+            'followed_id'
+        );
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(
+            self::class,
+            'follows',
+            'followed_id',
+            'follower_id'
+        );
+    }
+
     public static function boot()
     {
         parent::boot();
@@ -76,5 +85,10 @@ class User extends Authenticatable implements JWTSubject
         self::deleting(function ($user) {
             $user->info->delete();
         });
+    }
+
+    public function receivesBroadcastNotificationsOn()
+    {
+        return 'App.User.' . $this->id;
     }
 }

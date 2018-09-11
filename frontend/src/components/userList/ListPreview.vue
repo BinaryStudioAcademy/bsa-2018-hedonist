@@ -4,7 +4,7 @@
             <div class="container place-item" v-if="active">
                 <div class="media">
                     <figure class="media-left image">
-                        <img :src="userList.img_url">
+                        <img :src="userList.img_url || imageStub">
                     </figure>
                     <div class="media-content">
                         <h3 class="title has-text-primary">
@@ -13,18 +13,16 @@
                             </router-link>
                         </h3>
                         <p class="place-category">
-                            <a href="#">Places saved in the list: {{ userList.places | countPlaces }}</a>
+                            {{ $t('user_lists_page.list_preview.places_in_list') }}
+                            {{ userList.places | countPlaces }}
                         </p>
-                        <p class="address">
-                            Cities in the list:
-                            <a
-                                v-for="(city,index,key) in uniqueCities"
+                        <p class="city-list">
+                            {{ $t('user_lists_page.list_preview.cities_in_list') }}
+                            <span
+                                v-for="(city,index) in uniqueCities"
                                 :key="index"
-                                href="#"
-                                @click="setCityFilter(city.id)"
-                            >{{ city.name }}
-                                <span v-show="notLast(key)">, </span>
-                            </a>
+                                class="city-list__item"
+                            >{{ city.name }}</span>
                         </p>
                     </div>
                     <div class="place-item__actions">
@@ -33,9 +31,19 @@
                             role="button"
                             :to="`/my-lists/${userList.id}/edit`"
                         >
-                            Update
+                            {{ $t('buttons.edit') }}
                         </router-link>
-                        <button class="button is-danger" @click="onDelete">Delete</button>
+
+                        <b-modal :active.sync="isDeleteModal" :width="640" scroll="keep">
+                            <div class="box userlist-modal">
+                                <h5 class="title is-5">{{ $t('my-lists_page.delete-confirmation') }} "{{ userList.name }}"?</h5>
+                                <div class="buttons is-centered">
+                                    <button class="button is-info" @click="isDeleteModal = false">{{ $t('my-lists_page.buttons.cancel') }}</button>
+                                    <button class="button is-danger" @click="onDelete">{{ $t('buttons.delete') }}</button>
+                                </div>
+                            </div>
+                        </b-modal>
+                        <button class="button is-danger" @click="isDeleteModal = true">{{ $t('buttons.delete') }}</button>
                     </div>
                 </div>
             </div>
@@ -45,11 +53,14 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import imageStub from '@/assets/no-photo.png';
 export default {
     name: 'ListPreview',
     data() {
         return {
-            active: false
+            imageStub: imageStub,
+            active: false,
+            isDeleteModal: false
         };
     },
     filters: {
@@ -94,9 +105,7 @@ export default {
                 type: 'is-info'
             });
         },
-        setCityFilter(cityId){
-            this.$parent.setCityFilter(cityId);
-        },
+
         onDelete() {
             this.$emit('loading', true);
             this.delete(this.userList.id)
@@ -170,8 +179,14 @@ export default {
             }
         }
     }
-    .address {
+    .city-list {
         margin-bottom: 0.5rem;
+
+        &__item {
+            &:not(:last-child):after {
+                content: ', ';
+            }
+        }
     }
     .rating {
         width: 48px;
@@ -211,5 +226,11 @@ export default {
                 }
             }
         }
+    }
+
+    .userlist-modal {
+        max-width: 640px;
+        text-align: center;
+        overflow-wrap: break-word;
     }
 </style>

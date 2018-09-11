@@ -6,13 +6,18 @@
                 'rating-' + ratingCategory
             ]"
         >
-            {{ value | formatRating }}
-
-            <sup v-if="showMax">/10</sup>
-        </div>
-
-        <div class="place-rate__mark-count" v-if="showRating">
-            {{ ratingCount || 'No' }} marks
+            <div
+                class="rating-value"
+                :class="{onerow: !showRating}"
+            >
+                {{ value | formatRating }}<span v-if="showMax">/5</span>
+            </div>
+            <div
+                class="rating-count"
+                v-if="showRating"
+            >
+                {{ ratingCount || 'No' }} <i class="fas fa-user" />
+            </div>
         </div>
     </div>
 </template>
@@ -46,9 +51,9 @@ export default {
         ratingCategory() {
             let placeRating = this.value;
 
-            if (placeRating < 5) return 'bad';
-            if (placeRating >= 5 && placeRating < 7) return 'okay';
-            if (placeRating >= 7) return 'good';
+            if (placeRating < 3) return 'bad';
+            if (placeRating >= 3 && placeRating < 4) return 'okay';
+            if (placeRating >= 4) return 'good';
         },
     },
 
@@ -71,11 +76,15 @@ export default {
 
     .rating {
         border-radius: 7px;
-        line-height: 48px;
-        font-size: 1.5rem;
+        line-height: 32px;
+        font-size: 1rem;
         color: #FFF;
         text-align: center;
-        padding: 0 10px;
+        padding: 5px 5px;
+
+        white-space: nowrap;
+        vertical-align: middle;
+        height: 48px;
 
         &-bad {
             background-color: #FC8D9F;
@@ -92,6 +101,23 @@ export default {
 
     .place-rate__mark-count {
         margin-left: 15px;
+    }
+
+    .rating-value {
+        line-height: 22px;
+        font-size: 1.2rem;
+    }
+
+    .rating-count {
+        line-height: 22px;
+
+        i {
+            font-size: .8rem;
+        }
+    }
+
+    .onerow {
+        margin-top: 10px;
     }
 }
 </style>

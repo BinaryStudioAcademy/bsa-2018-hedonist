@@ -1,13 +1,24 @@
 <template>
     <div class="media review-wrapper">
-        <figure class="image is-32x32 media-left">
-            <img :src="review.user.avatar_url" class="user-avatar">
-        </figure>
+
+        <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
+            <figure class="image is-16x16 media-left">
+                <img v-if="review.user.avatar_url" :src="review.user.avatar_url" class="user-avatar">
+                <img
+                    v-else
+                    src="/assets/add_review_default_avatar.png"
+                    class="user-avatar"
+                >
+            </figure>
+        </router-link>
         <div class="media-content">
             <div class="review-title">
-                <a href="#" class="has-text-primary review-username">
+                <router-link
+                    class="has-text-primary review-username"
+                    :to="{ name: 'OtherUserPage', params: { id: review.user.id }}"
+                >
                     {{ this.userName }}
-                </a>
+                </router-link>
                 •
                 <span class="review-date">
                     {{ review.created_at }}
@@ -17,6 +28,7 @@
                 {{ review.description }}
             </div>
             <LikeDislikeButton
+                v-if="showLikeDislikeBtns"
                 font-size="0.7rem"
                 @like="onLikeReview"
                 @dislike="onDislikeReview"
@@ -38,7 +50,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
+import { mapActions, mapMutations, mapGetters } from 'vuex';
 import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
 import UsersWhoLikedDislikedReviewModals from '@/components/review/UsersWhoLikedDislikedReviewModals';
 
@@ -58,11 +70,19 @@ export default {
         review: {
             type: Object,
             required: true
-        }
+        },
+        showLikeDislikeBtns: {
+            type: Boolean,
+            default: true,
+        },	        
     },
     computed: {
+        ...mapGetters('auth',['getAuthenticatedUser']),
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
+        },
+        canLikeOrDislike(){
+            return this.review.user.id !== this.getAuthenticatedUser.id;
         }
     },
     methods: {
@@ -78,6 +98,10 @@ export default {
         }),
 
         onLikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.likeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewLikedState(this.review.id);
@@ -85,6 +109,10 @@ export default {
         },
 
         onDislikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.dislikeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewDislikedState(this.review.id);
@@ -115,7 +143,14 @@ export default {
 
         updateUsersWhoDislikedReviewModalActive(newValue) {
             this.isUsersWhoDislikedReviewModalActive = newValue;
-        }
+        },
+
+        showLikeDislikeOwnReviewToast(){
+            this.$toast.open({
+                message: this.$t('place_page.message.like_own_review'),
+                type:'is-danger'
+            });
+        },
     }
 };
 </script>
@@ -136,7 +171,6 @@ export default {
 
     .review-username {
         font-weight: bolder;
-        font-size:1.2rem;
+        font-size: 0.75rem;
     }
-
 </style>

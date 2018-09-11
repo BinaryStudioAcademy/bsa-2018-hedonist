@@ -45,7 +45,8 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
                 'localization.language',
                 'likes',
                 'dislikes',
-                'ratings'
+                'ratings',
+                'worktime'
             ]
         )
             ->where(['id' => $id])
@@ -68,7 +69,8 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
             'likes',
             'photos',
             'dislikes',
-            'ratings'
+            'ratings',
+            'worktime'
         )->get();
     }
 

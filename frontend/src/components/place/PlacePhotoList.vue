@@ -9,10 +9,10 @@
         >
             <li
                 v-for="(photo, i) in photos.slice(0, maxImages)"
-                :key="photo.id"
+                :key="i"
             >
                 <PlacePhoto
-                    :key="photo.id"
+                    :key="i"
                     :photo="photo"
                     :last-photo="(i + 1) === maxImages && photos.length > maxImages"
                     @showAllPhotos="showAllPhotos"

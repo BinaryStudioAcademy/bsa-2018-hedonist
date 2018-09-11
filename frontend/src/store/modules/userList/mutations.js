@@ -14,6 +14,9 @@ export default {
     SET_LOADING_STATE: (state,loadingState) => {
         state.isLoading = loadingState;
     },
+    SET_FAVOURITE_EXIST: (state, favouriteExist) => {
+        state.favouriteExist = favouriteExist;
+    },
     SET_REVIEWS: (state, reviews) => {
         state.reviews = reviews;
     },
@@ -76,8 +79,13 @@ export default {
         state.userLists.byId[userList.id] = userList;
         state.userLists.allIds.push(userList.id);
     },
-    UPDATE_LIST_PHOTO_AND_NAME: (state, userList) => {
+    UPDATE_LIST: (state, { userList, placeIds }) => {
         state.userLists.byId[userList.id].name = userList.name;
         state.userLists.byId[userList.id]['img_url'] = userList['img_url'];
+        state.userLists.byId[userList.id].places = placeIds;
     },
+
+    REMOVE_PLACE_FROM_LIST: (state, { placeId, listId}) => {
+        state.userLists.byId[listId].places = state.userLists.byId[listId].places.filter((item) => item !== placeId);
+    }
 };

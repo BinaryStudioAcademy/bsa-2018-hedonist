@@ -1,5 +1,6 @@
 import httpService from '../../../services/common/httpService';
 import normalizerService from '../../../services/common/normalizerService';
+import {FAVOURITE_LIST_NAME} from '@/services/userList/listNames';
 
 export default {
     getListsByUser: (context, userId) => {
@@ -11,10 +12,14 @@ export default {
                     let places = {};
                     let cities = {};
                     let categories = {};
+                    context.commit('SET_FAVOURITE_EXIST', false);
 
                     for (let userList in userLists.byId) {
                         let id = parseInt(userList);
 
+                        if (userLists.byId[id].is_default && userLists.byId[id].name === FAVOURITE_LIST_NAME) {
+                            context.commit('SET_FAVOURITE_EXIST', true);
+                        }
                         let placesOfOneList = normalizerService.normalize({
                             data: userLists.byId[id].places
                         });
@@ -70,7 +75,39 @@ export default {
                 id: payload.placeId
             })
                 .then((result) => {
-                    context.dispatch('getListsByUser',payload.userId);
+                    context.dispatch('getListsByUser', payload.userId);
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    },
+    removePlaceFromList: (context, payload) => {
+        return new Promise((resolve, reject) => {
+            httpService.post('/user-lists/' + payload.listId + '/detach-place', {
+                placeId: payload.placeId
+            })
+                .then((result) => {
+                    context.commit('REMOVE_PLACE_FROM_LIST', {
+                        placeId: payload.placeId,
+                        listId: payload.listId
+                    });
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
+    },
+
+    addPlaceToFavouriteList: (context, payload) => {
+        return new Promise((resolve, reject) => {
+            httpService.put('/user-lists/favourite', {
+                id: payload.placeId
+            })
+                .then((result) => {
+                    context.dispatch('getListsByUser', payload.userId);
                     resolve(result);
                 })
                 .catch((error) => {
@@ -117,46 +154,55 @@ export default {
                 context.commit('UPDATE_CATEGORIES', normalizerService.updateAllIds(categories));
                 context.commit('UPDATE_REVIEWS', normalizerService.updateAllIds(reviews));
                 context.commit('UPDATE_USER_LISTS', allLists);
-                context.commit('UPDATE_PHOTOS',  normalizerService.updateAllIds(photos));
+                context.commit('UPDATE_PHOTOS', normalizerService.updateAllIds(photos));
 
                 context.commit('SET_LOADING_STATE', false);
             });
     },
-    addUserList: ({ commit }, {userList, attachedPlaces}) => {
+    addUserList: ({commit}, {userList, attachedPlaces}) => {
         const formData = new FormData();
-        formData.append('image', userList.image);
+        if (userList.image) {
+            formData.append('image', userList.image);
+        }
+        const {normCities, normCategories, normPlaces} = normalizePlaceData(attachedPlaces);
         formData.append('name', userList.name);
-        _.forEach(attachedPlaces, function(place) {
+        _.forEach(attachedPlaces, function (place) {
             formData.append('attached_places[]', place.id);
         });
 
         return httpService.post('/user-lists/', formData)
-            .then(({ data }) => {
+            .then(({data}) => {
                 let userList = data.data;
                 userList.places = [];
                 commit('ADD_NEW_LIST', userList);
+                commit('UPDATE_PLACES', normPlaces);
+                commit('UPDATE_CITIES', normCities);
+                commit('UPDATE_CATEGORIES', normCategories);
                 return userList;
             });
     },
-    updateUserList: ({ commit }, {userList, attachedPlaces, id}) => {
+    updateUserList: ({commit}, {userList, attachedPlaces, id}) => {
         const formData = new FormData();
+        const {normCities, normCategories, normPlaces} = normalizePlaceData(attachedPlaces);
         formData.append('_method', 'PUT');
         if (userList.image !== null) {
             formData.append('image', userList.image);
-        }
 
+        }
         if (userList.name !== null) {
             formData.append('name', userList.name);
         }
 
-        _.forEach(attachedPlaces, function(place) {
+        _.forEach(attachedPlaces, function (place) {
             formData.append('attached_places[]', place.id);
         });
-
         return httpService.post(`/user-lists/${id}`, formData)
-            .then(({ data }) => {
+            .then(({data}) => {
                 const userList = data.data;
-                commit('UPDATE_LIST_PHOTO_AND_NAME', userList);
+                commit('UPDATE_LIST', {userList, placeIds: normPlaces.allIds});
+                commit('UPDATE_PLACES', normPlaces);
+                commit('UPDATE_CITIES', normCities);
+                commit('UPDATE_CATEGORIES', normCategories);
                 return userList;
             });
     },
@@ -167,4 +213,31 @@ export default {
                 return result.data.data;
             });
     }
+};
+
+const normalizePlaceData = (unnormalizedPlaces) => {
+    let cities = {byId: {}, allIds: []};
+    let categories = {byId: {}, allIds: []};
+    let places = {byId: {}, allIds: []};
+    _.forEach(unnormalizedPlaces, function (unnormalizedPlace) {
+        let place = Object.assign({}, unnormalizedPlace);
+        let normCity = normalizerService.normalize({data: place.city});
+        let normCategory = normalizerService.normalize({data: place.category});
+        Object.assign(place, {city: place.city.id});
+        Object.assign(place, {category: place.category.id});
+        let normPlace = normalizerService.normalize({data: place});
+
+        cities = normalizerService.updateNormalizedData(normCity, cities);
+        cities = normalizerService.updateAllIds(normCity, cities);
+        categories = normalizerService.updateNormalizedData(normCategory, categories);
+        categories = normalizerService.updateAllIds(normCategory, categories);
+        places = normalizerService.updateNormalizedData(normPlace, places);
+        places = normalizerService.updateAllIds(normPlace, places);
+    });
+
+    return {
+        normCities: cities,
+        normCategories: categories,
+        normPlaces: places
+    };
 };

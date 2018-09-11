@@ -17,6 +17,8 @@ import ResetPasswordPage from '@/pages/ResetPasswordPage';
 import RecoverPasswordPage from '@/pages/RecoverPasswordPage';
 import MyTastesPage from '@/pages/MyTastesPage';
 import SocialAuthPage from '@/pages/SocialAuthPage';
+import OtherUserPage from '@/pages/OtherUserPage';
+import NotificationsPage from '@/pages/NotificationsPage';
 
 Vue.use(Router);
 
@@ -36,9 +38,9 @@ export default new Router({
                 redirect: '/search'
             },
             {
-                path: '/profile',
-                name: 'ProfilePage',
-                component: ProfilePage,
+                path: '/users/:id',
+                name: 'OtherUserPage',
+                component: OtherUserPage
             },
             {
                 path: '/my-places',
@@ -89,6 +91,16 @@ export default new Router({
                 path: '/checkins',
                 name: 'CheckinsPage',
                 component: CheckinsPage
+            },
+            {
+                path: '/settings',
+                name: 'ProfilePage',
+                component: ProfilePage
+            },
+            {
+                path: '/notifications',
+                name: 'NotificationsPage',
+                component: NotificationsPage
             },
             {
                 path: '*',

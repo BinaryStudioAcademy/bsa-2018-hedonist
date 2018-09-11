@@ -12,7 +12,12 @@ use Hedonist\Actions\Review\{
     GetUsersWhoLikedReviewAction,
     GetUsersWhoDislikedReviewAction
 };
-use Hedonist\Actions\Review\{GetReviewPhotoByPlaceAction,
+use Hedonist\Actions\Review\{
+    GetLikeStatusForReviews\GetLikeStatusForReviewsAction,
+    GetLikeStatusForReviews\GetLikeStatusForReviewsRequest,
+    GetReviewCollectionWithPlaceByUserAction,
+    GetReviewCollectionWithPlaceByUserRequest,
+    GetReviewPhotoByPlaceAction,
     GetReviewPhotoByPlaceRequest,
     GetReviewPhotoByReviewAction,
     GetReviewPhotoByReviewRequest,
@@ -45,7 +50,9 @@ class ReviewController extends ApiController
     private $getUsersWhoLikedReviewAction;
     private $getUsersWhoDislikedReviewAction;
     private $getReviewPhotoByPlaceAction;
+    private $getLikeStatusForReviewsAction;
     private $reviewPresenter;
+    private $getReviewCollectionWithPlaceByUserAction;
 
     public function __construct(
         GetReviewAction $getReviewAction,
@@ -57,7 +64,9 @@ class ReviewController extends ApiController
         GetUsersWhoLikedReviewAction $getUsersWhoLikedReviewAction,
         GetUsersWhoDislikedReviewAction $getUsersWhoDislikedReviewAction,
         GetReviewPhotoByPlaceAction $getReviewPhotoByPlaceAction,
-        ReviewPresenter $reviewPresenter
+        GetLikeStatusForReviewsAction $getLikeStatusForReviewsAction,
+        ReviewPresenter $reviewPresenter,
+        GetReviewCollectionWithPlaceByUserAction $getReviewCollectionWithPlaceByUserAction
     ) {
         $this->getReviewAction = $getReviewAction;
         $this->updateReviewAction = $updateReviewAction;
@@ -68,7 +77,9 @@ class ReviewController extends ApiController
         $this->getUsersWhoLikedReviewAction = $getUsersWhoLikedReviewAction;
         $this->getUsersWhoDislikedReviewAction = $getUsersWhoDislikedReviewAction;
         $this->getReviewPhotoByPlaceAction = $getReviewPhotoByPlaceAction;
+        $this->getLikeStatusForReviewsAction = $getLikeStatusForReviewsAction;
         $this->reviewPresenter = $reviewPresenter;
+        $this->getReviewCollectionWithPlaceByUserAction = $getReviewCollectionWithPlaceByUserAction;
     }
 
     public function getReview(int $id)
@@ -96,8 +107,14 @@ class ReviewController extends ApiController
                 )
             );
 
+            $getLikeStatusForReviewsResponse = $this->getLikeStatusForReviewsAction->execute(
+                new GetLikeStatusForReviewsRequest(
+                    $getReviewCollectionResponse->getReviewCollection()
+                )
+            );
+
             return $this->successResponseWithMeta(
-                $this->reviewPresenter->presentCollection($getReviewCollectionResponse->getReviewCollection()),
+                $this->reviewPresenter->presentCollection($getLikeStatusForReviewsResponse->getReviewCollection()),
                 $getReviewCollectionResponse->getPaginationMetaInfo()
             );
         } catch (DomainException $e) {
@@ -200,6 +217,24 @@ class ReviewController extends ApiController
             );
 
             return $this->successResponse($reviewPhotosByReviewResponse->toArray(), 200);
+        } catch (DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), 400);
+        }
+    }
+
+    public function getReviewsWithPlaceByUserId(ReviewSearchRequest $request, int $userId)
+    {
+        try {
+            $reviewResponse = $this->getReviewCollectionWithPlaceByUserAction->execute(
+                new GetReviewCollectionWithPlaceByUserRequest(
+                    $userId,
+                    $request->input('page'),
+                    $request->input('include')
+                )
+            );
+            $data = $this->reviewPresenter->presentCollectionWithPlace($reviewResponse->getCollection());
+
+            return $this->successResponse($data, 200);
         } catch (DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), 400);
         }

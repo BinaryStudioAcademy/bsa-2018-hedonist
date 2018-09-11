@@ -1,10 +1,10 @@
 <template>
     <div class="wrapper-list">
-        <figure class="image is-5by3 list-image">
-            <img class="list-image__image" :src="listItem.img_url">
-        </figure>
-        <div class="level list-data is-mobile">
-            <div class="level-left">
+        <div class="level list-data top is-mobile">
+            <div class="level-left top top__left">
+                <figure class="media-left image is-128x128">
+                    <img :src="listItem.img_url || imageStub">
+                </figure>
                 <h3 class="title">
                     {{ listItem.name }}
                 </h3>
@@ -22,7 +22,13 @@
                     <img :src="listItem.user.avatar_url" class="avatar">
                 </figure>
                 <div class="list-data__creator-name">
-                    by <a href="#" class="has-text-info">{{ userName }}</a>
+                    by
+                    <router-link
+                        :to="{ name: 'OtherUserPage', params: { id: listItem.user.id } }"
+                        class="has-text-info"
+                    >
+                        {{ userName }}
+                    </router-link>
                 </div>
             </div>
             <div class="list-data__updated-at level-right">
@@ -34,6 +40,7 @@
 
 <script>
 import ShareDropdown from '@/components/misc/ShareDropdown';
+import imageStub from '@/assets/no-photo.png';
 
 export default {
     name: 'ListHeader',
@@ -46,6 +53,11 @@ export default {
             required:true,
             type: Object
         }
+    },
+    data() {
+        return {
+            imageStub: imageStub
+        };
     },
     computed: {
         userName(){
@@ -95,6 +107,20 @@ export default {
 
         &__updated-at{
             color:grey;
+        }
+    }
+
+    .top {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 0px;
+        padding-top: 10px;
+        
+        &__left{
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0px;
+            padding-top: 0px;
         }
     }
 

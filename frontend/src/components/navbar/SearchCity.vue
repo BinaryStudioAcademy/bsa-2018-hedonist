@@ -3,7 +3,7 @@
         <b-field>
             <b-autocomplete
                 v-model.trim="findCity.query"
-                placeholder="Location"
+                :placeholder="placeholder"
                 :data="findCity.data"
                 :open-on-focus="true"
                 :loading="findCity.isFetching"
@@ -11,6 +11,7 @@
                 class="navbar__search-autocomplete"
                 @input="loadCities"
                 @select="option => this.$emit('select', option)"
+                @keyup.native.enter="$emit('keyup.native.enter')"
             />
             <p v-if="locationAvailable" class="control location-search">
                 <button
@@ -32,6 +33,17 @@ import mapSettingsService from '@/services/map/mapSettingsService';
 import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
     name: 'SearchCity',
+    props: {
+        placeholder: {
+            type: String,
+            default: 'Location'
+        },
+        noRedirect: {
+            type: Object,
+            default: () => {},
+            required: false
+        }
+    },
     data() {
         return {
             findCity: {
@@ -54,7 +66,7 @@ export default {
         loadCities: _.debounce(function () {
             this.findCity.data = [];
             this.findCity.isFetching = true;
-            LocationService.getCityList(mapSettingsService.getMapboxToken(), this.findCity.query)
+            LocationService.getCityList(this.findCity.query)
                 .then( res => {
                     this.findCity.data = res;
                     this.findCity.isFetching = false;
@@ -67,7 +79,7 @@ export default {
             this.findCity.query = this.$t('search.current_location');
             this.$emit('select', this.selectedCity);
             this.setCity(this.selectedCity);
-            this.updateQueryFilters();
+            this.updateQueryFilters(this.noRedirect);
         },
     },
     created() {
@@ -77,6 +89,18 @@ export default {
                 this.findCity.query = this.$t('search.current_location');
                 this.selectedCity.center[0] = coordinates.lng;
                 this.selectedCity.center[1] = coordinates.lat;
+
+                if (this.$route.query.location !== undefined) {
+                    let currentLocation = coordinates.lng + ',' + coordinates.lat;
+                    if (currentLocation !== this.$route.query.location) {
+                        LocationService.getCityList(this.$route.query.location)
+                            .then((res) => {
+                                if (res.length) {
+                                    this.findCity.query = res[0].text;
+                                }
+                            });
+                    }
+                }
             })
             .catch(error => {
                 this.setLocationAvailable(false);
@@ -92,6 +116,14 @@ export default {
 </script>
 
 <style scoped>
+    .navbar__search-autocomplete {
+        width: 100%;
+    }
+
+    .search-inputs__location .location-search {
+        display: inherit;
+    }
+
     .location {
         color: #b8b8ba;
     }

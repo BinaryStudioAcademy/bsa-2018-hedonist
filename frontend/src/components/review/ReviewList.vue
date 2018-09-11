@@ -50,10 +50,12 @@
                     </div>
                 </div>
                 <div class="reviews-section-list">
-                    <template v-for="review in reviews">
+                    <template v-for="(review, index) in reviews">
                         <Review
                             :key="review.id"
                             :review="review"
+                            :is-sorting="isSorting"
+                            :timer="200 * (index + 1)"
                         />
                     </template>
                     <infinite-loading @infinite="loadNextReviewsPage">
@@ -67,7 +69,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
 import InfiniteLoading from 'vue-infinite-loading';
@@ -91,7 +93,8 @@ export default {
             sort: 'recent',
             visibleReviewsIds: [],
             search: '',
-            page: 1
+            page: 1,
+            isSorting: true
         };
     },
 
@@ -102,7 +105,9 @@ export default {
             'getPreloadedPopularPlaceReviewsIds',
             'getTotalReviewCount'
         ]),
-
+        ...mapState('place', [
+            'visitors'
+        ]),
         reviews() {
             return this.getPlaceReviewsByIds(this.place.id, this.visibleReviewsIds);
         },
@@ -116,7 +121,7 @@ export default {
 
         searchReview: _.debounce(function () {
             this.initialLoad();
-        }, 250),
+        }, 1000),
 
         loadNextReviewsPage($state) {
             _.debounce(() => {
@@ -170,11 +175,34 @@ export default {
             ).then( res => {
                 this.visibleReviewsIds = res.reviews;
                 this.page = 1;
+                this.isSorting = !this.isSorting;
             });
         }
     },
     created(){
         this.initialLoad();
+
+        Echo.private('reviews').listen('.review.added', (payload) => {
+            this.$store.commit('review/ADD_REVIEW', payload.review);
+            this.$store.commit('review/ADD_REVIEW_USER', payload.user);
+
+            this.visibleReviewsIds.unshift(payload.review.id);
+        });
+
+        Echo.private('reviews').listen('.review.photo.added', (payload) => {
+            this.$store.commit('review/ADD_REVIEW_PHOTO', {
+                reviewId: payload.reviewPhoto.review_id,
+                img_url: payload.reviewPhoto.img_url,
+            });
+            this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', payload.reviewPhoto);
+        });
+
+        Echo.private('reviews').listen('.attitude.set', (payload) => {
+            this.$store.dispatch('review/handleAttitude', {
+                reviewId: payload.reviewId,
+                attitudeType: payload.attitudeType
+            });
+        });
     }
 };
 
@@ -271,5 +299,4 @@ export default {
     .sort-word {
         color: #808080;
     }
-
 </style>

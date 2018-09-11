@@ -81,4 +81,40 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $user = User::where(["email" => $email])->first();
         return $user ? false : true;
     }
+
+    public function getFollowers(User $user): Collection
+    {
+        return $user->followers;
+    }
+
+    public function getFollowedUsers(User $user): Collection
+    {
+        return $user->followedUsers;
+    }
+
+    public function followUser(User $followed, User $follower): void
+    {
+        $followed->followers()->attach($follower);
+    }
+
+    public function unfollowUser(User $followed, User $follower): void
+    {
+        $followed->followers()->detach($follower);
+    }
+
+    public function findByCriterias(CriteriaInterface ...$criterias): Collection
+    {
+        foreach ($criterias as $criteria) {
+            $this->pushCriteria($criteria);
+        }
+        $result = $this->all();
+        $this->resetCriteria();
+
+        return $result;
+    }
+
+    public function checkUserCanFollow(User $followed, User $follower): bool
+    {
+        return !$followed->followers()->where('follower_id', $follower->id)->exists();
+    }
 }

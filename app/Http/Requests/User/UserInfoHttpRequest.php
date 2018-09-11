@@ -23,7 +23,8 @@ class UserInfoHttpRequest extends FormRequest
             "instagram_url" => 'nullable|url',
             "twitter_url" => 'nullable|url',
             'old_password' => 'nullable|min:6|string',
-            'new_password' =>'nullable|min:6|string'
+            'new_password' =>'nullable|min:6|string',
+            'notifications_receive' => 'required|boolean',
         ];
     }
 }

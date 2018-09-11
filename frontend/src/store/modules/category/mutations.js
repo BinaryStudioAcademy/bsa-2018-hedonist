@@ -6,4 +6,9 @@ export default {
     SET_CATEGORY_TAGS: (state, tags) => {
         state.categoryTags = Object.assign({}, tags);
     },
+
+    DELETE_CATEGORY_TAGS: state => {
+        state.categoryTags = {};
+    }
+
 };

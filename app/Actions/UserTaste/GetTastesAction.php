@@ -18,7 +18,6 @@ class GetTastesAction
     public function execute(): GetTastesResponse
     {
         $tastes = $this->tasteRepository->findByCriteria(new GetTastesByUserWithCriteria(Auth::id()));
- 
         return new GetTastesResponse($tastes);
     }
 }

@@ -42,9 +42,18 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
+        Route::group(['namespace' => 'Api\User'], function () {
+            Route::get('/notifications', 'UserNotificationsController@getNotifications');
+            Route::get('/notifications/unread', 'UserNotificationsController@getUnreadNotifications');
+            Route::put('/notifications/read', 'UserNotificationsController@readNotifications');
+            Route::delete('/notifications', 'UserNotificationsController@deleteNotifications');
+        });
+
         Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
             ->name('user-list.lists');
 
+        Route::put('/user-lists/favourite', 'Api\User\UserList\UserListPlaceController@attachPlaceToFavourite')
+            ->name('lists.favourite.attach');
         Route::resource('user-lists', 'Api\User\UserList\UserListController')->except([
             'create', 'edit'
         ]);
@@ -68,6 +77,8 @@ Route::prefix('v1')->group(function () {
             Route::get('/places/autocomplete/search', 'PlaceController@getCollectionForAutocomplete');
 
             Route::post('/place/add-taste', 'PlaceController@addTaste');
+
+            Route::get('/places/recommendations/{id}', 'PlaceController@getRecommendationPlaceCollection');
         });
 
         Route::prefix('reviews')->group(function () {
@@ -87,7 +98,7 @@ Route::prefix('v1')->group(function () {
 
             Route::post('/{id}/like', 'Api\Like\LikeController@likeReview')->name('review.like');
             Route::post('/{id}/dislike', 'Api\Like\DislikeController@dislikeReview')->name('review.dislike');
-            
+
             Route::get('/{id}/users-liked', 'Api\Review\ReviewController@getUsersWhoLikedReview');
             Route::get('/{id}/users-disliked', 'Api\Review\ReviewController@getUsersWhoDislikedReview');
 
@@ -124,6 +135,9 @@ Route::prefix('v1')->group(function () {
         Route::post('/user-lists/{id}/attach-place', 'Api\User\UserList\UserListPlaceController@attachPlace')
             ->name('user-list.place.attach');
 
+        Route::post('/user-lists/{id}/detach-place', 'Api\User\UserList\UserListPlaceController@detachPlace')
+            ->name('user-list.place.detach');
+
         Route::get('/places/features/', 'Api\Place\PlaceFeaturesController@indexPlaceFeature')
             ->name('place.features.indexFeature');
 
@@ -147,6 +161,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/users/me/checkins', 'Api\Place\PlaceCheckinController@getUserCheckInCollection')
             ->name('user.me.getUserCheckins');
 
+        Route::post('/users/{id}/followers', 'Api\User\UserFollowsController@followUser');
+        Route::delete('/users/{id}/followers', 'Api\User\UserFollowsController@unfollowUser');
+
+        Route::get('/users/{id}/followers', 'Api\User\UserFollowsController@getFollowers');
+        Route::get('/users/{id}/followed', 'Api\User\UserFollowsController@getFollowedUsers');
+
         Route::get('/places/categories/search', 'Api\Place\PlaceCategoryController@getPlaceCategoryByName');
 
         Route::resource('/places/categories', 'Api\Place\PlaceCategoryController')->except([
@@ -154,5 +174,7 @@ Route::prefix('v1')->group(function () {
         ]);
 
         Route::get('/places/categories/{id}/tags', 'Api\Place\TagsController@getTagsByCategoryId');
+
+        Route::get('/users/{userId}/reviews', 'Api\Review\ReviewController@getReviewsWithPlaceByUserId');
     });
 });

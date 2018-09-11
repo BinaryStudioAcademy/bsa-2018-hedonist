@@ -5,12 +5,13 @@
             :attachedPlaces="attachedPlaces"
             :list-image="userListImageUrl"
             :list-name="userListName"
+            :is-default="userListIsDefault"
             :id="parseInt(id)"
             v-if="!isLoading"
             @loading="loading"
         />
         <SearchPlaces
-            :attached-places="attachedPlaces"
+            :list-attached-places="attachedPlaces"
             @changeAttachedPlaces="changeAttachedPlaces"
         />
         <div class="map">
@@ -51,6 +52,7 @@ import Mapbox from 'mapbox-gl-vue';
 import BackToTop from 'vue-backtotop';
 import { mapGetters, mapActions } from 'vuex';
 import Preloader from '@/components/misc/Preloader';
+import imageStub from '@/assets/no-photo.png';
 
 export default {
     name: 'UserListAddUpdatePage',
@@ -69,7 +71,9 @@ export default {
             attachedPlaces: [],
             userListName: null,
             userListImageUrl: null,
+            userListIsDefault: null,
             isLoading: true,
+            imageStub: imageStub,
             id: null
         };
     },
@@ -85,6 +89,7 @@ export default {
                 const userList  = this.getUserListById(this.id);
                 this.userListName = userList.name;
                 this.userListImageUrl = userList['img_url'];
+                this.userListIsDefault = !!userList.is_default;
                 this.attachedPlaces = this.getPlacesByIds(userList.places);
                 this.isLoading = false;
             });
