@@ -43,7 +43,9 @@ export default {
         }
     }
     .container {
-        margin-left: 1rem;
-        margin-right: 1rem;
+        @media screen and (max-width: 911px) {
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
     }
 </style>
