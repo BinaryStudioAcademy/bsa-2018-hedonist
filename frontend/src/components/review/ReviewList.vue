@@ -8,7 +8,10 @@
                         height="25" 
                         width="25"
                     >
-                    <span>{{ this.getTotalReviewCount(this.place.id) }} Reviews</span>
+                    <span>
+                        {{ this.getTotalReviewCount(this.place.id) }}
+                        {{ $t('place_page.review.title') }}
+                    </span>
                 </div>
                 <div class="review-title-search">
                     <div class="control has-icons-left">
@@ -17,7 +20,7 @@
                             @input="searchReview"
                             class="input is-small" 
                             type="search" 
-                            placeholder="Find review.."
+                            :placeholder="$t('place_page.review.placeholder')"
                         >
                         <span class="icon is-small is-left">
                             <i class="fas fa-search" />
@@ -37,15 +40,21 @@
                 <div class="reviews-section-header">
                     <div class="filter-area">
                         <ul>
-                            <li class="sort-word">Sort by:</li>
+                            <li class="sort-word">
+                                {{ $t('place_page.review.sort.title') }}
+                            </li>
                             <li
                                 @click="onSortFilter('popular')"
                                 :class="{ active: sort === 'popular' }"
-                            ><a>Popular</a></li>
+                            >
+                                <a>{{ $t('place_page.review.sort.popular') }}</a>
+                            </li>
                             <li
                                 @click="onSortFilter('recent')"
                                 :class="{ active: sort === 'recent' }"
-                            ><a>Recent</a></li>
+                            >
+                                <a>{{ $t('place_page.review.sort.recent') }}</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -206,7 +215,7 @@ export default {
     /* Main block wrapper. */
     .reviews-wrp {
         margin: auto;
-        font-size: 18px;
+        font-size: 16px;
         color: #808080;
         background: #f7f7f7;
         border: 1px solid #efeff4;

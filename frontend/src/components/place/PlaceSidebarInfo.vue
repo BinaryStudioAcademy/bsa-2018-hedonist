@@ -8,12 +8,18 @@
                 <div class="place-sidebar__venue">
                     <i class="place-sidebar__icon far fa-compass" />
                     <div v-if="place.localization" class="place-name"><strong>{{ place.localization.name }}</strong></div>
-                    <div v-else class="place-name"><strong>No localization</strong></div>
+                    <div v-else class="place-name">
+                        <strong>
+                            {{ $t('place_page.sidebar.no_localization') }}
+                        </strong>
+                    </div>
                     <div class="place-address">
                         <span class="place-street">{{ place.address }}</span>,
                         <span class="place-city">{{ place.city.name }}</span>,
                         <span class="place-zip">{{ place.zip }}</span>,
-                        <span class="place-country">Украина</span>
+                        <span class="place-country">
+                            {{ $t('place_page.sidebar.country') }}
+                        </span>
                     </div>
                 </div>
                 <div v-if="place.tags" class="place-sidebar__tags">

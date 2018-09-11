@@ -1,7 +1,7 @@
 <template>
     <b-dropdown>
         <button class="button is-success" slot="trigger">
-            <i class="far fa-save" />{{ $t('place_page.buttons.save') }}
+            <span class="btn-icon"><i class="far fa-save" /></span>{{ $t('place_page.buttons.save') }}
             <b-icon icon="menu-down" />
         </button>
         <template>
@@ -109,7 +109,7 @@ export default {
                 });
             } else {
                 this.$toast.open({
-                    message: 'Whoops, something went wrong...',
+                    message: this.$t('messages.error.unknown'),
                     type: 'is-danger'
                 });
             }
@@ -126,5 +126,9 @@ export default {
         display: flex;
         width: 100%;
         padding-right:10px;
+    }
+
+    .btn-icon{
+        padding-right: 7px;
     }
 </style>
