@@ -47,7 +47,7 @@ export default {
                     this.checkins++;
                     this.$toast.open({
                         type: 'is-success',
-                        message: 'Checked in'
+                        message: this.$t('messages.success.checkin')
                     });
                 })
                 .catch((response) => {

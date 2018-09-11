@@ -1,6 +1,15 @@
 <template>
     <div class="container">
-        <h3 class="subtitle is-4 followers-header">{{ userProfile.first_name }}'s {{ $t('other_user_page.follower_container.title') }}</h3>
+        <h3 class="subtitle is-4 followers-header">
+            <template v-if="$i18n.locale() === 'en'">
+                {{ userProfile.first_name }}'s
+                {{ $t('other_user_page.follower_container.title') }}
+            </template>
+            <template v-else>
+                {{ $t('other_user_page.follower_container.title') }}
+                {{ userProfile.first_name }}
+            </template>
+        </h3>
         <FollowersList :users="followers" />
     </div>
 </template>

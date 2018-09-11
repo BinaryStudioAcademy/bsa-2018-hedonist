@@ -57,7 +57,9 @@
                         </div>
                     </li>
                 </ul>
-                <div v-else class="search-places__none">No places found</div>
+                <div v-else class="search-places__none">
+                    {{ $t('user_lists_page.search.empty') }}
+                </div>
             </div>
         </div>
         <div class="attached-places">
@@ -99,7 +101,9 @@
                     </div>
                 </li>
             </ul>
-            <div v-else class="attached-places__none">You may attach some places to the list</div>
+            <div v-else class="attached-places__none">
+                {{ $t('user_lists_page.search.message') }}
+            </div>
         </div>
     </div>
 </template>

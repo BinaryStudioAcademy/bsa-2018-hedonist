@@ -41,11 +41,11 @@
                         <router-link
                             class="navbar-item"
                             to="/login"
-                        >Log In</router-link>
+                        >{{ $t('navbar.login') }}</router-link>
                         <router-link
                             class="navbar-item"
                             to="/signup"
-                        >Sign Up</router-link>
+                        >{{ $t('navbar.signup') }}</router-link>
                     </div>
 
                     <div
@@ -319,13 +319,7 @@ export default {
     .navbar-end {
         padding-right: 0;
 
-        @media screen and (max-width: 1600px) {
-            padding-right: 60px;
-        }
-
         @media screen and (max-width: 911px) {
-            padding-right:0;
-
             .profile {
                 display: none;
             }
@@ -356,8 +350,7 @@ export default {
     }
 
     .navbar-lang {
-        position:absolute;
-        right:0px;
+        padding-left: 0;
 
         @media screen and (max-width: 911px) {
             height: 60px;

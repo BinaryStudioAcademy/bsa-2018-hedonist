@@ -21,7 +21,7 @@
                     class="taste-input"
                     rounded
                     v-model.trim="tasteInput.text"
-                    placeholder="Enter a tag"
+                    :placeholder="$t('user_tastes_page.input.placeholder')"
                     :loading="tasteInput.isFetching"
                     :data="tasteInput.data"
                     @input="loadTags"

@@ -1,6 +1,8 @@
 <template>
     <div class="filter-controls">
-        <h5 class="header-visible">Filters:</h5>
+        <h5 class="header-visible">
+            {{ $t('search_place_page.filters.title') }}
+        </h5>
         <ul>
             <li
                 v-for="(filterPlace, index) in filterPlaces"
@@ -9,7 +11,10 @@
                 :key="filterPlace.id"
             >
                 <span
-                    v-tooltip.bottom="{content: filterPlace.tooltipText, delay:0}"
+                    v-tooltip.bottom="{
+                        content: $t('search_place_page.filters.tooltips.' + index),
+                        delay: 0
+                    }"
                     @click="checkFilter(index)" 
                     class="filter-control-span"
                 >
@@ -43,42 +48,42 @@ export default {
                     name: 'Top Rated',
                     check: false,
                     isLoading: false,
-                    tooltipText: 'Click to see places with at least 4 rating'
+                    tooltipText: this.$t('search_place_page.filters.tooltips.top_rated')
                 },
                 saved: {
                     id: 2,
                     name: 'Saved',
                     check: false,
                     isLoading: false,
-                    tooltipText: 'Click to see saved places'
+                    tooltipText: this.$t('search_place_page.filters.tooltips.saved')
                 },
                 checkin: {
                     id: 3,
                     name: 'Visited',
                     check: false,
                     isLoading: false,
-                    tooltipText: 'Click to see visited places'
+                    tooltipText: this.$t('search_place_page.filters.tooltips.visited')
                 },
                 top_reviewed: {
                     id: 4,
                     name: 'Top Reviewed',
                     check: false,
                     isLoading: false,
-                    tooltipText: 'Click to see places with at least 10 reviews'
+                    tooltipText: this.$t('search_place_page.filters.tooltips.top_reviewed')
                 },
                 recommended: {
                     id: 5,
                     name: 'Recommended',
                     check: false,
                     isLoading: false,
-                    tooltipText: 'Click to see recommended places for you'
+                    tooltipText: this.$t('search_place_page.filters.tooltips.recommended')
                 },
                 opened: {
                     id: 6,
                     name: 'Opened',
                     check: false,
                     isLoading: false,
-                    tooltipText: 'Click to see only opened now places'
+                    tooltipText: this.$t('search_place_page.filters.tooltips.opened')
                 }
             },
         };

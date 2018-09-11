@@ -1,6 +1,8 @@
 <template>
     <div class="category-tags">
-        <span class="category-tags__title">Features:</span>
+        <span class="category-tags__title">
+            {{ $t('search_place_page.features.title') }}
+        </span>
 
         <div class="tags">
             <template v-for="tag in tags">

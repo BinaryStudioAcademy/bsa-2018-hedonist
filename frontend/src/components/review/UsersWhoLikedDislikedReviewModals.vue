@@ -7,7 +7,7 @@
         >
             <UsersWhoLikedDislikedReviewModal
                 :users="usersWhoLikedReview"
-                title="Liked"
+                :title="$t('place_page.review.modal.like')"
                 @close="close"
             />
         </b-modal>
@@ -18,7 +18,7 @@
         >
             <UsersWhoLikedDislikedReviewModal
                 :users="usersWhoDislikedReview"
-                title="Disliked"
+                :title="$t('place_page.review.modal.dislike')"
                 @close="close"
             />
         </b-modal>

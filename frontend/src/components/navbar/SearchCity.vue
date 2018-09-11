@@ -3,7 +3,7 @@
         <b-field>
             <b-autocomplete
                 v-model.trim="findCity.query"
-                :placeholder="placeholder"
+                :placeholder="$t('search.city_placeholder')"
                 :data="findCity.data"
                 :open-on-focus="true"
                 :loading="findCity.isFetching"
@@ -34,10 +34,6 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
     name: 'SearchCity',
     props: {
-        placeholder: {
-            type: String,
-            default: 'Location'
-        },
         noRedirect: {
             type: Object,
             default: () => {},
@@ -117,6 +113,11 @@ export default {
             .catch(error => {
                 this.setLocationAvailable(false);
             });
+        
+        this.$watch(
+            () => { return this.$store.state.i18n.locale; },
+            () => { this.findCity.query = this.$t('search.current_location'); }
+        );
     },
     computed: {
         ...mapState('search', ['currentPosition', 'location', 'page', 'city', 'locationAvailable']),
