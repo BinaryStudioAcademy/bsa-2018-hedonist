@@ -197,6 +197,7 @@ export default {
             img {
                 border-radius: 32px;
                 max-height: 140px;
+                width: 100%;
                 max-width: 220px;
             }
 
