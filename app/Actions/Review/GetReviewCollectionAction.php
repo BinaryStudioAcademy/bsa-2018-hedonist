@@ -8,12 +8,7 @@ use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewByPlaceIdCrite
 use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewDefaultSortCriteria;
 use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewFulltextCriteria;
 use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewPopularSortCriteria;
-use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewUsernameFulltextCriteria;
-use Hedonist\Repositories\Review\Criterias\GetReviewsByTextCriteria;
-use Hedonist\Repositories\Review\Criterias\GetReviewsByPlaceCriteria;
 use Hedonist\Repositories\Review\Criterias\PopularSortCriteria;
-use Hedonist\Repositories\Review\Criterias\ReviewPaginationCriteria;
-use Hedonist\Repositories\Review\Criterias\SortCriteria;
 use Hedonist\Repositories\Review\ElasticReviewRepositoryInterface;
 use Hedonist\Repositories\Review\ReviewRepositoryInterface;
 
