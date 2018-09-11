@@ -81,13 +81,7 @@ export default {
             return new Promise((resolve, reject) => {
                 httpService.get(queryUrl)
                     .then((res) => {
-                        let places = res.data.data;
-                        if (filters.top_rated) {
-                            places.sort(function (a, b) {
-                                return parseFloat(a.rating) > parseFloat(b.rating);
-                            });
-                        }
-                        context.commit('SET_PLACES', places);
+                        context.commit('SET_PLACES', res.data.data);
                         resolve(res);
                     }).catch((err) => {
                         reject(err);
