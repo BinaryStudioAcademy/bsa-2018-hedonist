@@ -22,12 +22,13 @@ class HedonistEntitiesReviewReview extends Mapping
         Map::create($this->getModelType(), function (Blueprint $map) {
             $map->integer('id');
             $map->addField('text', 'description');
-            $map->nested('user', function (Blueprint $map) {
+            $map->object('user', function (Blueprint $map) {
                 $map->integer('id');
                 $map->addField('text','email');
                 $map->addField('text','first_name');
                 $map->addField('text','last_name');
             });
+            $map->integer('likes_count');
             $map->integer('place_id');
             $map->nested('likes',function (Blueprint $map){
             });

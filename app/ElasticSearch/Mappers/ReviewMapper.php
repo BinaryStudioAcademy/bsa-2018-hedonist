@@ -32,6 +32,7 @@ class ReviewMapper implements MapperInterface
             'user' => $this->userMapper->map($model->user),
             'photos' => $model->photos,
             'likes' => $model->likes,
+            'likes_count' => $model->likes->count(),
             'dislikes' => $model->dislikes,
             'created_at' => $model->created_at->format('Y-m-d H:i:s')
         ];

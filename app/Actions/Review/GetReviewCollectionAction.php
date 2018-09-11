@@ -6,7 +6,7 @@ use Hedonist\ElasticSearch\Criterias\Common\ElasticPaginationCriteria;
 use Hedonist\Repositories\Review\Criterias\DefaultSortCriteria;
 use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewByPlaceIdCriteria;
 use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewDefaultSortCriteria;
-use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewDescriptionFulltextCriteria;
+use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewFulltextCriteria;
 use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewPopularSortCriteria;
 use Hedonist\Repositories\Review\Criterias\ElasticCriterias\ReviewUsernameFulltextCriteria;
 use Hedonist\Repositories\Review\Criterias\GetReviewsByTextCriteria;
@@ -48,18 +48,19 @@ class GetReviewCollectionAction
         }
 
         if (!is_null($text)) {
-            //$criterias[] = new ReviewDescriptionFulltextCriteria($text);
-            //$criterias[] = new ReviewUsernameFulltextCriteria($text);
+            $criterias[] = new ReviewFulltextCriteria($text);
         }
 
         if ($sort === PopularSortCriteria::POPULAR_SORT) {
-            //$criterias[] = new ReviewPopularSortCriteria();
+            $criterias[] = new ReviewPopularSortCriteria();
         } else {
-            //$criterias[] = new ReviewDefaultSortCriteria();
+            $criterias[] = new ReviewDefaultSortCriteria();
         }
 
-        $reviews = $this->elasticReviewRepository->get();
-        clock($reviews);
+        $reviews = $this->elasticReviewRepository->findCollectionByCriterias(
+            new ElasticPaginationCriteria($page),
+            ...$criterias
+        );
 
         return new GetReviewCollectionResponse($reviews, $totalCount, ElasticPaginationCriteria::LIMIT);
     }
