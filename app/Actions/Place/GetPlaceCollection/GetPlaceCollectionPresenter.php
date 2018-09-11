@@ -65,7 +65,7 @@ class GetPlaceCollectionPresenter
             $result['worktime'] = $this->worktimePresenter->present($place->worktime);
 
             return $result;
-        })->toArray();
+        })->put('amount', $placeResponse->getAmount())->toArray();
     }
 
     private function presentReview(Collection $reviews, User $user): ?array

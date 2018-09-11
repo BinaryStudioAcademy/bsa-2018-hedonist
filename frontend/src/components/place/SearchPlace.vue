@@ -11,11 +11,11 @@
                 @onSelectFeature="onSelectFeature"
             />
 
-            <div v-if="places.length" class="place-counter">
+            <div v-if="places_amount" class="place-counter">
                 <div class="level">
                     <div class="level-item">
                         <span class="place-counter__title">{{ $t('search.place_counter') }}</span>
-                        <span class="place-counter__number">{{ places.length }}</span>
+                        <span class="place-counter__number">{{ places_amount }}</span>
                     </div>
                 </div>
             </div>
@@ -250,7 +250,7 @@ export default {
         }
     },
     computed: {
-        ...mapState('place', ['places']),
+        ...mapState('place', ['places', 'places_amount']),
         ...mapState('search', [
             'currentPosition',
             'mapInitialized',
