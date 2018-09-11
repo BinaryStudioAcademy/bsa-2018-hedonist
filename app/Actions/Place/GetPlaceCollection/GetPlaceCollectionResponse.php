@@ -8,17 +8,24 @@ use Illuminate\Database\Eloquent\Collection;
 class GetPlaceCollectionResponse
 {
     private $placeCollection;
+    private $amount;
     private $user;
 
-    public function __construct(Collection $places, User $user)
+    public function __construct(Collection $places, int $amount, User $user)
     {
         $this->placeCollection = $places;
+        $this->amount = $amount;
         $this->user = $user;
     }
 
     public function getPlaceCollection(): Collection
     {
         return $this->placeCollection;
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
     }
 
     public function getUser(): User
