@@ -1,7 +1,7 @@
 <template>
     <b-dropdown>
         <button class="button is-primary" slot="trigger">
-            <i class="far fa-share-square" />Share
+            <span class="btn-icon"><i class="far fa-share-square" /></span>Share
             <b-icon icon="menu-down" />
         </button>
 
@@ -35,5 +35,7 @@ export default {
 </script>
 
 <style scoped>
-
+.btn-icon{
+        padding-right: 7px;
+    }
 </style>
