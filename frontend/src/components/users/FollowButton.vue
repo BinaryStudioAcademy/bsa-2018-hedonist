@@ -34,7 +34,10 @@ export default {
             callbackPayload: {
                 failCallback: () => {
                     this.isLoading = false;
-                    this.$toast.open({message: 'Something went wrong', type: 'is-danger'});
+                    this.$toast.open({
+                        type: 'is-danger',
+                        message: this.$t('messages.error.unknown')
+                    });
                 },
                 successCallback: () => {
                     this.isLoading = false;

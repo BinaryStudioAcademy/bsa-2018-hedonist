@@ -6,7 +6,7 @@
                 'notification-icon',
                 notificationIconActiveClass
             ]"
-            @click="$emit('toggleNotifications')"
+            @click="notificationsDisplay ? onHideNotifications : $emit('toggleNotifications')"
             v-click-outside="onHideNotifications"
         />
         <div v-if="notificationsDisplay" class="notifications__wrapper">

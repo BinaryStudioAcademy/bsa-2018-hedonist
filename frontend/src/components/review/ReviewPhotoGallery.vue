@@ -7,7 +7,9 @@
                     height="25" 
                     width="25"
                 >
-                <span v-if="loaded">{{ photosCount }} Photos</span>
+                <span v-if="loaded">
+                    {{ photosCount }} {{ $t('place_page.review.photo.title') }}
+                </span>
             </div>
         </div>
         <ul v-if="loaded" class="reviews-photo-list">
