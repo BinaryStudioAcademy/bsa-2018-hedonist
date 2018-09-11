@@ -3,12 +3,12 @@
 namespace Hedonist\Repositories\Place;
 
 use Carbon\Carbon;
+use Prettus\Repository\Contracts\CriteriaInterface;
 use Hedonist\Entities\Localization\Language;
 use Hedonist\Entities\Place\Checkin;
 use Hedonist\Entities\Place\Location;
 use Illuminate\Support\Facades\DB;
 use Prettus\Repository\Eloquent\BaseRepository;
-use Prettus\Repository\Contracts\CriteriaInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\UserList\UserList;
@@ -154,5 +154,16 @@ class PlaceRepository extends BaseRepository implements PlaceRepositoryInterface
     public function getGeneralInfoByIds(array $ids): Collection
     {
         return Place::whereIn('id', $ids)->get();
+    }
+
+    public function findCountByCriterias(CriteriaInterface ...$criterias): int
+    {
+        foreach ($criterias as $criteria) {
+            $this->pushCriteria($criteria);
+        }
+        $result = $this->all();
+        $this->resetCriteria();
+
+        return $result->count();
     }
 }
