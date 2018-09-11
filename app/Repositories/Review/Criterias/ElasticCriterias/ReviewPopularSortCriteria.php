@@ -13,11 +13,6 @@ class ReviewPopularSortCriteria implements ElasticCriteriaInterface
 
     public function apply(SearchBuilder $builder): SearchBuilder
     {
-        $builder->aggregate(function(AggregationBuilder $builder){
-            $builder->valueCount(self::POPULAR_SORT, 'likes');
-            return $builder;
-        });
-        $builder->sortBy(self::POPULAR_SORT,self::POPULAR_ORDER);
-        return $builder;
+        return $builder->sortBy(self::POPULAR_SORT,self::POPULAR_ORDER);
     }
 }
