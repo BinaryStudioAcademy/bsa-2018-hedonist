@@ -57,12 +57,6 @@ import notificationsMixin from '@/components/mixins/notifications';
 export default {
     name: 'FollowedUserUpdateListNotification',
     mixins: [notificationsMixin],
-    props: {
-        detailed: {
-            default: false,
-            type: Boolean
-        }
-    },
     methods: {
         getPlaceName(place) {
             return place.localization[0]['place_name'];
