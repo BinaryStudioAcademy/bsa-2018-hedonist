@@ -41,6 +41,10 @@ export default {
 
     .wrapper{
         display: flex;
+
+        @media screen and (max-width: 768px) {
+            justify-content: center;
+        }
     }
 
     .image {
