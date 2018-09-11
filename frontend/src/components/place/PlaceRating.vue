@@ -85,7 +85,6 @@ export default {
         white-space: nowrap;
         vertical-align: middle;
         height: 40px;
-        width: 40px;
 
         &-bad {
             background-color: #FC8D9F;
