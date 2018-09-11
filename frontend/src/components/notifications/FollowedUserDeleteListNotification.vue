@@ -29,5 +29,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import '@/assets/scss/notifications.scss';
+    @import '@/styles/notifications.scss';
 </style>
