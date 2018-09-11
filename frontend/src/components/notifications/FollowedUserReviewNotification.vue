@@ -76,25 +76,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    span {
-        display: inline-block;
-        vertical-align: middle;
-    }
-
-    .user {
-        padding-top: 2px;
-
-        &__avatar-wrp {
-            width: 30px;
-            height: 30px;
-        }
-
-        &__avatar {
-            border-radius:4px;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: 50% 50%;
-        }
-    }
+    @import '@/assets/scss/notifications.scss';
 </style>
