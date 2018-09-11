@@ -28,6 +28,7 @@ use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Hedonist\Repositories\Place\Criterias\DefaultSortCriteria;
 use Illuminate\Cache\Repository as Cache;
 
 class GetPlaceCollectionByFiltersAction
@@ -127,6 +128,7 @@ class GetPlaceCollectionByFiltersAction
             new PlacePaginationCriteria($page),
             new AllPlacePhotosCriteria(),
             new LatestReviewForPlaceCriteria(),
+            new DefaultSortCriteria(),
             ...$criterias
         );
 
