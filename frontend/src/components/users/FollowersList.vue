@@ -26,5 +26,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .columns {
+        display: flex;
+        flex-flow: row wrap;
+        align-content: space-between;
+
+        @media screen and (max-width: 400px) {
+            display: block;
+        }
+
+        .column {
+            padding-top: 1rem;
+        }
+    }
 
 </style>
