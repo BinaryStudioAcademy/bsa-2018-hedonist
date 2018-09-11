@@ -19,7 +19,7 @@
         </div>
         <div class="level list-data is-mobile">
             <div class="list-data__user-data level-left">
-                <figure class="image is-32x32 level-item">
+                <figure class="image is-64x64 level-item">
                     <img :src="listItem.user.avatar_url" class="avatar">
                 </figure>
                 <div class="list-data__creator-name">
@@ -105,12 +105,16 @@ export default {
 
     .list-data{
         padding:0 10px 1rem 10px;
-        &__user-data{
+        &__user-data {
             .image{
                 margin-right: 5px;
             }
             .avatar{
                 border-radius: 4px;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 50% 50%;
             }
         }
 
