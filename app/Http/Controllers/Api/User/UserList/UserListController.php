@@ -103,8 +103,8 @@ class UserListController extends ApiController
                 )
             );
             return $this->successResponse($responseUserList->toArray(), 201);
-        } catch (UserListPermissionDeniedException | \Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+        } catch (UserListPermissionDeniedException | DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 
@@ -112,7 +112,7 @@ class UserListController extends ApiController
     {
         try {
             $this->deleteUserListAction->execute(new DeleteUserListRequest($id));
-        } catch (UserListPermissionDeniedException | \Exception $exception) {
+        } catch (UserListPermissionDeniedException | DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
         }
     }
