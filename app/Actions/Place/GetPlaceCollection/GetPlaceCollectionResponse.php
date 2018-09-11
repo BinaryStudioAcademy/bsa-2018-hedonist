@@ -11,7 +11,7 @@ class GetPlaceCollectionResponse
     private $amount;
     private $user;
 
-    public function __construct(Collection $places, int $amount, User $user)
+    public function __construct(Collection $places, User $user, ?int $amount = null)
     {
         $this->placeCollection = $places;
         $this->amount = $amount;
@@ -23,7 +23,7 @@ class GetPlaceCollectionResponse
         return $this->placeCollection;
     }
 
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }

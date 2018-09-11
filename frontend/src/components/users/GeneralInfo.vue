@@ -188,6 +188,7 @@ export default {
     }
 
     .user-info {
+        margin: 0 15px;
 
         &-img {
             @media screen and (max-width: 768px) {

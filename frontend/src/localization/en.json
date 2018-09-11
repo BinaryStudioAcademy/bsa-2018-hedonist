@@ -365,6 +365,16 @@
       }
     }
   },
+  "user_list_form": {
+    "messages": {
+      "name_required": "List name is required!",
+      "saved": "The list was saved!",
+      "updated": "The list was updated!",
+      "deleted": "The list was deleted!",
+      "wrong_image_type": "Wrong image type!",
+      "big_photo": "Photo has been less then"
+    }
+  },
   "notifications": {
     "no-notifications": "You don't have any notifications.",
     "clear-notifications": "Clear notifications",

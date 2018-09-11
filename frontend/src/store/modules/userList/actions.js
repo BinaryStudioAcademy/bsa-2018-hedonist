@@ -214,9 +214,11 @@ export default {
             });
     },
     deleteUserListImg: (context, id) => {
-        return httpService.post(`/user-lists/${id}/delete-image`)
-            .then((result) => { return result.data.data; })
-            .catch((error) => { return error; });
+        return new Promise((resolve, reject) => {
+            httpService.delete(`/user-lists/${id}/image`)
+                .then((result) => { resolve(result); })
+                .catch((error) => { reject(error); });
+        });
     }
 };
 

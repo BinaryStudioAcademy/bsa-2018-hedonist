@@ -139,7 +139,7 @@ Route::prefix('v1')->group(function () {
             Route::post('/{id}/detach-place', 'Api\User\UserList\UserListPlaceController@detachPlace')
                 ->name('user-list.place.detach');
 
-            Route::post('/{id}/delete-image', 'Api\User\UserList\UserListController@deleteImage');
+            Route::delete('/{id}/image', 'Api\User\UserList\UserListController@deleteImage');
         });
 
         Route::get('/places/features/', 'Api\Place\PlaceFeaturesController@indexPlaceFeature')
