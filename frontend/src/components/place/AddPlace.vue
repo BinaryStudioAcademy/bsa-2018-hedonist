@@ -293,10 +293,10 @@
                                 :map-options="{
                                     style: mapboxStyle,
                                     center: {
-                                        lat: 50.4501,
-                                        lng: 30.5241
+                                        lng: 30.5241,
+                                        lat: 50.4501
                                     },
-                                    zoom: 5
+                                    zoom: 10
                                 }"
                                 :scale-control="{
                                     show: true,
@@ -378,7 +378,7 @@
                 </b-tab-item>
 
                 <b-tab-item :label="$t('add_place_page.tabs.features.label')" :disabled="activeTab !== 4">
-                    <div class="columns is-centered">
+                    <div class="columns is-centered column-feature">
                         <div class="column is-half">
                             <template v-for="feature in allFeatures">
                                 <div :key="feature.id" class="level is-flex-mobile">
@@ -665,6 +665,8 @@ export default {
             weekdays: [],
             timeStart: moment().set({'hours': 10, 'minutes': 0}).toDate(),
             timeEnd: moment().set({'hours': 21, 'minutes': 0}).toDate(),
+            map: {},
+            marker: {},
         };
     },
 
@@ -713,6 +715,18 @@ export default {
                 this.newPlace.tags.push(tagObject);
             }
         },
+
+        'newPlace.city': function (city) {
+            if (city && city.center !== undefined) {
+                this.map.jumpTo({
+                    center: {
+                        lng: this.newPlace.city.center[0],
+                        lat: this.newPlace.city.center[1]
+                    },
+                });
+                this.marker.setLngLat([this.newPlace.city.center[0], this.newPlace.city.center[1]]);
+            }
+        }
     },
 
     updated() {
@@ -752,15 +766,16 @@ export default {
         },
 
         mapLoaded(map) {
-            let marker = new mapboxgl.Marker({
+            this.marker = new mapboxgl.Marker({
                 draggable: true
             })
                 .setLngLat([30.5241, 50.4501])
                 .addTo(map);
 
-            marker.on('dragend', () => {
-                this.newPlace.location = marker.getLngLat();
+            this.marker.on('dragend', () => {
+                this.newPlace.location = this.marker.getLngLat();
             });
+            this.map = map;
         },
 
         isTagAdded: function(tagObject) {
@@ -883,6 +898,32 @@ export default {
     .place-location {
         .location-search {
             display: none;
+        }
+    }
+
+    .block .tabs ul {
+        flex-wrap: wrap;
+        max-width: 100%;
+
+    }
+
+    @media screen and (min-width: 500px) and (max-width: 769px) {
+        .column-feature {
+            display: flex;
+            .column {
+                flex: none;
+                width: 70%;
+            }
+        }
+    }
+
+    @media screen and (min-width: 400px ) and (max-width: 499px) {
+        .column-feature {
+            display: flex;
+            .column {
+                flex: none;
+                width: 90%;
+            }
         }
     }
 </style>
