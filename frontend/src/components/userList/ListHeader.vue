@@ -19,7 +19,7 @@
         </div>
         <div class="level list-data is-mobile">
             <div class="list-data__user-data level-left">
-                <figure class="image is-64x64 level-item">
+                <figure class="image is-32x32 level-item">
                     <img :src="listItem.user.avatar_url" class="avatar">
                 </figure>
                 <div class="list-data__creator-name">
