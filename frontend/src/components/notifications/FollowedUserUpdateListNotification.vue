@@ -22,8 +22,27 @@
                 ({{ getDate }})
             </span>
         </div>
-        <div class="detailed-info">
-
+        <div class="detailed-info" v-if="detailed">
+            <div class="attached-places" v-if="attachedPlaces.length > 0">
+                <span class="place-announce">Attached places: </span>
+                <span
+                    v-for="(place, index) in attachedPlaces"
+                    :key="index"
+                    class="place-name"
+                >
+                    <router-link :to="`/places/${place.id}`">{{ getPlaceName(place) }}</router-link>
+                </span>
+            </div>
+            <div class="detached-places" v-if="detachedPlaces.length > 0">
+                <span class="place-announce">Detached places: </span>
+                <span
+                    v-for="(place, index) in detachedPlaces"
+                    :key="index"
+                    class="place-name"
+                >
+                    <router-link :to="`/places/${place.id}`">{{ getPlaceName(place) }}</router-link>
+                </span>
+            </div>
         </div>
     </div>
 </template>
@@ -59,6 +78,11 @@ export default {
     created() {
         console.log(this.notification);
     },
+    methods: {
+        getPlaceName(place) {
+            return place.localization[0]['place_name'];
+        }
+    },
     computed: {
         getUserName() {
             return this.user.info['first_name'];
@@ -79,6 +103,12 @@ export default {
                 second: 'numeric'
             };
             return date.toLocaleString('en-US', options);
+        },
+        attachedPlaces() {
+            return this.notification['attached_places'];
+        },
+        detachedPlaces() {
+            return this.notification['detached_places'];
         }
     }
 };
@@ -104,6 +134,23 @@ export default {
             height: 100%;
             object-fit: cover;
             object-position: 50% 50%;
+        }
+    }
+
+    .detailed-info {
+        margin-top: 20px;
+
+        .place-announce {
+            font-style: italic;
+        }
+
+        .place-name {
+            margin-right: 4px;
+
+            &:not(:last-child):after {
+                content: ', ';
+                margin-right: 0;
+            }
         }
     }
 </style>

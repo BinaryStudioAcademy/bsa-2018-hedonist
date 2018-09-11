@@ -45,6 +45,8 @@ class SaveUserListAction
             function () use ($userListRequest) {
                 $id = $userListRequest->getId();
                 $attachedPlacesIds = $userListRequest->getAttachedPlaces() ?? [];
+                $detachedPlaces = collect();
+                $attachedPlaces = collect();
                 if (!$id) {
                     $userList = new UserList;
                 } else {
@@ -58,12 +60,12 @@ class SaveUserListAction
                 }
 
                 $file = $userListRequest->getImage();
-
                 if ($file !== null) {
                     $imageName = (new FileNameGenerator($file))->generateFileName();
                     Storage::disk()->putFileAs(self::FILE_STORAGE, $file, $imageName, 'public');
                     $userList->img_url = Storage::disk()->url(self::FILE_STORAGE . $imageName);
                 }
+
                 $userList->user_id = $userListRequest->getUserId();
                 if (!$userList->is_default) {
                     $userList->name = $userListRequest->getName() ?? $userList->name;
@@ -77,12 +79,12 @@ class SaveUserListAction
                 if (is_null($id)) {
                     Log::info("user_list: User {$user->id} added user list {$userList->id}");
                     $this->sendNotificationToFollowers(
-                        new FollowedUserAddListNotification($userList, Auth::user())
+                        new FollowedUserAddListNotification($userList, $user)
                     );
                 } else {
                     Log::info("user_list: User {$user->id} updated user list {$userList->id}");
                     $this->sendNotificationToFollowers(new FollowedUserUpdateListNotification(
-                            $userList, $detachedPlaces, $attachedPlaces, Auth::user())
+                            $userList, $detachedPlaces, $attachedPlaces, $user)
                     );
                 }
 
