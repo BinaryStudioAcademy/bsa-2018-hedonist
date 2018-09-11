@@ -3,7 +3,7 @@
         <div class="level list-data top is-mobile">
             <div class="level-left top top__left">
                 <figure class="media-left image is-128x128">
-                    <img :src="listItem.img_url || imageStub">
+                    <img :src="listItem.img_url || listImage">
                 </figure>
                 <h3 class="title">
                     {{ listItem.name }}
@@ -53,6 +53,10 @@ export default {
         listItem:{
             required:true,
             type: Object
+        },
+        defaultImage: {
+            required: true,
+            type: String
         }
     },
     data() {
@@ -69,6 +73,9 @@ export default {
         },
         pageTitle() {
             return this.listItem.name;
+        },
+        listImage() {
+            return this.defaultImage ? this.defaultImage : this.imageStub;
         }
     }
 };
