@@ -206,7 +206,7 @@ export default {
     /* Main block wrapper. */
     .reviews-wrp {
         margin: auto;
-        font-size: 18px;
+        font-size: 16px;
         color: #808080;
         background: #f7f7f7;
         border: 1px solid #efeff4;
