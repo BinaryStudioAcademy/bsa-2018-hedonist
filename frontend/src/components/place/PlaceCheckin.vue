@@ -2,6 +2,7 @@
     <button
         class="button is-primary checkin"
         @click="checkinPlace"
+        v-tooltip.top="'Check-in'"
     >
         <i class="fas fa-clock" />{{ checkinCount }}
     </button>
