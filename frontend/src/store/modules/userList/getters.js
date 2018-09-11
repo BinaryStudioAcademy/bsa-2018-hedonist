@@ -73,5 +73,7 @@ export default {
         });
     },
 
-    getUserLists: (state) => _.map(state.userLists.allIds, (id) => state.userLists.byId[id])
+    getUserLists: (state) => _.map(state.userLists.allIds, (id) => state.userLists.byId[id]),
+
+    getCities: (state) => _.map(state.cities.allIds, (id) => state.cities.byId[id])
 };

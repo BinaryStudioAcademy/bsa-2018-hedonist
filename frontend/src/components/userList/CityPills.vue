@@ -2,7 +2,7 @@
     <div class="has-text-center">
         <ul>
             <li
-                v-for="(city, key, index) in cities.byId"
+                v-for="(city, key, index) in getCities"
                 class="city"
                 :class="{added: isChecked(city.id), pop: isAnimated(city.id), popin: !isClicked(city.id)}"
                 :key="index"
@@ -20,8 +20,8 @@
             <li
                 class="city"
                 :class="{added: isSelected(), pop: isSelected(), popin: isSelected()}"
-                :key="cities.byId.length"
-                :style="{ animationDelay: cities.byId.length * 0.02 + 's' }"
+                :key="getCities.length"
+                :style="{ animationDelay: getCities.length * 0.02 + 's' }"
             >
                 <div
                     class="pill"
@@ -52,6 +52,9 @@ export default {
             required: true,
             type: Object,
         },
+    },
+    computed: {
+        ...mapGetters('userList', ['getCities'])
     },
     methods: {
         checkCity(id) {
@@ -99,11 +102,7 @@ export default {
         isClicked(id) {
             return this.citiesData !== undefined || this.citiesData[id].isClick;
         },
-    },
-    computed: {
-    },
-    created() {
-    },
+    }
 };
 </script>
 
