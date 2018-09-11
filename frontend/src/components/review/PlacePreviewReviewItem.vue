@@ -2,7 +2,7 @@
     <div class="media review-wrapper">
 
         <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
-            <figure class="image is-16x16 media-left">
+            <figure class="image user-avatar-wrp media-left">
                 <img v-if="review.user.avatar_url" :src="review.user.avatar_url" class="user-avatar">
                 <img
                     v-else
@@ -156,8 +156,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .user-avatar-wrp {
+        width: 24px;
+        height: 24px;
+    }
     .user-avatar {
         border-radius: 5px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
     }
 
     .review-date, .review-text {

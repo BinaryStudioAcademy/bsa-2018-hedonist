@@ -9,10 +9,11 @@
                         v-show="index === 0"
                         :src="photo.img_url"
                         :key="photo.id"
+                        class="place-photo"
                     >
                 </figure>
                 <figure v-else class="media-left image is-64x64">
-                    <img :src="notFoundPhoto">
+                    <img :src="notFoundPhoto" class="place-photo">
                 </figure>
                 <div class="media-content">
                     <h3
@@ -177,6 +178,15 @@ export default {
     .media + .media {
         margin-top: 0.25rem;
         padding-top: 0.25rem;
+    }
+
+    .media-left {
+        .place-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
     }
 
     .preview-tag {
