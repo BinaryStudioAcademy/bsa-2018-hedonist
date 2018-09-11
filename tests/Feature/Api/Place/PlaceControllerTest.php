@@ -285,8 +285,7 @@ class PlaceControllerTest extends ApiTestCase
             ]
         ]);
 
-        // places + amount element (1 + 1)
-        $this->assertEquals(count($arrayContent['data']), 2);
+        $this->assertEquals(count($arrayContent['data']), 1);
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
     }
@@ -320,8 +319,7 @@ class PlaceControllerTest extends ApiTestCase
             ]
         ]);
 
-        // places + amount element (2 + 1)
-        $this->assertEquals(count($arrayContent['data']), 3);
+        $this->assertEquals(count($arrayContent['data']), 2);
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/json');
     }
