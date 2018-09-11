@@ -27,6 +27,7 @@ use Hedonist\Repositories\Place\Criterias\TopReviewedCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Hedonist\Repositories\Place\Criterias\DefaultSortCriteria;
 use Illuminate\Cache\Repository as Cache;
 
 class GetPlaceCollectionByFiltersAction
@@ -125,6 +126,7 @@ class GetPlaceCollectionByFiltersAction
             new PlacePaginationCriteria($page),
             new AllPlacePhotosCriteria(),
             new LatestReviewForPlaceCriteria(),
+            new DefaultSortCriteria(),
             ...$criterias
         );
 
@@ -135,7 +137,7 @@ class GetPlaceCollectionByFiltersAction
         $filterInfo = $this->getPlaceFilterInfoJson($user, $request);
         Log::info("search: User {$user->id} performed search: {$filterInfo}");
 
-        return new GetPlaceCollectionResponse($places->sortByDesc('created_at'), $user);
+        return new GetPlaceCollectionResponse($places, $user);
     }
 
     private function getPlaceFilterInfoJson(User $user, GetPlaceCollectionByFiltersRequest $request): string
