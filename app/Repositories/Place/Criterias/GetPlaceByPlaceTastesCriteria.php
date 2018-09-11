@@ -18,7 +18,7 @@ class GetPlaceByPlaceTastesCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        $placeTastes = $this->currentPlace->tastes->pluck('id');
+        $placeTastes = $this->currentPlace->tastes->pluck('id')->toArray();
         if (!empty($placeTastes)) {
             $model = $model->whereHas('tastes', function (Builder $query) use ($placeTastes) {
                 $query->whereIn('place_tastes.taste_id', $placeTastes);
