@@ -9,7 +9,7 @@
             <div
                 class="onerow rating-value"
             >
-                {{ value | formatRating }}<span v-if="showMax"> / 5.0</span>
+                {{ value | formatRating }}<span v-if="showMax"> / 5</span>
             </div>
         </div>
     </div>
