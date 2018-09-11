@@ -60,9 +60,7 @@
                 <b-field
                     :label="$t('profile_page.phone.title')"
                     :type="isPhoneInvalid ? 'is-danger' : ''"
-                    :message="isPhoneInvalid
-                        ? this.$t('profile_page.phone.message')
-                        : ''"
+                    :message="isPhoneInvalid ? this.$t('profile_page.phone.message') : ''"
                 >
                     <b-input
                         v-model.trim="user.phone_number"
