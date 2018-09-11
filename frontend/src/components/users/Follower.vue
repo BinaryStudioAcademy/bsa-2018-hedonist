@@ -35,7 +35,7 @@ export default {
     .userName {
         font-weight: bold;
         font-size: 1.3rem;
-        align-self: flex-start;
+        align-self: center;
         margin-left: 10px;
     }
 
