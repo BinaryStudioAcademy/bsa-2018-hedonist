@@ -53,7 +53,7 @@ export default {
             required:true,
             type: Object
         },
-        firstPlaceImg: {
+        defaultImage: {
             required: true,
             type: String
         }
@@ -74,7 +74,7 @@ export default {
             return this.listItem.name;
         },
         listImage() {
-            return this.firstPlaceImg ? this.firstPlaceImg : this.imageStub;
+            return this.defaultImage ? this.defaultImage : this.imageStub;
         }
     }
 };
