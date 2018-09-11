@@ -1,13 +1,13 @@
 <template>
     <div class="rating-wrapper">
         <div
-                :class="[
+            :class="[
                 'rating',
                 'rating-' + ratingCategory
             ]"
         >
             <div
-                    class="onerow rating-value"
+                class="onerow rating-value"
             >
                 {{ value | formatRating }}<span v-if="showMax">/5</span>
             </div>
