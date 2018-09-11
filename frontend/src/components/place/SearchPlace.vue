@@ -170,7 +170,7 @@ export default {
         updateMap() {
             if (this.isMapLoaded && !this.isLoading) {
                 this.markerManager.setMarkersFromPlacesAndFit(...this.places);
-                if (this.$route.query.location && this.places.length > 0) {
+                if (this.$route.query.location && this.places.length === 0) {
                     let location = this.$route.query.location;
                     this.jumpTo(location.split(','), 11);
                 }
