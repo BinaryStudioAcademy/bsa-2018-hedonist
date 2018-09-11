@@ -1,22 +1,15 @@
 <template>
     <div class="rating-wrapper">
         <div
-            :class="[
+                :class="[
                 'rating',
                 'rating-' + ratingCategory
             ]"
         >
             <div
-                class="rating-value"
-                :class="{onerow: !showRating}"
+                    class="onerow rating-value"
             >
-                {{ value | formatRating }}<span v-if="showMax" class="grey">/5</span>
-            </div>
-            <div
-                class="rating-count"
-                v-if="showRating"
-            >
-                <i class="fas fa-user" />{{ ratingCount || 'No' }}
+                {{ value | formatRating }}<span v-if="showMax">/5</span>
             </div>
         </div>
     </div>
@@ -35,16 +28,6 @@ export default {
         showMax: {
             type: Boolean
         },
-
-        showRating: {
-            type: Boolean
-        },
-
-        ratingCount: {
-            required: this.showRating,
-            type: Number,
-            default: 0.0
-        }
     },
 
     computed: {
@@ -105,27 +88,11 @@ export default {
     }
 
     .rating-value {
-        font-size: 24px;
-        font-weight: normal;
-        line-height: 24px;
-    }
-
-    .grey {
-        color: #fff;
-        font-size: 10px;
-    }
-
-    .rating-count {
-        color: #fff;
-        font-size: 10px;
-        line-height: 10px;
-        i {
-            padding-right: 3px;
-        }
+        font-size: 1.2rem;
     }
 
     .onerow {
-        margin-top: 10px;
+        margin-top: 3px;
     }
 }
 </style>

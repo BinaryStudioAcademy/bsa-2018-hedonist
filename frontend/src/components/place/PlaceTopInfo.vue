@@ -53,7 +53,6 @@
                     v-if="place.rating"
                     :value="Number(place.rating)"
                     :show-max="true"
-                    :show-rating="true"
                     :rating-count="place.ratingCount"
                 />
 
