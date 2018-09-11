@@ -63,10 +63,10 @@ export default {
     .checkin {
         border-radius: 7px;
         height: 48px;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         color: #FFF;
         text-align: center;
-        padding: 0 10px;
+        padding: 0 7px;
 
         i {
             padding-right: 5px;
