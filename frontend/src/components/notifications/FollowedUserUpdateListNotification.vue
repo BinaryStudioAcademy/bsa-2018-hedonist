@@ -1,25 +1,30 @@
 <template>
     <div class="notification-message">
-        <span class="user">
-            <span class="user__avatar-wrp">
-                <img class="user__avatar" :src="getUserAvatar">
+        <div class="general-info">
+            <span class="user">
+                <span class="user__avatar-wrp">
+                    <img class="user__avatar" :src="getUserAvatar">
+                </span>
+                <router-link
+                    class="user__name"
+                    :to="{ name: 'OtherUserPage', params: { id: user.id } }"
+                >
+                    {{ getUserName }}
+                </router-link>
             </span>
-            <router-link
-                class="user__name"
-                :to="{ name: 'OtherUserPage', params: { id: user.id } }"
-            >
-                {{ getUserName }}
-            </router-link>
-        </span>
-        <span class="text">{{ $t('notifications.followed_user_update_list.update') }}</span>
-        <span class="list-link">
-            <router-link :to="`/list/${notification['id']}`">
-                {{ this.notification.name }}
-            </router-link>
-        </span>
-        <span class="date" v-if="createdAt">
-            ({{ getDate }})
-        </span>
+                <span class="text">{{ $t('notifications.followed_user_update_list.update') }}</span>
+                <span class="list-link">
+                <router-link :to="`/list/${notification['id']}`">
+                    {{ this.notification.name }}
+                </router-link>
+            </span>
+                <span class="date" v-if="createdAt">
+                ({{ getDate }})
+            </span>
+        </div>
+        <div class="detailed-info">
+
+        </div>
     </div>
 </template>
 
@@ -40,12 +45,19 @@ export default {
         createdAt: {
             default: null,
             type: Object
+        },
+        detailed: {
+            default: false,
+            type: Boolean
         }
     },
     data() {
         return {
             avatarStub: avatarStub
         };
+    },
+    created() {
+        console.log(this.notification);
     },
     computed: {
         getUserName() {

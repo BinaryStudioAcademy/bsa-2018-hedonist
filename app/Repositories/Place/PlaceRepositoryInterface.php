@@ -38,4 +38,6 @@ interface PlaceRepositoryInterface
     public function setWorktime(Place $place, array $worktime): void;
 
     public function getPlaceCheckinsCountByUser(int $placeId, int $userId) : int;
+
+    public function getGeneralInfoByIds(array $ids): Collection;
 }

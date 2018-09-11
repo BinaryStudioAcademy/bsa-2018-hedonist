@@ -17,6 +17,7 @@
                     :notification="getNotificationSubject(notification)"
                     :user="getNotificationUser(notification)"
                     :created-at="notification['created_at']"
+                    :detailed="true"
                 />
             </li>
         </ul>
