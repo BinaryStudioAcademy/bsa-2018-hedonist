@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 
 class ElasticReviewRepository extends AbstractElasticRepository implements ElasticReviewRepositoryInterface
 {
-
     protected function model(): string
     {
         return Review::class;
