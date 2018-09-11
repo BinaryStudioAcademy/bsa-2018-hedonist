@@ -4,7 +4,8 @@
             <div class="column is-half left-side">
                 <div class="page-content" v-if="!isLoading">
                     <ListHeader
-                        :list-item="userList" :firstPlaceImg="firstPlaceImg"
+                        :list-item="userList" 
+                        :first-place-img="firstPlaceImg"
                     />
                     <ListPlaceItem
                         v-for="place in denormolizedPlaces"
