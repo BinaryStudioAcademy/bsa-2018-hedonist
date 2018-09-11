@@ -4,10 +4,11 @@
             <div class="column is-half left-side">
                 <div class="page-content" v-if="!isLoading">
                     <ListHeader
-                        :list-item="userList"
+                        :list-item="userList" 
+                        :default-image="firstPlaceImg"
                     />
                     <ListPlaceItem
-                        v-for="place in denormolizedPlaces"
+                        v-for="place in normalizedPlaces"
                         :key="place.id"
                         :place="place"
                     />
@@ -55,7 +56,7 @@ export default {
         },
         updatePlaceMarkers() {
             if (!this.isLoading && this.markerManager) {
-                this.markerManager.setMarkersFromPlacesAndFit(...this.denormolizedPlaces.map((item) => ({
+                this.markerManager.setMarkersFromPlacesAndFit(...this.normalizedPlaces.map((item) => ({
                     id: item.id,
                     name: item.localization[0].name,
                     localization: item.localization,
@@ -74,13 +75,22 @@ export default {
         userList() {
             return this.getById(this.$route.params.id);
         },
-        denormolizedPlaces() {
+        normalizedPlaces() {
             const places = [];
             for (const index of this.userList.places) {
                 places.push(this.places.byId[index]);
             }
             return places;
         },
+        firstPlaceImg() {
+            if (this.normalizedPlaces.length) {
+                let firstPlace = this.normalizedPlaces[0];
+                if (firstPlace.photos.length) {
+                    return this.photos.byId[firstPlace.photos[0]].img_url;
+                }
+            }
+            return '';
+        }
     },
     watch:{
         isLoading(){

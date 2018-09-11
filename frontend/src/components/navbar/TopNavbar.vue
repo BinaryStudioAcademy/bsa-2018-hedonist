@@ -131,6 +131,7 @@ import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
 import LanguageSelector from './LanguageSelector';
 import NewNotificationsList from './NewNotificationsList';
+import { getUserChannelName } from '@/services/notification/notificationService';
 
 export default {
     name: 'TopNavbar',
@@ -167,7 +168,7 @@ export default {
                 this.listenChannel(this.currentUser.id);
                 this.getUnreadNotifications()
                     .then(() => {
-                        if (!this.notificationsDisplay && this.notifications.length > 0) {
+                        if (this.newNotificationsAvailable()) {
                             this.isNewNotifications = true;
                         }
                     });
@@ -210,8 +211,8 @@ export default {
         hideNotifications() {
             this.notificationsDisplay = false;
         },
-        listenChannel(id) {
-            Echo.private(`App.User.${id}`)
+        listenChannel(userId) {
+            Echo.private(getUserChannelName(userId))
                 .notification((payload) => {
                     if (!this.notificationsDisplay) {
                         this.isNewNotifications = true;
@@ -229,6 +230,9 @@ export default {
                         }
                     });
                 });
+        },
+        newNotificationsAvailable() {
+            return !this.notificationsDisplay && this.notifications.length > 0;
         }
     },
 };
@@ -317,7 +321,11 @@ export default {
     }
 
     .navbar-end {
-        padding-right: 0;
+        padding-right: 20px;
+
+        @media screen and (max-width: 1280px) {
+            padding-right: 50px;
+        }
 
         @media screen and (max-width: 911px) {
             .profile {
@@ -350,7 +358,9 @@ export default {
     }
 
     .navbar-lang {
+        position: absolute;
         padding-left: 0;
+        right: 0;
 
         @media screen and (max-width: 911px) {
             height: 60px;

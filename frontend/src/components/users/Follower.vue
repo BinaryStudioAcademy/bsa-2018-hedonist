@@ -35,12 +35,16 @@ export default {
     .userName {
         font-weight: bold;
         font-size: 1.3rem;
-        align-self: flex-start;
+        align-self: center;
         margin-left: 10px;
     }
 
     .wrapper{
         display: flex;
+
+        @media screen and (max-width: 768px) {
+            justify-content: center;
+        }
     }
 
     .image {

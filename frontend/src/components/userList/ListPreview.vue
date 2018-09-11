@@ -4,7 +4,7 @@
             <div class="container place-item" v-if="active">
                 <div class="media">
                     <figure class="media-left image">
-                        <img :src="userList.img_url || imageStub">
+                        <img :src="userList.img_url || listImage">
                     </figure>
                     <div class="media-content">
                         <h3 class="title has-text-primary">
@@ -73,11 +73,22 @@ export default {
     },
     computed: {
         ...mapGetters('userList', {
-            getUniqueCities : 'getUniqueCities'
+            getUniqueCities : 'getUniqueCities',
+            getPlaceById: 'getPlaceById',
         }),
         uniqueCities: function () {
             return this.getUniqueCities(this.userList);
         },
+        listImage() {
+            if (this.userList.places.length) {
+                let placeId = this.userList.places[0];
+                let place = this.getPlaceById(placeId);
+
+                return place.photos[0].img_url;
+            }
+
+            return this.imageStub;
+        }
     },
     props: {
         userList: {

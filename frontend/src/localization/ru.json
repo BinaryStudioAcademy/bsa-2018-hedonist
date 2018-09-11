@@ -322,7 +322,7 @@
       "title": "подписки"
     },
     "review_container": {
-      "tittle": "отзывы"
+      "title": "отзывы"
     },
     "lists_container": {
       "title": "списки",
@@ -392,7 +392,9 @@
       "add": "добавил новый список"
     },
     "followed_user_update_list": {
-      "update": "обновил свой список"
+      "update": "обновил свой список",
+      "attached_places": "Прикрепленные места:",
+      "detached_places": "Открепленные места:"
     },
     "followed_user_delete_list": {
       "delete": "удалил свой список"
