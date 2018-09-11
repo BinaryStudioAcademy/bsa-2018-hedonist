@@ -57,7 +57,6 @@ export default {
     display: flex;
     align-items: center;
 
-
     .rating {
         border-radius: 7px;
         line-height: 32px;
