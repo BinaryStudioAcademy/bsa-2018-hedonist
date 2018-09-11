@@ -97,6 +97,11 @@ export default {
                     } else {
                         this.isLoading = false;
                     }
+                })
+                .catch(() => {
+                    this.$router.push({
+                        name: 'SearchPlacePage'
+                    });
                 });
         }
     }
