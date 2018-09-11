@@ -79,7 +79,7 @@
     "search_for_something_more_general": "search for something more general",
     "button": "Search",
     "city_placeholder": "Location",
-    "place_counter": "Places finded: "
+    "place_counter": "Places found: "
   },
   "check-ins_page": {
     "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page.",
@@ -249,7 +249,7 @@
         "recent": "Recent" 
       },
       "modal": {
-        "like": "Liked",
+        "like": "Liked by",
         "dislike": "Disliked",
         "close": "Close"
       }
@@ -363,6 +363,16 @@
       "list": {
         "delete": "The list was removed"
       }
+    }
+  },
+  "user_list_form": {
+    "messages": {
+      "name_required": "List name is required!",
+      "saved": "The list was saved!",
+      "updated": "The list was updated!",
+      "deleted": "The list was deleted!",
+      "wrong_image_type": "Wrong image type!",
+      "big_photo": "Photo has been less then"
     }
   },
   "notifications": {

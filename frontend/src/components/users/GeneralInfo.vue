@@ -188,16 +188,23 @@ export default {
     }
 
     .user-info {
+        margin: 0 15px;
 
         &-img {
             @media screen and (max-width: 768px) {
                 display: flex;
                 justify-content: center;
             }
+            figure {
+                width: 150px;
+                height: 150px;
+            }
             img {
-                border-radius: 32px;
-                max-height: 140px;
-                max-width: 220px;
+                border-radius:32px;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 50% 50%;
             }
 
         }

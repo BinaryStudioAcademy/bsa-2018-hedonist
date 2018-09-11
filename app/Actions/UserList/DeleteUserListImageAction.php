@@ -3,7 +3,9 @@
 namespace Hedonist\Actions\UserList;
 
 use Hedonist\Exceptions\UserList\UserListExistsException;
+use Hedonist\Exceptions\UserList\UserListPermissionDeniedException;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
+use Illuminate\Support\Facades\Gate;
 
 class DeleteUserListImageAction
 {
@@ -20,7 +22,12 @@ class DeleteUserListImageAction
         if (!$userList) {
             throw new UserListExistsException();
         }
-        $userList->img_url = '';
+
+        if (Gate::denies('deleteImg', $userList)) {
+            throw new UserListPermissionDeniedException();
+        }
+
+        $userList->img_url = null;
         $this->userListRepository->save($userList);
     }
 }

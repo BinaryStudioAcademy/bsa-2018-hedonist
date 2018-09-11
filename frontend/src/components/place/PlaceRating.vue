@@ -9,7 +9,7 @@
             <div
                 class="onerow rating-value"
             >
-                {{ value | formatRating }}<span v-if="showMax">/5</span>
+                {{ value | formatRating }}<span v-if="showMax"> / 5</span>
             </div>
         </div>
     </div>
@@ -63,11 +63,11 @@ export default {
         font-size: 1rem;
         color: #FFF;
         text-align: center;
-        padding: 0 10px;
+        padding: 5px 10px;
 
         white-space: nowrap;
         vertical-align: middle;
-        height: 40px;
+        height: 48px;
 
         &-bad {
             background-color: #FC8D9F;

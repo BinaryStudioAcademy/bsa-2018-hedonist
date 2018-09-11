@@ -3,12 +3,13 @@
 namespace Hedonist\Exceptions\UserList;
 
 use Hedonist\Exceptions\DomainException;
-use Throwable;
 
 class UserListExistsException extends DomainException
 {
-    public function __construct(string $message = 'User list not found.', int $code = 0, Throwable $previous = null)
+    const MESSAGE = 'User list not found.';
+
+    public static function create(): self
     {
-        parent::__construct($message, $code, $previous);
+        return new self(self::MESSAGE);
     }
 }

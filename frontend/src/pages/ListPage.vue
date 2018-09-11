@@ -40,7 +40,11 @@ export default {
     name: 'UserListPage',
     components: {ListPlaceItem, ListHeader, Mapbox},
     created() {
-        this.getListById(this.$route.params.id);
+        this.getListById(this.$route.params.id).catch(() => {
+            this.$router.push({
+                name: 'SearchPlacePage'
+            });
+        });
     },
     data() {
         return {

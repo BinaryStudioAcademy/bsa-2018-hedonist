@@ -11,6 +11,10 @@ export default {
         state.places = places;
     },
 
+    SET_AMOUNT_PLACES: (state, amount) => {
+        state.places_amount = amount;
+    },
+
     LOAD_MORE_PLACES: (state, newPlaces) => {
         state.places.push(...newPlaces);
     },

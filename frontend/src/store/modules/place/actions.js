@@ -82,6 +82,7 @@ export default {
                 httpService.get(queryUrl)
                     .then((res) => {
                         context.commit('SET_PLACES', res.data.data);
+                        context.commit('SET_AMOUNT_PLACES', res.data.meta.amount);
                         resolve(res);
                     }).catch((err) => {
                         reject(err);

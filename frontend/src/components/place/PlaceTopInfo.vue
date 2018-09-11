@@ -73,6 +73,7 @@
                         class="button is-primary rating"
                         @click="toggleIsUsersListModalActive"
                         :disabled="visitors.allIds.length < 1"
+                        v-tooltip.top="$t('place_page.top_info.users_on_page_modal.title')"
                     >
                         <i class="fas fa-eye" />
                     </div>
@@ -99,6 +100,7 @@
                 <button
                     class="button is-primary rating"
                     @click="isCheckinModalActive = true"
+                    v-tooltip.top="$t('place_page.top_info.rating_modal.title')"
                 >
                     <i class="fas fa-star-half-alt" />
                 </button>
