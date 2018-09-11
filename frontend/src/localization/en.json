@@ -346,7 +346,8 @@
         "save": "Save",
         "update": "Update",
         "delete": "Delete",
-        "load_cover": "Load a cover image"
+        "load_cover": "Load a cover image",
+        "delete_image": "Delete image"
       }
     },
     "header": {
