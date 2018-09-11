@@ -3,7 +3,7 @@
         <b-field>
             <b-autocomplete
                 v-model.trim="findCity.query"
-                :placeholder="placeholder"
+                :placeholder="$t('search.city_placeholder')"
                 :data="findCity.data"
                 :open-on-focus="true"
                 :loading="findCity.isFetching"
@@ -11,6 +11,7 @@
                 class="navbar__search-autocomplete"
                 @input="loadCities"
                 @select="option => this.$emit('select', option)"
+                @keyup.native.enter="$emit('keyup.native.enter')"
             />
             <p v-if="locationAvailable" class="control location-search">
                 <button
@@ -33,10 +34,6 @@ import { mapState, mapMutations, mapActions } from 'vuex';
 export default {
     name: 'SearchCity',
     props: {
-        placeholder: {
-            type: String,
-            default: 'Location'
-        },
         noRedirect: {
             type: Object,
             default: () => {},
@@ -52,7 +49,13 @@ export default {
             },
             selectedCity: {
                 center: [],
+                bbox: [],
                 name: ''
+            },
+            locationRadius: {
+                km: 5,
+                degreesLatitudePer1km: 0.008983,
+                degreesLongitudePer1km: 0.015060,
             },
             searchPushed: false
         };
@@ -88,10 +91,33 @@ export default {
                 this.findCity.query = this.$t('search.current_location');
                 this.selectedCity.center[0] = coordinates.lng;
                 this.selectedCity.center[1] = coordinates.lat;
+                this.selectedCity.bbox = [
+                    coordinates.lng - this.locationRadius.km * this.locationRadius.degreesLongitudePer1km,
+                    coordinates.lat - this.locationRadius.km * this.locationRadius.degreesLatitudePer1km,
+                    coordinates.lng + this.locationRadius.km * this.locationRadius.degreesLongitudePer1km,
+                    coordinates.lat + this.locationRadius.km * this.locationRadius.degreesLatitudePer1km,
+                ];
+
+                if (this.$route.query.location !== undefined) {
+                    let currentLocation = coordinates.lng + ',' + coordinates.lat;
+                    if (currentLocation !== this.$route.query.location) {
+                        LocationService.getCityList(this.$route.query.location)
+                            .then((res) => {
+                                if (res.length) {
+                                    this.findCity.query = res[0].text;
+                                }
+                            });
+                    }
+                }
             })
             .catch(error => {
                 this.setLocationAvailable(false);
             });
+        
+        this.$watch(
+            () => { return this.$store.state.i18n.locale; },
+            () => { this.findCity.query = this.$t('search.current_location'); }
+        );
     },
     computed: {
         ...mapState('search', ['currentPosition', 'location', 'page', 'city', 'locationAvailable']),

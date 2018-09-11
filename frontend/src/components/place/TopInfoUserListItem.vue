@@ -1,7 +1,7 @@
 <template>
     <b-dropdown>
         <button class="button is-success" slot="trigger">
-            <i class="far fa-save" />{{ $t('place_page.buttons.save') }}
+            <span class="btn-icon"><i class="far fa-save" /></span>{{ $t('place_page.buttons.save') }}
             <b-icon icon="menu-down" />
         </button>
         <template>
@@ -9,7 +9,7 @@
                 {{ $t('place_page.top_info.favourite') }}
             </b-dropdown-item>
             <b-dropdown-item v-for="list in lists" :key="list.id" @click="addToList(list)">
-                <span v-if="list.name === FAVOURITE_LIST_NAME && list.is_default">
+                <span v-if="list.name === favouriteListName && list.is_default">
                     {{ $t('place_page.top_info.favourite') }}
                 </span>
                 <span v-else>
@@ -40,35 +40,49 @@ export default {
             required: true
         }
     },
-    data() {
-        return {
-            FAVOURITE_LIST_NAME: FAVOURITE_LIST_NAME
-        };
-    },
     computed: {
         ...mapGetters('auth', ['getAuthenticatedUser']),
-        ...mapState('userList', ['favouriteExist'])
+        ...mapState('userList', ['favouriteExist']),
+        favouriteListName() {
+            return FAVOURITE_LIST_NAME;
+        }
     },
     methods: {
         ...mapActions('userList', [
             'addPlaceToList',
+            'removePlaceFromList',
             'addPlaceToFavouriteList'
         ]),
         addToList: function (list) {
-            if (this.checkedIn(list.places)) return;//no action if place already checked in
-            this.addPlaceToList({
-                listId: list.id,
-                placeId: this.place.id,
-                userId: this.getAuthenticatedUser.id
-            })
-                .then(
-                    () => {
-                        this.showToast(true);
-                    },
-                    () => {
-                        this.showToast(false);
-                    }
-                );
+            if (this.checkedIn(list.places)){
+                this.removePlaceFromList({
+                    listId: list.id,
+                    placeId: this.place.id,
+                    userId: this.getAuthenticatedUser.id
+                })
+                    .then(
+                        () => {
+                            this.showToast(true, this.$t('place_page.message.removed-from-list'));
+                        },
+                        () => {
+                            this.showToast(false);
+                        }
+                    );
+            } else {
+                this.addPlaceToList({
+                    listId: list.id,
+                    placeId: this.place.id,
+                    userId: this.getAuthenticatedUser.id
+                })
+                    .then(
+                        () => {
+                            this.showToast(true, this.$t('place_page.message.added-to-list'));
+                        },
+                        () => {
+                            this.showToast(false);
+                        }
+                    );
+            }
         },
         addToFavouriteList: function () {
             this.addPlaceToFavouriteList({
@@ -77,7 +91,7 @@ export default {
             })
                 .then(
                     () => {
-                        this.showToast(true);
+                        this.showToast(true,this.$t('place_page.message.added-to-list'));
                     },
                     () => {
                         this.showToast(false);
@@ -87,15 +101,15 @@ export default {
         checkedIn(listPlaces) {
             return listPlaces.includes(this.place.id);
         },
-        showToast: function (success) {
+        showToast: function (success,message) {
             if (success) {
                 this.$toast.open({
-                    message: this.$t('place_page.message.added-to-list'),
+                    message: message,
                     type: 'is-success'
                 });
             } else {
                 this.$toast.open({
-                    message: 'Whoops, something went wrong...',
+                    message: this.$t('messages.error.unknown'),
                     type: 'is-danger'
                 });
             }
@@ -112,5 +126,9 @@ export default {
         display: flex;
         width: 100%;
         padding-right:10px;
+    }
+
+    .btn-icon{
+        padding-right: 7px;
     }
 </style>

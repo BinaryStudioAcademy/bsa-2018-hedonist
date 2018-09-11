@@ -4,19 +4,27 @@
         <section class="column is-one-third-widescreen is-half-desktop">
             <SearchFilterPlace :is-places-loaded="!isLoading" />
             <CategoryTagsContainer
-                v-if="categoryTagsList.length"
-                :tags="categoryTagsList"
+                v-if="placeCategory.id"
                 @onSelectTag="onSelectTag"
             />
             <SpecialFeaturesFilter
-                :tags="specialFeaturesList"
                 @onSelectFeature="onSelectFeature"
             />
+
+            <div v-if="places_amount" class="place-counter">
+                <div class="level">
+                    <div class="level-item">
+                        <span class="place-counter__title">{{ $t('search.place_counter') }}</span>
+                        <span class="place-counter__number">{{ places_amount }}</span>
+                    </div>
+                </div>
+            </div>
+
             <div
                 v-infinite-scroll="loadMore"
                 :infinite-scroll-disabled="scrollBusy"
             >
-                <template v-if="places.length">   
+                <template v-if="places.length">
                     <template v-for="(place, index) in places">
                         <PlacePreview
                             v-if="!isLoading"
@@ -56,7 +64,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions , mapMutations } from 'vuex';
+import {mapState, mapGetters, mapActions, mapMutations} from 'vuex';
 import PlacePreview from './PlacePreview';
 import Mapbox from 'mapbox-gl-vue';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
@@ -115,6 +123,7 @@ export default {
             'deleteSelectedFeature',
             'updateQueryFilters'
         ]),
+        ...mapActions('category',['fetchCategoryTags']),
 
         mapInitialize(map) {
             if (this.mapInitialized) {
@@ -122,7 +131,7 @@ export default {
             }
 
             this.map = map;
-            if(!this.$route.query.location)
+            if (!this.$route.query.location)
                 LocationService.getUserLocationData()
                     .then(coordinates => {
                         this.setCurrentPosition({
@@ -160,9 +169,8 @@ export default {
         },
         updateMap() {
             if (this.isMapLoaded && !this.isLoading) {
-                if (this.places.length > 0) {
-                    this.markerManager.setMarkersFromPlacesAndFit(...this.places);
-                } else if (this.$route.query.location) {
+                this.markerManager.setMarkersFromPlacesAndFit(...this.places);
+                if (this.$route.query.location && this.places.length === 0) {
                     let location = this.$route.query.location;
                     this.jumpTo(location.split(','), 11);
                 }
@@ -242,18 +250,17 @@ export default {
         }
     },
     computed: {
-        ...mapState('place', ['places']),
+        ...mapState('place', ['places', 'places_amount']),
         ...mapState('search', [
             'currentPosition',
             'mapInitialized',
-            'isLoading'
+            'isLoading',
+            'placeCategory'
         ]),
         ...mapGetters('place', ['getFilteredByName']),
         ...mapGetters({
             user: 'auth/getAuthenticatedUser'
         }),
-        ...mapGetters('category', ['categoryTagsList']),
-        ...mapGetters('features', ['specialFeaturesList']),
 
         currentCenter() {
             return {
@@ -285,11 +292,11 @@ export default {
         cursor: pointer;
     }
 
-    .mapboxgl-popup-close-button{
+    .mapboxgl-popup-close-button {
         font-size: 22px;
     }
 
-    .link-place:hover{
+    .link-place:hover {
         text-decoration: underline;
     }
 </style>
@@ -337,7 +344,7 @@ export default {
             width: 49%;
         }
     }
-    
+
     @media screen and (max-width: 769px) {
         .columns {
             display: grid;
@@ -364,6 +371,33 @@ export default {
     @media screen and (max-width: 520px) {
         #map {
             height: 300px;
+        }
+    }
+
+    .place-counter {
+        background: #f8f8f8;
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #e4e4e4;
+        padding: 5px 16px 8px 16px;
+
+        &__title {
+            color: #6e6e6e;
+            font-size: 14px;
+            float: left;
+            margin: 6px 5px 0 0;
+            text-shadow: 0 1px 0 #fff;
+            line-height: 100%;
+            font-weight: bold;
+        }
+
+        &__number {
+            color: #6e6e6e;
+            font-size: 15px;
+            float: left;
+            margin: 6px 5px 0 0;
+            text-shadow: 0 1px 0 #fff;
+            line-height: 100%;
+            font-weight: bold;
         }
     }
 </style>

@@ -1,4 +1,11 @@
 {
+  "loader": {
+    "title": "Loading..."
+  },
+  "buttons": {
+    "edit": "Edit",
+    "delete": "Delete"
+  },
   "login_page": {
     "title": "Login into your account",
     "register": {
@@ -45,13 +52,13 @@
         "placeholder": "Your Email"
       },
       "password": {
-        "field_name": "Password",
-        "placeholder": "Your Password",
+        "field_name": "New password",
+        "placeholder": "New password",
         "description": "(at least 6 characters)"
       },
-      "new_password": {
+      "confirm_password": {
         "field_name": "Confirm new password",
-        "placeholder": "New password"
+        "placeholder": "Confirm new password"
       }
     }
   },
@@ -63,18 +70,28 @@
     "email_exists": "This email is already registered."
   },
   "search": {
+    "looking_for": "I'm looking for...",
     "current_location": "Current position",
     "no_results": "Sorry, no results are found.",
     "may_try": "You may try",
     "removing_your_filters": "removing your filters",
     "search_in_different_location": "search in different location",
-    "search_for_something_more_general": "search for something more general"
+    "search_for_something_more_general": "search for something more general",
+    "button": "Search",
+    "city_placeholder": "Location",
+    "place_counter": "Places found: "
   },
   "check-ins_page": {
-    "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page."
+    "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page.",
+    "visited_at": "You were here on"
   },
   "my-lists_page": {
-    "no-lists": "You have not got any place lists yet. You may add some and grouped your chosen places."
+    "no-lists": "You have not got any place lists yet. You may add some and grouped your chosen places.",
+    "delete-confirmation": "Do you really want to delete",
+    "buttons": {
+      "add": "Add a new list",
+      "cancel": "Cancel"
+    }
   },
   "add_place_page": {
     "tabs": {
@@ -178,19 +195,239 @@
       "open": "Open now",
       "close": "Close",
       "features": "Features",
-      "recommendation": "You will also like"
+      "recommendation": "You will also like",
+      "no_localization": "No localization",
+      "country": "Ukraine"
     },
     "top_info": {
-      "favourite": "Favourite"
+      "favourite": "Favourite",
+      "users_on_page_modal": {
+        "title": "Who looks this page now",
+        "close": "Close"
+      },
+      "rating_modal": {
+        "title": "Rate place",
+        "close": "Close"
+      },
+      "tabs": {
+        "reviews": "Reviews",
+        "photos": "Photos"
+      }
     },
     "message": {
       "no-lists": "No lists",
-      "added-to-list": "Place added to the list!"
+      "added-to-list": "Place added to the list!",
+      "removed-from-list": "Place removed from the list!",
+      "like_own_review":"Sorry, but you can't like or dislike your own review :(",
+      "review_like": "You liked this review",
+      "review_dislike": "You disliked this review",
+      "rating_set": "Rating set"
     },
     "buttons": {
       "more": "Show more",
       "less": "Show less",
-      "save": "Save"
+      "save": "Save",
+      "share": {
+        "title": "Share",
+        "on_facebook": "Share on Facebook",
+        "on_twitter": "Share on Twitter"
+      },
+      "show_all": "Show all"
+    },
+    "review": {
+      "title": "Reviews",
+      "add": "Post",
+      "photo": {
+        "title": "Photo",
+        "add": "add photo",
+        "delete": "delete"
+      },
+      "placeholder": "Find review...",
+      "sort": {
+        "title": "Sort by:",
+        "popular": "Popular",
+        "recent": "Recent" 
+      },
+      "modal": {
+        "like": "Liked by",
+        "dislike": "Disliked",
+        "close": "Close"
+      }
+    }
+  },
+  "profile_page": {
+    "private": "Make profile private",
+    "receive_notifications": "Receive notifications",
+    "avatar": {
+      "upload": "Upload new avatar",
+      "delete": "Delete avatar"
+    },
+    "name": {
+      "first": "First name",
+      "last": "Last name"
+    },
+    "email": "Email",
+    "password": {
+      "old": "Old password",
+      "new": "New password"
+    },
+    "phone": {
+      "title": "Phone",
+      "message": "Please, enter a valid phone, e.g. +380950000000 or 380950000000"
+    },
+    "birthday": {
+      "title": "Birth day",
+      "year": "Year",
+      "month": "Month",
+      "day": "Day"
+    },
+    "save_btn": "Save"
+  },
+  "messages": {
+    "success": {
+      "changed_password": "You have successfully changed your password! Now you need to login",
+      "recovery_link": "We have emailed you password recovery link",
+      "checkin": "Checked in",
+      "welcome": "Welcome!"
+    },
+    "error": {
+      "unknown": "Something went wrong...",
+      "credentials": "The email or password is incorrect",
+      "email": "Wrong email. Check it, please",
+      "input": "Please, check your input data"
+    }
+  },
+  "navbar": {
+    "profile": "Profile",
+    "tastes": "My tastes",
+    "lists": "My lists",
+    "visited": "Visited",
+    "new_place": "New place",
+    "settings": "Settings",
+    "notifications": "Notifications",
+    "signup": "Sign up",
+    "login": "Log in",
+    "logout": "Log out"
+  },
+  "other_user_page": {
+    "private": "This profile is private :(",
+    "followers": "Followers",
+    "reviews": "Reviews",
+    "lists": "Lists",
+    "following": "Following",
+    "follower_container":{
+      "title": "followers"
+    },
+    "followed_container":{
+      "title": "followed users"
+    },
+    "review_container":{
+      "title": "recent reviews"
+    },
+    "lists_container":{
+      "title": "lists",
+      "list": {
+        "subtitle": "saved places in list",
+        "proceed": "See this list"
+      }
+    }
+  },
+  "user_lists_page": {
+    "list_preview": {
+      "places_in_list": "Places saved in the list:",
+      "cities_in_list": "Cities in the list:"
+    },
+    "city_pills": {
+      "clear_filter": "Clear filter"
+    },
+    "add_place": {
+      "title": "List name",
+      "buttons": {
+        "save": "Save",
+        "update": "Update",
+        "delete": "Delete",
+        "load_cover": "Load a cover image",
+        "delete_image": "Delete image"
+      }
+    },
+    "header": {
+      "author": "by",
+      "updated": "Updated at:"
+    },
+    "search": {
+      "empty": "No places found",
+      "message": "You may attach some places to the list",
+      "placeholder": "Search places"
+    },
+    "message": {
+      "list": {
+        "delete": "The list was removed"
+      }
+    }
+  },
+  "notifications": {
+    "no-notifications": "You don't have any notifications.",
+    "clear-notifications": "Clear notifications",
+    "confirm-deleting": "Delete all notifications?",
+    "yes": "Yes",
+    "no": "No",
+    "review_place": {
+      "made_review": "made a review on your place"
+    },
+    "like_review": {
+      "liked": "liked your",
+      "review": "review"
+    },
+    "dislike_review": {
+      "disliked": "disliked your",
+      "review": "review"
+    },
+    "followed_user_review": {
+      "made_review": "made a review on"
+    },
+    "followed_user_add_place": {
+      "add_new": "added a new",
+      "place": "place"
+    },
+    "followed_user_add_list": {
+      "add": "added a new list"
+    },
+    "followed_user_update_list": {
+      "update": "updated the list",
+      "attached_places": "Attached places:",
+      "detached_places": "Detached places:"
+    },
+    "followed_user_delete_list": {
+      "delete": "deleted the list"
+    },
+    "follow_you": "subscribed on you.",
+    "unfollow_you": "unsubscribed from you.",
+    "navbar": {
+      "no_notifs": "You don't have new notifications"
+    }
+  },
+  "search_place_page": {
+    "tags": {
+      "title": "Show only:"
+    },
+    "filters": {
+      "title": "Filters:",
+      "tooltips": {
+        "top_rated": "Places with at least 4 rating",
+        "saved": "Saved places",
+        "checkin": "Visited places",
+        "top_reviewed": "Places with at least 10 reviews",
+        "recommended": "Recommended places for you",
+        "opened": "Only opened now places"
+      }
+    },
+    "features": {
+      "title": "Features:"
+    }
+  },
+  "user_tastes_page": {
+    "input": {
+      "placeholder": "Enter a taste"
     }
   }
 }

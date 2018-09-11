@@ -84,7 +84,7 @@ export default {
                 this.login(this.user)
                     .then( (res) => {
                         this.onSuccess({
-                            message: 'Welcome!'
+                            message: this.$t('messages.success.welcome')
                         });
                         this.refreshInput();
                         this.$router.push({name: 'home'});
@@ -94,14 +94,14 @@ export default {
                     });
             } else {
                 this.onError({
-                    message: 'Please, check your input data'
+                    message: this.$t('messages.error.input')
                 });
             }
         },
 
         onError (error) {
             this.$toast.open({
-                message: 'The email or password is incorrect',
+                message: this.$t('messages.error.credentials'),
                 type: 'is-danger'
             });
         },

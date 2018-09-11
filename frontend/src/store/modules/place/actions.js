@@ -82,6 +82,7 @@ export default {
                 httpService.get(queryUrl)
                     .then((res) => {
                         context.commit('SET_PLACES', res.data.data);
+                        context.commit('SET_AMOUNT_PLACES', res.data.meta.amount);
                         resolve(res);
                     }).catch((err) => {
                         reject(err);
@@ -161,15 +162,17 @@ export default {
 
 const createSearchQueryUrl = (url, filters) => {
     let polygon = '';
+    let location = filters.location;
     if (filters.polygon !== undefined && Array.isArray(filters.polygon)) {
         polygon = filters.polygon[0]
             .map( (item) => item[0] + ',' + item[1])
             .join(';');
+        location = '';
     }
     let params = {
         'filter[category]': filters.category,
         'filter[name]': filters.name,
-        'filter[location]': filters.location,
+        'filter[location]': location,
         'filter[top_rated]': filters.top_rated,
         'filter[top_reviewed]': filters.top_reviewed,
         'filter[checkin]': filters.checkin,

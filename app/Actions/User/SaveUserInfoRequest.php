@@ -8,6 +8,7 @@ use Illuminate\Http\UploadedFile;
 class SaveUserInfoRequest
 {
     private $userId;
+    private $isPrivate;
     private $firstName;
     private $lastName;
     private $dateOfBirth;
@@ -18,11 +19,14 @@ class SaveUserInfoRequest
     private $twitterUrl;
     private $oldPassword;
     private $newPassword;
+    private $notificationsReceive;
 
     public function __construct(
         int $userId,
+        bool $isPrivate,
         ?string $firstName,
         ?string $lastName,
+        bool $notificationsReceive,
         ?string $dateOfBirth = null,
         ?string $phoneNumber = "",
         ?UploadedFile $avatar = null,
@@ -33,8 +37,10 @@ class SaveUserInfoRequest
         ?string $newPassword = null
     ) {
         $this->userId = $userId;
+        $this->isPrivate = $isPrivate;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
+        $this->notificationsReceive = $notificationsReceive;
         $this->dateOfBirth = $dateOfBirth;
         $this->phoneNumber = $phoneNumber;
         $this->facebookUrl = $facebookUrl;
@@ -102,5 +108,15 @@ class SaveUserInfoRequest
     public function getNewPassword(): ?string
     {
         return $this->newPassword;
+    }
+
+    public function getIsPrivate(): bool
+    {
+        return $this->isPrivate;
+    }
+
+    public function isNotificationsReceive(): bool
+    {
+        return $this->notificationsReceive;
     }
 }

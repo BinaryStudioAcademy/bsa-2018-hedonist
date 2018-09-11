@@ -54,12 +54,14 @@ class SaveUserInfoAction
         }
         $first_name = $userInfoRequest->getFirstName();
         $last_name = $userInfoRequest->getLastName();
+        $notificationsReceive = $userInfoRequest->isNotificationsReceive();
         $date_of_birth = $userInfoRequest->getDateOfBirth();
         $phone_number = $userInfoRequest->getPhoneNumber();
         $avatar = $userInfoRequest->getAvatar();
         $facebook_url = $userInfoRequest->getFacebookUrl();
         $instagram_url = $userInfoRequest->getInstagramUrl();
         $twitter_url = $userInfoRequest->getTwitterUrl();
+        $isPrivate = $userInfoRequest->getIsPrivate();
 
         if ($userHasNotInfo) {
             if (empty($first_name)) {
@@ -78,8 +80,8 @@ class SaveUserInfoAction
             $userInfo->last_name = $last_name;
         }
 
+        $userInfo->notifications_receive = $notificationsReceive;
         $userInfo->date_of_birth = $date_of_birth;
-
         $userInfo->phone_number = $phone_number;
 
         if (!$this->validateSocialUrl($facebook_url, 'facebook.com')) {
@@ -99,6 +101,10 @@ class SaveUserInfoAction
 
         if ($userHasNotInfo || !empty($avatar)) {
             $userInfo->avatar_url = $this->storeAvatar($avatar);
+        }
+
+        if (!is_null($isPrivate)) {
+            $userInfo->is_private = $isPrivate;
         }
 
         $userInfo = $this->userInfoRepository->save($userInfo);

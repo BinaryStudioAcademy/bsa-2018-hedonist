@@ -10,11 +10,11 @@
         <div class="main-wrapper columns">
             <div class="column is-two-thirds">
                 <div class="main">
-                    <ReviewList 
+                    <ReviewList
                         v-if="loaded && (activeTab === 1)"
                         :place="place"
                     />
-                    <ReviewPhotoGallery 
+                    <ReviewPhotoGallery
                         v-if="loaded && (activeTab === 2)"
                         :place="place"
                         :is-loading-review-photo="isLoadingReviewPhoto"
@@ -35,7 +35,7 @@ import PlaceTopInfo from '@/components/place/PlaceTopInfo';
 import ReviewList from '@/components/review/ReviewList';
 import ReviewPhotoGallery from '@/components/review/ReviewPhotoGallery';
 import PlaceSidebarInfo from '@/components/place/PlaceSidebarInfo';
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 
 export default {
     name: 'PlacePage',
@@ -57,10 +57,33 @@ export default {
     },
 
     created() {
-        this.loadPlace(this.$route.params.id);
+        const placeId = this.$route.params.id;
+        this.loadPlace(placeId);
+        this.listen(placeId);
     },
 
     methods: {
+        ...mapMutations('place', {
+            addVisitor      : 'ADD_PAGE_VISITOR',
+            removeVisitor   : 'REMOVE_PAGE_VISITOR',
+            clearVisitors   : 'CLEAR_PAGE_VISITORS',
+        }),
+        listen(placeId) {
+            const channel = 'place.'+placeId;
+            Echo.join(channel)
+                .here((users) => {
+                    this.clearVisitors();
+                    users.forEach( user => {
+                        this.addVisitor(user);
+                    });
+                })
+                .joining((user) => {
+                    this.addVisitor(user);
+                })
+                .leaving((user) => {
+                    this.removeVisitor(user);
+                });
+        },
         tabChanged(activeTab) {
             this.activeTab = activeTab;
         },
@@ -86,8 +109,9 @@ export default {
 
     computed: {
         ...mapState('place', {
-            places  : 'places',
-            place   : 'currentPlace'
+            places      : 'places',
+            place       : 'currentPlace',
+            visitors    : 'visitors',
         }),
         loaded: function() {
             return !!(this.place) && !(this.isLoading);
@@ -96,13 +120,24 @@ export default {
 
     watch: {
         '$route' (to, from) {
-            this.loadPlace(to.params.id);
+            const placeId = to.params.id;
+            this.loadPlace(placeId);
+            this.listen(placeId);
         }
     }
 };
 </script>
 
 <style lang="scss" scoped>
+    
+.container {
+    max-width: 1200px;
+}
+
+.place-view {
+    font-size: 14px;
+}
+
 .main-wrapper {
     margin-top: 20px;
 }

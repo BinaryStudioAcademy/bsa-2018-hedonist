@@ -6,13 +6,11 @@
                 'rating-' + ratingCategory
             ]"
         >
-            {{ value | formatRating }}
-
-            <sup v-if="showMax">/5</sup>
-        </div>
-
-        <div class="place-rate__mark-count" v-if="showRating">
-            {{ ratingCount || 'No' }} marks
+            <div
+                class="onerow rating-value"
+            >
+                {{ value | formatRating }}<span v-if="showMax"> / 5</span>
+            </div>
         </div>
     </div>
 </template>
@@ -30,16 +28,6 @@ export default {
         showMax: {
             type: Boolean
         },
-
-        showRating: {
-            type: Boolean
-        },
-
-        ratingCount: {
-            required: this.showRating,
-            type: Number,
-            default: 0.0
-        }
     },
 
     computed: {
@@ -75,7 +63,11 @@ export default {
         font-size: 1rem;
         color: #FFF;
         text-align: center;
-        padding: 0 5px;
+        padding: 5px 10px;
+
+        white-space: nowrap;
+        vertical-align: middle;
+        height: 48px;
 
         &-bad {
             background-color: #FC8D9F;
@@ -92,6 +84,14 @@ export default {
 
     .place-rate__mark-count {
         margin-left: 15px;
+    }
+
+    .rating-value {
+        font-size: 1.2rem;
+    }
+
+    .onerow {
+        margin-top: 3px;
     }
 }
 </style>

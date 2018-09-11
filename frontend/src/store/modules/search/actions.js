@@ -6,12 +6,23 @@ import { KIEV_LATITUDE, KIEV_LONGITUDE } from '@/services/location/positions';
 
 export default {
     updateStateFromQuery: ({commit, dispatch}, query) => {
-        if(query.name) commit('SET_SEARCH_PLACE', {name: query.name});
+        dispatch('setLoadingState', true);
+        if(query.name) commit('SET_SEARCH_PLACE', query.name);
         if(query.page) commit('SET_PAGE', query.page);
-        if(query.category) commit('SET_SEARCH_PLACE_CATEGORY', {id: query.category, name: ''});
+
+        let categoryId = parseInt(query.category);
+
+        if(query.category) {
+            commit('SET_SEARCH_PLACE_CATEGORY', {id: categoryId, name: ''});
+            dispatch('category/fetchCategoryTags', categoryId, {root:true});
+        }
         if (query.tags) {
-            let tagArray = query.tags.split(',');
+            let tagArray = query.tags.split(',').map(tagId => parseInt(tagId));
             commit('SET_SELECTED_TAGS', tagArray);
+        }
+        if (query.features) {
+            let featureArray = query.features.split(',').map(featureId => parseInt(featureId));
+            commit('SET_SELECTED_FEATURES', featureArray);
         }
         if(query.location) {
             let location = query.location.split(',');
@@ -61,6 +72,7 @@ export default {
     },
 
     updateQueryFilters({state, dispatch}, params) {
+        dispatch('setLoadingState', true);
         let location = state.currentPosition.longitude + ',' + state.currentPosition.latitude;
         let tags = state.selectedTags.join();
         let features = state.selectedFeatures.join();
@@ -95,8 +107,6 @@ export default {
                 query
             });
         }
-
-        dispatch('setLoadingState', true);
         dispatch('place/fetchPlaces', query, {root:true}).then(() => {
             dispatch('setLoadingState', false);
         });

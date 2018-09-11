@@ -1,4 +1,11 @@
 {
+  "loader": {
+    "title": "Завантаження..."
+  },
+  "buttons": {
+    "edit": "Змінити",
+    "delete": "Видалити"
+  },
   "login_page": {
     "title": "Увійдіть до свого акаунту",
     "register": {
@@ -45,13 +52,13 @@
         "placeholder": "Ваш Email"
       },
       "password": {
-        "field_name": "Пароль",
-        "placeholder": "Ваш Пароль",
+        "field_name": "Новий пароль",
+        "placeholder": "Новий пароль",
         "description": "(мінімум 6 символів)"
       },
-      "new_password": {
+      "confirm_password": {
         "field_name": "Підтвердіть новий пароль",
-        "placeholder": "Новий пароль"
+        "placeholder": "Підтвердіть новий пароль"
       }
     }
   },
@@ -63,18 +70,28 @@
     "email_exists": "Користувач з таким email вже існує."
   },
   "search": {
-    "current_location": "Поточне місце розташування",
+    "looking_for": "Я шукаю...",
+    "current_location": "Поточне місце",
     "no_results": "Вибачте, результатів не знайдено.",
     "may_try": "Ви можете спробувати",
     "removing_your_filters": "видалити ваші фільтри",
     "search_in_different_location": "шукати в іншій локації",
-    "search_for_something_more_general": "шукати щось більш загальне"
+    "search_for_something_more_general": "шукати щось більш загальне",
+    "button": "Шукати",
+    "city_placeholder": "Місцезнаходження",
+    "place_counter": "Закладів знайдено: "
   },
   "check-ins_page": {
-    "no-check-ins": "Ви не зареєстровані в жодному місці. Відвідайте якесь із них і зробіть \"чек-ін\" на його сторінці."
+    "no-check-ins": "Ви не зареєстровані в жодному місці. Відвідайте якесь із них і зробіть \"чек-ін\" на його сторінці.",
+    "visited_at": "Ви були тут"
   },
   "my-lists_page": {
-    "no-lists": "У вас ще немає списків місць. Ви можете додати деякі та згрупувати вибрані вами місця."
+    "no-lists": "У вас ще немає списків місць. Ви можете додати деякі та згрупувати вибрані вами місця.",
+    "delete-confirmation": "Ви дійсно хочете видалити",
+    "buttons": {
+      "add": "Додати новий список",
+      "cancel": "Вихід"
+    }
   },
   "add_place_page": {
     "tabs": {
@@ -178,19 +195,239 @@
       "open": "Відчинено",
       "close": "Зачинено",
       "features": "Особливості",
-      "recommendation": "Вам також сподобається"
+      "recommendation": "Вам також сподобається",
+      "no_localization": "Нема локалізації",
+      "country": "Україна"
     },
     "top_info": {
-      "favourite": "Обрані"
+      "favourite": "Обрані",
+      "users_on_page_modal": {
+        "title": "Хто зараз дивится сторінку",
+        "close": "Закрити"
+      },
+      "rating_modal": {
+        "title": "Оцінити місце",
+        "close": "Закрити"
+      },
+      "tabs": {
+        "reviews": "Відгуки",
+        "photos": "Фото"
+      }
     },
     "message": {
       "no-lists": "У вас ще немає списків місць.",
-      "added-to-list": "Місце додано до списку!"
+      "added-to-list": "Місце додано до списку!",
+      "removed-from-list": "Місце видалено зі списку!",
+      "like_own_review":"Вибачте, але ви не можете лайкнути/дизлайкнути свій відгук :(",
+      "review_like": "Вам сподобався цей відгук",
+      "review_dislike": "Вам не сподобався цей відгук",
+      "rating_set": "Рейтинг враховано"
     },
     "buttons": {
       "more": "Показати більше",
       "less": "Показати меньше",
-      "save": "Зберегти"
+      "save": "Зберегти",
+      "share": {
+        "title": "Поділитися",
+        "on_facebook": "Поділитися в Facebook",
+        "on_twitter": "Поділитися в Twitter"
+      },
+      "show_all": "Показати всі"
+    },
+    "review": {
+      "title": "Рев'ю",
+      "add": "Додати",
+      "photo": {
+        "title": "Фото",
+        "add": "додати фото",
+        "delete": "видалити"
+      },
+      "placeholder": "Знайти рев'ю...",
+      "sort": {
+        "title": "Сортувати за:",
+        "popular": "популярністю",
+        "recent": "часом додавання" 
+      },
+      "modal": {
+        "like": "Сподобалось",
+        "dislike": "Не сподобалось",
+        "close": "Закрити"
+      }
+    }
+  },
+  "profile_page": {
+    "private": "Зробити профіль приватним",
+    "receive_notifications": "Отримувати сповіщення",
+    "avatar": {
+      "upload": "Завантажити аватар",
+      "delete": "Видалити аватар"
+    },
+    "name": {
+      "first": "Ім'я",
+      "last": "Прізвище"
+    },
+    "email": "Електронна пошта",
+    "password": {
+      "old": "Старий пароль",
+      "new": "Новий пароль"
+    },
+    "phone": {
+      "title": "Номер телефону",
+      "message": "Будь ласка, уведіть номер телефона у форматі +380950000000 чи 380950000000"
+    },
+    "birthday": {
+      "title": "Дата народження",
+      "year": "Рік",
+      "month": "Місяць",
+      "day": "День"
+    },
+    "save_btn": "Зберегти"
+  },
+  "messages": {
+    "success": {
+      "changed_password": "Ви успішно змінили ваш пароль! Тепер вам потрібно увійти в систему",
+      "recovery_link": "На ваш email було відправлено листа",
+      "checkin": "Відмічено",
+      "welcome": "Ласкаво просимо!"
+    },
+    "error": {
+      "unknown": "Щось пішло не так...",
+      "credentials": "Email або пароль помилкові",
+      "email": "Неправильний email. Перевірте, будь ласка",
+      "input": "Будь ласка, перевірте введені дані"
+    }
+  },
+  "navbar": {
+    "profile": "Профіль",
+    "tastes": "Мої смаки",
+    "lists": "Мої списки",
+    "visited": "Відвідані",
+    "new_place": "Нове місце",
+    "settings": "Налаштування",
+    "notifications": "Повідомлення",
+    "signup": "Зареєструватися",
+    "login": "Увійти",
+    "logout": "Вийти"
+  },
+  "other_user_page": {
+    "private": "Цей профіль приватний :(",
+    "followers": "Підписники",
+    "reviews": "Відігуки",
+    "lists": "Списки",
+    "following": "Підписки",
+    "follower_container": {
+      "title": "підписники"
+    },
+    "followed_container": {
+      "title": "підписки"
+    },
+    "review_container": {
+      "title": "відгуки"
+    },
+    "lists_container": {
+      "title": "списки",
+      "list": {
+        "subtitle": "збережених заклади у списку",
+        "proceed": "Побачити цей список"
+      }
+    }
+  },
+  "user_lists_page": {
+    "list_preview": {
+      "places_in_list": "Місць у переліку:",
+      "cities_in_list": "Міста у переліку:"
+    },
+    "city_pills": {
+      "clear_filter": "Очистити фільтр"
+    },
+    "add_place": {
+      "title": "Назва списку",
+      "buttons": {
+        "save": "Зберегти",
+        "update": "Оновити",
+        "delete": "Видалити",
+        "load_cover": "Завантажити обкладинку",
+        "delete_image": "Видалити обкладинку"
+      }
+    },
+    "header": {
+      "author": "від",
+      "updated": "Оновлено:"
+    },
+    "search": {
+      "empty": "Закладів не знайдено",
+      "message": "Ви можете додати заклади в список",
+      "placeholder": "Шукати заклади"
+    },
+    "message": {
+      "list": {
+        "delete": "Список був видалений"
+      }
+    }
+  },
+  "notifications": {
+    "no-notifications": "У вас немає сповіщень.",
+    "clear-notifications": "Очистити сповіщення",
+    "confirm-deleting": "Видалити всі сповіщення?",
+    "yes": "Так",
+    "no": "Ні",
+    "review_place": {
+      "made_review": "зробив рев'ю на ваш заклад"
+    },
+    "like_review": {
+      "liked": "поставив лайк вашому",
+      "review": "рев'ю"
+    },
+    "dislike_review": {
+      "disliked": "поставив дизлайк вашому",
+      "review": "рев'ю"
+    },
+    "followed_user_review": {
+      "made_review": "зробив рев'ю на"
+    },
+    "followed_user_add_place": {
+      "add_new": "додав нове",
+      "place": "місце"
+    },
+    "followed_user_add_list": {
+      "add": "додав новий список"
+    },
+    "followed_user_update_list": {
+      "update": "оновив свій список",
+      "attached_places": "Прикріплені місця:",
+      "detached_places": "Відкріплені місця:"
+    },
+    "followed_user_delete_list": {
+      "delete": "видалив свій список"
+    },
+    "follow_you": "підписався на Вас.",
+    "unfollow_you": "відписався від Вас.",
+    "navbar": {
+      "no_notifs": "У вас нема нових повідомлень"
+    }
+  },
+  "search_place_page": {
+    "tags": {
+      "title": "Показати тільки:"
+    },
+    "filters": {
+      "title": "Фільтри:",
+      "tooltips": {
+        "top_rated": "Заклади з рейтингом 4 і більше",
+        "saved": "Збережені заклади",
+        "checkin": "Відвідані заклади",
+        "top_reviewed": "Заклади у яких щонайменше 10 відгуків",
+        "recommended": "Рекомендовані заклади",
+        "opened": "Заклади які відкриті зараз"
+      }
+    },
+    "features": {
+      "title": "Особливості:"
+    }
+  },
+  "user_tastes_page": {
+    "input": {
+      "placeholder": "Введіть смак"
     }
   }
 }

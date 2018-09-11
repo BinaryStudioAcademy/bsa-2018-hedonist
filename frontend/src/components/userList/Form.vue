@@ -22,11 +22,17 @@
                                 <i class="fas fa-upload" />
                             </span>
                             <span class="file-label">
-                                Load a preview
+                                {{ $t('user_lists_page.add_place.buttons.load_cover') }}
                             </span>
                         </span>
                     </label>
                 </div>
+            </div>
+            <div class="field">
+                <a class="button is-danger is-fullwidth" @click="deleteImg">
+                    <b-icon icon="delete" />
+                    <span>{{ $t('user_lists_page.add_place.buttons.delete_image') }}</span>
+                </a>
             </div>
         </div>
         <div class="list-name width100">
@@ -39,9 +45,15 @@
                 />
             </b-field>
             <div class="form-actions">
-                <button v-if="id" class="button is-info" @click="onUpdate">Update</button>
-                <button v-if="id" class="button is-danger" @click="onDelete">Delete</button>
-                <button v-else class="button is-success" @click="onAdd">Save</button>
+                <button v-if="id" class="button is-info" @click="onUpdate">
+                    {{ $t('user_lists_page.add_place.buttons.update') }}
+                </button>
+                <button v-if="id" class="button is-danger" @click="onDelete">
+                    {{ $t('user_lists_page.add_place.buttons.delete') }}
+                </button>
+                <button v-else class="button is-success" @click="onAdd">
+                    {{ $t('user_lists_page.add_place.buttons.save') }}
+                </button>
             </div>
         </div>
     </form>
@@ -96,7 +108,8 @@ export default {
         ...mapActions('userList', {
             add: 'addUserList',
             update: 'updateUserList',
-            delete: 'deleteUserList'
+            delete: 'deleteUserList',
+            deleteUserListImg: 'deleteUserListImg'
         }),
         onAdd () {
             this.$emit('loading', true);
@@ -188,6 +201,13 @@ export default {
             }
 
             return true;
+        },
+        deleteImg() {
+            if (this.id && this.imagePreview) {
+                this.deleteUserListImg(this.id);
+            }
+            this.imagePreview = null;
+            this.userList.image = null;
         },
     },
     validations: {

@@ -15,7 +15,7 @@
                 v-scroll-to="'.main'"
                 @click="onClick"
             >
-                Show all
+                {{ $t('place_page.buttons.show_all') }}
             </a>
         </div>
     </div>

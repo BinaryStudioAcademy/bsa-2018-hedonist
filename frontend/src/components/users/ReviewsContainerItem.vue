@@ -4,53 +4,42 @@
     <li class="column is-4">
         <div class="user-reviews-item">
 
-            <div class="card-image">
-                <figure class="image is-3by1">
-                    <img
-                        :src="place.photos[0].img_url"
-                    >
-                </figure>
-            </div>
+            <div
+                class="card-image"
+                :style="{ 'background-image': 'url(' + review.place.photo.img_url + ')' }"
+            />
             <div class="user-review-content">
-                "{{ place.review.description }}"
+                "{{ review.description }}"
             </div>
             <div class="user-review-tip">
-                <router-link :to="`/user/${place.review.user.id}`" class="user-tip-image">
-
-                    <img
-                        class="image is-32x32"
-                        :src="place.review.user.avatar_url"
-
-                        alt=""
-                    >
-                </router-link>
+                <span
+                    v-if="review.user.avatar_url"
+                    class="user-tip-avatar user-tip-image"
+                    :style="{ 'background-image': 'url(' + review.user.avatar_url + ')' }"
+                />
                 <span class="user-tip-name">
-                    <a href="/user/4">
-                        Alex Fiannaca
-                    </a>
+                    {{ userName }}
                 </span>
                 <span class="user-tip-date">
-                    <router-link :to="`/places/${place.review.id}`">
-                        {{ date }}
-                    </router-link>
+                    {{ date }}
                 </span>
             </div>
             <div class="user-review-place">
                 <div class="user-review-name">
-                    <router-link :to="`/places/${place.id}`" class="review-place-link">
-                        {{ place.localization[0].name }}
+                    <router-link :to="`/places/${review.place_id}`" class="review-place-link">
+                        {{ localizedName }}
                     </router-link>
                     <span class="review-place-name">
-                        {{ place.category.name }}
+                        {{ review.place.category.name }}
                     </span>
                     <span class="review-place-city">
-                        {{ place.city.name }}
+                        {{ review.place.city.name }}
                     </span>
                 </div>
                 <div class="media">
                     <div class="media-right rating-wrapper">
                         <PlaceRating
-                            :value="Number(place.rating)"
+                            :value="Number(review.place.rating)"
                         />
                     </div>
                 </div>
@@ -70,20 +59,27 @@ export default {
         return {};
     },
     props: {
-        place: {
+        review: {
             required: true,
             type: Object,
         },
     },
     computed: {
         date() {
-            const date = new Date(this.place.review['created_at']);
+            const date = new Date(this.review['created_at']);
             const options = {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
             };
             return date.toLocaleString('en-US', options);
+        },
+        userName() {
+            const user = this.review.user;
+            return user.first_name + ' ' + user.last_name;
+        },
+        localizedName() {
+            return this.review.place.localization[0].name;
         }
     },
     components: {
@@ -134,6 +130,9 @@ export default {
 
         .card-image {
             position: relative;
+            padding: 16.7% 0;
+            background-position: center;
+            background-size: cover;
 
             .user-review-save {
                 display: inline-block;
@@ -175,34 +174,28 @@ export default {
             border-bottom: 1px solid #efeff4;
             height: 40px;
 
-            .user-tip-image {
+            .user-tip-avatar {
+                width: 32px;
+                height: 32px;
                 margin-right: 10px;
-                img {
-                    vertical-align: middle;
-                }
+                background-position: center;
+                background-size: cover;
             }
 
             .user-tip-name,
             .user-tip-date {
                 margin-right: 10px;
-                a {
-                    color: #aeb4b6;
-                    font-size: 12px;
-                    &:hover {
-                        text-decoration: underline;
-                    }
-                }
+                color: #aeb4b6;
+                font-size: 12px;
             }
 
             .user-tip-date {
                 margin-right: 0;
             }
-
         }
 
         .user-review-place {
-            padding: 0 20px;
-            margin-top: 10px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;

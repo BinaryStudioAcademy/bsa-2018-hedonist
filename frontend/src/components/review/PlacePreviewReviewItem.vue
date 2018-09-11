@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
+import { mapActions, mapMutations, mapGetters } from 'vuex';
 import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
 import UsersWhoLikedDislikedReviewModals from '@/components/review/UsersWhoLikedDislikedReviewModals';
 
@@ -77,8 +77,12 @@ export default {
         },	        
     },
     computed: {
+        ...mapGetters('auth',['getAuthenticatedUser']),
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
+        },
+        canLikeOrDislike(){
+            return this.review.user.id !== this.getAuthenticatedUser.id;
         }
     },
     methods: {
@@ -94,6 +98,10 @@ export default {
         }),
 
         onLikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.likeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewLikedState(this.review.id);
@@ -101,6 +109,10 @@ export default {
         },
 
         onDislikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.dislikeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewDislikedState(this.review.id);
@@ -131,7 +143,14 @@ export default {
 
         updateUsersWhoDislikedReviewModalActive(newValue) {
             this.isUsersWhoDislikedReviewModalActive = newValue;
-        }
+        },
+
+        showLikeDislikeOwnReviewToast(){
+            this.$toast.open({
+                message: this.$t('place_page.message.like_own_review'),
+                type:'is-danger'
+            });
+        },
     }
 };
 </script>

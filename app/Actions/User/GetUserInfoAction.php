@@ -2,9 +2,11 @@
 
 namespace Hedonist\Actions\User;
 
+use Hedonist\Exceptions\User\UserNotFoundException;
 use Hedonist\Repositories\User\Criterias\GetUsersByIdCriteria;
 use Hedonist\Repositories\User\Criterias\WithFollowedAndFollowersCriteria;
 use Hedonist\Repositories\User\UserRepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
 class GetUserInfoAction
 {
@@ -21,6 +23,10 @@ class GetUserInfoAction
             new GetUsersByIdCriteria($userInfoRequest->getUserId()),
             new WithFollowedAndFollowersCriteria()
         )->first();
-        return new GetUserInfoResponse($userInfo, $userInfo->followers, $userInfo->followedUsers);
+        if (!$userInfo) {
+            throw new UserNotFoundException();
+        }
+
+        return new GetUserInfoResponse($userInfo, Auth::user(), $userInfo->followers, $userInfo->followedUsers);
     }
 }

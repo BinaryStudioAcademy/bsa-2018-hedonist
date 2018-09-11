@@ -6,14 +6,15 @@
                     <router-link
                         class="navbar-item"
                         to="/"
-                    >Hedonist</router-link>
+                    >HED<img class="logo-top" src="/assets/logo_top.png">NIST
+                    </router-link>
 
-                    <a 
-                        role="button" 
-                        class="navbar-burger" 
-                        aria-label="menu" 
+                    <a
+                        role="button"
+                        class="navbar-burger"
+                        aria-label="menu"
                         aria-expanded="false"
-                        @click="toggleMenu" 
+                        @click="toggleMenu"
                         :class="{'is-active': navIsActive}"
                     >
 
@@ -22,6 +23,14 @@
                         <span aria-hidden="true" />
                     </a>
                 </div>
+
+                <NewNotificationsList
+                    class="notifications-mobile"
+                    :is-new-notifications="isNewNotifications"
+                    :notifications-display="notificationsDisplay"
+                    @toggleNotifications="toggleNotifications"
+                    @hideNotifications="hideNotifications"
+                />
 
                 <div class="navbar-menu" :class="{'is-active': navIsActive}">
                     <NavbarSearchPanel v-if="isUserLoggedIn" />
@@ -32,61 +41,78 @@
                         <router-link
                             class="navbar-item"
                             to="/login"
-                        >Log In</router-link>
+                        >{{ $t('navbar.login') }}</router-link>
                         <router-link
                             class="navbar-item"
                             to="/signup"
-                        >Sign Up</router-link>
+                        >{{ $t('navbar.signup') }}</router-link>
                     </div>
 
                     <div
                         v-if="isUserLoggedIn"
                         class="navbar-end"
                     >
-                        <div class="navbar-item is-paddingless">
-                            <span class="navbar-notification-btn" />
-                        </div>
+                        <NewNotificationsList
+                            class="notifications-desktop"
+                            :is-new-notifications="isNewNotifications"
+                            :notifications-display="notificationsDisplay"
+                            @toggleNotifications="toggleNotifications"
+                            @hideNotifications="hideNotifications"
+                        />
                         <div class="navbar-item has-dropdown is-hoverable">
-                            <div v-if="user" class="navbar-link navbar-dropdown-menu">
-                                <img
-                                    v-if="user.avatar_url"
-                                    class="navbar-avatar"
-                                    :src="user.avatar_url"
-                                    :title="user.first_name+' '+user.last_name"
-                                    :alt="user.first_name+' '+user.last_name"
-                                >
+                            <div v-if="user" class="profile navbar-link navbar-dropdown-menu">
+                                <div v-if="user.avatar_url" class="profile__avatar navbar-avatar">
+                                    <img
+                                        :src="user.avatar_url"
+                                        :title="user.first_name+' '+user.last_name"
+                                        :alt="user.first_name+' '+user.last_name"
+                                    >
+                                </div>
                                 <span v-else class="icon">
                                     <i class="fas fa-file-image fa-lg" />
                                 </span>
-                                <span>{{ user.first_name }}</span>
+                                <span class="profile__name">{{ user.first_name }}</span>
                             </div>
                             <div class="navbar-dropdown">
                                 <router-link
                                     class="navbar-item"
-                                    :to="{ name: 'ProfilePage' }"
-                                >Profile</router-link>
-                                <router-link
-                                    class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'NewPlacePage' }"
-                                >Add place</router-link>
-                                <router-link
-                                    class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'MyTastesPage' }"
-                                >My tastes</router-link>
-                                <router-link
-                                    class="navbar-personal-link navbar-item"
-                                    :to="{ name: 'UserListsPage' }"
-                                >My lists
+                                    :to="{ name: 'OtherUserPage', params: { id: user.id } }"
+                                >{{ $t('navbar.profile') }}
                                 </router-link>
                                 <router-link
-                                    class="navbar-personal-link navbar-item"
+                                    class="navbar-item"
+                                    :to="{ name: 'MyTastesPage' }"
+                                >{{ $t('navbar.tastes') }}
+                                </router-link>
+                                <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'UserListsPage' }"
+                                >{{ $t('navbar.lists') }}
+                                </router-link>
+                                <router-link
+                                    class="navbar-item"
                                     :to="{ name: 'CheckinsPage' }"
-                                >Visited
+                                >{{ $t('navbar.visited') }}
+                                </router-link>
+                                <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'NewPlacePage' }"
+                                >{{ $t('navbar.new_place') }}
+                                </router-link>
+                                <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'ProfilePage' }"
+                                >{{ $t('navbar.settings') }}
+                                </router-link>
+                                <router-link
+                                    class="navbar-item"
+                                    :to="{ name: 'NotificationsPage'}"
+                                >{{ $t('navbar.notifications') }}
                                 </router-link>
                                 <a
                                     class="navbar-item"
                                     @click="onLogOut"
-                                >Logout</a>
+                                >{{ $t('navbar.logout') }}</a>
                             </div>
                         </div>
                     </div>
@@ -101,26 +127,69 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex';
 import NavbarSearchPanel from './NavbarSearchPanel';
 import LanguageSelector from './LanguageSelector';
+import NewNotificationsList from './NewNotificationsList';
+import { getUserChannelName } from '@/services/notification/notificationService';
 
 export default {
     name: 'TopNavbar',
+    components: {
+        NavbarSearchPanel,
+        LanguageSelector,
+        NewNotificationsList,
+    },
     data () {
         return {
-            navIsActive: false
+            navIsActive: false,
+            isNewNotifications: false,
+            notificationsDisplay: false
         };
     },
     computed: {
         ...mapGetters({
             isUserLoggedIn: 'auth/isLoggedIn',
-            user: 'auth/getAuthenticatedUser'
-        })
+            user: 'auth/getAuthenticatedUser',
+            getUser: 'users/getUserProfile',
+            allNotifications: 'notifications/getNotifications',
+            notifications: 'notifications/getUnreadNotifications',
+        }),
+        ...mapState('auth', ['currentUser']),
+        notificationIconActiveClass() {
+            return this.isNewNotifications
+                ? 'notification-icon--active'
+                : null;
+        },
+    },
+    watch: {
+        isUserLoggedIn: function() {
+            if (this.isUserLoggedIn) {
+                this.listenChannel(this.currentUser.id);
+                this.getUnreadNotifications()
+                    .then(() => {
+                        if (this.newNotificationsAvailable()) {
+                            this.isNewNotifications = true;
+                        }
+                    });
+            }
+        },
+        '$route' () {
+            this.navIsActive = false;
+        }
     },
     methods: {
         ...mapActions({
-            logout: 'auth/logout'
+            logout: 'auth/logout',
+            getUnreadNotifications: 'notifications/getUnreadNotifications',
+            readNotifications: 'notifications/readNotifications',
+        }),
+        ...mapMutations('users', {
+            addUser: 'ADD_USER',
+        }),
+        ...mapMutations('notifications', {
+            addNotification: 'ADD_NOTIFICATION',
+            addUnreadNotificationId: 'ADD_UNREAD_NOTIFICATION_ID',
         }),
         onLogOut () {
             this.logout()
@@ -130,16 +199,71 @@ export default {
         },
         toggleMenu () {
             this.navIsActive = !this.navIsActive;
+        },
+        toggleNotifications: _.debounce(function () {
+            if (this.isNewNotifications) {
+                this.isNewNotifications = false;
+                this.readNotifications();
+            }
+
+            this.notificationsDisplay = !this.notificationsDisplay;
+        }, 250),
+        hideNotifications() {
+            this.notificationsDisplay = false;
+        },
+        listenChannel(userId) {
+            Echo.private(getUserChannelName(userId))
+                .notification((payload) => {
+                    if (!this.notificationsDisplay) {
+                        this.isNewNotifications = true;
+                    } else {
+                        this.readNotifications();
+                    }
+
+                    this.addUnreadNotificationId(payload.id);
+                    this.addNotification({
+                        id: payload.id,
+                        data: payload,
+                        read_at: payload['read_at'],
+                        created_at: {
+                            date: Date.now()
+                        }
+                    });
+                });
+        },
+        newNotificationsAvailable() {
+            return !this.notificationsDisplay && this.notifications.length > 0;
         }
     },
-    components: {
-        NavbarSearchPanel,
-        LanguageSelector
-    }
 };
 </script>
 
 <style lang="scss" scoped>
+    $blue: #167df0;
+    $grey: #c5c5c5;
+    $dark-grey: #4a4a4a;
+
+    .logo-top {
+        margin-right: 3px;
+    }
+
+    .notifications-desktop {
+        display: flex;
+
+        @media screen and (max-width: 911px) {
+            display: none;
+        }
+    }
+
+    .notifications-mobile {
+        display: none;
+
+        @media screen and (max-width: 911px) {
+            display: flex;
+            right: 80px;
+        }
+    }
+
     .navbar-brand-name {
         text-transform: uppercase;
         font-weight: bold;
@@ -152,34 +276,37 @@ export default {
              border: none;
         }
     }
-    .navbar-personal-link {
-        text-indent: 15px;
-    }
     .navbar-avatar {
-        margin:0 10px;
-        border-radius:4px;
-    }
-    .navbar-notification-btn {
-        cursor: pointer;
-        background: url("../../assets/icon-notifications.png") top left no-repeat;
-        font-weight: bold;
-        height: 24px;
-        width: 27px;
-        align-self: center;
+        margin: 0 10px;
+        width: 28px;
+        height: 28px;
+
+        img {
+            border-radius:4px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
     }
     .navbar-burger {
         color: #fff;
     }
     .navbar-brand {
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             width: 100%;
         }
     }
     .navbar-wrapper {
-        position: static;
+        position: static; 
+    }
+    .navbar-wrapper.container {
+        @media screen and (min-width: 912px) and (max-width: 1279px) {
+            max-width: 94%;
+        }
     }
     .navbar-menu {
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
            position: absolute;
            right: 0;
            top: 52px;
@@ -187,28 +314,30 @@ export default {
         }
     }
 
-    .navbar-start {
-        @media screen and (max-width: 1087px) {
-           margin-bottom: 10%;
+    .navbar-start {        
+        @media screen and (max-width: 911px) {
+            margin-bottom: 10%;
         }
     }
 
     .navbar-end {
-        padding-right:0;
+        padding-right: 20px;
 
-        @media screen and (max-width: 1600px) {
-            padding-right:50px;
+        @media screen and (max-width: 1280px) {
+            padding-right: 50px;
         }
 
-        @media screen and (max-width: 1087px) {
-            padding-right:0;
+        @media screen and (max-width: 911px) {
+            .profile {
+                display: none;
+            }
         }
     }
 
     .navbar-dropdown-menu {
         padding-right: 20px;
 
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
            text-align: center;
         }
 
@@ -222,23 +351,18 @@ export default {
             display: inline-block;
             transform: rotate(0deg);
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 display: none;
             }
         }
     }
 
-    .navbar-dropdown > a {
-        @media screen and (max-width: 1087px) {
-            text-indent: 36px;
-        }
-    }
-
     .navbar-lang {
-        position:absolute;
-        right:0px;
+        position: absolute;
+        padding-left: 0;
+        right: 0;
 
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             height: 60px;
             position:static;
             padding: 0;
