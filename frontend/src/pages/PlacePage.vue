@@ -120,7 +120,9 @@ export default {
 
     watch: {
         '$route' (to, from) {
-            this.loadPlace(to.params.id);
+            const placeId = to.params.id;
+            this.loadPlace(placeId);
+            this.listen(placeId);
         }
     }
 };
