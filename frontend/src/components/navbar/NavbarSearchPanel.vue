@@ -3,8 +3,8 @@
         <Preloader :active="isLoading" />
         <div class="navbar-item">
             <SearchPlaceCategory 
-                @keyup.native.enter="search" 
-                @select="selectCategory" 
+                @keyup.native.enter="beforeSearch"
+                @select="selectItem"
                 ref="selectPlaceCategoryComponent" 
                 :select-city="location"
             />
@@ -35,6 +35,7 @@ export default {
         return {
             location: {},
             category: {},
+            selectPlace: {},
         };
     },
     computed: {
@@ -63,6 +64,13 @@ export default {
         selectCategory(category){
             this.category = category ? category : {};
         },
+        selectItem(item) {
+            if (item && item.place !== undefined) {
+                this.selectPlace = item;
+            } else {
+                this.selectCategory(item);
+            }
+        },
         search() {
             if(!_.isEmpty(this.location)) {
                 this.selectSearchCity(this.location);
@@ -73,6 +81,14 @@ export default {
                 this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.$refs.autocomplete.value);
             }
             this.updateQueryFilters();
+        },
+        beforeSearch() {
+            if (!_.isEmpty(this.selectPlace)) {
+                this.$router.push({name: 'PlacePage', params: {id: this.selectPlace.id}});
+                this.selectPlace = {};
+                return;
+            }
+            this.search();
         }
     }
 };
