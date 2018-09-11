@@ -41,11 +41,11 @@
                         <router-link
                             class="navbar-item"
                             to="/login"
-                        >Log In</router-link>
+                        >{{ $t('navbar.login') }}</router-link>
                         <router-link
                             class="navbar-item"
                             to="/signup"
-                        >Sign Up</router-link>
+                        >{{ $t('navbar.signup') }}</router-link>
                     </div>
 
                     <div

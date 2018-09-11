@@ -2,7 +2,9 @@
     <form @submit.prevent>
         <div class="modal-card" style="width: auto">
             <header class="modal-card-head">
-                <p class="modal-card-title">Rate place</p>
+                <p class="modal-card-title">
+                    {{ $t('place_page.top_info.rating_modal.title') }}
+                </p>
             </header>
             <section class="modal-card-body">
                 <div class="smileys">
@@ -17,7 +19,9 @@
                 </div>
             </section>
             <footer class="modal-card-foot">
-                <button class="button" type="button" @click="$parent.close()">Close</button>
+                <button class="button" type="button" @click="$parent.close()">
+                    {{ $t('place_page.top_info.rating_modal.close') }}
+                </button>
             </footer>
         </div>
     </form>    
@@ -77,7 +81,7 @@ export default {
                 .then(() => {
                     this.$toast.open({
                         type: 'is-success',
-                        message: 'Rating set'
+                        message: this.$t('place_page.message.rating_set')
                     });
                 })
                 .catch((response) => {

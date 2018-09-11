@@ -31,7 +31,9 @@
             </section>
             <footer class="modal-card-foot">
                 <div>
-                    <button class="button" type="button" @click="$emit('close')">Close</button>
+                    <button class="button" type="button" @click="$emit('close')">
+                        {{ $t('place_page.top_info.users_on_page_modal.close') }}
+                    </button>
                 </div>
             </footer>
         </div>

@@ -37,13 +37,25 @@
                             @click="changeTab(1)"
                             :class="{ 'is-active' : activeTab === 1}"
                         >
-                            <a><span>Reviews ({{ this.getTotalReviewCount(this.place.id) }})</span></a>
+                            <a>
+                                <span>
+                                    {{ $t('place_page.top_info.tabs.reviews') }}
+                                    ({{ this.getTotalReviewCount(this.place.id) }})
+                                </span>
+                            </a>
                         </li>
                         <li
                             @click="changeTab(2)"
                             :class="{ 'is-active' : activeTab === 2}"
                         >
-                            <a><span>Photos <template v-if="loaded">({{ photosCount }})</template></span></a>
+                            <a>
+                                <span>
+                                    {{ $t('place_page.top_info.tabs.photos') }}
+                                    <template v-if="loaded">
+                                        ({{ photosCount }})
+                                    </template>
+                                </span>
+                            </a>
                         </li>
                     </ul>
                 </nav>

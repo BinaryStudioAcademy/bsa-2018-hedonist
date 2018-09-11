@@ -22,7 +22,7 @@
                     <img :src="listItem.user.avatar_url" class="avatar">
                 </figure>
                 <div class="list-data__creator-name">
-                    by
+                    {{ $t('user_lists_page.header.author') }}
                     <router-link
                         :to="{ name: 'OtherUserPage', params: { id: listItem.user.id } }"
                         class="has-text-info"
@@ -32,7 +32,8 @@
                 </div>
             </div>
             <div class="list-data__updated-at level-right">
-                Updated at: {{ listItem.updated_at }}
+                {{ $t('user_lists_page.header.updated') }}
+                {{ listItem.updated_at }}
             </div>
         </div>
     </div>

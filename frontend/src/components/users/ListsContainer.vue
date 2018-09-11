@@ -1,6 +1,13 @@
 <template>
     <div class="container user-cities">
-        <h3 class="subtitle is-4">{{ userName }}'s {{ $t('other_user_page.lists_container.title') }}</h3>
+        <h3 class="subtitle is-4">
+            <template v-if="$i18n.locale() === 'en'">
+                {{ userName }}'s {{ $t('other_user_page.lists_container.title') }}
+            </template>
+            <template v-else>
+                {{ $t('other_user_page.lists_container.title') }} {{ userName }}
+            </template>
+        </h3>
         <ul class="columns is-variable is-4 is-multiline user-cities-items">
             <ListsContainerItem
                 v-for="userList in filteredUserLists"

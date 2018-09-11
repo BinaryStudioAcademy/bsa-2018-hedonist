@@ -22,7 +22,7 @@
                                 <i class="fas fa-upload" />
                             </span>
                             <span class="file-label">
-                                Load a preview
+                                {{ $t('user_lists_page.add_place.buttons.load_cover') }}
                             </span>
                         </span>
                     </label>
@@ -39,9 +39,15 @@
                 />
             </b-field>
             <div class="form-actions">
-                <button v-if="id" class="button is-info" @click="onUpdate">Update</button>
-                <button v-if="id" class="button is-danger" @click="onDelete">Delete</button>
-                <button v-else class="button is-success" @click="onAdd">Save</button>
+                <button v-if="id" class="button is-info" @click="onUpdate">
+                    {{ $t('user_lists_page.add_place.buttons.update') }}
+                </button>
+                <button v-if="id" class="button is-danger" @click="onDelete">
+                    {{ $t('user_lists_page.add_place.buttons.delete') }}
+                </button>
+                <button v-else class="button is-success" @click="onAdd">
+                    {{ $t('user_lists_page.add_place.buttons.save') }}
+                </button>
             </div>
         </div>
     </form>

@@ -32,7 +32,7 @@
                                             <img :src="getPreview(photo,index)">
                                         </figure>
                                         <span class="tag is-small is-white" @click="deletePhoto(index)">
-                                            <a>delete</a>
+                                            <a>{{ $t('place_page.review.photo.delete') }}</a>
                                         </span>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                                 multiple
                             >
                                 <span class="tag is-light is-medium">
-                                    <a>Add photo</a>
+                                    <a>{{ $t('place_page.review.photo.add') }}</a>
                                 </span>
                             </b-upload>
                         </div>
@@ -72,7 +72,9 @@
                     <button
                         class="button is-primary"
                         @click="onAddReview"
-                    >Post</button>
+                    >
+                        {{ $t('place_page.review.add') }}
+                    </button>
                 </div>
             </b-field>
         </div>
