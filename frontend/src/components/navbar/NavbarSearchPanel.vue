@@ -4,7 +4,7 @@
         <div class="navbar-item">
             <SearchPlaceCategory 
                 @keyup.native.enter="beforeSearch"
-                @select="selectCategory" 
+                @select="selectItem"
                 ref="selectPlaceCategoryComponent" 
                 :select-city="location"
             />
@@ -35,6 +35,7 @@ export default {
         return {
             location: {},
             category: {},
+            selectPlace: {},
         };
     },
     computed: {
@@ -63,6 +64,13 @@ export default {
         selectCategory(category){
             this.category = category ? category : {};
         },
+        selectItem(item) {
+            if (item && item.place !== undefined) {
+                this.selectPlace = item;
+            } else {
+                this.selectCategory(item);
+            }
+        },
         search() {
             if(!_.isEmpty(this.location)) {
                 this.selectSearchCity(this.location);
@@ -75,9 +83,9 @@ export default {
             this.updateQueryFilters();
         },
         beforeSearch() {
-            if (this.category && this.category.place !== undefined) {
-                this.$router.push({name: 'PlacePage', params: {id: this.category.id}});
-                this.category = {};
+            if (!_.isEmpty(this.selectPlace)) {
+                this.$router.push({name: 'PlacePage', params: {id: this.selectPlace.id}});
+                this.selectPlace = {};
                 return;
             }
             this.search();
