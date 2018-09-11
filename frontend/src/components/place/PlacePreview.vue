@@ -141,6 +141,7 @@ export default {
     }
 
     .image > img {
+        max-height: 64px;
         border-radius: 5px;
     }
 
