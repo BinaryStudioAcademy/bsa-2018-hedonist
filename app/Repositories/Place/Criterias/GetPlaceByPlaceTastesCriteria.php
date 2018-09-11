@@ -3,8 +3,6 @@
 namespace Hedonist\Repositories\Place\Criterias;
 
 use Hedonist\Entities\Place\Place;
-use Hedonist\Exceptions\DomainException;
-use Hedonist\Exceptions\Place\PlaceNotFoundException;
 use Prettus\Repository\Contracts\CriteriaInterface;
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
