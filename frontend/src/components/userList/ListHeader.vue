@@ -6,7 +6,7 @@
                     <img :src="listItem.img_url || listImage">
                 </figure>
             </div>
-            <div>
+            <div class="top__right">
                 <h3 class="title">
                     {{ listItem.name }}
                 </h3>
@@ -131,9 +131,13 @@ export default {
             margin-bottom: 0px;
             padding-top: 0px;
         }
-    }
 
-    .share-button {
-        float: right;
+        &__right {
+            width: 100%;
+
+            .share-button {
+                float: right;
+            }
+        }
     }
 </style>
