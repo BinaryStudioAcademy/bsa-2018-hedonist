@@ -78,7 +78,8 @@
     "search_in_different_location": "шукати в іншій локації",
     "search_for_something_more_general": "шукати щось більш загальне",
     "button": "Шукати",
-    "city_placeholder": "Місцезнаходження"
+    "city_placeholder": "Місцезнаходження",
+    "place_counter": "Закладів знайдено: "
   },
   "check-ins_page": {
     "no-check-ins": "Ви не зареєстровані в жодному місці. Відвідайте якесь із них і зробіть \"чек-ін\" на його сторінці.",

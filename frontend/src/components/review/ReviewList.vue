@@ -205,13 +205,6 @@ export default {
             });
             this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', payload.reviewPhoto);
         });
-
-        Echo.private('reviews').listen('.attitude.set', (payload) => {
-            this.$store.dispatch('review/handleAttitude', {
-                reviewId: payload.reviewId,
-                attitudeType: payload.attitudeType
-            });
-        });
     }
 };
 

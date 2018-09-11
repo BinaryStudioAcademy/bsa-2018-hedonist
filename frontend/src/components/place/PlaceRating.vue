@@ -74,17 +74,18 @@ export default {
     display: flex;
     align-items: center;
 
+
     .rating {
         border-radius: 7px;
         line-height: 32px;
         font-size: 1rem;
         color: #FFF;
         text-align: center;
-        padding: 5px 5px;
+        padding: 0 10px;
 
         white-space: nowrap;
         vertical-align: middle;
-        height: 48px;
+        height: 40px;
 
         &-bad {
             background-color: #FC8D9F;

@@ -106,6 +106,13 @@ export default {
         setTimeout(() => {
             this.active = true;
         }, this.timer);
+
+        Echo.private(`review.${this.review.id}`).listen('.attitude.set', (payload) => {
+            this.$store.dispatch('review/handleAttitude', {
+                reviewId: payload.reviewId,
+                attitudeType: payload.attitudeType
+            });
+        });
     },
 
     computed: {
