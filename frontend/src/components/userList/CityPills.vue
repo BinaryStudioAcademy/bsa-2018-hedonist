@@ -24,7 +24,7 @@
                 :style="{ animationDelay: getCities.length * 0.02 + 's' }"
             >
                 <div
-                    class="pill"
+                    :class="{'pill': true, 'pill--invisible': !isSelected()}"
                     @click="clearSelected"
                 >
                     {{ $t('user_lists_page.city_pills.clear_filter') }}
@@ -107,6 +107,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    $blue: #2d5be3;
+
     @keyframes popin {
         0% {
             transform: scale(0)
@@ -142,7 +144,7 @@ export default {
 
         .pill {
             border-radius: 100px;
-            background: #2d5be3;
+            background: $blue;
             color: #fff;
             cursor: pointer;
             font-size: 0.9rem;
@@ -153,9 +155,14 @@ export default {
             i {
                 margin-left: 5px;
             }
-        }
-        .pill:hover {
-            top: -1px;
+
+            &:hover {
+                top: -1px;
+            }
+
+            &--invisible {
+                display: none;
+            }
         }
     }
 
@@ -178,7 +185,7 @@ export default {
         letter-spacing: 0;
         box-shadow: none;
         border-radius: 5px;
-        background: #2d5be3;
+        background: $blue;
         border: none;
         clear: both;
         color: #fff;

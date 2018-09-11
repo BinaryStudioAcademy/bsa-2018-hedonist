@@ -365,6 +365,16 @@
       }
     }
   },
+  "user_list_form": {
+    "messages": {
+      "name_required": "Потрібно вказати ім'я списка!",
+      "saved": "Список було збережено!",
+      "updated": "Список було оновлено!",
+      "deleted": "Список було видалено!",
+      "wrong_image_type": "Неавлідній тип картинки!",
+      "big_photo": "Фото має бути меньше"
+    }
+  },
   "notifications": {
     "no-notifications": "У вас немає сповіщень.",
     "clear-notifications": "Очистити сповіщення",

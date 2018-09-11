@@ -5,12 +5,13 @@
                 <figure class="media-left image is-128x128">
                     <img :src="listItem.img_url || listImage">
                 </figure>
+            </div>
+            <div class="top__right">
                 <h3 class="title">
                     {{ listItem.name }}
                 </h3>
-            </div>
-            <div class="level-right">
                 <ShareDropdown
+                    class="share-button"
                     :link="pageLink"
                     :text="pageTitle"
                 />
@@ -104,12 +105,16 @@ export default {
 
     .list-data{
         padding:0 10px 1rem 10px;
-        &__user-data{
+        &__user-data {
             .image{
                 margin-right: 5px;
             }
             .avatar{
                 border-radius: 4px;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 50% 50%;
             }
         }
 
@@ -130,6 +135,13 @@ export default {
             margin-bottom: 0px;
             padding-top: 0px;
         }
-    }
 
+        &__right {
+            width: 100%;
+
+            .share-button {
+                float: right;
+            }
+        }
+    }
 </style>
