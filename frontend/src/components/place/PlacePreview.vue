@@ -193,4 +193,10 @@ export default {
     .preview-tag {
         font-size: 0.75em;
     }
+
+    .media-content {
+        .address {
+            word-break: break-all;
+        }
+    }
 </style>
