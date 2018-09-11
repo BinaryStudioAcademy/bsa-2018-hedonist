@@ -189,17 +189,6 @@ export default {
             }
         }
     }
-    .rating {
-        width: 48px;
-        height: 48px;
-        background: #00E676;
-        border-radius: 7px;
-        margin: auto;
-        line-height: 48px;
-        font-size: 1.5rem;
-        color: #FFF;
-        text-align: center;
-    }
     hr {
         color: grey;
         border-width: 3px;
@@ -226,6 +215,26 @@ export default {
                     margin-right: 10px;
                 }
             }
+
+            .image {
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+
+    @media screen and (max-width: 414px) {
+        .place-item {
+            font-size: .8rem;
+        }
+
+        .title {
+            font-size: 1.3rem;
+        }
+
+        .image {
+            width: 140px;
+            height: 100px;
         }
     }
 </style>
