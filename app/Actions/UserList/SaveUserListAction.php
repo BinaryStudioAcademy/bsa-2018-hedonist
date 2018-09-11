@@ -84,8 +84,8 @@ class SaveUserListAction
                 } else {
                     Log::info("user_list: User {$user->id} updated user list {$userList->id}");
                     $this->sendNotificationToFollowers(new FollowedUserUpdateListNotification(
-                            $userList, $detachedPlaces, $attachedPlaces, $user)
-                    );
+                            $userList, $detachedPlaces, $attachedPlaces, $user
+                    ));
                 }
 
                 return new SaveUserListResponse($userList);
