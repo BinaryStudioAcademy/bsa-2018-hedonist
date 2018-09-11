@@ -109,7 +109,7 @@ export default {
                 });
             } else {
                 this.$toast.open({
-                    message: 'Whoops, something went wrong...',
+                    message: this.$t('messages.error.unknown'),
                     type: 'is-danger'
                 });
             }

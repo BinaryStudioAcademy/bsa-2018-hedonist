@@ -93,14 +93,14 @@ export default {
         },
         like() {
             this.$toast.open({
-                message: 'You liked this review!',
+                message: this.$t('place_page.message.review_like'),
                 type: 'is-info',
                 position: 'is-bottom'
             });
         },
         dislike() {
             this.$toast.open({
-                message: 'You disliked this review',
+                message: this.$t('place_page.message.review_dislike'),
                 position: 'is-bottom',
                 type: 'is-info'
             });
@@ -111,7 +111,7 @@ export default {
             this.delete(this.userList.id)
                 .then(() => {
                     this.$toast.open({
-                        message: 'The list was removed',
+                        message: this.$t('user_lists_page.message.list.delete'),
                         position: 'is-top',
                         type: 'is-info'
                     });

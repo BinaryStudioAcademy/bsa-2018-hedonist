@@ -16,7 +16,8 @@
                 </figure>
                 <div class="media-content">
                     <p class="address">
-                        You were here on {{ checkin.createdAt | timeDate }}
+                        {{ $t('check-ins_page.visited_at') }}
+                        {{ date }}
                     </p>
                     <h3
                         class="title has-text-primary"
@@ -147,18 +148,34 @@ export default {
         notFoundPhoto() {
             return imagePlaceholder;
         },
+        date() {
+            const date = new Date(this.checkin.createdAt);
+            const options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
+            };
+            
+            let locale = this.$i18n.locale();
+            if (locale === 'ua') {
+                locale = 'uk';
+            }
+
+            return date.toLocaleString(locale, options);
+        }
     },
     methods: {
         like() {
             this.$toast.open({
-                message: 'You liked this review!',
+                message: this.$t('place_page.message.review_like'),
                 type: 'is-info',
                 position: 'is-bottom'
             });
         },
         dislike() {
             this.$toast.open({
-                message: 'You disliked this review',
+                message: this.$t('place_page.message.review_dislike'),
                 position: 'is-bottom',
                 type: 'is-info'
             });

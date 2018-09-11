@@ -127,7 +127,13 @@ export default {
                 day: 'numeric',
                 weekday: 'long',
             };
-            return date.toLocaleString('en-US', options);
+            
+            let locale = this.$i18n.locale();
+            if (locale === 'ua') {
+                locale = 'uk';
+            }
+
+            return date.toLocaleString(locale, options);
         }
     },
 

@@ -106,14 +106,14 @@ export default {
     methods: {
         like() {
             this.$toast.open({
-                message: 'You liked this review!',
+                message: this.$t('place_page.message.review_like'),
                 type: 'is-info',
                 position: 'is-bottom'
             });
         },
         dislike() {
             this.$toast.open({
-                message: 'You disliked this review',
+                message: this.$t('place_page.message.review_dislike'),
                 position: 'is-bottom',
                 type: 'is-info'
             });
