@@ -73,7 +73,8 @@
     "may_try": "Ви можете спробувати",
     "removing_your_filters": "видалити ваші фільтри",
     "search_in_different_location": "шукати в іншій локації",
-    "search_for_something_more_general": "шукати щось більш загальне"
+    "search_for_something_more_general": "шукати щось більш загальне",
+    "place_counter": "Закладів знайдено: "
   },
   "check-ins_page": {
     "no-check-ins": "Ви не зареєстровані в жодному місці. Відвідайте якесь із них і зробіть \"чек-ін\" на його сторінці."

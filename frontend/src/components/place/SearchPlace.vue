@@ -10,6 +10,16 @@
             <SpecialFeaturesFilter
                 @onSelectFeature="onSelectFeature"
             />
+
+            <div v-if="places.length" class="place-counter">
+                <div class="level">
+                    <div class="level-item">
+                        <span class="place-counter__title">{{ $t('search.place_counter') }}</span>
+                        <span class="place-counter__number">{{ places.length }}</span>
+                    </div>
+                </div>
+            </div>
+
             <div
                 v-infinite-scroll="loadMore"
                 :infinite-scroll-disabled="scrollBusy"
@@ -361,6 +371,33 @@ export default {
     @media screen and (max-width: 520px) {
         #map {
             height: 300px;
+        }
+    }
+
+    .place-counter {
+        background: #f8f8f8;
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #e4e4e4;
+        padding: 5px 16px 8px 16px;
+
+        &__title {
+            color: #6e6e6e;
+            font-size: 14px;
+            float: left;
+            margin: 6px 5px 0 0;
+            text-shadow: 0 1px 0 #fff;
+            line-height: 100%;
+            font-weight: bold;
+        }
+
+        &__number {
+            color: #6e6e6e;
+            font-size: 15px;
+            float: left;
+            margin: 6px 5px 0 0;
+            text-shadow: 0 1px 0 #fff;
+            line-height: 100%;
+            font-weight: bold;
         }
     }
 </style>
