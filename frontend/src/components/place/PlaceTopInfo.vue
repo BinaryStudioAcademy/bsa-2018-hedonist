@@ -6,8 +6,8 @@
                 <div class="place-venue__logo">
                     <img
                         :src="placeMarker"
-                        width="88"
-                        height="88"
+                        width="80"
+                        height="80"
                     >
                 </div>
                 <div class="place-venue__prime-info">
@@ -294,7 +294,7 @@ export default {
     }
 
     .place-venue {
-        margin: 20px;
+        margin: 15px;
         &__logo {
             border-radius: 3px;
             background-color: #c7cdcf;
@@ -308,7 +308,7 @@ export default {
             display: inline-block;
         }
         &__place-name {
-            font-size: 25px;
+            font-size: 22px;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -320,7 +320,7 @@ export default {
                 margin-right: 15px;
                 i {
                     margin-right: 5px;
-                    font-size: 25px;
+                    font-size: 22px;
                 }
             }
         }
