@@ -392,7 +392,9 @@
       "add": "додав новий список"
     },
     "followed_user_update_list": {
-      "update": "оновив свій список"
+      "update": "оновив свій список",
+      "attached_places": "Прикріплені місця:",
+      "detached_places": "Відкріплені місця:"
     },
     "followed_user_delete_list": {
       "delete": "видалив свій список"

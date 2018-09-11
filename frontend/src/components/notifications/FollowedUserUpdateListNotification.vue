@@ -24,7 +24,9 @@
         </div>
         <div class="detailed-info" v-if="showDetailedInfo">
             <div class="attached-places" v-if="attachedPlaces.length > 0">
-                <span class="place-announce">Attached places:</span>
+                <span class="place-announce">
+                    {{ $t('notifications.followed_user_update_list.attached_places') }}
+                </span>
                 <span
                     v-for="(place, index) in attachedPlaces"
                     :key="index"
@@ -34,7 +36,9 @@
                 </span>
             </div>
             <div class="detached-places" v-if="detachedPlaces.length > 0">
-                <span class="place-announce">Detached places:</span>
+                <span class="place-announce">
+                    {{ $t('notifications.followed_user_update_list.detached_places') }}
+                </span>
                 <span
                     v-for="(place, index) in detachedPlaces"
                     :key="index"
@@ -122,7 +126,7 @@ export default {
         margin-top: 20px;
 
         .place-announce {
-            width: 125px;
+            margin-right: 5px;
             font-style: italic;
         }
 

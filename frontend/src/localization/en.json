@@ -392,7 +392,9 @@
       "add": "added a new list"
     },
     "followed_user_update_list": {
-      "update": "updated the list"
+      "update": "updated the list",
+      "attached_places": "Attached places:",
+      "detached_places": "Detached places:"
     },
     "followed_user_delete_list": {
       "delete": "deleted the list"
