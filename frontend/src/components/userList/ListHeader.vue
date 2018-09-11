@@ -5,12 +5,13 @@
                 <figure class="media-left image is-128x128">
                     <img :src="listItem.img_url || listImage">
                 </figure>
+            </div>
+            <div>
                 <h3 class="title">
                     {{ listItem.name }}
                 </h3>
-            </div>
-            <div class="level-right">
                 <ShareDropdown
+                    class="share-button"
                     :link="pageLink"
                     :text="pageTitle"
                 />
@@ -132,4 +133,7 @@ export default {
         }
     }
 
+    .share-button {
+        float: right;
+    }
 </style>
