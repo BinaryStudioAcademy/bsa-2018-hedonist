@@ -129,6 +129,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    
+.container {
+    max-width: 1200px;
+}
+
+.place-view {
+    font-size: 14px;
+}
+
 .main-wrapper {
     margin-top: 20px;
 }
