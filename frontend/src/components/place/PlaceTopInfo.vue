@@ -6,8 +6,8 @@
                 <div class="place-venue__logo">
                     <img
                         :src="placeMarker"
-                        width="88"
-                        height="88"
+                        width="80"
+                        height="80"
                     >
                 </div>
                 <div class="place-venue__prime-info">
@@ -37,13 +37,25 @@
                             @click="changeTab(1)"
                             :class="{ 'is-active' : activeTab === 1}"
                         >
-                            <a><span>Reviews ({{ this.getTotalReviewCount(this.place.id) }})</span></a>
+                            <a>
+                                <span>
+                                    {{ $t('place_page.top_info.tabs.reviews') }}
+                                    ({{ this.getTotalReviewCount(this.place.id) }})
+                                </span>
+                            </a>
                         </li>
                         <li
                             @click="changeTab(2)"
                             :class="{ 'is-active' : activeTab === 2}"
                         >
-                            <a><span>Photos <template v-if="loaded">({{ photosCount }})</template></span></a>
+                            <a>
+                                <span>
+                                    {{ $t('place_page.top_info.tabs.photos') }}
+                                    <template v-if="loaded">
+                                        ({{ photosCount }})
+                                    </template>
+                                </span>
+                            </a>
                         </li>
                     </ul>
                 </nav>
@@ -293,7 +305,7 @@ export default {
     }
 
     .place-venue {
-        margin: 20px;
+        margin: 15px;
         &__logo {
             border-radius: 3px;
             background-color: #c7cdcf;
@@ -307,7 +319,7 @@ export default {
             display: inline-block;
         }
         &__place-name {
-            font-size: 25px;
+            font-size: 22px;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -319,7 +331,7 @@ export default {
                 margin-right: 15px;
                 i {
                     margin-right: 5px;
-                    font-size: 25px;
+                    font-size: 22px;
                 }
             }
         }

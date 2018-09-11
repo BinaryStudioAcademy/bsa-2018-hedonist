@@ -23,12 +23,8 @@
                         </router-link>
                     </h3>
                     <p class="place-city"><strong>{{ place.city.name }}</strong></p>
-                    <p class="place-category">
-                        <a href="#">{{ place.category.name }}</a>
-                    </p>
-                    <p class="address">
-                        {{ place.address }}
-                    </p>
+                    <p class="place-category">{{ place.category.name }}</p>
+                    <p class="address">{{ place.address }}</p>
                 </div>
                 <div class="media-right rating-wrapper">
                     <PlaceRating
@@ -104,14 +100,14 @@ export default {
     methods: {
         like() {
             this.$toast.open({
-                message: 'You liked this review!',
+                message: this.$t('place_page.message.review_like'),
                 type: 'is-info',
                 position: 'is-bottom'
             });
         },
         dislike() {
             this.$toast.open({
-                message: 'You disliked this review',
+                message: this.$t('place_page.message.review_dislike'),
                 position: 'is-bottom',
                 type: 'is-info'
             });

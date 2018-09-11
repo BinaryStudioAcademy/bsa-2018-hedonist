@@ -1,6 +1,6 @@
 <template>
     <div class="control">
-        <b-field>
+        <b-field class="search-wrp">
             <b-autocomplete
                 v-model.trim="findItems.query"
                 :placeholder="$t('search.looking_for')"
@@ -14,7 +14,6 @@
                 ref="autocomplete"
                 @keyup.native.enter="$emit('keyup.native.enter')"
             >
-
                 <template slot-scope="props">
                     <div class="search-block" v-if="props.option.place === undefined">
                         <img :src="props.option.logo">
@@ -154,5 +153,9 @@ export default {
 
     .search-block img {
         margin-right: 5px;
+    }
+
+    .search-wrp {
+        width: 200px;
     }
 </style>

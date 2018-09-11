@@ -25,7 +25,7 @@
                                         <i class="fas fa-upload" />
                                     </span>
                                     <span class="file-label">
-                                        Load a preview
+                                        {{ $t('user_lists_page.add_place.buttons.load_cover') }}
                                     </span>
                                 </span>
                             </label>
@@ -33,7 +33,9 @@
                     </div>
                 </div>
                 <div class="name-desc-section width100">
-                    <label class="label" for="list-name">List name</label>
+                    <label class="label" for="list-name">
+                        {{ $t('user_lists_page.add_place.title') }}
+                    </label>
                     <input
                         v-model="userList.name"
                         id="list-name"
@@ -42,7 +44,9 @@
                         name="name"
                     >
                     <div class="top-right">
-                        <button class="button is-success" @click="onSave">Save</button>
+                        <button class="button is-success" @click="onSave">
+                            {{ $t('user_lists_page.add_place.buttons.save') }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -53,7 +57,7 @@
                 :class="['search-places control', searchInputLoadingClass]"
             >
                 <input
-                    placeholder="Search places"
+                    :placeholder="$t('user_lists_page.add_place.search.placeholder')"
                     type="text"
                     v-model.trim="searchName"
                     @focus="searchPlaces"
@@ -87,7 +91,9 @@
                             </div>
                         </li>
                     </ul>
-                    <div v-else class="search-places__none">No places found</div>
+                    <div v-else class="search-places__none">
+                        {{ $t('user_lists_page.add_place.search.empty') }}
+                    </div>
                 </div>
             </div>
             <div class="attached-places">
@@ -122,7 +128,9 @@
                         </div>
                     </li>
                 </ul>
-                <div v-else class="attached-places__none">You may attach some places to the list</div>
+                <div v-else class="attached-places__none">
+                    {{ $t('user_lists_page.search.message') }}
+                </div>
             </div>
         </div>
         <div class="bottom-right">
