@@ -147,8 +147,8 @@ export default {
         margin-bottom: 0.5rem;
     }
     .image {
-        width: 180px;
-        height: 128px;
+        width: 125px;
+        height: 100px;
         flex-shrink: 0;
 
         img {

@@ -231,7 +231,7 @@ export default {
 
         .search-places {
             position: sticky;
-            top: 264px;
+            top: 300px;
             background: #f0f4f5;
             border-bottom: 1px solid #dae4e6;
             border-top: 1px solid #dae4e6;
