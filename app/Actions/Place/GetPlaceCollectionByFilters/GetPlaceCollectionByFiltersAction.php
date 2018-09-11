@@ -53,7 +53,7 @@ class GetPlaceCollectionByFiltersAction
         $cachePlaces = $this->cache->get($uniqId);
         $cachePlacesCollection = unserialize($cachePlaces, ['collection']);
         if ($cachePlaces) {
-            return new GetPlaceCollectionResponse($cachePlacesCollection, $cachePlacesCollection->count(), $user);
+            return new GetPlaceCollectionResponse($cachePlacesCollection, $user, $cachePlacesCollection->count());
         }
 
         $categoryId = $request->getCategoryId();
@@ -141,7 +141,7 @@ class GetPlaceCollectionByFiltersAction
         $filterInfo = $this->getPlaceFilterInfoJson($user, $request);
         Log::info("search: User {$user->id} performed search: {$filterInfo}");
 
-        return new GetPlaceCollectionResponse($places, $amount, $user);
+        return new GetPlaceCollectionResponse($places, $user, $amount);
     }
 
     private function getPlaceFilterInfoJson(User $user, GetPlaceCollectionByFiltersRequest $request): string
