@@ -13,9 +13,9 @@
                 :key="index"
             >
                 <component
-                    :is="notificationComponent(getNotificationType(notification))"
-                    :notification="getNotificationSubject(notification)"
-                    :user="getNotificationUser(notification)"
+                    :is="notificationComponent(getNotificationType(notification.id))"
+                    :notification="getNotificationSubject(notification.id)"
+                    :user="getNotificationUser(notification.id)"
                     :created-at="notification['created_at']"
                     :detailed="true"
                 />
@@ -88,7 +88,10 @@ export default {
             user: 'auth/getAuthenticatedUser',
             getUser: 'users/getUserProfile',
             isLoading: 'loading',
-            notifications: 'notifications/getNotifications'
+            notifications: 'notifications/getNotifications',
+            getNotificationUser: 'notifications/getNotificationUser',
+            getNotificationSubject: 'notifications/getNotificationSubject',
+            getNotificationType: 'notifications/getNotificationType'
         }),
     },
     methods: {
@@ -137,15 +140,6 @@ export default {
                     onDelete: this.onDelete
                 }
             });
-        },
-        getNotificationUser(notification) {
-            return notification.data.notification['subject_user'];
-        },
-        getNotificationSubject(notification) {
-            return notification.data.notification.subject;
-        },
-        getNotificationType(notification) {
-            return notification.data.notification.type;
         }
     }
 };

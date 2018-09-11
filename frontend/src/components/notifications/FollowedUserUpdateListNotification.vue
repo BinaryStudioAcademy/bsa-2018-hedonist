@@ -22,9 +22,9 @@
                 ({{ getDate }})
             </span>
         </div>
-        <div class="detailed-info" v-if="detailed">
+        <div class="detailed-info" v-if="showDetailedInfo">
             <div class="attached-places" v-if="attachedPlaces.length > 0">
-                <span class="place-announce">Attached places: </span>
+                <span class="place-announce">Attached places:</span>
                 <span
                     v-for="(place, index) in attachedPlaces"
                     :key="index"
@@ -34,7 +34,7 @@
                 </span>
             </div>
             <div class="detached-places" v-if="detachedPlaces.length > 0">
-                <span class="place-announce">Detached places: </span>
+                <span class="place-announce">Detached places:</span>
                 <span
                     v-for="(place, index) in detachedPlaces"
                     :key="index"
@@ -75,9 +75,6 @@ export default {
             avatarStub: avatarStub
         };
     },
-    created() {
-        console.log(this.notification);
-    },
     methods: {
         getPlaceName(place) {
             return place.localization[0]['place_name'];
@@ -109,6 +106,10 @@ export default {
         },
         detachedPlaces() {
             return this.notification['detached_places'];
+        },
+        showDetailedInfo() {
+            return this.detailed
+                && (this.attachedPlaces.length > 0 || this.detachedPlaces.length > 0)
         }
     }
 };
@@ -141,6 +142,7 @@ export default {
         margin-top: 20px;
 
         .place-announce {
+            width: 125px;
             font-style: italic;
         }
 
