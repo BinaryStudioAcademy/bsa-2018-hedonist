@@ -70,7 +70,7 @@
                     <infinite-loading @infinite="loadNextReviewsPage">
                         <span slot="no-more" />
                         <div slot="no-results">
-                            <NoReviewsFound />
+                            <NoReviewsFound v-if="reviews.length === 0" />
                         </div>
                     </infinite-loading>
                 </div>
