@@ -103,7 +103,7 @@ export default {
 
     addPlaceToFavouriteList: (context, payload) => {
         return new Promise((resolve, reject) => {
-            httpService.put('/user-lists/favourite', {
+            httpService.post('/user-lists/favourite', {
                 id: payload.placeId
             })
                 .then((result) => {
