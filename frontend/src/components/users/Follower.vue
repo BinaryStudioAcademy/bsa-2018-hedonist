@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <figure class="image is-64x64">
+        <figure class="image">
             <img :src="profilePhoto" :alt="fullName">
         </figure>
         <router-link :to="`/users/${user.id}`" class="userName">
@@ -41,6 +41,8 @@ export default {
 
     .wrapper{
         display: flex;
+        flex-direction: column;
+        align-items: center;
 
         @media screen and (max-width: 768px) {
             justify-content: center;
@@ -48,8 +50,16 @@ export default {
     }
 
     .image {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 15px;
+
         img {
             border-radius: 8px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
         }
     }
 </style>

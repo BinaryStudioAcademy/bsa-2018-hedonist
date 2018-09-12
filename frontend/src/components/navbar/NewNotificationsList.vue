@@ -164,6 +164,10 @@ export default {
             overflow-x: hidden;
             overflow-y: auto;
             box-shadow: 0px 3px 20px $blue;
+
+            @media screen and (max-width: 411px) {
+                width: 230px;
+            }
         }
 
         &__item {
