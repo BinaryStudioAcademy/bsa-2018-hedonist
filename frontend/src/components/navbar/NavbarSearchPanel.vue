@@ -7,6 +7,7 @@
                 @select="selectItem"
                 ref="selectPlaceCategoryComponent" 
                 :select-city="location"
+                @search-after-clear="searchAfterClear"
             />
         </div>
         <div class="navbar-item">
@@ -35,15 +36,13 @@ export default {
         return {
             location: {},
             category: {},
-            selectPlace: {},
+            place: {},
         };
     },
     computed: {
         ...mapState('search', ['isLoading']),
         ...mapGetters({
             city: 'search/getSelectedCity',
-            placeCategory: 'search/getSelectedPlaceCategory',
-            place: 'search/getSelectedPlace'
         }),
     },
     components: {
@@ -58,17 +57,19 @@ export default {
             'selectSearchCategory',
             'selectSearchPlace'
         ]),
-        selectCity(city){
+        selectCity(city) {
             this.location = city ? city : {};
         },
-        selectCategory(category){
-            this.category = category ? category : {};
-        },
         selectItem(item) {
-            if (item && item.place !== undefined) {
-                this.selectPlace = item;
+            if (item === null) {
+                this.category = {};
+                this.place = {};
             } else {
-                this.selectCategory(item);
+                if (item.place !== undefined) {
+                    this.place = item;
+                } else {
+                    this.category = item;
+                }
             }
         },
         search() {
@@ -78,16 +79,20 @@ export default {
             if (!_.isEmpty(this.category)) {
                 this.selectSearchCategory(this.category);
             } else {
-                this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.$refs.autocomplete.value);
+                this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.findItems.query);
             }
             this.updateQueryFilters();
         },
         beforeSearch() {
-            if (!_.isEmpty(this.selectPlace)) {
-                this.$router.push({name: 'PlacePage', params: {id: this.selectPlace.id}});
-                this.selectPlace = {};
+            if (!_.isEmpty(this.place)) {
+                this.$router.push({name: 'PlacePage', params: {id: this.place.id}});
+                this.place = {};
                 return;
             }
+            this.search();
+        },
+        searchAfterClear() {
+            this.selectItem(null);
             this.search();
         }
     }
