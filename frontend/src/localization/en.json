@@ -223,6 +223,13 @@
       "review_dislike": "You disliked this review",
       "rating_set": "Rating set"
     },
+    "no_result_reviews": {
+      "title": "Sorry, no reviews found",
+      "may_try": "You may try:",
+      "clear_query": "Clear your search query",
+      "change_query": "Change your search query",
+      "be_first": "Be first to review :)"
+    },
     "buttons": {
       "more": "Show more",
       "less": "Show less",

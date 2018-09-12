@@ -37,10 +37,7 @@ export default {
 <style lang="scss" scoped>
     .followed-header{
         margin-top: 30px;
-
-        @media screen and (max-width: 768px) {
-            text-align: center;
-        }
+        text-align: center;
     }
     .container {
         @media screen and (max-width: 911px) {
