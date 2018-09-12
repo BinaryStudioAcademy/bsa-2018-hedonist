@@ -130,7 +130,7 @@ export default {
 
         searchReview: _.debounce(function () {
             this.initialLoad();
-        }, 1000),
+        }, 500),
 
         loadNextReviewsPage($state) {
             _.debounce(() => {

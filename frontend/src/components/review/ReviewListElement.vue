@@ -95,14 +95,12 @@ export default {
     data() {
         return {
             active: false,
-            reviewImageUrl: '',
             isUsersWhoLikedReviewModalActive: false,
             isUsersWhoDislikedReviewModalActive: false
         };
     },
 
     created() {
-        this.getReviewPhotos(this.review.id);
         setTimeout(() => {
             this.active = true;
         }, this.timer);
@@ -158,15 +156,6 @@ export default {
             'getUsersWhoLikedReview',
             'getUsersWhoDislikedReview'
         ]),
-        getReviewImage: function() {
-            this.getReviewPhoto(this.review.id)
-                .then((result) => {
-                    this.reviewImageUrl = result;
-                })
-                .catch(() => {
-                    this.reviewImageUrl = '';
-                });
-        },
 
         onLikeReview() {
             if(!this.canLikeOrDislike){
