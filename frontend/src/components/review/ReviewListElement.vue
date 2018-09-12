@@ -1,5 +1,5 @@
 <template>
-    <transition name="slide-fade">
+    <transition name="fade">
         <div class="review-wrp" v-if="active">
             <div class="review">
                 <article class="media">
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import LikeDislikeButtons from '@/components/misc/LikeDislikeButtons';
 import UsersWhoLikedDislikedReviewModals from '@/components/review/UsersWhoLikedDislikedReviewModals';
 
@@ -106,15 +106,25 @@ export default {
         setTimeout(() => {
             this.active = true;
         }, this.timer);
+
+        Echo.private(`review.${this.review.id}`).listen('.attitude.set', (payload) => {
+            this.$store.dispatch('review/handleAttitude', {
+                reviewId: payload.reviewId,
+                attitudeType: payload.attitudeType
+            });
+        });
     },
 
     computed: {
+        ...mapGetters('auth',['getAuthenticatedUser']),
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
         },
-
         isImageAttached() {
             return this.review.photos.length;
+        },
+        canLikeOrDislike(){
+            return this.review.user.id !== this.getAuthenticatedUser.id;
         },
         date() {
             const date = new Date(this.review['created_at']);
@@ -124,7 +134,13 @@ export default {
                 day: 'numeric',
                 weekday: 'long',
             };
-            return date.toLocaleString('en-US', options);
+            
+            let locale = this.$i18n.locale();
+            if (locale === 'ua') {
+                locale = 'uk';
+            }
+
+            return date.toLocaleString(locale, options);
         }
     },
 
@@ -153,11 +169,26 @@ export default {
         },
 
         onLikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.likeReview(this.review.id);
         },
 
         onDislikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.dislikeReview(this.review.id);
+        },
+
+        showLikeDislikeOwnReviewToast(){
+            this.$toast.open({
+                message: this.$t('place_page.message.like_own_review'),
+                type:'is-danger'
+            });
         },
 
         onShowUsersWhoLiked() {
@@ -190,12 +221,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .slide-fade-enter-active {
-        transition: all 0.5s ease;
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
     }
 
-    .slide-fade-enter, .slide-fade-leave-to {
-        transform: translateX(-300px);
+    .fade-enter, .fade-leave-to {
         opacity: 0;
     }
 

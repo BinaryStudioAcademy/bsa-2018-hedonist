@@ -20,6 +20,9 @@ class DislikeReviewApiTest extends ApiTestCase
         parent::setUp();
         
         $this->user = factory(User::class)->create();
+        factory(UserInfo::class)->create([
+            'user_id' => $this->user->id,
+        ]);
     }
 
     public function testDislikeReviewNotFound()
@@ -29,7 +32,7 @@ class DislikeReviewApiTest extends ApiTestCase
         );
 
         $response->assertHeader('Content-Type', 'application/json')
-            ->assertNotFound()
+            ->assertStatus(400)
             ->assertJsonStructure([
                 'error'
             ]);
@@ -38,6 +41,9 @@ class DislikeReviewApiTest extends ApiTestCase
     public function testDislikeReview()
     {
         $review = factory(Review::class)->create();
+        factory(UserInfo::class)->create([
+            'user_id' => $review->user_id,
+        ]);
         $response = $this->actingWithToken($this->user)->post(
             "/api/v1/reviews/{$review->id}/dislike"
         );
@@ -73,10 +79,14 @@ class DislikeReviewApiTest extends ApiTestCase
 
     public function testDislikeAfterLikeReview()
     {
+        $review = factory(Review::class)->create();
         $like = factory(Like::class)->create([
             'user_id' => $this->user->id,
-            'likeable_id' => factory(Review::class)->create()->id,
+            'likeable_id' => $review->id,
             'likeable_type' => Review::class
+        ]);
+        factory(UserInfo::class)->create([
+            'user_id' => $review->user_id,
         ]);
 
         $response = $this->actingWithToken($this->user)->post(

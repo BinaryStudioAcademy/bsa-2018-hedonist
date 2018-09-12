@@ -2,7 +2,7 @@
     <div class="media review-wrapper">
 
         <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
-            <figure class="image is-16x16 media-left">
+            <figure class="image user-avatar-wrp media-left">
                 <img v-if="review.user.avatar_url" :src="review.user.avatar_url" class="user-avatar">
                 <img
                     v-else
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex';
+import { mapActions, mapMutations, mapGetters } from 'vuex';
 import LikeDislikeButton from '@/components/misc/LikeDislikeButtons';
 import UsersWhoLikedDislikedReviewModals from '@/components/review/UsersWhoLikedDislikedReviewModals';
 
@@ -77,8 +77,12 @@ export default {
         },	        
     },
     computed: {
+        ...mapGetters('auth',['getAuthenticatedUser']),
         userName() {
             return this.review.user.first_name + ' ' + this.review.user.last_name;
+        },
+        canLikeOrDislike(){
+            return this.review.user.id !== this.getAuthenticatedUser.id;
         }
     },
     methods: {
@@ -94,6 +98,10 @@ export default {
         }),
 
         onLikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.likeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewLikedState(this.review.id);
@@ -101,6 +109,10 @@ export default {
         },
 
         onDislikeReview() {
+            if(!this.canLikeOrDislike){
+                this.showLikeDislikeOwnReviewToast();
+                return;
+            }
             this.dislikeReviewSearch(this.review.id)
                 .then( () => {
                     this.updateReviewDislikedState(this.review.id);
@@ -131,14 +143,29 @@ export default {
 
         updateUsersWhoDislikedReviewModalActive(newValue) {
             this.isUsersWhoDislikedReviewModalActive = newValue;
-        }
+        },
+
+        showLikeDislikeOwnReviewToast(){
+            this.$toast.open({
+                message: this.$t('place_page.message.like_own_review'),
+                type:'is-danger'
+            });
+        },
     }
 };
 </script>
 
 <style lang="scss" scoped>
+    .user-avatar-wrp {
+        width: 24px;
+        height: 24px;
+    }
     .user-avatar {
         border-radius: 5px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 50%;
     }
 
     .review-date, .review-text {

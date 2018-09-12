@@ -19,4 +19,19 @@ class UserListPolicy
     {
         return $user->id === $userList->user_id;
     }
+
+    public function attachPlace(User $user, UserList $userList)
+    {
+        return $user->id === $userList->user->id;
+    }
+
+    public function detachPlace(User $user, UserList $userList)
+    {
+        return $user->id === $userList->user->id;
+    }
+
+    public function deleteImg(User $user, UserList $userList)
+    {
+        return $user->id === $userList->user_id;
+    }
 }

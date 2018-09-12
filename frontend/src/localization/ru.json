@@ -1,4 +1,11 @@
 {
+  "loader": {
+    "title": "Загрузка..."
+  },
+  "buttons": {
+    "edit": "Изменить",
+    "delete": "Удалить"
+  },
   "login_page": {
     "title": "Войдите в свой аккаунт",
     "register": {
@@ -45,13 +52,13 @@
         "placeholder": "Ваш Email"
       },
       "password": {
-        "field_name": "Пароль",
-        "placeholder": "Ваш Пароль",
+        "field_name": "Новый пароль",
+        "placeholder": "Новый пароль",
         "description": "(минимум 6 символов)"
       },
-      "new_password": {
+      "confirm_password": {
         "field_name": "Подтвердите новый пароль",
-        "placeholder": "Новый пароль"
+        "placeholder": "Подтвердите новый пароль"
       }
     }
   },
@@ -63,18 +70,28 @@
     "email_exists": "Пользователь с таким email уже существует."
   },
   "search": {
-    "current_location": "Текущее местоположение",
+    "looking_for": "Я ищу...",
+    "current_location": "Текущее место",
     "no_results": "Извините, результатов не найдено.",
     "may_try": "Вы можете попробовать",
     "removing_your_filters": "удалить ваши фильтры",
     "search_in_different_location": "искать в другой локации",
-    "search_for_something_more_general": "искать что-то более общее"
+    "search_for_something_more_general": "искать что-то более общее",
+    "button": "Искать",
+    "city_placeholder": "Местонахождение",
+    "place_counter": "Заведений найдено: "
   },
   "check-ins_page": {
-    "no-check-ins": "Вы не зарегистрировались ни в каком месте. Посетите какое-то из них и сделайте \"чек-ин\" на его странице."
+    "no-check-ins": "Вы не зарегистрировались ни в каком месте. Посетите какое-то из них и сделайте \"чек-ин\" на его странице.",
+    "visited_at": "Вы были здесь"
   },
   "my-lists_page": {
-    "no-lists": "У вас пока нет списков мест. Вы можете добавить некоторые и сгруппировать выбранные вами места."
+    "no-lists": "У вас пока нет списков мест. Вы можете добавить некоторые и сгруппировать выбранные вами места.",
+    "delete-confirmation": "Вы действительно хотите удалить",
+    "buttons": {
+      "add": "Создать новый список",
+      "cancel": "Выход"
+    }
   },
   "add_place_page": {
     "tabs": {
@@ -178,19 +195,249 @@
       "open": "Открыто",
       "close": "Закрыто",
       "features": "Особенности",
-      "recommendation": "Вам также понравится"
+      "recommendation": "Вам также понравится",
+      "no_localization": "Нет локализации",
+      "country": "Украина"
     },
     "top_info": {
-      "favourite": "Избранные"
+      "favourite": "Избранные",
+      "users_on_page_modal": {
+        "title": "Кто сейчас смотрит страницу",
+        "close": "Закрыть"
+      },
+      "rating_modal": {
+        "title": "Оценить место",
+        "close": "Закрыть"
+      },
+      "tabs": {
+        "reviews": "Отклики",
+        "photos": "Фото"
+      }
     },
     "message": {
       "no-lists": "У вас пока нет списков мест.",
-      "added-to-list": "Место добавлено в список!"
+      "added-to-list": "Место добавлено в список!",
+      "removed-from-list": "Место удалено из списка!",
+      "like_own_review":"Извините, но вы не можете лайкнуть/дизлайкнуть свой отзыв :(",
+      "review_like": "Вам понравился этот отзыв",
+      "review_dislike": "Вам не понравился этот отзыв",
+      "rating_set": "Рейтинг учтен"
     },
     "buttons": {
       "more": "Показать больше",
       "less": "Показать меньше",
-      "save": "Сохранить"
+      "save": "Сохранить",
+      "share": {
+        "title": "Поделиться",
+        "on_facebook": "Поделиться в Facebook",
+        "on_twitter": "Поделиться в Twitter"
+      },
+      "show_all": "Показать все"
+    },
+    "review": {
+      "title": "Ревью",
+      "add": "Добавить",
+      "photo": {
+        "title": "Фото",
+        "add": "добавить фото",
+        "delete": "удалить"
+      },
+      "placeholder": "Найти ревью...",
+      "sort": {
+        "title": "Сортировать по:",
+        "popular": "популярности",
+        "recent": "времени добавления" 
+      },
+      "modal": {
+        "like": "Понравилось",
+        "dislike": "Не понравилось",
+        "close": "Закрыть"
+      }
+    }
+  },
+  "profile_page": {
+    "private": "Сделать профиль приватным",
+    "receive_notifications": "Получать уведомления",
+    "avatar": {
+      "upload": "Загрузить аватар",
+      "delete": "Удалить аватар"
+    },
+    "name": {
+      "first": "Имя",
+      "last": "Фамилия"
+    },
+    "email": "Email",
+    "password": {
+      "old": "Старый пароль",
+      "new": "Новый пароль"
+    },
+    "phone": {
+      "title": "Номер телефона",
+      "message": "Пожалуйста, введите номер телефона в формате +380950000000 или 380950000000"
+    },
+    "birthday": {
+      "title": "Дата рождения",
+      "year": "Год",
+      "month": "Месяц",
+      "day": "День"
+    },
+    "save_btn": "Сохранить"
+  },
+  "messages": {
+    "success": {
+      "changed_password": "Вы успешно изменили ваш пароль! Теперь вам нужно войти в систему",
+      "recovery_link": "На ваш email было отправлено письмо",
+      "checkin": "Отмечено",
+      "welcome": "Добро пожаловать!"
+    },
+    "error": {
+      "unknown": "Что-то пошло не так...",
+      "credentials": "Email или пароль неверны",
+      "email": "Неправильный email. Проверьте, пожалуйста",
+      "input": "Пожалуйста, проверьте введеные данные"
+    }
+  },
+  "navbar": {
+    "profile": "Профиль",
+    "tastes": "Мои вкусы",
+    "lists": "Мои списки",
+    "visited": "Посещенные",
+    "new_place": "Новое место",
+    "settings": "Настройки",
+    "notifications": "Уведомления",
+    "signup": "Зарегистрироваться",
+    "login": "Войти",
+    "logout": "Выйти"
+  },
+  "other_user_page": {
+    "private": "Это приватный профиль :(",
+    "followers": "Подписчики",
+    "reviews": "Отзывы",
+    "lists": "Списки",
+    "following": "Подписки",
+    "follower_container": {
+      "title": "подписчики"
+    },
+    "followed_container": {
+      "title": "подписки"
+    },
+    "review_container": {
+      "title": "отзывы"
+    },
+    "lists_container": {
+      "title": "списки",
+      "list": {
+        "subtitle": "сохраненных заведений в списке",
+        "proceed": "Просмотреть этот список"
+      }
+    }
+  },
+  "user_lists_page": {
+    "list_preview": {
+      "places_in_list": "Мест в списке:",
+      "cities_in_list": "Города в списке:"
+    },
+    "city_pills": {
+      "clear_filter": "Очистить фильтр"
+    },
+    "add_place": {
+      "title": "Название списка",
+      "buttons": {
+        "save": "Сохранить",
+        "update": "Обновить",
+        "delete": "Удалить",
+        "load_cover": "Загрузить обложку",
+        "delete_image": "Удалить обложку"
+      }
+    },
+    "header": {
+      "author": "от",
+      "updated": "Обновлено:"
+    },
+    "search": {
+      "empty": "Заведений не найдено",
+      "message": "Вы можете добавить заведения в список",
+      "placeholder": "Искать заведения"
+    },
+    "message": {
+      "list": {
+        "delete": "Список был удален"
+      }
+    }
+  },
+  "user_list_form": {
+    "messages": {
+      "name_required": "Необходимо указать имя списка!",
+      "saved": "Список был сохранен!",
+      "updated": "Список был обновлен!",
+      "deleted": "Список был удален!",
+      "wrong_image_type": "Невалидный тип картинки!",
+      "big_photo": "Фото должно быть меньше"
+    }
+  },
+  "notifications": {
+    "no-notifications": "У вас нет уведомлений.",
+    "clear-notifications": "Очистить уведомления",
+    "confirm-deleting": "Удалить все уведомления?",
+    "yes": "Да",
+    "no": "Нет",
+    "review_place": {
+      "made_review": "оставил комментарий под вашим местом"
+    },
+    "like_review": {
+      "liked": "поставил лайк вашему",
+      "review": "ревью"
+    },
+    "dislike_review": {
+      "disliked": "поставил дизлайк вашему",
+      "review": "ревью"
+    },
+    "followed_user_review": {
+      "made_review": "сделал ревью на"
+    },
+    "followed_user_add_place": {
+      "add_new": "добавил новое",
+      "place": "место"
+    },
+    "followed_user_add_list": {
+      "add": "добавил новый список"
+    },
+    "followed_user_update_list": {
+      "update": "обновил свой список",
+      "attached_places": "Прикрепленные места:",
+      "detached_places": "Открепленные места:"
+    },
+    "followed_user_delete_list": {
+      "delete": "удалил свой список"
+    },
+    "follow_you": "подписался на Вас.",
+    "unfollow_you": "отписался от Вас.",
+    "navbar": {
+      "no_notifs": "У вас нет новых уведомлений"
+    }
+  },
+  "search_place_page": {
+    "tags": {
+      "title": "Показать только:"
+    },
+    "filters": {
+      "title": "Фильтры:",
+      "tooltips": {
+        "top_rated": "Заведения с рейтингом 4 и больше",
+        "saved": "Сохраненные заведения",
+        "checkin": "Посещенные заведения",
+        "top_reviewed": "Заведение с 10 и более отзывами",
+        "recommended": "Рекомендуемые заведения",
+        "opened": "Открытые сейчас заведения"
+      }
+    },
+    "features": {
+      "title": "Особенности:"
+    }
+  },
+  "user_tastes_page": {
+    "input": {
+      "placeholder": "Введите вкус"
     }
   }
 }

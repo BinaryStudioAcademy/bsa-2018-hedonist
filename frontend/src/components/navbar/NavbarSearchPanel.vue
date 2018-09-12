@@ -2,17 +2,22 @@
     <div class="navbar-start">
         <Preloader :active="isLoading" />
         <div class="navbar-item">
-            <SearchPlaceCategory @select="selectCategory" ref="selectPlaceCategoryComponent" :select-city="location" />
+            <SearchPlaceCategory 
+                @keyup.native.enter="beforeSearch"
+                @select="selectItem"
+                ref="selectPlaceCategoryComponent" 
+                :select-city="location"
+            />
         </div>
         <div class="navbar-item">
-            <SearchCity @select="selectCity" />
+            <SearchCity @keyup.native.enter="search" @select="selectCity" />
         </div>
         <div class="navbar-item is-paddingless navbar-search-btn">
             <button @click.prevent="search" class="button is-info">
                 <span class="icon is-large">
                     <i class="fas fa-lg fa-search" />
                 </span>
-                <span class="button-title">Search</span>
+                <span class="button-title">{{ $t('search.button') }}</span>
             </button>
         </div>
     </div>
@@ -30,6 +35,7 @@ export default {
         return {
             location: {},
             category: {},
+            selectPlace: {},
         };
     },
     computed: {
@@ -58,6 +64,13 @@ export default {
         selectCategory(category){
             this.category = category ? category : {};
         },
+        selectItem(item) {
+            if (item && item.place !== undefined) {
+                this.selectPlace = item;
+            } else {
+                this.selectCategory(item);
+            }
+        },
         search() {
             if(!_.isEmpty(this.location)) {
                 this.selectSearchCity(this.location);
@@ -68,6 +81,14 @@ export default {
                 this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.$refs.autocomplete.value);
             }
             this.updateQueryFilters();
+        },
+        beforeSearch() {
+            if (!_.isEmpty(this.selectPlace)) {
+                this.$router.push({name: 'PlacePage', params: {id: this.selectPlace.id}});
+                this.selectPlace = {};
+                return;
+            }
+            this.search();
         }
     }
 };
@@ -82,14 +103,14 @@ export default {
 
 <style lang="scss" scoped>
     .button {
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             width: 88%;
         }
 
         .button-title {
             display: none;
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 display: inline-block;
             }
         }
@@ -97,14 +118,14 @@ export default {
         &:hover {
             background-color: #167df0;
 
-            @media screen and (max-width: 1087px) {
+            @media screen and (max-width: 911px) {
                 background-color: #0f77ea;
             }
         }
     }
 
     .navbar-search-btn {
-        @media screen and (max-width: 1087px) {
+        @media screen and (max-width: 911px) {
             text-align: center;
         }
     }

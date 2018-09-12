@@ -19,6 +19,7 @@ class ReviewSearchRequest extends FormRequest
             'place_id' => 'nullable|int|min:1',
             'order' => 'nullable|string|in:asc,desc',
             'page' => 'int|min:1',
+            'include' => 'nullable|string'
         ];
     }
 }

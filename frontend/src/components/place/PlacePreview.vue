@@ -9,10 +9,11 @@
                         v-show="index === 0"
                         :src="photo.img_url"
                         :key="photo.id"
+                        class="place-photo"
                     >
                 </figure>
                 <figure v-else class="media-left image is-64x64">
-                    <img :src="notFoundPhoto">
+                    <img :src="notFoundPhoto" class="place-photo">
                 </figure>
                 <div class="media-content">
                     <h3
@@ -23,19 +24,13 @@
                         </router-link>
                     </h3>
                     <p class="place-city"><strong>{{ place.city.name }}</strong></p>
-                    <p class="place-category">
-                        <a href="#">{{ place.category.name }}</a>
-                    </p>
-                    <p class="address">
-                        {{ place.address }}
-                    </p>
+                    <p class="place-category">{{ place.category.name }}</p>
+                    <p class="address">{{ place.address }}</p>
                 </div>
                 <div class="media-right rating-wrapper">
                     <PlaceRating
                         v-if="place.rating"
                         :value="Number(place.rating)"
-                        :show-rating="false"
-                        :rating-count="place.ratingCount"
                     />
                 </div>
             </div>
@@ -106,14 +101,14 @@ export default {
     methods: {
         like() {
             this.$toast.open({
-                message: 'You liked this review!',
+                message: this.$t('place_page.message.review_like'),
                 type: 'is-info',
                 position: 'is-bottom'
             });
         },
         dislike() {
             this.$toast.open({
-                message: 'You disliked this review',
+                message: this.$t('place_page.message.review_dislike'),
                 position: 'is-bottom',
                 type: 'is-info'
             });
@@ -147,6 +142,7 @@ export default {
     }
 
     .image > img {
+        max-height: 64px;
         border-radius: 5px;
     }
 
@@ -185,7 +181,22 @@ export default {
         padding-top: 0.25rem;
     }
 
+    .media-left {
+        .place-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
+    }
+
     .preview-tag {
         font-size: 0.75em;
+    }
+
+    .media-content {
+        .address {
+            word-break: break-all;
+        }
     }
 </style>

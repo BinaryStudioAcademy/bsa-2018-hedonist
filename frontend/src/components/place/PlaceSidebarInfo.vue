@@ -8,12 +8,18 @@
                 <div class="place-sidebar__venue">
                     <i class="place-sidebar__icon far fa-compass" />
                     <div v-if="place.localization" class="place-name"><strong>{{ place.localization.name }}</strong></div>
-                    <div v-else class="place-name"><strong>No localization</strong></div>
+                    <div v-else class="place-name">
+                        <strong>
+                            {{ $t('place_page.sidebar.no_localization') }}
+                        </strong>
+                    </div>
                     <div class="place-address">
                         <span class="place-street">{{ place.address }}</span>,
                         <span class="place-city">{{ place.city.name }}</span>,
                         <span class="place-zip">{{ place.zip }}</span>,
-                        <span class="place-country">Украина</span>
+                        <span class="place-country">
+                            {{ $t('place_page.sidebar.country') }}
+                        </span>
                     </div>
                 </div>
                 <div v-if="place.tags" class="place-sidebar__tags">
@@ -29,7 +35,7 @@
 
                 <div v-if="!!this.place.worktime.length" class="place-sidebar__worktime">
                     <i class="place-sidebar__icon far fa-clock" />
-                    <div class="level">
+                    <div class="level is-flex-mobile">
                         <div class="level-left">
                             <span v-if="isOpen() === true" class="worktime-info--green">{{ $t('place_page.sidebar.open') }}</span>
                             <span v-else class="worktime-info--red">{{ $t('place_page.sidebar.close') }}</span>
@@ -41,12 +47,12 @@
                     <b-collapse :open="isShowSchedule">
                         <div class="notification">
                             <template v-for="item in place.worktime">
-                                <div :key="item.id" class="level">
+                                <div :key="item.id" class="level is-flex-mobile">
                                     <div class="level-left">
-                                        {{ $t('weekdays.' + item.day) }}
+                                        <span>{{ $t('weekdays.' + item.day) }}</span>
                                     </div>
                                     <div class="level-right">
-                                        {{ displayTime(item.start) }} - {{ displayTime(item.end) }}
+                                        <span>{{ displayTime(item.start) }} - {{ displayTime(item.end) }}</span>
                                     </div>
                                 </div>
                             </template>
@@ -88,7 +94,7 @@
                     <h2 class="block-title">{{ $t('place_page.sidebar.features') }}</h2>
                     <transition-group name="features-list">
                         <div
-                            v-for="(feature, index) in allFeatures"
+                            v-for="(feature, index) in sortedFeatures"
                             v-show="!showLessFeatures || (index < 3)"
                             :key="feature.id"
                             class="place-sidebar__feature-list"
@@ -131,7 +137,7 @@
 <script>
 import moment from 'moment';
 import PlaceMapMarker from './PlaceMapMarker';
-import {mapState, mapActions} from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import PlacePreview from './PlacePreview';
 
 export default {
@@ -158,7 +164,21 @@ export default {
     },
 
     computed: {
-        ...mapState('features', ['allFeatures'])
+        ...mapGetters('features', ['specialFeaturesList']),
+
+        sortedFeatures: function () {
+            let result = [];
+            const features = this.place.features.map(
+                feature => feature.id
+            );
+            this.specialFeaturesList.forEach( feature => {
+                features.includes(feature.id)
+                    ? result.unshift(feature)
+                    : result.push(feature);
+            });
+
+            return result;
+        }
     },
 
     data() {
@@ -218,6 +238,10 @@ export default {
     .place-sidebar {
     background-color: #fff;
 
+    .place-address {
+        overflow-wrap: break-word;
+    }
+
     .map-box {
         padding: 10px;
 
@@ -247,7 +271,11 @@ export default {
 
     &__worktime {
         .level {
+            flex-wrap: wrap;
             margin-bottom: 5px;
+        }
+        .level-left {
+            min-width: 85px;
         }
 
         .worktime-info {
@@ -257,6 +285,12 @@ export default {
             &--green {
                 color: green;
             }
+        }
+    }
+
+    @media only screen and (max-width: 768px) {
+        .level-right {
+            margin-top: 0;
         }
     }
 
@@ -302,7 +336,7 @@ export default {
         cursor: pointer;
     }
 
-    &__social a {
+    &__social, &__website a {
         word-wrap: break-word;
     }
 

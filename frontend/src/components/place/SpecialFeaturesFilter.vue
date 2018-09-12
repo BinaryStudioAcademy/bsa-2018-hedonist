@@ -1,12 +1,15 @@
 <template>
     <div class="category-tags">
-        <span class="category-tags__title">Features:</span>
+        <span class="category-tags__title">
+            {{ $t('search_place_page.features.title') }}
+        </span>
 
         <div class="tags">
             <template v-for="tag in tags">
                 <PlaceFilterTag
                     :key="tag.id"
                     :tag="tag"
+                    :active="tag.active"
                     color="#d346cd"
                     @onSelectTag="onSelectFeature"
                 />
@@ -17,6 +20,7 @@
 
 <script>
 import PlaceFilterTag from './PlaceFilterTag';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
     name: 'SpecialFeaturesFilter',
@@ -25,18 +29,21 @@ export default {
         PlaceFilterTag
     },
 
-    props: {
-        tags: {
-            required: true,
-            type: Array,
-        },
+    computed: {
+        ...mapGetters('features', ['specialFeaturesList']),
+        ...mapState('search', ['selectedFeatures']),
+        tags() {
+            return this.specialFeaturesList.map(feature => {
+                feature.active = this.selectedFeatures.indexOf(feature.id) !== -1;
+                return feature;
+            });
+        }
     },
-
     methods: {
         onSelectFeature(featureId, isFeatureActive) {
             this.$emit('onSelectFeature', featureId, isFeatureActive);
         }
-    },
+    }
 };
 </script>
 

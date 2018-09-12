@@ -11,7 +11,12 @@ export default {
     USER_LOGOUT: (state) => {
         StorageService.removeToken();
         state.token = '';
-        state.currentUser = null;
+        state.currentUser = {
+            first_name: '',
+            last_name: '',
+            avatar_url: '',
+            id: null
+        };
         state.isLoggedIn = false;
     },
     SET_AUTHENTICATED_USER: (state, user) => {

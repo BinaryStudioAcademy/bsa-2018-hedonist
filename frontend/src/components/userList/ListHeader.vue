@@ -3,14 +3,15 @@
         <div class="level list-data top is-mobile">
             <div class="level-left top top__left">
                 <figure class="media-left image is-128x128">
-                    <img :src="listItem.img_url || imageStub">
+                    <img :src="listItem.img_url || listImage">
                 </figure>
+            </div>
+            <div class="top__right">
                 <h3 class="title">
                     {{ listItem.name }}
                 </h3>
-            </div>
-            <div class="level-right">
                 <ShareDropdown
+                    class="share-button"
                     :link="pageLink"
                     :text="pageTitle"
                 />
@@ -22,11 +23,18 @@
                     <img :src="listItem.user.avatar_url" class="avatar">
                 </figure>
                 <div class="list-data__creator-name">
-                    by <a href="#" class="has-text-info">{{ userName }}</a>
+                    {{ $t('user_lists_page.header.author') }}
+                    <router-link
+                        :to="{ name: 'OtherUserPage', params: { id: listItem.user.id } }"
+                        class="has-text-info"
+                    >
+                        {{ userName }}
+                    </router-link>
                 </div>
             </div>
             <div class="list-data__updated-at level-right">
-                Updated at: {{ listItem.updated_at }}
+                {{ $t('user_lists_page.header.updated') }}
+                {{ listItem.updated_at }}
             </div>
         </div>
     </div>
@@ -46,6 +54,10 @@ export default {
         listItem:{
             required:true,
             type: Object
+        },
+        defaultImage: {
+            required: true,
+            type: String
         }
     },
     data() {
@@ -62,6 +74,9 @@ export default {
         },
         pageTitle() {
             return this.listItem.name;
+        },
+        listImage() {
+            return this.defaultImage ? this.defaultImage : this.imageStub;
         }
     }
 };
@@ -90,12 +105,16 @@ export default {
 
     .list-data{
         padding:0 10px 1rem 10px;
-        &__user-data{
+        &__user-data {
             .image{
                 margin-right: 5px;
             }
             .avatar{
                 border-radius: 4px;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 50% 50%;
             }
         }
 
@@ -116,6 +135,13 @@ export default {
             margin-bottom: 0px;
             padding-top: 0px;
         }
-    }
 
+        &__right {
+            width: 100%;
+
+            .share-button {
+                float: right;
+            }
+        }
+    }
 </style>

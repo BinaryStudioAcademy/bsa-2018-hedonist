@@ -11,6 +11,10 @@ export default {
         state.places = places;
     },
 
+    SET_AMOUNT_PLACES: (state, amount) => {
+        state.places_amount = amount;
+    },
+
     LOAD_MORE_PLACES: (state, newPlaces) => {
         state.places.push(...newPlaces);
     },
@@ -34,13 +38,33 @@ export default {
     SET_CURRENT_PLACE_RATING_VALUE: (state, rating) => {
         state.currentPlace.rating = rating;
     },
-    
+
     SET_CURRENT_PLACE_RATING_COUNT: (state, ratingCount) => {
         state.currentPlace.ratingCount = ratingCount;
     },
 
     SET_CURRENT_PLACE_MY_RATING: (state, myRating) => {
         state.currentPlace.myRating = myRating;
+    },
+
+    ADD_PAGE_VISITOR:(state, user) => {
+        state.visitors.byId[user.id] = user;
+        if (!_.includes(state.visitors.allIds, user.id)) {
+            state.visitors.allIds.push(user.id);
+        }
+    },
+
+    REMOVE_PAGE_VISITOR:(state, user) => {
+        delete state.visitors.byId[user.id];
+        const index = state.visitors.allIds.indexOf(user.id);
+        if (index !== -1) {
+            state.visitors.allIds.splice(index);
+        }
+    },
+
+    CLEAR_PAGE_VISITORS:(state) => {
+        state.visitors.byId = {};
+        state.visitors.allIds = [];
     },
 
     UPDATE_REVIEW_LIKED_STATE: (state, reviewId) => {

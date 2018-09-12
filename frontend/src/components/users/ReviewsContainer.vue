@@ -2,13 +2,22 @@
     <div class="container">
         <div class="user-reviews-container">
             <div class="user-reviews-header">
-                <h3 class="subtitle is-4">{{ userProfile.first_name }}'s recent reviews</h3>
+                <h3 class="subtitle is-4"> 
+                    <template v-if="$i18n.locale() === 'en'">
+                        {{ userProfile.first_name }}'s
+                        {{ $t('other_user_page.review_container.title') }}
+                    </template>
+                    <template v-else>
+                        {{ $t('other_user_page.review_container.title') }}
+                        {{ userProfile.first_name }}
+                    </template>
+                </h3>
             </div>
             <ul class="columns is-variable is-4 is-multiline user-reviews-items">
-                <template v-for="place in filteredUsersPlaces">
+                <template v-for="review in getUserReviews">
                     <ReviewsContainerItem
-                        :key="place.id"
-                        :place="place"
+                        :key="review.id"
+                        :review="review"
                     />
                 </template>
             </ul>
@@ -29,17 +38,8 @@ export default {
         ReviewsContainerItem
     },
     computed: {
-        ...mapState('place', {
-            places: 'places',
-        }),
-        ...mapGetters('users',['getUserProfile']),
+        ...mapGetters('users',['getUserProfile', 'getUserReviews']),
         ...mapGetters('place', ['getReviewsById' , 'getUserReviewsAll']),
-        filteredUsersPlaces: function () {
-            return this.getReviewsById(parseInt(this.$route.params.id));
-        },
-        filterAllReviewUser: function () {
-            return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
-        },
         userProfile(){
             return this.getUserProfile(this.$route.params.id) || {};
         },
@@ -47,12 +47,10 @@ export default {
             return this.userProfile.first_name || '';
         }
     },
-    created() {
-        this.$store.dispatch('place/fetchPlaces', this.$route.query);
-    },
-
 };
 </script>
-<style >
-
-    </style>
+<style scoped>
+    .user-reviews-container{
+        margin-top: 30px;
+    }
+</style>

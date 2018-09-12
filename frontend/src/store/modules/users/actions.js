@@ -9,7 +9,7 @@ export default {
                     resolve(result);
                 })
                 .catch((error) => {
-                    reject(error.response.data.error);
+                    reject(error);
                 });
         });
     },
@@ -19,15 +19,14 @@ export default {
                 .then((result) => {
                     context.commit('FOLLOW_USER', {
                         followed: payload.followedId,
-                        follower: payload.followerId}
+                        follower: payload.follower
+                    }
                     );
                     payload.successCallback();
                     resolve(result);
                 })
                 .catch((error) => {
-                    if (result.status !== 200) {
-                        payload.failCallback();
-                    }
+                    payload.failCallback();
                     reject(error.response.data.error);
                 });
         });
@@ -38,16 +37,28 @@ export default {
                 .then((result) => {
                     context.commit('UNFOLLOW_USER', {
                         followed: payload.followedId,
-                        follower: payload.followerId}
+                        follower: payload.follower
+                    }
                     );
                     payload.successCallback();
                     resolve(result);
                 })
                 .catch((error) => {
-                    if (result.status !== 200) {
-                        payload.failCallback();
-                    }
+                    payload.failCallback();
                     reject(error.response.data.error);
+                });
+        });
+    },
+
+    fetchReviewsWithPlaceByUser: (context, userId) => {
+        return new Promise((resolve, reject) => {
+            httpService.get(`/users/${userId}/reviews?include=place&page=1`)
+                .then((result) => {
+                    context.commit('SET_REVIEWS', result.data.data);
+                    resolve(result);
+                })
+                .catch((error) => {
+                    reject(error);
                 });
         });
     }

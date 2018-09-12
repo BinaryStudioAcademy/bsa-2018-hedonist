@@ -37,7 +37,7 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
 
     public function findUserListsWithPlaces(int $userId): Collection
     {
-        return UserList::with('places', 'places.tags')
+        return UserList::with('places', 'places.tags', 'places.photos')
             ->where('user_id', $userId)
             ->orderBy('created_at', 'DESC')
             ->get();
@@ -68,6 +68,11 @@ class UserListRepository extends BaseRepository implements UserListRepositoryInt
     public function attachPlace(UserList $list, Place $place): void
     {
         $list->places()->attach($place->id);
+    }
+
+    public function detachPlace(UserList $list, Place $place): void
+    {
+        $list->places()->detach($place->id);
     }
 
     public function attachPlaceToFavourite(FavouriteList $list, Place $place): void

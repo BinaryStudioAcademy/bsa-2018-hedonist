@@ -40,5 +40,19 @@ export default {
 
     getDislikes: state => {
         return state.currentPlace && state.currentPlace.dislikes;
+    },
+
+    getAllVisitorsButMe: (state, getters, rootState) => {
+        let filtered = {
+            byId: {},
+            allIds: []
+        };
+        const myUserId = rootState.auth.currentUser.id;
+        state.visitors.allIds.forEach(id=>{
+            if(id == myUserId) return;
+            filtered.byId[id] = state.visitors.byId[id];
+            filtered.allIds.push(id);
+        });
+        return filtered;
     }
 };

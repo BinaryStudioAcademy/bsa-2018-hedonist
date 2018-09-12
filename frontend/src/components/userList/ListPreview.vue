@@ -4,7 +4,7 @@
             <div class="container place-item" v-if="active">
                 <div class="media">
                     <figure class="media-left image">
-                        <img :src="userList.img_url || imageStub">
+                        <img :src="userList.img_url || listImage">
                     </figure>
                     <div class="media-content">
                         <h3 class="title has-text-primary">
@@ -13,18 +13,16 @@
                             </router-link>
                         </h3>
                         <p class="place-category">
-                            <a href="#">Places saved in the list: {{ userList.places | countPlaces }}</a>
+                            {{ $t('user_lists_page.list_preview.places_in_list') }}
+                            {{ userList.places | countPlaces }}
                         </p>
-                        <p class="address">
-                            Cities in the list:
-                            <a
-                                v-for="(city,index,key) in uniqueCities"
+                        <p class="city-list">
+                            {{ $t('user_lists_page.list_preview.cities_in_list') }}
+                            <span
+                                v-for="(city,index) in uniqueCities"
                                 :key="index"
-                                href="#"
-                                @click="setCityFilter(city.id)"
-                            >{{ city.name }}
-                                <span v-show="notLast(key)">, </span>
-                            </a>
+                                class="city-list__item"
+                            >{{ city.name }}</span>
                         </p>
                     </div>
                     <div class="place-item__actions">
@@ -33,9 +31,17 @@
                             role="button"
                             :to="`/my-lists/${userList.id}/edit`"
                         >
-                            Update
+                            {{ $t('buttons.edit') }}
                         </router-link>
-                        <button class="button is-danger" @click="onDelete">Delete</button>
+
+                        <DeleteModal 
+                            v-if="showModal"
+                            :show="showModal"
+                            :user-list="userList"
+                            @close="showModal = false" 
+                            @preloader="$emit('loading', true)"
+                        />
+                        <button class="button is-danger" @click="showModal = true">{{ $t('buttons.delete') }}</button>
                     </div>
                 </div>
             </div>
@@ -44,14 +50,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import imageStub from '@/assets/no-photo.png';
+import DeleteModal from './UserListDelete';
+
 export default {
     name: 'ListPreview',
+    components: {
+        DeleteModal
+    },
     data() {
         return {
             imageStub: imageStub,
-            active: false
+            active: false,
+            showModal: false
         };
     },
     filters: {
@@ -61,11 +73,22 @@ export default {
     },
     computed: {
         ...mapGetters('userList', {
-            getUniqueCities : 'getUniqueCities'
+            getUniqueCities : 'getUniqueCities',
+            getPlaceById: 'getPlaceById',
         }),
         uniqueCities: function () {
             return this.getUniqueCities(this.userList);
         },
+        listImage() {
+            if (this.userList.places.length) {
+                let placeId = this.userList.places[0];
+                let place = this.getPlaceById(placeId);
+
+                return place.photos[0].img_url;
+            }
+
+            return this.imageStub;
+        }
     },
     props: {
         userList: {
@@ -78,37 +101,22 @@ export default {
         }
     },
     methods: {
-        ...mapActions({ delete: 'userList/deleteUserList' }),
         notLast(key) {
             return Object.keys(this.uniqueCities).length - key > 1;
         },
         like() {
             this.$toast.open({
-                message: 'You liked this review!',
+                message: this.$t('place_page.message.review_like'),
                 type: 'is-info',
                 position: 'is-bottom'
             });
         },
         dislike() {
             this.$toast.open({
-                message: 'You disliked this review',
+                message: this.$t('place_page.message.review_dislike'),
                 position: 'is-bottom',
                 type: 'is-info'
             });
-        },
-        setCityFilter(cityId){
-            this.$parent.setCityFilter(cityId);
-        },
-        onDelete() {
-            this.$emit('loading', true);
-            this.delete(this.userList.id)
-                .then(() => {
-                    this.$toast.open({
-                        message: 'The list was removed',
-                        position: 'is-top',
-                        type: 'is-info'
-                    });
-                });
         }
     },
     created() {
@@ -150,8 +158,8 @@ export default {
         margin-bottom: 0.5rem;
     }
     .image {
-        width: 180px;
-        height: 128px;
+        width: 125px;
+        height: 100px;
         flex-shrink: 0;
 
         img {
@@ -172,19 +180,14 @@ export default {
             }
         }
     }
-    .address {
+    .city-list {
         margin-bottom: 0.5rem;
-    }
-    .rating {
-        width: 48px;
-        height: 48px;
-        background: #00E676;
-        border-radius: 7px;
-        margin: auto;
-        line-height: 48px;
-        font-size: 1.5rem;
-        color: #FFF;
-        text-align: center;
+
+        &__item {
+            &:not(:last-child):after {
+                content: ', ';
+            }
+        }
     }
     hr {
         color: grey;
@@ -212,6 +215,26 @@ export default {
                     margin-right: 10px;
                 }
             }
+
+            .image {
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+
+    @media screen and (max-width: 414px) {
+        .place-item {
+            font-size: .8rem;
+        }
+
+        .title {
+            font-size: 1.3rem;
+        }
+
+        .image {
+            width: 140px;
+            height: 100px;
         }
     }
 </style>

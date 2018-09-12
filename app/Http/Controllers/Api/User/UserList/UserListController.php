@@ -3,6 +3,8 @@
 namespace Hedonist\Http\Controllers\Api\User\UserList;
 
 use Hedonist\Actions\UserList\DeleteUserListAction;
+use Hedonist\Actions\UserList\DeleteUserListImageAction;
+use Hedonist\Actions\UserList\DeleteUserListImageRequest;
 use Hedonist\Actions\UserList\DeleteUserListRequest;
 use Hedonist\Actions\UserList\GetUserListPresenter;
 use Hedonist\Actions\UserList\GetUserListsCollectionRequest;
@@ -27,19 +29,22 @@ class UserListController extends ApiController
     public $getCollectionUserListsOfOneUserAction;
     public $getUserListAction;
     public $deleteUserListAction;
+    public $deleteUserListImageAction;
 
     public function __construct(
         SaveUserListAction $saveUserListAction,
         GetCollectionUserListAction $getCollectionUserListAction,
         GetUserListsCollectionAction $getCollectionUserListsAction,
         GetUserListAction $getUserListAction,
-        DeleteUserListAction $deleteUserListAction
+        DeleteUserListAction $deleteUserListAction,
+        DeleteUserListImageAction $deleteUserListImageAction
     ) {
         $this->saveUserListAction = $saveUserListAction;
         $this->getCollectionUserListActionOfAllUsers = $getCollectionUserListAction;
         $this->getCollectionUserListsOfOneUserAction = $getCollectionUserListsAction;
         $this->getUserListAction = $getUserListAction;
         $this->deleteUserListAction = $deleteUserListAction;
+        $this->deleteUserListImageAction = $deleteUserListImageAction;
     }
 
     public function index()
@@ -98,8 +103,8 @@ class UserListController extends ApiController
                 )
             );
             return $this->successResponse($responseUserList->toArray(), 201);
-        } catch (UserListPermissionDeniedException | \Exception $exception) {
-            return $this->errorResponse($exception->getMessage(), $exception->getCode());
+        } catch (UserListPermissionDeniedException | DomainException $exception) {
+            return $this->errorResponse($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
         }
     }
 
@@ -107,8 +112,19 @@ class UserListController extends ApiController
     {
         try {
             $this->deleteUserListAction->execute(new DeleteUserListRequest($id));
-        } catch (UserListPermissionDeniedException | \Exception $exception) {
+        } catch (UserListPermissionDeniedException | DomainException $exception) {
             return $this->errorResponse($exception->getMessage(), JsonResponse::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function deleteImage(int $id)
+    {
+        try {
+            $this->deleteUserListImageAction->execute(new DeleteUserListImageRequest($id));
+
+            return $this->emptyResponse();
+        } catch (DomainException $ex) {
+            return $this->errorResponse($ex->getMessage(), 400);
         }
     }
 }

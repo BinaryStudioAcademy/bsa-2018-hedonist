@@ -5,7 +5,7 @@
                 <div class="columns user-info">
                     <div class="column is-narrow">
                         <div class="user-info-img">
-                            <figure class="image is-128x128">
+                            <figure class="image">
                                 <img
                                     :src="avatar"
                                     :title="fullName"
@@ -24,7 +24,7 @@
                                     v-if="userProfile.facebook_url"
                                     v-show="userProfile.facebook_url"
                                     :href="userProfile.facebook_url"
-                                    class="facebbok-link"
+                                    class="facebook-link"
                                     target="_blank"
                                 >
                                     <i class="fa-2x fab fa-facebook-square" />
@@ -49,44 +49,53 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="user-stats-complaint">
-                            <span>Пожаловаться на этого человека?</span>
-                        </div>
                     </div>
 
                     <div class="column user-info-relation">
 
                         <ul class="level">
                             <li class="level-item has-text-centered">
-                                <div>
-                                    <p class="relation-count">{{ AllReviewUserLength }}</p>
-                                    <p class="relation-title">Reviews</p>
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.reviewTab)}"
+                                    @click="changeTab(pageConstants.reviewTab)"
+                                >
+                                    <p class="relation-count">{{ allReviewUserLength }}</p>
+                                    <p class="relation-title">{{ $t('other_user_page.reviews') }}</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
-                                <div>
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.followersTab)}"
+                                    @click="changeTab(pageConstants.followersTab)"
+                                >
                                     <p class="relation-count">{{ userProfile.followers.length }}</p>
-                                    <p class="relation-title">Followers</p>
-
+                                    <p class="relation-title">{{ $t('other_user_page.followers') }}</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
-                                <div>
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.followedTab)}"
+                                    @click="changeTab(pageConstants.followedTab)"
+                                >
                                     <p class="relation-count">{{ userProfile.followedUsers.length }}</p>
-                                    <p class="relation-title">Following</p>
+                                    <p class="relation-title">{{ $t('other_user_page.following') }}</p>
                                 </div>
                             </li>
                             <li class="level-item has-text-centered">
-                                <div>
-                                    <p class="relation-count">{{ UserListsLength }}</p>
-                                    <p class="relation-title">Lists</p>
+                                <div
+                                    :class="{active_tab: selectionActive(pageConstants.listTab)}"
+                                    @click="changeTab(pageConstants.listTab)"
+                                >
+                                    <p class="relation-count">{{ userListsLength }}</p>
+                                    <p class="relation-title">{{ $t('other_user_page.lists') }}</p>
                                 </div>
                             </li>
                         </ul>
 
                         <FollowButton
+                            v-if="shouldShowFollowBtn"
                             @followed="followEventHandler"
-                            :followed="isFollowedByCurentUser"
+                            :followed="isFollowedByCurrentUser"
                             :name="userProfile.first_name"
                         />
 
@@ -99,30 +108,35 @@
 </template>
 
 <script>
+import {otherUserPage} from '@/services/common/pageConstants';
 import {mapState, mapActions, mapGetters} from 'vuex';
 import FollowButton from './FollowButton';
-import defaultImage from '@/assets/user-placeholder.jpg';
+import defaultImage from '@/assets/user-placeholder.png';
 
 export default {
     name: 'GeneralInfo',
     data() {
-        return {};
+        return {
+            pageConstants: otherUserPage
+        };
+    },
+    props: {
+        currentTab: {
+            required: true,
+            type: String
+        }
     },
     components: {FollowButton},
-    created() {
-        this.$store.dispatch('users/getUsersProfile', this.$route.params.id);
-    },
     computed: {
-        ...mapGetters('users', ['getUserProfile']),
-        ...mapGetters('place', ['getUserReviewsAll']),
+        ...mapGetters('users', ['getUserProfile', 'getUserReviews']),
         ...mapGetters('auth', ['getAuthenticatedUser']),
-        AllReviewUserLength: function () {
-            return this.getUserReviewsAll(parseInt(this.$route.params.id)).length;
-        },
         ...mapState('userList', {
             userLists: 'userLists',
         }),
-        UserListsLength: function () {
+        allReviewUserLength: function () {
+            return this.getUserReviews.length;
+        },
+        userListsLength: function () {
             return this.userLists ? this.userLists.allIds.length : null;
         },
         fullName() {
@@ -131,11 +145,14 @@ export default {
         userProfile() {
             return this.getUserProfile(parseInt(this.$route.params.id));
         },
-        isFollowedByCurentUser() {
+        isFollowedByCurrentUser() {
             return this.userProfile.followers.includes(this.getAuthenticatedUser.id);
         },
-        avatar(){
+        avatar() {
             return this.userProfile.avatar_url || defaultImage;
+        },
+        shouldShowFollowBtn(){
+            return !(this.getAuthenticatedUser.id === parseInt(this.$route.params.id));
         }
     },
     methods: {
@@ -144,15 +161,21 @@ export default {
             const newPayload = {
                 ...payload,
                 followedId: this.userProfile.id,
-                followerId: this.getAuthenticatedUser.id
+                follower: this.getAuthenticatedUser
             };
-            if(!payload.currentStatus){
+            if (!payload.currentStatus) {
                 this.followUser(newPayload);
             } else {
                 this.unfollowUser(newPayload);
             }
-        }
-    }
+        },
+        selectionActive(itemToCheck) {
+            return this.currentTab === itemToCheck;
+        },
+        changeTab(tab) {
+            this.$emit('tabChanged', tab);
+        },
+    },
 };
 </script>
 
@@ -165,14 +188,23 @@ export default {
     }
 
     .user-info {
+        margin: 0 15px;
 
         &-img {
             @media screen and (max-width: 768px) {
                 display: flex;
                 justify-content: center;
             }
+            figure {
+                width: 150px;
+                height: 150px;
+            }
             img {
-                border-radius: 32px;
+                border-radius:32px;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 50% 50%;
             }
 
         }
@@ -204,7 +236,7 @@ export default {
                         color: #5a5866;
                     }
                 }
-                .facebbok-link {
+                .facebook-link {
                     color: #4E71A8;
                     margin-right: 7px;
                 }
@@ -214,7 +246,7 @@ export default {
                     margin-right: 7px;
                 }
 
-                .instagram-link{
+                .instagram-link {
                     color: #c557d5;
                 }
             }
@@ -268,6 +300,9 @@ export default {
                         cursor: pointer;
                         background-color: rgba(199, 205, 207, 0.3);
                     }
+                    div {
+                        width: 100%;
+                    }
                 }
 
             }
@@ -278,6 +313,19 @@ export default {
             .relation-title {
                 font-size: 12px;
                 color: #aeb4b6;
+            }
+
+            .relation-count, .relation-title {
+                transition: color 0.3s ease;
+            }
+
+            .active_tab {
+                .relation-count {
+                    color: #7957d5;
+                }
+                .relation-title {
+                    color: #8563f4;
+                }
             }
         }
     }

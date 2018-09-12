@@ -21,4 +21,8 @@ export default {
 
         return categoryTagsList;
     },
+
+    getById: state => id => {
+        return state.allCategories[id];
+    },
 };
