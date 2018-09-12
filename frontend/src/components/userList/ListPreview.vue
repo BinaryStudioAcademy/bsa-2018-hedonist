@@ -41,7 +41,13 @@
                             @close="showModal = false" 
                             @preloader="$emit('loading', true)"
                         />
-                        <button class="button is-danger" @click="showModal = true">{{ $t('buttons.delete') }}</button>
+                        <button
+                            :disabled="!!userList.is_default"
+                            class="button is-danger"
+                            @click="showModal = true"
+                        >
+                            {{ $t('buttons.delete') }}
+                        </button>
                     </div>
                 </div>
             </div>
