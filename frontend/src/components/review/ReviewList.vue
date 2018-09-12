@@ -205,6 +205,9 @@ export default {
             });
             this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', payload.reviewPhoto);
         });
+    },
+    beforeDestroy() {
+        Echo.leave('reviews');
     }
 };
 
