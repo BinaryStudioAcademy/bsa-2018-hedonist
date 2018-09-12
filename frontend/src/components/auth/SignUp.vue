@@ -136,7 +136,8 @@ export default {
                 firstName: '',
                 lastName: '',
                 email: '',
-                password: ''
+                password: '',
+                language: this.$i18n.locale(),
             },
 
             focus: {
@@ -170,7 +171,7 @@ export default {
                             this.refreshInput();
                             this.$router.push({name: 'LoginPage'});
                             this.onSuccess({
-                                message: 'You have successfully registered! Now you need to login'
+                                message: this.$t('messages.success.signup')
                             });
                         }
                     })
@@ -179,7 +180,7 @@ export default {
                     });
             } else {
                 this.onError({
-                    message: 'Please, check your input data'
+                    message: this.$t('messages.error.input')
                 });
             }
         },

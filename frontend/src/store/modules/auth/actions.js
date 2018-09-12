@@ -8,7 +8,8 @@ export default {
                 email: user.email,
                 password: user.password,
                 last_name: user.lastName,
-                first_name: user.firstName
+                first_name: user.firstName,
+                language: user.language
             })
                 .then(function (res) {
                     resolve(res);

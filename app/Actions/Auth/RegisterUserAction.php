@@ -37,6 +37,7 @@ class RegisterUserAction
         $userInfo->user_id = $user->getKey();
         $userInfo->first_name = $request->getFirstName();
         $userInfo->last_name = $request->getLastName();
+        $userInfo->language = $request->getLanguage();
         $this->infoRepository->save($userInfo);
 
         Event::dispatch(new Registered($user));

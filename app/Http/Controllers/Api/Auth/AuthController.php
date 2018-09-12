@@ -63,7 +63,8 @@ class AuthController extends ApiController
                 $httpRequset->email,
                 $httpRequset->password,
                 $httpRequset->last_name,
-                $httpRequset->first_name
+                $httpRequset->first_name,
+                $httpRequset->language
             );
             $action->execute($registerRequest);
 
