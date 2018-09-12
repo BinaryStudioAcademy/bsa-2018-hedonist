@@ -37,6 +37,17 @@ export default {
 <style lang="scss" scoped>
     .followers-header{
         margin-top: 30px;
-        text-align: center;
+    }
+
+    .container {
+        @media screen and (max-width: 911px) {
+            margin: 0 20px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .subtitle {
+                text-align: center;
+            }
+        }
     }
 </style>
