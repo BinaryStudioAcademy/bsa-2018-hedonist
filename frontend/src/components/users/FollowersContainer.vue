@@ -37,9 +37,6 @@ export default {
 <style lang="scss" scoped>
     .followers-header{
         margin-top: 30px;
-
-        @media screen and (max-width: 768px) {
-            text-align: center;
-        }
+        text-align: center;
     }
 </style>

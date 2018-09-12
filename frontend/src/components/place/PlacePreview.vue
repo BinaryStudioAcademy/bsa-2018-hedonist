@@ -3,7 +3,7 @@
         <div class="container place-item" v-if="active">
             <div class="media">
                 <figure v-if="hasPhotos" class="media-left image is-64x64">
-                    <img 
+                    <img
                         v-for="(photo, index) in place.photos"
                         v-img="{group: place.id}"
                         v-show="index === 0"

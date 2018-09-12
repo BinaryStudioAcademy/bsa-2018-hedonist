@@ -49,7 +49,12 @@ export default {
 
 <style lang="scss">
 .user-cities{
-    margin: 30px 20px 10px;
+    margin-top: 30px;
+
+    @media screen and (max-width: 911px) {
+        margin: 30px 20px 10px;
+    }
+
     h3{
         @media screen and (max-width: 768px) {
             text-align: center;
