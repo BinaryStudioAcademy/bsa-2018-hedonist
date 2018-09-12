@@ -21,7 +21,7 @@ class ChangeLanguageAction
     public function execute(ChangeLanguageRequest $request): void
     {
         $language = $request->getLanguage();
-        if (array_search($language, self::ALLOWED_LANGUAGES) === FALSE) {
+        if (array_search($language, self::ALLOWED_LANGUAGES) === false) {
             throw new InvalidLanguageException();
         }
         $userInfo = $this->repository->getByUserId($request->getUserId());
