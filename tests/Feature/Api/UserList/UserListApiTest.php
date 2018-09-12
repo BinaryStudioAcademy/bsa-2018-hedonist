@@ -93,6 +93,22 @@ class UserListApiTest extends ApiTestCase
         $this->json('GET', "/api/v1/user-lists/$userList->id")->assertStatus(404);
     }
 
+    public function test_delete_user_list_default()
+    {
+        $userList = factory(UserList::class)->create(['is_default' => true]);
+        $user = User::find($userList->user_id);
+        $response = $this->actingWithToken($user)->json(
+            'DELETE',
+            "/api/v1/user-lists/$userList->id"
+        );
+        
+        $response->assertHeader('Content-Type', 'application/json')
+            ->assertStatus(400)
+            ->assertJsonStructure([
+                'error'
+            ]);
+    }
+
     public function test_get_all_user_list()
     {
         $userList = [];
