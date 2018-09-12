@@ -41,7 +41,7 @@
 
 <script>
 
-import {mapActions, mapGetters, mapState} from 'vuex';
+import {mapActions, mapMutations, mapGetters, mapState} from 'vuex';
 import _ from 'lodash';
 
 export default {
@@ -66,8 +66,14 @@ export default {
             loadPlaces: 'search/loadPlaces',
             fetchAllCategories: 'category/fetchAllCategories'
         }),
+        ...mapMutations('search',{
+            setSelectedTags: 'SET_SELECTED_TAGS'
+        }),
         clearInput(){
             this.findItems.query = '';
+            this.setSelectedTags(
+                []
+            );
         },
         loadItems: _.debounce(function () {
             this.findItems.data = [];

@@ -88,7 +88,6 @@ export default {
                     &-name {
                         font-size: 22px;
                         margin-bottom: 5px;
-                        -ms-word-break: break-all;
                         word-break: break-all;
                     }
                     &-reviews {
