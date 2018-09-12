@@ -59,19 +59,19 @@
                     </div>
                 </div>
                 <div class="reviews-section-list">
-                    <template v-for="(review, index) in reviews">
+                    <template v-if="reviews.length">
                         <Review
+                            v-for="(review, index) in reviews"
                             :key="review.id"
                             :review="review"
                             :is-sorting="isSorting"
                             :timer="200 * (index + 1)"
                         />
                     </template>
+                    <NoReviewsFound v-else />
                     <infinite-loading @infinite="loadNextReviewsPage">
                         <span slot="no-more" />
-                        <div slot="no-results">
-                            <NoReviewsFound />
-                        </div>
+                        <div slot="no-results" />
                     </infinite-loading>
                 </div>
             </div>
