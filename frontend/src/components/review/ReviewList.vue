@@ -4,9 +4,9 @@
             <div class="review-title">
                 <div class="left-side-review-title">
                     <img
-                            src="https://ss1.4sqi.net/img/venuepage/v2/section_title_tips@2x-6449ea09a26b1d885184e709e2c8f693.png"
-                            height="25"
-                            width="25"
+                        src="https://ss1.4sqi.net/img/venuepage/v2/section_title_tips@2x-6449ea09a26b1d885184e709e2c8f693.png"
+                        height="25"
+                        width="25"
                     >
                     <span>
                         {{ this.getTotalReviewCount(this.place.id) }}
@@ -16,14 +16,14 @@
                 <div class="review-title-search">
                     <div class="control has-icons-left">
                         <input
-                                v-model.trim="search"
-                                @input="searchReview"
-                                class="input is-small"
-                                type="search"
-                                :placeholder="$t('place_page.review.placeholder')"
+                            v-model.trim="search"
+                            @input="searchReview"
+                            class="input is-small"
+                            type="search"
+                            :placeholder="$t('place_page.review.placeholder')"
                         >
                         <span class="icon is-small is-left">
-                            <i class="fas fa-search"/>
+                            <i class="fas fa-search" />
                         </span>
                     </div>
                 </div>
@@ -31,8 +31,8 @@
         </div>
         <div class="add-review-wrp">
             <AddReview
-                    :place-id="place.id"
-                    @add="onAddReview"
+                :place-id="place.id"
+                @add="onAddReview"
             />
         </div>
         <template>
@@ -44,14 +44,14 @@
                                 {{ $t('place_page.review.sort.title') }}
                             </li>
                             <li
-                                    @click="onSortFilter('popular')"
-                                    :class="{ active: sort === 'popular' }"
+                                @click="onSortFilter('popular')"
+                                :class="{ active: sort === 'popular' }"
                             >
                                 <a>{{ $t('place_page.review.sort.popular') }}</a>
                             </li>
                             <li
-                                    @click="onSortFilter('recent')"
-                                    :class="{ active: sort === 'recent' }"
+                                @click="onSortFilter('recent')"
+                                :class="{ active: sort === 'recent' }"
                             >
                                 <a>{{ $t('place_page.review.sort.recent') }}</a>
                             </li>
@@ -61,16 +61,16 @@
                 <div class="reviews-section-list">
                     <template v-for="(review, index) in reviews">
                         <Review
-                                :key="review.id"
-                                :review="review"
-                                :is-sorting="isSorting"
-                                :timer="200 * (index + 1)"
+                            :key="review.id"
+                            :review="review"
+                            :is-sorting="isSorting"
+                            :timer="200 * (index + 1)"
                         />
                     </template>
                     <infinite-loading @infinite="loadNextReviewsPage">
-                        <span slot="no-more"/>
+                        <span slot="no-more" />
                         <div slot="no-results">
-                            <NoReviewsFound/>
+                            <NoReviewsFound />
                         </div>
                     </infinite-loading>
                 </div>
@@ -80,137 +80,137 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters, mapState} from 'vuex';
-    import Review from './ReviewListElement';
-    import AddReview from './AddReview';
-    import InfiniteLoading from 'vue-infinite-loading';
-    import NoReviewsFound from "./NoReviewsFound";
+import {mapActions, mapGetters, mapState} from 'vuex';
+import Review from './ReviewListElement';
+import AddReview from './AddReview';
+import InfiniteLoading from 'vue-infinite-loading';
+import NoReviewsFound from './NoReviewsFound';
 
-    export default {
-        components: {
-            NoReviewsFound,
-            Review,
-            AddReview,
-            InfiniteLoading
+export default {
+    components: {
+        NoReviewsFound,
+        Review,
+        AddReview,
+        InfiniteLoading
+    },
+
+    props: {
+        place: {
+            type: Object,
+            required: true
+        }
+    },
+
+    data() {
+        return {
+            sort: 'recent',
+            visibleReviewsIds: [],
+            search: '',
+            page: 1,
+            isSorting: true
+        };
+    },
+
+    computed: {
+        ...mapGetters('review', [
+            'getPlaceReviewsByIds',
+            'getPreloadedRecentPlaceReviewsIds',
+            'getPreloadedPopularPlaceReviewsIds',
+            'getTotalReviewCount'
+        ]),
+        ...mapState('place', [
+            'visitors'
+        ]),
+        ...mapState('review', [
+            'isLoading'
+        ]),
+        reviews() {
+            return this.getPlaceReviewsByIds(this.place.id, this.visibleReviewsIds);
         },
-
-        props: {
-            place: {
-                type: Object,
-                required: true
-            }
+        isReviewsExist() {
+            return !_.isEmpty(this.reviews);
         },
+    },
 
-        data() {
-            return {
-                sort: 'recent',
-                visibleReviewsIds: [],
-                search: '',
-                page: 1,
-                isSorting: true
-            };
-        },
+    methods: {
+        ...mapActions('review', ['loadReviewsWithParams']),
 
-        computed: {
-            ...mapGetters('review', [
-                'getPlaceReviewsByIds',
-                'getPreloadedRecentPlaceReviewsIds',
-                'getPreloadedPopularPlaceReviewsIds',
-                'getTotalReviewCount'
-            ]),
-            ...mapState('place', [
-                'visitors'
-            ]),
-            ...mapState('review', [
-                'isLoading'
-            ]),
-            reviews() {
-                return this.getPlaceReviewsByIds(this.place.id, this.visibleReviewsIds);
-            },
-            isReviewsExist() {
-                return !_.isEmpty(this.reviews);
-            },
-        },
+        searchReview: _.debounce(function () {
+            this.initialLoad();
+        }, 500),
 
-        methods: {
-            ...mapActions('review', ['loadReviewsWithParams']),
-
-            searchReview: _.debounce(function () {
-                this.initialLoad();
-            }, 500),
-
-            loadNextReviewsPage($state) {
-                _.debounce(() => {
-                    this.loadReviewsWithParams(
-                        {
-                            placeId: this.place.id,
-                            sort: this.sort,
-                            text: this.search,
-                            page: this.page + 1
-
-                        }
-                    ).then(res => {
-                        if (res.reviews.length === 0) {
-                            $state.complete();
-                        } else {
-                            res.reviews.forEach(reviewId => {
-                                if (this.visibleReviewsIds.indexOf(reviewId) === -1) {
-                                    this.visibleReviewsIds.push(reviewId);
-                                }
-                            });
-                            this.page += 1;
-                            $state.loaded();
-                        }
-                    }, err => {
-                        $state.loaded();
-                    });
-                }, 250)();
-            },
-            onSortFilter(name) {
-                if (this.sort !== name) {
-                    this.sort = name;
-                    this.initialLoad();
-                }
-            },
-            onAddReview(reviewId) {
-                this.visibleReviewsIds.unshift(reviewId);
-            },
-            initialLoad() {
-                if (this.sort === 'popular') {
-                    this.visibleReviewsIds = this.getPreloadedPopularPlaceReviewsIds(this.place.id);
-                } else {
-                    this.visibleReviewsIds = this.getPreloadedRecentPlaceReviewsIds(this.place.id);
-                }
+        loadNextReviewsPage($state) {
+            _.debounce(() => {
                 this.loadReviewsWithParams(
                     {
                         placeId: this.place.id,
                         sort: this.sort,
                         text: this.search,
-                        page: 1
+                        page: this.page + 1
+
                     }
                 ).then(res => {
-                    this.visibleReviewsIds = res.reviews;
-                    this.page = 1;
-                    this.isSorting = !this.isSorting;
+                    if (res.reviews.length === 0) {
+                        $state.complete();
+                    } else {
+                        res.reviews.forEach(reviewId => {
+                            if (this.visibleReviewsIds.indexOf(reviewId) === -1) {
+                                this.visibleReviewsIds.push(reviewId);
+                            }
+                        });
+                        this.page += 1;
+                        $state.loaded();
+                    }
+                }, err => {
+                    $state.loaded();
                 });
+            }, 250)();
+        },
+        onSortFilter(name) {
+            if (this.sort !== name) {
+                this.sort = name;
+                this.initialLoad();
             }
         },
-        created() {
-            this.initialLoad();
-
-            Echo.private('reviews').listen('.review.added', (payload) => {
-                this.$store.commit('review/ADD_REVIEW', payload.review);
-                this.$store.commit('review/ADD_REVIEW_USER', payload.user);
-
-                this.visibleReviewsIds.unshift(payload.review.id);
+        onAddReview(reviewId) {
+            this.visibleReviewsIds.unshift(reviewId);
+        },
+        initialLoad() {
+            if (this.sort === 'popular') {
+                this.visibleReviewsIds = this.getPreloadedPopularPlaceReviewsIds(this.place.id);
+            } else {
+                this.visibleReviewsIds = this.getPreloadedRecentPlaceReviewsIds(this.place.id);
+            }
+            this.loadReviewsWithParams(
+                {
+                    placeId: this.place.id,
+                    sort: this.sort,
+                    text: this.search,
+                    page: 1
+                }
+            ).then(res => {
+                this.visibleReviewsIds = res.reviews;
+                this.page = 1;
+                this.isSorting = !this.isSorting;
             });
+        }
+    },
+    created() {
+        this.initialLoad();
 
-            Echo.private('reviews').listen('.review.photo.added', (payload) => {
-                this.$store.commit('review/ADD_REVIEW_PHOTO', {
-                    reviewId: payload.reviewPhoto.review_id,
-                    img_url: payload.reviewPhoto.img_url,
-                });
-                this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', payload.reviewPhoto);
+        Echo.private('reviews').listen('.review.added', (payload) => {
+            this.$store.commit('review/ADD_REVIEW', payload.review);
+            this.$store.commit('review/ADD_REVIEW_USER', payload.user);
+
+            this.visibleReviewsIds.unshift(payload.review.id);
+        });
+
+        Echo.private('reviews').listen('.review.photo.added', (payload) => {
+            this.$store.commit('review/ADD_REVIEW_PHOTO', {
+                reviewId: payload.reviewPhoto.review_id,
+                img_url: payload.reviewPhoto.img_url,
+            });
+            this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', payload.reviewPhoto);
         });
     },
     beforeDestroy() {
