@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Review;
 
+use Hedonist\Entities\Like\LikeStatus;
 use Hedonist\Entities\Place\Place;
 use Hedonist\Entities\Review\Review;
 use Hedonist\Exceptions\User\UserNotFoundException;
@@ -52,16 +53,29 @@ class CreateReviewAction
         );
 
         broadcast(new ReviewAddEvent($review))->toOthers();
+
         $this->sendNotificationToFollowers($place);
+
         $notifiableUser = $this->userRepository->getById($place->creator_id);
+
         if ((bool) $notifiableUser->info->notifications_receive === true
             && Auth::id() !== $notifiableUser->id
         ) {
             $notifiableUser->notify(new ReviewPlaceNotification($place, Auth::user()));
         }
 
+        $review = $this->withLikeStatus($review);
+
         Log::info("review: User {$request->getUserId()} added review {$review->id}");
+
         return new CreateReviewResponse($review);
+    }
+
+    private function withLikeStatus(Review $review): Review
+    {
+        $review->like_status = LikeStatus::NONE;
+
+        return $review;
     }
 
     private function sendNotificationToFollowers(Place $place): void
