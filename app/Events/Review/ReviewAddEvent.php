@@ -16,7 +16,7 @@ class ReviewAddEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $review;
-    
+
     public function __construct(Review $review)
     {
         $this->review = $review;
@@ -53,5 +53,10 @@ class ReviewAddEvent implements ShouldBroadcast
     public function broadcastOn()
     {
         return new PrivateChannel('reviews');
+    }
+
+    public function getReview(): Review
+    {
+        return $this->review;
     }
 }
