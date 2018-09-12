@@ -55,38 +55,41 @@ class DislikeReviewAction
         )->first();
 
         if ($like) {
+            $this->likeRepository->deleteById($like->id);
+
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
                 ReviewAttitudeSetEvent::LIKE_REMOVED
             ));
-
-            $this->likeRepository->deleteById($like->id);
         }
         if (empty($dislike)) {
-            event(new ReviewAttitudeSetEvent(
-                $reviewId,
-                ReviewAttitudeSetEvent::DISLIKE_ADDED
-            ));
-
             $dislike = new Dislike([
                 'dislikeable_id' => $reviewId,
                 'dislikeable_type' => Review::class,
                 'user_id' => $userId
             ]);
+
             $this->dislikeRepository->save($dislike);
+
             $notifiableUser = $this->userRepository->getById($review->user_id);
+
             if ((bool) $notifiableUser->info->notifications_receive === true
                 && Auth::user() !== $notifiableUser->id
             ) {
                 $notifiableUser->notify(new DislikeReviewNotification($review, Auth::user()));
             }
+
+            event(new ReviewAttitudeSetEvent(
+                $reviewId,
+                ReviewAttitudeSetEvent::DISLIKE_ADDED
+            ));
         } else {
+            $this->dislikeRepository->deleteById($dislike->id);
+
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
                 ReviewAttitudeSetEvent::DISLIKE_REMOVED
             ));
-
-            $this->dislikeRepository->deleteById($dislike->id);
         }
 
         return new DislikeReviewResponse();
