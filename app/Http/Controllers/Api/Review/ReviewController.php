@@ -132,7 +132,9 @@ class ReviewController extends ApiController
                     $request->input('description')
                 )
             );
-            return $this->successResponse($createReviewResponse->getModel()->toArray());
+            return $this->successResponse(
+                $this->reviewPresenter->present($createReviewResponse->getModel())
+            );
         } catch (UserNotFoundException $e) {
             return $this->errorResponse($e->getMessage(), 400);
         } catch (PlaceDoesNotExistException $e) {

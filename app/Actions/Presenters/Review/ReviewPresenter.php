@@ -46,6 +46,8 @@ class ReviewPresenter
             'like' => $review->like_status,
             'likes' => $review->likes->count(),
             'dislikes' => $review->dislikes->count(),
+            'place_id' => $review->place_id,
+            'user_id' => $review->user_id
         ];
     }
 
