@@ -34,6 +34,7 @@ class Place extends Model
     protected $dates = ['deleted_at'];
 
     public $documentIndex = 'places';
+    public $syncDocument = false;
 
     protected static function boot()
     {

@@ -17,6 +17,7 @@ class UserList extends Model
     protected $fillable = ['user_id','name','img_url', 'is_default'];
 
     public $documentIndex = 'lists';
+    public $syncDocument = false;
 
     protected static function boot()
     {

@@ -22,6 +22,7 @@ class Review extends Model
     protected $fillable = ['user_id', 'description', 'place_id'];
 
     public $documentIndex = 'reviews';
+    public $syncDocument = false;
 
     protected static function boot()
     {
