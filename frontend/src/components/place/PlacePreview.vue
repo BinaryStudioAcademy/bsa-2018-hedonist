@@ -142,7 +142,6 @@ export default {
     }
 
     .image > img {
-        max-height: 64px;
         border-radius: 5px;
     }
 
@@ -181,7 +180,13 @@ export default {
         padding-top: 0.25rem;
     }
 
+    .media-right {
+        grid-area: media-right;
+    }
+
     .media-left {
+        grid-area: media-left;
+
         .place-photo {
             width: 100%;
             height: 100%;
@@ -195,8 +200,30 @@ export default {
     }
 
     .media-content {
+        grid-area: media-content;
         .address {
             word-break: break-all;
+        }
+    }
+
+    @media screen and (max-width: 1280px) and (min-width: 768px) {
+        .place-sidebar {
+            .place-item {
+                .media {
+                    display: grid;
+                    grid-template-areas: "media-left media-right" "media-content media-content";
+
+                    .media-right {
+                        margin-left: auto;
+                    }
+
+                    .media-left {
+                        margin-bottom: 10px;
+                        height: 100px;
+                        width: 100px;
+                    }
+                }
+            }
         }
     }
 </style>
