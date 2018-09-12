@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="place-top-info__sidebar columns">
-            <div class="column is-two-third">
+            <div class="column is-two-third tab-section">
                 <nav class="sidebar-actions tabs">
                     <ul>
                         <li
@@ -270,8 +270,8 @@ export default {
 <style lang="scss" scoped>
     .place-top-info {
         background-color: #fff;
-        .column {
-            padding: 0.75rem;
+        .tab-section {
+            padding: 0 .7rem 0 0;
         }
         &__sidebar {
             margin-top: 20px;

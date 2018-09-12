@@ -5,15 +5,18 @@
                 <article class="media">
                     <figure class="media-left">
                         <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
-                            <p class="image is-32x32">
-                                <img v-if="review.user.avatar_url" :src="review.user.avatar_url">
+                            <div class="image avatar-wrp">
+                                <img
+                                    v-if="review.user.avatar_url"
+                                    :src="review.user.avatar_url"
+                                    class="avatar"
+                                >
                                 <img
                                     v-else
                                     src="/assets/add_review_default_avatar.png"
-                                    height="32"
-                                    width="32"
+                                    class="avatar"
                                 >
-                            </p>
+                            </div>
                         </router-link>
                     </figure>
                     <div class="media-content">
@@ -210,6 +213,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .avatar-wrp {
+        width: 32px;
+        height: 32px;
+
+        .avatar {
+            border-radius:4px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
+    }
+
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
