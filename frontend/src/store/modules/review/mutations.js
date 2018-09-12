@@ -104,5 +104,5 @@ export default {
 
     ADD_PLACE_REVIEW_PHOTO: (state, photo) => {
         state.placeReviewPhotos.push(photo);
-    },
+    }
 };
