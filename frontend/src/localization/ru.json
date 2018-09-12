@@ -316,16 +316,16 @@
     "lists": "Списки",
     "following": "Подписки",
     "follower_container": {
-      "title": "подписчики"
+      "title": "Подписчики"
     },
     "followed_container": {
-      "title": "подписки"
+      "title": "Подписки"
     },
     "review_container": {
-      "title": "отзывы"
+      "title": "Отзывы"
     },
     "lists_container": {
-      "title": "списки",
+      "title": "Списки",
       "list": {
         "subtitle": "сохраненных заведений в списке",
         "proceed": "Просмотреть этот список"

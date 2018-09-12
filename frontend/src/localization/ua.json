@@ -304,7 +304,7 @@
     "visited": "Відвідані",
     "new_place": "Нове місце",
     "settings": "Налаштування",
-    "notifications": "Повідомлення",
+    "notifications": "Нотифікації",
     "signup": "Зареєструватися",
     "login": "Увійти",
     "logout": "Вийти"
@@ -312,20 +312,20 @@
   "other_user_page": {
     "private": "Цей профіль приватний :(",
     "followers": "Підписники",
-    "reviews": "Відігуки",
+    "reviews": "Відгуки",
     "lists": "Списки",
     "following": "Підписки",
     "follower_container": {
-      "title": "підписники"
+      "title": "Підписники"
     },
     "followed_container": {
-      "title": "підписки"
+      "title": "Підписки"
     },
     "review_container": {
-      "title": "відгуки"
+      "title": "Відгуки"
     },
     "lists_container": {
-      "title": "списки",
+      "title": "Списки",
       "list": {
         "subtitle": "збережених закладів у списку",
         "proceed": "Переглянути цей список"
@@ -413,7 +413,7 @@
     "follow_you": "підписався на Вас.",
     "unfollow_you": "відписався від Вас.",
     "navbar": {
-      "no_notifs": "У вас немає нових повідомлень"
+      "no_notifs": "У вас немає нових нотифікацій"
     }
   },
   "search_place_page": {
