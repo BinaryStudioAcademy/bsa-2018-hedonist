@@ -48,7 +48,12 @@
                 <button v-if="id" class="button is-info" @click="onUpdate">
                     {{ $t('user_lists_page.add_place.buttons.update') }}
                 </button>
-                <button v-if="id" class="button is-danger" @click="onDelete">
+                <button
+                    v-if="id"
+                    class="button is-danger"
+                    @click="onDelete"
+                    :disabled="isDefault"
+                >
                     {{ $t('user_lists_page.add_place.buttons.delete') }}
                 </button>
                 <button v-else class="button is-success" @click="onAdd">
