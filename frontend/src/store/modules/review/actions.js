@@ -255,7 +255,6 @@ export default {
         );
 
         return new Promise((resolve, reject) => {
-
             httpService.get(queryUrl)
                 .then((response) => {
                     const reviews = normalizerService.normalizeReviews(response.data.data);

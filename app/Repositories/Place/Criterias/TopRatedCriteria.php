@@ -12,10 +12,8 @@ class TopRatedCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->whereHas('ratings', function ($query) {
-            $query->select('place_id', DB::raw('AVG(rating) as avg_rating'))
-                ->groupBy('place_id')
-                ->havingRaw('avg_rating >= ?', [self::TOP_RATING]);
-        });
+        return $model->withCount(['ratings as average_rating' => function ($query) {
+            $query->select(DB::raw('coalesce(avg(rating),0)'));
+        }])->having('average_rating', '>=', self::TOP_RATING)->orderBy('average_rating', 'desc');
     }
 }
