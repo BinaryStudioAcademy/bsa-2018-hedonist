@@ -131,7 +131,7 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::prefix('user-lists')->group(function () {
-            Route::put('/favourite', 'Api\User\UserList\UserListPlaceController@attachPlaceToFavourite')
+            Route::post('/favourite', 'Api\User\UserList\UserListPlaceController@attachPlaceToFavourite')
                 ->name('lists.favourite.attach');
             Route::post('/{id}/attach-place', 'Api\User\UserList\UserListPlaceController@attachPlace')
                 ->name('user-list.place.attach');
