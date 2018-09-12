@@ -27,6 +27,7 @@ use Hedonist\Repositories\Place\Criterias\TopReviewedCriteria;
 use Hedonist\Repositories\Place\PlaceRepositoryInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Hedonist\Repositories\Place\Criterias\DefaultSortCriteria;
 use Illuminate\Cache\Repository as Cache;
@@ -124,11 +125,14 @@ class GetPlaceCollectionByFiltersAction
             $criterias[] = new OpenedCriteria;
         }
 
+        if(!$request->isTopRated()) {
+            $criterias[] = new DefaultSortCriteria();
+        }
+
         $places = $this->placeRepository->findCollectionByCriterias(
             new PlacePaginationCriteria($page),
             new AllPlacePhotosCriteria(),
             new LatestReviewForPlaceCriteria(),
-            new DefaultSortCriteria(),
             ...$criterias
         );
 
