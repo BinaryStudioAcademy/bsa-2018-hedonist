@@ -244,9 +244,13 @@ export default {
         width: 100%;
     }
 
+    .image-upload {
+        width: 200px;
+    }
+
     .image-wrapper {
         flex-shrink: 0;
-        width: 180px;
+        width: 200px;
         height: 128px;
         overflow: hidden;
         margin-bottom: 10px;
