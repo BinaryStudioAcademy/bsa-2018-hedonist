@@ -8,12 +8,14 @@ use Hedonist\Actions\Auth\GetUserAction;
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\Auth\RecoverPasswordAction;
 use Hedonist\Actions\Auth\RegisterUserAction;
+use Hedonist\Actions\Auth\ChangeLanguageAction;
 use Hedonist\Actions\Auth\Requests\ChangePasswordRequest;
 use Hedonist\Actions\Auth\Requests\CheckEmailUniqueRequest;
 use Hedonist\Actions\Auth\Requests\GetUserRequest;
 use Hedonist\Actions\Auth\Requests\LoginRequest;
 use Hedonist\Actions\Auth\Requests\RecoverPasswordRequest;
 use Hedonist\Actions\Auth\Requests\ResetPasswordRequest;
+use Hedonist\Actions\Auth\Requests\ChangeLanguageRequest;
 use Hedonist\Actions\Auth\ResetPasswordAction;
 use Hedonist\Actions\Auth\Responses\RefreshResponse;
 use Hedonist\Actions\LoginUserAction;
@@ -22,6 +24,7 @@ use Hedonist\Exceptions\Auth\InvalidUserDataException;
 use Hedonist\Exceptions\Auth\PasswordResetEmailSentException;
 use Hedonist\Exceptions\Auth\PasswordResetFailedException;
 use Hedonist\Exceptions\Auth\PasswordsDosentMatchException;
+use Hedonist\Exceptions\Auth\InvalidLanguageException;
 use Hedonist\Exceptions\DomainException;
 use Hedonist\Http\Controllers\Api\ApiController;
 use Hedonist\Http\Requests\Auth\ChangePasswordHttpRequest;
@@ -30,6 +33,7 @@ use Hedonist\Http\Requests\Auth\LoginHttpRequest;
 use Hedonist\Http\Requests\Auth\RecoverPasswordHttpRequest;
 use Hedonist\Http\Requests\Auth\RegisterHttpRequest;
 use Hedonist\Http\Requests\Auth\ResetPasswordHttpRequest;
+use Hedonist\Http\Requests\Auth\ChangeLanguageHttpRequest;
 use Hedonist\Requests\Auth\RegisterRequest;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
@@ -165,6 +169,21 @@ class AuthController extends ApiController
             ], 201);
         } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
+        }
+    }
+
+    public function changeLanguage(ChangeLanguageHttpRequest $httpRequest, ChangeLanguageAction $action)
+    {
+        try {
+            $changeLanguageRequest = new ChangeLanguageRequest(
+                $httpRequest->user_id,
+                $httpRequest->language
+            );
+            $action->execute($changeLanguageRequest);
+
+            return $this->emptyResponse(200);
+        } catch (InvalidLanguageException $exception) {
+            return $this->errorResponse(AuthPresenter::presentError($exception), 400);
         }
     }
 }
