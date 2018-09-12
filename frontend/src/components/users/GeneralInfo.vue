@@ -305,6 +305,20 @@ export default {
                     }
                 }
 
+                @media screen and (max-width: 911px) {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+
+                    .level-item {
+                        padding: 0 20px;
+
+                        &:last-child {
+                            margin-bottom: auto;
+                        }
+                    }
+                }
+
             }
             .relation-count {
                 font-weight: bold;
