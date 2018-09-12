@@ -125,7 +125,7 @@ class GetPlaceCollectionByFiltersAction
             $criterias[] = new OpenedCriteria;
         }
 
-        if(!$request->isTopRated()) {
+        if (!$request->isTopRated()) {
             $criterias[] = new DefaultSortCriteria();
         }
 

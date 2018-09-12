@@ -12,7 +12,7 @@ class TopRatedCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        return $model->withCount(['ratings as average_rating' => function($query) {
+        return $model->withCount(['ratings as average_rating' => function ($query) {
             $query->select(DB::raw('coalesce(avg(rating),0)'));
         }])->having('average_rating', '>=', self::TOP_RATING)->orderBy('average_rating', 'desc');
     }
