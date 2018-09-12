@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserMapper implements MapperInterface
 {
-    private function canMap(Model $model): void
+    private function assertCanMap(Model $model): void
     {
         if (!$model instanceof User) {
             throw new \RuntimeException('Incorrect type for mapping');
@@ -16,7 +16,7 @@ class UserMapper implements MapperInterface
 
     public function map(Model $model): array
     {
-        $this->canMap($model);
+        $this->assertCanMap($model);
         $result = [
             'id' => $model->id,
             'email' => $model->email

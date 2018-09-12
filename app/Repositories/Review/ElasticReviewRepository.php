@@ -2,7 +2,7 @@
 
 namespace Hedonist\Repositories\Review;
 
-use Hedonist\ElasticSearch\Criterias\Common\ElasticByIdCriteria;
+use Hedonist\ElasticSearch\Criterias\Common\ElasticReviewByIdCriteria;
 use Hedonist\ElasticSearch\Criterias\ElasticCriteriaInterface;
 use Hedonist\ElasticSearch\Repositories\AbstractElasticRepository;
 use Hedonist\Entities\Review\Review;
@@ -22,7 +22,7 @@ class ElasticReviewRepository extends AbstractElasticRepository implements Elast
 
     public function getById(int $id): ?Review
     {
-        return $this->pushCriteria(new ElasticByIdCriteria($id))->get()->first();
+        return $this->pushCriteria(new ElasticReviewByIdCriteria($id))->get()->first();
     }
 
     public function findCollectionByCriterias(ElasticCriteriaInterface ...$criterias): Collection

@@ -79,8 +79,6 @@ class ElasticCreateIndexCommand extends Command
 
         $reviews = Review::all();
 
-        $reviews->map(function (Review $review) {
-            $review->document()->save();
-        });
+        Plastic::persist()->bulkSave($reviews);
     }
 }
