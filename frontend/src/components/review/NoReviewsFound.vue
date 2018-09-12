@@ -12,9 +12,9 @@
 </template>
 
 <script>
-    export default {
-        name: "NoReviewsFound"
-    }
+export default {
+    name: 'NoReviewsFound'
+};
 </script>
 
 <style lang="scss" scoped>

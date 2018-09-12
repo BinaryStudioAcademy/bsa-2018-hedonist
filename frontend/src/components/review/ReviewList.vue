@@ -211,9 +211,13 @@
                     img_url: payload.reviewPhoto.img_url,
                 });
                 this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', payload.reviewPhoto);
-            });
-        }
-    };
+        });
+    },
+    beforeDestroy() {
+        Echo.leave('reviews');
+    }
+};
+
 
 </script>
 
