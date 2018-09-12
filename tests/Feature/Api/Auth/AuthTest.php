@@ -24,7 +24,8 @@ class AuthTest extends ApiTestCase
             'email' => $user->email,
             'password' => 'secret',
             'first_name' => $userInfo->first_name,
-            'last_name' => $userInfo->last_name
+            'last_name' => $userInfo->last_name,
+            'language' => $userInfo->language
         ]);
 
         $response->assertStatus(200);
@@ -45,7 +46,8 @@ class AuthTest extends ApiTestCase
             'email' => $user->email,
             'password' => 'secret',
             'first_name' => $userInfo->first_name,
-            'last_name' => $userInfo->last_name
+            'last_name' => $userInfo->last_name,
+            'language' => $userInfo->language
         ]);
 
         $response->assertStatus(400);
