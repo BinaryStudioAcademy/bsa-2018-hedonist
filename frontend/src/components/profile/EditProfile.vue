@@ -196,7 +196,7 @@ export default {
                 .then((data) => {
                     this.user.avatar_url = data.avatar_url;
                     this.onSuccess({
-                        message: 'Data successfully changed'
+                        message: this.$t('messages.success.data_changed')
                     });
                 })
                 .catch((data) => {

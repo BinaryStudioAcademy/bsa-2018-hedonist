@@ -4,7 +4,7 @@
             v-model="language"
             :mobile-modal="false"
             hoverable
-            @input="changeLang"
+            @change="changeLang"
             class="language-menu"
         >
             <button class="button current-language" type="button" slot="trigger">
@@ -29,21 +29,46 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+
 export default {
     name: 'LanguageSelector',
+
     data () {
         return {
-            language: this.$i18n.locale()
+            language: this.$i18n.locale(),
         };
     },
+
     methods: {
-        changeLang () {
-            this.$i18n.set(this.language);
+        ...mapActions('auth', ['changeLanguage']),
+
+        changeLang(value) {
+            this.$i18n.set(value);
+
+            if (this.isLoggedIn) {
+                this.changeLanguage({
+                    userId: this.currentUser.id,
+                    language: value,
+                });
+            }
         }
     },
+
     computed: {
+        ...mapState('auth', ['currentUser', 'isLoggedIn']),
+
         currentLangClass() {
             return 'language-item__icon_' + this.language;
+        },
+    },
+
+    watch: {
+        'currentUser.language': function (newValue, oldValue) {
+            if (newValue) {
+                this.$i18n.set(newValue);
+                this.language = newValue;
+            }
         }
     }
 };

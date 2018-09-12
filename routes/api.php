@@ -34,6 +34,8 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/reset-password', 'AuthController@changePassword');
 
+        Route::post('/language', 'AuthController@changeLanguage');
+
         Route::group(['prefix' => '/social'], function () {
             Route::get('/{provider}/redirect', 'SocialAuthController@redirect');
 

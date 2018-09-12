@@ -295,7 +295,9 @@
       "changed_password": "You have successfully changed your password! Now you need to login",
       "recovery_link": "We have emailed you password recovery link",
       "checkin": "Checked in",
-      "welcome": "Welcome!"
+      "welcome": "Welcome!",
+      "data_changed": "Data successfully changed",
+      "signup": "You have successfully registered! Now you need to login"
     },
     "error": {
       "unknown": "Something went wrong...",

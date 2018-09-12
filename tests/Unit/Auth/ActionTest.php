@@ -47,7 +47,7 @@ class ActionTest extends TestCase
             ->method('save')
             ->willReturn(factory(User::class)->make());
 
-        $request = new RegisterRequest('abcd@gamil.com', '123', 'Test', 'Test');
+        $request = new RegisterRequest('abcd@gamil.com', '123', 'Test', 'Test', 'ua');
         $action = new RegisterUserAction($this->repository, $this->infoRepository);
         $action->execute($request);
 
@@ -60,7 +60,7 @@ class ActionTest extends TestCase
 
         $this->expectException(EmailAlreadyExistsException::class);
 
-        $request = new RegisterRequest('abcd@gamil.com', '123', 'Test', 'Test');
+        $request = new RegisterRequest('abcd@gamil.com', '123', 'Test', 'Test', 'ua');
         $action = new RegisterUserAction($this->repository, $this->infoRepository);
         $action->execute($request);
     }
