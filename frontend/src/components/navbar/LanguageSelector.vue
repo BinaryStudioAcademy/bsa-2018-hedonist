@@ -46,15 +46,17 @@ export default {
         changeLang(value) {
             this.$i18n.set(value);
 
-            this.changeLanguage({
-                userId: this.currentUser.id,
-                language: value,
-            });
+            if (this.isLoggedIn) {
+                this.changeLanguage({
+                    userId: this.currentUser.id,
+                    language: value,
+                });
+            }
         }
     },
 
     computed: {
-        ...mapState('auth', ['currentUser']),
+        ...mapState('auth', ['currentUser', 'isLoggedIn']),
 
         currentLangClass() {
             return 'language-item__icon_' + this.language;
@@ -63,8 +65,10 @@ export default {
 
     watch: {
         'currentUser.language': function (newValue, oldValue) {
-            this.$i18n.set(newValue);
-            this.language = newValue;
+            if (newValue) {
+                this.$i18n.set(newValue);
+                this.language = newValue;
+            }
         }
     }
 };
