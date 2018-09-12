@@ -114,5 +114,17 @@ export default {
     socialRedirect(context,provider) {
         return httpService.get(`/auth/social/${provider}/redirect`)
             .then((response) => response.data.data.url);
-    }
+    },
+    changeLanguage(context, data) {
+        return new Promise((resolve, reject) => {
+            httpService.post('auth/language', {
+                user_id: data.userId,
+                language: data.language,
+            }).then((response) => {
+                resolve(response);
+            }).catch((error) => {
+                reject(error.response.data);
+            });
+        });
+    },
 };
