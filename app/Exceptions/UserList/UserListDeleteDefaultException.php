@@ -11,8 +11,7 @@ class UserListDeleteDefaultException extends DomainException
         string $message = 'Can not delete default user list.',
         int $code = 0,
         Throwable $previous = null
-    )
-    {
+    ) {
         parent::__construct($message, $code, $previous);
     }
 }
