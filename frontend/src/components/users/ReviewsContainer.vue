@@ -49,8 +49,17 @@ export default {
     },
 };
 </script>
-<style scoped>
-    .user-reviews-container{
-        margin-top: 30px;
+
+<style lang="scss" scoped>
+.user-reviews-container {
+    margin-top: 30px;
+
+    @media screen and (max-width: 911px) {
+        margin: 30px 20px 10px;
     }
+
+    .user-reviews-header {
+        margin-bottom: 20px;
+    }
+}
 </style>

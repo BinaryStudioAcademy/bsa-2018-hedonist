@@ -55,11 +55,10 @@ export default {
         margin: 30px 20px 10px;
     }
 
-    h3{
+    h3 {
         @media screen and (max-width: 768px) {
             text-align: center;
         }
-
     }
 }
 </style>
