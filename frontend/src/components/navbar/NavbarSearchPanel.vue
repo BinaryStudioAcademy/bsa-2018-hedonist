@@ -7,7 +7,7 @@
                 @select="selectItem"
                 ref="selectPlaceCategoryComponent" 
                 :select-city="location"
-                @search-after-clear="searchAfterClear"
+                @on-clear="onClear"
             />
         </div>
         <div class="navbar-item">
@@ -91,7 +91,7 @@ export default {
             }
             this.search();
         },
-        searchAfterClear() {
+        onClear() {
             this.selectItem(null);
             this.search();
         }

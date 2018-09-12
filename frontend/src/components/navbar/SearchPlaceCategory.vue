@@ -74,7 +74,7 @@ export default {
             this.setSelectedTags(
                 []
             );
-            this.$emit('search-after-clear');
+            this.$emit('on-clear');
         },
         loadItems: _.debounce(function () {
             this.findItems.data = [];
