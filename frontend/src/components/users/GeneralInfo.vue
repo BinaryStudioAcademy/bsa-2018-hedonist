@@ -309,6 +309,7 @@ export default {
                     display: flex;
                     flex-direction: row;
                     justify-content: center;
+                    margin: 0 10px;
 
                     .level-item {
                         padding: 0 20px;
@@ -316,6 +317,12 @@ export default {
                         &:last-child {
                             margin-bottom: auto;
                         }
+                    }
+                }
+
+                @media screen and (max-width: 411px) {
+                    .level-item {
+                        padding: 0 10px;
                     }
                 }
 
