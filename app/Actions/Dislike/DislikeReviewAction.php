@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Dislike;
 
+use Hedonist\Events\Review\ReviewUpdatedEvent;
 use Hedonist\Exceptions\Review\LikeOwnReviewException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Notifications\DislikeReviewNotification;
@@ -38,12 +39,15 @@ class DislikeReviewAction
     {
         $reviewId = $request->getReviewId();
         $review = $this->reviewRepository->getById($reviewId);
+
         if (empty($review)) {
             throw new ReviewNotFoundException();
         }
+
         if (Gate::denies('review.likeOrDislike', $review)) {
             throw LikeOwnReviewException::create();
         }
+
         $userId = Auth::id();
 
         $like = $this->likeRepository->findByCriteria(
@@ -55,39 +59,45 @@ class DislikeReviewAction
         )->first();
 
         if ($like) {
+            $this->likeRepository->deleteById($like->id);
+
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
                 ReviewAttitudeSetEvent::LIKE_REMOVED
             ));
-
-            $this->likeRepository->deleteById($like->id);
         }
-        if (empty($dislike)) {
-            event(new ReviewAttitudeSetEvent(
-                $reviewId,
-                ReviewAttitudeSetEvent::DISLIKE_ADDED
-            ));
 
+        if (empty($dislike)) {
             $dislike = new Dislike([
                 'dislikeable_id' => $reviewId,
                 'dislikeable_type' => Review::class,
                 'user_id' => $userId
             ]);
+
             $this->dislikeRepository->save($dislike);
+
             $notifiableUser = $this->userRepository->getById($review->user_id);
+
             if ((bool) $notifiableUser->info->notifications_receive === true
                 && Auth::user() !== $notifiableUser->id
             ) {
                 $notifiableUser->notify(new DislikeReviewNotification($review, Auth::user()));
             }
+
+            event(new ReviewAttitudeSetEvent(
+                $reviewId,
+                ReviewAttitudeSetEvent::DISLIKE_ADDED
+            ));
         } else {
+            $this->dislikeRepository->deleteById($dislike->id);
+
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
                 ReviewAttitudeSetEvent::DISLIKE_REMOVED
             ));
-
-            $this->dislikeRepository->deleteById($dislike->id);
         }
+
+        event(new ReviewUpdatedEvent($review));
 
         return new DislikeReviewResponse();
     }

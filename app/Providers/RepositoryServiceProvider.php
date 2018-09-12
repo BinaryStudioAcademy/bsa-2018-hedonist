@@ -38,11 +38,12 @@ use Hedonist\Repositories\Like\{
     LikeRepository
 };
 use Hedonist\Repositories\Review\{
+    ElasticReviewRepository,
+    ElasticReviewRepositoryInterface,
     ReviewPhotoRepository,
     ReviewPhotoRepositoryInterface,
     ReviewRepositoryInterface,
-    ReviewRepository
-};
+    ReviewRepository};
 use Hedonist\Repositories\City\{
     CityRepositoryInterface,
     CityRepository
@@ -90,5 +91,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserInfoRepositoryInterface::class, UserInfoRepository::class);
         $this->app->bind(PlacePhotoRepositoryInterface::class, PlacePhotoRepository::class);
         $this->app->bind(PlaceTasteRepositoryInterface::class, PlaceTasteRepository::class);
+        $this->app->bind(ElasticReviewRepositoryInterface::class, ElasticReviewRepository::class);
     }
 }
