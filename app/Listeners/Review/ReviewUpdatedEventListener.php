@@ -2,11 +2,11 @@
 
 namespace Hedonist\Listeners\Review;
 
-use Hedonist\Events\Review\ReviewAddEvent;
+use Hedonist\Events\Review\ReviewUpdatedEvent;
 
-class ReviewAddEventListener
+class ReviewUpdatedEventListener
 {
-    public function handle(ReviewAddEvent $event)
+    public function handle(ReviewUpdatedEvent $event)
     {
         $review = $event->getReview();
 
