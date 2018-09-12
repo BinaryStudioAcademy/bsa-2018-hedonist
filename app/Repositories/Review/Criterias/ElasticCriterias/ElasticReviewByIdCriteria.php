@@ -1,10 +1,10 @@
 <?php
-namespace Hedonist\ElasticSearch\Criterias\Common;
+namespace Hedonist\Repositories\Review\Criterias\ElasticCriterias;
 
 use Hedonist\ElasticSearch\Criterias\ElasticCriteriaInterface;
 use Sleimanx2\Plastic\DSL\SearchBuilder;
 
-class ElasticByIdCriteria implements ElasticCriteriaInterface
+class ElasticReviewByIdCriteria implements ElasticCriteriaInterface
 {
     private $id;
 

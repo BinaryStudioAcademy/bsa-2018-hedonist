@@ -15,7 +15,7 @@ class ReviewMapper implements MapperInterface
         $this->userMapper = $userMapper;
     }
 
-    private function canMap(Model $model): void
+    private function assertCanMap(Model $model): void
     {
         if (!$model instanceof Review) {
             throw new \RuntimeException('Incorrect type for mapping');
@@ -24,7 +24,7 @@ class ReviewMapper implements MapperInterface
 
     public function map(Model $model): array
     {
-        $this->canMap($model);
+        $this->assertCanMap($model);
         return [
             'id' => $model->id,
             'description' => $model->description,
