@@ -58,68 +58,68 @@
 </template>
 
 <script>
-    import Review from '@/components/review/PlacePreviewReviewItem';
-    import imagePlaceholder from '@/assets/placeholder_128x128.png';
-    import PlaceRating from './PlaceRating';
+import Review from '@/components/review/PlacePreviewReviewItem';
+import imagePlaceholder from '@/assets/placeholder_128x128.png';
+import PlaceRating from './PlaceRating';
 
-    export default {
-        name: 'PlacePreview',
-        components: {
-            Review,
-            PlaceRating,
+export default {
+    name: 'PlacePreview',
+    components: {
+        Review,
+        PlaceRating,
+    },
+    data() {
+        return {
+            active: false
+        };
+    },
+    props: {
+        place: {
+            required: true,
+            type: Object,
         },
-        data() {
-            return {
-                active: false
-            };
+        timer: {
+            required: true,
+            type: Number,
         },
-        props: {
-            place: {
-                required: true,
-                type: Object,
-            },
-            timer: {
-                required: true,
-                type: Number,
-            },
-            showReview: {
-                default: true,
-                type: Boolean,
-            }
-        },
-        computed: {
-            localizedName(){
-                return this.place.localization[0].name;
-            },
-            hasPhotos() {
-                return this.place.photos !== undefined && this.place.photos.length;
-            },
-            notFoundPhoto() {
-                return imagePlaceholder;
-            },
-        },
-        methods: {
-            like() {
-                this.$toast.open({
-                    message: this.$t('place_page.message.review_like'),
-                    type: 'is-info',
-                    position: 'is-bottom'
-                });
-            },
-            dislike() {
-                this.$toast.open({
-                    message: this.$t('place_page.message.review_dislike'),
-                    position: 'is-bottom',
-                    type: 'is-info'
-                });
-            }
-        },
-        created() {
-            setTimeout(() => {
-                this.active = true;
-            }, this.timer);
+        showReview: {
+            default: true,
+            type: Boolean,
         }
-    };
+    },
+    computed: {
+        localizedName(){
+            return this.place.localization[0].name;
+        },
+        hasPhotos() {
+            return this.place.photos !== undefined && this.place.photos.length;
+        },
+        notFoundPhoto() {
+            return imagePlaceholder;
+        },
+    },
+    methods: {
+        like() {
+            this.$toast.open({
+                message: this.$t('place_page.message.review_like'),
+                type: 'is-info',
+                position: 'is-bottom'
+            });
+        },
+        dislike() {
+            this.$toast.open({
+                message: this.$t('place_page.message.review_dislike'),
+                position: 'is-bottom',
+                type: 'is-info'
+            });
+        }
+    },
+    created() {
+        setTimeout(() => {
+            this.active = true;
+        }, this.timer);
+    }
+};
 </script>
 
 <style lang="scss" scoped>
