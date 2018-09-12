@@ -16,8 +16,8 @@ export default {
             }
         });
     },
-    SET_UNREAD_NOTIFICATIONS_IDS: (state, notifications) => {
-        state.unreadNotificationsIds = notifications.allIds;
+    SET_UNREAD_NOTIFICATIONS_IDS: (state, unreadNotifications) => {
+        state.unreadNotificationsIds = unreadNotifications.allIds;
     },
     ADD_UNREAD_NOTIFICATION_ID: (state, id) => {
         state.unreadNotificationsIds.unshift(id);

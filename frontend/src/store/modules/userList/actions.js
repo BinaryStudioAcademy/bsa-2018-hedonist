@@ -212,6 +212,13 @@ export default {
                 context.commit('REMOVE_USER_LIST', id);
                 return result.data.data;
             });
+    },
+    deleteUserListImg: (context, id) => {
+        return new Promise((resolve, reject) => {
+            httpService.delete(`/user-lists/${id}/image`)
+                .then((result) => { resolve(result); })
+                .catch((error) => { reject(error); });
+        });
     }
 };
 

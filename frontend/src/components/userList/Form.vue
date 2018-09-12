@@ -28,6 +28,12 @@
                     </label>
                 </div>
             </div>
+            <div class="field">
+                <a class="button is-danger is-fullwidth" @click="deleteImg">
+                    <b-icon icon="delete" />
+                    <span>{{ $t('user_lists_page.add_place.buttons.delete_image') }}</span>
+                </a>
+            </div>
         </div>
         <div class="list-name width100">
             <b-field label="List name">
@@ -102,12 +108,13 @@ export default {
         ...mapActions('userList', {
             add: 'addUserList',
             update: 'updateUserList',
-            delete: 'deleteUserList'
+            delete: 'deleteUserList',
+            deleteUserListImg: 'deleteUserListImg'
         }),
         onAdd () {
             this.$emit('loading', true);
             if (this.$v.userList.$invalid) {
-                this.onError('Photo and name are required!');
+                this.onError(this.$t('user_list_form.messages.name_required'));
                 this.$emit('loading', false);
                 return;
             }
@@ -118,7 +125,7 @@ export default {
             })
                 .then(() => {
                     this.$emit('loading', false);
-                    this.onSuccess({ message: 'The list was saved!' });
+                    this.onSuccess(this.$t('user_list_form.messages.saved'));
                     this.$router.push({ name: 'UserListsPage' });
                 })
                 .catch((err) => {
@@ -135,7 +142,7 @@ export default {
             })
                 .then(() => {
                     this.$emit('loading', false);
-                    this.onSuccess({ message: 'The list was updated!' });
+                    this.onSuccess(this.$t('user_list_form.messages.updated'));
                     this.$router.push({ name: 'UserListsPage' });
                 })
                 .catch((err) => {
@@ -148,7 +155,7 @@ export default {
             this.delete(this.id)
                 .then(() => {
                     this.$emit('loading', false);
-                    this.onSuccess({ message: 'The list was deleted!' });
+                    this.onSuccess(this.$t('user_list_form.messages.deleted'));
                     this.$router.push({ name: 'UserListsPage' });
                 });
         },
@@ -158,9 +165,9 @@ export default {
                 type: 'is-danger'
             });
         },
-        onSuccess (success) {
+        onSuccess (message) {
             this.$toast.open({
-                message: success.message,
+                message: message,
                 type: 'is-success'
             });
         },
@@ -181,7 +188,7 @@ export default {
         },
         checkFileType(fileType) {
             if (!this.availableImageTypes.includes(fileType)) {
-                this.onError('Wrong image type');
+                this.onError(this.$t('user_list_form.messages.wrong_image_type'));
                 return false;
             }
 
@@ -189,11 +196,20 @@ export default {
         },
         checkFileSize(fileSize) {
             if (this.availableImageSize < fileSize) {
-                this.onError('Photo has been less then 5mb');
+                this.onError(this.$t('user_list_form.messages.big_photo') + ' 5mb');
                 return false;
             }
 
             return true;
+        },
+        deleteImg() {
+            if (this.id && this.imagePreview) {
+                this.deleteUserListImg(this.id)
+                    .then(() => {
+                        this.imagePreview = null;
+                        this.userList.image = null;
+                    });
+            }
         },
     },
     validations: {

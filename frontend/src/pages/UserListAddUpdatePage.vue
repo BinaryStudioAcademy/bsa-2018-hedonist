@@ -123,7 +123,7 @@ export default {
         position: relative;
         display: grid;
         grid-template-columns: 1.2fr 0.8fr;
-        grid-template-rows: 214px auto;
+        grid-template-rows: 250px auto;
         grid-template-areas: "form map" "places map";
         margin-top: 40px;
     }
