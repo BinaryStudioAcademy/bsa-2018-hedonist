@@ -30,10 +30,6 @@ class HedonistEntitiesReviewReview extends Mapping
             });
             $map->integer('likes_count');
             $map->integer('place_id');
-            $map->nested('likes', function (Blueprint $map) {
-            });
-            $map->nested('dislikes', function (Blueprint $map) {
-            });
             $map->date('created_at', ['format' => 'yyyy-MM-dd HH:mm:ss']);
         }, $this->getModelIndex());
     }
