@@ -3,7 +3,7 @@
         <div class="container place-item" v-if="active">
             <div class="media">
                 <figure v-if="hasPhotos" class="media-left image is-64x64">
-                    <img 
+                    <img
                         v-for="(photo, index) in place.photos"
                         v-img="{group: place.id}"
                         v-show="index === 0"
@@ -58,68 +58,68 @@
 </template>
 
 <script>
-import Review from '@/components/review/PlacePreviewReviewItem';
-import imagePlaceholder from '@/assets/placeholder_128x128.png';
-import PlaceRating from './PlaceRating';
+    import Review from '@/components/review/PlacePreviewReviewItem';
+    import imagePlaceholder from '@/assets/placeholder_128x128.png';
+    import PlaceRating from './PlaceRating';
 
-export default {
-    name: 'PlacePreview',
-    components: {
-        Review,
-        PlaceRating,
-    },
-    data() {
-        return {
-            active: false
-        };
-    },
-    props: {
-        place: {
-            required: true,
-            type: Object,
+    export default {
+        name: 'PlacePreview',
+        components: {
+            Review,
+            PlaceRating,
         },
-        timer: {
-            required: true,
-            type: Number,
+        data() {
+            return {
+                active: false
+            };
         },
-        showReview: {
-            default: true,
-            type: Boolean,
+        props: {
+            place: {
+                required: true,
+                type: Object,
+            },
+            timer: {
+                required: true,
+                type: Number,
+            },
+            showReview: {
+                default: true,
+                type: Boolean,
+            }
+        },
+        computed: {
+            localizedName(){
+                return this.place.localization[0].name;
+            },
+            hasPhotos() {
+                return this.place.photos !== undefined && this.place.photos.length;
+            },
+            notFoundPhoto() {
+                return imagePlaceholder;
+            },
+        },
+        methods: {
+            like() {
+                this.$toast.open({
+                    message: this.$t('place_page.message.review_like'),
+                    type: 'is-info',
+                    position: 'is-bottom'
+                });
+            },
+            dislike() {
+                this.$toast.open({
+                    message: this.$t('place_page.message.review_dislike'),
+                    position: 'is-bottom',
+                    type: 'is-info'
+                });
+            }
+        },
+        created() {
+            setTimeout(() => {
+                this.active = true;
+            }, this.timer);
         }
-    },
-    computed: {
-        localizedName(){
-            return this.place.localization[0].name;
-        },
-        hasPhotos() {
-            return this.place.photos !== undefined && this.place.photos.length;
-        },
-        notFoundPhoto() {
-            return imagePlaceholder;
-        },
-    },
-    methods: {
-        like() {
-            this.$toast.open({
-                message: this.$t('place_page.message.review_like'),
-                type: 'is-info',
-                position: 'is-bottom'
-            });
-        },
-        dislike() {
-            this.$toast.open({
-                message: this.$t('place_page.message.review_dislike'),
-                position: 'is-bottom',
-                type: 'is-info'
-            });
-        }
-    },
-    created() {
-        setTimeout(() => {
-            this.active = true;
-        }, this.timer);
-    }
-};
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -130,23 +130,6 @@ export default {
         margin-bottom: 0.5rem;
         padding: 10px;
         font-size: 0.75rem;
-
-        @media screen and (max-width: 1280px) and (min-width: 768px) {
-            .media {
-                display: grid;
-                grid-template-areas: "media-left media-right" "media-content media-content";
-
-                .media-right {
-                    margin-left: auto;
-                }
-
-                .media-left {
-                    margin-bottom: 10px;
-                    height: 100px;
-                    width: 100px;
-                }
-            }
-        }
     }
 
     .columns {
@@ -159,6 +142,7 @@ export default {
     }
 
     .image > img {
+        max-height: 64px;
         border-radius: 5px;
     }
 
@@ -198,12 +182,6 @@ export default {
     }
 
     .media-left {
-        grid-area: media-right;
-    }
-
-    .media-left {
-        grid-area: media-left;
-
         .place-photo {
             width: 100%;
             height: 100%;
@@ -217,8 +195,6 @@ export default {
     }
 
     .media-content {
-        grid-area: media-content;
-
         .address {
             word-break: break-all;
         }
