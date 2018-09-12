@@ -3,20 +3,18 @@
         <div v-if="hasToken" class="add-review">
             <b-field class="media">
 
-                <div class="media-left">
+                <div class="media-left avatar-wrp">
                     <img
                         v-if="getAuthenticatedUser.avatar_url"
                         :src="getAuthenticatedUser.avatar_url"
                         :title="getAuthenticatedUser.first_name+' '+getAuthenticatedUser.last_name"
                         :alt="getAuthenticatedUser.first_name+' '+getAuthenticatedUser.last_name"
-                        height="32"
-                        width="32"
+                        class="avatar"
                     >
                     <img
                         v-else
                         src="/assets/add_review_default_avatar.png"
-                        height="32"
-                        width="32"
+                        class="avatar"
                     >
                 </div>
 
@@ -225,6 +223,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .avatar-wrp {
+        width: 32px;
+        height: 32px;
+
+        .avatar {
+            border-radius:4px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
+    }
+
     .add-review {
         padding: 15px;
         align-items: center;
