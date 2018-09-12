@@ -90,7 +90,7 @@
     "delete-confirmation": "Вы действительно хотите удалить",
     "buttons": {
       "add": "Создать новый список",
-      "cancel": "Выход"
+      "cancel": "Отменить"
     }
   },
   "add_place_page": {
