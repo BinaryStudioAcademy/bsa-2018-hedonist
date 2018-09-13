@@ -590,6 +590,7 @@ import Preloader from '@/components/misc/Preloader';
 import { required, minLength, maxLength, numeric, url } from 'vuelidate/lib/validators';
 import phoneValidationService from '@/services/common/phoneValidationService';
 import LocationService from '@/services/location/locationService';
+import {urlValidator} from '@/services/common/urlValidatorService';
 
 export default {
     name: 'NewPlacePage',
@@ -682,7 +683,7 @@ export default {
             zip: { required, numeric },
             address: { required },
             phone: { required },
-            website: { required, url }
+            website: { required, urlValidator }
         }
     },
 
