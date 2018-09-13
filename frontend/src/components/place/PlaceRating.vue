@@ -42,10 +42,18 @@ export default {
 
     filters: {
         formatRating(number) {
+            let minDigits = 1;
+            let maxDigits = 1;
+            
+            if (number === 5) {
+                minDigits = 0;
+                maxDigits = 0;
+            }
+
             return new Intl.NumberFormat(
                 'en-US', {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
+                    minimumFractionDigits: minDigits,
+                    maximumFractionDigits: maxDigits,
                 }).format(number);
         },
     },
