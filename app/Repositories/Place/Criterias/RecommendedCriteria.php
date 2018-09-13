@@ -20,15 +20,17 @@ class RecommendedCriteria implements CriteriaInterface
     {
         $userTastesIds = $this->user->tastes->pluck('id', 'name');
 
-        $result = $model->whereHas('tastes', function (Builder $query) use ($userTastesIds) {
-            $query->whereIn('tastes.id', $userTastesIds);
-        });
-
-        foreach ($userTastesIds as $name => $id) {
-            $result = $result->orWhereHas('reviews', function (Builder $query) use ($name) {
-                $query->where('description', 'like', "%{$name}%");
+        $result = $model->where( function(Builder $query) use ($userTastesIds) {
+            $query->whereHas('tastes', function (Builder $query) use ($userTastesIds) {
+                $query->whereIn('tastes.id', $userTastesIds);
             });
-        }
+
+            foreach ($userTastesIds as $name => $id) {
+                $query->orWhereHas('reviews', function (Builder $query) use ($name) {
+                    $query->where('description', 'like', "%{$name}%");
+                });
+            }    
+        });
 
         return $result;
     }
