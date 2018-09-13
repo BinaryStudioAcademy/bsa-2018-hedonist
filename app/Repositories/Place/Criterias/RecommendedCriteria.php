@@ -20,7 +20,7 @@ class RecommendedCriteria implements CriteriaInterface
     {
         $userTastesIds = $this->user->tastes->pluck('id', 'name');
 
-        $result = $model->where( function(Builder $query) use ($userTastesIds) {
+        $result = $model->where(function(Builder $query) use ($userTastesIds) {
             $query->whereHas('tastes', function (Builder $query) use ($userTastesIds) {
                 $query->whereIn('tastes.id', $userTastesIds);
             });
@@ -29,7 +29,7 @@ class RecommendedCriteria implements CriteriaInterface
                 $query->orWhereHas('reviews', function (Builder $query) use ($name) {
                     $query->where('description', 'like', "%{$name}%");
                 });
-            }    
+            }
         });
 
         return $result;
