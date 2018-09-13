@@ -16,10 +16,16 @@ class ReviewFulltextCriteria implements ElasticCriteriaInterface
 
     public function apply(SearchBuilder $builder): SearchBuilder
     {
-        return $builder->multiMatch(
-            ['user.first_name','user.last_name','description'],
-            $this->query,
-            ['fuzziness' => 'AUTO']
-        );
+        return $builder
+            ->queryString(
+                "*{$this->query}*",
+                [
+                    'fields' => [
+                        'user.first_name',
+                        'user.last_name',
+                        'description'
+                    ]
+                ]
+            );
     }
 }
