@@ -74,19 +74,22 @@
                     :label="$t('profile_page.birthday.title')"
                     expanded
                 >
-                    <b-field>
+                    <b-field class="birthdate">
                         <b-input 
-                            type="number" 
+                            type="number"
+                            :min="1" :max="31"
                             v-model.trim="birthDay"
                             :placeholder="$t('profile_page.birthday.day')"
                         />
                         <b-input 
-                            type="number" 
+                            type="number"
+                            :min="1" :max="12"
                             v-model.trim="birthMonth"
                             :placeholder="$t('profile_page.birthday.month')"
                         />
                         <b-input 
-                            type="number" 
+                            type="number"
+                            :min="1900" :max="currentYear"
                             v-model.trim="birthYear"
                             :placeholder="$t('profile_page.birthday.year')"
                         />
@@ -169,6 +172,9 @@ export default {
             isUserLoggedIn: 'auth/isLoggedIn',
             authUser: 'auth/getAuthenticatedUser'
         }),
+        currentYear() {
+            return (new Date()).getFullYear();
+        }
     },
     methods: {
         ...mapActions({
@@ -290,6 +296,11 @@ export default {
 };
 </script>
 
+<style>
+    .birthdate .help.is-danger {
+        display: none;
+    }
+</style>
 <style lang="scss" scoped>
     .container {
         max-width: 700px;
