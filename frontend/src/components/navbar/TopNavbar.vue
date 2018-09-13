@@ -301,7 +301,7 @@ export default {
         position: static; 
     }
     .navbar-wrapper.container {
-        @media screen and (min-width: 912px) and (max-width: 1279px) {
+        @media screen and (min-width: 912px) and (max-width: 1280px) {
             max-width: 94%;
         }
     }
