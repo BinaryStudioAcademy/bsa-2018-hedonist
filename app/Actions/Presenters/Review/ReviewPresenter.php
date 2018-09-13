@@ -5,10 +5,9 @@ namespace Hedonist\Actions\Presenters\Review;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
 use Hedonist\Actions\Presenters\City\CityPresenter;
 use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
-use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
+use Hedonist\Actions\Presenters\Photo\ReviewPhotoPresenter;
 use Hedonist\Actions\Presenters\PresentsCollection;
 use Hedonist\Actions\Presenters\User\UserPresenter;
-use Hedonist\Actions\Review\GetReviewCollectionResponse;
 use Hedonist\Entities\Review\Review;
 use Illuminate\Support\Collection;
 
@@ -26,7 +25,7 @@ class ReviewPresenter
         UserPresenter $presenter,
         CityPresenter $cityPresenter,
         CategoryPresenter $categoryPresenter,
-        PlacePhotoPresenter $photoPresenter,
+        ReviewPhotoPresenter $photoPresenter,
         LocalizationPresenter $localizationPresenter
     ) {
         $this->usersPresenter = $presenter;
@@ -46,6 +45,7 @@ class ReviewPresenter
             'like' => $review->like_status,
             'likes' => $review->likes->count(),
             'dislikes' => $review->dislikes->count(),
+            'photos' => $this->photoPresenter->presentCollection($review->photos),
             'place_id' => $review->place_id,
             'user_id' => $review->user_id
         ];
