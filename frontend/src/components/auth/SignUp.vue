@@ -20,7 +20,7 @@
                 {{ $t('validation.required',{field:$t('inputs.auth.first_name.field_name')}) }}</div>
             <div 
                 class="error"
-                v-if="!$v.newUser.firstName.alpha && !focus.firstName"
+                v-if="firstNameInvalid && !focus.firstName"
             >
                 {{ $t('validation.letters_only') }}
             </div>
@@ -44,7 +44,7 @@
                 {{ $t('validation.required',{field:$t('inputs.auth.last_name.field_name')}) }}</div>
             <div 
                 class="error"
-                v-if="!$v.newUser.lastName.alpha && !focus.lastName"
+                v-if="lastNameInvalid && !focus.lastName"
             >
                 {{ $t('validation.letters_only') }}
             </div>
@@ -120,6 +120,7 @@
 
 <script>
 import {required, email, minLength, alpha} from 'vuelidate/lib/validators';
+import userNameValidationService from '@/services/common/userNameValidationService';
 import {mapActions} from 'vuex';
 import Container from './Container';
 import Form from './Form';
@@ -146,6 +147,8 @@ export default {
                 email: true,
                 password: true
             },
+            firstNameInvalid: false,
+            lastNameInvalid: false
         };
     },
 
@@ -185,6 +188,26 @@ export default {
             }
         },
 
+        validateFirstName() {
+            if (!userNameValidationService.isUserName(this.newUser.firstName)) {
+                this.firstNameInvalid = true;
+            }
+        },
+
+        resetFirstName() {
+            this.firstNameInvalid = false;
+        },
+
+        validateLastName() {
+            if (!userNameValidationService.isUserName(this.newUser.lastName)) {
+                this.lastNameInvalid = true;
+            }
+        },
+
+        resetLastName() {
+            this.lastNameInvalid = false;
+        },
+
         onError (error) {
             this.$toast.open({
                 message: error.error.message,
@@ -201,10 +224,22 @@ export default {
 
         onBlur (el) {
             this.focus[el] = false;
+            if (el === 'firstName') {
+                this.validateFirstName();
+            }
+            if (el === 'lastName') {
+                this.validateLastName();
+            }
         },
 
         onFocus (el) {
             this.focus[el] = true;
+            if (el === 'firstName') {
+                this.resetFirstName();
+            }
+            if (el === 'lastName') {
+                this.resetLastName();
+            }
         },
 
         refreshInput () {
@@ -227,14 +262,8 @@ export default {
 
     validations: {
         newUser: {
-            firstName: {
-                required,
-                alpha
-            },
-            lastName: {
-                required,
-                alpha
-            },
+            firstName: { required },
+            lastName: { required },
             email: {
                 required,
                 email,
