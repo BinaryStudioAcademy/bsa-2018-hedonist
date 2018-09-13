@@ -77,19 +77,22 @@
                     <b-field class="birthdate">
                         <b-input 
                             type="number"
-                            :min="1" :max="31"
+                            :min="1" 
+                            :max="31"
                             v-model.trim="birthDay"
                             :placeholder="$t('profile_page.birthday.day')"
                         />
                         <b-input 
                             type="number"
-                            :min="1" :max="12"
+                            :min="1" 
+                            :max="12"
                             v-model.trim="birthMonth"
                             :placeholder="$t('profile_page.birthday.month')"
                         />
                         <b-input 
                             type="number"
-                            :min="1900" :max="currentYear"
+                            :min="1900" 
+                            :max="currentYear"
                             v-model.trim="birthYear"
                             :placeholder="$t('profile_page.birthday.year')"
                         />
