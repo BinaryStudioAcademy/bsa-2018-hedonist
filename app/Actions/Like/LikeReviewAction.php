@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Like;
 
+use Hedonist\Events\Review\ReviewUpdatedEvent;
 use Hedonist\Exceptions\Review\LikeOwnReviewException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Notifications\LikeReviewNotification;
@@ -91,6 +92,8 @@ class LikeReviewAction
                 ReviewAttitudeSetEvent::LIKE_REMOVED
             ));
         }
+
+        event(new ReviewUpdatedEvent($reviewId));
 
         return new LikeReviewResponse();
     }

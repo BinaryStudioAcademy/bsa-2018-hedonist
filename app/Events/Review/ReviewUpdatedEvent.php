@@ -2,22 +2,21 @@
 
 namespace Hedonist\Events\Review;
 
-use Hedonist\Entities\Review\Review;
 use Illuminate\Foundation\Events\Dispatchable;
 
 class ReviewUpdatedEvent
 {
     use Dispatchable;
 
-    private $review;
+    private $reviewId;
 
-    public function __construct(Review $review)
+    public function __construct(int $reviewId)
     {
-        $this->review = $review;
+        $this->reviewId = $reviewId;
     }
 
-    public function getReview(): Review
+    public function getReviewId(): int
     {
-        return $this->review;
+        return $this->reviewId;
     }
 }
