@@ -97,7 +97,7 @@ class DislikeReviewAction
             ));
         }
 
-        event(new ReviewUpdatedEvent($review));
+        event(new ReviewUpdatedEvent($reviewId));
 
         return new DislikeReviewResponse();
     }
