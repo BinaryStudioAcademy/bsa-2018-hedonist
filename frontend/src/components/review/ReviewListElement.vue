@@ -145,12 +145,6 @@ export default {
         }
     },
 
-    watch: {
-        isSorting: function() {
-            this.getReviewPhotos(this.review.id);
-        }
-    },
-
     methods: {
         ...mapActions('review', [
             'getReviewPhotos',

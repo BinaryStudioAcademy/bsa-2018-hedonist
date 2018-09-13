@@ -257,6 +257,7 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.get(queryUrl)
                 .then((response) => {
+                    console.log(response.data.data);
                     const reviews = normalizerService.normalizeReviews(response.data.data);
                     const totalCount = _.get(response, 'data.meta.pagination.total', 0);
                     const perPage = _.get(response, 'data.meta.pagination.perPage', 10);
@@ -271,6 +272,7 @@ export default {
                         }
                     );
                     context.commit('SET_PLACE_REVIEWS_USERS', users);
+                    resolve({reviews: reviews.allIds, total: totalCount});
                     resolve({reviews: reviews.allIds, total: totalCount});
                 })
                 .catch((err) => {
