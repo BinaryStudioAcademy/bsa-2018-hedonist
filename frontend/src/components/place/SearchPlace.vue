@@ -95,7 +95,7 @@ export default {
         return {
             filterQuery: '',
             isMapLoaded: false,
-            map: {},
+            map: null,
             markerManager: null,
             mapboxToken: mapSettingsService.getMapboxToken(),
             mapboxStyle: mapSettingsService.getMapboxStyle(),
@@ -147,10 +147,13 @@ export default {
             this.isMapLoaded = true;
         },
         jumpTo(coordinates, zoom) {
-            this.map.jumpTo({
-                center: coordinates,
-                zoom: zoom
-            });
+            console.log(this.map);
+            if (this.map) {
+                this.map.jumpTo({
+                    center: coordinates,
+                    zoom: zoom
+                });
+            }
         },
         createUserMarker() {
             return {
