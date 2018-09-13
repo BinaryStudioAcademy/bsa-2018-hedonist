@@ -9,7 +9,7 @@
             <div
                 class="onerow rating-value"
             >
-                {{ value | formatRating }}<span v-if="showMax"> / 5</span>
+                {{ value | formatRating(showMax) }}<span v-if="showMax"> / 5</span>
             </div>
         </div>
     </div>
@@ -41,11 +41,11 @@ export default {
     },
 
     filters: {
-        formatRating(number) {
+        formatRating(number, showMax) {
             let minDigits = 1;
             let maxDigits = 1;
-            
-            if (number === 5) {
+
+            if (number === 5 && showMax) {
                 minDigits = 0;
                 maxDigits = 0;
             }
