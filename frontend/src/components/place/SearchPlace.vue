@@ -147,7 +147,6 @@ export default {
             this.isMapLoaded = true;
         },
         jumpTo(coordinates, zoom) {
-            console.log(this.map);
             if (this.map) {
                 this.map.jumpTo({
                     center: coordinates,
