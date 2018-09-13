@@ -205,25 +205,4 @@ export default {
             word-break: break-all;
         }
     }
-
-    @media screen and (max-width: 1280px) and (min-width: 768px) {
-        .place-sidebar {
-            .place-item {
-                .media {
-                    display: grid;
-                    grid-template-areas: "media-left media-right" "media-content media-content";
-
-                    .media-right {
-                        margin-left: auto;
-                    }
-
-                    .media-left {
-                        margin-bottom: 10px;
-                        height: 100px;
-                        width: 100px;
-                    }
-                }
-            }
-        }
-    }
 </style>
