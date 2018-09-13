@@ -2,4 +2,4 @@ const regexp = /^(https?:\/\/)?((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|((\d{
 
 export const urlValidator = (value) => regexp.test(value);
 
-export default {urlValidator}
+export default {urlValidator};
