@@ -272,6 +272,7 @@ export default {
                     );
                     context.commit('SET_PLACE_REVIEWS_USERS', users);
                     resolve({reviews: reviews.allIds, total: totalCount});
+                    resolve({reviews: reviews.allIds, total: totalCount});
                 })
                 .catch((err) => {
                     reject(err);
