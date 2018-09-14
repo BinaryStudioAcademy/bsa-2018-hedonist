@@ -93,8 +93,8 @@ export default {
     ADD_REVIEW_PHOTO: (state, {reviewId, img_url}) => {
         let reviewPhotos = state.reviews.byId[reviewId].photos;
         
-        if (!reviewPhotos.includes(img_url)) {
-            reviewPhotos.push(img_url);
+        if (!reviewPhotos.find(item => item.img_url === img_url)) {
+            reviewPhotos.push({img_url});
         }
     },
 
