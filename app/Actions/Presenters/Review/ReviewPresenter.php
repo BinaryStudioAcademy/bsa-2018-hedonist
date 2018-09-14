@@ -5,7 +5,7 @@ namespace Hedonist\Actions\Presenters\Review;
 use Hedonist\Actions\Presenters\Category\CategoryPresenter;
 use Hedonist\Actions\Presenters\City\CityPresenter;
 use Hedonist\Actions\Presenters\Localization\LocalizationPresenter;
-use Hedonist\Actions\Presenters\Photo\ReviewPhotoPresenter;
+use Hedonist\Actions\Presenters\Photo\PlacePhotoPresenter;
 use Hedonist\Actions\Presenters\PresentsCollection;
 use Hedonist\Actions\Presenters\User\UserPresenter;
 use Hedonist\Entities\Review\Review;
@@ -25,7 +25,7 @@ class ReviewPresenter
         UserPresenter $presenter,
         CityPresenter $cityPresenter,
         CategoryPresenter $categoryPresenter,
-        ReviewPhotoPresenter $photoPresenter,
+        PlacePhotoPresenter $photoPresenter,
         LocalizationPresenter $localizationPresenter
     ) {
         $this->usersPresenter = $presenter;
