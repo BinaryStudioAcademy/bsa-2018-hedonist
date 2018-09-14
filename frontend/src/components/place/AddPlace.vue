@@ -302,7 +302,7 @@
                                     show: true,
                                     position: 'top-left'
                                 }"
-                                @map-load="mapLoaded"
+                                @map-init="mapInitialize"
                             />
                         </div>
                     </div>
@@ -666,7 +666,7 @@ export default {
             weekdays: [],
             timeStart: moment().set({'hours': 10, 'minutes': 0}).toDate(),
             timeEnd: moment().set({'hours': 21, 'minutes': 0}).toDate(),
-            map: {},
+            map: null,
             marker: {},
         };
     },
@@ -718,7 +718,7 @@ export default {
         },
 
         'newPlace.city': function (city) {
-            if (city && city.center !== undefined) {
+            if (city && city.center !== undefined && this.map) {
                 this.map.jumpTo({
                     center: {
                         lng: this.newPlace.city.center[0],
@@ -766,17 +766,17 @@ export default {
             this.newPlace.photos.splice(index, 1);
         },
 
-        mapLoaded(map) {
+        mapInitialize(map) {
+            this.map = map;
+
             this.marker = new mapboxgl.Marker({
                 draggable: true
             })
                 .setLngLat([30.5241, 50.4501])
                 .addTo(map);
-
             this.marker.on('dragend', () => {
                 this.newPlace.location = this.marker.getLngLat();
             });
-            this.map = map;
         },
 
         isTagAdded: function(tagObject) {
