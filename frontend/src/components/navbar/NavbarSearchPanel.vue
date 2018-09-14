@@ -3,10 +3,11 @@
         <Preloader :active="isLoading" />
         <div class="navbar-item">
             <SearchPlaceCategory 
-                @keyup.native.enter="search" 
-                @select="selectCategory" 
+                @keyup.native.enter="beforeSearch"
+                @select="selectItem"
                 ref="selectPlaceCategoryComponent" 
                 :select-city="location"
+                @on-clear="onClear"
             />
         </div>
         <div class="navbar-item">
@@ -17,7 +18,7 @@
                 <span class="icon is-large">
                     <i class="fas fa-lg fa-search" />
                 </span>
-                <span class="button-title">Search</span>
+                <span class="button-title">{{ $t('search.button') }}</span>
             </button>
         </div>
     </div>
@@ -35,14 +36,13 @@ export default {
         return {
             location: {},
             category: {},
+            place: {},
         };
     },
     computed: {
         ...mapState('search', ['isLoading']),
         ...mapGetters({
             city: 'search/getSelectedCity',
-            placeCategory: 'search/getSelectedPlaceCategory',
-            place: 'search/getSelectedPlace'
         }),
     },
     components: {
@@ -57,11 +57,20 @@ export default {
             'selectSearchCategory',
             'selectSearchPlace'
         ]),
-        selectCity(city){
+        selectCity(city) {
             this.location = city ? city : {};
         },
-        selectCategory(category){
-            this.category = category ? category : {};
+        selectItem(item) {
+            if (item === null) {
+                this.category = {};
+                this.place = {};
+            } else {
+                if (item.place !== undefined) {
+                    this.place = item;
+                } else {
+                    this.category = item;
+                }
+            }
         },
         search() {
             if(!_.isEmpty(this.location)) {
@@ -70,9 +79,21 @@ export default {
             if (!_.isEmpty(this.category)) {
                 this.selectSearchCategory(this.category);
             } else {
-                this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.$refs.autocomplete.value);
+                this.selectSearchPlace(this.$refs.selectPlaceCategoryComponent.findItems.query);
             }
             this.updateQueryFilters();
+        },
+        beforeSearch() {
+            if (!_.isEmpty(this.place)) {
+                this.$router.push({name: 'PlacePage', params: {id: this.place.id}});
+                this.place = {};
+                return;
+            }
+            this.search();
+        },
+        onClear() {
+            this.selectItem(null);
+            this.search();
         }
     }
 };

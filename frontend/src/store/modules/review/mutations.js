@@ -91,7 +91,11 @@ export default {
     },
 
     ADD_REVIEW_PHOTO: (state, {reviewId, img_url}) => {
-        state.reviews.byId[reviewId].photos.push(img_url);
+        let reviewPhotos = state.reviews.byId[reviewId].photos;
+        
+        if (!reviewPhotos.includes(img_url)) {
+            reviewPhotos.push(img_url);
+        }
     },
 
     SET_REVIEW_PHOTOS: (state, {reviewId, photos}) => {
@@ -104,5 +108,5 @@ export default {
 
     ADD_PLACE_REVIEW_PHOTO: (state, photo) => {
         state.placeReviewPhotos.push(photo);
-    },
+    }
 };

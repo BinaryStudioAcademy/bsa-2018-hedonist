@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent>
-        <div class="modal-card" style="width: auto">
+        <div class="modal-card popup-review-likes">
             <header class="modal-card-head">
                 <p class="modal-card-title">{{ title }}</p>
             </header>
@@ -15,7 +15,7 @@
                     class="user-item"
                 >
                     <div class="image is-64x64 user-avatar">
-                        <img 
+                        <img
                             v-if="user.avatar_url"
                             :src="user.avatar_url"
                             :alt="userFullname(user)"
@@ -35,15 +35,17 @@
             </section>
             <footer class="modal-card-foot">
                 <div>
-                    <button class="button" type="button" @click="$emit('close')">Close</button>
+                    <button class="button" type="button" @click="$emit('close')">
+                        {{ $t('place_page.review.modal.close') }}
+                    </button>
                 </div>
             </footer>
         </div>
-    </form>    
+    </form>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {mapState} from 'vuex';
 import SmallPreloader from '@/components/misc/SmallPreloader';
 
 export default {
@@ -75,7 +77,7 @@ export default {
             return `/users/${userId}`;
         },
 
-        userFullname: function(user) {
+        userFullname: function (user) {
             return `${user.first_name} ${user.last_name}`;
         }
     }
@@ -87,8 +89,15 @@ export default {
         display: flex;
         align-content: space-between;
         justify-content: space-between;
+        align-items: center;
         min-height: 70px;
         width: 100%;
+    }
+
+    .popup-review-likes{
+        display: flex;
+        width: 260px !important;
+        margin: 0 auto !important;
     }
 
     .user-avatar {
@@ -109,7 +118,7 @@ export default {
     .modal-card-title {
         text-align: center;
     }
-    
+
     .modal-card-body {
         width: 100%;
         min-width: 260px;
@@ -119,12 +128,18 @@ export default {
     }
 
     .modal-card-body::before, .modal-card-body::after {
-        content: '';  
-        margin: auto; 
+        content: '';
+        margin: auto;
     }
 
     .modal-card-foot {
         display: flex;
         justify-content: flex-end;
+    }
+
+    @media screen and (max-width: 768px) {
+        .modal .animation-content {
+            width: auto !important;
+        }
     }
 </style>

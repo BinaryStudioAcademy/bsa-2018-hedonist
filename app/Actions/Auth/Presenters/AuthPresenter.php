@@ -39,6 +39,7 @@ class AuthPresenter
             'facebook_url' => $userInfo->facebook_url,
             'instagram_url' => $userInfo->instagram_url,
             'twitter_url' => $userInfo->twitter_url,
+            'language' => $userInfo->language,
         ];
     }
 

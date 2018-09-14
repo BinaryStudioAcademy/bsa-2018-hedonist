@@ -5,7 +5,11 @@ export default {
         return new Promise((resolve, reject) => {
             httpService.get('/users/' + userId + '/profile')
                 .then((result) => {
-                    context.commit('GET_USER_PROFILE', result.data.data);
+                    const data = {
+                        userProfile: result.data.data,
+                        currentUser: context.rootGetters['auth/getAuthenticatedUser'],
+                    };
+                    context.commit('GET_USER_PROFILE', data);
                     resolve(result);
                 })
                 .catch((error) => {

@@ -90,4 +90,19 @@ class UserListAttachPlaceApiTest extends ApiTestCase
             'place_id' => $this->place->id
         ]);
     }
+
+    public function testAttachPlaceToFavourite()
+    {
+        $response = $this->actingWithToken($this->user)->json(
+            'POST',
+            "/api/v1/user-lists/favourite",
+            ['id' => $this->place->id]
+        );
+        $response->assertHeader('Content-Type', 'application/json')
+            ->assertStatus(201);
+        
+        $this->assertDatabaseHas('user_list_places', [
+            'place_id' => $this->place->id
+        ]);
+    }
 }

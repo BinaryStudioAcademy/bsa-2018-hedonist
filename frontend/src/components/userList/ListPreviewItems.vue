@@ -5,7 +5,7 @@
             :cities="cities"
             @filter="setCitiesFilter"
         />
-        <div class="has-text-right">
+        <div class="add-list has-text-right">
             <router-link
                 role="button"
                 class="button is-success"
@@ -116,10 +116,18 @@ export default {
         min-height: calc(100vh - 59px);
     }
 
+    .add-list {
+        margin: 20px 0;
+    }
+
     .no-lists-text {
         text-align: center;
-        font-size: 20px;
+        font-size: 1.3rem;
         font-weight: bold;
         margin-top: 50px;
+
+        @media screen and (max-width: 414px) {
+            font-size: 1rem;
+        }
     }
 </style>

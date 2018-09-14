@@ -15,7 +15,8 @@ export default {
             first_name: '',
             last_name: '',
             avatar_url: '',
-            id: null
+            id: null,
+            language: null,
         };
         state.isLoggedIn = false;
     },

@@ -8,11 +8,14 @@
                 <router-link :to="`/list/${userList.id}`">
                     <p><span class="cities-cart-name">{{ userList.name }}</span></p>
                 </router-link>
-                <p><span class="cities-cart-reviews">{{ userList.places | countPlaces }} saved places in list</span></p>
+                <p><span class="cities-cart-reviews">
+                    {{ userList.places | countPlaces }}
+                    {{ $t('other_user_page.lists_container.list.subtitle') }}
+                </span></p>
             </div>
             <div class="cities-cart-see">
                 <router-link :to="`/list/${userList.id}`" class="button is-info">
-                    <span>See this list</span>
+                    <span>{{ $t('other_user_page.lists_container.list.proceed') }}</span>
                 </router-link>
             </div>
         </div>
@@ -85,6 +88,7 @@ export default {
                     &-name {
                         font-size: 22px;
                         margin-bottom: 5px;
+                        word-break: break-all;
                     }
                     &-reviews {
                         font-size: 16px;

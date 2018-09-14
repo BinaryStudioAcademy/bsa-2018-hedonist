@@ -6,8 +6,8 @@
                 <div class="place-venue__logo">
                     <img
                         :src="placeMarker"
-                        width="88"
-                        height="88"
+                        width="80"
+                        height="80"
                     >
                 </div>
                 <div class="place-venue__prime-info">
@@ -30,20 +30,32 @@
             </div>
         </div>
         <div class="place-top-info__sidebar columns">
-            <div class="column is-two-third">
+            <div class="column is-two-third tab-section">
                 <nav class="sidebar-actions tabs">
                     <ul>
                         <li
                             @click="changeTab(1)"
                             :class="{ 'is-active' : activeTab === 1}"
                         >
-                            <a><span>Reviews ({{ this.getTotalReviewCount(this.place.id) }})</span></a>
+                            <a>
+                                <span>
+                                    {{ $t('place_page.top_info.tabs.reviews') }}
+                                    ({{ this.getTotalReviewCount(this.place.id) }})
+                                </span>
+                            </a>
                         </li>
                         <li
                             @click="changeTab(2)"
                             :class="{ 'is-active' : activeTab === 2}"
                         >
-                            <a><span>Photos <template v-if="loaded">({{ photosCount }})</template></span></a>
+                            <a>
+                                <span>
+                                    {{ $t('place_page.top_info.tabs.photos') }}
+                                    <template v-if="loaded">
+                                        ({{ photosCount }})
+                                    </template>
+                                </span>
+                            </a>
                         </li>
                     </ul>
                 </nav>
@@ -53,7 +65,6 @@
                     v-if="place.rating"
                     :value="Number(place.rating)"
                     :show-max="true"
-                    :show-rating="true"
                     :rating-count="place.ratingCount"
                 />
 
@@ -62,6 +73,7 @@
                         class="button is-primary rating"
                         @click="toggleIsUsersListModalActive"
                         :disabled="visitors.allIds.length < 1"
+                        v-tooltip.top="$t('place_page.top_info.users_on_page_modal.title')"
                     >
                         <i class="fas fa-eye" />
                     </div>
@@ -88,6 +100,7 @@
                 <button
                     class="button is-primary rating"
                     @click="isCheckinModalActive = true"
+                    v-tooltip.top="$t('place_page.top_info.rating_modal.title')"
                 >
                     <i class="fas fa-star-half-alt" />
                 </button>
@@ -257,8 +270,8 @@ export default {
 <style lang="scss" scoped>
     .place-top-info {
         background-color: #fff;
-        .column {
-            padding: 0.75rem;
+        .tab-section {
+            padding: 0 .7rem 0 0;
         }
         &__sidebar {
             margin-top: 20px;
@@ -294,7 +307,7 @@ export default {
     }
 
     .place-venue {
-        margin: 20px;
+        margin: 15px;
         &__logo {
             border-radius: 3px;
             background-color: #c7cdcf;
@@ -308,7 +321,7 @@ export default {
             display: inline-block;
         }
         &__place-name {
-            font-size: 25px;
+            font-size: 22px;
             font-weight: bold;
             margin-bottom: 10px;
         }
@@ -320,7 +333,7 @@ export default {
                 margin-right: 15px;
                 i {
                     margin-right: 5px;
-                    font-size: 25px;
+                    font-size: 22px;
                 }
             }
         }

@@ -2,6 +2,7 @@
 
 namespace Hedonist\Actions\Like;
 
+use Hedonist\Events\Review\ReviewUpdatedEvent;
 use Hedonist\Exceptions\Review\LikeOwnReviewException;
 use Hedonist\Exceptions\Review\ReviewNotFoundException;
 use Hedonist\Notifications\LikeReviewNotification;
@@ -55,39 +56,44 @@ class LikeReviewAction
         )->first();
         
         if ($dislike) {
+            $this->dislikeRepository->deleteById($dislike->id);
+
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
                 ReviewAttitudeSetEvent::DISLIKE_REMOVED
             ));
-            
-            $this->dislikeRepository->deleteById($dislike->id);
         }
         if (empty($like)) {
-            event(new ReviewAttitudeSetEvent(
-                $reviewId,
-                ReviewAttitudeSetEvent::LIKE_ADDED
-            ));
-            
             $like = new Like([
                 'likeable_id' => $reviewId,
                 'likeable_type' => Review::class,
                 'user_id' => $userId
             ]);
+
             $this->likeRepository->save($like);
+
             $notifiableUser = $this->userRepository->getById($review->user_id);
+
             if ((bool) $notifiableUser->info->notifications_receive === true
                 && Auth::id() !== $notifiableUser->id
             ) {
                 $notifiableUser->notify(new LikeReviewNotification($review, Auth::user()));
             }
+
+            event(new ReviewAttitudeSetEvent(
+                $reviewId,
+                ReviewAttitudeSetEvent::LIKE_ADDED
+            ));
         } else {
+            $this->likeRepository->deleteById($like->id);
+
             event(new ReviewAttitudeSetEvent(
                 $reviewId,
                 ReviewAttitudeSetEvent::LIKE_REMOVED
             ));
-            
-            $this->likeRepository->deleteById($like->id);
         }
+
+        event(new ReviewUpdatedEvent($reviewId));
 
         return new LikeReviewResponse();
     }

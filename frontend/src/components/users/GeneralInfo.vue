@@ -5,7 +5,7 @@
                 <div class="columns user-info">
                     <div class="column is-narrow">
                         <div class="user-info-img">
-                            <figure class="image is-128x128">
+                            <figure class="image">
                                 <img
                                     :src="avatar"
                                     :title="fullName"
@@ -24,7 +24,7 @@
                                     v-if="userProfile.facebook_url"
                                     v-show="userProfile.facebook_url"
                                     :href="userProfile.facebook_url"
-                                    class="facebbok-link"
+                                    class="facebook-link"
                                     target="_blank"
                                 >
                                     <i class="fa-2x fab fa-facebook-square" />
@@ -188,14 +188,23 @@ export default {
     }
 
     .user-info {
+        margin: 0 15px;
 
         &-img {
             @media screen and (max-width: 768px) {
                 display: flex;
                 justify-content: center;
             }
+            figure {
+                width: 150px;
+                height: 150px;
+            }
             img {
-                border-radius: 32px;
+                border-radius:32px;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 50% 50%;
             }
 
         }
@@ -227,7 +236,7 @@ export default {
                         color: #5a5866;
                     }
                 }
-                .facebbok-link {
+                .facebook-link {
                     color: #4E71A8;
                     margin-right: 7px;
                 }
@@ -293,6 +302,27 @@ export default {
                     }
                     div {
                         width: 100%;
+                    }
+                }
+
+                @media screen and (max-width: 911px) {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    margin: 0 10px;
+
+                    .level-item {
+                        padding: 0 20px;
+
+                        &:last-child {
+                            margin-bottom: auto;
+                        }
+                    }
+                }
+
+                @media screen and (max-width: 411px) {
+                    .level-item {
+                        padding: 0 10px;
                     }
                 }
 

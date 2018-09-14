@@ -3,16 +3,17 @@
         <div class="container place-item" v-if="active">
             <div class="media">
                 <figure v-if="hasPhotos" class="media-left image is-64x64">
-                    <img 
+                    <img
                         v-for="(photo, index) in place.photos"
                         v-img="{group: place.id}"
                         v-show="index === 0"
                         :src="photo.img_url"
                         :key="photo.id"
+                        class="place-photo"
                     >
                 </figure>
                 <figure v-else class="media-left image is-64x64">
-                    <img :src="notFoundPhoto">
+                    <img :src="notFoundPhoto" class="place-photo">
                 </figure>
                 <div class="media-content">
                     <h3
@@ -23,19 +24,13 @@
                         </router-link>
                     </h3>
                     <p class="place-city"><strong>{{ place.city.name }}</strong></p>
-                    <p class="place-category">
-                        <a href="#">{{ place.category.name }}</a>
-                    </p>
-                    <p class="address">
-                        {{ place.address }}
-                    </p>
+                    <p class="place-category">{{ place.category.name }}</p>
+                    <p class="address">{{ place.address }}</p>
                 </div>
                 <div class="media-right rating-wrapper">
                     <PlaceRating
                         v-if="place.rating"
                         :value="Number(place.rating)"
-                        :show-rating="false"
-                        :rating-count="place.ratingCount"
                     />
                 </div>
             </div>
@@ -106,14 +101,14 @@ export default {
     methods: {
         like() {
             this.$toast.open({
-                message: 'You liked this review!',
+                message: this.$t('place_page.message.review_like'),
                 type: 'is-info',
                 position: 'is-bottom'
             });
         },
         dislike() {
             this.$toast.open({
-                message: 'You disliked this review',
+                message: this.$t('place_page.message.review_dislike'),
                 position: 'is-bottom',
                 type: 'is-info'
             });
@@ -185,7 +180,50 @@ export default {
         padding-top: 0.25rem;
     }
 
+    .media-right {
+        grid-area: media-right;
+    }
+
+    .media-left {
+        grid-area: media-left;
+
+        .place-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
+    }
+
     .preview-tag {
         font-size: 0.75em;
+    }
+
+    .media-content {
+        grid-area: media-content;
+        .address {
+            word-break: break-all;
+        }
+    }
+
+    @media screen and (max-width: 1280px) and (min-width: 768px) {
+        .place-sidebar {
+            .place-item {
+                .media {
+                    display: grid;
+                    grid-template-areas: "media-left media-right" "media-content media-content";
+
+                    .media-right {
+                        margin-left: auto;
+                    }
+
+                    .media-left {
+                        margin-bottom: 10px;
+                        height: 100px;
+                        width: 100px;
+                    }
+                }
+            }
+        }
     }
 </style>

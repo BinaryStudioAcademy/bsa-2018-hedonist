@@ -1,4 +1,7 @@
 {
+  "loader": {
+    "title": "Loading..."
+  },
   "buttons": {
     "edit": "Edit",
     "delete": "Delete"
@@ -73,10 +76,14 @@
     "may_try": "You may try",
     "removing_your_filters": "removing your filters",
     "search_in_different_location": "search in different location",
-    "search_for_something_more_general": "search for something more general"
+    "search_for_something_more_general": "search for something more general",
+    "button": "Search",
+    "city_placeholder": "Location",
+    "place_counter": "Places found: "
   },
   "check-ins_page": {
-    "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page."
+    "no-check-ins": "You have not checked-in at any place. Visit some and check-in on its page.",
+    "visited_at": "You were here on"
   },
   "my-lists_page": {
     "no-lists": "You have not got any place lists yet. You may add some and grouped your chosen places.",
@@ -188,33 +195,115 @@
       "open": "Open now",
       "close": "Close",
       "features": "Features",
-      "recommendation": "You will also like"
+      "recommendation": "You will also like",
+      "no_localization": "No localization",
+      "country": "Ukraine"
     },
     "top_info": {
       "favourite": "Favourite",
       "users_on_page_modal": {
-        "title": "Who looks this page now"
+        "title": "Who looks this page now",
+        "close": "Close"
+      },
+      "rating_modal": {
+        "title": "Rate place",
+        "close": "Close"
+      },
+      "tabs": {
+        "reviews": "Reviews",
+        "photos": "Photos"
       }
     },
     "message": {
       "no-lists": "No lists",
       "added-to-list": "Place added to the list!",
       "removed-from-list": "Place removed from the list!",
-      "like_own_review":"Sorry, but you can't like or dislike your own review :("
+      "like_own_review":"Sorry, but you can't like or dislike your own review :(",
+      "review_like": "You liked this review",
+      "review_dislike": "You disliked this review",
+      "rating_set": "Rating set"
+    },
+    "no_result_reviews": {
+      "title": "Sorry, no reviews found",
+      "may_try": "You may try:",
+      "clear_query": "Clear your search query",
+      "change_query": "Change your search query",
+      "be_first": "Be first to review :)"
     },
     "buttons": {
       "more": "Show more",
       "less": "Show less",
-      "save": "Save"
+      "save": "Save",
+      "share": {
+        "title": "Share",
+        "on_facebook": "Share on Facebook",
+        "on_twitter": "Share on Twitter"
+      },
+      "show_all": "Show all"
+    },
+    "review": {
+      "title": "Reviews",
+      "add": "Post",
+      "photo": {
+        "title": "Photo",
+        "add": "add photo",
+        "delete": "delete"
+      },
+      "placeholder": "Find review...",
+      "sort": {
+        "title": "Sort by:",
+        "popular": "Popular",
+        "recent": "Recent" 
+      },
+      "modal": {
+        "like": "Liked by",
+        "dislike": "Disliked",
+        "close": "Close"
+      }
     }
   },
   "profile_page": {
     "private": "Make profile private",
-    "receive_notifications": "Receive notifications"
+    "receive_notifications": "Receive notifications",
+    "avatar": {
+      "upload": "Upload new avatar",
+      "delete": "Delete avatar"
+    },
+    "name": {
+      "first": "First name",
+      "last": "Last name"
+    },
+    "email": "Email",
+    "password": {
+      "old": "Old password",
+      "new": "New password"
+    },
+    "phone": {
+      "title": "Phone",
+      "message": "Please, enter a valid phone, e.g. +380950000000 or 380950000000"
+    },
+    "birthday": {
+      "title": "Birth day",
+      "year": "Year",
+      "month": "Month",
+      "day": "Day"
+    },
+    "save_btn": "Save"
   },
   "messages": {
     "success": {
-      "changed_password": "You have successfully changed your password! Now you need to login"
+      "changed_password": "You have successfully changed your password! Now you need to login",
+      "recovery_link": "We have emailed you password recovery link",
+      "checkin": "Checked in",
+      "welcome": "Welcome!",
+      "data_changed": "Data successfully changed",
+      "signup": "You have successfully registered! Now you need to login"
+    },
+    "error": {
+      "unknown": "Something went wrong...",
+      "credentials": "The email or password is incorrect",
+      "email": "Wrong email. Check it, please",
+      "input": "Please, check your input data"
     }
   },
   "navbar": {
@@ -225,7 +314,9 @@
     "new_place": "New place",
     "settings": "Settings",
     "notifications": "Notifications",
-    "logout": "Logout"
+    "signup": "Sign up",
+    "login": "Log in",
+    "logout": "Log out"
   },
   "other_user_page": {
     "private": "This profile is private :(",
@@ -234,16 +325,20 @@
     "lists": "Lists",
     "following": "Following",
     "follower_container":{
-      "title":"followers"
+      "title": "followers"
     },
     "followed_container":{
-      "title":"followed users"
+      "title": "followed users"
     },
     "review_container":{
-      "title":"recent reviews"
+      "title": "recent reviews"
     },
     "lists_container":{
-      "title":"lists"
+      "title": "lists",
+      "list": {
+        "subtitle": "saved places in list",
+        "proceed": "See this list"
+      }
     }
   },
   "user_lists_page": {
@@ -253,6 +348,40 @@
     },
     "city_pills": {
       "clear_filter": "Clear filter"
+    },
+    "add_place": {
+      "title": "List name",
+      "buttons": {
+        "save": "Save",
+        "update": "Update",
+        "delete": "Delete",
+        "load_cover": "Load a cover image",
+        "delete_image": "Delete image"
+      }
+    },
+    "header": {
+      "author": "by",
+      "updated": "Updated at:"
+    },
+    "search": {
+      "empty": "No places found",
+      "message": "You may attach some places to the list",
+      "placeholder": "Search places"
+    },
+    "message": {
+      "list": {
+        "delete": "The list was removed"
+      }
+    }
+  },
+  "user_list_form": {
+    "messages": {
+      "name_required": "List name is required!",
+      "saved": "The list was saved!",
+      "updated": "The list was updated!",
+      "deleted": "The list was deleted!",
+      "wrong_image_type": "Wrong image type!",
+      "big_photo": "Photo has been less then"
     }
   },
   "notifications": {
@@ -283,7 +412,9 @@
       "add": "added a new list"
     },
     "followed_user_update_list": {
-      "update": "updated the list"
+      "update": "updated the list",
+      "attached_places": "Attached places:",
+      "detached_places": "Detached places:"
     },
     "followed_user_delete_list": {
       "delete": "deleted the list"
@@ -292,6 +423,30 @@
     "unfollow_you": "unsubscribed from you.",
     "navbar": {
       "no_notifs": "You don't have new notifications"
+    }
+  },
+  "search_place_page": {
+    "tags": {
+      "title": "Show only:"
+    },
+    "filters": {
+      "title": "Filters:",
+      "tooltips": {
+        "top_rated": "Places with at least 4 rating",
+        "saved": "Saved places",
+        "checkin": "Visited places",
+        "top_reviewed": "Places with at least 10 reviews",
+        "recommended": "Recommended places for you",
+        "opened": "Only opened now places"
+      }
+    },
+    "features": {
+      "title": "Features:"
+    }
+  },
+  "user_tastes_page": {
+    "input": {
+      "placeholder": "Enter a taste"
     }
   }
 }

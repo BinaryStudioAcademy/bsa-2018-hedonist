@@ -4,7 +4,7 @@
             <div class="container place-item" v-if="active">
                 <div class="media">
                     <figure class="media-left image">
-                        <img :src="userList.img_url || imageStub">
+                        <img :src="userList.img_url || listImage">
                     </figure>
                     <div class="media-content">
                         <h3 class="title has-text-primary">
@@ -34,16 +34,20 @@
                             {{ $t('buttons.edit') }}
                         </router-link>
 
-                        <b-modal :active.sync="isDeleteModal" :width="640" scroll="keep">
-                            <div class="box userlist-modal">
-                                <h5 class="title is-5">{{ $t('my-lists_page.delete-confirmation') }} "{{ userList.name }}"?</h5>
-                                <div class="buttons is-centered">
-                                    <button class="button is-info" @click="isDeleteModal = false">{{ $t('my-lists_page.buttons.cancel') }}</button>
-                                    <button class="button is-danger" @click="onDelete">{{ $t('buttons.delete') }}</button>
-                                </div>
-                            </div>
-                        </b-modal>
-                        <button class="button is-danger" @click="isDeleteModal = true">{{ $t('buttons.delete') }}</button>
+                        <DeleteModal 
+                            v-if="showModal"
+                            :show="showModal"
+                            :user-list="userList"
+                            @close="showModal = false" 
+                            @preloader="$emit('loading', true)"
+                        />
+                        <button
+                            :disabled="!!userList.is_default"
+                            class="button is-danger"
+                            @click="showModal = true"
+                        >
+                            {{ $t('buttons.delete') }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -52,15 +56,20 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import imageStub from '@/assets/no-photo.png';
+import DeleteModal from './UserListDelete';
+
 export default {
     name: 'ListPreview',
+    components: {
+        DeleteModal
+    },
     data() {
         return {
             imageStub: imageStub,
             active: false,
-            isDeleteModal: false
+            showModal: false
         };
     },
     filters: {
@@ -70,11 +79,22 @@ export default {
     },
     computed: {
         ...mapGetters('userList', {
-            getUniqueCities : 'getUniqueCities'
+            getUniqueCities : 'getUniqueCities',
+            getPlaceById: 'getPlaceById',
         }),
         uniqueCities: function () {
             return this.getUniqueCities(this.userList);
         },
+        listImage() {
+            if (this.userList.places.length) {
+                let placeId = this.userList.places[0];
+                let place = this.getPlaceById(placeId);
+
+                return place.photos[0].img_url;
+            }
+
+            return this.imageStub;
+        }
     },
     props: {
         userList: {
@@ -87,35 +107,22 @@ export default {
         }
     },
     methods: {
-        ...mapActions({ delete: 'userList/deleteUserList' }),
         notLast(key) {
             return Object.keys(this.uniqueCities).length - key > 1;
         },
         like() {
             this.$toast.open({
-                message: 'You liked this review!',
+                message: this.$t('place_page.message.review_like'),
                 type: 'is-info',
                 position: 'is-bottom'
             });
         },
         dislike() {
             this.$toast.open({
-                message: 'You disliked this review',
+                message: this.$t('place_page.message.review_dislike'),
                 position: 'is-bottom',
                 type: 'is-info'
             });
-        },
-
-        onDelete() {
-            this.$emit('loading', true);
-            this.delete(this.userList.id)
-                .then(() => {
-                    this.$toast.open({
-                        message: 'The list was removed',
-                        position: 'is-top',
-                        type: 'is-info'
-                    });
-                });
         }
     },
     created() {
@@ -157,8 +164,8 @@ export default {
         margin-bottom: 0.5rem;
     }
     .image {
-        width: 180px;
-        height: 128px;
+        width: 125px;
+        height: 100px;
         flex-shrink: 0;
 
         img {
@@ -188,17 +195,6 @@ export default {
             }
         }
     }
-    .rating {
-        width: 48px;
-        height: 48px;
-        background: #00E676;
-        border-radius: 7px;
-        margin: auto;
-        line-height: 48px;
-        font-size: 1.5rem;
-        color: #FFF;
-        text-align: center;
-    }
     hr {
         color: grey;
         border-width: 3px;
@@ -225,12 +221,26 @@ export default {
                     margin-right: 10px;
                 }
             }
+
+            .image {
+                margin-bottom: 10px;
+            }
         }
     }
 
-    .userlist-modal {
-        max-width: 640px;
-        text-align: center;
-        overflow-wrap: break-word;
+
+    @media screen and (max-width: 414px) {
+        .place-item {
+            font-size: .8rem;
+        }
+
+        .title {
+            font-size: 1.3rem;
+        }
+
+        .image {
+            width: 140px;
+            height: 100px;
+        }
     }
 </style>

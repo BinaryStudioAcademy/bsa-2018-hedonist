@@ -1,6 +1,6 @@
 <template>
     <div class="control">
-        <b-field>
+        <b-field class="search-wrp">
             <b-autocomplete
                 v-model.trim="findItems.query"
                 :placeholder="$t('search.looking_for')"
@@ -14,7 +14,6 @@
                 ref="autocomplete"
                 @keyup.native.enter="$emit('keyup.native.enter')"
             >
-
                 <template slot-scope="props">
                     <div class="search-block" v-if="props.option.place === undefined">
                         <img :src="props.option.logo">
@@ -42,7 +41,7 @@
 
 <script>
 
-import {mapActions, mapGetters, mapState} from 'vuex';
+import {mapActions, mapMutations, mapGetters, mapState} from 'vuex';
 import _ from 'lodash';
 
 export default {
@@ -67,8 +66,15 @@ export default {
             loadPlaces: 'search/loadPlaces',
             fetchAllCategories: 'category/fetchAllCategories'
         }),
+        ...mapMutations('search',{
+            setSelectedTags: 'SET_SELECTED_TAGS'
+        }),
         clearInput(){
             this.findItems.query = '';
+            this.setSelectedTags(
+                []
+            );
+            this.$emit('on-clear');
         },
         loadItems: _.debounce(function () {
             this.findItems.data = [];
@@ -154,5 +160,9 @@ export default {
 
     .search-block img {
         margin-right: 5px;
+    }
+
+    .search-wrp {
+        width: 176px;
     }
 </style>

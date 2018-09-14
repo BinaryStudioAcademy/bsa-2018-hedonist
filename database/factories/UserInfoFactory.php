@@ -28,5 +28,6 @@ $factory->define(UserInfo::class, function (Faker $faker) {
         "facebook_url" => $faker->url,
         "instagram_url" => $faker->url,
         "twitter_url" => $faker->url,
+        'language' => $faker->randomElement(['en', 'ua', 'ru']),
     ];
 });

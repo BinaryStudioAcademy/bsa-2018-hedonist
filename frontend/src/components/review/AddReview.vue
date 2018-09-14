@@ -3,20 +3,18 @@
         <div v-if="hasToken" class="add-review">
             <b-field class="media">
 
-                <div class="media-left">
+                <div class="media-left avatar-wrp">
                     <img
                         v-if="getAuthenticatedUser.avatar_url"
                         :src="getAuthenticatedUser.avatar_url"
                         :title="getAuthenticatedUser.first_name+' '+getAuthenticatedUser.last_name"
                         :alt="getAuthenticatedUser.first_name+' '+getAuthenticatedUser.last_name"
-                        height="32"
-                        width="32"
+                        class="avatar"
                     >
                     <img
                         v-else
                         src="/assets/add_review_default_avatar.png"
-                        height="32"
-                        width="32"
+                        class="avatar"
                     >
                 </div>
 
@@ -32,7 +30,7 @@
                                             <img :src="getPreview(photo,index)">
                                         </figure>
                                         <span class="tag is-small is-white" @click="deletePhoto(index)">
-                                            <a>delete</a>
+                                            <a>{{ $t('place_page.review.photo.delete') }}</a>
                                         </span>
                                     </div>
                                 </div>
@@ -46,7 +44,7 @@
                                 multiple
                             >
                                 <span class="tag is-light is-medium">
-                                    <a>Add photo</a>
+                                    <a>{{ $t('place_page.review.photo.add') }}</a>
                                 </span>
                             </b-upload>
                         </div>
@@ -72,7 +70,9 @@
                     <button
                         class="button is-primary"
                         @click="onAddReview"
-                    >Post</button>
+                    >
+                        {{ $t('place_page.review.add') }}
+                    </button>
                 </div>
             </b-field>
         </div>
@@ -223,6 +223,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .avatar-wrp {
+        width: 32px;
+        height: 32px;
+
+        .avatar {
+            border-radius:4px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
+    }
+
     .add-review {
         padding: 15px;
         align-items: center;

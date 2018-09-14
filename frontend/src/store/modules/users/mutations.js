@@ -7,10 +7,10 @@ const normalizeFollows = (users, userState) =>
 
 
 export default {
-    GET_USER_PROFILE: (state, userProfile) => {
+    GET_USER_PROFILE: (state, { userProfile, currentUser }) => {
         const userState = Object.assign({}, state.users);
         const user = Object.assign({}, userProfile);
-        if (!user.is_private) {
+        if (!user.is_private || user.id === currentUser.id) {
             user.followers = normalizeFollows(userProfile.followers, userState);
             user.followedUsers = normalizeFollows(userProfile.followedUsers, userState);
         }

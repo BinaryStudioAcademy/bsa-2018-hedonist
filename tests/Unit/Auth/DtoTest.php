@@ -32,7 +32,8 @@ class DtoTest extends TestCase
             $this->user->email,
             'secret',
             $this->userInfo->last_name,
-            $this->userInfo->first_name
+            $this->userInfo->first_name,
+            $this->userInfo->language
         );
 
         $this->assertEquals($this->user->email, $request->getEmail());

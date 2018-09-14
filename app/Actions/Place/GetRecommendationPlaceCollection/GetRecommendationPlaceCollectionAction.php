@@ -9,6 +9,7 @@ use Hedonist\Exceptions\Place\PlaceLocationInvalidException;
 use Hedonist\Repositories\Place\Criterias\AllPlacePhotosCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByCategoryCriteria;
 use Hedonist\Repositories\Place\Criterias\GetPlaceByLocationCriteria;
+use Hedonist\Repositories\Place\Criterias\GetPlaceByPlaceTastesCriteria;
 use Hedonist\Repositories\Place\Criterias\LatestReviewForPlaceCriteria;
 use Hedonist\Repositories\Place\Criterias\PlaceCustomLimitCriteria;
 use Hedonist\Repositories\Place\Criterias\ExcludesСurrentPlaceCriteria;
@@ -41,6 +42,9 @@ class GetRecommendationPlaceCollectionAction
         $criterias[] = new GetPlaceByLocationCriteria($location);
         $criterias[] = new GetPlaceByCategoryCriteria($currentPlace->category_id);
         $criterias[] = new ExcludesСurrentPlaceCriteria($currentPlace->id);
+
+        $tastes = $currentPlace->tastes;
+        $criterias[] = new GetPlaceByPlaceTastesCriteria($tastes);
 
         $places = $this->placeRepository->findCollectionByCriterias(
             new PlaceCustomLimitCriteria(3),

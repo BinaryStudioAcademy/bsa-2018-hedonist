@@ -66,13 +66,13 @@ export default {
                         this.refreshInput();
                         this.$toast.open({
                             type: 'is-success',
-                            message: 'We have emailed you password recovery link',
+                            message: this.$t('messages.success.recovery_link'),
                         });
                     })
                     .catch(error => {
                         this.$toast.open({
                             type: 'is-danger',
-                            message: 'Wrong email. Check it, please.',
+                            message: this.$t('messages.error.email'),
                         });
                     });
             }

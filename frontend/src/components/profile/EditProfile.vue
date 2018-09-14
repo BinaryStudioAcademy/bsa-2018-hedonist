@@ -15,27 +15,25 @@
                     >
                         <a class="button is-primary is-fullwidth">
                             <b-icon icon="upload" />
-                            <span>Upload new avatar</span>
+                            <span>{{ $t('profile_page.avatar.upload') }}</span>
                         </a>
                     </b-upload>
                 </b-field>
                 <a class="button is-danger is-fullwidth" @click="deleteAvatar">
                     <b-icon icon="delete" />
-                    <span>Delete avatar</span>
+                    <span>{{ $t('profile_page.avatar.delete') }}</span>
                 </a>
             </div>
             <section class="column">
-                <b-field 
-                    label="First name"
-                >
+                <b-field :label="$t('profile_page.name.first')">
                     <b-input v-model.trim="user.first_name" />
                 </b-field>
 
-                <b-field label="Last name">
+                <b-field :label="$t('profile_page.name.last')">
                     <b-input v-model.trim="user.last_name" />
                 </b-field>
 
-                <b-field label="Email">
+                <b-field :label="$t('profile_page.email')">
                     <b-input 
                         type="email"
                         v-model="authUser.email"
@@ -43,7 +41,7 @@
                     />
                 </b-field>
 
-                <b-field label="Old password">
+                <b-field :label="$t('profile_page.password.old')">
                     <b-input
                         type="password"
                         v-model.trim="oldPassword"
@@ -51,7 +49,7 @@
                     />
                 </b-field>
 
-                <b-field label="New password">
+                <b-field :label="$t('profile_page.password.new')">
                     <b-input
                         type="password"
                         v-model.trim="newPassword"
@@ -60,11 +58,9 @@
                 </b-field>
 
                 <b-field
-                    label="Phone"
+                    :label="$t('profile_page.phone.title')"
                     :type="isPhoneInvalid ? 'is-danger' : ''"
-                    :message="isPhoneInvalid
-                        ? 'Please, enter a valid phone, e.g. +380950000000 or 380950000000'
-                    : '' "
+                    :message="isPhoneInvalid ? this.$t('profile_page.phone.message') : ''"
                 >
                     <b-input
                         v-model.trim="user.phone_number"
@@ -75,24 +71,24 @@
                 </b-field>
 
                 <b-field 
-                    label="Birth date" 
+                    :label="$t('profile_page.birthday.title')"
                     expanded
                 >
                     <b-field>
                         <b-input 
                             type="number" 
                             v-model.trim="birthDay"
-                            placeholder="Day"
+                            :placeholder="$t('profile_page.birthday.day')"
                         />
                         <b-input 
                             type="number" 
                             v-model.trim="birthMonth"
-                            placeholder="Month"
+                            :placeholder="$t('profile_page.birthday.month')"
                         />
                         <b-input 
                             type="number" 
                             v-model.trim="birthYear"
-                            placeholder="Year"
+                            :placeholder="$t('profile_page.birthday.year')"
                         />
                     </b-field>
                 </b-field>
@@ -128,7 +124,7 @@
                 <div class="buttons is-right">
                     <a class="button is-primary" @click="saveData">
                         <b-icon icon="upload" />
-                        <span>Save</span>
+                        <span>{{ $t('profile_page.save_btn') }}</span>
                     </a>
                 </div>
             </section>
@@ -200,7 +196,7 @@ export default {
                 .then((data) => {
                     this.user.avatar_url = data.avatar_url;
                     this.onSuccess({
-                        message: 'Data successfully changed'
+                        message: this.$t('messages.success.data_changed')
                     });
                 })
                 .catch((data) => {

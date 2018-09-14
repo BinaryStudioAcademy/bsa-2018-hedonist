@@ -3,21 +3,24 @@
         <div class="review-title-wrp">
             <div class="review-title">
                 <div class="left-side-review-title">
-                    <img 
-                        src="https://ss1.4sqi.net/img/venuepage/v2/section_title_tips@2x-6449ea09a26b1d885184e709e2c8f693.png" 
-                        height="25" 
+                    <img
+                        src="https://ss1.4sqi.net/img/venuepage/v2/section_title_tips@2x-6449ea09a26b1d885184e709e2c8f693.png"
+                        height="25"
                         width="25"
                     >
-                    <span>{{ this.getTotalReviewCount(this.place.id) }} Reviews</span>
+                    <span>
+                        {{ this.getTotalReviewCount(this.place.id) }}
+                        {{ $t('place_page.review.title') }}
+                    </span>
                 </div>
                 <div class="review-title-search">
                     <div class="control has-icons-left">
                         <input
                             v-model.trim="search"
                             @input="searchReview"
-                            class="input is-small" 
-                            type="search" 
-                            placeholder="Find review.."
+                            class="input is-small"
+                            type="search"
+                            :placeholder="$t('place_page.review.placeholder')"
                         >
                         <span class="icon is-small is-left">
                             <i class="fas fa-search" />
@@ -32,20 +35,26 @@
                 @add="onAddReview"
             />
         </div>
-        <template v-if="isReviewsExist">
+        <template>
             <div class="reviews-section-wrp">
                 <div class="reviews-section-header">
                     <div class="filter-area">
                         <ul>
-                            <li class="sort-word">Sort by:</li>
+                            <li class="sort-word">
+                                {{ $t('place_page.review.sort.title') }}
+                            </li>
                             <li
                                 @click="onSortFilter('popular')"
                                 :class="{ active: sort === 'popular' }"
-                            ><a>Popular</a></li>
+                            >
+                                <a>{{ $t('place_page.review.sort.popular') }}</a>
+                            </li>
                             <li
                                 @click="onSortFilter('recent')"
                                 :class="{ active: sort === 'recent' }"
-                            ><a>Recent</a></li>
+                            >
+                                <a>{{ $t('place_page.review.sort.recent') }}</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -60,7 +69,9 @@
                     </template>
                     <infinite-loading @infinite="loadNextReviewsPage">
                         <span slot="no-more" />
-                        <span slot="no-results" />
+                        <div slot="no-results">
+                            <NoReviewsFound v-if="reviews.length === 0" />
+                        </div>
                     </infinite-loading>
                 </div>
             </div>
@@ -69,13 +80,15 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import Review from './ReviewListElement';
 import AddReview from './AddReview';
 import InfiniteLoading from 'vue-infinite-loading';
+import NoReviewsFound from './NoReviewsFound';
 
 export default {
     components: {
+        NoReviewsFound,
         Review,
         AddReview,
         InfiniteLoading
@@ -108,6 +121,9 @@ export default {
         ...mapState('place', [
             'visitors'
         ]),
+        ...mapState('review', [
+            'isLoading'
+        ]),
         reviews() {
             return this.getPlaceReviewsByIds(this.place.id, this.visibleReviewsIds);
         },
@@ -121,7 +137,7 @@ export default {
 
         searchReview: _.debounce(function () {
             this.initialLoad();
-        }, 1000),
+        }, 500),
 
         loadNextReviewsPage($state) {
             _.debounce(() => {
@@ -133,10 +149,10 @@ export default {
                         page: this.page + 1
 
                     }
-                ).then( res => {
-                    if(res.reviews.length === 0){
+                ).then(res => {
+                    if (res.reviews.length === 0) {
                         $state.complete();
-                    } else{
+                    } else {
                         res.reviews.forEach(reviewId => {
                             if (this.visibleReviewsIds.indexOf(reviewId) === -1) {
                                 this.visibleReviewsIds.push(reviewId);
@@ -151,7 +167,7 @@ export default {
             }, 250)();
         },
         onSortFilter(name) {
-            if(this.sort !== name){
+            if (this.sort !== name) {
                 this.sort = name;
                 this.initialLoad();
             }
@@ -160,9 +176,9 @@ export default {
             this.visibleReviewsIds.unshift(reviewId);
         },
         initialLoad() {
-            if(this.sort === 'popular') {
+            if (this.sort === 'popular') {
                 this.visibleReviewsIds = this.getPreloadedPopularPlaceReviewsIds(this.place.id);
-            }else {
+            } else {
                 this.visibleReviewsIds = this.getPreloadedRecentPlaceReviewsIds(this.place.id);
             }
             this.loadReviewsWithParams(
@@ -172,14 +188,14 @@ export default {
                     text: this.search,
                     page: 1
                 }
-            ).then( res => {
+            ).then(res => {
                 this.visibleReviewsIds = res.reviews;
                 this.page = 1;
                 this.isSorting = !this.isSorting;
             });
         }
     },
-    created(){
+    created() {
         this.initialLoad();
 
         Echo.private('reviews').listen('.review.added', (payload) => {
@@ -196,15 +212,12 @@ export default {
             });
             this.$store.commit('review/ADD_PLACE_REVIEW_PHOTO', payload.reviewPhoto);
         });
-
-        Echo.private('reviews').listen('.attitude.set', (payload) => {
-            this.$store.dispatch('review/handleAttitude', {
-                reviewId: payload.reviewId,
-                attitudeType: payload.attitudeType
-            });
-        });
+    },
+    beforeDestroy() {
+        Echo.leave('reviews');
     }
 };
+
 
 </script>
 
@@ -213,7 +226,7 @@ export default {
     /* Main block wrapper. */
     .reviews-wrp {
         margin: auto;
-        font-size: 18px;
+        font-size: 16px;
         color: #808080;
         background: #f7f7f7;
         border: 1px solid #efeff4;
@@ -250,7 +263,6 @@ export default {
         margin-right: 10px;
     }
 
-
     /* Add review list part. */
     .add-review-wrp {
         background: #fff;
@@ -268,6 +280,10 @@ export default {
 
     .reviews-section-header {
         border-bottom: 1px solid #efeff4;
+    }
+
+    .reviews-section-list {
+        min-height: 100px;
     }
 
     .filter-area {

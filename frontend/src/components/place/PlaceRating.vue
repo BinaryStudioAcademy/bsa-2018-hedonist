@@ -7,16 +7,9 @@
             ]"
         >
             <div
-                class="rating-value"
-                :class="{onerow: !showRating}"
+                class="onerow rating-value"
             >
-                {{ value | formatRating }}<span v-if="showMax">/5</span>
-            </div>
-            <div
-                class="rating-count"
-                v-if="showRating"
-            >
-                {{ ratingCount || 'No' }} <i class="fas fa-user" />
+                {{ value | formatRating(showMax) }}<span v-if="showMax"> / 5</span>
             </div>
         </div>
     </div>
@@ -35,16 +28,6 @@ export default {
         showMax: {
             type: Boolean
         },
-
-        showRating: {
-            type: Boolean
-        },
-
-        ratingCount: {
-            required: this.showRating,
-            type: Number,
-            default: 0.0
-        }
     },
 
     computed: {
@@ -58,11 +41,19 @@ export default {
     },
 
     filters: {
-        formatRating(number) {
+        formatRating(number, showMax) {
+            let minDigits = 1;
+            let maxDigits = 1;
+
+            if (number === 5 && showMax) {
+                minDigits = 0;
+                maxDigits = 0;
+            }
+
             return new Intl.NumberFormat(
                 'en-US', {
-                    minimumFractionDigits: 1,
-                    maximumFractionDigits: 1,
+                    minimumFractionDigits: minDigits,
+                    maximumFractionDigits: maxDigits,
                 }).format(number);
         },
     },
@@ -80,7 +71,7 @@ export default {
         font-size: 1rem;
         color: #FFF;
         text-align: center;
-        padding: 5px 5px;
+        padding: 5px 10px;
 
         white-space: nowrap;
         vertical-align: middle;
@@ -104,20 +95,11 @@ export default {
     }
 
     .rating-value {
-        line-height: 22px;
         font-size: 1.2rem;
     }
 
-    .rating-count {
-        line-height: 22px;
-
-        i {
-            font-size: .8rem;
-        }
-    }
-
     .onerow {
-        margin-top: 10px;
+        margin-top: 3px;
     }
 }
 </style>

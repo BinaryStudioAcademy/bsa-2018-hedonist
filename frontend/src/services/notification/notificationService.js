@@ -8,3 +8,5 @@ export const USER_UNFOLLOW_NOTIFICATION             = 'Hedonist\\Notifications\\
 export const FOLLOWED_USER_ADD_LIST_NOTIFICATION    = 'Hedonist\\Notifications\\FollowedUserAddListNotification';
 export const FOLLOWED_USER_DELETE_LIST_NOTIFICATION = 'Hedonist\\Notifications\\FollowedUserDeleteListNotification';
 export const FOLLOWED_USER_UPDATE_LIST_NOTIFICATION = 'Hedonist\\Notifications\\FollowedUserUpdateListNotification';
+
+export const getUserChannelName = (userId) => `App.User.${userId}`;

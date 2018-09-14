@@ -3,7 +3,8 @@ export default {
         first_name: '',
         last_name: '',
         avatar_url: '',
-        id: null
+        id: null,
+        language: null,
     },
     isLoggedIn: false,
     token: ''

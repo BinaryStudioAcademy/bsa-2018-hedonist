@@ -103,7 +103,8 @@ class ReviewApiTest extends ApiTestCase
 
         $response = $this->json('GET',
             "api/v1/reviews/$reviewId",
-            []);
+            []
+        );
 
         $response->assertStatus(200);
     }
@@ -115,15 +116,6 @@ class ReviewApiTest extends ApiTestCase
             []);
 
         $response->assertStatus(404);
-    }
-
-    public function testGetReviewCollection()
-    {
-        $response = $this->json('GET',
-            'api/v1/reviews',
-            []);
-
-        $response->assertStatus(200);
     }
 
     public function testUpdateReview()

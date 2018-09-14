@@ -5,15 +5,18 @@
                 <article class="media">
                     <figure class="media-left">
                         <router-link :to="{ name: 'OtherUserPage', params: { id: review.user.id }}">
-                            <p class="image is-32x32">
-                                <img v-if="review.user.avatar_url" :src="review.user.avatar_url">
+                            <div class="image avatar-wrp">
+                                <img
+                                    v-if="review.user.avatar_url"
+                                    :src="review.user.avatar_url"
+                                    class="avatar"
+                                >
                                 <img
                                     v-else
                                     src="/assets/add_review_default_avatar.png"
-                                    height="32"
-                                    width="32"
+                                    class="avatar"
                                 >
-                            </p>
+                            </div>
                         </router-link>
                     </figure>
                     <div class="media-content">
@@ -95,17 +98,22 @@ export default {
     data() {
         return {
             active: false,
-            reviewImageUrl: '',
             isUsersWhoLikedReviewModalActive: false,
             isUsersWhoDislikedReviewModalActive: false
         };
     },
 
     created() {
-        this.getReviewPhotos(this.review.id);
         setTimeout(() => {
             this.active = true;
         }, this.timer);
+
+        Echo.private(`review.${this.review.id}`).listen('.attitude.set', (payload) => {
+            this.$store.dispatch('review/handleAttitude', {
+                reviewId: payload.reviewId,
+                attitudeType: payload.attitudeType
+            });
+        });
     },
 
     computed: {
@@ -127,7 +135,13 @@ export default {
                 day: 'numeric',
                 weekday: 'long',
             };
-            return date.toLocaleString('en-US', options);
+            
+            let locale = this.$i18n.locale();
+            if (locale === 'ua') {
+                locale = 'uk';
+            }
+
+            return date.toLocaleString(locale, options);
         }
     },
 
@@ -145,15 +159,6 @@ export default {
             'getUsersWhoLikedReview',
             'getUsersWhoDislikedReview'
         ]),
-        getReviewImage: function() {
-            this.getReviewPhoto(this.review.id)
-                .then((result) => {
-                    this.reviewImageUrl = result;
-                })
-                .catch(() => {
-                    this.reviewImageUrl = '';
-                });
-        },
 
         onLikeReview() {
             if(!this.canLikeOrDislike){
@@ -208,6 +213,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .avatar-wrp {
+        width: 32px;
+        height: 32px;
+
+        .avatar {
+            border-radius:4px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
+    }
+
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }

@@ -2,8 +2,11 @@
 
 namespace Hedonist\Actions\UserList;
 
-use Hedonist\Exceptions\UserList\UserListExistsException;
-use Hedonist\Exceptions\UserList\UserListPermissionDeniedException;
+use Hedonist\Exceptions\UserList\{
+    UserListExistsException,
+    UserListPermissionDeniedException,
+    UserListDeleteDefaultException
+};
 use Hedonist\Notifications\FollowedUserDeleteListNotification;
 use Hedonist\Repositories\User\UserRepositoryInterface;
 use Hedonist\Repositories\UserList\UserListRepositoryInterface;
@@ -30,6 +33,10 @@ class DeleteUserListAction
         $userList = $this->userListRepository->getById($request->getId());
         if (is_null($userList)) {
             throw new UserListExistsException('User list not found.');
+        }
+
+        if ($userList->is_default) {
+            throw new UserListDeleteDefaultException;
         }
 
         if (Gate::denies('delete', $userList)) {
