@@ -299,11 +299,6 @@ export default {
 };
 </script>
 
-<style>
-    .birthdate .help.is-danger {
-        display: none;
-    }
-</style>
 <style lang="scss" scoped>
     .container {
         max-width: 700px;
@@ -343,6 +338,10 @@ export default {
             margin-bottom: 0.75rem;
         }
 
+    }
+
+    .birthdate .help.is-danger {
+        display: none;
     }
 
     @media screen and (max-width: 769px) {
