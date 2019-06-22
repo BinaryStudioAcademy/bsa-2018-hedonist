@@ -38,7 +38,7 @@
                                     :key="index"
                                 >
                                     <img
-                                        :src="photo"
+                                        :src="photo.img_url"
                                         v-img="{ group: review.id}"
                                     >
                                 </div>
@@ -142,12 +142,6 @@ export default {
             }
 
             return date.toLocaleString(locale, options);
-        }
-    },
-
-    watch: {
-        isSorting: function() {
-            this.getReviewPhotos(this.review.id);
         }
     },
 

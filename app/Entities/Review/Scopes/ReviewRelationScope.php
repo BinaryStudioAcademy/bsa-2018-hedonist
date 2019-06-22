@@ -14,7 +14,8 @@ class ReviewRelationScope implements Scope
             'likes',
             'dislikes',
             'user',
-            'user.info'
+            'user.info',
+            'photos'
         ]);
     }
 }

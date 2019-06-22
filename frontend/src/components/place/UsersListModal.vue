@@ -83,14 +83,19 @@ export default {
         padding: 10px;
     }
 
-    .user-avatar img {
-        border-radius: 50%;
-        float: left;
+    .user-avatar {
+        img {
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 50%;
+        }
     }
 
     .user-name {
+        align-self: center;
         padding: 10px;
-        font-size: 0.9em;
         width: 80%;
     }
 

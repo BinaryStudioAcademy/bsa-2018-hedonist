@@ -95,6 +95,7 @@ export default {
 
     .image > img {
         border-radius: 5px;
+        height: 100%;
     }
 
     .place-category {

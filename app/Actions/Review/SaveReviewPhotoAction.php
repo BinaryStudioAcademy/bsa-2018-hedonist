@@ -3,9 +3,11 @@
 namespace Hedonist\Actions\Review;
 
 use Hedonist\Entities\Review\ReviewPhoto;
+use Hedonist\Events\Review\ReviewUpdatedEvent;
 use Hedonist\Repositories\Review\ReviewPhotoRepository;
 use Hedonist\Repositories\Review\ReviewPhotoRepositoryInterface;
 use Hedonist\Services\FileNameGenerator;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Hedonist\Events\Review\ReviewPhotoAddEvent;
 
@@ -41,6 +43,7 @@ class SaveReviewPhotoAction
         $reviewPhoto = $this->reviewPhotoRepository->save($reviewPhoto);
 
         broadcast(new ReviewPhotoAddEvent($reviewPhoto))->toOthers();
+        Event::dispatch(new ReviewUpdatedEvent($request->getReviewId()));
 
         return new SaveReviewPhotoResponse($reviewPhoto);
     }

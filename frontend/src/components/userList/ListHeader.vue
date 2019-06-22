@@ -144,4 +144,8 @@ export default {
             }
         }
     }
+
+    .image img {
+        height: 100%;
+    }
 </style>
