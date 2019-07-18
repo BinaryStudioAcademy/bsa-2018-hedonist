@@ -41,8 +41,6 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/{provider}/callback', 'SocialAuthController@oauthCallback');
         });
-
-        Route::delete('/users/{userId}', 'AuthController@deleteUser');
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
@@ -53,13 +51,14 @@ Route::prefix('v1')->group(function () {
             Route::delete('/notifications', 'UserNotificationsController@deleteNotifications');
         });
 
+        Route::delete('/users/{id}', 'AuthController@deleteUser');
+
         Route::get('/users/{user_id}/lists', 'Api\User\UserList\UserListController@userLists')
             ->name('user-list.lists');
 
         Route::resource('user-lists', 'Api\User\UserList\UserListController')->except([
             'create', 'edit'
         ]);
-
 
         Route::namespace('Api\\Place')->group(function () {
             Route::get('places', 'PlaceController@getCollection')->name('getPlaceCollection');
