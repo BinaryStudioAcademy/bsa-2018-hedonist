@@ -83,10 +83,6 @@ class User extends Authenticatable implements JWTSubject
         parent::boot();
 
         static::addGlobalScope(new UserScope());
-
-        self::deleting(function ($user) {
-            $user->info->delete();
-        });
     }
 
     public function receivesBroadcastNotificationsOn()
