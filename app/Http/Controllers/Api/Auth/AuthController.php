@@ -195,7 +195,7 @@ class AuthController extends ApiController
         try {
             $action->execute(new DeleteUserRequest($userId));
 
-            return $this->emptyResponse(204);
+            return $this->emptyResponse();
         } catch (DomainException $ex) {
             return $this->errorResponse($ex->getMessage(), 400);
         }
