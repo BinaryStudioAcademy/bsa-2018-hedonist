@@ -4,6 +4,8 @@ namespace Hedonist\Http\Controllers\Api\Auth;
 
 use Hedonist\Actions\Auth\ChangePasswordAction;
 use Hedonist\Actions\Auth\CheckEmailUniqueAction;
+use Hedonist\Actions\Auth\DeleteUserAction;
+use Hedonist\Actions\Auth\DeleteUserRequest;
 use Hedonist\Actions\Auth\GetUserAction;
 use Hedonist\Actions\Auth\Presenters\AuthPresenter;
 use Hedonist\Actions\Auth\RecoverPasswordAction;
@@ -185,6 +187,17 @@ class AuthController extends ApiController
             return $this->emptyResponse(200);
         } catch (InvalidLanguageException $exception) {
             return $this->errorResponse(AuthPresenter::presentError($exception), 400);
+        }
+    }
+
+    public function deleteUser(string $userId, DeleteUserAction $action)
+    {
+        try {
+            $action->execute(new DeleteUserRequest($userId));
+
+            return $this->emptyResponse(204);
+        } catch (DomainException $ex) {
+            return $this->errorResponse($ex->getMessage(), 400);
         }
     }
 }

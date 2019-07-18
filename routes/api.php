@@ -41,6 +41,8 @@ Route::prefix('v1')->group(function () {
 
             Route::get('/{provider}/callback', 'SocialAuthController@oauthCallback');
         });
+
+        Route::delete('/users/{userId}', 'AuthController@deleteUser');
     });
 
     Route::group(['middleware' => 'custom.jwt.auth'], function () {
