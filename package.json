@@ -19,7 +19,7 @@
         "css-loader": "^1.0.0",
         "dotenv": "^6.0.0",
         "laravel-echo": "^1.4.0",
-        "lodash": "^4.17.13",
+        "lodash": "^4.17.19",
         "mapbox-gl": "^0.47.0",
         "mapbox-gl-vue": "^1.9.0",
         "moment": "^2.22.2",
