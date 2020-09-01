@@ -15,7 +15,7 @@
         "@mapbox/geojson-extent": "^0.3.2",
         "@mapbox/mapbox-gl-draw": "^1.0.9",
         "axios": "^0.18.0",
-        "buefy": "^0.6.6",
+        "buefy": "^0.7.2",
         "css-loader": "^1.0.0",
         "dotenv": "^6.0.0",
         "laravel-echo": "^1.4.0",
