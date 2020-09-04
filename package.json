@@ -33,7 +33,7 @@
         "vue-infinite-scroll": "^2.0.2",
         "vue-directive-tooltip": "^1.4.5",
         "vue-echo": "^1.0.1",
-        "vue-moment": "^4.0.0",
+        "vue-moment": "^4.1.0",
         "vue-resize-directive": "^1.0.1",
         "vue-router": "^3.0.1",
         "vue-scrollto": "^2.11.0",
