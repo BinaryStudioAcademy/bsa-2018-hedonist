@@ -14,7 +14,7 @@
     "dependencies": {
         "@mapbox/geojson-extent": "^0.3.2",
         "@mapbox/mapbox-gl-draw": "^1.0.9",
-        "axios": "^0.18.0",
+        "axios": "^0.21.1",
         "buefy": "^0.6.6",
         "css-loader": "^1.0.0",
         "dotenv": "^6.0.0",
