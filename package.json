@@ -22,7 +22,7 @@
         "lodash": "^4.17.13",
         "mapbox-gl": "^0.47.0",
         "mapbox-gl-vue": "^1.9.0",
-        "moment": "^2.22.2",
+        "moment": "^2.29.2",
         "pusher-js": "^4.3.0",
         "raven-js": "^3.26.4",
         "v-click-outside": "^1.0.5",
